@@ -166,7 +166,7 @@ async def get_report(ticker: str):
             "total_programs": 1
         },
         "ownership": {
-            "specialist_funds": list(BIOTECH_SPECIALIST_FUNDS.keys())[:5],
+            "specialist_funds": [f.name for f in BIOTECH_SPECIALIST_FUNDS[:5]],
             "note": "Use /api/13f/{fund} endpoint for detailed holdings"
         },
         "catalysts": [
@@ -185,7 +185,7 @@ async def get_report(ticker: str):
 async def get_specialist_funds():
     """Get list of tracked biotech specialist funds"""
     return {
-        "funds": list(BIOTECH_SPECIALIST_FUNDS.keys()),
+        "funds": [{"name": f.name, "cik": f.cik, "is_specialist": f.is_biotech_specialist} for f in BIOTECH_SPECIALIST_FUNDS],
         "count": len(BIOTECH_SPECIALIST_FUNDS)
     }
 
@@ -208,15 +208,22 @@ async def search_kols(request: KOLSearchRequest):
 @app.get("/api/13f/{fund_name}")
 async def get_fund_holdings(fund_name: str):
     """Get 13F holdings for a specific fund"""
-    if fund_name.upper() not in BIOTECH_SPECIALIST_FUNDS:
+    # Find fund by name (partial match)
+    fund = None
+    for f in BIOTECH_SPECIALIST_FUNDS:
+        if fund_name.lower() in f.name.lower():
+            fund = f
+            break
+
+    if not fund:
         raise HTTPException(status_code=404, detail=f"Fund {fund_name} not found")
 
     try:
         scraper = SECEdgarScraper()
-        cik = BIOTECH_SPECIALIST_FUNDS[fund_name.upper()]
-        filings = scraper.get_13f_filings(cik, num_quarters=1)
+        filings = scraper.get_13f_filings(fund.cik, num_quarters=1)
         return {
-            "fund": fund_name.upper(),
+            "fund": fund.name,
+            "cik": fund.cik,
             "filings": filings
         }
     except Exception as e:
