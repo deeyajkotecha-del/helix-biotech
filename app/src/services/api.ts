@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Company, Report } from '../types';
 
-const API_BASE = 'https://courageous-healing-production.up.railway.app/api';
+const API_BASE = 'https://backend-production-ed24.up.railway.app/api';
 
 const api = axios.create({
   baseURL: API_BASE,
