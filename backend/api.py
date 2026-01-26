@@ -9,7 +9,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
-from datetime import datetime
+from datetime import datetime, timedelta
+import sqlite3
 
 from src.scrapers.sec_13f_scraper import SECEdgarScraper, BIOTECH_SPECIALIST_FUNDS
 from src.scrapers.pubmed_kol_extractor import PubMedKOLExtractor
@@ -309,6 +310,220 @@ async def get_fund_holdings(fund_name: str):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# Database path for enriched data
+DB_PATH = Path(__file__).parent / "data" / "helix.db"
+
+
+def get_db_connection():
+    """Get SQLite database connection"""
+    import sqlite3
+    if not DB_PATH.exists():
+        return None
+    conn = sqlite3.connect(str(DB_PATH))
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+@app.get("/api/search")
+async def search_companies(q: str, limit: int = 20):
+    """Search companies by ticker or name"""
+    conn = get_db_connection()
+    if not conn:
+        # Fallback to in-memory data
+        results = [c for c in TRACKED_COMPANIES.values()
+                   if q.upper() in c["ticker"] or q.lower() in c["name"].lower()]
+        return {"query": q, "results": results[:limit]}
+
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT ticker, name, cik, sic_description, xbi_weight
+        FROM companies
+        WHERE ticker LIKE ? OR name LIKE ?
+        ORDER BY xbi_weight DESC NULLS LAST
+        LIMIT ?
+    """, (f"%{q}%", f"%{q}%", limit))
+
+    results = [dict(row) for row in cur.fetchall()]
+    conn.close()
+
+    return {"query": q, "results": results, "count": len(results)}
+
+
+@app.get("/api/companies/{ticker}/trials")
+async def get_company_trials(ticker: str):
+    """Get clinical trials for a company"""
+    conn = get_db_connection()
+    if not conn:
+        raise HTTPException(status_code=404, detail="Database not available")
+
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT nct_id, title, status, phase, conditions, interventions,
+               sponsor, start_date, completion_date, enrollment, study_type
+        FROM clinical_trials
+        WHERE company_ticker = ?
+        ORDER BY start_date DESC
+    """, (ticker.upper(),))
+
+    trials = []
+    for row in cur.fetchall():
+        trial = dict(row)
+        trial["conditions"] = json.loads(trial["conditions"]) if trial["conditions"] else []
+        trial["interventions"] = json.loads(trial["interventions"]) if trial["interventions"] else []
+        trials.append(trial)
+
+    conn.close()
+
+    return {
+        "ticker": ticker.upper(),
+        "trials": trials,
+        "count": len(trials)
+    }
+
+
+@app.get("/api/companies/{ticker}/filings")
+async def get_company_filings(ticker: str, form_type: Optional[str] = None):
+    """Get SEC filings for a company"""
+    conn = get_db_connection()
+    if not conn:
+        raise HTTPException(status_code=404, detail="Database not available")
+
+    cur = conn.cursor()
+
+    if form_type:
+        cur.execute("""
+            SELECT accession_number, form_type, filing_date, description, filing_url
+            FROM sec_filings
+            WHERE company_ticker = ? AND form_type = ?
+            ORDER BY filing_date DESC
+        """, (ticker.upper(), form_type))
+    else:
+        cur.execute("""
+            SELECT accession_number, form_type, filing_date, description, filing_url
+            FROM sec_filings
+            WHERE company_ticker = ?
+            ORDER BY filing_date DESC
+        """, (ticker.upper(),))
+
+    filings = [dict(row) for row in cur.fetchall()]
+    conn.close()
+
+    return {
+        "ticker": ticker.upper(),
+        "filings": filings,
+        "count": len(filings)
+    }
+
+
+@app.get("/api/trials")
+async def list_trials(
+    status: Optional[str] = None,
+    phase: Optional[str] = None,
+    limit: int = 50
+):
+    """List all clinical trials with optional filters"""
+    conn = get_db_connection()
+    if not conn:
+        return {"trials": [], "count": 0}
+
+    cur = conn.cursor()
+
+    query = "SELECT * FROM clinical_trials WHERE 1=1"
+    params = []
+
+    if status:
+        query += " AND status = ?"
+        params.append(status)
+    if phase:
+        query += " AND phase = ?"
+        params.append(phase)
+
+    query += " ORDER BY start_date DESC LIMIT ?"
+    params.append(limit)
+
+    cur.execute(query, params)
+
+    trials = []
+    for row in cur.fetchall():
+        trial = dict(row)
+        trial["conditions"] = json.loads(trial["conditions"]) if trial["conditions"] else []
+        trial["interventions"] = json.loads(trial["interventions"]) if trial["interventions"] else []
+        trials.append(trial)
+
+    conn.close()
+
+    return {"trials": trials, "count": len(trials)}
+
+
+@app.get("/api/filings")
+async def list_filings(
+    form_type: Optional[str] = None,
+    days: int = 30,
+    limit: int = 50
+):
+    """List recent SEC filings with optional filters"""
+    conn = get_db_connection()
+    if not conn:
+        return {"filings": [], "count": 0}
+
+    cur = conn.cursor()
+
+    cutoff_date = (datetime.utcnow() - timedelta(days=days)).strftime("%Y-%m-%d")
+
+    query = "SELECT * FROM sec_filings WHERE filing_date >= ?"
+    params = [cutoff_date]
+
+    if form_type:
+        query += " AND form_type = ?"
+        params.append(form_type)
+
+    query += " ORDER BY filing_date DESC LIMIT ?"
+    params.append(limit)
+
+    cur.execute(query, params)
+    filings = [dict(row) for row in cur.fetchall()]
+    conn.close()
+
+    return {"filings": filings, "count": len(filings)}
+
+
+@app.get("/api/stats")
+async def get_stats():
+    """Get database statistics"""
+    conn = get_db_connection()
+    if not conn:
+        return {
+            "companies": len(TRACKED_COMPANIES),
+            "trials": 0,
+            "filings": 0,
+            "database": "not initialized"
+        }
+
+    cur = conn.cursor()
+
+    cur.execute("SELECT COUNT(*) FROM companies")
+    companies = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM clinical_trials")
+    trials = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM sec_filings")
+    filings = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(DISTINCT phase) FROM clinical_trials")
+    phases = cur.fetchone()[0]
+
+    conn.close()
+
+    return {
+        "companies": companies,
+        "clinical_trials": trials,
+        "sec_filings": filings,
+        "trial_phases": phases,
+        "database": "helix.db"
+    }
 
 
 if __name__ == "__main__":
