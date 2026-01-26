@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-50 text-gray-900;
+}
+
+.section-card {
+  @apply bg-white rounded-lg shadow-md p-6 mb-6;
+}
+
+.section-title {
+  @apply text-xl font-semibold text-biotech-700 mb-4 pb-2 border-b border-gray-200;
+}
+
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-success {
+  @apply bg-green-100 text-green-800;
+}
+
+.badge-warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.badge-info {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.badge-danger {
+  @apply bg-red-100 text-red-800;
+}
+
+.badge-neutral {
+  @apply bg-gray-100 text-gray-800;
+}
+
+.trial-status-recruiting {
+  @apply text-green-600;
+}
+
+.trial-status-completed {
+  @apply text-blue-600;
+}
+
+.trial-status-active {
+  @apply text-yellow-600;
+}
+
+.loading-spinner {
+  @apply animate-spin h-8 w-8 border-4 border-biotech-200 border-t-biotech-600 rounded-full;
+}
