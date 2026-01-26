@@ -1,30 +1,30 @@
 # Database
-psycopg2-binary==2.9.9
-sqlalchemy==2.0.23
+psycopg2-binary
+sqlalchemy
 
 # HTTP & Scraping
-requests==2.31.0
-httpx==0.25.2
-beautifulsoup4==4.12.2
-lxml==4.9.3
+requests
+httpx
+beautifulsoup4
+lxml
 
 # Data processing
-pandas>=2.0.0
-numpy>=1.24.0
-openpyxl>=3.1.0  # Excel export
+pandas
+numpy
+openpyxl
 
 # API
-fastapi==0.104.1
-uvicorn==0.24.0
-pydantic==2.5.2
+fastapi
+uvicorn
+pydantic
 
 # Utilities
-python-dotenv==1.0.0
-tqdm==4.66.1  # Progress bars
-tenacity==8.2.3  # Retry logic
+python-dotenv
+tqdm
+tenacity
 
 # LLM integration
-anthropic==0.39.0
+anthropic
 
 # Date handling
-python-dateutil==2.8.2
+python-dateutil
