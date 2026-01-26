@@ -13,6 +13,8 @@ from datetime import datetime
 
 from src.scrapers.sec_13f_scraper import SECEdgarScraper, BIOTECH_SPECIALIST_FUNDS
 from src.scrapers.pubmed_kol_extractor import PubMedKOLExtractor
+from pathlib import Path
+import json
 
 app = FastAPI(
     title="Helix Intelligence API",
@@ -115,7 +117,33 @@ async def health():
 
 @app.get("/api/companies")
 async def get_companies():
-    """Get list of tracked biotech companies"""
+    """Get list of tracked biotech companies (includes XBI holdings if available)"""
+    # Try to load XBI holdings for expanded company list
+    holdings_path = Path(__file__).parent / "data" / "xbi_holdings.json"
+
+    if holdings_path.exists():
+        try:
+            with open(holdings_path) as f:
+                xbi_data = json.load(f)
+                holdings = xbi_data.get("holdings", [])
+                # Convert XBI holdings format to company format
+                companies = []
+                for h in holdings:
+                    companies.append({
+                        "ticker": h["ticker"],
+                        "name": h["name"],
+                        "description": h.get("description", f"Biotech company in XBI ETF"),
+                        "sector": h.get("sector", "Biotechnology"),
+                        "lead_asset": None,
+                        "indication": None,
+                        "stage": None,
+                        "weight": h.get("weight"),
+                        "website": None
+                    })
+                return companies
+        except Exception:
+            pass
+
     return list(TRACKED_COMPANIES.values())
 
 
@@ -222,6 +250,24 @@ async def get_specialist_funds():
     return {
         "funds": [{"name": f.name, "cik": f.cik, "is_specialist": f.is_biotech_specialist} for f in BIOTECH_SPECIALIST_FUNDS],
         "count": len(BIOTECH_SPECIALIST_FUNDS)
+    }
+
+
+@app.get("/api/xbi")
+async def get_xbi_holdings():
+    """Get XBI ETF holdings"""
+    holdings_path = Path(__file__).parent / "data" / "xbi_holdings.json"
+
+    if holdings_path.exists():
+        with open(holdings_path) as f:
+            return json.load(f)
+
+    # Return tracked companies as fallback
+    return {
+        "etf": "XBI",
+        "name": "SPDR S&P Biotech ETF",
+        "holdings_count": len(TRACKED_COMPANIES),
+        "holdings": list(TRACKED_COMPANIES.values())
     }
 
 
