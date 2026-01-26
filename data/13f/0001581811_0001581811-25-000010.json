@@ -1,0 +1,202 @@
+{
+  "fund_cik": "0001581811",
+  "fund_name": "Rock Springs Capital Management LP",
+  "filing_date": "2025-11-12",
+  "report_date": "2026-01-26",
+  "accession_number": "0001581811-25-000010",
+  "total_value": 9481829795,
+  "holdings": [
+    {
+      "company_name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "value": 889971883,
+      "shares": 4053249,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "AMPHENOL CORP NEW",
+      "cusip": "032095101",
+      "value": 473148473,
+      "shares": 3823422,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "ARAMARK",
+      "cusip": "03852U106",
+      "value": 123041318,
+      "shares": 3204201,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "ARCH CAP GROUP LTD",
+      "cusip": "G0450A105",
+      "value": 318270134,
+      "shares": 3507882,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "BOSTON SCIENTIFIC CORP",
+      "cusip": "101137107",
+      "value": 518659766,
+      "shares": 5312504,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "value": 150939906,
+      "shares": 2026311,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "value": 441707015,
+      "shares": 2077839,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CARPENTER TECHNOLOGY CORP",
+      "cusip": "144285103",
+      "value": 337453725,
+      "shares": 1374333,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "value": 320117870,
+      "shares": 1184788,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CRH PLC",
+      "cusip": "G25508105",
+      "value": 510875435,
+      "shares": 4260846,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "EMBRAER S.A.",
+      "cusip": "29082A107",
+      "value": 127973375,
+      "shares": 2117012,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "FERGUSON ENTERPRISES INC",
+      "cusip": "31488V107",
+      "value": 583958306,
+      "shares": 2600224,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "FIRST CTZNS BANCSHARES INC D",
+      "cusip": "31946M103",
+      "value": 84777557,
+      "shares": 47384,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "value": 358652572,
+      "shares": 1412018,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "value": 430346961,
+      "shares": 6254134,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "value": 174578808,
+      "shares": 1036199,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "LAMAR ADVERTISING CO NEW",
+      "cusip": "512816109",
+      "value": 88614574,
+      "shares": 723857,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "value": 261740766,
+      "shares": 460155,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "value": 397422221,
+      "shares": 541167,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "value": 937897645,
+      "shares": 1810788,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "value": 639264154,
+      "shares": 2588638,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "value": 376039567,
+      "shares": 1592983,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "TRANSUNION",
+      "cusip": "89400J107",
+      "value": 122741889,
+      "shares": 1465050,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "VISA INC",
+      "cusip": "92826C839",
+      "value": 813635875,
+      "shares": 2383373,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    }
+  ]
+}

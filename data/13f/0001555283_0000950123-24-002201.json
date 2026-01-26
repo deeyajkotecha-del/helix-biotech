@@ -1,0 +1,194 @@
+{
+  "fund_cik": "0001555283",
+  "fund_name": "RA Capital Management, L.P.",
+  "filing_date": "2024-02-14",
+  "report_date": "2026-01-26",
+  "accession_number": "0000950123-24-002201",
+  "total_value": 411997117,
+  "holdings": [
+    {
+      "company_name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "value": 10690245,
+      "shares": 75855,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "value": 10751730,
+      "shares": 70763,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "APPLE INC",
+      "cusip": "037833100",
+      "value": 10594733,
+      "shares": 55029,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "value": 2979657,
+      "shares": 18385,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "value": 10301767,
+      "shares": 28884,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "CHARTER COMMUNICATIONS INC N",
+      "cusip": "16119P108",
+      "value": 22171862,
+      "shares": 57044,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "COINBASE GLOBAL INC",
+      "cusip": "19260Q107",
+      "value": 47555120,
+      "shares": 273431,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "CSX CORP",
+      "cusip": "126408103",
+      "value": 8944825,
+      "shares": 257999,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "value": 11026990,
+      "shares": 25854,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "MERCADOLIBRE INC",
+      "cusip": "58733R102",
+      "value": 3394526,
+      "shares": 2160,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "value": 10852414,
+      "shares": 30660,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "value": 10474218,
+      "shares": 27854,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "value": 10278291,
+      "shares": 20755,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "OFFERPAD SOLUTIONS INC",
+      "cusip": "67623L307",
+      "value": 14139947,
+      "shares": 1379507,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "value": 16381924,
+      "shares": 155382,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "value": 17738146,
+      "shares": 122645,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "value": 549825,
+      "shares": 2926,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "TEMPUR SEALY INTL INC",
+      "cusip": "88023U101",
+      "value": 4575322,
+      "shares": 89765,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "value": 11860475,
+      "shares": 192634,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "VACASA INC",
+      "cusip": "91854V206",
+      "value": 1037234,
+      "shares": 126492,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "VISA INC",
+      "cusip": "92826C839",
+      "value": 10873778,
+      "shares": 41766,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "VORNADO RLTY TR",
+      "cusip": "929042109",
+      "value": 164824088,
+      "shares": 5834481,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "YANDEX N V",
+      "cusip": "N97284108",
+      "value": 0,
+      "shares": 95488,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    }
+  ]
+}

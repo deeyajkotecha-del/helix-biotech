@@ -1,0 +1,226 @@
+{
+  "fund_cik": "0001581811",
+  "fund_name": "Rock Springs Capital Management LP",
+  "filing_date": "2025-05-06",
+  "report_date": "2026-01-26",
+  "accession_number": "0001581811-25-000005",
+  "total_value": 8666730806,
+  "holdings": [
+    {
+      "company_name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "value": 260233561,
+      "shares": 1665708,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "value": 803252415,
+      "shares": 4221867,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "AMPHENOL CORP NEW",
+      "cusip": "032095101",
+      "value": 115610443,
+      "shares": 1762623,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "ARAMARK",
+      "cusip": "03852U106",
+      "value": 71633350,
+      "shares": 2075126,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "ARCH CAP GROUP LTD",
+      "cusip": "G0450A105",
+      "value": 415999371,
+      "shares": 4325217,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "value": 292462914,
+      "shares": 4165545,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "value": 159874459,
+      "shares": 891659,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CARPENTER TECHNOLOGY CORP",
+      "cusip": "144285103",
+      "value": 329726764,
+      "shares": 1819885,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "value": 459003166,
+      "shares": 1730194,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CRH PLC",
+      "cusip": "G25508105",
+      "value": 372221831,
+      "shares": 4231236,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "ELI LILLY & CO",
+      "cusip": "532457108",
+      "value": 407015055,
+      "shares": 492808,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "value": 231344115,
+      "shares": 124773,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "FISERV INC",
+      "cusip": "337738108",
+      "value": 525905762,
+      "shares": 2381496,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "FLUTTER ENTMT PLC",
+      "cusip": "G3643J108",
+      "value": 486035061,
+      "shares": 2193794,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "GE AEROSPACE",
+      "cusip": "369604301",
+      "value": 299695403,
+      "shares": 1497354,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "HDFC BANK LTD",
+      "cusip": "40415F101",
+      "value": 74179795,
+      "shares": 1116493,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "HOWARD HUGHES HOLDINGS INC",
+      "cusip": "44267T102",
+      "value": 88621015,
+      "shares": 1196288,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "ICICI BANK LIMITED",
+      "cusip": "45104G104",
+      "value": 158586702,
+      "shares": 5031304,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "value": 303686927,
+      "shares": 1833969,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "INTERCONTINENTAL EXCHANGE IN",
+      "cusip": "45866F104",
+      "value": 189994778,
+      "shares": 1101419,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "LPL FINL HLDGS INC",
+      "cusip": "50212V100",
+      "value": 285025632,
+      "shares": 871265,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "MARTIN MARIETTA MATLS INC",
+      "cusip": "573284106",
+      "value": 79053058,
+      "shares": 165338,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "value": 208406735,
+      "shares": 380221,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "value": 427921364,
+      "shares": 742455,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "value": 498718003,
+      "shares": 1328533,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "value": 786437244,
+      "shares": 2778832,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "VISA INC",
+      "cusip": "92826C839",
+      "value": 336085883,
+      "shares": 958985,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    }
+  ]
+}

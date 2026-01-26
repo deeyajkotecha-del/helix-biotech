@@ -1,0 +1,186 @@
+{
+  "fund_cik": "0001581811",
+  "fund_name": "Rock Springs Capital Management LP",
+  "filing_date": "2024-05-13",
+  "report_date": "2026-01-26",
+  "accession_number": "0001581811-24-000004",
+  "total_value": 10348584711,
+  "holdings": [
+    {
+      "company_name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "value": 379211600,
+      "shares": 2490553,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "value": 900495922,
+      "shares": 4992216,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "value": 160205774,
+      "shares": 4079597,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "ARCH CAP GROUP LTD",
+      "cusip": "G0450A105",
+      "value": 314378641,
+      "shares": 3400894,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "BLOCK INC",
+      "cusip": "852234103",
+      "value": 160736424,
+      "shares": 1900407,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "value": 293208889,
+      "shares": 80821,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CANADIAN NATL RY CO",
+      "cusip": "136375102",
+      "value": 791082924,
+      "shares": 6006248,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CANADIAN PACIFIC KANSAS CITY",
+      "cusip": "13646K108",
+      "value": 877456995,
+      "shares": 9951877,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CENOVUS ENERGY INC",
+      "cusip": "15135U109",
+      "value": 279219181,
+      "shares": 13967943,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "CRH PLC",
+      "cusip": "G25508105",
+      "value": 365348796,
+      "shares": 4235437,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "FIRST CTZNS BANCSHARES INC N",
+      "cusip": "31946M103",
+      "value": 487987005,
+      "shares": 298463,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "FISERV INC",
+      "cusip": "337738108",
+      "value": 542153550,
+      "shares": 3392276,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "GE HEALTHCARE TECHNOLOGIES I",
+      "cusip": "36266G107",
+      "value": 791540097,
+      "shares": 8706854,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "GENERAL ELECTRIC CO",
+      "cusip": "369604301",
+      "value": 591853283,
+      "shares": 3371807,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "HILTON WORLDWIDE HLDGS INC",
+      "cusip": "43300A203",
+      "value": 273400707,
+      "shares": 1281706,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "ICICI BANK LIMITED",
+      "cusip": "45104G104",
+      "value": 160138356,
+      "shares": 6063550,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "value": 315435192,
+      "shares": 2823697,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "value": 181115106,
+      "shares": 376093,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "value": 699787304,
+      "shares": 1441137,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "value": 583566408,
+      "shares": 1387066,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "RENAISSANCERE HLDGS LTD",
+      "cusip": "G7496G103",
+      "value": 436879405,
+      "shares": 1858824,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    },
+    {
+      "company_name": "VISA INC",
+      "cusip": "92826C839",
+      "value": 763383152,
+      "shares": 2735356,
+      "share_type": "SH",
+      "investment_discretion": "DFND"
+    }
+  ]
+}

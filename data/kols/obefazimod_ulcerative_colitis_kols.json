@@ -1,0 +1,177 @@
+{
+  "query": "obefazimod ulcerative colitis",
+  "generated_at": "2026-01-26T10:15:39.752732",
+  "kol_count": 10,
+  "kols": [
+    {
+      "name": "Severine Vermeire",
+      "email": "severine.vermeire@uzleuven.be",
+      "institution": "University Hospitals Leuven",
+      "department": "Department of Gastroenterology and Hepatology",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 3,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 5.1,
+      "pmids": [
+        "40417999",
+        "36075249",
+        "37129565"
+      ]
+    },
+    {
+      "name": "Didier Scherrer",
+      "email": "",
+      "institution": "",
+      "department": "R&D department",
+      "country": "France",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 4.9,
+      "pmids": [
+        "36573890",
+        "40417999",
+        "36075249",
+        "37129565"
+      ]
+    },
+    {
+      "name": "Paul Gineste",
+      "email": "",
+      "institution": "Clinical Operations Department",
+      "department": "Clinical Operations Department",
+      "country": "France",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 4.9,
+      "pmids": [
+        "36573890",
+        "40417999",
+        "36075249",
+        "37129565"
+      ]
+    },
+    {
+      "name": "Bruce E Sands",
+      "email": "",
+      "institution": "Icahn School of Medicine at Mount Sinai",
+      "department": "United States.",
+      "country": "United States",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 2,
+      "recent_publication_count": 2,
+      "relevance_score": 4.6,
+      "pmids": [
+        "40417999",
+        "36075249",
+        "37129565"
+      ]
+    },
+    {
+      "name": "Herbert Tilg",
+      "email": "",
+      "institution": "Medical University of Innsbruck",
+      "department": "Department of Gastroenterology",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "40417999",
+        "36075249",
+        "37129565"
+      ]
+    },
+    {
+      "name": "Silvio Danese",
+      "email": "",
+      "institution": "IRCCS Ospedale San Raffaele and University Vita-Salute San Raffaele",
+      "department": "",
+      "country": "Italy",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "40417999",
+        "36075249",
+        "37129565"
+      ]
+    },
+    {
+      "name": "Julien Santo",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "France",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "36573890",
+        "36075249",
+        "40417999"
+      ]
+    },
+    {
+      "name": "Hartmut Ehrlich",
+      "email": "",
+      "institution": "",
+      "department": "Executive management Department",
+      "country": "France",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "36573890",
+        "36075249",
+        "37129565"
+      ]
+    },
+    {
+      "name": "Laurent Peyrin-Biroulet",
+      "email": "",
+      "institution": "INFINY Institute",
+      "department": "Department of Gastroenterology",
+      "country": "France",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "40417999",
+        "37129565"
+      ]
+    },
+    {
+      "name": "Josianne Nitcheu",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "France",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.3,
+      "pmids": [
+        "36075249",
+        "40417999"
+      ]
+    }
+  ]
+}

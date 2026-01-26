@@ -1,0 +1,722 @@
+{
+  "fund_cik": "0001263508",
+  "fund_name": "BAKER BROS. ADVISORS LP",
+  "filing_date": "2025-08-14",
+  "report_date": "2025-06-30",
+  "accession_number": "0001104659-25-078573",
+  "total_value": 10307840459,
+  "holdings": [
+    {
+      "company_name": "AbCellera Biologics Inc.",
+      "cusip": "00288U106",
+      "value": 94412945,
+      "shares": 27525640,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "ACADIA Pharmaceuticals Inc.",
+      "cusip": "004225108",
+      "value": 925281603,
+      "shares": 42896690,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Acrivon Therapeutics, Inc.",
+      "cusip": "004890109",
+      "value": 27143,
+      "shares": 22809,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Agios Pharmaceuticals, Inc.",
+      "cusip": "00847X104",
+      "value": 6314943,
+      "shares": 189866,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Akero Therapeutics, Inc.",
+      "cusip": "00973Y108",
+      "value": 17322257,
+      "shares": 324630,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Aligos Therapeutics, Inc.",
+      "cusip": "01626L204",
+      "value": 598827,
+      "shares": 83055,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Alkermes plc",
+      "cusip": "G01767105",
+      "value": 183407352,
+      "shares": 6410603,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Alumis Inc.",
+      "cusip": "022307102",
+      "value": 4687500,
+      "shares": 1562500,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Arcellx, Inc.",
+      "cusip": "03940C100",
+      "value": 10985426,
+      "shares": 166825,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "argenx SE",
+      "cusip": "04016X101",
+      "value": 20814067,
+      "shares": 37760,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Arrowhead Pharmaceuticals, Inc.",
+      "cusip": "04280A100",
+      "value": 14838949,
+      "shares": 939174,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "BeOne Medicines Ltd.",
+      "cusip": "07725L102",
+      "value": 2129986760,
+      "shares": 8799053,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Bicycle Therapeutics plc",
+      "cusip": "088786108",
+      "value": 75653231,
+      "shares": 10885357,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "BioNTech SE",
+      "cusip": "09075V102",
+      "value": 39279232,
+      "shares": 368923,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Blueprint Medicines Corporation",
+      "cusip": "09627Y109",
+      "value": 16091461,
+      "shares": 125538,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Candel Therapeutics, Inc.",
+      "cusip": "137404109",
+      "value": 1796867,
+      "shares": 355112,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Celcuity Inc.",
+      "cusip": "15102K100",
+      "value": 72763441,
+      "shares": 5450445,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Celldex Therapeutics, Inc.",
+      "cusip": "15117B202",
+      "value": 13540280,
+      "shares": 665370,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Cerus Corporation",
+      "cusip": "157085101",
+      "value": 18166220,
+      "shares": 12883844,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Cidara Therapeutics, Inc.",
+      "cusip": "171757206",
+      "value": 11070419,
+      "shares": 227272,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Contineum Therapeutics, Inc.",
+      "cusip": "21217B100",
+      "value": 1240625,
+      "shares": 312500,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Crinetics Pharmaceuticals, Inc.",
+      "cusip": "22663K107",
+      "value": 8052800,
+      "shares": 280000,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "CytomX Therapeutics, Inc.",
+      "cusip": "23284F105",
+      "value": 7909193,
+      "shares": 3484226,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "DBV Technologies S.A.",
+      "cusip": "23306J309",
+      "value": 13386507,
+      "shares": 1461425,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Denali Therapeutics Inc.",
+      "cusip": "24823R105",
+      "value": 52206413,
+      "shares": 3731695,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Design Therapeutics, Inc.",
+      "cusip": "25056L103",
+      "value": 5772412,
+      "shares": 1712882,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Dianthus Therapeutics, Inc.",
+      "cusip": "252828108",
+      "value": 14713210,
+      "shares": 789759,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Disc Medicine, Inc.",
+      "cusip": "254604101",
+      "value": 17850168,
+      "shares": 337050,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Edgewise Therapeutics, Inc.",
+      "cusip": "28036F105",
+      "value": 95780873,
+      "shares": 7305940,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Enliven Therapeutics, Inc.",
+      "cusip": "29337E102",
+      "value": 2303550,
+      "shares": 114833,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Entrada Therapeutics, Inc.",
+      "cusip": "29384C108",
+      "value": 32698304,
+      "shares": 4865819,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Fate Therapeutics, Inc.",
+      "cusip": "31189P102",
+      "value": 2783220,
+      "shares": 2485018,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Generation Bio Co.",
+      "cusip": "37148K100",
+      "value": 622577,
+      "shares": 1944945,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "GRAIL, Inc.",
+      "cusip": "384747101",
+      "value": 83821028,
+      "shares": 1630125,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "HOOKIPA Pharma Inc.",
+      "cusip": "43906K209",
+      "value": 1020082,
+      "shares": 812814,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "IDEAYA Biosciences, Inc.",
+      "cusip": "45166A102",
+      "value": 44535663,
+      "shares": 2118728,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "IGM Biosciences, Inc.",
+      "cusip": "449585108",
+      "value": 4587755,
+      "shares": 4096210,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Immatics N.V.",
+      "cusip": "N44445109",
+      "value": 54708687,
+      "shares": 10168901,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Immunocore Holdings plc",
+      "cusip": "45258D105",
+      "value": 72884945,
+      "shares": 2322656,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Immunovant, Inc.",
+      "cusip": "45258J102",
+      "value": 87326096,
+      "shares": 5457881,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Incyte Corporation",
+      "cusip": "45337C102",
+      "value": 2093617028,
+      "shares": 30743275,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Insmed Incorporated",
+      "cusip": "457669307",
+      "value": 776226256,
+      "shares": 7712900,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Intellia Therapeutics, Inc.",
+      "cusip": "45826J105",
+      "value": 25097822,
+      "shares": 2675674,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "KALA BIO, Inc.",
+      "cusip": "483119202",
+      "value": 5721015,
+      "shares": 1201894,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Kiniksa Pharmaceuticals International, plc",
+      "cusip": "G52694109",
+      "value": 78158591,
+      "shares": 2824669,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Kodiak Sciences Inc.",
+      "cusip": "50015M109",
+      "value": 64568128,
+      "shares": 17310490,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Kymera Therapeutics, Inc.",
+      "cusip": "501575104",
+      "value": 290268362,
+      "shares": 6651429,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Madrigal Pharmaceuticals, Inc.",
+      "cusip": "558868105",
+      "value": 598022088,
+      "shares": 1976018,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Merus N.V.",
+      "cusip": "N5749R100",
+      "value": 30212230,
+      "shares": 574377,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Monte Rosa Therapeutics, Inc.",
+      "cusip": "61225M102",
+      "value": 22171588,
+      "shares": 4916095,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Neumora Therapeutics, Inc.",
+      "cusip": "640979100",
+      "value": 758672,
+      "shares": 1034600,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Neurogene Inc.",
+      "cusip": "64135M105",
+      "value": 14825780,
+      "shares": 991691,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Nurix Therapeutics, Inc.",
+      "cusip": "67080M103",
+      "value": 44217404,
+      "shares": 3882125,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Nuvalent, Inc.",
+      "cusip": "670703107",
+      "value": 10982393,
+      "shares": 143937,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Opthea Limited",
+      "cusip": "68386J208",
+      "value": 0,
+      "shares": 2087320,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Praxis Precision Medicines, Inc.",
+      "cusip": "74006W207",
+      "value": 28992970,
+      "shares": 689488,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Prelude Therapeutics Inc.",
+      "cusip": "74065P101",
+      "value": 8194223,
+      "shares": 10123824,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Protara Therapeutics, Inc.",
+      "cusip": "74365U107",
+      "value": 1626601,
+      "shares": 536832,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Rapport Therapeutics, Inc.",
+      "cusip": "75383L102",
+      "value": 6254523,
+      "shares": 550090,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Relay Therapeutics, Inc.",
+      "cusip": "75943R102",
+      "value": 4014005,
+      "shares": 1160117,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Replimune Group, Inc.",
+      "cusip": "76029N106",
+      "value": 102611171,
+      "shares": 11045336,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Revolution Medicines, Inc.",
+      "cusip": "76155X100",
+      "value": 344537320,
+      "shares": 9364972,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Rhythm Pharmaceuticals, Inc.",
+      "cusip": "76243J105",
+      "value": 354147281,
+      "shares": 5604483,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Rocket Pharmaceuticals, Inc.",
+      "cusip": "77313F106",
+      "value": 1352594,
+      "shares": 552079,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Roivant Sciences Ltd.",
+      "cusip": "G76279101",
+      "value": 42462802,
+      "shares": 3767773,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Sagimet Biosciences Inc.",
+      "cusip": "786700104",
+      "value": 7261830,
+      "shares": 952996,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Sana Biotechnology, Inc.",
+      "cusip": "799566104",
+      "value": 5544491,
+      "shares": 2030949,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Sera Prognostics, Inc.",
+      "cusip": "81749D107",
+      "value": 15229931,
+      "shares": 5498170,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Sionna Therapeutics, Inc.",
+      "cusip": "829401108",
+      "value": 6940000,
+      "shares": 400000,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Skye Bioscience, Inc.",
+      "cusip": "83086J200",
+      "value": 6063667,
+      "shares": 1450638,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Spyre Therapeutics, Inc.",
+      "cusip": "00773J202",
+      "value": 9381744,
+      "shares": 626703,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Stoke Therapeutics, Inc.",
+      "cusip": "86150R107",
+      "value": 52594061,
+      "shares": 4633838,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Structure Therapeutics Inc.",
+      "cusip": "86366E106",
+      "value": 52031828,
+      "shares": 2508767,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Summit Therapeutics Inc.",
+      "cusip": "86627T108",
+      "value": 717624887,
+      "shares": 33722974,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Surrozen, Inc.",
+      "cusip": "86889P117",
+      "value": 15083,
+      "shares": 833333,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Taysha Gene Therapies, Inc.",
+      "cusip": "877619106",
+      "value": 9250986,
+      "shares": 4004756,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Tectonic Therapeutic, Inc.",
+      "cusip": "878972108",
+      "value": 1987000,
+      "shares": 100000,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "TScan Therapeutics, Inc.",
+      "cusip": "89854M101",
+      "value": 4037948,
+      "shares": 2784792,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Tyra Biosciences, Inc.",
+      "cusip": "90240B106",
+      "value": 101509,
+      "shares": 10607,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Ultragenyx Pharmaceutical Inc.",
+      "cusip": "90400D108",
+      "value": 100815081,
+      "shares": 2772692,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Vaxcyte, Inc.",
+      "cusip": "92243G108",
+      "value": 20835171,
+      "shares": 640885,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Verona Pharma plc",
+      "cusip": "925050106",
+      "value": 21171071,
+      "shares": 223843,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Verve Therapeutics, Inc.",
+      "cusip": "92539P101",
+      "value": 18995882,
+      "shares": 1691530,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Vir Biotechnology, Inc.",
+      "cusip": "92764N102",
+      "value": 2734397,
+      "shares": 542539,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Viridian Therapeutics, Inc.",
+      "cusip": "92790C104",
+      "value": 24386796,
+      "shares": 1744406,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "vTv Therapeutics, Inc.",
+      "cusip": "918385204",
+      "value": 1459710,
+      "shares": 97314,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Wave Life Sciences Ltd.",
+      "cusip": "Y95308105",
+      "value": 2236410,
+      "shares": 344063,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Xencor, Inc.",
+      "cusip": "98401F105",
+      "value": 5269588,
+      "shares": 670431,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    },
+    {
+      "company_name": "Xenon Pharmaceuticals Inc.",
+      "cusip": "98420N105",
+      "value": 11587510,
+      "shares": 370208,
+      "share_type": "SH",
+      "investment_discretion": "SOLE"
+    }
+  ]
+}
