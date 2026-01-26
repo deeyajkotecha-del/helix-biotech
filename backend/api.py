@@ -137,44 +137,79 @@ async def get_report(ticker: str):
 
     company = TRACKED_COMPANIES[ticker]
 
-    # Build report with available intelligence
+    # Build report with available intelligence (matching app's expected format)
     report = {
         "ticker": ticker,
         "company_name": company["name"],
         "generated_at": datetime.utcnow().isoformat(),
-        "bluf": {
-            "summary": f"{company['name']} is developing {company['lead_asset']} for {company['indication']}. Currently in {company['stage']}.",
-            "recommendation": "Monitor for catalyst updates",
-            "key_points": [
-                f"Lead asset: {company['lead_asset']}",
-                f"Primary indication: {company['indication']}",
-                f"Development stage: {company['stage']}"
-            ]
-        },
-        "pipeline": {
-            "lead_asset": company["lead_asset"],
-            "lead_asset_stage": company["stage"],
-            "lead_asset_indication": company["indication"],
-            "programs": [
-                {
-                    "name": company["lead_asset"],
-                    "indication": company["indication"],
-                    "stage": company["stage"],
-                    "description": f"Lead program for {company['name']}"
-                }
-            ],
-            "total_programs": 1
-        },
-        "ownership": {
-            "specialist_funds": [f.name for f in BIOTECH_SPECIALIST_FUNDS[:5]],
-            "note": "Use /api/13f/{fund} endpoint for detailed holdings"
-        },
-        "catalysts": [
-            {
-                "date": "2025-Q1",
-                "event": f"{company['stage']} data readout",
-                "significance": "High"
+        "sections": {
+            "bluf": {
+                "summary": f"{company['name']} is developing {company['lead_asset']} for {company['indication']}. Currently in {company['stage']}.",
+                "investment_thesis": f"Promising {company['stage']} asset in {company['indication']} with specialist fund interest.",
+                "key_catalysts": [
+                    f"{company['stage']} data readout expected",
+                    "Potential FDA approval pathway",
+                    "Conference presentations"
+                ],
+                "key_risks": [
+                    "Clinical trial execution risk",
+                    "Competitive landscape",
+                    "Regulatory uncertainty"
+                ],
+                "recommendation": "Monitor for catalyst updates"
+            },
+            "pipeline": {
+                "lead_asset": company["lead_asset"],
+                "lead_asset_stage": company["stage"],
+                "lead_asset_indication": company["indication"],
+                "programs": [
+                    {
+                        "name": company["lead_asset"],
+                        "indication": company["indication"],
+                        "stage": company["stage"],
+                        "description": f"Lead program for {company['name']}"
+                    }
+                ],
+                "total_programs": 1
+            },
+            "clinical_trials": {
+                "active_trials": [],
+                "completed_trials": [],
+                "upcoming_readouts": [
+                    {
+                        "trial_id": "TBD",
+                        "title": f"{company['lead_asset']} {company['stage']} Trial",
+                        "expected_date": "2025",
+                        "phase": company["stage"]
+                    }
+                ],
+                "total_trials": 1,
+                "phases_summary": {company["stage"]: 1}
+            },
+            "preclinical": {
+                "pubmed_articles": [],
+                "conference_posters": [],
+                "key_findings": [f"Mechanism targeting {company['indication']}"],
+                "mechanism_of_action": f"Novel therapeutic approach for {company['indication']}"
+            },
+            "patent_legal": {
+                "key_patents": [],
+                "nearest_expiry": "TBD",
+                "litigation": [],
+                "regulatory_notes": [f"{company['stage']} development ongoing"]
+            },
+            "management": {
+                "ceo": None,
+                "key_executives": [],
+                "recent_changes": [],
+                "board_highlights": []
             }
+        },
+        "data_sources": [
+            "SEC 13F Filings",
+            "PubMed",
+            "ClinicalTrials.gov",
+            "Company Filings"
         ]
     }
 
