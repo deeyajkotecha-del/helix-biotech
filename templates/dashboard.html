@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Helix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-tertiary: #18181b;
+            --bg-card: #1a1a1d;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-primary: #22c55e;
+            --accent-secondary: #4ade80;
+            --accent-glow: rgba(34, 197, 94, 0.12);
+            --accent-blue: #3b82f6;
+            --accent-red: #ef4444;
+            --accent-yellow: #eab308;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        nav {
+            padding: 1rem 2rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-blue));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--bg-primary);
+        }
+
+        .logo-text {
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--text-primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+
+        .btn-ghost:hover { color: var(--text-primary); }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .upload-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .upload-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .upload-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            padding: 0.65rem 0.85rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 0.65rem 0.85rem;
+            background: var(--bg-tertiary);
+            border: 1px dashed var(--border-color);
+            border-radius: 6px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-input-label:hover {
+            border-color: var(--accent-primary);
+            color: var(--text-secondary);
+        }
+
+        .file-input-label.has-file {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .document-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .document-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .document-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .document-type {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .document-type.excel {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-primary);
+        }
+
+        .document-type.presentation {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--accent-blue);
+        }
+
+        .document-type.article {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .document-action {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.25rem;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .document-action:hover {
+            color: var(--text-primary);
+        }
+
+        .document-action.delete:hover {
+            color: var(--accent-red);
+        }
+
+        .document-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .document-filename {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            word-break: break-all;
+        }
+
+        .document-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-primary);
+        }
+
+        @media (max-width: 768px) {
+            .upload-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo">
+            <div class="logo-icon">H</div>
+            <span class="logo-text">Helix</span>
+        </a>
+        <div class="nav-right">
+            <span class="user-info" id="user-email"></span>
+            <a href="/admin" class="btn btn-ghost" id="admin-link" style="display: none;">Admin</a>
+            <button class="btn btn-ghost" onclick="logout()">Log Out</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">My Documents</h1>
+            <p class="page-subtitle">Upload and manage your research reports, presentations, and articles.</p>
+        </div>
+
+        <div class="upload-section">
+            <h2 class="upload-title">Upload New Document</h2>
+            <form class="upload-form" id="upload-form">
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-input" id="upload-title" placeholder="Document title" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">File</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" class="file-input" id="upload-file" accept=".xlsx,.xls,.csv,.pptx,.ppt,.pdf,.docx,.doc,.txt,.md" required>
+                        <div class="file-input-label" id="file-label">Choose file...</div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+            <div style="margin-top: 1rem;">
+                <label class="checkbox-group">
+                    <input type="checkbox" id="upload-public">
+                    <span class="form-label" style="margin: 0;">Make public</span>
+                </label>
+            </div>
+        </div>
+
+        <div id="documents-container">
+            <div class="empty-state">Loading documents...</div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        let currentUser = null;
+
+        function getToken() {
+            return localStorage.getItem('helix_token');
+        }
+
+        async function fetchWithAuth(url, options = {}) {
+            const token = getToken();
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const headers = {
+                ...options.headers,
+                'Authorization': `Bearer ${token}`,
+            };
+
+            const response = await fetch(url, { ...options, headers });
+
+            if (response.status === 401) {
+                localStorage.removeItem('helix_token');
+                window.location.href = '/login';
+                return;
+            }
+
+            return response;
+        }
+
+        function logout() {
+            localStorage.removeItem('helix_token');
+            window.location.href = '/';
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return 'Unknown size';
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+            });
+        }
+
+        async function loadUser() {
+            const response = await fetchWithAuth(`${API_BASE}/auth/me`);
+            if (response && response.ok) {
+                currentUser = await response.json();
+                document.getElementById('user-email').textContent = currentUser.email;
+                if (currentUser.is_admin) {
+                    document.getElementById('admin-link').style.display = 'inline-block';
+                }
+            }
+        }
+
+        async function loadDocuments() {
+            const response = await fetchWithAuth(`${API_BASE}/documents`);
+            if (!response || !response.ok) return;
+
+            const documents = await response.json();
+            const container = document.getElementById('documents-container');
+
+            if (documents.length === 0) {
+                container.innerHTML = '<div class="empty-state">No documents yet. Upload your first document above.</div>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="documents-grid">
+                    ${documents.map(doc => `
+                        <div class="document-card">
+                            <div class="document-header">
+                                <span class="document-type ${doc.file_type}">${doc.file_type}</span>
+                                <div class="document-actions">
+                                    <button class="document-action" onclick="downloadDocument(${doc.id})" title="Download">
+                                        ⬇
+                                    </button>
+                                    <button class="document-action delete" onclick="deleteDocument(${doc.id})" title="Delete">
+                                        ✕
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="document-title">${doc.title}</div>
+                            <div class="document-filename">${doc.original_filename}</div>
+                            <div class="document-meta">
+                                <span>${formatFileSize(doc.file_size)}</span>
+                                <span>${formatDate(doc.created_at)}</span>
+                                ${doc.is_public ? '<span style="color: var(--accent-primary);">Public</span>' : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        async function downloadDocument(id) {
+            const token = getToken();
+            window.open(`${API_BASE}/documents/${id}/download?token=${token}`, '_blank');
+        }
+
+        async function deleteDocument(id) {
+            if (!confirm('Are you sure you want to delete this document?')) return;
+
+            const response = await fetchWithAuth(`${API_BASE}/documents/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response && response.ok) {
+                loadDocuments();
+            }
+        }
+
+        // File input label update
+        document.getElementById('upload-file').addEventListener('change', function(e) {
+            const label = document.getElementById('file-label');
+            if (e.target.files.length > 0) {
+                label.textContent = e.target.files[0].name;
+                label.classList.add('has-file');
+            } else {
+                label.textContent = 'Choose file...';
+                label.classList.remove('has-file');
+            }
+        });
+
+        // Upload form
+        document.getElementById('upload-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('upload-title').value;
+            const file = document.getElementById('upload-file').files[0];
+            const isPublic = document.getElementById('upload-public').checked;
+
+            if (!file) return;
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('title', title);
+            formData.append('is_public', isPublic);
+
+            const response = await fetchWithAuth(`${API_BASE}/documents/upload`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response && response.ok) {
+                document.getElementById('upload-title').value = '';
+                document.getElementById('upload-file').value = '';
+                document.getElementById('file-label').textContent = 'Choose file...';
+                document.getElementById('file-label').classList.remove('has-file');
+                document.getElementById('upload-public').checked = false;
+                loadDocuments();
+            } else if (response) {
+                const error = await response.json();
+                alert(error.detail || 'Upload failed');
+            }
+        });
+
+        // Check auth on load
+        if (!getToken()) {
+            window.location.href = '/login';
+        } else {
+            loadUser();
+            loadDocuments();
+        }
+    </script>
+</body>
+</html>

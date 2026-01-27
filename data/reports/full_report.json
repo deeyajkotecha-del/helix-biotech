@@ -1,0 +1,2965 @@
+{
+  "generated_at": "2026-01-26",
+  "funds_analyzed": [
+    "Rock Springs Capital Management LP",
+    "BAKER BROS. ADVISORS LP",
+    "RA Capital Management, L.P.",
+    "Boxer Capital, LLC",
+    "CITADEL ADVISORS LLC"
+  ],
+  "consensus_positions": {
+    "IONS": {
+      "ticker": "IONS",
+      "company_name": "INTUITIVE SURGICAL INC",
+      "specialist_fund_count": 15,
+      "funds_increasing": 9,
+      "funds_decreasing": 6,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 1356875.4,
+      "avg_portfolio_weight_pct": 0.01,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 406500,
+          "value_mm": 212176.7,
+          "pct_of_portfolio": 0.04,
+          "change": "+170.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 261700,
+          "value_mm": 136596.9,
+          "pct_of_portfolio": 0.02,
+          "change": "+74.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 302293,
+          "value_mm": 157784.9,
+          "pct_of_portfolio": 0.03,
+          "change": "+101.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 190161,
+          "value_mm": 99256.4,
+          "pct_of_portfolio": 0.02,
+          "change": "+26.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 27300,
+          "value_mm": 5364.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-10.1%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 61200,
+          "value_mm": 12026.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+101.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 87937,
+          "value_mm": 17280.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+189.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 715809,
+          "value_mm": 320131.3,
+          "pct_of_portfolio": 0.05,
+          "change": "+191.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 344800,
+          "value_mm": 154204.9,
+          "pct_of_portfolio": 0.02,
+          "change": "+40.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 113824,
+          "value_mm": 50905.5,
+          "pct_of_portfolio": 0.01,
+          "change": "-53.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 334100,
+          "value_mm": 149419.5,
+          "pct_of_portfolio": 0.02,
+          "change": "+36.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 35074,
+          "value_mm": 6662.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-68.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 70500,
+          "value_mm": 13390.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-36.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 43814,
+          "value_mm": 8322.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-60.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 70300,
+          "value_mm": 13352.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-36.1%"
+        }
+      ]
+    },
+    "NVTA": {
+      "ticker": "NVTA",
+      "company_name": "NVIDIA CORPORATION",
+      "specialist_fund_count": 13,
+      "funds_increasing": 4,
+      "funds_decreasing": 9,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 61710609.3,
+      "avg_portfolio_weight_pct": 0.99,
+      "funds": [
+        {
+          "name": "RA Capital Management, L.P.",
+          "shares": 112213,
+          "value_mm": 17728.5,
+          "pct_of_portfolio": 2.82,
+          "change": "-15.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 496400,
+          "value_mm": 66661.6,
+          "pct_of_portfolio": 0.01,
+          "change": "-64.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 126544900,
+          "value_mm": 16993714.6,
+          "pct_of_portfolio": 2.94,
+          "change": "+8851.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 44800,
+          "value_mm": 6016.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-96.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 117025300,
+          "value_mm": 15715327.5,
+          "pct_of_portfolio": 2.72,
+          "change": "+8178.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1403555,
+          "value_mm": 188483.4,
+          "pct_of_portfolio": 0.03,
+          "change": "-0.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1725122,
+          "value_mm": 231666.6,
+          "pct_of_portfolio": 0.04,
+          "change": "+22.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 51100,
+          "value_mm": 9534.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 8623535,
+          "value_mm": 1608979.2,
+          "pct_of_portfolio": 0.24,
+          "change": "-87.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 9200,
+          "value_mm": 1716.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-100.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 77643300,
+          "value_mm": 14486686.9,
+          "pct_of_portfolio": 2.2,
+          "change": "+9.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1196277,
+          "value_mm": 223201.4,
+          "pct_of_portfolio": 0.03,
+          "change": "-98.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 65177900,
+          "value_mm": 12160892.6,
+          "pct_of_portfolio": 1.85,
+          "change": "-8.3%"
+        }
+      ]
+    },
+    "MRNA": {
+      "ticker": "MRNA",
+      "company_name": "MERCK & CO INC",
+      "specialist_fund_count": 12,
+      "funds_increasing": 4,
+      "funds_decreasing": 8,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 1951810.1,
+      "avg_portfolio_weight_pct": 0.03,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 3000,
+          "value_mm": 298.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 3869600,
+          "value_mm": 384947.8,
+          "pct_of_portfolio": 0.07,
+          "change": "+431.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 9700,
+          "value_mm": 965.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-98.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1368800,
+          "value_mm": 136168.2,
+          "pct_of_portfolio": 0.02,
+          "change": "+88.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 4591426,
+          "value_mm": 456755.1,
+          "pct_of_portfolio": 0.08,
+          "change": "+530.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 690284,
+          "value_mm": 68669.5,
+          "pct_of_portfolio": 0.01,
+          "change": "-5.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 7800,
+          "value_mm": 654.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 660361,
+          "value_mm": 55424.1,
+          "pct_of_portfolio": 0.01,
+          "change": "-85.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 17500,
+          "value_mm": 1468.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 5909700,
+          "value_mm": 496001.1,
+          "pct_of_portfolio": 0.08,
+          "change": "+33.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 307693,
+          "value_mm": 25824.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-93.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 3867900,
+          "value_mm": 324632.8,
+          "pct_of_portfolio": 0.05,
+          "change": "-12.6%"
+        }
+      ]
+    },
+    "CORT": {
+      "ticker": "CORT",
+      "company_name": "COSTAR GROUP INC",
+      "specialist_fund_count": 12,
+      "funds_increasing": 7,
+      "funds_decreasing": 5,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 239130.9,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 13800,
+          "value_mm": 987.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-37.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 264000,
+          "value_mm": 18899.8,
+          "pct_of_portfolio": 0.0,
+          "change": "+1094.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 34000,
+          "value_mm": 2434.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+53.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 275900,
+          "value_mm": 19751.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+1148.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 136132,
+          "value_mm": 9745.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+516.1%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 72092,
+          "value_mm": 5161.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+226.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 2900,
+          "value_mm": 244.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-92.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1714945,
+          "value_mm": 144689.9,
+          "pct_of_portfolio": 0.02,
+          "change": "+4325.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 2800,
+          "value_mm": 236.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-92.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 388395,
+          "value_mm": 32768.9,
+          "pct_of_portfolio": 0.0,
+          "change": "+902.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 11673,
+          "value_mm": 984.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-69.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 38238,
+          "value_mm": 3226.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-1.3%"
+        }
+      ]
+    },
+    "VRTX": {
+      "ticker": "VRTX",
+      "company_name": "10X GENOMICS INC",
+      "specialist_fund_count": 12,
+      "funds_increasing": 8,
+      "funds_decreasing": 4,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 48812.0,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 40900,
+          "value_mm": 587.3,
+          "pct_of_portfolio": 0.0,
+          "change": "+167.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 44400,
+          "value_mm": 637.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+190.1%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1695337,
+          "value_mm": 24345.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+10977.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 311021,
+          "value_mm": 4466.3,
+          "pct_of_portfolio": 0.0,
+          "change": "+1932.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 8700,
+          "value_mm": 2396.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-97.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 9500,
+          "value_mm": 2616.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-97.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1271,
+          "value_mm": 350.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 65800,
+          "value_mm": 769.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+52.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 44000,
+          "value_mm": 514.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+1.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 28826,
+          "value_mm": 7250.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+213.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 12300,
+          "value_mm": 3093.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+33.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 7100,
+          "value_mm": 1785.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-22.8%"
+        }
+      ]
+    },
+    "UNH": {
+      "ticker": "UNH",
+      "company_name": "UNITEDHEALTH GROUP INC",
+      "specialist_fund_count": 11,
+      "funds_increasing": 7,
+      "funds_decreasing": 4,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 9636200.4,
+      "avg_portfolio_weight_pct": 0.14,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1783700,
+          "value_mm": 902302.5,
+          "pct_of_portfolio": 0.16,
+          "change": "+6008.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 50500,
+          "value_mm": 25545.9,
+          "pct_of_portfolio": 0.0,
+          "change": "+72.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 992400,
+          "value_mm": 502015.5,
+          "pct_of_portfolio": 0.09,
+          "change": "+3298.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1356647,
+          "value_mm": 686273.5,
+          "pct_of_portfolio": 0.12,
+          "change": "+4545.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 223771,
+          "value_mm": 113196.8,
+          "pct_of_portfolio": 0.02,
+          "change": "+666.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 3900,
+          "value_mm": 1346.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 186858,
+          "value_mm": 64522.1,
+          "pct_of_portfolio": 0.01,
+          "change": "-96.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1900,
+          "value_mm": 656.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-100.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 10977500,
+          "value_mm": 3790530.8,
+          "pct_of_portfolio": 0.58,
+          "change": "+90.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 662067,
+          "value_mm": 228611.7,
+          "pct_of_portfolio": 0.03,
+          "change": "-88.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 9618300,
+          "value_mm": 3321199.0,
+          "pct_of_portfolio": 0.51,
+          "change": "+66.7%"
+        }
+      ]
+    },
+    "RARE": {
+      "ticker": "RARE",
+      "company_name": "VALERO ENERGY CORP",
+      "specialist_fund_count": 11,
+      "funds_increasing": 4,
+      "funds_decreasing": 7,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 647557.7,
+      "avg_portfolio_weight_pct": 0.01,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 600,
+          "value_mm": 73.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 831800,
+          "value_mm": 101970.4,
+          "pct_of_portfolio": 0.02,
+          "change": "+922.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 21400,
+          "value_mm": 2623.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-73.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 876700,
+          "value_mm": 107474.7,
+          "pct_of_portfolio": 0.02,
+          "change": "+977.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1233883,
+          "value_mm": 151261.7,
+          "pct_of_portfolio": 0.03,
+          "change": "+1416.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 228761,
+          "value_mm": 28043.8,
+          "pct_of_portfolio": 0.0,
+          "change": "+181.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 461912,
+          "value_mm": 78645.1,
+          "pct_of_portfolio": 0.01,
+          "change": "-15.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 3800,
+          "value_mm": 647.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 502100,
+          "value_mm": 85487.5,
+          "pct_of_portfolio": 0.01,
+          "change": "-7.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 13218,
+          "value_mm": 2250.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-97.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 523200,
+          "value_mm": 89080.0,
+          "pct_of_portfolio": 0.01,
+          "change": "-3.7%"
+        }
+      ]
+    },
+    "ANNX": {
+      "ticker": "ANNX",
+      "company_name": "ANTERO RESOURCES CORP",
+      "specialist_fund_count": 11,
+      "funds_increasing": 4,
+      "funds_decreasing": 7,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 345111.6,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1666300,
+          "value_mm": 58403.8,
+          "pct_of_portfolio": 0.01,
+          "change": "+235.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 600,
+          "value_mm": 21.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1183600,
+          "value_mm": 41485.2,
+          "pct_of_portfolio": 0.01,
+          "change": "+138.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 3826631,
+          "value_mm": 134123.4,
+          "pct_of_portfolio": 0.02,
+          "change": "+670.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 553175,
+          "value_mm": 19388.8,
+          "pct_of_portfolio": 0.0,
+          "change": "+11.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 16300,
+          "value_mm": 547.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-98.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 595634,
+          "value_mm": 19989.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-47.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 8700,
+          "value_mm": 292.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 486400,
+          "value_mm": 16323.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-57.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 960269,
+          "value_mm": 32226.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-15.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 664800,
+          "value_mm": 22310.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-41.6%"
+        }
+      ]
+    },
+    "CPRX": {
+      "ticker": "CPRX",
+      "company_name": "CISCO SYS INC",
+      "specialist_fund_count": 10,
+      "funds_increasing": 3,
+      "funds_decreasing": 7,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 1887645.8,
+      "avg_portfolio_weight_pct": 0.03,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 100,
+          "value_mm": 5.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-100.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 8949600,
+          "value_mm": 529816.3,
+          "pct_of_portfolio": 0.09,
+          "change": "+3645.1%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 4292700,
+          "value_mm": 254127.8,
+          "pct_of_portfolio": 0.04,
+          "change": "+1696.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 5794032,
+          "value_mm": 343006.7,
+          "pct_of_portfolio": 0.06,
+          "change": "+2324.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 19400,
+          "value_mm": 1327.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 817024,
+          "value_mm": 55900.8,
+          "pct_of_portfolio": 0.01,
+          "change": "-85.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 3600,
+          "value_mm": 246.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 5340000,
+          "value_mm": 365362.8,
+          "pct_of_portfolio": 0.06,
+          "change": "-7.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 414010,
+          "value_mm": 28326.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-92.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 4523900,
+          "value_mm": 309525.2,
+          "pct_of_portfolio": 0.05,
+          "change": "-21.5%"
+        }
+      ]
+    },
+    "SRPT": {
+      "ticker": "SRPT",
+      "company_name": "S&P GLOBAL INC",
+      "specialist_fund_count": 10,
+      "funds_increasing": 7,
+      "funds_decreasing": 3,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 813302.0,
+      "avg_portfolio_weight_pct": 0.01,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 500,
+          "value_mm": 249.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 167300,
+          "value_mm": 83320.4,
+          "pct_of_portfolio": 0.01,
+          "change": "+227.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 600,
+          "value_mm": 298.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-98.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 63900,
+          "value_mm": 31824.1,
+          "pct_of_portfolio": 0.01,
+          "change": "+25.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 345916,
+          "value_mm": 172276.5,
+          "pct_of_portfolio": 0.03,
+          "change": "+576.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1097,
+          "value_mm": 546.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-97.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 664412,
+          "value_mm": 323376.0,
+          "pct_of_portfolio": 0.05,
+          "change": "+980.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 143900,
+          "value_mm": 70037.6,
+          "pct_of_portfolio": 0.01,
+          "change": "+134.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 128421,
+          "value_mm": 62503.8,
+          "pct_of_portfolio": 0.01,
+          "change": "+108.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 141500,
+          "value_mm": 68869.5,
+          "pct_of_portfolio": 0.01,
+          "change": "+130.1%"
+        }
+      ]
+    },
+    "RXRX": {
+      "ticker": "RXRX",
+      "company_name": "RH",
+      "specialist_fund_count": 10,
+      "funds_increasing": 4,
+      "funds_decreasing": 6,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 564039.6,
+      "avg_portfolio_weight_pct": 0.01,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 388800,
+          "value_mm": 153027.8,
+          "pct_of_portfolio": 0.03,
+          "change": "+963.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 2800,
+          "value_mm": 1102.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-92.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 312800,
+          "value_mm": 123115.0,
+          "pct_of_portfolio": 0.02,
+          "change": "+755.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 16031,
+          "value_mm": 6309.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-56.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 6061,
+          "value_mm": 2385.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-83.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 859,
+          "value_mm": 174.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 5500,
+          "value_mm": 1117.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 672800,
+          "value_mm": 136686.0,
+          "pct_of_portfolio": 0.02,
+          "change": "+26.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 76811,
+          "value_mm": 15604.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-85.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 612900,
+          "value_mm": 124516.8,
+          "pct_of_portfolio": 0.02,
+          "change": "+15.3%"
+        }
+      ]
+    },
+    "ZNTL": {
+      "ticker": "ZNTL",
+      "company_name": "ZOETIS INC",
+      "specialist_fund_count": 10,
+      "funds_increasing": 7,
+      "funds_decreasing": 3,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 349472.7,
+      "avg_portfolio_weight_pct": 0.01,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 300,
+          "value_mm": 48.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-62.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 151000,
+          "value_mm": 24602.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+19013.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 114700,
+          "value_mm": 18688.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+14419.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 732743,
+          "value_mm": 119385.8,
+          "pct_of_portfolio": 0.02,
+          "change": "+92652.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 357756,
+          "value_mm": 58289.2,
+          "pct_of_portfolio": 0.01,
+          "change": "+45185.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1000,
+          "value_mm": 146.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 357834,
+          "value_mm": 52358.3,
+          "pct_of_portfolio": 0.01,
+          "change": "+172.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 316600,
+          "value_mm": 46324.9,
+          "pct_of_portfolio": 0.01,
+          "change": "+141.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 12393,
+          "value_mm": 1813.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-90.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 190100,
+          "value_mm": 27815.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+44.9%"
+        }
+      ]
+    },
+    "ARQT": {
+      "ticker": "ARQT",
+      "company_name": "argenx SE",
+      "specialist_fund_count": 9,
+      "funds_increasing": 7,
+      "funds_decreasing": 1,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 943402.5,
+      "avg_portfolio_weight_pct": 0.04,
+      "funds": [
+        {
+          "name": "BAKER BROS. ADVISORS LP",
+          "shares": 37760,
+          "value_mm": 27850.3,
+          "pct_of_portfolio": 0.2,
+          "change": "UNCHANGED"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 31900,
+          "value_mm": 19618.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+11671.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 15700,
+          "value_mm": 9655.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+5693.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 506675,
+          "value_mm": 311605.1,
+          "pct_of_portfolio": 0.05,
+          "change": "+186864.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 7430,
+          "value_mm": 4569.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+2641.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 708950,
+          "value_mm": 522893.2,
+          "pct_of_portfolio": 0.08,
+          "change": "+3860.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 26900,
+          "value_mm": 19840.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+50.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 4609,
+          "value_mm": 3399.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-74.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 32500,
+          "value_mm": 23970.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+81.6%"
+        }
+      ]
+    },
+    "ILMN": {
+      "ticker": "ILMN",
+      "company_name": "IDEXX LABS INC",
+      "specialist_fund_count": 9,
+      "funds_increasing": 7,
+      "funds_decreasing": 2,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 110638.6,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 100,
+          "value_mm": 41.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.1%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 29100,
+          "value_mm": 12031.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+156.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 39700,
+          "value_mm": 16413.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+249.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 63000,
+          "value_mm": 26046.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+454.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 15054,
+          "value_mm": 6223.9,
+          "pct_of_portfolio": 0.0,
+          "change": "+32.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 18681,
+          "value_mm": 11935.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+2.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 32000,
+          "value_mm": 20444.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+74.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 8895,
+          "value_mm": 5682.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-51.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 18500,
+          "value_mm": 11819.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+1.1%"
+        }
+      ]
+    },
+    "ABBV": {
+      "ticker": "ABBV",
+      "company_name": "ABBVIE INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 6,
+      "funds_decreasing": 2,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 2437788.6,
+      "avg_portfolio_weight_pct": 0.05,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1942300,
+          "value_mm": 345146.7,
+          "pct_of_portfolio": 0.06,
+          "change": "+620.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1410800,
+          "value_mm": 250699.2,
+          "pct_of_portfolio": 0.04,
+          "change": "+423.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 700001,
+          "value_mm": 124390.2,
+          "pct_of_portfolio": 0.02,
+          "change": "+159.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 18536,
+          "value_mm": 3293.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-93.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 2975110,
+          "value_mm": 688857.0,
+          "pct_of_portfolio": 0.1,
+          "change": "+139.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 2409100,
+          "value_mm": 557803.0,
+          "pct_of_portfolio": 0.08,
+          "change": "+94.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 130316,
+          "value_mm": 30173.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-89.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1889200,
+          "value_mm": 437425.4,
+          "pct_of_portfolio": 0.07,
+          "change": "+52.2%"
+        }
+      ]
+    },
+    "OPK": {
+      "ticker": "OPK",
+      "company_name": "OREILLY AUTOMOTIVE INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 5,
+      "funds_decreasing": 3,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 880333.3,
+      "avg_portfolio_weight_pct": 0.02,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 16500,
+          "value_mm": 19565.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+210.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 22100,
+          "value_mm": 26206.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+315.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 306014,
+          "value_mm": 362871.4,
+          "pct_of_portfolio": 0.06,
+          "change": "+5657.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 41040,
+          "value_mm": 48665.2,
+          "pct_of_portfolio": 0.01,
+          "change": "+672.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 2896315,
+          "value_mm": 312251.7,
+          "pct_of_portfolio": 0.05,
+          "change": "+344.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 532800,
+          "value_mm": 57441.2,
+          "pct_of_portfolio": 0.01,
+          "change": "-18.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 234284,
+          "value_mm": 25258.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-64.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 260400,
+          "value_mm": 28073.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-60.0%"
+        }
+      ]
+    },
+    "REGN": {
+      "ticker": "REGN",
+      "company_name": "REGENERON PHARMACEUTICALS",
+      "specialist_fund_count": 8,
+      "funds_increasing": 5,
+      "funds_decreasing": 3,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 744292.5,
+      "avg_portfolio_weight_pct": 0.02,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 168600,
+          "value_mm": 120098.8,
+          "pct_of_portfolio": 0.02,
+          "change": "+2991.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 207300,
+          "value_mm": 147666.0,
+          "pct_of_portfolio": 0.03,
+          "change": "+3701.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 151379,
+          "value_mm": 107831.8,
+          "pct_of_portfolio": 0.02,
+          "change": "+2676.1%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 40967,
+          "value_mm": 29182.0,
+          "pct_of_portfolio": 0.01,
+          "change": "+651.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 162907,
+          "value_mm": 91597.7,
+          "pct_of_portfolio": 0.01,
+          "change": "-17.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 208900,
+          "value_mm": 117458.2,
+          "pct_of_portfolio": 0.02,
+          "change": "+5.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 67320,
+          "value_mm": 37852.0,
+          "pct_of_portfolio": 0.01,
+          "change": "-66.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 164700,
+          "value_mm": 92605.9,
+          "pct_of_portfolio": 0.01,
+          "change": "-16.7%"
+        }
+      ]
+    },
+    "CRSP": {
+      "ticker": "CRSP",
+      "company_name": "CARDINAL HEALTH INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 6,
+      "funds_decreasing": 2,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 671964.2,
+      "avg_portfolio_weight_pct": 0.01,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 272900,
+          "value_mm": 32275.9,
+          "pct_of_portfolio": 0.01,
+          "change": "+1914.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 323100,
+          "value_mm": 38213.0,
+          "pct_of_portfolio": 0.01,
+          "change": "+2285.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 3003340,
+          "value_mm": 355205.0,
+          "pct_of_portfolio": 0.06,
+          "change": "+22073.1%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 190116,
+          "value_mm": 22485.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+1303.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 919226,
+          "value_mm": 144281.7,
+          "pct_of_portfolio": 0.02,
+          "change": "+439.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 318400,
+          "value_mm": 49976.1,
+          "pct_of_portfolio": 0.01,
+          "change": "+86.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 22721,
+          "value_mm": 3566.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-86.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 165400,
+          "value_mm": 25961.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-3.0%"
+        }
+      ]
+    },
+    "ALNY": {
+      "ticker": "ALNY",
+      "company_name": "ALNYLAM PHARMACEUTICALS INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 4,
+      "funds_decreasing": 4,
+      "consensus_direction": "MIXED",
+      "total_value_mm": 208952.9,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 103300,
+          "value_mm": 24307.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+14.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 58400,
+          "value_mm": 13742.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-35.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 49562,
+          "value_mm": 11662.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-45.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 15831,
+          "value_mm": 3725.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-82.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 188198,
+          "value_mm": 85818.3,
+          "pct_of_portfolio": 0.01,
+          "change": "+378.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 48400,
+          "value_mm": 22070.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+23.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 33645,
+          "value_mm": 15342.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-14.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 70800,
+          "value_mm": 32284.8,
+          "pct_of_portfolio": 0.0,
+          "change": "+80.2%"
+        }
+      ]
+    },
+    "PCRX": {
+      "ticker": "PCRX",
+      "company_name": "PELOTON INTERACTIVE INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 5,
+      "funds_decreasing": 3,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 173949.3,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1681900,
+          "value_mm": 14632.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+6697.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 4421000,
+          "value_mm": 38462.7,
+          "pct_of_portfolio": 0.01,
+          "change": "+17767.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1276621,
+          "value_mm": 11106.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+5059.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 784447,
+          "value_mm": 6824.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+3070.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1890368,
+          "value_mm": 17013.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-40.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1455400,
+          "value_mm": 13098.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-54.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1517798,
+          "value_mm": 13660.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-52.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 6572300,
+          "value_mm": 59150.7,
+          "pct_of_portfolio": 0.01,
+          "change": "+106.0%"
+        }
+      ]
+    },
+    "XNCR": {
+      "ticker": "XNCR",
+      "company_name": "XPENG INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 4,
+      "funds_decreasing": 4,
+      "consensus_direction": "MIXED",
+      "total_value_mm": 169811.4,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 998200,
+          "value_mm": 11798.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+1211.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 2052400,
+          "value_mm": 24259.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+2596.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 304991,
+          "value_mm": 3605.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+300.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1706809,
+          "value_mm": 20174.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+2142.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 692333,
+          "value_mm": 16214.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-70.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1456400,
+          "value_mm": 34108.9,
+          "pct_of_portfolio": 0.01,
+          "change": "-37.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 531389,
+          "value_mm": 12445.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-77.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 2015600,
+          "value_mm": 47205.4,
+          "pct_of_portfolio": 0.01,
+          "change": "-13.9%"
+        }
+      ]
+    },
+    "CELG": {
+      "ticker": "CELG",
+      "company_name": "CBRE GROUP INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 8,
+      "funds_decreasing": 0,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 151548.7,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 117800,
+          "value_mm": 15466.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+337.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 86400,
+          "value_mm": 11343.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+221.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 217555,
+          "value_mm": 28562.8,
+          "pct_of_portfolio": 0.0,
+          "change": "+708.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 106861,
+          "value_mm": 14029.8,
+          "pct_of_portfolio": 0.0,
+          "change": "+297.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 353343,
+          "value_mm": 55672.7,
+          "pct_of_portfolio": 0.01,
+          "change": "+4209.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 38300,
+          "value_mm": 6034.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+367.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 110625,
+          "value_mm": 17430.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+1249.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 19100,
+          "value_mm": 3009.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+132.9%"
+        }
+      ]
+    },
+    "EXEL": {
+      "ticker": "EXEL",
+      "company_name": "EXTRA SPACE STORAGE INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 3,
+      "funds_decreasing": 5,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 101266.2,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 32500,
+          "value_mm": 4862.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-80.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 64100,
+          "value_mm": 9589.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-61.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 402477,
+          "value_mm": 60210.6,
+          "pct_of_portfolio": 0.01,
+          "change": "+141.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 47367,
+          "value_mm": 7086.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-71.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 67904,
+          "value_mm": 9570.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+265.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 49200,
+          "value_mm": 6934.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+164.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 3782,
+          "value_mm": 533.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-79.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 17600,
+          "value_mm": 2480.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-5.4%"
+        }
+      ]
+    },
+    "ENTA": {
+      "ticker": "ENTA",
+      "company_name": "ENCOMPASS HEALTH CORP",
+      "specialist_fund_count": 8,
+      "funds_increasing": 8,
+      "funds_decreasing": 0,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 84678.7,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 14100,
+          "value_mm": 1302.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+2720.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 4500,
+          "value_mm": 415.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+800.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 431989,
+          "value_mm": 39894.2,
+          "pct_of_portfolio": 0.01,
+          "change": "+86297.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1927,
+          "value_mm": 178.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+285.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 265965,
+          "value_mm": 33782.9,
+          "pct_of_portfolio": 0.01,
+          "change": "+8211.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 18100,
+          "value_mm": 2299.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+465.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 45689,
+          "value_mm": 5803.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+1327.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 7900,
+          "value_mm": 1003.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+146.9%"
+        }
+      ]
+    },
+    "MRK": {
+      "ticker": "MRK",
+      "company_name": "MEDICAL PPTYS TRUST INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 3,
+      "funds_decreasing": 5,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 42916.4,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1480000,
+          "value_mm": 5846.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+20.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 3360000,
+          "value_mm": 13272.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+173.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 399487,
+          "value_mm": 1578.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-67.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 42684,
+          "value_mm": 168.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-96.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 204154,
+          "value_mm": 1035.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-89.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1454700,
+          "value_mm": 7375.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-23.1%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 344316,
+          "value_mm": 1745.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-81.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 2346300,
+          "value_mm": 11895.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+24.0%"
+        }
+      ]
+    },
+    "PCVX": {
+      "ticker": "PCVX",
+      "company_name": "PHREESIA INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 4,
+      "funds_decreasing": 4,
+      "consensus_direction": "MIXED",
+      "total_value_mm": 17428.0,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 12800,
+          "value_mm": 322.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-81.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 51400,
+          "value_mm": 1293.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-25.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 357717,
+          "value_mm": 9000.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+417.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 169510,
+          "value_mm": 4264.9,
+          "pct_of_portfolio": 0.0,
+          "change": "+145.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 1354,
+          "value_mm": 31.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-89.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 12400,
+          "value_mm": 291.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-0.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 37167,
+          "value_mm": 874.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+197.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 57400,
+          "value_mm": 1350.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+359.2%"
+        }
+      ]
+    },
+    "GOSS": {
+      "ticker": "GOSS",
+      "company_name": "GOPRO INC",
+      "specialist_fund_count": 8,
+      "funds_increasing": 5,
+      "funds_decreasing": 3,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 3125.8,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 6900,
+          "value_mm": 7.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-92.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 152400,
+          "value_mm": 166.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+73.1%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 185467,
+          "value_mm": 202.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+110.7%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 64129,
+          "value_mm": 69.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-27.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 82332,
+          "value_mm": 174.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-16.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 535000,
+          "value_mm": 1134.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+440.4%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 387547,
+          "value_mm": 821.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+291.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 259300,
+          "value_mm": 549.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+161.9%"
+        }
+      ]
+    },
+    "IMVT": {
+      "ticker": "IMVT",
+      "company_name": "Incyte Corporation",
+      "specialist_fund_count": 7,
+      "funds_increasing": 4,
+      "funds_decreasing": 3,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 2645953.6,
+      "avg_portfolio_weight_pct": 2.69,
+      "funds": [
+        {
+          "name": "BAKER BROS. ADVISORS LP",
+          "shares": 30743663,
+          "value_mm": 2607370.1,
+          "pct_of_portfolio": 18.84,
+          "change": "+0.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 46100,
+          "value_mm": 3184.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-81.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 142000,
+          "value_mm": 9807.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-41.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 229869,
+          "value_mm": 15877.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-5.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 33843,
+          "value_mm": 2870.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+219.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 54300,
+          "value_mm": 4605.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+412.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 26400,
+          "value_mm": 2239.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+149.1%"
+        }
+      ]
+    },
+    "MDGL": {
+      "ticker": "MDGL",
+      "company_name": "M & T BK CORP",
+      "specialist_fund_count": 7,
+      "funds_increasing": 7,
+      "funds_decreasing": 0,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 71686.8,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 61300,
+          "value_mm": 11525.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+780.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 80600,
+          "value_mm": 15153.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+1058.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 114577,
+          "value_mm": 21541.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+1546.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 32241,
+          "value_mm": 6371.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+168.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 41500,
+          "value_mm": 8201.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+245.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 32705,
+          "value_mm": 6463.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+172.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 12300,
+          "value_mm": 2430.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+2.5%"
+        }
+      ]
+    },
+    "KRTX": {
+      "ticker": "KRTX",
+      "company_name": "KINSALE CAP GROUP INC",
+      "specialist_fund_count": 7,
+      "funds_increasing": 0,
+      "funds_decreasing": 7,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 41214.5,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 14800,
+          "value_mm": 6883.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-22.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 13900,
+          "value_mm": 6465.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-27.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 9463,
+          "value_mm": 4401.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-50.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 17160,
+          "value_mm": 7297.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-21.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 9600,
+          "value_mm": 4082.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-56.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 7215,
+          "value_mm": 3068.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-66.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 21200,
+          "value_mm": 9015.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-2.8%"
+        }
+      ]
+    },
+    "INCY": {
+      "ticker": "INCY",
+      "company_name": "INNOVIVA INC",
+      "specialist_fund_count": 7,
+      "funds_increasing": 4,
+      "funds_decreasing": 3,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 25501.4,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 11500,
+          "value_mm": 199.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-93.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 800,
+          "value_mm": 13.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 226974,
+          "value_mm": 3938.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+31.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 89142,
+          "value_mm": 1546.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-48.2%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 796225,
+          "value_mm": 14531.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+752.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 190792,
+          "value_mm": 3482.0,
+          "pct_of_portfolio": 0.0,
+          "change": "+104.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 98100,
+          "value_mm": 1790.3,
+          "pct_of_portfolio": 0.0,
+          "change": "+5.0%"
+        }
+      ]
+    },
+    "MIST": {
+      "ticker": "MIST",
+      "company_name": "MITSUBISHI UFJ FINL GROUP IN",
+      "specialist_fund_count": 7,
+      "funds_increasing": 0,
+      "funds_decreasing": 7,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 1982.3,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 3000,
+          "value_mm": 35.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1400,
+          "value_mm": 16.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 50,
+          "value_mm": 0.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-100.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 96246,
+          "value_mm": 1128.0,
+          "pct_of_portfolio": 0.0,
+          "change": "-87.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 106,
+          "value_mm": 1.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-99.8%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 35416,
+          "value_mm": 564.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-19.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 14800,
+          "value_mm": 235.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-66.4%"
+        }
+      ]
+    },
+    "BIIB": {
+      "ticker": "BIIB",
+      "company_name": "BIOGEN INC",
+      "specialist_fund_count": 6,
+      "funds_increasing": 4,
+      "funds_decreasing": 2,
+      "consensus_direction": "ACCUMULATING",
+      "total_value_mm": 194494.8,
+      "avg_portfolio_weight_pct": 0.01,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 172400,
+          "value_mm": 26363.4,
+          "pct_of_portfolio": 0.0,
+          "change": "+120.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 238700,
+          "value_mm": 36502.0,
+          "pct_of_portfolio": 0.01,
+          "change": "+205.5%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 153660,
+          "value_mm": 23497.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+96.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 372728,
+          "value_mm": 52211.7,
+          "pct_of_portfolio": 0.01,
+          "change": "+41.3%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 241200,
+          "value_mm": 33787.3,
+          "pct_of_portfolio": 0.01,
+          "change": "-8.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 158000,
+          "value_mm": 22132.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-40.1%"
+        }
+      ]
+    },
+    "NBIX": {
+      "ticker": "NBIX",
+      "company_name": "NCR VOYIX CORPORATION",
+      "specialist_fund_count": 6,
+      "funds_increasing": 3,
+      "funds_decreasing": 3,
+      "consensus_direction": "MIXED",
+      "total_value_mm": 10592.1,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 115500,
+          "value_mm": 1598.5,
+          "pct_of_portfolio": 0.0,
+          "change": "+455.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 800,
+          "value_mm": 11.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-96.2%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 164383,
+          "value_mm": 2275.1,
+          "pct_of_portfolio": 0.0,
+          "change": "+691.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 85300,
+          "value_mm": 1070.5,
+          "pct_of_portfolio": 0.0,
+          "change": "-52.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 305356,
+          "value_mm": 3832.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+68.7%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 143800,
+          "value_mm": 1804.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-20.6%"
+        }
+      ]
+    },
+    "TGTX": {
+      "ticker": "TGTX",
+      "company_name": "TEGNA INC",
+      "specialist_fund_count": 5,
+      "funds_increasing": 2,
+      "funds_decreasing": 3,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 12373.9,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 269500,
+          "value_mm": 4929.2,
+          "pct_of_portfolio": 0.0,
+          "change": "+255.3%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 103600,
+          "value_mm": 1894.8,
+          "pct_of_portfolio": 0.0,
+          "change": "+36.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 104700,
+          "value_mm": 2128.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-16.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 74091,
+          "value_mm": 1506.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-40.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 94200,
+          "value_mm": 1915.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-24.4%"
+        }
+      ]
+    },
+    "RGEN": {
+      "ticker": "RGEN",
+      "company_name": "Relay Therapeutics, Inc.",
+      "specialist_fund_count": 5,
+      "funds_increasing": 1,
+      "funds_decreasing": 3,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 9081.6,
+      "avg_portfolio_weight_pct": 0.01,
+      "funds": [
+        {
+          "name": "BAKER BROS. ADVISORS LP",
+          "shares": 1160117,
+          "value_mm": 6055.8,
+          "pct_of_portfolio": 0.04,
+          "change": "UNCHANGED"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 15600,
+          "value_mm": 64.3,
+          "pct_of_portfolio": 0.0,
+          "change": "-86.4%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 686878,
+          "value_mm": 2829.9,
+          "pct_of_portfolio": 0.0,
+          "change": "+500.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 10300,
+          "value_mm": 53.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-71.5%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 14900,
+          "value_mm": 77.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-58.7%"
+        }
+      ]
+    },
+    "HALO": {
+      "ticker": "HALO",
+      "company_name": "HCI GROUP INC",
+      "specialist_fund_count": 5,
+      "funds_increasing": 2,
+      "funds_decreasing": 3,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 8931.0,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1800,
+          "value_mm": 209.8,
+          "pct_of_portfolio": 0.0,
+          "change": "-91.6%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 900,
+          "value_mm": 104.9,
+          "pct_of_portfolio": 0.0,
+          "change": "-95.8%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 1142,
+          "value_mm": 133.1,
+          "pct_of_portfolio": 0.0,
+          "change": "-94.6%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 36600,
+          "value_mm": 7024.6,
+          "pct_of_portfolio": 0.0,
+          "change": "+632.0%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 7600,
+          "value_mm": 1458.7,
+          "pct_of_portfolio": 0.0,
+          "change": "+52.0%"
+        }
+      ]
+    },
+    "PRTA": {
+      "ticker": "PRTA",
+      "company_name": "PUMA BIOTECHNOLOGY INC",
+      "specialist_fund_count": 4,
+      "funds_increasing": 0,
+      "funds_decreasing": 4,
+      "consensus_direction": "DISTRIBUTING",
+      "total_value_mm": 674.9,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 17900,
+          "value_mm": 54.6,
+          "pct_of_portfolio": 0.0,
+          "change": "-89.0%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 3400,
+          "value_mm": 10.4,
+          "pct_of_portfolio": 0.0,
+          "change": "-97.9%"
+        },
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 159425,
+          "value_mm": 486.2,
+          "pct_of_portfolio": 0.0,
+          "change": "-1.9%"
+        },
+        {
+          "name": "CITADEL ADVISORS LLC",
+          "shares": 23300,
+          "value_mm": 123.7,
+          "pct_of_portfolio": 0.0,
+          "change": "-95.4%"
+        }
+      ]
+    },
+    "GILD": {
+      "ticker": "GILD",
+      "company_name": "DISH NETWORK CORPORATION",
+      "specialist_fund_count": 1,
+      "funds_increasing": 0,
+      "funds_decreasing": 1,
+      "consensus_direction": "MIXED",
+      "total_value_mm": 0.0,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 0,
+          "value_mm": 0.0,
+          "pct_of_portfolio": 0,
+          "change": "CLOSED"
+        }
+      ]
+    },
+    "SHPG": {
+      "ticker": "SHPG",
+      "company_name": "SHOCKWAVE MED INC",
+      "specialist_fund_count": 1,
+      "funds_increasing": 0,
+      "funds_decreasing": 1,
+      "consensus_direction": "MIXED",
+      "total_value_mm": 0.0,
+      "avg_portfolio_weight_pct": 0.0,
+      "funds": [
+        {
+          "name": "Boxer Capital, LLC",
+          "shares": 0,
+          "value_mm": 0.0,
+          "pct_of_portfolio": 0,
+          "change": "CLOSED"
+        }
+      ]
+    }
+  },
+  "new_positions": [],
+  "largest_increases": [
+    {
+      "ticker": "CUSIP:78462F",
+      "company_name": "SPDR S&P 500 ETF TR",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 33691989.8,
+      "shares_change_pct": 3216.4,
+      "current_value_mm": 34449665.2,
+      "pct_of_portfolio": 5.96
+    },
+    {
+      "ticker": "CUSIP:78462F",
+      "company_name": "SPDR S&P 500 ETF TR",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 32365808.0,
+      "shares_change_pct": 3088.7,
+      "current_value_mm": 33123483.4,
+      "pct_of_portfolio": 5.73
+    },
+    {
+      "ticker": "CUSIP:46090E",
+      "company_name": "INVESCO QQQ TR",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 17055050.3,
+      "shares_change_pct": 3126.5,
+      "current_value_mm": 17433709.8,
+      "pct_of_portfolio": 3.02
+    },
+    {
+      "ticker": "CUSIP:88160R",
+      "company_name": "TESLA INC",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 16534223.3,
+      "shares_change_pct": 203070.0,
+      "current_value_mm": 16539267.2,
+      "pct_of_portfolio": 2.86
+    },
+    {
+      "ticker": "NVTA",
+      "company_name": "NVIDIA CORPORATION",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 16378788.4,
+      "shares_change_pct": 8851.6,
+      "current_value_mm": 16993714.6,
+      "pct_of_portfolio": 2.94
+    },
+    {
+      "ticker": "NVTA",
+      "company_name": "NVIDIA CORPORATION",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 15100401.3,
+      "shares_change_pct": 8178.2,
+      "current_value_mm": 15715327.5,
+      "pct_of_portfolio": 2.72
+    },
+    {
+      "ticker": "CUSIP:46090E",
+      "company_name": "INVESCO QQQ TR",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 15055067.5,
+      "shares_change_pct": 2756.4,
+      "current_value_mm": 15433727.0,
+      "pct_of_portfolio": 2.67
+    },
+    {
+      "ticker": "CUSIP:88160R",
+      "company_name": "TESLA INC",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 12543112.9,
+      "shares_change_pct": 154042.8,
+      "current_value_mm": 12548156.9,
+      "pct_of_portfolio": 2.17
+    },
+    {
+      "ticker": "CUSIP:037833",
+      "company_name": "APPLE INC",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 7655535.0,
+      "shares_change_pct": 792.3,
+      "current_value_mm": 8290755.1,
+      "pct_of_portfolio": 1.43
+    },
+    {
+      "ticker": "CUSIP:30303M",
+      "company_name": "META PLATFORMS INC",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 7436668.5,
+      "shares_change_pct": 3907.3,
+      "current_value_mm": 7533054.6,
+      "pct_of_portfolio": 1.3
+    },
+    {
+      "ticker": "CUSIP:037833",
+      "company_name": "APPLE INC",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 7232175.0,
+      "shares_change_pct": 746.8,
+      "current_value_mm": 7867395.1,
+      "pct_of_portfolio": 1.36
+    },
+    {
+      "ticker": "CUSIP:46090E",
+      "company_name": "INVESCO QQQ TR",
+      "fund_name": "CITADEL ADVISORS LLC",
+      "value_added_mm": 6728918.9,
+      "shares_change_pct": 23.0,
+      "current_value_mm": 26578139.8,
+      "pct_of_portfolio": 4.04
+    },
+    {
+      "ticker": "CUSIP:594918",
+      "company_name": "MICROSOFT CORP",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 6342166.0,
+      "shares_change_pct": 1378.3,
+      "current_value_mm": 6680690.7,
+      "pct_of_portfolio": 1.16
+    },
+    {
+      "ticker": "CUSIP:88160R",
+      "company_name": "TESLA INC",
+      "fund_name": "CITADEL ADVISORS LLC",
+      "value_added_mm": 6271662.5,
+      "shares_change_pct": 16.1,
+      "current_value_mm": 16309083.1,
+      "pct_of_portfolio": 2.48
+    },
+    {
+      "ticker": "CUSIP:464287",
+      "company_name": "ISHARES TR",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 6117689.5,
+      "shares_change_pct": 1430.6,
+      "current_value_mm": 6455015.0,
+      "pct_of_portfolio": 1.12
+    },
+    {
+      "ticker": "CUSIP:30303M",
+      "company_name": "META PLATFORMS INC",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 5410218.4,
+      "shares_change_pct": 2829.3,
+      "current_value_mm": 5506604.4,
+      "pct_of_portfolio": 0.95
+    },
+    {
+      "ticker": "CUSIP:88160R",
+      "company_name": "TESLA INC",
+      "fund_name": "CITADEL ADVISORS LLC",
+      "value_added_mm": 4882579.5,
+      "shares_change_pct": 6.2,
+      "current_value_mm": 14920000.2,
+      "pct_of_portfolio": 2.27
+    },
+    {
+      "ticker": "CUSIP:464287",
+      "company_name": "ISHARES TR",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 4598213.9,
+      "shares_change_pct": 1070.3,
+      "current_value_mm": 4935539.3,
+      "pct_of_portfolio": 0.85
+    },
+    {
+      "ticker": "CUSIP:78463V",
+      "company_name": "SPDR GOLD TR",
+      "fund_name": "CITADEL ADVISORS LLC",
+      "value_added_mm": 4507167.9,
+      "shares_change_pct": 145.0,
+      "current_value_mm": 6934224.4,
+      "pct_of_portfolio": 1.06
+    },
+    {
+      "ticker": "CUSIP:594918",
+      "company_name": "MICROSOFT CORP",
+      "fund_name": "Boxer Capital, LLC",
+      "value_added_mm": 4486638.7,
+      "shares_change_pct": 967.7,
+      "current_value_mm": 4825163.4,
+      "pct_of_portfolio": 0.83
+    }
+  ],
+  "total_holdings_analyzed": 35713
+}

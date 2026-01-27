@@ -1,0 +1,1981 @@
+{
+  "query": "semaglutide obesity",
+  "generated_at": "2026-01-26T10:15:21.378624",
+  "kol_count": 106,
+  "kols": [
+    {
+      "name": "Melanie J Davies",
+      "email": "",
+      "institution": "Diabetes Research Centre",
+      "department": "United Kingdom.",
+      "country": "UK",
+      "publication_count": 23,
+      "first_author_count": 3,
+      "last_author_count": 1,
+      "recent_publication_count": 17,
+      "relevance_score": 30.1,
+      "pmids": [
+        "33667417",
+        "32441473",
+        "38739118",
+        "40544433",
+        "37952180",
+        "38302593",
+        "40544432",
+        "39222642",
+        "37635157",
+        "33625476",
+        "39217567",
+        "36200477",
+        "34514682",
+        "39217565",
+        "37294245",
+        "33755728",
+        "38913003",
+        "38913004",
+        "33567185",
+        "38599221",
+        "39848268",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Mikhail N Kosiborod",
+      "email": "mkosiborod@saint-lukes.org",
+      "institution": "Saint Luke's Mid America Heart Institute",
+      "department": "Department of Cardiovascular Disease",
+      "country": "USA",
+      "publication_count": 14,
+      "first_author_count": 4,
+      "last_author_count": 10,
+      "recent_publication_count": 14,
+      "relevance_score": 25.2,
+      "pmids": [
+        "36200477",
+        "39222642",
+        "37635157",
+        "37952180",
+        "39217565",
+        "37294245",
+        "38913003",
+        "38913004",
+        "39217567",
+        "38599221",
+        "38739118",
+        "39848268",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Subodh Verma",
+      "email": "",
+      "institution": "Li Ka Shing Knowledge Institute of St Michael's Hospital",
+      "department": "Unity Health Toronto",
+      "country": "Canada",
+      "publication_count": 14,
+      "first_author_count": 2,
+      "last_author_count": 1,
+      "recent_publication_count": 14,
+      "relevance_score": 19.7,
+      "pmids": [
+        "36200477",
+        "39222642",
+        "37635157",
+        "37952180",
+        "39217565",
+        "37294245",
+        "38913003",
+        "38913004",
+        "39217567",
+        "38599221",
+        "38739118",
+        "39848268",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Ildiko Lingvay",
+      "email": "ildiko.lingvay@utsouthwestern.edu",
+      "institution": "University of Texas Southwestern Medical Center",
+      "department": "Department of Internal Medicine/Endocrinology and Peter O'Donnell Jr School of Public Health",
+      "country": "USA",
+      "publication_count": 15,
+      "first_author_count": 2,
+      "last_author_count": 1,
+      "recent_publication_count": 8,
+      "relevance_score": 18.9,
+      "pmids": [
+        "32916609",
+        "39222642",
+        "40934115",
+        "34514682",
+        "38907683",
+        "38907684",
+        "33667417",
+        "33755728",
+        "32441473",
+        "40961953",
+        "40961952",
+        "38740993",
+        "33567185",
+        "33625476",
+        "40544432"
+      ]
+    },
+    {
+      "name": "Sean Wharton",
+      "email": "sean.wharton@utoronto.ca",
+      "institution": "York University",
+      "department": "and the Department of Endocrinology",
+      "country": "Canada",
+      "publication_count": 13,
+      "first_author_count": 4,
+      "last_author_count": 3,
+      "recent_publication_count": 8,
+      "relevance_score": 18.9,
+      "pmids": [
+        "37424165",
+        "36216945",
+        "34514682",
+        "36655300",
+        "39476339",
+        "37344384",
+        "38698650",
+        "32441473",
+        "40961953",
+        "40961952",
+        "33567185",
+        "40934115",
+        "30122305"
+      ]
+    },
+    {
+      "name": "W Timothy Garvey",
+      "email": "garveyt@uab.edu",
+      "institution": "University of Alabama at Birmingham",
+      "department": "Department of Nutrition Sciences",
+      "country": "USA",
+      "publication_count": 12,
+      "first_author_count": 2,
+      "last_author_count": 6,
+      "recent_publication_count": 8,
+      "relevance_score": 18.4,
+      "pmids": [
+        "40544433",
+        "36200477",
+        "36216945",
+        "40934115",
+        "36655300",
+        "37385278",
+        "32441473",
+        "40961953",
+        "40961952",
+        "35015037",
+        "33625476",
+        "40544432"
+      ]
+    },
+    {
+      "name": "Javed Butler",
+      "email": "butlzih@gmail.com",
+      "institution": "Baylor Scott and White Research Institute",
+      "department": "Department of Medicine",
+      "country": "USA",
+      "publication_count": 13,
+      "first_author_count": 2,
+      "last_author_count": 0,
+      "recent_publication_count": 13,
+      "relevance_score": 17.9,
+      "pmids": [
+        "39222642",
+        "37635157",
+        "37952180",
+        "39217565",
+        "37294245",
+        "38913003",
+        "38913004",
+        "39217567",
+        "38599221",
+        "38739118",
+        "39848268",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Mark C Petrie",
+      "email": "",
+      "institution": "University of Glasgow",
+      "department": "United Kingdom.",
+      "country": "UK",
+      "publication_count": 13,
+      "first_author_count": 1,
+      "last_author_count": 1,
+      "recent_publication_count": 13,
+      "relevance_score": 17.9,
+      "pmids": [
+        "39222642",
+        "37635157",
+        "37952180",
+        "39217565",
+        "37294245",
+        "38913003",
+        "38913004",
+        "39217567",
+        "38599221",
+        "38739118",
+        "39848268",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Barry A Borlaug",
+      "email": "",
+      "institution": "Mayo Clinic",
+      "department": "Department of Cardiovascular Medicine",
+      "country": "USA",
+      "publication_count": 13,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 13,
+      "relevance_score": 17.4,
+      "pmids": [
+        "39222642",
+        "37635157",
+        "37952180",
+        "39217565",
+        "37294245",
+        "38913003",
+        "38913004",
+        "39217567",
+        "38599221",
+        "38739118",
+        "39848268",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Dalane W Kitzman",
+      "email": "",
+      "institution": "Wake Forest School of Medicine",
+      "department": "Department of Cardiovascular Medicine and Section on Geriatrics and Gerontology",
+      "country": "USA",
+      "publication_count": 13,
+      "first_author_count": 0,
+      "last_author_count": 1,
+      "recent_publication_count": 13,
+      "relevance_score": 17.4,
+      "pmids": [
+        "39222642",
+        "37635157",
+        "37952180",
+        "39217565",
+        "37294245",
+        "38913003",
+        "38913004",
+        "39217567",
+        "38599221",
+        "38739118",
+        "39848268",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Sanjiv J Shah",
+      "email": "",
+      "institution": "Northwestern University Feinberg School of Medicine",
+      "department": "Department of Medicine",
+      "country": "USA",
+      "publication_count": 13,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 13,
+      "relevance_score": 17.4,
+      "pmids": [
+        "39222642",
+        "37635157",
+        "37952180",
+        "39217565",
+        "37294245",
+        "38913003",
+        "38913004",
+        "39217567",
+        "38599221",
+        "38739118",
+        "39848268",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Domenica Rubino",
+      "email": "",
+      "institution": "Washington Center for Weight Management and Research",
+      "department": "",
+      "country": "USA",
+      "publication_count": 12,
+      "first_author_count": 3,
+      "last_author_count": 2,
+      "recent_publication_count": 6,
+      "relevance_score": 16.3,
+      "pmids": [
+        "40544433",
+        "37424165",
+        "36200477",
+        "40934115",
+        "34514682",
+        "36691307",
+        "38698650",
+        "37385278",
+        "33755728",
+        "32441473",
+        "35015037",
+        "33625476"
+      ]
+    },
+    {
+      "name": "Thomas Wadden",
+      "email": "",
+      "institution": "Perelman School of Medicine",
+      "department": "Department of Psychiatry",
+      "country": "USA",
+      "publication_count": 12,
+      "first_author_count": 1,
+      "last_author_count": 1,
+      "recent_publication_count": 4,
+      "relevance_score": 14.2,
+      "pmids": [
+        "40544433",
+        "36216945",
+        "34514682",
+        "36655300",
+        "34942372",
+        "33667417",
+        "38698650",
+        "33755728",
+        "32441473",
+        "35015037",
+        "33567185",
+        "33625476"
+      ]
+    },
+    {
+      "name": "S\u00f8ren Rasmussen",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 9,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 9,
+      "relevance_score": 11.7,
+      "pmids": [
+        "39222642",
+        "37635157",
+        "37952180",
+        "39217567",
+        "38599221",
+        "38739118",
+        "39848268",
+        "37993201",
+        "39217565"
+      ]
+    },
+    {
+      "name": "Donna H Ryan",
+      "email": "ryandh@pbrc.edu",
+      "institution": "Pennington Biomedical Research Center",
+      "department": "Department of Medicine",
+      "country": "USA",
+      "publication_count": 6,
+      "first_author_count": 4,
+      "last_author_count": 4,
+      "recent_publication_count": 3,
+      "relevance_score": 10.9,
+      "pmids": [
+        "34783910",
+        "32916609",
+        "38907683",
+        "38907684",
+        "33864806",
+        "38740993"
+      ]
+    },
+    {
+      "name": "Robert Kushner",
+      "email": "",
+      "institution": "Feinberg School of Medicine",
+      "department": "Division of Endocrinology",
+      "country": "USA",
+      "publication_count": 7,
+      "first_author_count": 1,
+      "last_author_count": 3,
+      "recent_publication_count": 4,
+      "relevance_score": 10.2,
+      "pmids": [
+        "32916609",
+        "36200477",
+        "38907683",
+        "39037780",
+        "32441473",
+        "38740993",
+        "33567185"
+      ]
+    },
+    {
+      "name": "Julio Rosenstock",
+      "email": "",
+      "institution": "Velocity Clinical Research at Medical City",
+      "department": "and the Division of Endocrinology",
+      "country": "USA",
+      "publication_count": 8,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 9.2,
+      "pmids": [
+        "33667417",
+        "37385278",
+        "33755728",
+        "40961953",
+        "40961952",
+        "35015037",
+        "33567185",
+        "40544432"
+      ]
+    },
+    {
+      "name": "Morten Schou",
+      "email": "",
+      "institution": "Herlev-Gentofte Hospital",
+      "department": "Department of Cardiology",
+      "country": "",
+      "publication_count": 6,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 6,
+      "relevance_score": 8.3,
+      "pmids": [
+        "37635157",
+        "37952180",
+        "38913003",
+        "38913004",
+        "38599221",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Walter Abhayaratna",
+      "email": "",
+      "institution": "College of Health and Medicine",
+      "department": "",
+      "country": "Australia",
+      "publication_count": 6,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 6,
+      "relevance_score": 7.8,
+      "pmids": [
+        "37635157",
+        "37952180",
+        "39217567",
+        "38599221",
+        "39848268",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Hiroshi Ito",
+      "email": "",
+      "institution": "",
+      "department": "Department of General Internal Medicine 3",
+      "country": "Japan",
+      "publication_count": 6,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 6,
+      "relevance_score": 7.8,
+      "pmids": [
+        "37635157",
+        "37952180",
+        "39217567",
+        "38599221",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "John Deanfield",
+      "email": "",
+      "institution": "Institute of Cardiovascular Science",
+      "department": "United Kingdom.",
+      "country": "UK",
+      "publication_count": 6,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 5,
+      "relevance_score": 7.5,
+      "pmids": [
+        "32916609",
+        "36200477",
+        "39222642",
+        "38907683",
+        "38907684",
+        "38740993"
+      ]
+    },
+    {
+      "name": "A Michael Lincoff",
+      "email": "lincofa@ccf.org",
+      "institution": "Cleveland Clinic Lerner College of Medicine of Case Western Reserve University",
+      "department": "Department of Cardiovascular Medicine",
+      "country": "USA",
+      "publication_count": 5,
+      "first_author_count": 0,
+      "last_author_count": 2,
+      "recent_publication_count": 4,
+      "relevance_score": 7.2,
+      "pmids": [
+        "32916609",
+        "39222642",
+        "38907683",
+        "38907684",
+        "38740993"
+      ]
+    },
+    {
+      "name": "John P H Wilding",
+      "email": "j.p.h.wilding@liverpool.ac.uk",
+      "institution": "Institute of Ageing and Chronic Disease",
+      "department": "United Kingdom.",
+      "country": "UK",
+      "publication_count": 5,
+      "first_author_count": 1,
+      "last_author_count": 2,
+      "recent_publication_count": 2,
+      "relevance_score": 7.1,
+      "pmids": [
+        "40544433",
+        "32441473",
+        "38740993",
+        "33567185",
+        "30122305"
+      ]
+    },
+    {
+      "name": "Steven E Kahn",
+      "email": "",
+      "institution": "VA Puget Sound Health Care System and University of Washington",
+      "department": "Department of Medicine",
+      "country": "USA",
+      "publication_count": 5,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 6.7,
+      "pmids": [
+        "32916609",
+        "39222642",
+        "38907683",
+        "38907684",
+        "38740993"
+      ]
+    },
+    {
+      "name": "Sue D Pedersen",
+      "email": "",
+      "institution": "C-ENDO Diabetes & Endocrinology Clinic Calgary",
+      "department": "",
+      "country": "Canada",
+      "publication_count": 5,
+      "first_author_count": 0,
+      "last_author_count": 2,
+      "recent_publication_count": 2,
+      "relevance_score": 6.6,
+      "pmids": [
+        "34514682",
+        "39089293",
+        "33667417",
+        "40544432",
+        "30122305"
+      ]
+    },
+    {
+      "name": "Steen Z Abildstr\u00f8m",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 5,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 5,
+      "relevance_score": 6.5,
+      "pmids": [
+        "37294245",
+        "38913004",
+        "39217567",
+        "38599221",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Justin A Ezekowitz",
+      "email": "",
+      "institution": "University of Alberta",
+      "department": "",
+      "country": "Canada",
+      "publication_count": 5,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 5,
+      "relevance_score": 6.5,
+      "pmids": [
+        "37635157",
+        "38913003",
+        "38599221",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Peter van der Meer",
+      "email": "",
+      "institution": "University Medical Center Groningen",
+      "department": "Department of Cardiology",
+      "country": "Netherlands",
+      "publication_count": 5,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 5,
+      "relevance_score": 6.5,
+      "pmids": [
+        "37635157",
+        "39217567",
+        "38599221",
+        "39848268",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Ole Kleist Jeppesen",
+      "email": "",
+      "institution": "Paracelsus Medical University",
+      "department": "Division of Pediatric Endocrinology",
+      "country": "United Kingdom",
+      "publication_count": 5,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 5.9,
+      "pmids": [
+        "38907683",
+        "38907684",
+        "33667417",
+        "38740993",
+        "36322838"
+      ]
+    },
+    {
+      "name": "Deborah B Horn",
+      "email": "",
+      "institution": "University of Texas McGovern Medical School",
+      "department": "Department of Surgery",
+      "country": "USA",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38740993",
+        "37424165",
+        "40353578",
+        "38907683"
+      ]
+    },
+    {
+      "name": "Vijay Chopra",
+      "email": "",
+      "institution": "Max Super Specialty Hospital",
+      "department": "",
+      "country": "",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "39217567",
+        "38599221",
+        "37635157",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Michael Fu",
+      "email": "",
+      "institution": "Sahlgrenska University Hospital-Ostra",
+      "department": "Department of Medicine",
+      "country": "Sweden",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38599221",
+        "37635157",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Ma\u0142gorzata Lelonek",
+      "email": "",
+      "institution": "Medical University of Lodz",
+      "department": "Department of Noninvasive Cardiology",
+      "country": "",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38599221",
+        "37635157",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Julio N\u00fa\u00f1ez",
+      "email": "",
+      "institution": "Hospital Cl\u00ednico Universitario de Valencia",
+      "department": "",
+      "country": "Spain",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "39217567",
+        "38599221",
+        "37635157",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Eduardo Perna",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38599221",
+        "37635157",
+        "37993201",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Michele Senni",
+      "email": "",
+      "institution": "University of Milan-Bicocca",
+      "department": "Cardiovascular Department",
+      "country": "Italy",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "39217567",
+        "38599221",
+        "37635157",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Dirk von Lewinski",
+      "email": "",
+      "institution": "Medical University of Graz",
+      "department": "Division of Cardiology",
+      "country": "",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38599221",
+        "37635157",
+        "39848268",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Dennis Wolf",
+      "email": "",
+      "institution": "Medical Center-University of Freiburg",
+      "department": "",
+      "country": "Germany",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "39217567",
+        "38599221",
+        "37635157",
+        "37993201"
+      ]
+    },
+    {
+      "name": "Mette N Einfeldt",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38599221",
+        "37635157",
+        "38739118",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Kavita Sharma",
+      "email": "",
+      "institution": "The Johns Hopkins University School of Medicine",
+      "department": "Division of Cardiology",
+      "country": "USA",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38913003",
+        "38599221",
+        "38739118",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Shachi Patel",
+      "email": "",
+      "institution": "Saint Luke's Mid America Heart Institute",
+      "department": "Department of Cardiovascular Disease",
+      "country": "USA",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38913003",
+        "38739118",
+        "38913004",
+        "39848268"
+      ]
+    },
+    {
+      "name": "Khaja M Chinnakondepalli",
+      "email": "",
+      "institution": "Saint Luke's Mid America Heart Institute",
+      "department": "Department of Cardiovascular Disease",
+      "country": "USA",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 4,
+      "relevance_score": 5.2,
+      "pmids": [
+        "38913003",
+        "38739118",
+        "38913004",
+        "39848268"
+      ]
+    },
+    {
+      "name": "Patrick M O'Neil",
+      "email": "",
+      "institution": "Weight Management Center",
+      "department": "Department of Psychiatry and Behavioral Sciences",
+      "country": "USA",
+      "publication_count": 4,
+      "first_author_count": 2,
+      "last_author_count": 0,
+      "recent_publication_count": 0,
+      "relevance_score": 5.0,
+      "pmids": [
+        "35015037",
+        "33625476",
+        "36691307",
+        "30122305"
+      ]
+    },
+    {
+      "name": "Niels Zeuthen",
+      "email": "",
+      "institution": "Institute of Life Course and Medical Sciences",
+      "department": "and the Division of Endocrinology",
+      "country": "Japan",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 4.9,
+      "pmids": [
+        "40544433",
+        "33567185",
+        "36200477",
+        "38698650"
+      ]
+    },
+    {
+      "name": "Helen M Colhoun",
+      "email": "",
+      "institution": "Institute of Genetics and Cancer",
+      "department": "United Kingdom.",
+      "country": "United Kingdom",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 4.9,
+      "pmids": [
+        "38740993",
+        "32916609",
+        "38907684",
+        "38907683"
+      ]
+    },
+    {
+      "name": "G Kees Hovingh",
+      "email": "",
+      "institution": "Academic Medical Center",
+      "department": "Department of Vascular Medicine",
+      "country": "Netherlands",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 4.9,
+      "pmids": [
+        "38740993",
+        "38599221",
+        "37635157",
+        "32916609"
+      ]
+    },
+    {
+      "name": "Jorge Plutzky",
+      "email": "",
+      "institution": "Brigham and Women's Hospital",
+      "department": "Cardiovascular Division",
+      "country": "USA",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 4.9,
+      "pmids": [
+        "38740993",
+        "32916609",
+        "38907684",
+        "39222642"
+      ]
+    },
+    {
+      "name": "Dror Dicker",
+      "email": "",
+      "institution": "Internal Medicine Department & Obesity Clinic",
+      "department": "Internal Medicine Department & Obesity Clinic",
+      "country": "Israel",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 1,
+      "recent_publication_count": 1,
+      "relevance_score": 4.8,
+      "pmids": [
+        "38740993",
+        "33755728",
+        "32441473",
+        "34514682"
+      ]
+    },
+    {
+      "name": "Rasmus S\u00f8rrig",
+      "email": "",
+      "institution": "Paracelsus Medical University",
+      "department": "Division of Pediatric Endocrinology",
+      "country": "United Kingdom",
+      "publication_count": 4,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 4.6,
+      "pmids": [
+        "35015037",
+        "37196421",
+        "36322838",
+        "37424165"
+      ]
+    },
+    {
+      "name": "Carel W le Roux",
+      "email": "",
+      "institution": "Diabetes Complications Research Centre",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 4.4,
+      "pmids": [
+        "37344384",
+        "40544432",
+        "40353578"
+      ]
+    },
+    {
+      "name": "Aaron S Kelly",
+      "email": "",
+      "institution": "Department of Pediatrics and Center for Pediatric Obesity Medicine",
+      "department": "Department of Pediatrics and Center for Pediatric Obesity Medicine",
+      "country": "USA",
+      "publication_count": 3,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 4.1,
+      "pmids": [
+        "37196421",
+        "38017205",
+        "36322838"
+      ]
+    },
+    {
+      "name": "Silva Arslanian",
+      "email": "",
+      "institution": "Center for Pediatric Research in Obesity and Metabolism",
+      "department": "Division of Pediatric Endocrinology",
+      "country": "USA",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 1,
+      "recent_publication_count": 2,
+      "relevance_score": 4.1,
+      "pmids": [
+        "37196421",
+        "38774967",
+        "36322838"
+      ]
+    },
+    {
+      "name": "Eric Barros",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 3.9,
+      "pmids": [
+        "38740993",
+        "38913003",
+        "37635157"
+      ]
+    },
+    {
+      "name": "Dani\u00e9l Vega M\u00f8ller",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 3.9,
+      "pmids": [
+        "37294245",
+        "38599221",
+        "37635157"
+      ]
+    },
+    {
+      "name": "Fozia Z Ahmed",
+      "email": "",
+      "institution": "Keele University",
+      "department": "United Kingdom.",
+      "country": "United Kingdom",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 3.9,
+      "pmids": [
+        "39217567",
+        "38599221",
+        "37635157"
+      ]
+    },
+    {
+      "name": "Tuvia Ben-Gal",
+      "email": "",
+      "institution": "Rabin Medical Center",
+      "department": "Cardiology Department",
+      "country": "Israel",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 3.9,
+      "pmids": [
+        "39217567",
+        "38599221",
+        "38739118"
+      ]
+    },
+    {
+      "name": "Vojt\u011bch Melenovsk\u00fd",
+      "email": "",
+      "institution": "Institute for Clinical and Experimental Medicine-IKEM",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 3.9,
+      "pmids": [
+        "38599221",
+        "37952180",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Bela Merkely",
+      "email": "",
+      "institution": "Heart and Vascular Centre",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 3.9,
+      "pmids": [
+        "39217567",
+        "38599221",
+        "39217565"
+      ]
+    },
+    {
+      "name": "Thomas Jon Jensen",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 3.9,
+      "pmids": [
+        "38739118",
+        "39217565",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Cecilia R\u00f6nnb\u00e4ck",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 3,
+      "relevance_score": 3.9,
+      "pmids": [
+        "38913003",
+        "39222642",
+        "39217565"
+      ]
+    },
+    {
+      "name": "Barbara McGowan",
+      "email": "barbara.mcgowan@gstt.nhs.uk",
+      "institution": "Guy's and St Thomas' NHS Foundation Trust",
+      "department": "Department of Diabetes and Endocrinology",
+      "country": "UK",
+      "publication_count": 3,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 3.8,
+      "pmids": [
+        "33567185",
+        "39089293",
+        "30122305"
+      ]
+    },
+    {
+      "name": "Meena Bhatta",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "36655300",
+        "36200477",
+        "36216945"
+      ]
+    },
+    {
+      "name": "Louise Christensen",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "37294245",
+        "36655300",
+        "36216945"
+      ]
+    },
+    {
+      "name": "Kristian Kandler",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "36655300",
+        "36216945",
+        "40961952"
+      ]
+    },
+    {
+      "name": "Anna Koroleva",
+      "email": "",
+      "institution": "From the Parker Institute",
+      "department": "and the Department of Endocrinology",
+      "country": "Canada",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "39476339",
+        "33625476",
+        "38330988"
+      ]
+    },
+    {
+      "name": "Scott S Emerson",
+      "email": "",
+      "institution": "University of Washington",
+      "department": "Department of Biostatistics",
+      "country": "USA",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.6,
+      "pmids": [
+        "32916609",
+        "39222642",
+        "38907683"
+      ]
+    },
+    {
+      "name": "Rachel L Batterham",
+      "email": "",
+      "institution": "University College London Centre for Obesity Research",
+      "department": "Division of Medicine",
+      "country": "UK",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 3.3,
+      "pmids": [
+        "33567185",
+        "36655300",
+        "36216945"
+      ]
+    },
+    {
+      "name": "Juan P Frias",
+      "email": "",
+      "institution": "National Research Institute",
+      "department": "",
+      "country": "USA",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 3.3,
+      "pmids": [
+        "36655300",
+        "33625476",
+        "36216945"
+      ]
+    },
+    {
+      "name": "Dan Hesse",
+      "email": "",
+      "institution": "Paracelsus Medical University",
+      "department": "Division of Pediatric Endocrinology",
+      "country": "United Kingdom",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 3.3,
+      "pmids": [
+        "33755728",
+        "37196421",
+        "36322838"
+      ]
+    },
+    {
+      "name": "Alicja Wizert",
+      "email": "",
+      "institution": "From the Parker Institute",
+      "department": "and the Department of Endocrinology",
+      "country": "Canada",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 3.3,
+      "pmids": [
+        "35015037",
+        "39476339",
+        "33269530"
+      ]
+    },
+    {
+      "name": "Usman Khalid",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 3.3,
+      "pmids": [
+        "35015037",
+        "35131037",
+        "36200477"
+      ]
+    },
+    {
+      "name": "Takashi Kadowaki",
+      "email": "t-kadowaki@toranomon.kkr.or.jp",
+      "institution": "Toranomon Hospital",
+      "department": "",
+      "country": "Japan",
+      "publication_count": 2,
+      "first_author_count": 2,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 3.3,
+      "pmids": [
+        "35131037",
+        "40758358"
+      ]
+    },
+    {
+      "name": "Ania M Jastreboff",
+      "email": "",
+      "institution": "Yale University School of Medicine",
+      "department": "Department of Medicine (Endocrinology and Metabolism) and Department of Pediatrics (Pediatric Endocrinology)",
+      "country": "USA",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 1,
+      "recent_publication_count": 2,
+      "relevance_score": 3.1,
+      "pmids": [
+        "37196421",
+        "38907683"
+      ]
+    },
+    {
+      "name": "Evan O'Keefe",
+      "email": "",
+      "institution": "Saint Luke's Mid America Heart Institute",
+      "department": "Department of Cardiovascular Disease",
+      "country": "USA",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 1,
+      "recent_publication_count": 2,
+      "relevance_score": 3.1,
+      "pmids": [
+        "39743126",
+        "39217565"
+      ]
+    },
+    {
+      "name": "Awadhesh Kumar Singh",
+      "email": "drawadheshkumarsingh@gmail.com",
+      "institution": "G. D Hospital & Diabetes Institute",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 3.1,
+      "pmids": [
+        "40086043"
+      ]
+    },
+    {
+      "name": "Salvatore Calanna",
+      "email": "",
+      "institution": "Institute of Life Course and Medical Sciences",
+      "department": "and the Division of Endocrinology",
+      "country": "Japan",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 0,
+      "relevance_score": 3.0,
+      "pmids": [
+        "33567185",
+        "32441473",
+        "34514682"
+      ]
+    },
+    {
+      "name": "Ofri Mosenzon",
+      "email": "",
+      "institution": "Hadassah Medical Center",
+      "department": "Department of Endocrinology and Metabolism",
+      "country": "Israel",
+      "publication_count": 3,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 0,
+      "relevance_score": 3.0,
+      "pmids": [
+        "33755728",
+        "34514682",
+        "30122305"
+      ]
+    },
+    {
+      "name": "Daniel Weghuber",
+      "email": "",
+      "institution": "Paracelsus Medical University",
+      "department": "Department of Pediatrics",
+      "country": "United Kingdom",
+      "publication_count": 2,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.8,
+      "pmids": [
+        "37196421",
+        "36322838"
+      ]
+    },
+    {
+      "name": "Wissam Ghusn",
+      "email": "",
+      "institution": "Mayo Clinic",
+      "department": "Department of Medicine",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.8,
+      "pmids": [
+        "38446869",
+        "36121652"
+      ]
+    },
+    {
+      "name": "Maria D Hurtado",
+      "email": "",
+      "institution": "Mayo Clinic",
+      "department": "Department of Medicine",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 1,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.8,
+      "pmids": [
+        "38446869",
+        "36121652"
+      ]
+    },
+    {
+      "name": "Andres Acosta",
+      "email": "",
+      "institution": "Mayo Clinic",
+      "department": "Department of Medicine",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 1,
+      "recent_publication_count": 1,
+      "relevance_score": 2.8,
+      "pmids": [
+        "38446869",
+        "36121652"
+      ]
+    },
+    {
+      "name": "J\u00f8ran Hjelmes\u00e6th",
+      "email": "",
+      "institution": "Vestfold Hospital Trust",
+      "department": "Department of Endocrinology",
+      "country": "Canada",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "39476339",
+        "40961952"
+      ]
+    },
+    {
+      "name": "Bartolome Burguera",
+      "email": "",
+      "institution": "Endocrinology & Metabolism Institute",
+      "department": "",
+      "country": "USA",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "38740993",
+        "38907683"
+      ]
+    },
+    {
+      "name": "Alexander Kokkinos",
+      "email": "",
+      "institution": "National and Kapodistrian University of Athens",
+      "department": "First Department of Propaedeutic Internal Medicine",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "38740993",
+        "38907683"
+      ]
+    },
+    {
+      "name": "Andr\u00e9 P van Beek",
+      "email": "",
+      "institution": "University of Groningen",
+      "department": "Department of Endocrinology",
+      "country": "Netherlands",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "38740993",
+        "39455729"
+      ]
+    },
+    {
+      "name": "Kirsi H Pietil\u00e4inen",
+      "email": "",
+      "institution": "Research Program for Clinical and Molecular Metabolism",
+      "department": "Obesity Research Unit",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "40544433",
+        "39089293"
+      ]
+    },
+    {
+      "name": "Marie L Lindegaard",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "37294245",
+        "38599221"
+      ]
+    },
+    {
+      "name": "Maria Quiroga",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "40961952",
+        "39089293"
+      ]
+    },
+    {
+      "name": "Karoline Liisberg",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "38913004",
+        "38819334"
+      ]
+    },
+    {
+      "name": "Grzegorz Gajos",
+      "email": "",
+      "institution": "Jagiellonian University Medical College",
+      "department": "Department of Coronary Artery Disease and Heart Failure",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "38907684",
+        "38907683"
+      ]
+    },
+    {
+      "name": "Peter E Weeke",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "38907684",
+        "39222642"
+      ]
+    },
+    {
+      "name": "Naveen Rathor",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "38907684",
+        "38698650"
+      ]
+    },
+    {
+      "name": "Signe Harring",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "38913004",
+        "39848268"
+      ]
+    },
+    {
+      "name": "Paula Freitas",
+      "email": "",
+      "institution": "Faculty of Medicine and I3S - Institute for Research and Innovation in Health",
+      "department": "S\u00e3o Jo\u00e3o Local Health Unit",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 2,
+      "relevance_score": 2.6,
+      "pmids": [
+        "40961953",
+        "40961952"
+      ]
+    },
+    {
+      "name": "Dorthe Skovgaard",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 1,
+      "recent_publication_count": 0,
+      "relevance_score": 2.5,
+      "pmids": [
+        "33625476",
+        "33269530"
+      ]
+    },
+    {
+      "name": "Xiaoyi Chen",
+      "email": "",
+      "institution": "Hebei Medical University",
+      "department": "Department of Internal Medicine",
+      "country": "China",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 1,
+      "recent_publication_count": 0,
+      "relevance_score": 2.5,
+      "pmids": [
+        "36304787"
+      ]
+    },
+    {
+      "name": "Marie Thi Dao Tran",
+      "email": "",
+      "institution": "Institute of Life Course and Medical Sciences",
+      "department": "and the Division of Endocrinology",
+      "country": "Japan",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.3,
+      "pmids": [
+        "37424165",
+        "33567185"
+      ]
+    },
+    {
+      "name": "Silvio Buscemi",
+      "email": "",
+      "institution": "Unit of Clinical Nutrition",
+      "department": "Unit of Clinical Nutrition",
+      "country": "Italy",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.3,
+      "pmids": [
+        "36655300",
+        "36216945"
+      ]
+    },
+    {
+      "name": "Esteban J\u00f3dar",
+      "email": "",
+      "institution": "School of Medicine",
+      "department": "Department of Endocrinology and Nutrition",
+      "country": "Spain",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.3,
+      "pmids": [
+        "36655300",
+        "36216945"
+      ]
+    },
+    {
+      "name": "Georgia Rigas",
+      "email": "",
+      "institution": "St George Private Hospital",
+      "department": "Department of Bariatric Surgery",
+      "country": "Australia",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.3,
+      "pmids": [
+        "36655300",
+        "36216945"
+      ]
+    },
+    {
+      "name": "Iichiro Shimomura",
+      "email": "",
+      "institution": "Graduate School of Medicine",
+      "department": "",
+      "country": "Japan",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.3,
+      "pmids": [
+        "40758358",
+        "33667417"
+      ]
+    },
+    {
+      "name": "Maria Kabisch",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 1,
+      "relevance_score": 2.3,
+      "pmids": [
+        "40961952",
+        "30122305"
+      ]
+    },
+    {
+      "name": "Frank L Greenway",
+      "email": "",
+      "institution": "Pennington Biomedical Research Center",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 0,
+      "relevance_score": 2.0,
+      "pmids": [
+        "35015037",
+        "33755728"
+      ]
+    },
+    {
+      "name": "Sayeh Tadayon",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 0,
+      "relevance_score": 2.0,
+      "pmids": [
+        "33755728",
+        "33269530"
+      ]
+    },
+    {
+      "name": "Bryan Goldman",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 0,
+      "relevance_score": 2.0,
+      "pmids": [
+        "32441473",
+        "34514682"
+      ]
+    },
+    {
+      "name": "Mette Thomsen",
+      "email": "",
+      "institution": "",
+      "department": "",
+      "country": "",
+      "publication_count": 2,
+      "first_author_count": 0,
+      "last_author_count": 0,
+      "recent_publication_count": 0,
+      "relevance_score": 2.0,
+      "pmids": [
+        "32441473",
+        "34514682"
+      ]
+    }
+  ]
+}
