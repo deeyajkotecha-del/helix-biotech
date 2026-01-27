@@ -295,7 +295,9 @@ class ManagementScraper:
             image_url = img['src']
 
         if name and title:
-            return Executive(name=name, title=title, bio=bio, image_url=image_url)
+            name = self._clean_name(name)
+            if len(name) > 3 and len(name) < 60:
+                return Executive(name=name, title=title, bio=bio, image_url=image_url)
 
         return None
 
@@ -317,20 +319,44 @@ class ManagementScraper:
 
     def _looks_like_name(self, text: str) -> bool:
         """Check if text looks like a person's name"""
-        if not text or len(text) < 3 or len(text) > 50:
+        if not text or len(text) < 3 or len(text) > 60:
             return False
+        # Clean up common suffixes
+        text = re.sub(r',?\s*(MD|MBA|PhD|JD|OBE|M\.D\.|Ph\.D\.|J\.D\.)\s*$', '', text, flags=re.IGNORECASE).strip()
+        text = text.rstrip(',').strip()
+
         words = text.split()
-        if len(words) < 2 or len(words) > 5:
+        if len(words) < 2 or len(words) > 6:
             return False
         # Should be mostly capitalized words
-        cap_words = sum(1 for w in words if w[0].isupper())
+        cap_words = sum(1 for w in words if w and w[0].isupper())
         if cap_words < len(words) * 0.5:
             return False
         # Should not contain common non-name words
-        non_name_words = ['about', 'contact', 'news', 'press', 'investor', 'leadership', 'team', 'our']
+        non_name_words = ['about', 'contact', 'news', 'press', 'investor', 'leadership', 'team', 'our', 'chief', 'officer', 'president', 'director', 'vice']
         if any(word.lower() in non_name_words for word in words):
             return False
+        # Should not be too long (likely a bio snippet)
+        if len(text) > 50:
+            return False
         return True
+
+    def _clean_name(self, name: str) -> str:
+        """Clean up extracted name"""
+        # Remove credentials suffix
+        name = re.sub(r',?\s*(MD|MBA|PhD|JD|OBE|MSCE|M\.D\.|Ph\.D\.|J\.D\.)\s*,?', '', name, flags=re.IGNORECASE)
+        # Remove trailing commas and whitespace
+        name = name.rstrip(',').strip()
+        # Truncate if too long (probably includes bio)
+        if len(name) > 50:
+            # Try to find end of name
+            parts = name.split('.')
+            if parts[0] and len(parts[0]) < 50:
+                name = parts[0].strip()
+            else:
+                words = name.split()[:5]
+                name = ' '.join(words)
+        return name.strip()
 
     def _looks_like_title(self, text: str) -> bool:
         """Check if text looks like a job title"""
