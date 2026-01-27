@@ -249,9 +249,10 @@ async def get_report(ticker: str):
 
         # Get clinical trials
         cur.execute("""
-            SELECT nct_id, title, status, phase, conditions, interventions, sponsor
+            SELECT nct_id, title, status, phase, conditions, interventions,
+                   sponsor, start_date, completion_date, enrollment
             FROM clinical_trials WHERE company_ticker = ?
-            ORDER BY start_date DESC LIMIT 10
+            ORDER BY start_date DESC LIMIT 20
         """, (ticker,))
         for row in cur.fetchall():
             trial = dict(row)
@@ -342,18 +343,26 @@ async def get_report(ticker: str):
             "clinical_trials": {
                 "active_trials": [
                     {
-                        "trial_id": t["nct_id"],
+                        "nct_id": t["nct_id"],
                         "title": t["title"],
                         "phase": t["phase"],
                         "status": t["status"],
-                        "conditions": t["conditions"]
+                        "conditions": t["conditions"],
+                        "interventions": t.get("interventions", []),
+                        "sponsor": t.get("sponsor"),
+                        "start_date": t.get("start_date"),
+                        "completion_date": t.get("completion_date"),
+                        "enrollment": t.get("enrollment")
                     } for t in active_trials
                 ],
                 "completed_trials": [
                     {
-                        "trial_id": t["nct_id"],
+                        "nct_id": t["nct_id"],
                         "title": t["title"],
-                        "phase": t["phase"]
+                        "phase": t["phase"],
+                        "status": t.get("status", "COMPLETED"),
+                        "conditions": t.get("conditions", []),
+                        "interventions": t.get("interventions", [])
                     } for t in completed_trials
                 ],
                 "upcoming_readouts": [],
