@@ -1,0 +1,108 @@
+{
+  "ticker": "MRNA",
+  "filingDate": "2025-02-21",
+  "analyzedAt": "2026-01-27T18:23:27.304Z",
+  "analysis": {
+    "company": {
+      "name": "Moderna, Inc.",
+      "ticker": "MRNA",
+      "marketCap": "$42.1 billion",
+      "employees": null
+    },
+    "pipeline": [
+      {
+        "drug": "Spikevax (mRNA-1273)",
+        "phase": "Approved",
+        "indication": "COVID-19 vaccine",
+        "status": "Commercial product, updated variants approved",
+        "catalyst": null
+      },
+      {
+        "drug": "mRESVIA (mRNA-1345)",
+        "phase": "Approved",
+        "indication": "RSV vaccine for adults 60+",
+        "status": "Approved in US, EU, Canada",
+        "catalyst": "sBLA for high-risk adults 18-59 PDUFA June 12, 2025"
+      },
+      {
+        "drug": "mRNA-1283",
+        "phase": "NDA/BLA Filed",
+        "indication": "Next-generation COVID vaccine",
+        "status": "Positive Phase 3 data, enhanced stability",
+        "catalyst": "FDA approval decision PDUFA May 31, 2025"
+      },
+      {
+        "drug": "mRNA-1083",
+        "phase": "Phase 3",
+        "indication": "Flu+COVID combination vaccine",
+        "status": "Positive Phase 3 data readout",
+        "catalyst": "Regulatory filing expected"
+      },
+      {
+        "drug": "mRNA-1010",
+        "phase": "Phase 3",
+        "indication": "Seasonal flu vaccine",
+        "status": "Positive Phase 3 data readout",
+        "catalyst": "Regulatory filing expected"
+      },
+      {
+        "drug": "mRNA-4157 (INT)",
+        "phase": "Phase 3",
+        "indication": "Adjuvant melanoma",
+        "status": "Phase 3 enrollment completed with Merck",
+        "catalyst": "Phase 3 data readout expected"
+      },
+      {
+        "drug": "mRNA-1647",
+        "phase": "Phase 3",
+        "indication": "CMV vaccine",
+        "status": "In development",
+        "catalyst": "Data readout expected"
+      },
+      {
+        "drug": "mRNA-1403",
+        "phase": "Phase 3",
+        "indication": "Norovirus vaccine",
+        "status": "Phase 3 initiated",
+        "catalyst": "Data readout expected"
+      }
+    ],
+    "financials": {
+      "cash": null,
+      "cashDate": null,
+      "quarterlyBurnRate": null,
+      "runwayMonths": null,
+      "revenue": "$3.1 billion",
+      "revenueSource": "Net product sales, largely from Spikevax"
+    },
+    "fdaInteractions": [
+      "mRESVIA approved May 2024",
+      "Priority review vouchers used for mRNA-1283 and mRNA-1345 sBLA",
+      "Updated COVID variants approved August-September 2024"
+    ],
+    "partnerships": [
+      {
+        "partner": "Merck",
+        "type": "collaboration",
+        "value": null,
+        "details": "Developing individualized neoantigen therapy (INT) mRNA-4157"
+      }
+    ],
+    "risks": [
+      "Uncertainty in COVID and RSV vaccine markets impacting financial results",
+      "Commercial challenges and intense competition in vaccine/pharmaceutical markets",
+      "Clinical development delays and regulatory approval uncertainties",
+      "Manufacturing difficulties and supply chain dependencies",
+      "Net losses incurred in 2024 and 2023 with limited sustainable profitability history"
+    ],
+    "recentEvents": [
+      "Became multi-product company with mRESVIA approval in 2024",
+      "Four positive Phase 3 data readouts across respiratory portfolio",
+      "Completed Phase 3 enrollment for INT melanoma trial with Merck",
+      "Filed priority review applications for mRNA-1283 and mRNA-1345 sBLA",
+      "Achieved $3.1 billion in net product sales for 2024"
+    ],
+    "analystSummary": "Moderna has successfully transitioned from a single COVID vaccine company to a multi-product mRNA platform with two commercial products and a robust late-stage pipeline targeting ten potential approvals over three years. The company's proven mRNA platform technology provides significant advantages in speed, flexibility, and manufacturing efficiency across respiratory vaccines, oncology, and rare diseases, with near-term catalysts including three potential 2025 approvals. Key investment considerations include managing the transition from pandemic to endemic COVID markets, executing on cost reduction targets, and demonstrating the platform's broader applicability beyond respiratory vaccines.",
+    "rawResponse": "```json\n{\n  \"company\": {\n    \"name\": \"Moderna, Inc.\",\n    \"ticker\": \"MRNA\",\n    \"marketCap\": \"$42.1 billion\",\n    \"employees\": null\n  },\n  \"pipeline\": [\n    {\n      \"drug\": \"Spikevax (mRNA-1273)\",\n      \"phase\": \"Approved\",\n      \"indication\": \"COVID-19 vaccine\",\n      \"status\": \"Commercial product, updated variants approved\",\n      \"catalyst\": null\n    },\n    {\n      \"drug\": \"mRESVIA (mRNA-1345)\",\n      \"phase\": \"Approved\",\n      \"indication\": \"RSV vaccine for adults 60+\",\n      \"status\": \"Approved in US, EU, Canada\",\n      \"catalyst\": \"sBLA for high-risk adults 18-59 PDUFA June 12, 2025\"\n    },\n    {\n      \"drug\": \"mRNA-1283\",\n      \"phase\": \"NDA/BLA Filed\",\n      \"indication\": \"Next-generation COVID vaccine\",\n      \"status\": \"Positive Phase 3 data, enhanced stability\",\n      \"catalyst\": \"FDA approval decision PDUFA May 31, 2025\"\n    },\n    {\n      \"drug\": \"mRNA-1083\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"Flu+COVID combination vaccine\",\n      \"status\": \"Positive Phase 3 data readout\",\n      \"catalyst\": \"Regulatory filing expected\"\n    },\n    {\n      \"drug\": \"mRNA-1010\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"Seasonal flu vaccine\",\n      \"status\": \"Positive Phase 3 data readout\",\n      \"catalyst\": \"Regulatory filing expected\"\n    },\n    {\n      \"drug\": \"mRNA-4157 (INT)\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"Adjuvant melanoma\",\n      \"status\": \"Phase 3 enrollment completed with Merck\",\n      \"catalyst\": \"Phase 3 data readout expected\"\n    },\n    {\n      \"drug\": \"mRNA-1647\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"CMV vaccine\",\n      \"status\": \"In development\",\n      \"catalyst\": \"Data readout expected\"\n    },\n    {\n      \"drug\": \"mRNA-1403\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"Norovirus vaccine\",\n      \"status\": \"Phase 3 initiated\",\n      \"catalyst\": \"Data readout expected\"\n    }\n  ],\n  \"financials\": {\n    \"cash\": null,\n    \"cashDate\": null,\n    \"quarterlyBurnRate\": null,\n    \"runwayMonths\": null,\n    \"revenue\": \"$3.1 billion\",\n    \"revenueSource\": \"Net product sales, largely from Spikevax\"\n  },\n  \"fdaInteractions\": [\n    \"mRESVIA approved May 2024\",\n    \"Priority review vouchers used for mRNA-1283 and mRNA-1345 sBLA\",\n    \"Updated COVID variants approved August-September 2024\"\n  ],\n  \"partnerships\": [\n    {\n      \"partner\": \"Merck\",\n      \"type\": \"collaboration\",\n      \"value\": null,\n      \"details\": \"Developing individualized neoantigen therapy (INT) mRNA-4157\"\n    }\n  ],\n  \"risks\": [\n    \"Uncertainty in COVID and RSV vaccine markets impacting financial results\",\n    \"Commercial challenges and intense competition in vaccine/pharmaceutical markets\", \n    \"Clinical development delays and regulatory approval uncertainties\",\n    \"Manufacturing difficulties and supply chain dependencies\",\n    \"Net losses incurred in 2024 and 2023 with limited sustainable profitability history\"\n  ],\n  \"recentEvents\": [\n    \"Became multi-product company with mRESVIA approval in 2024\",\n    \"Four positive Phase 3 data readouts across respiratory portfolio\",\n    \"Completed Phase 3 enrollment for INT melanoma trial with Merck\",\n    \"Filed priority review applications for mRNA-1283 and mRNA-1345 sBLA\",\n    \"Achieved $3.1 billion in net product sales for 2024\"\n  ],\n  \"analystSummary\": \"Moderna has successfully transitioned from a single COVID vaccine company to a multi-product mRNA platform with two commercial products and a robust late-stage pipeline targeting ten potential approvals over three years. The company's proven mRNA platform technology provides significant advantages in speed, flexibility, and manufacturing efficiency across respiratory vaccines, oncology, and rare diseases, with near-term catalysts including three potential 2025 approvals. Key investment considerations include managing the transition from pandemic to endemic COVID markets, executing on cost reduction targets, and demonstrating the platform's broader applicability beyond respiratory vaccines.\"\n}\n```"
+  }
+}

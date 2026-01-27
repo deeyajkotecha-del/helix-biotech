@@ -1,0 +1,24 @@
+# Dependencies
+node_modules
+
+# Source files (we only need dist)
+src/
+tsconfig.json
+
+# Environment files (secrets should be set in Railway)
+.env
+.env.*
+
+# Cache (will be created fresh in container)
+cache/
+
+# Development files
+*.log
+.git
+.gitignore
+README.md
+samples/
+
+# IDE
+.vscode
+.idea

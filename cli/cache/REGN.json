@@ -1,0 +1,100 @@
+{
+  "ticker": "REGN",
+  "filingDate": "2025-02-05",
+  "analyzedAt": "2026-01-27T18:23:57.975Z",
+  "analysis": {
+    "company": {
+      "name": "Regeneron Pharmaceuticals, Inc.",
+      "ticker": "REGN",
+      "marketCap": "$113.8 billion",
+      "employees": null
+    },
+    "pipeline": [
+      {
+        "drug": "EYLEA HD (aflibercept 8mg)",
+        "phase": "Phase 3",
+        "indication": "Retinal vein occlusion (RVO)",
+        "status": "Phase 3 QUASAR trial met primary endpoint",
+        "catalyst": "FDA sBLA decision April 20, 2025 for wAMD/DME; RVO sBLA submission Q1 2025"
+      },
+      {
+        "drug": "Dupixent (dupilumab)",
+        "phase": "Phase 3",
+        "indication": "Multiple indications including ulcerative colitis, pediatric asthma, bullous pemphigoid, CSU",
+        "status": "Phase 3 bullous pemphigoid met primary and key secondary endpoints",
+        "catalyst": "FDA CSU decision April 18, 2025; bullous pemphigoid decision H2 2025"
+      },
+      {
+        "drug": "Itepekimab (REGN3500)",
+        "phase": "Phase 3",
+        "indication": "COPD, NCFB, CRSsNP",
+        "status": "In Phase 3 development",
+        "catalyst": "Phase 3 COPD results H2 2025; additional Phase 3 studies H1 2025"
+      },
+      {
+        "drug": "Kevzara (sarilumab)",
+        "phase": "Phase 3",
+        "indication": "Systemic juvenile idiopathic arthritis",
+        "status": "Pivotal study ongoing",
+        "catalyst": null
+      },
+      {
+        "drug": "Pozelimab (REGN3918)",
+        "phase": "Phase 2",
+        "indication": "Geographic atrophy (combination with cemdisiran)",
+        "status": "In Phase 2 development",
+        "catalyst": null
+      }
+    ],
+    "financials": {
+      "cash": null,
+      "cashDate": null,
+      "quarterlyBurnRate": null,
+      "runwayMonths": null,
+      "revenue": "$14,202.0 million",
+      "revenueSource": "Product sales including EYLEA, Dupixent, Libtayo, and collaboration revenues"
+    },
+    "fdaInteractions": [
+      "EYLEA HD approved for wAMD and DME",
+      "Dupixent approved for CRSwNP in adolescents",
+      "Dupixent approved for EoE in pediatrics",
+      "Kevzara approved for pJIA"
+    ],
+    "partnerships": [
+      {
+        "partner": "Sanofi",
+        "type": "collaboration",
+        "value": null,
+        "details": "Global collaboration on Dupixent and Kevzara; Sanofi records global sales"
+      },
+      {
+        "partner": "Bayer",
+        "type": "collaboration",
+        "value": null,
+        "details": "EYLEA collaboration outside the United States"
+      },
+      {
+        "partner": "Roche",
+        "type": "collaboration",
+        "value": null,
+        "details": "REGEN-COV collaboration for COVID-19 treatment"
+      }
+    ],
+    "risks": [
+      "Regulatory approval uncertainties and timing for product candidates",
+      "Competition from superior or more cost-effective drugs including biosimilars",
+      "Manufacturing and supply chain risks for multiple products",
+      "Reimbursement and pricing pressures from payors",
+      "Clinical trial safety issues and side effects"
+    ],
+    "recentEvents": [
+      "Net income of $4,412.6 million for fiscal year 2024, up from $3,953.6 million in 2023",
+      "EYLEA HD received regulatory approvals in EU and Japan for wAMD and DME",
+      "Dupixent Phase 3 NOTUS trial in COPD met primary and key secondary endpoints",
+      "Multiple FDA and international approvals for expanded Dupixent indications",
+      "Phase 3 bullous pemphigoid trial met primary and all key secondary endpoints"
+    ],
+    "analystSummary": "Regeneron is a leading integrated biotech with a strong commercial portfolio led by blockbuster drugs EYLEA and Dupixent, generating over $14B in revenue with continued growth potential through label expansions and new indications. The company has a robust late-stage pipeline with multiple Phase 3 programs for Dupixent in new indications and EYLEA HD formulations, supported by strong collaborations with Sanofi and Bayer. Key investment considerations include execution on multiple regulatory submissions in 2025, maintaining growth momentum for core products amid increasing biosimilar competition, and successful advancement of the mid-stage pipeline.",
+    "rawResponse": "```json\n{\n  \"company\": {\n    \"name\": \"Regeneron Pharmaceuticals, Inc.\",\n    \"ticker\": \"REGN\",\n    \"marketCap\": \"$113.8 billion\",\n    \"employees\": null\n  },\n  \"pipeline\": [\n    {\n      \"drug\": \"EYLEA HD (aflibercept 8mg)\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"Retinal vein occlusion (RVO)\",\n      \"status\": \"Phase 3 QUASAR trial met primary endpoint\",\n      \"catalyst\": \"FDA sBLA decision April 20, 2025 for wAMD/DME; RVO sBLA submission Q1 2025\"\n    },\n    {\n      \"drug\": \"Dupixent (dupilumab)\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"Multiple indications including ulcerative colitis, pediatric asthma, bullous pemphigoid, CSU\",\n      \"status\": \"Phase 3 bullous pemphigoid met primary and key secondary endpoints\",\n      \"catalyst\": \"FDA CSU decision April 18, 2025; bullous pemphigoid decision H2 2025\"\n    },\n    {\n      \"drug\": \"Itepekimab (REGN3500)\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"COPD, NCFB, CRSsNP\",\n      \"status\": \"In Phase 3 development\",\n      \"catalyst\": \"Phase 3 COPD results H2 2025; additional Phase 3 studies H1 2025\"\n    },\n    {\n      \"drug\": \"Kevzara (sarilumab)\",\n      \"phase\": \"Phase 3\",\n      \"indication\": \"Systemic juvenile idiopathic arthritis\",\n      \"status\": \"Pivotal study ongoing\",\n      \"catalyst\": null\n    },\n    {\n      \"drug\": \"Pozelimab (REGN3918)\",\n      \"phase\": \"Phase 2\",\n      \"indication\": \"Geographic atrophy (combination with cemdisiran)\",\n      \"status\": \"In Phase 2 development\",\n      \"catalyst\": null\n    }\n  ],\n  \"financials\": {\n    \"cash\": null,\n    \"cashDate\": null,\n    \"quarterlyBurnRate\": null,\n    \"runwayMonths\": null,\n    \"revenue\": \"$14,202.0 million\",\n    \"revenueSource\": \"Product sales including EYLEA, Dupixent, Libtayo, and collaboration revenues\"\n  },\n  \"fdaInteractions\": [\n    \"EYLEA HD approved for wAMD and DME\",\n    \"Dupixent approved for CRSwNP in adolescents\",\n    \"Dupixent approved for EoE in pediatrics\",\n    \"Kevzara approved for pJIA\"\n  ],\n  \"partnerships\": [\n    {\n      \"partner\": \"Sanofi\",\n      \"type\": \"collaboration\",\n      \"value\": null,\n      \"details\": \"Global collaboration on Dupixent and Kevzara; Sanofi records global sales\"\n    },\n    {\n      \"partner\": \"Bayer\",\n      \"type\": \"collaboration\",\n      \"value\": null,\n      \"details\": \"EYLEA collaboration outside the United States\"\n    },\n    {\n      \"partner\": \"Roche\",\n      \"type\": \"collaboration\",\n      \"value\": null,\n      \"details\": \"REGEN-COV collaboration for COVID-19 treatment\"\n    }\n  ],\n  \"risks\": [\n    \"Regulatory approval uncertainties and timing for product candidates\",\n    \"Competition from superior or more cost-effective drugs including biosimilars\",\n    \"Manufacturing and supply chain risks for multiple products\",\n    \"Reimbursement and pricing pressures from payors\",\n    \"Clinical trial safety issues and side effects\"\n  ],\n  \"recentEvents\": [\n    \"Net income of $4,412.6 million for fiscal year 2024, up from $3,953.6 million in 2023\",\n    \"EYLEA HD received regulatory approvals in EU and Japan for wAMD and DME\",\n    \"Dupixent Phase 3 NOTUS trial in COPD met primary and key secondary endpoints\",\n    \"Multiple FDA and international approvals for expanded Dupixent indications\",\n    \"Phase 3 bullous pemphigoid trial met primary and all key secondary endpoints\"\n  ],\n  \"analystSummary\": \"Regeneron is a leading integrated biotech with a strong commercial portfolio led by blockbuster drugs EYLEA and Dupixent, generating over $14B in revenue with continued growth potential through label expansions and new indications. The company has a robust late-stage pipeline with multiple Phase 3 programs for Dupixent in new indications and EYLEA HD formulations, supported by strong collaborations with Sanofi and Bayer. Key investment considerations include execution on multiple regulatory submissions in 2025, maintaining growth momentum for core products amid increasing biosimilar competition, and successful advancement of the mid-stage pipeline.\"\n}\n```"
+  }
+}

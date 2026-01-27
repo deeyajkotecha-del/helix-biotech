@@ -1,11 +1,13 @@
 """
-Scrape Management/Leadership Information from Company Investor Relations Pages
+Scrape Management/Leadership Information from SEC 10-K Filings
 
-This script:
-1. Finds investor relations URLs for biotech companies
-2. Scrapes leadership/management pages
-3. Extracts CEO, CFO, CMO, CSO and other key executives
-4. Stores in the database for use in reports
+Primary source: 10-K "Information about our Executive Officers" section in Part I
+Fallback: DEF 14A proxy statement (if 10-K incorporates by reference)
+
+10-K Item 1 often includes a standardized table with:
+- Executive names (with credentials like M.D., Ph.D., J.D.)
+- Ages
+- Titles/Positions
 """
 
 import os
@@ -16,13 +18,11 @@ import time
 import requests
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Dict, List, Tuple
-from dataclasses import dataclass, asdict
+from typing import Optional, Dict, List
+from dataclasses import dataclass, field
 import sqlite3
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlparse
 
-# Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
@@ -30,78 +30,44 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 class Executive:
     name: str
     title: str
+    age: Optional[int] = None
     bio: Optional[str] = None
-    image_url: Optional[str] = None
+    compensation: Optional[float] = None
+    is_ceo: bool = False
+    is_cfo: bool = False
+    is_cmo: bool = False
+    is_cso: bool = False
+    is_coo: bool = False
+    is_director: bool = False
 
 
 @dataclass
-class ManagementInfo:
+class CompanyData:
     ticker: str
     company_name: str
-    ir_url: Optional[str] = None
-    leadership_url: Optional[str] = None
-    executives: List[Executive] = None
-    last_updated: Optional[str] = None
-
-    def __post_init__(self):
-        if self.executives is None:
-            self.executives = []
+    cik: Optional[str] = None
+    filing_date: Optional[str] = None
+    filing_url: Optional[str] = None
+    filing_type: Optional[str] = None  # "10-K" or "DEF 14A"
+    executives: List[Executive] = field(default_factory=list)
 
 
-# Known IR URLs for biotech companies
-KNOWN_IR_URLS = {
-    "ABVX": "https://www.abivax.com/investors/",
-    "INSM": "https://investor.insmed.com/",
-    "ALNY": "https://www.alnylam.com/investors",
-    "MRNA": "https://investors.modernatx.com/",
-    "CGON": "https://ir.cgoncology.com/",
-    "GPCR": "https://ir.structuretx.com/",
-    "VRNA": "https://www.vfrona.com/investors/",
-    "REGN": "https://investor.regeneron.com/",
-    "VRTX": "https://investors.vrtx.com/",
-    "BIIB": "https://investors.biogen.com/",
-    "GILD": "https://investors.gilead.com/",
-    "BMRN": "https://investors.biomarin.com/",
-    "SRPT": "https://investorrelations.sarepta.com/",
-    "NBIX": "https://neurocrine.com/investors/",
-    "EXEL": "https://ir.exelixis.com/",
-    "IONS": "https://ir.ionispharma.com/",
-    "PCVX": "https://investors.vaxcyte.com/",
-    "ARGX": "https://www.argenx.com/investors",
-    "CRSP": "https://crisprtx.com/investors",
-    "BEAM": "https://investors.beamtx.com/",
-    "NTLA": "https://ir.intelliatx.com/",
-}
+class SECManagementScraper:
+    """Scraper for SEC filings to extract executive information"""
 
-# Common leadership page patterns
-LEADERSHIP_PATTERNS = [
-    "/leadership",
-    "/management",
-    "/team",
-    "/about/leadership",
-    "/about/management",
-    "/about-us/leadership",
-    "/about-us/management",
-    "/company/leadership",
-    "/company/management",
-    "/corporate/leadership",
-    "/our-team",
-    "/executive-team",
-    "/board-of-directors",
-]
+    SEC_BASE = "https://www.sec.gov"
+    COMPANY_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
+    SUBMISSIONS_URL = "https://data.sec.gov/submissions/CIK{cik}.json"
 
-
-class ManagementScraper:
     def __init__(self, db_path: Optional[str] = None):
         self.data_dir = Path(__file__).parent.parent / "data"
         self.db_path = db_path or str(self.data_dir / "helix.db")
         self.session = requests.Session()
         self.session.headers.update({
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-            "Accept-Language": "en-US,en;q=0.5",
+            "User-Agent": "Helix Intelligence Platform research@helix-intel.com",
+            "Accept": "application/json, text/html",
         })
-        self.init_database()
+        self._ticker_to_cik = None
 
     def init_database(self):
         """Initialize management table in database"""
@@ -114,400 +80,490 @@ class ManagementScraper:
                 company_ticker TEXT NOT NULL,
                 name TEXT NOT NULL,
                 title TEXT NOT NULL,
+                age INTEGER,
                 bio TEXT,
-                image_url TEXT,
+                compensation REAL,
                 is_ceo BOOLEAN DEFAULT FALSE,
                 is_cfo BOOLEAN DEFAULT FALSE,
                 is_cmo BOOLEAN DEFAULT FALSE,
                 is_cso BOOLEAN DEFAULT FALSE,
+                is_coo BOOLEAN DEFAULT FALSE,
+                is_director BOOLEAN DEFAULT FALSE,
+                source_filing TEXT,
+                filing_date TEXT,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE(company_ticker, name)
             )
         """)
 
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS company_ir_info (
-                ticker TEXT PRIMARY KEY,
-                ir_url TEXT,
-                leadership_url TEXT,
-                last_scraped TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
-
         conn.commit()
         conn.close()
-        print(f"Database initialized: {self.db_path}")
+        print(f"[DB] Database ready: {self.db_path}")
 
-    def find_ir_url(self, ticker: str, company_name: str) -> Optional[str]:
-        """Find investor relations URL for a company"""
-        # Check known URLs first
-        if ticker in KNOWN_IR_URLS:
-            return KNOWN_IR_URLS[ticker]
+    def _load_ticker_mapping(self):
+        """Load ticker to CIK mapping from SEC"""
+        if self._ticker_to_cik is not None:
+            return
 
-        # Try common patterns
-        company_slug = company_name.lower().split()[0]
-        common_patterns = [
-            f"https://investors.{company_slug}.com/",
-            f"https://ir.{company_slug}.com/",
-            f"https://investor.{company_slug}.com/",
-            f"https://www.{company_slug}.com/investors",
-        ]
-
-        for url in common_patterns:
-            try:
-                resp = self.session.head(url, timeout=5, allow_redirects=True)
-                if resp.status_code == 200:
-                    return url
-            except:
-                continue
-
-        return None
-
-    def find_leadership_page(self, base_url: str) -> Optional[str]:
-        """Find the leadership/management page from a base URL"""
-        parsed = urlparse(base_url)
-        base = f"{parsed.scheme}://{parsed.netloc}"
-
-        # Try common leadership page patterns
-        for pattern in LEADERSHIP_PATTERNS:
-            url = urljoin(base, pattern)
-            try:
-                resp = self.session.head(url, timeout=5, allow_redirects=True)
-                if resp.status_code == 200:
-                    return resp.url
-            except:
-                continue
-
-        # Try to find link on main page
+        print("[INFO] Loading SEC ticker to CIK mapping...")
         try:
-            resp = self.session.get(base_url, timeout=10)
-            soup = BeautifulSoup(resp.text, 'html.parser')
+            resp = self.session.get(self.COMPANY_TICKERS_URL, timeout=30)
+            resp.raise_for_status()
+            data = resp.json()
 
-            # Look for leadership/team links
-            for link in soup.find_all('a', href=True):
-                href = link.get('href', '').lower()
-                text = link.get_text().lower()
-                if any(word in href or word in text for word in ['leadership', 'management', 'team', 'executive']):
-                    full_url = urljoin(base_url, link['href'])
-                    return full_url
-        except:
-            pass
+            self._ticker_to_cik = {}
+            for item in data.values():
+                ticker = item.get("ticker", "").upper()
+                cik = str(item.get("cik_str", "")).zfill(10)
+                self._ticker_to_cik[ticker] = {
+                    "cik": cik,
+                    "name": item.get("title", "")
+                }
+            print(f"[INFO] Loaded {len(self._ticker_to_cik)} ticker mappings")
+        except Exception as e:
+            print(f"[ERROR] Loading ticker mapping: {e}")
+            self._ticker_to_cik = {}
 
-        return None
+    def get_cik(self, ticker: str) -> Optional[str]:
+        """Get CIK for a ticker"""
+        self._load_ticker_mapping()
+        info = self._ticker_to_cik.get(ticker.upper())
+        return info["cik"] if info else None
 
-    def extract_executives_from_page(self, url: str, ticker: str) -> List[Executive]:
-        """Extract executive information from a leadership page"""
+    def get_filing_url(self, cik: str, form_type: str = "10-K") -> Optional[Dict]:
+        """Get most recent filing URL of specified type"""
+        url = self.SUBMISSIONS_URL.format(cik=cik)
+
+        try:
+            resp = self.session.get(url, timeout=30)
+            resp.raise_for_status()
+            data = resp.json()
+
+            recent = data.get("filings", {}).get("recent", {})
+            forms = recent.get("form", [])
+            dates = recent.get("filingDate", [])
+            accessions = recent.get("accessionNumber", [])
+            primary_docs = recent.get("primaryDocument", [])
+
+            # For DEF 14A, prefer the actual proxy statement over amendments
+            if form_type == "DEF 14A":
+                # First look for DEF 14A exactly
+                for i, form in enumerate(forms):
+                    if form == "DEF 14A":
+                        accession = accessions[i].replace("-", "")
+                        return {
+                            "form": form,
+                            "date": dates[i],
+                            "url": f"{self.SEC_BASE}/Archives/edgar/data/{cik}/{accession}/{primary_docs[i]}"
+                        }
+                # Fallback to DEFA14A if no DEF 14A found
+                for i, form in enumerate(forms):
+                    if form == "DEFA14A":
+                        accession = accessions[i].replace("-", "")
+                        return {
+                            "form": form,
+                            "date": dates[i],
+                            "url": f"{self.SEC_BASE}/Archives/edgar/data/{cik}/{accession}/{primary_docs[i]}"
+                        }
+            else:
+                for i, form in enumerate(forms):
+                    if form == form_type:
+                        accession = accessions[i].replace("-", "")
+                        return {
+                            "form": form,
+                            "date": dates[i],
+                            "url": f"{self.SEC_BASE}/Archives/edgar/data/{cik}/{accession}/{primary_docs[i]}"
+                        }
+            return None
+        except Exception as e:
+            print(f"  [ERROR] Fetching filings: {e}")
+            return None
+
+    def parse_10k_executives(self, url: str) -> List[Executive]:
+        """Parse executive officers from 10-K filing"""
         executives = []
 
         try:
-            resp = self.session.get(url, timeout=15)
+            print(f"  [FETCH] 10-K: {url[:70]}...")
+            resp = self.session.get(url, timeout=60)
             resp.raise_for_status()
+
             soup = BeautifulSoup(resp.text, 'html.parser')
+            text = soup.get_text(separator='\n')
 
-            # Common patterns for executive cards/sections
-            # Pattern 1: Look for executive cards with name and title
-            exec_sections = soup.find_all(['div', 'article', 'section'],
-                class_=lambda x: x and any(word in str(x).lower() for word in ['executive', 'leader', 'team-member', 'bio', 'person']))
+            # Find the executive officers section (not TOC)
+            # Look for "The names" which indicates actual content
+            all_matches = list(re.finditer(
+                r'(?:INFORMATION\s+ABOUT\s+)?(?:OUR\s+)?EXECUTIVE\s+OFFICERS',
+                text, re.IGNORECASE
+            ))
 
-            for section in exec_sections:
-                exec_info = self._extract_exec_from_section(section)
-                if exec_info:
-                    executives.append(exec_info)
-
-            # Pattern 2: Look for structured data (often in schema.org format)
-            scripts = soup.find_all('script', type='application/ld+json')
-            for script in scripts:
-                try:
-                    data = json.loads(script.string)
-                    if isinstance(data, dict) and data.get('@type') == 'Organization':
-                        members = data.get('member', []) or data.get('employee', [])
-                        for member in members:
-                            if isinstance(member, dict):
-                                name = member.get('name')
-                                title = member.get('jobTitle')
-                                if name and title:
-                                    executives.append(Executive(name=name, title=title))
-                except:
-                    continue
-
-            # Pattern 3: Look for h2/h3/h4 with names followed by titles
-            if not executives:
-                executives = self._extract_from_headings(soup)
-
-            # Deduplicate
-            seen = set()
-            unique_execs = []
-            for exec in executives:
-                key = (exec.name.lower(), exec.title.lower())
-                if key not in seen:
-                    seen.add(key)
-                    unique_execs.append(exec)
-
-            return unique_execs[:15]  # Limit to top 15
-
-        except Exception as e:
-            print(f"    Error scraping {url}: {e}")
-            return []
-
-    def _extract_exec_from_section(self, section) -> Optional[Executive]:
-        """Extract executive info from a section/card"""
-        name = None
-        title = None
-        bio = None
-        image_url = None
-
-        # Try to find name (usually in h2, h3, h4, or strong tag)
-        for tag in ['h2', 'h3', 'h4', 'h5', 'strong', 'b']:
-            elem = section.find(tag)
-            if elem:
-                text = elem.get_text(strip=True)
-                # Check if it looks like a name (2-4 words, capitalized)
-                if self._looks_like_name(text):
-                    name = text
+            section_start = None
+            for m in all_matches:
+                following = text[m.start():m.start() + 300]
+                if 'The names' in following or 'Name\n' in following or 'NAME\n' in following:
+                    section_start = m.start()
                     break
 
-        if not name:
-            # Try class-based detection
-            name_elem = section.find(class_=lambda x: x and 'name' in str(x).lower())
-            if name_elem:
-                name = name_elem.get_text(strip=True)
+            if not section_start:
+                print(f"  [INFO] No executive officers section in 10-K")
+                return []
 
-        # Try to find title
-        title_elem = section.find(class_=lambda x: x and any(word in str(x).lower() for word in ['title', 'position', 'role']))
-        if title_elem:
-            title = title_elem.get_text(strip=True)
-        else:
-            # Look for common title patterns in text
-            text = section.get_text()
-            title_match = re.search(r'(Chief\s+\w+\s*Officer|CEO|CFO|CMO|CSO|COO|CTO|President|Vice\s+President|SVP|EVP|Director)', text, re.IGNORECASE)
-            if title_match:
-                title = title_match.group(1)
+            print(f"  [FOUND] Executive officers section")
+            section = text[section_start:section_start + 10000]
 
-        # Try to find bio
-        bio_elem = section.find(class_=lambda x: x and 'bio' in str(x).lower())
-        if bio_elem:
-            bio = bio_elem.get_text(strip=True)[:500]
+            # Find table header: Name Age Position
+            header_match = re.search(
+                r'(?:Name|NAME)\s*\n\s*(?:Age|AGE)\s*\n\s*(?:Position|Title|POSITION|TITLE)',
+                section
+            )
 
-        # Try to find image
-        img = section.find('img')
-        if img and img.get('src'):
-            image_url = img['src']
+            if header_match:
+                print(f"  [PARSE] Multi-line table format")
+                table_text = section[header_match.end():]
+                lines = [l.strip() for l in table_text.split('\n') if l.strip()]
 
-        if name and title:
-            name = self._clean_name(name)
-            if len(name) > 3 and len(name) < 60:
-                return Executive(name=name, title=title, bio=bio, image_url=image_url)
+                i = 0
+                while i < len(lines) - 2:
+                    name = lines[i]
 
-        return None
+                    if not self._is_valid_name(name):
+                        if name.startswith(('Dr.', 'Mr.', 'Ms.', 'The ')) or 'has been' in name:
+                            break
+                        i += 1
+                        continue
 
-    def _extract_from_headings(self, soup) -> List[Executive]:
-        """Extract executives from heading patterns"""
+                    age_str = lines[i + 1]
+                    if not age_str.isdigit():
+                        i += 1
+                        continue
+                    age = int(age_str)
+                    if age < 30 or age > 85:
+                        i += 1
+                        continue
+
+                    title = lines[i + 2]
+                    if not self._is_executive_title(title):
+                        i += 1
+                        continue
+
+                    exec = Executive(name=name, title=title, age=age)
+                    self._classify_executive(exec)
+                    executives.append(exec)
+                    i += 3
+            else:
+                # Try prose format
+                print(f"  [PARSE] Prose format")
+                pattern = r'([A-Z][a-zA-Z\s\.\,\-\"\']+?(?:,\s*(?:M\.D\.|Ph\.D\.|J\.D\.|CPA))?)\s*,\s*(?:age\s*)?(\d{2})\s*,\s*(.+?)(?:\.|,\s*(?:has|is|was|who|since))'
+                seen = set()
+                for match in re.finditer(pattern, section, re.IGNORECASE):
+                    name = match.group(1).strip()
+                    age = int(match.group(2))
+                    title = match.group(3).strip()
+
+                    if name.lower() in seen:
+                        continue
+                    seen.add(name.lower())
+
+                    if self._is_valid_name(name) and 30 <= age <= 85:
+                        exec = Executive(name=name, title=title, age=age)
+                        self._classify_executive(exec)
+                        executives.append(exec)
+
+            return executives
+
+        except Exception as e:
+            print(f"  [ERROR] Parsing 10-K: {e}")
+            return []
+
+    def parse_def14a_executives(self, url: str) -> List[Executive]:
+        """Parse executive officers from DEF 14A proxy statement"""
         executives = []
 
-        for heading in soup.find_all(['h2', 'h3', 'h4']):
-            text = heading.get_text(strip=True)
-            if self._looks_like_name(text):
-                # Look for title in next sibling or parent
-                next_elem = heading.find_next_sibling()
-                if next_elem:
-                    next_text = next_elem.get_text(strip=True)
-                    if self._looks_like_title(next_text):
-                        executives.append(Executive(name=text, title=next_text))
+        try:
+            print(f"  [FETCH] DEF 14A: {url[:70]}...")
+            resp = self.session.get(url, timeout=60)
+            resp.raise_for_status()
 
-        return executives
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            text = soup.get_text(separator='\n')
 
-    def _looks_like_name(self, text: str) -> bool:
-        """Check if text looks like a person's name"""
-        if not text or len(text) < 3 or len(text) > 60:
-            return False
-        # Clean up common suffixes
-        text = re.sub(r',?\s*(MD|MBA|PhD|JD|OBE|M\.D\.|Ph\.D\.|J\.D\.)\s*$', '', text, flags=re.IGNORECASE).strip()
-        text = text.rstrip(',').strip()
+            # Find Summary Compensation Table (most reliable source)
+            comp_match = re.search(r'Summary\s+Compensation\s+Table', text, re.IGNORECASE)
+            if comp_match:
+                print(f"  [FOUND] Summary Compensation Table")
+                section = text[comp_match.start():comp_match.start() + 8000]
 
-        words = text.split()
-        if len(words) < 2 or len(words) > 6:
+                # Parse multi-line format: Name on one line, Title on next
+                # Example: "Yvonne L. Greenstreet, M.D. \nChief Executive Officer..."
+                lines = section.split('\n')
+                seen = set()
+
+                i = 0
+                while i < len(lines) - 1:
+                    line = lines[i].strip()
+
+                    # Check if this looks like a name (with possible credentials)
+                    # Pattern: First Last or First M. Last, with optional M.D., Ph.D., etc.
+                    name_match = re.match(
+                        r'^([A-Z][a-z]+\s+(?:[A-Z]\.?\s+)?[A-Z][a-z]+(?:,\s*(?:M\.D\.|Ph\.D\.|J\.D\.|CPA|MBA|III|Jr\.))?)\s*$',
+                        line
+                    )
+
+                    if name_match:
+                        name = name_match.group(1).strip()
+
+                        # Next line should be title
+                        next_line = lines[i + 1].strip() if i + 1 < len(lines) else ""
+
+                        if self._is_executive_title(next_line) and name.lower() not in seen:
+                            title = next_line
+                            # Clean up title - remove parenthetical notes
+                            title = re.sub(r'\s*\([^)]+\)\s*$', '', title).strip()
+
+                            seen.add(name.lower())
+                            exec = Executive(name=name, title=title)
+                            self._classify_executive(exec)
+                            executives.append(exec)
+                            i += 2  # Skip both name and title lines
+                            continue
+
+                    i += 1
+
+                if executives:
+                    return executives
+
+            # Fallback: Look for "age XX" patterns
+            section_patterns = [
+                r'NAMED\s+EXECUTIVE\s+OFFICERS',
+                r'EXECUTIVE\s+OFFICERS\s+OF\s+THE',
+            ]
+
+            section_start = None
+            for pattern in section_patterns:
+                match = re.search(pattern, text, re.IGNORECASE)
+                if match:
+                    section_start = match.start()
+                    break
+
+            if not section_start:
+                print(f"  [INFO] No executive section found in DEF 14A")
+                return []
+
+            print(f"  [FOUND] Executive officers section")
+            section = text[section_start:section_start + 15000]
+
+            # Parse executives with age pattern
+            patterns = [
+                r'([A-Z][a-z]+(?:\s+[A-Z]\.?\s*)?[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s*,\s*age\s*(\d{2})\s*[,\.]\s*([A-Za-z][^\.]{10,80}?)(?:\.|,)',
+                r'([A-Z][a-z]+(?:\s+[A-Z]\.?\s*)?[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s*,\s*(\d{2})\s*,\s*([A-Za-z][^\.]{10,80}?)(?:\.|,)',
+            ]
+
+            seen = set()
+            for pattern in patterns:
+                for match in re.finditer(pattern, section):
+                    name = match.group(1).strip()
+                    age = int(match.group(2))
+                    title = match.group(3).strip()
+
+                    if name.lower() in seen:
+                        continue
+                    seen.add(name.lower())
+
+                    if self._is_valid_name(name) and 30 <= age <= 85 and self._is_executive_title(title):
+                        exec = Executive(name=name, title=title, age=age)
+                        self._classify_executive(exec)
+                        executives.append(exec)
+
+            return executives
+
+        except Exception as e:
+            print(f"  [ERROR] Parsing DEF 14A: {e}")
+            return []
+
+    def _is_valid_name(self, text: str) -> bool:
+        """Check if text is a valid person name"""
+        if not text or len(text) < 5 or len(text) > 60:
             return False
-        # Should be mostly capitalized words
-        cap_words = sum(1 for w in words if w and w[0].isupper())
-        if cap_words < len(words) * 0.5:
+        if text[0].islower():
             return False
-        # Should not contain common non-name words
-        non_name_words = ['about', 'contact', 'news', 'press', 'investor', 'leadership', 'team', 'our', 'chief', 'officer', 'president', 'director', 'vice']
-        if any(word.lower() in non_name_words for word in words):
+        words = text.replace(',', '').split()
+        if len(words) < 2:
             return False
-        # Should not be too long (likely a bio snippet)
-        if len(text) > 50:
+        if text.startswith(('Dr.', 'Mr.', 'Ms.', 'The ', 'Our ', 'Each ')):
+            return False
+        if any(c.isdigit() for c in text):
             return False
         return True
 
-    def _clean_name(self, name: str) -> str:
-        """Clean up extracted name"""
-        # Remove credentials suffix
-        name = re.sub(r',?\s*(MD|MBA|PhD|JD|OBE|MSCE|M\.D\.|Ph\.D\.|J\.D\.)\s*,?', '', name, flags=re.IGNORECASE)
-        # Remove trailing commas and whitespace
-        name = name.rstrip(',').strip()
-        # Truncate if too long (probably includes bio)
-        if len(name) > 50:
-            # Try to find end of name
-            parts = name.split('.')
-            if parts[0] and len(parts[0]) < 50:
-                name = parts[0].strip()
-            else:
-                words = name.split()[:5]
-                name = ' '.join(words)
-        return name.strip()
+    def _is_executive_title(self, text: str) -> bool:
+        """Check if text is an executive title"""
+        if not text or len(text) < 2:
+            return False
+        text_lower = text.lower().strip()
+        # Check for short acronym titles first
+        short_titles = ['ceo', 'cfo', 'cmo', 'coo', 'cso', 'cto', 'cio', 'cro']
+        if text_lower in short_titles:
+            return True
+        # Check for longer title keywords
+        if len(text) < 5:
+            return False
+        keywords = ['chief', 'officer', 'president', 'chairman', 'vice president',
+                   'evp', 'svp', 'counsel', 'head of', 'controller', 'treasurer',
+                   'secretary', 'director', 'executive']
+        return any(kw in text_lower for kw in keywords)
 
-    def _looks_like_title(self, text: str) -> bool:
-        """Check if text looks like a job title"""
-        title_keywords = ['chief', 'officer', 'president', 'director', 'vp', 'svp', 'evp',
-                         'head', 'founder', 'ceo', 'cfo', 'cmo', 'cso', 'coo', 'cto']
-        return any(keyword in text.lower() for keyword in title_keywords)
+    def _classify_executive(self, exec: Executive):
+        """Classify executive role based on title"""
+        # Normalize whitespace (including non-breaking spaces \xa0)
+        t = ' '.join(exec.title.lower().split())
+        exec.is_ceo = 'chief executive' in t or t == 'ceo' or 'ceo' in t.split() or 'president and ceo' in t
+        exec.is_cfo = 'chief financial' in t or t == 'cfo' or 'cfo' in t.split()
+        exec.is_cmo = 'chief medical' in t or t == 'cmo' or 'cmo' in t.split()
+        exec.is_cso = 'chief scientific' in t or t == 'cso' or 'cso' in t.split() or 'chief science' in t
+        exec.is_coo = 'chief operating' in t or t == 'coo' or 'coo' in t.split()
+        exec.is_director = 'director' in t and 'officer' not in t
 
-    def classify_executive(self, title: str) -> Dict[str, bool]:
-        """Classify executive by their title"""
-        title_lower = title.lower()
-        return {
-            'is_ceo': 'chief executive' in title_lower or title_lower == 'ceo' or 'ceo' in title_lower.split(),
-            'is_cfo': 'chief financial' in title_lower or 'cfo' in title_lower,
-            'is_cmo': 'chief medical' in title_lower or 'cmo' in title_lower,
-            'is_cso': 'chief scientific' in title_lower or 'cso' in title_lower or 'chief science' in title_lower,
-        }
-
-    def scrape_company(self, ticker: str, company_name: str) -> ManagementInfo:
+    def scrape_company(self, ticker: str, company_name: str = None) -> CompanyData:
         """Scrape management info for a single company"""
         print(f"\n{'='*60}")
-        print(f"Scraping management for {ticker}: {company_name}")
+        print(f"Scraping {ticker}")
         print(f"{'='*60}")
 
-        info = ManagementInfo(ticker=ticker, company_name=company_name)
+        result = CompanyData(ticker=ticker, company_name=company_name or ticker)
 
-        # Step 1: Find IR URL
-        print("  Finding investor relations URL...")
-        ir_url = self.find_ir_url(ticker, company_name)
-        if ir_url:
-            info.ir_url = ir_url
-            print(f"    Found: {ir_url}")
-        else:
-            print(f"    Not found, trying company website...")
-            # Try to find from SEC data or construct from company name
-            info.ir_url = f"https://www.{company_name.lower().split()[0]}.com/investors"
+        # Get CIK
+        print(f"  [CIK] Looking up {ticker}...")
+        cik = self.get_cik(ticker)
+        if not cik:
+            print(f"  [ERROR] CIK not found")
+            return result
 
-        time.sleep(0.5)
+        result.cik = cik
+        print(f"  [CIK] {cik}")
 
-        # Step 2: Find leadership page
-        if info.ir_url:
-            print("  Finding leadership page...")
-            leadership_url = self.find_leadership_page(info.ir_url)
-            if leadership_url:
-                info.leadership_url = leadership_url
-                print(f"    Found: {leadership_url}")
-            else:
-                # Try common patterns from company domain
-                parsed = urlparse(info.ir_url)
-                base = f"{parsed.scheme}://{parsed.netloc}"
-                for pattern in ['/about/leadership', '/leadership', '/about-us/leadership', '/company/leadership']:
-                    test_url = urljoin(base.replace('investors.', 'www.').replace('investor.', 'www.').replace('ir.', 'www.'), pattern)
-                    try:
-                        resp = self.session.head(test_url, timeout=5, allow_redirects=True)
-                        if resp.status_code == 200:
-                            info.leadership_url = resp.url
-                            print(f"    Found: {info.leadership_url}")
-                            break
-                    except:
-                        continue
+        time.sleep(0.2)
 
-        time.sleep(0.5)
+        # Try 10-K first (preferred source)
+        print(f"  [FILING] Looking for 10-K...")
+        filing_10k = self.get_filing_url(cik, "10-K")
 
-        # Step 3: Extract executives
-        if info.leadership_url:
-            print("  Extracting executives...")
-            executives = self.extract_executives_from_page(info.leadership_url, ticker)
-            info.executives = executives
-            print(f"    Found {len(executives)} executives")
-            for exec in executives[:5]:
-                print(f"      - {exec.name}: {exec.title}")
+        if filing_10k:
+            print(f"  [FILING] Found 10-K from {filing_10k['date']}")
+            time.sleep(0.3)
 
-        info.last_updated = datetime.utcnow().isoformat()
+            executives = self.parse_10k_executives(filing_10k['url'])
 
-        return info
+            if executives:
+                result.executives = executives
+                result.filing_date = filing_10k['date']
+                result.filing_url = filing_10k['url']
+                result.filing_type = "10-K"
+                print(f"  [RESULT] Found {len(executives)} executives from 10-K")
+                return result
 
-    def save_to_database(self, info: ManagementInfo):
-        """Save management info to database"""
+        # Fallback to DEF 14A
+        print(f"  [FILING] Trying DEF 14A fallback...")
+        filing_14a = self.get_filing_url(cik, "DEF 14A")
+
+        if filing_14a:
+            print(f"  [FILING] Found DEF 14A from {filing_14a['date']}")
+            time.sleep(0.3)
+
+            executives = self.parse_def14a_executives(filing_14a['url'])
+
+            if executives:
+                result.executives = executives
+                result.filing_date = filing_14a['date']
+                result.filing_url = filing_14a['url']
+                result.filing_type = "DEF 14A"
+                print(f"  [RESULT] Found {len(executives)} executives from DEF 14A")
+                return result
+
+        print(f"  [RESULT] No executives found")
+        return result
+
+    def save_to_database(self, data: CompanyData):
+        """Save company data to database"""
+        if not data.executives:
+            print(f"  [DB] No executives to save")
+            return
+
         conn = sqlite3.connect(self.db_path)
         cur = conn.cursor()
 
-        # Save IR info
-        cur.execute("""
-            INSERT OR REPLACE INTO company_ir_info (ticker, ir_url, leadership_url, last_scraped, updated_at)
-            VALUES (?, ?, ?, ?, ?)
-        """, (info.ticker, info.ir_url, info.leadership_url, info.last_updated, info.last_updated))
+        # Clear existing data for this company
+        cur.execute("DELETE FROM management WHERE company_ticker = ?", (data.ticker,))
 
-        # Save executives
-        for exec in info.executives:
-            classification = self.classify_executive(exec.title)
+        # Insert executives
+        for exec in data.executives:
             cur.execute("""
                 INSERT OR REPLACE INTO management
-                (company_ticker, name, title, bio, image_url, is_ceo, is_cfo, is_cmo, is_cso, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (company_ticker, name, title, age, bio, compensation,
+                 is_ceo, is_cfo, is_cmo, is_cso, is_coo, is_director,
+                 source_filing, filing_date, updated_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
-                info.ticker,
+                data.ticker,
                 exec.name,
                 exec.title,
+                exec.age,
                 exec.bio,
-                exec.image_url,
-                classification['is_ceo'],
-                classification['is_cfo'],
-                classification['is_cmo'],
-                classification['is_cso'],
-                info.last_updated
+                exec.compensation,
+                exec.is_ceo,
+                exec.is_cfo,
+                exec.is_cmo,
+                exec.is_cso,
+                exec.is_coo,
+                exec.is_director,
+                data.filing_url,
+                data.filing_date,
+                datetime.utcnow().isoformat()
             ))
 
         conn.commit()
         conn.close()
-        print(f"  Saved {len(info.executives)} executives to database")
+        print(f"  [DB] Saved {len(data.executives)} executives")
 
-    def run(self, tickers: Optional[List[str]] = None):
-        """Run scraper for specified tickers or all XBI companies"""
+    def run(self, tickers: Optional[List[str]] = None, limit: int = 20):
+        """Run scraper for specified tickers"""
+        self.init_database()
+
         if not tickers:
             # Load from XBI holdings
             holdings_path = self.data_dir / "xbi_holdings.json"
             if holdings_path.exists():
                 with open(holdings_path) as f:
-                    data = json.load(f)
-                    tickers = [(h['ticker'], h['name']) for h in data.get('holdings', [])[:20]]
+                    xbi = json.load(f)
+                    tickers = [h['ticker'] for h in xbi.get('holdings', [])[:limit]]
             else:
-                print("No tickers specified and XBI holdings not found")
-                return
-        else:
-            # Get company names from database
-            conn = sqlite3.connect(self.db_path)
-            cur = conn.cursor()
-            ticker_names = []
-            for t in tickers:
-                cur.execute("SELECT name FROM companies WHERE ticker = ?", (t,))
-                row = cur.fetchone()
-                name = row[0] if row else t
-                ticker_names.append((t, name))
-            conn.close()
-            tickers = ticker_names
+                print("[ERROR] No tickers specified and XBI holdings not found")
+                return []
 
         results = []
-        for ticker, name in tickers:
+        for i, ticker in enumerate(tickers, 1):
+            print(f"\n[PROGRESS] {i}/{len(tickers)}")
             try:
-                info = self.scrape_company(ticker, name)
-                if info.executives:
-                    self.save_to_database(info)
-                    results.append(info)
+                data = self.scrape_company(ticker)
+                if data.executives:
+                    self.save_to_database(data)
+                    results.append(data)
             except Exception as e:
-                print(f"  ERROR: {e}")
-            time.sleep(1)  # Rate limiting
+                print(f"  [ERROR] {e}")
+            time.sleep(0.5)
 
+        # Summary
         print(f"\n{'='*60}")
         print("SCRAPING COMPLETE")
         print(f"{'='*60}")
-        print(f"Companies processed: {len(results)}")
+        print(f"Companies with executives: {len(results)}/{len(tickers)}")
         print(f"Total executives found: {sum(len(r.executives) for r in results)}")
+
+        for r in results:
+            ceo = next((e for e in r.executives if e.is_ceo), None)
+            source = f"[{r.filing_type}]" if r.filing_type else ""
+            ceo_str = f" (CEO: {ceo.name})" if ceo else ""
+            print(f"  {r.ticker}: {len(r.executives)} executives{ceo_str} {source}")
 
         return results
 
@@ -515,22 +571,22 @@ class ManagementScraper:
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description="Scrape management info for biotech companies")
+    parser = argparse.ArgumentParser(description="Scrape management info from SEC filings")
     parser.add_argument("--tickers", nargs="+", help="Specific tickers to scrape")
-    parser.add_argument("--all", action="store_true", help="Scrape all XBI companies")
     parser.add_argument("--limit", type=int, default=20, help="Limit number of companies")
+    parser.add_argument("--all", action="store_true", help="Scrape all XBI companies")
 
     args = parser.parse_args()
 
-    scraper = ManagementScraper()
+    scraper = SECManagementScraper()
 
     if args.tickers:
         scraper.run(tickers=args.tickers)
     elif args.all:
-        scraper.run()
+        scraper.run(limit=args.limit)
     else:
         # Default: test with a few companies
-        scraper.run(tickers=["ABVX", "INSM", "ALNY"])
+        scraper.run(tickers=["VRTX", "REGN", "MRNA", "GILD", "BIIB"])
 
 
 if __name__ == "__main__":

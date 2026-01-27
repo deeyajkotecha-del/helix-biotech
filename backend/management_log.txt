@@ -1,0 +1,4852 @@
+/Users/deeyakotecha/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+[DB] Database ready: /Users/deeyakotecha/helix/backend/data/helix.db
+
+[PROGRESS] 1/322
+
+============================================================
+Scraping AADI
+============================================================
+  [CIK] Looking up AADI...
+[INFO] Loading SEC ticker to CIK mapping...
+[INFO] Loaded 10321 ticker mappings
+  [ERROR] CIK not found
+
+[PROGRESS] 2/322
+
+============================================================
+Scraping ABCL
+============================================================
+  [CIK] Looking up ABCL...
+  [CIK] 0001703057
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001703057/000162828025008689/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 7 executives from 10-K
+  [DB] Saved 7 executives
+
+[PROGRESS] 3/322
+
+============================================================
+Scraping ABMD
+============================================================
+  [CIK] Looking up ABMD...
+  [ERROR] CIK not found
+
+[PROGRESS] 4/322
+
+============================================================
+Scraping ABVX
+============================================================
+  [CIK] Looking up ABVX...
+  [CIK] 0001956827
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 5/322
+
+============================================================
+Scraping ACAD
+============================================================
+  [CIK] Looking up ACAD...
+  [CIK] 0001070494
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001070494/000095017025029253/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001070494/000095017025058827/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 6/322
+
+============================================================
+Scraping ACCD
+============================================================
+  [CIK] Looking up ACCD...
+  [ERROR] CIK not found
+
+[PROGRESS] 7/322
+
+============================================================
+Scraping ACIU
+============================================================
+  [CIK] Looking up ACIU...
+  [CIK] 0001651625
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 8/322
+
+============================================================
+Scraping ACRS
+============================================================
+  [CIK] Looking up ACRS...
+  [CIK] 0001557746
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001557746/000155837025001819/...
+  [FOUND] Executive officers section
+  [PARSE] Prose format
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001557746/000155837025005332/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 9/322
+
+============================================================
+Scraping ADAP
+============================================================
+  [CIK] Looking up ADAP...
+  [ERROR] CIK not found
+
+[PROGRESS] 10/322
+
+============================================================
+Scraping ADMA
+============================================================
+  [CIK] Looking up ADMA...
+  [CIK] 0001368514
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001368514/000114036125009257/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-15
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001368514/000114036125013967/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 11/322
+
+============================================================
+Scraping ADPT
+============================================================
+  [CIK] Looking up ADPT...
+  [CIK] 0001478320
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001478320/000095017025030913/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001478320/000119312525103752/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 12/322
+
+============================================================
+Scraping ADVM
+============================================================
+  [CIK] Looking up ADVM...
+  [ERROR] CIK not found
+
+[PROGRESS] 13/322
+
+============================================================
+Scraping AGIO
+============================================================
+  [CIK] Looking up AGIO...
+  [CIK] 0001439222
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-13
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001439222/000143922225000009/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001439222/000119312525096719/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 14/322
+
+============================================================
+Scraping AKBA
+============================================================
+  [CIK] Looking up AKBA...
+  [CIK] 0001517022
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-13
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001517022/000162828025012470/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001517022/000151702225000023/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 15/322
+
+============================================================
+Scraping AKRO
+============================================================
+  [CIK] Looking up AKRO...
+  [ERROR] CIK not found
+
+[PROGRESS] 16/322
+
+============================================================
+Scraping ALEC
+============================================================
+  [CIK] Looking up ALEC...
+  [CIK] 0001653087
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001653087/000095017025027758/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001653087/000095017025057991/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 17/322
+
+============================================================
+Scraping ALKS
+============================================================
+  [CIK] Looking up ALKS...
+  [CIK] 0001520262
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-12
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001520262/000095017025019011/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-07
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001520262/000095017025051644/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 18/322
+
+============================================================
+Scraping ALLK
+============================================================
+  [CIK] Looking up ALLK...
+  [ERROR] CIK not found
+
+[PROGRESS] 19/322
+
+============================================================
+Scraping ALNY
+============================================================
+  [CIK] Looking up ALNY...
+  [CIK] 0001178670
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-13
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001178670/000117867025000026/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-03-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001178670/000117867025000040/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 5 executives from DEF 14A
+  [DB] Saved 5 executives
+
+[PROGRESS] 20/322
+
+============================================================
+Scraping ALPN
+============================================================
+  [CIK] Looking up ALPN...
+  [ERROR] CIK not found
+
+[PROGRESS] 21/322
+
+============================================================
+Scraping AMGN
+============================================================
+  [CIK] Looking up AMGN...
+  [CIK] 0000318154
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-14
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000318154/000031815425000010/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-09
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000318154/000095017025052315/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 22/322
+
+============================================================
+Scraping AMLX
+============================================================
+  [CIK] Looking up AMLX...
+  [CIK] 0001658551
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-04
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001658551/000095017025031309/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001658551/000095017025057665/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 4 executives from DEF 14A
+  [DB] Saved 4 executives
+
+[PROGRESS] 23/322
+
+============================================================
+Scraping AMPH
+============================================================
+  [CIK] Looking up AMPH...
+  [CIK] 0001297184
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001297184/000129718425000008/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-14
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001297184/000129718425000018/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 24/322
+
+============================================================
+Scraping ANAB
+============================================================
+  [CIK] Looking up ANAB...
+  [CIK] 0001370053
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001370053/000137005325000024/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001370053/000137005325000038/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 25/322
+
+============================================================
+Scraping ANGO
+============================================================
+  [CIK] Looking up ANGO...
+  [CIK] 0001275187
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-07-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001275187/000127518725000014/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 6 executives from 10-K
+  [DB] Saved 6 executives
+
+[PROGRESS] 26/322
+
+============================================================
+Scraping ANIK
+============================================================
+  [CIK] Looking up ANIK...
+  [CIK] 0000898437
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000898437/000117184325001486/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000898437/000114036125016082/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 27/322
+
+============================================================
+Scraping ANIP
+============================================================
+  [CIK] Looking up ANIP...
+  [CIK] 0001023024
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001023024/000102302425000015/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-10
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001023024/000102302425000035/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 28/322
+
+============================================================
+Scraping ANNX
+============================================================
+  [CIK] Looking up ANNX...
+  [CIK] 0001528115
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001528115/000095017025030849/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001528115/000114036125015175/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 29/322
+
+============================================================
+Scraping APGE
+============================================================
+  [CIK] Looking up APGE...
+  [CIK] 0001974640
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001974640/000095017025030385/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001974640/000095017025060147/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 30/322
+
+============================================================
+Scraping APLS
+============================================================
+  [CIK] Looking up APLS...
+  [CIK] 0001492422
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001492422/000095017025029507/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001492422/000095017025056966/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 31/322
+
+============================================================
+Scraping APLT
+============================================================
+  [CIK] Looking up APLT...
+  [CIK] 0001697532
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-04-15
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001697532/000095017025053840/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 6 executives from 10-K
+  [DB] Saved 6 executives
+
+[PROGRESS] 32/322
+
+============================================================
+Scraping APTO
+============================================================
+  [CIK] Looking up APTO...
+  [ERROR] CIK not found
+
+[PROGRESS] 33/322
+
+============================================================
+Scraping ARDX
+============================================================
+  [CIK] Looking up ARDX...
+  [CIK] 0001437402
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-20
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001437402/000162828025006653/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001437402/000114036125016522/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 3 executives from DEF 14A
+  [DB] Saved 3 executives
+
+[PROGRESS] 34/322
+
+============================================================
+Scraping ARGX
+============================================================
+  [CIK] Looking up ARGX...
+  [CIK] 0001697862
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 35/322
+
+============================================================
+Scraping ARNA
+============================================================
+  [CIK] Looking up ARNA...
+  [ERROR] CIK not found
+
+[PROGRESS] 36/322
+
+============================================================
+Scraping ARQT
+============================================================
+  [CIK] Looking up ARQT...
+  [CIK] 0001787306
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001787306/000178730625000029/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001787306/000178730625000069/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 37/322
+
+============================================================
+Scraping ARWR
+============================================================
+  [CIK] Looking up ARWR...
+  [CIK] 0000879407
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-11-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000879407/000087940725000029/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-01-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000879407/000162828025002848/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 38/322
+
+============================================================
+Scraping ASND
+============================================================
+  [CIK] Looking up ASND...
+  [CIK] 0001612042
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 39/322
+
+============================================================
+Scraping ATRA
+============================================================
+  [CIK] Looking up ATRA...
+  [CIK] 0001604464
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-07
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001604464/000095017025035507/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001604464/000095017025059322/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 40/322
+
+============================================================
+Scraping AUPH
+============================================================
+  [CIK] Looking up AUPH...
+  [CIK] 0001600620
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001600620/000160062025000011/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-17
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001600620/000160062025000032/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 41/322
+
+============================================================
+Scraping AVEO
+============================================================
+  [CIK] Looking up AVEO...
+  [ERROR] CIK not found
+
+[PROGRESS] 42/322
+
+============================================================
+Scraping AVIR
+============================================================
+  [CIK] Looking up AVIR...
+  [CIK] 0001593899
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-06
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001593899/000095017025034808/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 7 executives from 10-K
+  [DB] Saved 7 executives
+
+[PROGRESS] 43/322
+
+============================================================
+Scraping AVRO
+============================================================
+  [CIK] Looking up AVRO...
+  [ERROR] CIK not found
+
+[PROGRESS] 44/322
+
+============================================================
+Scraping AVXL
+============================================================
+  [CIK] Looking up AVXL...
+  [CIK] 0001314052
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-11-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001314052/000173112225001596/...
+  [FOUND] Executive officers section
+  [PARSE] Prose format
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001314052/000173112225000607/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 45/322
+
+============================================================
+Scraping AXNX
+============================================================
+  [CIK] Looking up AXNX...
+  [ERROR] CIK not found
+
+[PROGRESS] 46/322
+
+============================================================
+Scraping AXSM
+============================================================
+  [CIK] Looking up AXSM...
+  [CIK] 0001579428
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001579428/000095017025022457/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001579428/000095017025058781/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 47/322
+
+============================================================
+Scraping BBIO
+============================================================
+  [CIK] Looking up BBIO...
+  [CIK] 0001743881
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-20
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001743881/000095017025024119/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001743881/000114036125016452/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 2 executives from DEF 14A
+  [DB] Saved 2 executives
+
+[PROGRESS] 48/322
+
+============================================================
+Scraping BCRX
+============================================================
+  [CIK] Looking up BCRX...
+  [CIK] 0000882796
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000882796/000162828025007715/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000882796/000162828025019659/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 49/322
+
+============================================================
+Scraping BDTX
+============================================================
+  [CIK] Looking up BDTX...
+  [CIK] 0001701541
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-06
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001701541/000170154125000016/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-18
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001701541/000110465925036339/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 50/322
+
+============================================================
+Scraping BEAM
+============================================================
+  [CIK] Looking up BEAM...
+  [CIK] 0001745999
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001745999/000095017025026076/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-18
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001745999/000095017025055853/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 51/322
+
+============================================================
+Scraping BGNE
+============================================================
+  [CIK] Looking up BGNE...
+  [ERROR] CIK not found
+
+[PROGRESS] 52/322
+
+============================================================
+Scraping BHVN
+============================================================
+  [CIK] Looking up BHVN...
+  [CIK] 0001935979
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001935979/000193597925000015/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-03-18
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001935979/000193597925000022/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 3 executives from DEF 14A
+  [DB] Saved 3 executives
+
+[PROGRESS] 53/322
+
+============================================================
+Scraping BIIB
+============================================================
+  [CIK] Looking up BIIB...
+  [CIK] 0000875045
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-12
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000875045/000087504525000009/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000875045/000119312525097747/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 54/322
+
+============================================================
+Scraping BIOR
+============================================================
+  [CIK] Looking up BIOR...
+  [ERROR] CIK not found
+
+[PROGRESS] 55/322
+
+============================================================
+Scraping BLFS
+============================================================
+  [CIK] Looking up BLFS...
+  [CIK] 0000834365
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000834365/000162828025009511/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-07-08
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000834365/000083436525000007/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 56/322
+
+============================================================
+Scraping BLTE
+============================================================
+  [CIK] Looking up BLTE...
+  [CIK] 0001889109
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 57/322
+
+============================================================
+Scraping BLUE
+============================================================
+  [CIK] Looking up BLUE...
+  [ERROR] CIK not found
+
+[PROGRESS] 58/322
+
+============================================================
+Scraping BMRN
+============================================================
+  [CIK] Looking up BMRN...
+  [CIK] 0001048477
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-24
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001048477/000104847725000007/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-08
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001048477/000104847725000045/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 59/322
+
+============================================================
+Scraping BNTX
+============================================================
+  [CIK] Looking up BNTX...
+  [CIK] 0001776985
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 60/322
+
+============================================================
+Scraping BPMC
+============================================================
+  [CIK] Looking up BPMC...
+  [ERROR] CIK not found
+
+[PROGRESS] 61/322
+
+============================================================
+Scraping BTAI
+============================================================
+  [CIK] Looking up BTAI...
+  [CIK] 0001720893
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001720893/000155837025003985/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-11-12
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001720893/000110465925110491/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 62/322
+
+============================================================
+Scraping CARA
+============================================================
+  [CIK] Looking up CARA...
+  [ERROR] CIK not found
+
+[PROGRESS] 63/322
+
+============================================================
+Scraping CCCC
+============================================================
+  [CIK] Looking up CCCC...
+  [CIK] 0001662579
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001662579/000162828025008433/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001662579/000162828025020466/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 64/322
+
+============================================================
+Scraping CCRN
+============================================================
+  [CIK] Looking up CCRN...
+  [CIK] 0001141103
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-05
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001141103/000162828025010519/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-10-27
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001141103/000114036125039458/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 65/322
+
+============================================================
+Scraping CDNA
+============================================================
+  [CIK] Looking up CDNA...
+  [CIK] 0001217234
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001217234/000121723425000012/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001217234/000121723425000025/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 66/322
+
+============================================================
+Scraping CDXS
+============================================================
+  [CIK] Looking up CDXS...
+  [CIK] 0001200375
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001200375/000120037525000003/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001200375/000119312525093503/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 67/322
+
+============================================================
+Scraping CELH
+============================================================
+  [CIK] Looking up CELH...
+  [CIK] 0001341766
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001341766/000134176625000024/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-14
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001341766/000119312525080192/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 68/322
+
+============================================================
+Scraping CGON
+============================================================
+  [CIK] Looking up CGON...
+  [CIK] 0001991792
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001991792/000095017025046351/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001991792/000095017025058342/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 69/322
+
+============================================================
+Scraping CHRS
+============================================================
+  [CIK] Looking up CHRS...
+  [CIK] 0001512762
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001512762/000155837025003126/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001512762/000155837025005825/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 70/322
+
+============================================================
+Scraping CLDX
+============================================================
+  [CIK] Looking up CLDX...
+  [CIK] 0000744218
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000744218/000141057825000216/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-21
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000744218/000110465925036562/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 71/322
+
+============================================================
+Scraping CLVR
+============================================================
+  [CIK] Looking up CLVR...
+  [ERROR] CIK not found
+
+[PROGRESS] 72/322
+
+============================================================
+Scraping CMRX
+============================================================
+  [CIK] Looking up CMRX...
+  [ERROR] CIK not found
+
+[PROGRESS] 73/322
+
+============================================================
+Scraping CNTA
+============================================================
+  [CIK] Looking up CNTA...
+  [CIK] 0001847903
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-24
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001847903/000184790325000051/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 15 executives from 10-K
+  [DB] Saved 15 executives
+
+[PROGRESS] 74/322
+
+============================================================
+Scraping CNTB
+============================================================
+  [CIK] Looking up CNTB...
+  [CIK] 0001835268
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-31
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001835268/000183526825000014/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 9 executives from 10-K
+  [DB] Saved 9 executives
+
+[PROGRESS] 75/322
+
+============================================================
+Scraping COGT
+============================================================
+  [CIK] Looking up COGT...
+  [CIK] 0001622229
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001622229/000095017025026115/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-22
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001622229/000119312525089237/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 76/322
+
+============================================================
+Scraping CORT
+============================================================
+  [CIK] Looking up CORT...
+  [CIK] 0001088856
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001088856/000162828025008167/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001088856/000162828025019942/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 3 executives from DEF 14A
+  [DB] Saved 3 executives
+
+[PROGRESS] 77/322
+
+============================================================
+Scraping CPRX
+============================================================
+  [CIK] Looking up CPRX...
+  [CIK] 0001369568
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001369568/000095017025027714/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001369568/000119312525079097/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 78/322
+
+============================================================
+Scraping CRBP
+============================================================
+  [CIK] Looking up CRBP...
+  [CIK] 0001595097
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-11
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001595097/000095017025037335/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 8 executives from 10-K
+  [DB] Saved 8 executives
+
+[PROGRESS] 79/322
+
+============================================================
+Scraping CRBU
+============================================================
+  [CIK] Looking up CRBU...
+  [CIK] 0001619856
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-10
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001619856/000161985625000015/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 7 executives from 10-K
+  [DB] Saved 7 executives
+
+[PROGRESS] 80/322
+
+============================================================
+Scraping CRDF
+============================================================
+  [CIK] Looking up CRDF...
+  [CIK] 0001213037
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001213037/000095017025028992/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001213037/000095017025060074/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 2 executives from DEF 14A
+  [DB] Saved 2 executives
+
+[PROGRESS] 81/322
+
+============================================================
+Scraping CRNX
+============================================================
+  [CIK] Looking up CRNX...
+  [CIK] 0001658247
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001658247/000095017025029050/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001658247/000095017025057452/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 82/322
+
+============================================================
+Scraping CRSP
+============================================================
+  [CIK] Looking up CRSP...
+  [CIK] 0001674416
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-11
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001674416/000095017025017899/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-16
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001674416/000095017025054711/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 83/322
+
+============================================================
+Scraping CRVS
+============================================================
+  [CIK] Looking up CRVS...
+  [CIK] 0001626971
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001626971/000155837025003621/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001626971/000155837025005552/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 84/322
+
+============================================================
+Scraping CTMX
+============================================================
+  [CIK] Looking up CTMX...
+  [CIK] 0001501989
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-06
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001501989/000095017025034575/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001501989/000114036125016026/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 2 executives from DEF 14A
+  [DB] Saved 2 executives
+
+[PROGRESS] 85/322
+
+============================================================
+Scraping CVM
+============================================================
+  [CIK] Looking up CVM...
+  [CIK] 0000725363
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-12-29
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000725363/000165495425014303/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 2 executives from 10-K
+  [DB] Saved 2 executives
+
+[PROGRESS] 86/322
+
+============================================================
+Scraping CYCN
+============================================================
+  [CIK] Looking up CYCN...
+  [CIK] 0001755237
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-04
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001755237/000095017025032037/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001755237/000114036125016370/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 87/322
+
+============================================================
+Scraping CYTK
+============================================================
+  [CIK] Looking up CYTK...
+  [CIK] 0001061983
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001061983/000095017025029206/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-10
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001061983/000114036125013167/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 88/322
+
+============================================================
+Scraping DAWN
+============================================================
+  [CIK] Looking up DAWN...
+  [CIK] 0001845337
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001845337/000095017025026654/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001845337/000114036125013462/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 89/322
+
+============================================================
+Scraping DCPH
+============================================================
+  [CIK] Looking up DCPH...
+  [ERROR] CIK not found
+
+[PROGRESS] 90/322
+
+============================================================
+Scraping DMAC
+============================================================
+  [CIK] Looking up DMAC...
+  [CIK] 0001401040
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001401040/000143774925008018/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 4 executives from 10-K
+  [DB] Saved 4 executives
+
+[PROGRESS] 91/322
+
+============================================================
+Scraping DNLI
+============================================================
+  [CIK] Looking up DNLI...
+  [CIK] 0001714899
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001714899/000171489925000066/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-17
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001714899/000171489925000087/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 92/322
+
+============================================================
+Scraping DRNA
+============================================================
+  [CIK] Looking up DRNA...
+  [ERROR] CIK not found
+
+[PROGRESS] 93/322
+
+============================================================
+Scraping DSGN
+============================================================
+  [CIK] Looking up DSGN...
+  [CIK] 0001807120
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-10
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001807120/000095017025035910/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001807120/000095017025058008/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 94/322
+
+============================================================
+Scraping DVAX
+============================================================
+  [CIK] Looking up DVAX...
+  [CIK] 0001029142
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-20
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001029142/000102914225000049/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2024-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001029142/000114036124019367/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 3 executives from DEF 14A
+  [DB] Saved 3 executives
+
+[PROGRESS] 95/322
+
+============================================================
+Scraping DYN
+============================================================
+  [CIK] Looking up DYN...
+  [CIK] 0001818794
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001818794/000095017025028356/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-15
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001818794/000095017025053950/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 96/322
+
+============================================================
+Scraping EDIT
+============================================================
+  [CIK] Looking up EDIT...
+  [CIK] 0001650664
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-05
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001650664/000165066425000022/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-15
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001650664/000165066425000058/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 97/322
+
+============================================================
+Scraping ELAN
+============================================================
+  [CIK] Looking up ELAN...
+  [CIK] 0001739104
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001739104/000173910425000014/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-03-27
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001739104/000173910425000030/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 4 executives from DEF 14A
+  [DB] Saved 4 executives
+
+[PROGRESS] 98/322
+
+============================================================
+Scraping ELVN
+============================================================
+  [CIK] Looking up ELVN...
+  [CIK] 0001672619
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-13
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001672619/000095017025038758/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001672619/000119312525100456/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 99/322
+
+============================================================
+Scraping ENLV
+============================================================
+  [CIK] Looking up ENLV...
+  [CIK] 0001596812
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 100/322
+
+============================================================
+Scraping ENTA
+============================================================
+  [CIK] Looking up ENTA...
+  [CIK] 0001177648
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-11-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001177648/000119312525288121/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2026-01-26
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001177648/000119312526022558/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 101/322
+
+============================================================
+Scraping EOLS
+============================================================
+  [CIK] Looking up EOLS...
+  [CIK] 0001570562
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-04
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001570562/000157056225000020/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001570562/000157056225000066/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 102/322
+
+============================================================
+Scraping EPZM
+============================================================
+  [CIK] Looking up EPZM...
+  [ERROR] CIK not found
+
+[PROGRESS] 103/322
+
+============================================================
+Scraping ETNB
+============================================================
+  [CIK] Looking up ETNB...
+  [ERROR] CIK not found
+
+[PROGRESS] 104/322
+
+============================================================
+Scraping EVLO
+============================================================
+  [CIK] Looking up EVLO...
+  [ERROR] CIK not found
+
+[PROGRESS] 105/322
+
+============================================================
+Scraping EXAS
+============================================================
+  [CIK] Looking up EXAS...
+  [CIK] 0001124140
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001124140/000112414025000020/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001124140/000112414025000034/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 106/322
+
+============================================================
+Scraping EXEL
+============================================================
+  [CIK] Looking up EXEL...
+  [CIK] 0000939767
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-11
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000939767/000093976725000019/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-16
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000939767/000093976725000061/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 107/322
+
+============================================================
+Scraping FATE
+============================================================
+  [CIK] Looking up FATE...
+  [CIK] 0001434316
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-05
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001434316/000095017025033510/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-17
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001434316/000119312525084310/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 108/322
+
+============================================================
+Scraping FDMT
+============================================================
+  [CIK] Looking up FDMT...
+  [CIK] 0001650648
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001650648/000095017025030056/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001650648/000114036125016307/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 109/322
+
+============================================================
+Scraping FGEN
+============================================================
+  [CIK] Looking up FGEN...
+  [ERROR] CIK not found
+
+[PROGRESS] 110/322
+
+============================================================
+Scraping FIXX
+============================================================
+  [CIK] Looking up FIXX...
+  [ERROR] CIK not found
+
+[PROGRESS] 111/322
+
+============================================================
+Scraping FMTX
+============================================================
+  [CIK] Looking up FMTX...
+  [ERROR] CIK not found
+
+[PROGRESS] 112/322
+
+============================================================
+Scraping FOLD
+============================================================
+  [CIK] Looking up FOLD...
+  [CIK] 0001178879
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001178879/000117887925000003/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001178879/000114036125015479/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 113/322
+
+============================================================
+Scraping FREQ
+============================================================
+  [CIK] Looking up FREQ...
+  [ERROR] CIK not found
+
+[PROGRESS] 114/322
+
+============================================================
+Scraping FULC
+============================================================
+  [CIK] Looking up FULC...
+  [CIK] 0001680581
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001680581/000095017025026068/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001680581/000095017025061000/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 115/322
+
+============================================================
+Scraping GERN
+============================================================
+  [CIK] Looking up GERN...
+  [CIK] 0000886744
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000886744/000095017025027982/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 10 executives from 10-K
+  [DB] Saved 10 executives
+
+[PROGRESS] 116/322
+
+============================================================
+Scraping GILD
+============================================================
+  [CIK] Looking up GILD...
+  [CIK] 0000882095
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000882095/000088209525000006/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 12 executives from 10-K
+  [DB] Saved 12 executives
+
+[PROGRESS] 117/322
+
+============================================================
+Scraping GLPG
+============================================================
+  [CIK] Looking up GLPG...
+  [CIK] 0001421876
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 118/322
+
+============================================================
+Scraping GLYC
+============================================================
+  [CIK] Looking up GLYC...
+  [ERROR] CIK not found
+
+[PROGRESS] 119/322
+
+============================================================
+Scraping GMAB
+============================================================
+  [CIK] Looking up GMAB...
+  [CIK] 0001434265
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 120/322
+
+============================================================
+Scraping GOSS
+============================================================
+  [CIK] Looking up GOSS...
+  [CIK] 0001728117
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-13
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001728117/000172811725000021/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001728117/000172811725000029/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 121/322
+
+============================================================
+Scraping GPCR
+============================================================
+  [CIK] Looking up GPCR...
+  [CIK] 0001888886
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001888886/000155837025001826/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001888886/000110465925038675/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 122/322
+
+============================================================
+Scraping GRFS
+============================================================
+  [CIK] Looking up GRFS...
+  [CIK] 0001438569
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 123/322
+
+============================================================
+Scraping GTHX
+============================================================
+  [CIK] Looking up GTHX...
+  [ERROR] CIK not found
+
+[PROGRESS] 124/322
+
+============================================================
+Scraping HALO
+============================================================
+  [CIK] Looking up HALO...
+  [CIK] 0001159036
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001159036/000115903625000010/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-03-18
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001159036/000115903625000016/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 125/322
+
+============================================================
+Scraping HARP
+============================================================
+  [CIK] Looking up HARP...
+  [ERROR] CIK not found
+
+[PROGRESS] 126/322
+
+============================================================
+Scraping HRMY
+============================================================
+  [CIK] Looking up HRMY...
+  [CIK] 0001802665
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001802665/000155837025001441/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-04
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001802665/000114036125012336/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 127/322
+
+============================================================
+Scraping HRTX
+============================================================
+  [CIK] Looking up HRTX...
+  [CIK] 0000818033
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000818033/000095017025028374/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-09-19
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000818033/000119312525209064/...
+  [INFO] No executive section found in DEF 14A
+  [RESULT] No executives found
+
+[PROGRESS] 128/322
+
+============================================================
+Scraping HZNP
+============================================================
+  [CIK] Looking up HZNP...
+  [ERROR] CIK not found
+
+[PROGRESS] 129/322
+
+============================================================
+Scraping IBTX
+============================================================
+  [CIK] Looking up IBTX...
+  [ERROR] CIK not found
+
+[PROGRESS] 130/322
+
+============================================================
+Scraping ICPT
+============================================================
+  [CIK] Looking up ICPT...
+  [ERROR] CIK not found
+
+[PROGRESS] 131/322
+
+============================================================
+Scraping ICUI
+============================================================
+  [CIK] Looking up ICUI...
+  [CIK] 0000883984
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000883984/000088398425000007/...
+  [FOUND] Executive officers section
+  [PARSE] Prose format
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-03
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000883984/000088398425000010/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 132/322
+
+============================================================
+Scraping IDYA
+============================================================
+  [CIK] Looking up IDYA...
+  [CIK] 0001676725
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001676725/000095017025022183/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001676725/000095017025060530/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 133/322
+
+============================================================
+Scraping IFRX
+============================================================
+  [CIK] Looking up IFRX...
+  [CIK] 0001708688
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 134/322
+
+============================================================
+Scraping IGMS
+============================================================
+  [CIK] Looking up IGMS...
+  [ERROR] CIK not found
+
+[PROGRESS] 135/322
+
+============================================================
+Scraping IMGN
+============================================================
+  [CIK] Looking up IMGN...
+  [ERROR] CIK not found
+
+[PROGRESS] 136/322
+
+============================================================
+Scraping IMGO
+============================================================
+  [CIK] Looking up IMGO...
+  [ERROR] CIK not found
+
+[PROGRESS] 137/322
+
+============================================================
+Scraping IMMP
+============================================================
+  [CIK] Looking up IMMP...
+  [CIK] 0001506184
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 138/322
+
+============================================================
+Scraping IMVT
+============================================================
+  [CIK] Looking up IMVT...
+  [CIK] 0001764013
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-05-29
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001764013/000176401325000092/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-07-09
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001764013/000176401325000103/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 3 executives from DEF 14A
+  [DB] Saved 3 executives
+
+[PROGRESS] 139/322
+
+============================================================
+Scraping INBX
+============================================================
+  [CIK] Looking up INBX...
+  [CIK] 0002007919
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0002007919/000200791925000019/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-16
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0002007919/000200791925000043/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 140/322
+
+============================================================
+Scraping INCY
+============================================================
+  [CIK] Looking up INCY...
+  [CIK] 0000879169
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-10
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000879169/000162828025004633/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000879169/000110465925041209/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 141/322
+
+============================================================
+Scraping INO
+============================================================
+  [CIK] Looking up INO...
+  [CIK] 0001055726
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001055726/000105572625000012/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-07
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001055726/000105572625000018/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 2 executives from DEF 14A
+  [DB] Saved 2 executives
+
+[PROGRESS] 142/322
+
+============================================================
+Scraping INSM
+============================================================
+  [CIK] Looking up INSM...
+  [CIK] 0001104506
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-20
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001104506/000110450625000009/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-04
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001104506/000110450625000018/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 5 executives from DEF 14A
+  [DB] Saved 5 executives
+
+[PROGRESS] 143/322
+
+============================================================
+Scraping IONS
+============================================================
+  [CIK] Looking up IONS...
+  [CIK] 0000874015
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000874015/000087401525000089/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 11 executives from 10-K
+  [DB] Saved 11 executives
+
+[PROGRESS] 144/322
+
+============================================================
+Scraping IOVA
+============================================================
+  [CIK] Looking up IOVA...
+  [CIK] 0001425205
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001425205/000155837025001834/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001425205/000155837025005702/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 145/322
+
+============================================================
+Scraping IPHA
+============================================================
+  [CIK] Looking up IPHA...
+  [CIK] 0001598599
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 146/322
+
+============================================================
+Scraping IRON
+============================================================
+  [CIK] Looking up IRON...
+  [CIK] 0001816736
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001816736/000095017025028390/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001816736/000095017025058142/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 147/322
+
+============================================================
+Scraping IRWD
+============================================================
+  [CIK] Looking up IRWD...
+  [CIK] 0001446847
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-31
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001446847/000155837025004072/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001446847/000110465925040309/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 148/322
+
+============================================================
+Scraping ISEE
+============================================================
+  [CIK] Looking up ISEE...
+  [ERROR] CIK not found
+
+[PROGRESS] 149/322
+
+============================================================
+Scraping ITCI
+============================================================
+  [CIK] Looking up ITCI...
+  [ERROR] CIK not found
+
+[PROGRESS] 150/322
+
+============================================================
+Scraping ITOS
+============================================================
+  [CIK] Looking up ITOS...
+  [ERROR] CIK not found
+
+[PROGRESS] 151/322
+
+============================================================
+Scraping JANX
+============================================================
+  [CIK] Looking up JANX...
+  [CIK] 0001817713
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001817713/000095017025029177/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001817713/000095017025058806/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 152/322
+
+============================================================
+Scraping JAZZ
+============================================================
+  [CIK] Looking up JAZZ...
+  [CIK] 0001232524
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001232524/000123252425000011/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-06-06
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001232524/000123252425000043/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 2 executives from DEF 14A
+  [DB] Saved 2 executives
+
+[PROGRESS] 153/322
+
+============================================================
+Scraping KALA
+============================================================
+  [CIK] Looking up KALA...
+  [CIK] 0001479419
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-31
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001479419/000155837025004081/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 5 executives from 10-K
+  [DB] Saved 5 executives
+
+[PROGRESS] 154/322
+
+============================================================
+Scraping KALV
+============================================================
+  [CIK] Looking up KALV...
+  [CIK] 0001348911
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-07-10
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001348911/000095017025095011/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-08-21
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001348911/000119312525185353/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 3 executives from DEF 14A
+  [DB] Saved 3 executives
+
+[PROGRESS] 155/322
+
+============================================================
+Scraping KNTE
+============================================================
+  [CIK] Looking up KNTE...
+  [ERROR] CIK not found
+
+[PROGRESS] 156/322
+
+============================================================
+Scraping KPTI
+============================================================
+  [CIK] Looking up KPTI...
+  [CIK] 0001503802
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001503802/000095017025022765/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 6 executives from 10-K
+  [DB] Saved 6 executives
+
+[PROGRESS] 157/322
+
+============================================================
+Scraping KROS
+============================================================
+  [CIK] Looking up KROS...
+  [CIK] 0001664710
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001664710/000166471025000018/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001664710/000110465925037982/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 158/322
+
+============================================================
+Scraping KRYS
+============================================================
+  [CIK] Looking up KRYS...
+  [CIK] 0001711279
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001711279/000171127925000008/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-03
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001711279/000171127925000021/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 159/322
+
+============================================================
+Scraping KURA
+============================================================
+  [CIK] Looking up KURA...
+  [CIK] 0001422143
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001422143/000095017025029975/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001422143/000095017025053335/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 160/322
+
+============================================================
+Scraping KYMR
+============================================================
+  [CIK] Looking up KYMR...
+  [CIK] 0001815442
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001815442/000095017025028355/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001815442/000119312525103767/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 161/322
+
+============================================================
+Scraping LBPH
+============================================================
+  [CIK] Looking up LBPH...
+  [ERROR] CIK not found
+
+[PROGRESS] 162/322
+
+============================================================
+Scraping LEGN
+============================================================
+  [CIK] Looking up LEGN...
+  [CIK] 0001801198
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 163/322
+
+============================================================
+Scraping LGND
+============================================================
+  [CIK] Looking up LGND...
+  [CIK] 0000886163
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000886163/000088616325000012/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-22
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000886163/000088616325000025/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 164/322
+
+============================================================
+Scraping LGVN
+============================================================
+  [CIK] Looking up LGVN...
+  [CIK] 0001721484
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001721484/000095017025029968/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 12 executives from 10-K
+  [DB] Saved 12 executives
+
+[PROGRESS] 165/322
+
+============================================================
+Scraping LQDA
+============================================================
+  [CIK] Looking up LQDA...
+  [CIK] 0001819576
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001819576/000155837025003237/...
+  [FOUND] Executive officers section
+  [PARSE] Prose format
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001819576/000110465925039440/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 166/322
+
+============================================================
+Scraping LRMR
+============================================================
+  [CIK] Looking up LRMR...
+  [CIK] 0001374690
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-24
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001374690/000095017025043925/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001374690/000095017025053028/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 167/322
+
+============================================================
+Scraping LUNA
+============================================================
+  [CIK] Looking up LUNA...
+  [ERROR] CIK not found
+
+[PROGRESS] 168/322
+
+============================================================
+Scraping LXRX
+============================================================
+  [CIK] Looking up LXRX...
+  [CIK] 0001062822
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-07
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001062822/000106282225000013/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 9 executives from 10-K
+  [DB] Saved 9 executives
+
+[PROGRESS] 169/322
+
+============================================================
+Scraping LYEL
+============================================================
+  [CIK] Looking up LYEL...
+  [CIK] 0001806952
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-11
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001806952/000162828025011978/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-21
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001806952/000114036125014721/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 170/322
+
+============================================================
+Scraping MASS
+============================================================
+  [CIK] Looking up MASS...
+  [CIK] 0001555279
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-07
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001555279/000155837025002459/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001555279/000110465925039867/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 171/322
+
+============================================================
+Scraping MDGL
+============================================================
+  [CIK] Looking up MDGL...
+  [CIK] 0001157601
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001157601/000162828025007980/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001157601/000110465925041254/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 172/322
+
+============================================================
+Scraping MEDP
+============================================================
+  [CIK] Looking up MEDP...
+  [CIK] 0001668397
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-11
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001668397/000166839725000017/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-02
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001668397/000166839725000043/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 2 executives from DEF 14A
+  [DB] Saved 2 executives
+
+[PROGRESS] 173/322
+
+============================================================
+Scraping MESO
+============================================================
+  [CIK] Looking up MESO...
+  [CIK] 0001345099
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 174/322
+
+============================================================
+Scraping MGNX
+============================================================
+  [CIK] Looking up MGNX...
+  [CIK] 0001125345
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-20
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001125345/000112534525000042/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001125345/000112534525000047/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 175/322
+
+============================================================
+Scraping MGTA
+============================================================
+  [CIK] Looking up MGTA...
+  [ERROR] CIK not found
+
+[PROGRESS] 176/322
+
+============================================================
+Scraping MIRM
+============================================================
+  [CIK] Looking up MIRM...
+  [CIK] 0001759425
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001759425/000175942525000014/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-14
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001759425/000175942525000022/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 177/322
+
+============================================================
+Scraping MLYS
+============================================================
+  [CIK] Looking up MLYS...
+  [CIK] 0001933414
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-12
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001933414/000193341425000009/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 3 executives from 10-K
+  [DB] Saved 3 executives
+
+[PROGRESS] 178/322
+
+============================================================
+Scraping MNKD
+============================================================
+  [CIK] Looking up MNKD...
+  [CIK] 0000899460
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000899460/000095017025027735/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 8 executives from 10-K
+  [DB] Saved 8 executives
+
+[PROGRESS] 179/322
+
+============================================================
+Scraping MNMD
+============================================================
+  [CIK] Looking up MNMD...
+  [CIK] 0001813814
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-06
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001813814/000095017025034176/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001813814/000110465925038010/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 180/322
+
+============================================================
+Scraping MPLN
+============================================================
+  [CIK] Looking up MPLN...
+  [ERROR] CIK not found
+
+[PROGRESS] 181/322
+
+============================================================
+Scraping MRNA
+============================================================
+  [CIK] Looking up MRNA...
+  [CIK] 0001682852
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-21
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001682852/000168285225000022/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-10-15
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001682852/000168285225000062/...
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 182/322
+
+============================================================
+Scraping MRSN
+============================================================
+  [CIK] Looking up MRSN...
+  [ERROR] CIK not found
+
+[PROGRESS] 183/322
+
+============================================================
+Scraping MRTX
+============================================================
+  [CIK] Looking up MRTX...
+  [ERROR] CIK not found
+
+[PROGRESS] 184/322
+
+============================================================
+Scraping MRUS
+============================================================
+  [CIK] Looking up MRUS...
+  [ERROR] CIK not found
+
+[PROGRESS] 185/322
+
+============================================================
+Scraping MYGN
+============================================================
+  [CIK] Looking up MYGN...
+  [CIK] 0000899923
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000899923/000089992325000019/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-09
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000899923/000089992325000028/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 6 executives from DEF 14A
+  [DB] Saved 6 executives
+
+[PROGRESS] 186/322
+
+============================================================
+Scraping NARI
+============================================================
+  [CIK] Looking up NARI...
+  [ERROR] CIK not found
+
+[PROGRESS] 187/322
+
+============================================================
+Scraping NBIX
+============================================================
+  [CIK] Looking up NBIX...
+  [CIK] 0000914475
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-10
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000914475/000091447525000037/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-09
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000914475/000091447525000091/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 188/322
+
+============================================================
+Scraping NBSE
+============================================================
+  [CIK] Looking up NBSE...
+  [ERROR] CIK not found
+
+[PROGRESS] 189/322
+
+============================================================
+Scraping NEOG
+============================================================
+  [CIK] Looking up NEOG...
+  [CIK] 0000711377
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-07-30
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000711377/000095017025100064/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-09-12
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000711377/000095017025114381/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 190/322
+
+============================================================
+Scraping NKTR
+============================================================
+  [CIK] Looking up NKTR...
+  [CIK] 0000906709
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-14
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000906709/000095017025039389/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 4 executives from 10-K
+  [DB] Saved 4 executives
+
+[PROGRESS] 191/322
+
+============================================================
+Scraping NOTV
+============================================================
+  [CIK] Looking up NOTV...
+  [CIK] 0000720154
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-12-05
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000720154/000162828025055483/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-01-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000720154/000162828025002250/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 192/322
+
+============================================================
+Scraping NRIX
+============================================================
+  [CIK] Looking up NRIX...
+  [CIK] 0001549595
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-01-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001549595/000154959525000016/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-03-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001549595/000114036125010808/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 193/322
+
+============================================================
+Scraping NSTG
+============================================================
+  [CIK] Looking up NSTG...
+  [ERROR] CIK not found
+
+[PROGRESS] 194/322
+
+============================================================
+Scraping NTLA
+============================================================
+  [CIK] Looking up NTLA...
+  [CIK] 0001652130
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001652130/000095017025029007/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001652130/000095017025061023/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 195/322
+
+============================================================
+Scraping NUVB
+============================================================
+  [CIK] Looking up NUVB...
+  [CIK] 0001811063
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-06
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001811063/000095017025034903/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-08
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001811063/000114036125012864/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 4 executives from DEF 14A
+  [DB] Saved 4 executives
+
+[PROGRESS] 196/322
+
+============================================================
+Scraping NUVL
+============================================================
+  [CIK] Looking up NUVL...
+  [CIK] 0001861560
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001861560/000095017025028328/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 6 executives from 10-K
+  [DB] Saved 6 executives
+
+[PROGRESS] 197/322
+
+============================================================
+Scraping NVAX
+============================================================
+  [CIK] Looking up NVAX...
+  [CIK] 0001000694
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001000694/000100069425000004/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001000694/000100069425000013/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 198/322
+
+============================================================
+Scraping OCEA
+============================================================
+  [CIK] Looking up OCEA...
+  [CIK] 0001869974
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-04-08
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001869974/000164117225003155/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-02-26
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001869974/000149315225008279/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 199/322
+
+============================================================
+Scraping OCGN
+============================================================
+  [CIK] Looking up OCGN...
+  [CIK] 0001372299
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-05
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001372299/000162828025010271/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001372299/000114036125015803/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 2 executives from DEF 14A
+  [DB] Saved 2 executives
+
+[PROGRESS] 200/322
+
+============================================================
+Scraping OFIX
+============================================================
+  [CIK] Looking up OFIX...
+  [CIK] 0000884624
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000884624/000095017025026066/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000884624/000095017025061062/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 201/322
+
+============================================================
+Scraping OGN
+============================================================
+  [CIK] Looking up OGN...
+  [CIK] 0001821825
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001821825/000182182525000006/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001821825/000095017025058795/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 202/322
+
+============================================================
+Scraping OLMA
+============================================================
+  [CIK] Looking up OLMA...
+  [CIK] 0001750284
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001750284/000095017025041204/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001750284/000095017025059348/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 203/322
+
+============================================================
+Scraping OMER
+============================================================
+  [CIK] Looking up OMER...
+  [CIK] 0001285819
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-31
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001285819/000143774925010216/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 11 executives from 10-K
+  [DB] Saved 11 executives
+
+[PROGRESS] 204/322
+
+============================================================
+Scraping ONCR
+============================================================
+  [CIK] Looking up ONCR...
+  [ERROR] CIK not found
+
+[PROGRESS] 205/322
+
+============================================================
+Scraping OPK
+============================================================
+  [CIK] Looking up OPK...
+  [CIK] 0000944809
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000944809/000143774925005811/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-03-14
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000944809/000143774925007736/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 206/322
+
+============================================================
+Scraping ORGO
+============================================================
+  [CIK] Looking up ORGO...
+  [CIK] 0001661181
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001661181/000095017025029137/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-05-12
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001661181/000119312525117808/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 207/322
+
+============================================================
+Scraping ORTX
+============================================================
+  [CIK] Looking up ORTX...
+  [ERROR] CIK not found
+
+[PROGRESS] 208/322
+
+============================================================
+Scraping OYST
+============================================================
+  [CIK] Looking up OYST...
+  [ERROR] CIK not found
+
+[PROGRESS] 209/322
+
+============================================================
+Scraping PAVM
+============================================================
+  [CIK] Looking up PAVM...
+  [CIK] 0001624326
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-24
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001624326/000164117225000364/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-10-31
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001624326/000149315225020379/...
+  [INFO] No executive section found in DEF 14A
+  [RESULT] No executives found
+
+[PROGRESS] 210/322
+
+============================================================
+Scraping PCOR
+============================================================
+  [CIK] Looking up PCOR...
+  [CIK] 0001611052
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001611052/000162828025008121/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001611052/000119312525093502/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 211/322
+
+============================================================
+Scraping PCRX
+============================================================
+  [CIK] Looking up PCRX...
+  [CIK] 0001396814
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001396814/000139681425000041/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001396814/000110465925041219/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 212/322
+
+============================================================
+Scraping PCVX
+============================================================
+  [CIK] Looking up PCVX...
+  [CIK] 0001649094
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001649094/000164909425000028/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001649094/000119312525100425/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 213/322
+
+============================================================
+Scraping PDCO
+============================================================
+  [CIK] Looking up PDCO...
+  [ERROR] CIK not found
+
+[PROGRESS] 214/322
+
+============================================================
+Scraping PDLI
+============================================================
+  [CIK] Looking up PDLI...
+  [ERROR] CIK not found
+
+[PROGRESS] 215/322
+
+============================================================
+Scraping PGEN
+============================================================
+  [CIK] Looking up PGEN...
+  [CIK] 0001356090
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001356090/000135609025000007/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-05-16
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001356090/000114036125019470/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 216/322
+
+============================================================
+Scraping PHVS
+============================================================
+  [CIK] Looking up PHVS...
+  [CIK] 0001830487
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 217/322
+
+============================================================
+Scraping PLRX
+============================================================
+  [CIK] Looking up PLRX...
+  [CIK] 0001746473
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001746473/000174647325000054/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001746473/000174647325000089/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 218/322
+
+============================================================
+Scraping PMVP
+============================================================
+  [CIK] Looking up PMVP...
+  [CIK] 0001699382
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001699382/000095017025030414/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001699382/000114036125015610/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 219/322
+
+============================================================
+Scraping PNTG
+============================================================
+  [CIK] Looking up PNTG...
+  [CIK] 0001766400
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001766400/000176640025000024/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-17
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001766400/000176640025000038/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 220/322
+
+============================================================
+Scraping PRAX
+============================================================
+  [CIK] Looking up PRAX...
+  [CIK] 0001689548
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001689548/000168954825000040/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 3 executives from 10-K
+  [DB] Saved 3 executives
+
+[PROGRESS] 221/322
+
+============================================================
+Scraping PRGO
+============================================================
+  [CIK] Looking up PRGO...
+  [CIK] 0001585364
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001585364/000158536425000014/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-03-21
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001585364/000095017025042897/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 222/322
+
+============================================================
+Scraping PROK
+============================================================
+  [CIK] Looking up PROK...
+  [CIK] 0001850270
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001850270/000095017025040483/...
+  [FOUND] Executive officers section
+  [PARSE] Prose format
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2024-04-26
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001850270/000114036124022484/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 223/322
+
+============================================================
+Scraping PRTA
+============================================================
+  [CIK] Looking up PRTA...
+  [CIK] 0001559053
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001559053/000155905325000009/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 9 executives from 10-K
+  [DB] Saved 9 executives
+
+[PROGRESS] 224/322
+
+============================================================
+Scraping PRTX
+============================================================
+  [CIK] Looking up PRTX...
+  [CIK] 0002079180
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 225/322
+
+============================================================
+Scraping PRVA
+============================================================
+  [CIK] Looking up PRVA...
+  [CIK] 0001759655
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001759655/000175965525000018/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-04
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001759655/000119312525072922/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 226/322
+
+============================================================
+Scraping PSNL
+============================================================
+  [CIK] Looking up PSNL...
+  [CIK] 0001527753
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001527753/000095017025029221/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-03
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001527753/000095017025050392/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 227/322
+
+============================================================
+Scraping PTCT
+============================================================
+  [CIK] Looking up PTCT...
+  [CIK] 0001070081
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001070081/000107008125000012/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001070081/000155837025006007/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 228/322
+
+============================================================
+Scraping PTGX
+============================================================
+  [CIK] Looking up PTGX...
+  [CIK] 0001377121
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-21
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001377121/000155837025001317/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001377121/000110465925041206/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 229/322
+
+============================================================
+Scraping PTRA
+============================================================
+  [CIK] Looking up PTRA...
+  [ERROR] CIK not found
+
+[PROGRESS] 230/322
+
+============================================================
+Scraping QDEL
+============================================================
+  [CIK] Looking up QDEL...
+  [CIK] 0001906324
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001906324/000190632425000035/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-08
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001906324/000190632425000045/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 2 executives from DEF 14A
+  [DB] Saved 2 executives
+
+[PROGRESS] 231/322
+
+============================================================
+Scraping QURE
+============================================================
+  [CIK] Looking up QURE...
+  [CIK] 0001590560
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001590560/000155837025001699/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001590560/000155837025005606/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 232/322
+
+============================================================
+Scraping RAPT
+============================================================
+  [CIK] Looking up RAPT...
+  [CIK] 0001673772
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-06
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001673772/000095017025034185/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-14
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001673772/000095017025053517/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 233/322
+
+============================================================
+Scraping RARE
+============================================================
+  [CIK] Looking up RARE...
+  [CIK] 0001515673
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001515673/000095017025023312/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-03-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001515673/000130817925000296/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 234/322
+
+============================================================
+Scraping RCKT
+============================================================
+  [CIK] Looking up RCKT...
+  [CIK] 0001281895
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001281895/000095017025029002/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001281895/000114036125016656/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 235/322
+
+============================================================
+Scraping RCUS
+============================================================
+  [CIK] Looking up RCUS...
+  [CIK] 0001724521
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001724521/000172452125000040/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-22
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001724521/000172452125000052/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 236/322
+
+============================================================
+Scraping REGN
+============================================================
+  [CIK] Looking up REGN...
+  [CIK] 0000872589
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-05
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000872589/000180422025000011/...
+  [FOUND] Executive officers section
+  [PARSE] Prose format
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000872589/000130817925000518/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 237/322
+
+============================================================
+Scraping REPL
+============================================================
+  [CIK] Looking up REPL...
+  [CIK] 0001737953
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-05-22
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001737953/000173795325000009/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-07-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001737953/000110465925070833/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 238/322
+
+============================================================
+Scraping RETA
+============================================================
+  [CIK] Looking up RETA...
+  [ERROR] CIK not found
+
+[PROGRESS] 239/322
+
+============================================================
+Scraping RGNX
+============================================================
+  [CIK] Looking up RGNX...
+  [CIK] 0001590877
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-13
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001590877/000095017025038770/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-08
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001590877/000095017025052069/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 240/322
+
+============================================================
+Scraping RNA
+============================================================
+  [CIK] Looking up RNA...
+  [CIK] 0001599901
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001599901/000159990125000059/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001599901/000159990125000092/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 241/322
+
+============================================================
+Scraping ROIV
+============================================================
+  [CIK] Looking up ROIV...
+  [CIK] 0001635088
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-05-29
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001635088/000114036125020715/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-07-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001635088/000114036125027846/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 242/322
+
+============================================================
+Scraping RPID
+============================================================
+  [CIK] Looking up RPID...
+  [CIK] 0001380106
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001380106/000138010625000058/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-08
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001380106/000138010625000089/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 243/322
+
+============================================================
+Scraping RPTX
+============================================================
+  [CIK] Looking up RPTX...
+  [CIK] 0001808158
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001808158/000095017025030405/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001808158/000119312525103764/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 244/322
+
+============================================================
+Scraping RVMD
+============================================================
+  [CIK] Looking up RVMD...
+  [CIK] 0001628171
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001628171/000095017025027736/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001628171/000119312525103947/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 245/322
+
+============================================================
+Scraping RXDX
+============================================================
+  [CIK] Looking up RXDX...
+  [ERROR] CIK not found
+
+[PROGRESS] 246/322
+
+============================================================
+Scraping RXRX
+============================================================
+  [CIK] Looking up RXRX...
+  [CIK] 0001601830
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001601830/000160183025000035/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001601830/000160183025000062/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 247/322
+
+============================================================
+Scraping RYTM
+============================================================
+  [CIK] Looking up RYTM...
+  [CIK] 0001649904
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001649904/000155837025001889/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001649904/000155837025005818/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 248/322
+
+============================================================
+Scraping SAGE
+============================================================
+  [CIK] Looking up SAGE...
+  [ERROR] CIK not found
+
+[PROGRESS] 249/322
+
+============================================================
+Scraping SANA
+============================================================
+  [CIK] Looking up SANA...
+  [CIK] 0001770121
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001770121/000095017025040254/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001770121/000119312525094656/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 250/322
+
+============================================================
+Scraping SBRA
+============================================================
+  [CIK] Looking up SBRA...
+  [CIK] 0001492298
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001492298/000149229825000008/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001492298/000119312525095172/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 251/322
+
+============================================================
+Scraping SDGR
+============================================================
+  [CIK] Looking up SDGR...
+  [CIK] 0001490978
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001490978/000149097825000014/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001490978/000149097825000047/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 252/322
+
+============================================================
+Scraping SGEN
+============================================================
+  [CIK] Looking up SGEN...
+  [ERROR] CIK not found
+
+[PROGRESS] 253/322
+
+============================================================
+Scraping SGFY
+============================================================
+  [CIK] Looking up SGFY...
+  [ERROR] CIK not found
+
+[PROGRESS] 254/322
+
+============================================================
+Scraping SGMO
+============================================================
+  [CIK] Looking up SGMO...
+  [CIK] 0001001233
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001001233/000162828025013088/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001001233/000162828025020773/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 255/322
+
+============================================================
+Scraping SHC
+============================================================
+  [CIK] Looking up SHC...
+  [CIK] 0001822479
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001822479/000182247925000015/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 4 executives from 10-K
+  [DB] Saved 4 executives
+
+[PROGRESS] 256/322
+
+============================================================
+Scraping SLGC
+============================================================
+  [CIK] Looking up SLGC...
+  [ERROR] CIK not found
+
+[PROGRESS] 257/322
+
+============================================================
+Scraping SMMT
+============================================================
+  [CIK] Looking up SMMT...
+  [CIK] 0001599298
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-24
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001599298/000159929825000048/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001599298/000159929825000075/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 258/322
+
+============================================================
+Scraping SNDX
+============================================================
+  [CIK] Looking up SNDX...
+  [CIK] 0001395937
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001395937/000095017025030394/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-01
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001395937/000095017025048472/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 259/322
+
+============================================================
+Scraping SNSE
+============================================================
+  [CIK] Looking up SNSE...
+  [CIK] 0001829802
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001829802/000095017025046338/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001829802/000095017025053033/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 260/322
+
+============================================================
+Scraping SPNE
+============================================================
+  [CIK] Looking up SPNE...
+  [ERROR] CIK not found
+
+[PROGRESS] 261/322
+
+============================================================
+Scraping SPRO
+============================================================
+  [CIK] Looking up SPRO...
+  [CIK] 0001701108
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001701108/000095017025046125/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001701108/000119312525100544/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 262/322
+
+============================================================
+Scraping SPRY
+============================================================
+  [CIK] Looking up SPRY...
+  [CIK] 0001671858
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-20
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001671858/000095017025042320/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001671858/000095017025060075/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 263/322
+
+============================================================
+Scraping SRPT
+============================================================
+  [CIK] Looking up SRPT...
+  [CIK] 0000873303
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000873303/000095017025029973/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000873303/000095017025058003/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 264/322
+
+============================================================
+Scraping SRRA
+============================================================
+  [CIK] Looking up SRRA...
+  [ERROR] CIK not found
+
+[PROGRESS] 265/322
+
+============================================================
+Scraping SRRK
+============================================================
+  [CIK] Looking up SRRK...
+  [CIK] 0001727196
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001727196/000155837025001682/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001727196/000110465925033970/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 266/322
+
+============================================================
+Scraping STKL
+============================================================
+  [CIK] Looking up STKL...
+  [CIK] 0000351834
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000351834/000106299325003695/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-11
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000351834/000106299325007365/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 267/322
+
+============================================================
+Scraping STOK
+============================================================
+  [CIK] Looking up STOK...
+  [CIK] 0001623526
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001623526/000095017025041170/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-22
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001623526/000119312525089188/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 268/322
+
+============================================================
+Scraping SWTX
+============================================================
+  [CIK] Looking up SWTX...
+  [ERROR] CIK not found
+
+[PROGRESS] 269/322
+
+============================================================
+Scraping SYRS
+============================================================
+  [CIK] Looking up SYRS...
+  [CIK] 0001556263
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2024-03-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001556263/000095017024036808/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2024-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001556263/000119312524105876/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 270/322
+
+============================================================
+Scraping TALK
+============================================================
+  [CIK] Looking up TALK...
+  [CIK] 0001803901
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-12
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001803901/000095017025038107/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001803901/000114036125016714/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 271/322
+
+============================================================
+Scraping TARS
+============================================================
+  [CIK] Looking up TARS...
+  [CIK] 0001819790
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-25
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001819790/000181979025000011/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001819790/000181979025000070/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 272/322
+
+============================================================
+Scraping TCRR
+============================================================
+  [CIK] Looking up TCRR...
+  [ERROR] CIK not found
+
+[PROGRESS] 273/322
+
+============================================================
+Scraping TCRT
+============================================================
+  [CIK] Looking up TCRT...
+  [CIK] 0001107421
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-31
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001107421/000095017025047758/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-05-21
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001107421/000119312525123677/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 274/322
+
+============================================================
+Scraping TECH
+============================================================
+  [CIK] Looking up TECH...
+  [CIK] 0000842023
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-08-22
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000842023/000155837025011716/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 4 executives from 10-K
+  [DB] Saved 4 executives
+
+[PROGRESS] 275/322
+
+============================================================
+Scraping TFFP
+============================================================
+  [CIK] Looking up TFFP...
+  [ERROR] CIK not found
+
+[PROGRESS] 276/322
+
+============================================================
+Scraping TGTX
+============================================================
+  [CIK] Looking up TGTX...
+  [CIK] 0001001316
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001001316/000143774925005908/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001001316/000143774925013860/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 277/322
+
+============================================================
+Scraping THER
+============================================================
+  [CIK] Looking up THER...
+  [ERROR] CIK not found
+
+[PROGRESS] 278/322
+
+============================================================
+Scraping TIL
+============================================================
+  [CIK] Looking up TIL...
+  [CIK] 0001789769
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-04
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001789769/000178976925000017/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-14
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001789769/000178976925000034/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 279/322
+
+============================================================
+Scraping TMDX
+============================================================
+  [CIK] Looking up TMDX...
+  [CIK] 0001756262
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001756262/000095017025029104/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-10
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001756262/000119312525077974/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 280/322
+
+============================================================
+Scraping TNDM
+============================================================
+  [CIK] Looking up TNDM...
+  [CIK] 0001438133
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001438133/000143813325000036/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-08
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001438133/000143813325000058/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 281/322
+
+============================================================
+Scraping TNGX
+============================================================
+  [CIK] Looking up TNGX...
+  [CIK] 0001819133
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001819133/000095017025028353/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-21
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001819133/000095017025056230/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 282/322
+
+============================================================
+Scraping TRDA
+============================================================
+  [CIK] Looking up TRDA...
+  [CIK] 0001689375
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001689375/000168937525000011/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001689375/000110465925039000/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 283/322
+
+============================================================
+Scraping TRIL
+============================================================
+  [CIK] Looking up TRIL...
+  [ERROR] CIK not found
+
+[PROGRESS] 284/322
+
+============================================================
+Scraping TSVT
+============================================================
+  [CIK] Looking up TSVT...
+  [ERROR] CIK not found
+
+[PROGRESS] 285/322
+
+============================================================
+Scraping TTOO
+============================================================
+  [CIK] Looking up TTOO...
+  [CIK] 0001492674
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2024-04-01
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001492674/000095017024039310/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 5 executives from 10-K
+  [DB] Saved 5 executives
+
+[PROGRESS] 286/322
+
+============================================================
+Scraping TVTX
+============================================================
+  [CIK] Looking up TVTX...
+  [CIK] 0001438533
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-21
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001438533/000143853325000010/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-01
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001438533/000143853325000016/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 287/322
+
+============================================================
+Scraping TWST
+============================================================
+  [CIK] Looking up TWST...
+  [CIK] 0001581280
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-11-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001581280/000158128025000025/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2026-01-06
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001581280/000158128026000006/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 288/322
+
+============================================================
+Scraping UDMY
+============================================================
+  [CIK] Looking up UDMY...
+  [CIK] 0001607939
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-19
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001607939/000160793925000011/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001607939/000160793925000046/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 8 executives from DEF 14A
+  [DB] Saved 8 executives
+
+[PROGRESS] 289/322
+
+============================================================
+Scraping URGN
+============================================================
+  [CIK] Looking up URGN...
+  [CIK] 0001668243
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-10
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001668243/000143774925006842/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-07-15
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001668243/000143774925022732/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 290/322
+
+============================================================
+Scraping UTHR
+============================================================
+  [CIK] Looking up UTHR...
+  [CIK] 0001082554
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001082554/000108255425000005/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001082554/000108255425000014/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 291/322
+
+============================================================
+Scraping VALN
+============================================================
+  [CIK] Looking up VALN...
+  [CIK] 0001836564
+  [FILING] Looking for 10-K...
+  [FILING] Trying DEF 14A fallback...
+  [RESULT] No executives found
+
+[PROGRESS] 292/322
+
+============================================================
+Scraping VCNX
+============================================================
+  [CIK] Looking up VCNX...
+  [CIK] 0001205922
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-04-15
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001205922/000095017025054318/...
+  [FOUND] Executive officers section
+  [PARSE] Prose format
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2024-04-02
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001205922/000119312524084768/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 293/322
+
+============================================================
+Scraping VCSA
+============================================================
+  [CIK] Looking up VCSA...
+  [ERROR] CIK not found
+
+[PROGRESS] 294/322
+
+============================================================
+Scraping VCYT
+============================================================
+  [CIK] Looking up VCYT...
+  [CIK] 0001384101
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001384101/000138410125000014/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001384101/000138410125000051/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 295/322
+
+============================================================
+Scraping VECT
+============================================================
+  [CIK] Looking up VECT...
+  [ERROR] CIK not found
+
+[PROGRESS] 296/322
+
+============================================================
+Scraping VERA
+============================================================
+  [CIK] Looking up VERA...
+  [CIK] 0001831828
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-28
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001831828/000095017025029969/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-03
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001831828/000114036125012034/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 297/322
+
+============================================================
+Scraping VERV
+============================================================
+  [CIK] Looking up VERV...
+  [ERROR] CIK not found
+
+[PROGRESS] 298/322
+
+============================================================
+Scraping VERX
+============================================================
+  [CIK] Looking up VERX...
+  [CIK] 0001806837
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001806837/000155837025001820/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-28
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001806837/000155837025005687/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 299/322
+
+============================================================
+Scraping VIR
+============================================================
+  [CIK] Looking up VIR...
+  [CIK] 0001706431
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001706431/000162828025008245/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-17
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001706431/000162828025018119/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 300/322
+
+============================================================
+Scraping VIVO
+============================================================
+  [CIK] Looking up VIVO...
+  [ERROR] CIK not found
+
+[PROGRESS] 301/322
+
+============================================================
+Scraping VKTX
+============================================================
+  [CIK] Looking up VKTX...
+  [CIK] 0001607678
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001607678/000095017025027824/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-08
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001607678/000095017025052162/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 3 executives from DEF 14A
+  [DB] Saved 3 executives
+
+[PROGRESS] 302/322
+
+============================================================
+Scraping VNDA
+============================================================
+  [CIK] Looking up VNDA...
+  [CIK] 0001347178
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-14
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001347178/000162828025005761/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001347178/000162828025019987/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 303/322
+
+============================================================
+Scraping VORB
+============================================================
+  [CIK] Looking up VORB...
+  [ERROR] CIK not found
+
+[PROGRESS] 304/322
+
+============================================================
+Scraping VRDN
+============================================================
+  [CIK] Looking up VRDN...
+  [CIK] 0001590750
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-03
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001590750/000159075025000004/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-25
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001590750/000119312525095008/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 305/322
+
+============================================================
+Scraping VRNA
+============================================================
+  [CIK] Looking up VRNA...
+  [ERROR] CIK not found
+
+[PROGRESS] 306/322
+
+============================================================
+Scraping VRNT
+============================================================
+  [CIK] Looking up VRNT...
+  [ERROR] CIK not found
+
+[PROGRESS] 307/322
+
+============================================================
+Scraping VRTX
+============================================================
+  [CIK] Looking up VRTX...
+  [CIK] 0000875320
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-13
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000875320/000087532025000053/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 12 executives from 10-K
+  [DB] Saved 12 executives
+
+[PROGRESS] 308/322
+
+============================================================
+Scraping VTRS
+============================================================
+  [CIK] Looking up VTRS...
+  [CIK] 0001792044
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001792044/000179204425000008/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-10-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001792044/000114036125039263/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 309/322
+
+============================================================
+Scraping VXRT
+============================================================
+  [CIK] Looking up VXRT...
+  [CIK] 0000072444
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-20
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000072444/000143774925008572/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 10 executives from 10-K
+  [DB] Saved 10 executives
+
+[PROGRESS] 310/322
+
+============================================================
+Scraping VYGR
+============================================================
+  [CIK] Looking up VYGR...
+  [CIK] 0001640266
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-11
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001640266/000155837025002703/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001640266/000155837025005254/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 311/322
+
+============================================================
+Scraping WVE
+============================================================
+  [CIK] Looking up WVE...
+  [CIK] 0001631574
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-04
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001631574/000095017025031322/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-06-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001631574/000119312525144678/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 312/322
+
+============================================================
+Scraping XBIT
+============================================================
+  [CIK] Looking up XBIT...
+  [CIK] 0001626878
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-18
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001626878/000117184325001527/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-07-07
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001626878/000119312525156276/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 313/322
+
+============================================================
+Scraping XENE
+============================================================
+  [CIK] Looking up XENE...
+  [CIK] 0001582313
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001582313/000095017025029149/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-24
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001582313/000095017025058086/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 314/322
+
+============================================================
+Scraping XERS
+============================================================
+  [CIK] Looking up XERS...
+  [CIK] 0001867096
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-06
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001867096/000186709625000039/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001867096/000186709625000068/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 315/322
+
+============================================================
+Scraping XNCR
+============================================================
+  [CIK] Looking up XNCR...
+  [CIK] 0001326732
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001326732/000132673225000029/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-23
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001326732/000132673225000043/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 316/322
+
+============================================================
+Scraping XOMA
+============================================================
+  [CIK] Looking up XOMA...
+  [CIK] 0000791908
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-17
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0000791908/000155837025003131/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-15
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0000791908/000119312525081538/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 317/322
+
+============================================================
+Scraping YMAB
+============================================================
+  [CIK] Looking up YMAB...
+  [ERROR] CIK not found
+
+[PROGRESS] 318/322
+
+============================================================
+Scraping YMTX
+============================================================
+  [CIK] Looking up YMTX...
+  [ERROR] CIK not found
+
+[PROGRESS] 319/322
+
+============================================================
+Scraping ZLAB
+============================================================
+  [CIK] Looking up ZLAB...
+  [CIK] 0001704292
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-02-27
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001704292/000162828025008409/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-29
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001704292/000162828025020478/...
+  [FOUND] Summary Compensation Table
+  [RESULT] Found 1 executives from DEF 14A
+  [DB] Saved 1 executives
+
+[PROGRESS] 320/322
+
+============================================================
+Scraping ZNTL
+============================================================
+  [CIK] Looking up ZNTL...
+  [CIK] 0001725160
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-26
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001725160/000172516025000067/...
+  [INFO] No executive officers section in 10-K
+  [FILING] Trying DEF 14A fallback...
+  [FILING] Found DEF 14A from 2025-04-30
+  [FETCH] DEF 14A: https://www.sec.gov/Archives/edgar/data/0001725160/000172516025000092/...
+  [FOUND] Summary Compensation Table
+  [FOUND] Executive officers section
+  [RESULT] No executives found
+
+[PROGRESS] 321/322
+
+============================================================
+Scraping ZYME
+============================================================
+  [CIK] Looking up ZYME...
+  [CIK] 0001937653
+  [FILING] Looking for 10-K...
+  [FILING] Found 10-K from 2025-03-05
+  [FETCH] 10-K: https://www.sec.gov/Archives/edgar/data/0001937653/000193765325000014/...
+  [FOUND] Executive officers section
+  [PARSE] Multi-line table format
+  [RESULT] Found 1 executives from 10-K
+  [DB] Saved 1 executives
+
+[PROGRESS] 322/322
+
+============================================================
+Scraping ZYXI
+============================================================
+  [CIK] Looking up ZYXI...
+  [ERROR] CIK not found
+
+============================================================
+SCRAPING COMPLETE
+============================================================
+Companies with executives: 75/322
+Total executives found: 312
+  ABCL: 7 executives (CEO: Carl L.G. Hansen, Ph.D.) [10-K]
+  ALNY: 5 executives (CEO: Yvonne L. Greenstreet, M.D.) [DEF 14A]
+  AMGN: 1 executives [DEF 14A]
+  AMLX: 4 executives (CEO: Joshua Cohen) [DEF 14A]
+  ANGO: 6 executives (CEO: James C. Clemmer) [10-K]
+  APLT: 6 executives (CEO: Les Funtleyder) [10-K]
+  ARDX: 3 executives [DEF 14A]
+  ATRA: 1 executives [DEF 14A]
+  AUPH: 1 executives [DEF 14A]
+  AVIR: 7 executives (CEO: Jean-Pierre Sommadossi, Ph.D.) [10-K]
+  BBIO: 2 executives [DEF 14A]
+  BHVN: 3 executives [DEF 14A]
+  CHRS: 1 executives [DEF 14A]
+  CNTA: 15 executives (CEO: Saurabh Saha, M.D., Ph.D.) [10-K]
+  CNTB: 9 executives (CEO: Barry D. Quart, Pharm.D.) [10-K]
+  CORT: 3 executives [DEF 14A]
+  CRBP: 8 executives (CEO: Yuval Cohen, Ph.D.) [10-K]
+  CRBU: 7 executives (CEO: Rachel Haurwitz, Ph.D.) [10-K]
+  CRDF: 2 executives [DEF 14A]
+  CTMX: 2 executives (CEO: Base Salaries) [DEF 14A]
+  CVM: 2 executives (CEO: Geert R. Kersten, Esq.) [10-K]
+  DAWN: 1 executives [DEF 14A]
+  DMAC: 4 executives (CEO: Rick Pauls) [10-K]
+  DNLI: 1 executives [DEF 14A]
+  DVAX: 3 executives (CEO: Ryan Spencer) [DEF 14A]
+  EDIT: 1 executives [DEF 14A]
+  ELAN: 4 executives [DEF 14A]
+  FOLD: 1 executives [DEF 14A]
+  GERN: 10 executives (CEO: John A. Scarlett, M.D.) [10-K]
+  GILD: 12 executives (CEO: Daniel P. O’Day) [10-K]
+  IMVT: 3 executives (CEO: Peter Salzmann, M.D.) [DEF 14A]
+  INO: 2 executives (CEO: Jacqueline E. Shea, Ph.D.) [DEF 14A]
+  INSM: 5 executives (CEO: William H. Lewis) [DEF 14A]
+  IONS: 11 executives (CEO: Brett P. Monia, Ph.D.) [10-K]
+  JAZZ: 2 executives [DEF 14A]
+  KALA: 5 executives (CEO: Todd Bazemore) [10-K]
+  KALV: 3 executives [DEF 14A]
+  KPTI: 6 executives (CEO: Richard Paulson, M.B.A) [10-K]
+  LGVN: 12 executives (CEO: Wa’el Hashad) [10-K]
+  LXRX: 9 executives (CEO: Michael S. Exton, Ph.D.) [10-K]
+  MEDP: 2 executives [DEF 14A]
+  MLYS: 3 executives (CEO: Jon Congleton) [10-K]
+  MNKD: 8 executives (CEO: Michael E. Castagna, Pharm.D.) [10-K]
+  MYGN: 6 executives (CEO: Paul M. Bisaro) [DEF 14A]
+  NBIX: 1 executives [DEF 14A]
+  NKTR: 4 executives (CEO: Howard W. Robin) [10-K]
+  NRIX: 1 executives [DEF 14A]
+  NUVB: 4 executives [DEF 14A]
+  NUVL: 6 executives (CEO: James R. Porter, Ph.D.) [10-K]
+  NVAX: 1 executives [DEF 14A]
+  OCGN: 2 executives [DEF 14A]
+  OMER: 11 executives (CEO: Gregory A. Demopulos, M.D.) [10-K]
+  PRAX: 3 executives (CEO: Marcio Souza) [10-K]
+  PROK: 1 executives [DEF 14A]
+  PRTA: 9 executives (CEO: Gene G. Kinney) [10-K]
+  QDEL: 2 executives [DEF 14A]
+  RNA: 1 executives [DEF 14A]
+  SDGR: 1 executives [DEF 14A]
+  SHC: 4 executives (CEO: Michael B. Petras, Jr.) [10-K]
+  SNSE: 1 executives [DEF 14A]
+  STKL: 1 executives [DEF 14A]
+  SYRS: 1 executives [DEF 14A]
+  TALK: 1 executives [DEF 14A]
+  TECH: 4 executives (CEO: Kim Kelderman) [10-K]
+  TTOO: 5 executives (CEO: John Sperzel) [10-K]
+  UDMY: 8 executives (CEO: Hugo Sarrazin) [DEF 14A]
+  URGN: 1 executives [DEF 14A]
+  VCYT: 1 executives [DEF 14A]
+  VKTX: 3 executives (CEO: Brian Lian, Ph.D.) [DEF 14A]
+  VRDN: 1 executives [DEF 14A]
+  VRTX: 12 executives (CEO: Reshma Kewalramani, M.D.) [10-K]
+  VXRT: 10 executives (CEO: Steven Lo) [10-K]
+  XOMA: 1 executives [DEF 14A]
+  ZLAB: 1 executives [DEF 14A]
+  ZYME: 1 executives (CEO: Kenneth Galbraith) [10-K]
