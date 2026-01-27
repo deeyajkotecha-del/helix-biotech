@@ -152,31 +152,169 @@ async def get_companies():
 async def get_company(ticker: str):
     """Get details for a specific company"""
     ticker = ticker.upper()
-    if ticker not in TRACKED_COMPANIES:
-        raise HTTPException(status_code=404, detail=f"Company {ticker} not found")
-    return TRACKED_COMPANIES[ticker]
+
+    # First check TRACKED_COMPANIES
+    if ticker in TRACKED_COMPANIES:
+        return TRACKED_COMPANIES[ticker]
+
+    # Check XBI holdings
+    xbi_company = get_company_from_xbi(ticker)
+    if xbi_company:
+        return {
+            "ticker": xbi_company["ticker"],
+            "name": xbi_company["name"],
+            "description": xbi_company.get("description", "Biotech company in XBI ETF"),
+            "sector": "Biotechnology",
+            "lead_asset": None,
+            "indication": None,
+            "stage": None,
+            "weight": xbi_company.get("weight"),
+            "website": None
+        }
+
+    # Check database
+    conn = get_db_connection()
+    if conn:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM companies WHERE ticker = ?", (ticker,))
+        row = cur.fetchone()
+        conn.close()
+        if row:
+            company = dict(row)
+            return {
+                "ticker": company["ticker"],
+                "name": company["name"],
+                "description": company.get("description", "Biotech company"),
+                "sector": "Biotechnology",
+                "lead_asset": None,
+                "indication": None,
+                "stage": None,
+                "website": None
+            }
+
+    raise HTTPException(status_code=404, detail=f"Company {ticker} not found")
+
+
+def get_company_from_xbi(ticker: str) -> Optional[dict]:
+    """Look up company in XBI holdings"""
+    holdings_path = Path(__file__).parent / "data" / "xbi_holdings.json"
+    if holdings_path.exists():
+        try:
+            with open(holdings_path) as f:
+                xbi_data = json.load(f)
+                for h in xbi_data.get("holdings", []):
+                    if h["ticker"].upper() == ticker.upper():
+                        return h
+        except Exception:
+            pass
+    return None
 
 
 @app.get("/api/reports/{ticker}")
 async def get_report(ticker: str):
     """Get intelligence report for a company"""
     ticker = ticker.upper()
-    if ticker not in TRACKED_COMPANIES:
+
+    # First check TRACKED_COMPANIES for detailed data
+    company = TRACKED_COMPANIES.get(ticker)
+
+    # If not in tracked, check XBI holdings
+    if not company:
+        xbi_company = get_company_from_xbi(ticker)
+        if xbi_company:
+            company = {
+                "ticker": xbi_company["ticker"],
+                "name": xbi_company["name"],
+                "description": xbi_company.get("description", "Biotech company"),
+                "sector": "Biotechnology",
+                "lead_asset": None,
+                "indication": None,
+                "stage": None,
+                "website": None
+            }
+
+    # Also check database for enriched info
+    conn = get_db_connection()
+    db_company = None
+    db_trials = []
+    db_filings = []
+
+    if conn:
+        cur = conn.cursor()
+        # Get company info from database
+        cur.execute("SELECT * FROM companies WHERE ticker = ?", (ticker,))
+        row = cur.fetchone()
+        if row:
+            db_company = dict(row)
+
+        # Get clinical trials
+        cur.execute("""
+            SELECT nct_id, title, status, phase, conditions, interventions, sponsor
+            FROM clinical_trials WHERE company_ticker = ?
+            ORDER BY start_date DESC LIMIT 10
+        """, (ticker,))
+        for row in cur.fetchall():
+            trial = dict(row)
+            trial["conditions"] = json.loads(trial["conditions"]) if trial["conditions"] else []
+            trial["interventions"] = json.loads(trial["interventions"]) if trial["interventions"] else []
+            db_trials.append(trial)
+
+        # Get SEC filings
+        cur.execute("""
+            SELECT accession_number, form_type, filing_date, description
+            FROM sec_filings WHERE company_ticker = ?
+            ORDER BY filing_date DESC LIMIT 10
+        """, (ticker,))
+        db_filings = [dict(row) for row in cur.fetchall()]
+
+        conn.close()
+
+    # If we still don't have company info, return 404
+    if not company and not db_company:
         raise HTTPException(status_code=404, detail=f"Company {ticker} not found")
 
-    company = TRACKED_COMPANIES[ticker]
+    # Use database info if available
+    if db_company and not company:
+        company = {
+            "ticker": ticker,
+            "name": db_company.get("name", ticker),
+            "description": db_company.get("description", "Biotech company"),
+            "sector": "Biotechnology",
+            "lead_asset": None,
+            "indication": None,
+            "stage": None,
+            "website": None
+        }
 
-    # Build report with available intelligence (matching app's expected format)
+    # Build report with available intelligence
+    lead_asset = company.get("lead_asset") or "Pipeline programs"
+    indication = company.get("indication") or "various indications"
+    stage = company.get("stage") or "Development"
+
+    # Build clinical trials section from database
+    active_trials = [t for t in db_trials if t.get("status") in ["RECRUITING", "ACTIVE_NOT_RECRUITING", "ENROLLING_BY_INVITATION"]]
+    completed_trials = [t for t in db_trials if t.get("status") == "COMPLETED"]
+
+    # Count phases
+    phases_summary = {}
+    for t in db_trials:
+        phase = t.get("phase", "Unknown")
+        phases_summary[phase] = phases_summary.get(phase, 0) + 1
+
     report = {
         "ticker": ticker,
         "company_name": company["name"],
         "generated_at": datetime.utcnow().isoformat(),
         "sections": {
             "bluf": {
-                "summary": f"{company['name']} is developing {company['lead_asset']} for {company['indication']}. Currently in {company['stage']}.",
-                "investment_thesis": f"Promising {company['stage']} asset in {company['indication']} with specialist fund interest.",
+                "summary": f"{company['name']} is a biotechnology company" + (f" developing {lead_asset} for {indication}." if company.get("lead_asset") else "."),
+                "investment_thesis": f"Biotech company in XBI ETF" + (f" with {stage} assets." if company.get("stage") else "."),
                 "key_catalysts": [
-                    f"{company['stage']} data readout expected",
+                    "Clinical trial data readouts",
+                    "FDA regulatory milestones",
+                    "Conference presentations"
+                ] if not company.get("lead_asset") else [
+                    f"{stage} data readout expected",
                     "Potential FDA approval pathway",
                     "Conference presentations"
                 ],
@@ -188,44 +326,58 @@ async def get_report(ticker: str):
                 "recommendation": "Monitor for catalyst updates"
             },
             "pipeline": {
-                "lead_asset": company["lead_asset"],
-                "lead_asset_stage": company["stage"],
-                "lead_asset_indication": company["indication"],
+                "lead_asset": lead_asset if company.get("lead_asset") else None,
+                "lead_asset_stage": stage if company.get("stage") else None,
+                "lead_asset_indication": indication if company.get("indication") else None,
                 "programs": [
                     {
-                        "name": company["lead_asset"],
-                        "indication": company["indication"],
-                        "stage": company["stage"],
+                        "name": lead_asset,
+                        "indication": indication,
+                        "stage": stage,
                         "description": f"Lead program for {company['name']}"
                     }
-                ],
-                "total_programs": 1
+                ] if company.get("lead_asset") else [],
+                "total_programs": 1 if company.get("lead_asset") else len(db_trials)
             },
             "clinical_trials": {
-                "active_trials": [],
-                "completed_trials": [],
-                "upcoming_readouts": [
+                "active_trials": [
                     {
-                        "trial_id": "TBD",
-                        "title": f"{company['lead_asset']} {company['stage']} Trial",
-                        "expected_date": "2025",
-                        "phase": company["stage"]
-                    }
+                        "trial_id": t["nct_id"],
+                        "title": t["title"],
+                        "phase": t["phase"],
+                        "status": t["status"],
+                        "conditions": t["conditions"]
+                    } for t in active_trials
                 ],
-                "total_trials": 1,
-                "phases_summary": {company["stage"]: 1}
+                "completed_trials": [
+                    {
+                        "trial_id": t["nct_id"],
+                        "title": t["title"],
+                        "phase": t["phase"]
+                    } for t in completed_trials
+                ],
+                "upcoming_readouts": [],
+                "total_trials": len(db_trials),
+                "phases_summary": phases_summary if phases_summary else ({stage: 1} if company.get("stage") else {})
             },
             "preclinical": {
                 "pubmed_articles": [],
                 "conference_posters": [],
-                "key_findings": [f"Mechanism targeting {company['indication']}"],
-                "mechanism_of_action": f"Novel therapeutic approach for {company['indication']}"
+                "key_findings": [f"Mechanism targeting {indication}"] if company.get("indication") else [],
+                "mechanism_of_action": f"Novel therapeutic approach for {indication}" if company.get("indication") else None
             },
             "patent_legal": {
                 "key_patents": [],
                 "nearest_expiry": "TBD",
                 "litigation": [],
-                "regulatory_notes": [f"{company['stage']} development ongoing"]
+                "regulatory_notes": [f"{stage} development ongoing"] if company.get("stage") else [],
+                "recent_filings": [
+                    {
+                        "form_type": f["form_type"],
+                        "filing_date": f["filing_date"],
+                        "description": f["description"]
+                    } for f in db_filings[:5]
+                ]
             },
             "management": {
                 "ceo": None,
@@ -235,10 +387,9 @@ async def get_report(ticker: str):
             }
         },
         "data_sources": [
-            "SEC 13F Filings",
-            "PubMed",
-            "ClinicalTrials.gov",
-            "Company Filings"
+            "XBI ETF Holdings",
+            "SEC EDGAR",
+            "ClinicalTrials.gov"
         ]
     }
 
