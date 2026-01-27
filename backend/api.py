@@ -238,6 +238,7 @@ async def get_report(ticker: str):
     db_company = None
     db_trials = []
     db_filings = []
+    db_management = []
 
     if conn:
         cur = conn.cursor()
@@ -267,6 +268,19 @@ async def get_report(ticker: str):
             ORDER BY filing_date DESC LIMIT 10
         """, (ticker,))
         db_filings = [dict(row) for row in cur.fetchall()]
+
+        # Get management info
+        db_management = []
+        try:
+            cur.execute("""
+                SELECT name, title, bio, is_ceo, is_cfo, is_cmo, is_cso
+                FROM management WHERE company_ticker = ?
+                ORDER BY is_ceo DESC, is_cfo DESC, is_cmo DESC, is_cso DESC, name
+            """, (ticker,))
+            db_management = [dict(row) for row in cur.fetchall()]
+        except sqlite3.OperationalError:
+            # Table may not exist yet
+            pass
 
         conn.close()
 
@@ -389,8 +403,15 @@ async def get_report(ticker: str):
                 ]
             },
             "management": {
-                "ceo": None,
-                "key_executives": [],
+                "ceo": next(
+                    ({"name": m["name"], "title": m["title"], "background": m.get("bio")}
+                     for m in db_management if m.get("is_ceo")),
+                    None
+                ),
+                "key_executives": [
+                    {"name": m["name"], "title": m["title"], "background": m.get("bio")}
+                    for m in db_management if not m.get("is_ceo")
+                ][:10],
                 "recent_changes": [],
                 "board_highlights": []
             }
