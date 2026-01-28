@@ -25,6 +25,7 @@ import { extractMoleculesFromTrials, MoleculeSummary } from '../services/molecul
 import { getFullTrialData, compareTrials, FullTrialData, FormattedOutcome, FormattedSafety, FormattedAE } from '../services/trial-results';
 import { getDrugPatentProfile, getPatentsByCondition } from '../services/patents';
 import { DrugPatentProfile, OrangeBookPatent, OrangeBookExclusivity } from '../types/schema';
+import { pharmaRouter } from '../services/pharma-routes';
 
 // Cache directory for analysis results
 const CACHE_DIR = path.resolve(__dirname, '..', '..', 'cache');
@@ -70,6 +71,9 @@ function startServer(port: number): void {
     fs.mkdirSync(CACHE_DIR, { recursive: true });
     console.log(chalk.gray(`  Created cache directory: ${CACHE_DIR}`));
   }
+
+  // Mount pharma intelligence routes
+  app.use(pharmaRouter);
 
   // Homepage
   app.get('/', (_req: Request, res: Response) => {
@@ -119,6 +123,32 @@ function startServer(port: number): void {
       <div class="endpoint">
         <span class="method">GET</span> <a href="/api/patents/condition/ulcerative%20colitis/html">/api/patents/condition/:condition/html</a>
         <p>LOE timeline for all drugs in a therapeutic area</p>
+      </div>
+
+      <h2>&#x1F48A; Pharma Intelligence</h2>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/pharma">/api/pharma</a>
+        <p>List all tracked pharma companies</p>
+      </div>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/pharma/MRK/html">/api/pharma/:ticker/html</a>
+        <p>Full pharma profile: pipeline, catalysts, deals, strategy</p>
+      </div>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/pharma/MRK">/api/pharma/:ticker</a>
+        <p>Pharma profile JSON (pipeline, catalysts, BD strategy)</p>
+      </div>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/pharma/catalysts">/api/pharma/catalysts</a>
+        <p>Upcoming catalysts across all companies</p>
+      </div>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/pharma/compare?a=MRK&b=PFE">/api/pharma/compare?a=X&amp;b=Y</a>
+        <p>Compare pipelines between two companies</p>
+      </div>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/pharma/bd-fit?target=MRK&area=oncology&modality=ADC">/api/pharma/bd-fit?target=X&amp;area=Y&amp;modality=Z</a>
+        <p>Analyze BD fit for an asset against a company's strategy</p>
       </div>
 
       <h2>&#x1F4C8; Company Analysis</h2>
@@ -877,6 +907,14 @@ function startServer(port: number): void {
     console.log(chalk.gray(`  GET  /api/compare-trials?ncts=NCT1,NCT2`));
     console.log(chalk.gray(`  GET  /api/patents/:drugName`));
     console.log(chalk.gray(`  GET  /api/patents/condition/:condition`));
+    console.log('');
+    console.log(chalk.magenta('Pharma Intelligence:'));
+    console.log(chalk.magenta(`  GET  http://localhost:${port}/api/pharma`));
+    console.log(chalk.magenta(`  GET  http://localhost:${port}/api/pharma/MRK/html`));
+    console.log(chalk.magenta(`  GET  http://localhost:${port}/api/pharma/MRK`));
+    console.log(chalk.magenta(`  GET  http://localhost:${port}/api/pharma/catalysts`));
+    console.log(chalk.magenta(`  GET  http://localhost:${port}/api/pharma/compare?a=MRK&b=PFE`));
+    console.log(chalk.magenta(`  GET  http://localhost:${port}/api/pharma/bd-fit?target=MRK&area=oncology&modality=ADC`));
     console.log('');
     console.log(chalk.gray(`Cache: ${CACHE_DIR}`));
     console.log('');
