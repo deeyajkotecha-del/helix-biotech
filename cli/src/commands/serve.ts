@@ -71,6 +71,70 @@ function startServer(port: number): void {
     console.log(chalk.gray(`  Created cache directory: ${CACHE_DIR}`));
   }
 
+  // Homepage
+  app.get('/', (_req: Request, res: Response) => {
+    res.send(`
+    <html>
+    <head>
+      <title>Helix Intelligence API</title>
+      <style>
+        body { font-family: system-ui; max-width: 900px; margin: 50px auto; padding: 20px; background: #0f172a; color: #e2e8f0; }
+        h1 { color: #818cf8; }
+        h2 { color: #a5b4fc; margin-top: 40px; }
+        a { color: #60a5fa; }
+        .endpoint { background: #1e293b; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        .method { color: #4ade80; font-weight: bold; }
+        code { background: #334155; padding: 2px 6px; border-radius: 4px; }
+      </style>
+    </head>
+    <body>
+      <h1>&#x1F9EC; Helix Intelligence API</h1>
+      <p>Biotech competitive intelligence platform</p>
+
+      <h2>&#x1F4CA; Therapeutic Landscapes</h2>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/landscape/ulcerative%20colitis/full">/api/landscape/:condition/full</a>
+        <p>Complete landscape: trials, publications, KOLs, deals</p>
+      </div>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/landscape/ulcerative%20colitis/molecules/html">/api/landscape/:condition/molecules/html</a>
+        <p>All drugs in development with mechanisms</p>
+      </div>
+
+      <h2>&#x1F52C; Clinical Trial Analysis</h2>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/trial/NCT02819635/results/html">/api/trial/:nctId/results/html</a>
+        <p>Deep efficacy &amp; safety data from trial results</p>
+      </div>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/compare-trials/html?ncts=NCT02819635,NCT03518086">/api/compare-trials/html?ncts=X,Y,Z</a>
+        <p>Head-to-head trial comparison</p>
+      </div>
+
+      <h2>&#x1F4DC; Patent &amp; Exclusivity</h2>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/patents/rinvoq/html">/api/patents/:drugName/html</a>
+        <p>Patent protection timeline for a drug</p>
+      </div>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/patents/condition/ulcerative%20colitis/html">/api/patents/condition/:condition/html</a>
+        <p>LOE timeline for all drugs in a therapeutic area</p>
+      </div>
+
+      <h2>&#x1F4C8; Company Analysis</h2>
+      <div class="endpoint">
+        <span class="method">GET</span> <a href="/api/report/MRNA">/api/report/:ticker</a>
+        <p>SEC filing analysis (pipeline, financials, risks)</p>
+      </div>
+
+      <p style="margin-top: 50px; color: #64748b;">
+        Helix Intelligence | Data: ClinicalTrials.gov, PubMed, FDA, SEC EDGAR
+      </p>
+    </body>
+    </html>
+    `);
+  });
+
   // Health check endpoint
   app.get('/api/health', (_req: Request, res: Response) => {
     const rateLimit = getRateLimitStatus();
