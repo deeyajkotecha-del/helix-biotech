@@ -19,9 +19,18 @@ import { getCompanyByTicker, searchCompanies, getAllCompanies } from '../service
 import { getLLMProvider } from '../services/llm';
 import { getConfig } from '../config';
 import { AnalysisResult, PipelineItem, Company } from '../types';
+import { getLandscapeData, generateLandscapeCSV, LandscapeData } from '../services/landscape';
+import { searchTrialsByCondition } from '../services/trials';
+import { extractMoleculesFromTrials, MoleculeSummary } from '../services/molecules';
+import { getFullTrialData, compareTrials, FullTrialData, FormattedOutcome, FormattedSafety, FormattedAE } from '../services/trial-results';
 
 // Cache directory for analysis results
 const CACHE_DIR = path.resolve(__dirname, '..', '..', 'cache');
+
+// Rate limiting: track timestamps of Claude API calls
+const apiCallTimestamps: number[] = [];
+const RATE_LIMIT_MAX_CALLS = 10;
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 
 interface ServeOptions {
   port: string;
@@ -62,7 +71,16 @@ function startServer(port: number): void {
 
   // Health check endpoint
   app.get('/api/health', (_req: Request, res: Response) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+    const rateLimit = getRateLimitStatus();
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      rateLimit: {
+        remaining: rateLimit.remaining,
+        limit: RATE_LIMIT_MAX_CALLS,
+        resetInMinutes: rateLimit.resetInMinutes
+      }
+    });
   });
 
   // Get all XBI companies
@@ -108,6 +126,21 @@ function startServer(port: number): void {
             continue;
           }
 
+          // Check rate limit before calling Claude
+          if (isRateLimitExceeded()) {
+            // Try to get expired cache as fallback
+            const expiredCache = getCachedAnalysisIgnoreExpiry(ticker);
+            if (expiredCache) {
+              console.log(chalk.yellow(`  [Batch] Rate limit reached, using expired cache for ${ticker}`));
+              results.push({ ticker, status: 'rate-limited-cached', cached: true });
+            } else {
+              const { resetInMinutes } = getRateLimitStatus();
+              console.log(chalk.red(`  [Batch] Rate limit reached for ${ticker}, no cache available`));
+              results.push({ ticker, status: `rate-limited (reset in ${resetInMinutes}m)` });
+            }
+            continue;
+          }
+
           // Rate limit: wait 10 seconds between API calls (except first)
           if (i > 0) {
             console.log(chalk.gray(`  [Batch] Waiting 10s before analyzing ${ticker}...`));
@@ -129,6 +162,7 @@ function startServer(port: number): void {
           const content = await getFilingForAnalysis(filing);
           const llm = getLLMProvider();
           let analysis = await llm.analyze(content, ticker);
+          recordApiCall(); // Record the API call for rate limiting
           analysis = postProcessAnalysis(analysis, filing);
 
           // Save to cache
@@ -254,17 +288,36 @@ function startServer(port: number): void {
           analysis = cached.analysis;
           fromCache = true;
         } else {
-          // Fetch filing content and analyze
-          console.log(chalk.yellow(`  [API] Running Claude analysis for ${ticker}...`));
-          const content = await getFilingForAnalysis(filing);
-          const llm = getLLMProvider();
-          analysis = await llm.analyze(content, ticker);
+          // Check rate limit before calling Claude
+          if (isRateLimitExceeded()) {
+            // Try to get expired cache as fallback
+            const expiredCache = getCachedAnalysisIgnoreExpiry(ticker);
+            if (expiredCache) {
+              console.log(chalk.yellow(`  [Rate Limit] Using expired cache for ${ticker}`));
+              analysis = expiredCache.analysis;
+              fromCache = true;
+            } else {
+              const { resetInMinutes } = getRateLimitStatus();
+              res.status(429).json({
+                error: 'Rate limit reached, try again later',
+                resetInMinutes
+              });
+              return;
+            }
+          } else {
+            // Fetch filing content and analyze
+            console.log(chalk.yellow(`  [API] Running Claude analysis for ${ticker}...`));
+            const content = await getFilingForAnalysis(filing);
+            const llm = getLLMProvider();
+            analysis = await llm.analyze(content, ticker);
+            recordApiCall(); // Record the API call for rate limiting
 
-          // Post-process to fix common LLM issues
-          analysis = postProcessAnalysis(analysis, filing);
+            // Post-process to fix common LLM issues
+            analysis = postProcessAnalysis(analysis, filing);
 
-          // Save to cache
-          saveCachedAnalysis(ticker, filing.filingDate, analysis);
+            // Save to cache
+            saveCachedAnalysis(ticker, filing.filingDate, analysis);
+          }
         }
       }
 
@@ -329,14 +382,29 @@ function startServer(port: number): void {
       if (useMock) {
         analysis = getMockAnalysis(ticker);
       } else {
-        console.log(chalk.yellow(`  [API] Running Claude analysis for ${ticker}...`));
-        const content = await getFilingForAnalysis(filing);
-        const llm = getLLMProvider();
-        analysis = await llm.analyze(content, ticker);
-        analysis = postProcessAnalysis(analysis, filing);
+        // Check rate limit before calling Claude
+        if (isRateLimitExceeded()) {
+          // Try to get expired cache as fallback
+          const expiredCache = getCachedAnalysisIgnoreExpiry(ticker);
+          if (expiredCache) {
+            console.log(chalk.yellow(`  [Rate Limit] Using expired cache for ${ticker}`));
+            analysis = expiredCache.analysis;
+          } else {
+            const { resetInMinutes } = getRateLimitStatus();
+            res.status(429).send(`<h1>Rate limit reached</h1><p>Try again in ${resetInMinutes} minutes.</p>`);
+            return;
+          }
+        } else {
+          console.log(chalk.yellow(`  [API] Running Claude analysis for ${ticker}...`));
+          const content = await getFilingForAnalysis(filing);
+          const llm = getLLMProvider();
+          analysis = await llm.analyze(content, ticker);
+          recordApiCall(); // Record the API call for rate limiting
+          analysis = postProcessAnalysis(analysis, filing);
 
-        // Save to cache for next time
-        saveCachedAnalysis(ticker, filing.filingDate, analysis);
+          // Save to cache for next time
+          saveCachedAnalysis(ticker, filing.filingDate, analysis);
+        }
       }
 
       const html = generateHtmlReport(ticker, company?.name || ticker, filing, analysis);
@@ -365,6 +433,279 @@ function startServer(port: number): void {
     }
   });
 
+  // Therapeutic Landscape Dashboard
+  app.get('/api/landscape/:condition/full', async (req: Request, res: Response) => {
+    try {
+      const condition = decodeURIComponent(req.params.condition as string);
+      console.log(chalk.cyan(`  [Landscape] Building dashboard for "${condition}"...`));
+
+      const data = await getLandscapeData(condition);
+      const html = generateLandscapeHtml(data);
+
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+    }
+  });
+
+  // Landscape CSV Export
+  app.get('/api/landscape/:condition/csv', async (req: Request, res: Response) => {
+    try {
+      const condition = decodeURIComponent(req.params.condition as string);
+      const data = await getLandscapeData(condition);
+      const csv = generateLandscapeCSV(data);
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="landscape-${condition.replace(/\s+/g, '-')}.csv"`);
+      res.send(csv);
+    } catch (error) {
+      res.status(500).json({
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Landscape JSON API
+  app.get('/api/landscape/:condition/json', async (req: Request, res: Response) => {
+    try {
+      const condition = decodeURIComponent(req.params.condition as string);
+      const data = await getLandscapeData(condition);
+      res.json(data);
+    } catch (error) {
+      res.status(500).json({
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Molecules Landscape API
+  app.get('/api/landscape/:condition/molecules', async (req: Request, res: Response) => {
+    try {
+      const condition = decodeURIComponent(req.params.condition as string);
+      const maxTrials = parseInt(req.query.maxTrials as string) || 500;
+
+      console.log(chalk.cyan(`  [Molecules] Fetching molecules for "${condition}"...`));
+
+      // Fetch trials from ClinicalTrials.gov
+      const trials = await searchTrialsByCondition(condition, { maxResults: maxTrials });
+      console.log(chalk.gray(`  [Molecules] Found ${trials.length} trials, extracting molecules...`));
+
+      // Extract molecules from trials
+      const molecules = extractMoleculesFromTrials(trials);
+      console.log(chalk.green(`  [Molecules] Extracted ${molecules.length} unique molecules`));
+
+      // Sort by highest phase (descending) then by trial count (descending)
+      molecules.sort((a, b) => {
+        const phaseDiff = getMoleculePhaseRank(b.highestPhase) - getMoleculePhaseRank(a.highestPhase);
+        if (phaseDiff !== 0) return phaseDiff;
+        return b.trialCount - a.trialCount;
+      });
+
+      // Format response
+      const response = {
+        condition,
+        totalTrials: trials.length,
+        totalMolecules: molecules.length,
+        fetchedAt: new Date().toISOString(),
+        molecules: molecules.map(mol => ({
+          name: mol.name,
+          aliases: mol.aliases.slice(0, 3), // Limit aliases for readability
+          mechanism: mol.mechanism,
+          target: mol.target,
+          type: mol.type,
+          sponsor: mol.sponsors[0] || 'Unknown',
+          allSponsors: mol.sponsors,
+          highestPhase: mol.highestPhase,
+          trialCount: mol.trialCount,
+          activeTrialCount: mol.activeTrialCount,
+          leadTrialNctId: mol.leadTrialId,
+          conditions: mol.conditions.slice(0, 5), // Limit conditions
+        }))
+      };
+
+      res.json(response);
+    } catch (error) {
+      console.error(chalk.red(`  [Molecules] Error: ${error instanceof Error ? error.message : 'Unknown'}`));
+      res.status(500).json({
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Molecules HTML View
+  app.get('/api/landscape/:condition/molecules/html', async (req: Request, res: Response) => {
+    try {
+      const condition = decodeURIComponent(req.params.condition as string);
+      const maxTrials = parseInt(req.query.maxTrials as string) || 500;
+
+      console.log(chalk.cyan(`  [Molecules] Building HTML view for "${condition}"...`));
+
+      // Fetch trials from ClinicalTrials.gov
+      const trials = await searchTrialsByCondition(condition, { maxResults: maxTrials });
+
+      // Extract molecules from trials
+      const molecules = extractMoleculesFromTrials(trials);
+
+      // Sort by highest phase then trial count
+      molecules.sort((a, b) => {
+        const phaseDiff = getMoleculePhaseRank(b.highestPhase) - getMoleculePhaseRank(a.highestPhase);
+        if (phaseDiff !== 0) return phaseDiff;
+        return b.trialCount - a.trialCount;
+      });
+
+      const html = generateMoleculesHtml(condition, trials.length, molecules);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+    }
+  });
+
+  // ============================================
+  // Trial Results Endpoints
+  // ============================================
+
+  // Trial Results JSON API
+  app.get('/api/trial/:nctId/results', async (req: Request, res: Response) => {
+    try {
+      const nctId = (req.params.nctId as string).toUpperCase();
+
+      if (!nctId.startsWith('NCT')) {
+        res.status(400).json({ error: 'Invalid NCT ID format. Expected format: NCT########' });
+        return;
+      }
+
+      console.log(chalk.cyan(`  [Trial] Fetching results for ${nctId}...`));
+
+      const data = await getFullTrialData(nctId);
+
+      if (!data) {
+        res.status(404).json({ error: `Trial ${nctId} not found or has no data` });
+        return;
+      }
+
+      if (!data.hasResults) {
+        res.status(200).json({
+          ...data,
+          message: 'Trial found but no results have been posted yet',
+        });
+        return;
+      }
+
+      res.json(data);
+    } catch (error) {
+      console.error(chalk.red(`  [Trial] Error: ${error instanceof Error ? error.message : 'Unknown'}`));
+      res.status(500).json({
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Trial Results HTML View
+  app.get('/api/trial/:nctId/results/html', async (req: Request, res: Response) => {
+    try {
+      const nctId = (req.params.nctId as string).toUpperCase();
+
+      if (!nctId.startsWith('NCT')) {
+        res.status(400).send('<h1>Error</h1><p>Invalid NCT ID format. Expected: NCT########</p>');
+        return;
+      }
+
+      console.log(chalk.cyan(`  [Trial] Building HTML report for ${nctId}...`));
+
+      const data = await getFullTrialData(nctId);
+
+      if (!data) {
+        res.status(404).send(`<h1>Not Found</h1><p>Trial ${nctId} not found</p>`);
+        return;
+      }
+
+      const html = generateTrialResultsHtml(data);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+    }
+  });
+
+  // Trial Comparison Endpoint
+  app.get('/api/compare-trials', async (req: Request, res: Response) => {
+    try {
+      const nctsParam = req.query.ncts as string;
+
+      if (!nctsParam) {
+        res.status(400).json({
+          error: 'Missing required parameter: ncts',
+          example: '/api/compare-trials?ncts=NCT02819635,NCT03518086'
+        });
+        return;
+      }
+
+      const nctIds = nctsParam.split(',').map(id => id.trim().toUpperCase());
+
+      if (nctIds.length < 2) {
+        res.status(400).json({ error: 'At least 2 NCT IDs required for comparison' });
+        return;
+      }
+
+      if (nctIds.length > 5) {
+        res.status(400).json({ error: 'Maximum 5 trials can be compared at once' });
+        return;
+      }
+
+      console.log(chalk.cyan(`  [Compare] Comparing ${nctIds.length} trials: ${nctIds.join(', ')}...`));
+
+      const comparison = await compareTrials(nctIds);
+
+      if (comparison.trials.length === 0) {
+        res.status(404).json({ error: 'No trial data found for the provided NCT IDs' });
+        return;
+      }
+
+      res.json(comparison);
+    } catch (error) {
+      console.error(chalk.red(`  [Compare] Error: ${error instanceof Error ? error.message : 'Unknown'}`));
+      res.status(500).json({
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Trial Comparison HTML View
+  app.get('/api/compare-trials/html', async (req: Request, res: Response) => {
+    try {
+      const nctsParam = req.query.ncts as string;
+
+      if (!nctsParam) {
+        res.status(400).send('<h1>Error</h1><p>Missing required parameter: ncts</p><p>Example: /api/compare-trials/html?ncts=NCT02819635,NCT03518086</p>');
+        return;
+      }
+
+      const nctIds = nctsParam.split(',').map(id => id.trim().toUpperCase());
+
+      if (nctIds.length < 2 || nctIds.length > 5) {
+        res.status(400).send('<h1>Error</h1><p>Provide 2-5 NCT IDs for comparison</p>');
+        return;
+      }
+
+      console.log(chalk.cyan(`  [Compare] Building comparison HTML for ${nctIds.join(', ')}...`));
+
+      const comparison = await compareTrials(nctIds);
+
+      if (comparison.trials.length === 0) {
+        res.status(404).send('<h1>Not Found</h1><p>No trial data found</p>');
+        return;
+      }
+
+      const html = generateTrialComparisonHtml(comparison);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+    }
+  });
+
   // Start server
   app.listen(port, () => {
     console.log('');
@@ -380,6 +721,15 @@ function startServer(port: number): void {
     console.log(chalk.cyan('HTML Views:'));
     console.log(chalk.cyan(`  GET  http://localhost:${port}/api/dashboard`));
     console.log(chalk.cyan(`  GET  http://localhost:${port}/api/report/MRNA`));
+    console.log(chalk.cyan(`  GET  http://localhost:${port}/api/landscape/ulcerative%20colitis/full`));
+    console.log(chalk.cyan(`  GET  http://localhost:${port}/api/landscape/ulcerative%20colitis/molecules/html`));
+    console.log(chalk.cyan(`  GET  http://localhost:${port}/api/trial/NCT02819635/results/html`));
+    console.log(chalk.cyan(`  GET  http://localhost:${port}/api/compare-trials/html?ncts=NCT02819635,NCT03518086`));
+    console.log('');
+    console.log(chalk.gray('API Endpoints (JSON):'));
+    console.log(chalk.gray(`  GET  /api/landscape/:condition/molecules`));
+    console.log(chalk.gray(`  GET  /api/trial/:nctId/results`));
+    console.log(chalk.gray(`  GET  /api/compare-trials?ncts=NCT1,NCT2`));
     console.log('');
     console.log(chalk.gray(`Cache: ${CACHE_DIR}`));
     console.log('');
@@ -1278,13 +1628,71 @@ function getCacheFilePath(ticker: string): string {
   return path.join(CACHE_DIR, `${ticker.toUpperCase()}.json`);
 }
 
-function getCachedAnalysis(ticker: string): CachedAnalysis | null {
+// Cache validity period: 7 days
+const CACHE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+
+// ============================================
+// Rate Limiting Functions
+// ============================================
+
+function isRateLimitExceeded(): boolean {
+  const now = Date.now();
+  // Remove timestamps older than the rate limit window
+  while (apiCallTimestamps.length > 0 && apiCallTimestamps[0] < now - RATE_LIMIT_WINDOW_MS) {
+    apiCallTimestamps.shift();
+  }
+  return apiCallTimestamps.length >= RATE_LIMIT_MAX_CALLS;
+}
+
+function recordApiCall(): void {
+  apiCallTimestamps.push(Date.now());
+}
+
+function getRateLimitStatus(): { remaining: number; resetInMinutes: number } {
+  const now = Date.now();
+  // Clean up old timestamps
+  while (apiCallTimestamps.length > 0 && apiCallTimestamps[0] < now - RATE_LIMIT_WINDOW_MS) {
+    apiCallTimestamps.shift();
+  }
+  const remaining = Math.max(0, RATE_LIMIT_MAX_CALLS - apiCallTimestamps.length);
+  const oldestCall = apiCallTimestamps[0];
+  const resetInMinutes = oldestCall
+    ? Math.ceil((oldestCall + RATE_LIMIT_WINDOW_MS - now) / (60 * 1000))
+    : 0;
+  return { remaining, resetInMinutes };
+}
+
+// Get cached analysis ignoring expiry (for rate limit scenarios)
+function getCachedAnalysisIgnoreExpiry(ticker: string): CachedAnalysis | null {
   const filePath = getCacheFilePath(ticker);
   if (!fs.existsSync(filePath)) return null;
 
   try {
     const data = fs.readFileSync(filePath, 'utf-8');
     return JSON.parse(data) as CachedAnalysis;
+  } catch {
+    return null;
+  }
+}
+
+function getCachedAnalysis(ticker: string): CachedAnalysis | null {
+  const filePath = getCacheFilePath(ticker);
+  if (!fs.existsSync(filePath)) return null;
+
+  try {
+    const data = fs.readFileSync(filePath, 'utf-8');
+    const cached = JSON.parse(data) as CachedAnalysis;
+
+    // Check if cache is still valid (less than 7 days old)
+    if (cached.analyzedAt) {
+      const cacheAge = Date.now() - new Date(cached.analyzedAt).getTime();
+      if (cacheAge > CACHE_MAX_AGE_MS) {
+        console.log(chalk.yellow(`  [Cache] ${ticker} cache expired (${Math.floor(cacheAge / (24 * 60 * 60 * 1000))} days old)`));
+        return null;
+      }
+    }
+
+    return cached;
   } catch {
     return null;
   }
@@ -1745,6 +2153,1975 @@ function generateDashboardHtml(data: DashboardRow[]): string {
       });
     });
   </script>
+</body>
+</html>`;
+}
+
+// ============================================
+// Landscape Dashboard HTML Generator
+// ============================================
+
+function generateLandscapeHtml(data: LandscapeData): string {
+  const timestamp = new Date(data.fetchedAt).toLocaleString();
+
+  // Prepare chart data
+  const phaseLabels = Object.keys(data.clinicalTrials.phaseBreakdown);
+  const phaseValues = Object.values(data.clinicalTrials.phaseBreakdown);
+  const sponsorLabels = data.clinicalTrials.topSponsors.map(s => s.name.substring(0, 30));
+  const sponsorValues = data.clinicalTrials.topSponsors.map(s => s.count);
+  const yearLabels = data.research.byYear.map(y => y.year.toString());
+  const yearValues = data.research.byYear.map(y => y.count);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(data.condition)} Landscape | Helix Intelligence</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 2rem;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-subtitle {
+      opacity: 0.9;
+      font-size: 1rem;
+    }
+
+    .summary-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.15);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      min-width: 140px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.75rem;
+      background: var(--gray-50);
+      font-weight: 600;
+      color: var(--gray-500);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: top;
+    }
+
+    tr:hover {
+      background: var(--gray-50);
+    }
+
+    .phase-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .phase-4 { background: #dcfce7; color: #166534; }
+    .phase-3 { background: #dbeafe; color: #1e40af; }
+    .phase-2 { background: #fef3c7; color: #92400e; }
+    .phase-1 { background: var(--gray-100); color: var(--gray-700); }
+    .phase-na { background: var(--gray-100); color: var(--gray-500); }
+
+    .status-recruiting { color: var(--success); font-weight: 500; }
+    .status-completed { color: var(--gray-500); }
+    .status-active { color: var(--secondary); font-weight: 500; }
+    .status-terminated { color: var(--danger); }
+
+    .deal-type {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: var(--gray-100);
+      color: var(--gray-700);
+    }
+
+    .deal-value {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    .link {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .kol-rank {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .export-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .export-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-500);
+      font-size: 0.875rem;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-500);
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .summary-stats { flex-direction: column; gap: 1rem; }
+      .stat-box { min-width: auto; }
+      .header h1 { font-size: 1.75rem; }
+      th, td { padding: 0.5rem; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1>⬡ ${escapeHtml(data.condition)}</h1>
+      <div class="header-subtitle">Therapeutic Landscape Analysis | Updated ${timestamp}</div>
+
+      <div class="summary-stats">
+        <div class="stat-box">
+          <div class="stat-value">${data.summary.totalTrials}</div>
+          <div class="stat-label">Clinical Trials</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${data.summary.uniqueMolecules || 0}</div>
+          <div class="stat-label">Molecules</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${data.summary.activeCompanies}</div>
+          <div class="stat-label">Active Companies</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${data.summary.recentDeals}</div>
+          <div class="stat-label">Recent Deals</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${data.summary.totalPublications.toLocaleString()}</div>
+          <div class="stat-label">Publications</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Section 1: Clinical Landscape -->
+    <section class="section">
+      <h2 class="section-title">🧬 Clinical Landscape</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Phase Distribution</div>
+          <div class="chart-container">
+            <canvas id="phaseChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Top 10 Sponsors</div>
+          <div class="chart-container">
+            <canvas id="sponsorChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Clinical Trials (${data.clinicalTrials.trials.length})</div>
+        <input type="text" class="search-box" placeholder="Search trials..." id="trialSearch">
+        <div style="max-height: 500px; overflow-y: auto;">
+          <table id="trialsTable">
+            <thead>
+              <tr>
+                <th>NCT ID</th>
+                <th>Title</th>
+                <th>Phase</th>
+                <th>Status</th>
+                <th>Sponsor</th>
+                <th>Enrollment</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${data.clinicalTrials.trials.length === 0 ? `
+                <tr><td colspan="6" class="no-data">No trials found</td></tr>
+              ` : data.clinicalTrials.trials.map(trial => `
+                <tr>
+                  <td><a href="https://clinicaltrials.gov/study/${trial.nctId}" target="_blank" class="link">${trial.nctId}</a></td>
+                  <td>${escapeHtml(trial.title.substring(0, 100))}${trial.title.length > 100 ? '...' : ''}</td>
+                  <td><span class="phase-badge ${getTrialPhaseClass(trial.phase)}">${escapeHtml(trial.phase)}</span></td>
+                  <td class="${getTrialStatusClass(trial.status)}">${escapeHtml(trial.status)}</td>
+                  <td>${escapeHtml(trial.sponsor.substring(0, 40))}${trial.sponsor.length > 40 ? '...' : ''}</td>
+                  <td>${trial.enrollment ? trial.enrollment.toLocaleString() : '—'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Molecule Landscape -->
+    <section class="section">
+      <h2 class="section-title">💊 Molecule Landscape</h2>
+
+      <div class="card">
+        <div class="card-title">Drugs & Molecules in Development (${data.molecules?.length || 0})</div>
+        ${!data.molecules || data.molecules.length === 0 ? `
+          <div class="no-data">No molecules extracted from trials</div>
+        ` : `
+          <input type="text" class="search-box" placeholder="Search molecules..." id="moleculeSearch">
+          <div style="max-height: 400px; overflow-y: auto;">
+            <table id="moleculesTable">
+              <thead>
+                <tr>
+                  <th>Molecule</th>
+                  <th>Mechanism</th>
+                  <th>Sponsor</th>
+                  <th>Highest Phase</th>
+                  <th>Trials</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${data.molecules.map(mol => `
+                  <tr>
+                    <td><strong>${escapeHtml(mol.name)}</strong></td>
+                    <td>${mol.mechanism ? `<span class="deal-type">${escapeHtml(mol.mechanism)}</span>` : '—'}</td>
+                    <td>${escapeHtml(mol.sponsor.substring(0, 35))}${mol.sponsor.length > 35 ? '...' : ''}</td>
+                    <td><span class="phase-badge ${getTrialPhaseClass(mol.highestPhase)}">${escapeHtml(mol.highestPhase)}</span></td>
+                    <td>${mol.trialCount}</td>
+                    <td class="${getTrialStatusClass(mol.status)}">${escapeHtml(mol.status)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
+      </div>
+    </section>
+
+    <!-- Section 3: Deal Tracker -->
+    <section class="section">
+      <h2 class="section-title">💰 Deal Tracker</h2>
+
+      <div class="card">
+        <div class="card-title">Recent Deals & News (${data.dealsNews.length})</div>
+        ${data.dealsNews.length === 0 ? `
+          <div class="no-data">No deals or news found matching "${escapeHtml(data.condition)}"</div>
+        ` : `
+          <div style="max-height: 400px; overflow-y: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Title</th>
+                  <th>Source</th>
+                  <th>Type</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${data.dealsNews.map(deal => {
+                  const date = new Date(deal.pubDate);
+                  const dateStr = isNaN(date.getTime()) ? '—' : date.toLocaleDateString();
+                  return `
+                    <tr>
+                      <td>${dateStr}</td>
+                      <td><a href="${escapeHtml(deal.link)}" target="_blank" class="link">${escapeHtml(deal.title.substring(0, 80))}${deal.title.length > 80 ? '...' : ''}</a></td>
+                      <td>${escapeHtml(deal.source)}</td>
+                      <td>${deal.dealType ? `<span class="deal-type">${escapeHtml(deal.dealType)}</span>` : '—'}</td>
+                      <td class="deal-value">${deal.dealValue || '—'}</td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
+      </div>
+    </section>
+
+    <!-- Section 4: Research Intelligence -->
+    <section class="section">
+      <h2 class="section-title">📚 Research Intelligence</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Publications by Year</div>
+          <div class="chart-container">
+            <canvas id="pubChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Top Key Opinion Leaders (Active Researchers)</div>
+          ${data.research.topKOLs.length === 0 ? `
+            <div class="no-data">No KOL data available</div>
+          ` : `
+            <div style="max-height: 350px; overflow-y: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Author</th>
+                    <th>Institution</th>
+                    <th>Pubs</th>
+                    <th>Contact</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${data.research.topKOLs.map((kol, i) => `
+                    <tr>
+                      <td class="kol-rank">${i + 1}</td>
+                      <td><strong>${escapeHtml(kol.name)}</strong></td>
+                      <td>${kol.institution ? escapeHtml(kol.institution.substring(0, 30)) + (kol.institution.length > 30 ? '...' : '') : '—'}</td>
+                      <td>${kol.publicationCount}</td>
+                      <td>${kol.email ? `<a href="mailto:${escapeHtml(kol.email)}" class="link">${escapeHtml(kol.email.substring(0, 25))}${kol.email.length > 25 ? '...' : ''}</a>` : '—'}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `}
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Export -->
+    <section class="section">
+      <h2 class="section-title">📥 Export Data</h2>
+      <div class="card">
+        <p style="margin-bottom: 1rem; color: var(--gray-500);">Download the complete landscape data including all trials, deals, and KOL information.</p>
+        <a href="/api/landscape/${encodeURIComponent(data.condition)}/csv" class="export-btn">Download CSV</a>
+        <a href="/api/landscape/${encodeURIComponent(data.condition)}/json" class="export-btn" style="margin-left: 1rem; background: var(--gray-700);">Download JSON</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Data sources: ClinicalTrials.gov, PubMed, Fierce Biotech, Fierce Pharma, PR Newswire, Endpoints News, BioPharma Dive</div>
+      <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--gray-400);">
+        This is aggregated public data. Verify all information before making decisions.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Phase Distribution Pie Chart
+    new Chart(document.getElementById('phaseChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ${JSON.stringify(phaseLabels)},
+        datasets: [{
+          data: ${JSON.stringify(phaseValues)},
+          backgroundColor: [
+            '#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#6b7280', '#06b6d4'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right' }
+        }
+      }
+    });
+
+    // Top Sponsors Bar Chart
+    new Chart(document.getElementById('sponsorChart'), {
+      type: 'bar',
+      data: {
+        labels: ${JSON.stringify(sponsorLabels)},
+        datasets: [{
+          label: 'Trials',
+          data: ${JSON.stringify(sponsorValues)},
+          backgroundColor: '#6366f1'
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { beginAtZero: true }
+        }
+      }
+    });
+
+    // Publications by Year Line Chart
+    new Chart(document.getElementById('pubChart'), {
+      type: 'line',
+      data: {
+        labels: ${JSON.stringify(yearLabels)},
+        datasets: [{
+          label: 'Publications',
+          data: ${JSON.stringify(yearValues)},
+          borderColor: '#6366f1',
+          backgroundColor: 'rgba(99, 102, 241, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+
+    // Trial search functionality
+    document.getElementById('trialSearch')?.addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll('#trialsTable tbody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    });
+
+    // Molecule search functionality
+    document.getElementById('moleculeSearch')?.addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll('#moleculesTable tbody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>`;
+}
+
+function getTrialPhaseClass(phase: string): string {
+  const p = phase.toLowerCase();
+  if (p.includes('4')) return 'phase-4';
+  if (p.includes('3')) return 'phase-3';
+  if (p.includes('2')) return 'phase-2';
+  if (p.includes('1')) return 'phase-1';
+  return 'phase-na';
+}
+
+function getTrialStatusClass(status: string): string {
+  const s = status.toLowerCase();
+  if (s.includes('recruiting')) return 'status-recruiting';
+  if (s.includes('completed')) return 'status-completed';
+  if (s.includes('active')) return 'status-active';
+  if (s.includes('terminated') || s.includes('withdrawn')) return 'status-terminated';
+  return '';
+}
+
+// ============================================
+// Molecules Endpoint Helpers
+// ============================================
+
+function getMoleculePhaseRank(phase: string): number {
+  const p = phase.toLowerCase();
+  if (p.includes('approved') || p.includes('marketed')) return 100;
+  if (p.includes('4')) return 90;
+  if (p.includes('3')) return 70;
+  if (p.includes('2/3')) return 60;
+  if (p.includes('2')) return 50;
+  if (p.includes('1/2')) return 40;
+  if (p.includes('1')) return 30;
+  if (p.includes('early')) return 20;
+  if (p.includes('preclinical') || p.includes('pre-clinical')) return 10;
+  return 0;
+}
+
+function generateMoleculesHtml(condition: string, trialCount: number, molecules: MoleculeSummary[]): string {
+  const timestamp = new Date().toLocaleString();
+
+  // Count by phase
+  const phaseBreakdown: Record<string, number> = {};
+  for (const mol of molecules) {
+    const phase = mol.highestPhase || 'Unknown';
+    phaseBreakdown[phase] = (phaseBreakdown[phase] || 0) + 1;
+  }
+
+  // Count by mechanism
+  const mechanismBreakdown: Record<string, number> = {};
+  for (const mol of molecules) {
+    const mech = mol.mechanism || 'Unknown';
+    mechanismBreakdown[mech] = (mechanismBreakdown[mech] || 0) + 1;
+  }
+  const topMechanisms = Object.entries(mechanismBreakdown)
+    .filter(([key]) => key !== 'Unknown')
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(condition)} Molecules | Helix Intelligence</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 2rem;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-subtitle {
+      opacity: 0.9;
+      font-size: 1rem;
+    }
+
+    .summary-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.15);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 1rem;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.75rem;
+      background: var(--gray-50);
+      font-weight: 600;
+      color: var(--gray-500);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--gray-200);
+      position: sticky;
+      top: 0;
+      cursor: pointer;
+    }
+
+    th:hover {
+      background: var(--gray-100);
+    }
+
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+
+    tr:hover {
+      background: var(--gray-50);
+    }
+
+    .molecule-name {
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    .molecule-aliases {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 0.25rem;
+    }
+
+    .phase-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .phase-4, .phase-approved { background: #dcfce7; color: #166534; }
+    .phase-3 { background: #dbeafe; color: #1e40af; }
+    .phase-2 { background: #fef3c7; color: #92400e; }
+    .phase-1 { background: var(--gray-100); color: var(--gray-700); }
+    .phase-na { background: var(--gray-100); color: var(--gray-500); }
+
+    .mechanism-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      background: #ede9fe;
+      color: #5b21b6;
+    }
+
+    .type-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .link {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .trial-count {
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+
+    .sponsor-name {
+      color: var(--gray-600);
+      font-size: 0.8rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .mechanism-list {
+      list-style: none;
+    }
+
+    .mechanism-list li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .mechanism-list li:last-child {
+      border-bottom: none;
+    }
+
+    .mechanism-count {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .export-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 0.875rem;
+    }
+
+    .export-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-500);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+      .summary-stats { flex-direction: column; gap: 1rem; }
+      th, td { padding: 0.5rem; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <h1>💊 ${escapeHtml(condition)} - Molecule Landscape</h1>
+      <div class="header-subtitle">Drug candidates in clinical development | ${timestamp}</div>
+
+      <div class="summary-stats">
+        <div class="stat-box">
+          <div class="stat-value">${molecules.length}</div>
+          <div class="stat-label">Molecules</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${trialCount}</div>
+          <div class="stat-label">Trials Analyzed</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${molecules.filter(m => m.highestPhase.includes('3')).length}</div>
+          <div class="stat-label">Phase 3</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${molecules.filter(m => m.highestPhase.includes('2')).length}</div>
+          <div class="stat-label">Phase 2</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">${new Set(molecules.flatMap(m => m.sponsors)).size}</div>
+          <div class="stat-label">Sponsors</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Phase Distribution</div>
+        <ul class="mechanism-list">
+          ${Object.entries(phaseBreakdown)
+            .sort((a, b) => getMoleculePhaseRank(b[0]) - getMoleculePhaseRank(a[0]))
+            .map(([phase, count]) => `
+              <li>
+                <span><span class="phase-badge ${getTrialPhaseClass(phase)}">${escapeHtml(phase)}</span></span>
+                <span class="mechanism-count">${count}</span>
+              </li>
+            `).join('')}
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Top Mechanisms of Action</div>
+        <ul class="mechanism-list">
+          ${topMechanisms.map(([mech, count]) => `
+            <li>
+              <span class="mechanism-badge">${escapeHtml(mech)}</span>
+              <span class="mechanism-count">${count}</span>
+            </li>
+          `).join('') || '<li>No mechanism data available</li>'}
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <div class="card-title" style="margin-bottom: 0;">Molecules in Development (${molecules.length})</div>
+        <a href="/api/landscape/${encodeURIComponent(condition)}/molecules" class="export-btn">Download JSON</a>
+      </div>
+      <input type="text" class="search-box" placeholder="Search molecules, mechanisms, sponsors..." id="moleculeSearch">
+      <div style="max-height: 600px; overflow-y: auto;">
+        <table id="moleculesTable">
+          <thead>
+            <tr>
+              <th>Molecule</th>
+              <th>Type</th>
+              <th>Mechanism</th>
+              <th>Target</th>
+              <th>Sponsor</th>
+              <th>Phase</th>
+              <th>Trials</th>
+              <th>Lead Trial</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${molecules.length === 0 ? `
+              <tr><td colspan="8" style="text-align: center; color: var(--gray-500); padding: 2rem;">No molecules found</td></tr>
+            ` : molecules.map(mol => `
+              <tr>
+                <td>
+                  <div class="molecule-name">${escapeHtml(mol.name)}</div>
+                  ${mol.aliases.length > 0 ? `<div class="molecule-aliases">${mol.aliases.slice(0, 2).map(a => escapeHtml(a)).join(', ')}${mol.aliases.length > 2 ? '...' : ''}</div>` : ''}
+                </td>
+                <td>${mol.type ? `<span class="type-badge">${escapeHtml(mol.type)}</span>` : '—'}</td>
+                <td>${mol.mechanism ? `<span class="mechanism-badge">${escapeHtml(mol.mechanism)}</span>` : '—'}</td>
+                <td>${mol.target ? escapeHtml(mol.target) : '—'}</td>
+                <td><span class="sponsor-name">${escapeHtml((mol.sponsors[0] || 'Unknown').substring(0, 35))}${(mol.sponsors[0] || '').length > 35 ? '...' : ''}</span></td>
+                <td><span class="phase-badge ${getTrialPhaseClass(mol.highestPhase)}">${escapeHtml(mol.highestPhase)}</span></td>
+                <td class="trial-count">${mol.trialCount}</td>
+                <td>${mol.leadTrialId ? `<a href="https://clinicaltrials.gov/study/${mol.leadTrialId}" target="_blank" class="link">${mol.leadTrialId}</a>` : '—'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Data source: ClinicalTrials.gov</div>
+    </footer>
+  </div>
+
+  <script>
+    // Search functionality
+    document.getElementById('moleculeSearch')?.addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll('#moleculesTable tbody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>`;
+}
+
+// ============================================
+// Trial Results HTML Generator
+// ============================================
+
+function generateTrialResultsHtml(data: FullTrialData): string {
+  const timestamp = new Date().toLocaleString();
+
+  // Build arms table data
+  const armsHtml = data.arms.map(arm => `
+    <tr>
+      <td><strong>${escapeHtml(arm.title)}</strong></td>
+      <td>${arm.type || '—'}</td>
+      <td>${arm.intervention ? escapeHtml(arm.intervention) : '—'}</td>
+      <td class="text-center">${arm.n !== undefined ? arm.n.toLocaleString() : '—'}</td>
+    </tr>
+  `).join('');
+
+  // Build primary outcomes table
+  const primaryOutcomesHtml = data.primaryOutcomes.length > 0
+    ? data.primaryOutcomes.map(outcome => generateOutcomeSection(outcome, 'primary')).join('')
+    : '<p class="no-data">No primary outcome results posted</p>';
+
+  // Build secondary outcomes table
+  const secondaryOutcomesHtml = data.secondaryOutcomes.length > 0
+    ? data.secondaryOutcomes.map(outcome => generateOutcomeSection(outcome, 'secondary')).join('')
+    : '<p class="no-data">No secondary outcome results posted</p>';
+
+  // Build safety tables
+  const safetyHtml = data.safety ? generateSafetySection(data.safety) : '<p class="no-data">No adverse events data posted</p>';
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(data.nctId)} Results | Helix Intelligence</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 2rem;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .nct-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .header-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-completed { background: #dcfce7; color: #166534; }
+    .status-recruiting { background: #dbeafe; color: #1e40af; }
+    .status-terminated { background: #fee2e2; color: #991b1b; }
+    .status-other { background: var(--gray-200); color: var(--gray-700); }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.75rem;
+      background: var(--gray-50);
+      font-weight: 600;
+      color: var(--gray-500);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--gray-200);
+    }
+
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: top;
+    }
+
+    tr:hover {
+      background: var(--gray-50);
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .outcome-header {
+      background: var(--gray-50);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .outcome-title {
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .outcome-meta {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+    }
+
+    .outcome-description {
+      font-size: 0.875rem;
+      color: var(--gray-600);
+      margin-top: 0.5rem;
+    }
+
+    .result-value {
+      font-weight: 600;
+      color: var(--gray-900);
+    }
+
+    .result-ci {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    .p-value {
+      font-weight: 600;
+    }
+
+    .p-significant {
+      color: var(--success);
+    }
+
+    .p-not-significant {
+      color: var(--gray-500);
+    }
+
+    .analysis-box {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .analysis-box.not-significant {
+      background: var(--gray-50);
+      border-color: var(--gray-200);
+    }
+
+    .analysis-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .analysis-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .ae-rate {
+      font-weight: 600;
+    }
+
+    .ae-rate-high {
+      color: var(--danger);
+    }
+
+    .ae-rate-medium {
+      color: var(--warning);
+    }
+
+    .ae-rate-low {
+      color: var(--gray-700);
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 300px;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .link {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .no-data {
+      color: var(--gray-500);
+      font-style: italic;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .no-results-banner {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      color: #92400e;
+      margin-bottom: 2rem;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-500);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 { font-size: 1.25rem; }
+      .header-meta { flex-direction: column; gap: 0.5rem; }
+      th, td { padding: 0.5rem; font-size: 0.8rem; }
+    }
+
+    @media print {
+      .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .search-box { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="nct-badge">
+        <a href="https://clinicaltrials.gov/study/${data.nctId}" target="_blank" style="color: white; text-decoration: none;">
+          ${data.nctId} ↗
+        </a>
+      </div>
+      <h1>${escapeHtml(data.title)}</h1>
+      <div class="header-meta">
+        <div class="header-meta-item">
+          <span class="status-badge ${getStatusBadgeClass(data.status)}">${escapeHtml(data.status)}</span>
+        </div>
+        <div class="header-meta-item">
+          <strong>Phase:</strong> ${escapeHtml(data.phase)}
+        </div>
+        <div class="header-meta-item">
+          <strong>Sponsor:</strong> ${escapeHtml(data.sponsor)}
+        </div>
+        <div class="header-meta-item">
+          <strong>Enrollment:</strong> ${data.enrollment.toLocaleString()}
+        </div>
+        ${data.completionDate ? `<div class="header-meta-item"><strong>Completed:</strong> ${data.completionDate}</div>` : ''}
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    ${!data.hasResults ? `
+      <div class="no-results-banner">
+        <strong>No Results Posted Yet</strong><br>
+        This trial has not posted results to ClinicalTrials.gov.
+        ${data.status === 'COMPLETED' ? 'Results may be posted within 12 months of completion.' : ''}
+      </div>
+    ` : ''}
+
+    <!-- Study Arms -->
+    <section class="section">
+      <h2 class="section-title">📊 Study Population & Arms</h2>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Arm</th>
+              <th>Type</th>
+              <th>Intervention</th>
+              <th class="text-center">N</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${armsHtml || '<tr><td colspan="4" class="no-data">No arm information available</td></tr>'}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    ${data.hasResults ? `
+    <!-- Primary Outcomes -->
+    <section class="section">
+      <h2 class="section-title">🎯 Primary Outcomes</h2>
+      ${primaryOutcomesHtml}
+    </section>
+
+    <!-- Secondary Outcomes -->
+    <section class="section">
+      <h2 class="section-title">📈 Secondary Outcomes</h2>
+      ${secondaryOutcomesHtml}
+    </section>
+
+    <!-- Safety -->
+    <section class="section">
+      <h2 class="section-title">⚠️ Adverse Events</h2>
+      ${safetyHtml}
+    </section>
+    ` : ''}
+
+    <footer class="footer">
+      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Data source: <a href="https://clinicaltrials.gov/study/${data.nctId}" class="link">ClinicalTrials.gov</a></div>
+      <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--gray-400);">
+        Fetched ${timestamp}. Verify all data before making clinical or investment decisions.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Search functionality for AE tables
+    document.querySelectorAll('.ae-search').forEach(input => {
+      input.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        const tableId = this.dataset.table;
+        document.querySelectorAll('#' + tableId + ' tbody tr').forEach(row => {
+          const text = row.textContent.toLowerCase();
+          row.style.display = text.includes(query) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>`;
+}
+
+function generateOutcomeSection(outcome: FormattedOutcome, type: string): string {
+  const resultsRows = outcome.results.map(r => `
+    <tr>
+      <td>${escapeHtml(r.armTitle)}</td>
+      <td class="result-value">${escapeHtml(r.value)}${outcome.units ? ' ' + escapeHtml(outcome.units) : ''}</td>
+      <td class="result-ci">${r.ci ? `[${r.ci.lower}, ${r.ci.upper}]` : r.spread ? `(${r.spread})` : '—'}</td>
+      <td class="text-center">${r.n !== undefined ? r.n.toLocaleString() : '—'}</td>
+    </tr>
+  `).join('');
+
+  const analysisHtml = outcome.analysis ? `
+    <div class="analysis-box ${outcome.analysis.pValueSignificant ? '' : 'not-significant'}">
+      <div class="analysis-label">Statistical Analysis</div>
+      <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        ${outcome.analysis.pValue ? `
+          <div>
+            <div style="font-size: 0.75rem; color: var(--gray-500);">P-value</div>
+            <div class="p-value ${outcome.analysis.pValueSignificant ? 'p-significant' : 'p-not-significant'}">
+              ${escapeHtml(outcome.analysis.pValue)}
+              ${outcome.analysis.pValueSignificant ? ' ✓' : ''}
+            </div>
+          </div>
+        ` : ''}
+        ${outcome.analysis.estimateValue ? `
+          <div>
+            <div style="font-size: 0.75rem; color: var(--gray-500);">${outcome.analysis.estimateType || 'Estimate'}</div>
+            <div style="font-weight: 600;">${escapeHtml(outcome.analysis.estimateValue)}</div>
+          </div>
+        ` : ''}
+        ${outcome.analysis.ci ? `
+          <div>
+            <div style="font-size: 0.75rem; color: var(--gray-500);">${outcome.analysis.ci.pct}% CI</div>
+            <div>[${outcome.analysis.ci.lower}, ${outcome.analysis.ci.upper}]</div>
+          </div>
+        ` : ''}
+        ${outcome.analysis.method ? `
+          <div>
+            <div style="font-size: 0.75rem; color: var(--gray-500);">Method</div>
+            <div style="font-size: 0.875rem;">${escapeHtml(outcome.analysis.method)}</div>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+  ` : '';
+
+  return `
+    <div class="card">
+      <div class="outcome-header">
+        <div class="outcome-title">${escapeHtml(outcome.title)}</div>
+        <div class="outcome-meta">
+          ${outcome.timeFrame ? `<strong>Time Frame:</strong> ${escapeHtml(outcome.timeFrame)}` : ''}
+          ${outcome.paramType ? ` | <strong>Measure:</strong> ${escapeHtml(outcome.paramType)}` : ''}
+        </div>
+        ${outcome.description ? `<div class="outcome-description">${escapeHtml(outcome.description)}</div>` : ''}
+      </div>
+
+      ${outcome.results.length > 0 ? `
+        <table>
+          <thead>
+            <tr>
+              <th>Arm</th>
+              <th>Value</th>
+              <th>CI/Spread</th>
+              <th class="text-center">N</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${resultsRows}
+          </tbody>
+        </table>
+        ${analysisHtml}
+      ` : '<p class="no-data">No measurements posted</p>'}
+    </div>
+  `;
+}
+
+function generateSafetySection(safety: FormattedSafety): string {
+  // Summary cards
+  const summaryHtml = `
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+      ${safety.arms.map(arm => `
+        <div class="card" style="margin-bottom: 0;">
+          <div style="font-weight: 600; margin-bottom: 0.5rem;">${escapeHtml(arm.title)}</div>
+          <div style="font-size: 0.875rem; color: var(--gray-600);">
+            <div>Serious AEs: <strong>${arm.seriousNumAffected}</strong>/${arm.seriousNumAtRisk} (${arm.seriousNumAtRisk > 0 ? ((arm.seriousNumAffected / arm.seriousNumAtRisk) * 100).toFixed(1) : 0}%)</div>
+            <div>Other AEs: <strong>${arm.otherNumAffected}</strong>/${arm.otherNumAtRisk} (${arm.otherNumAtRisk > 0 ? ((arm.otherNumAffected / arm.otherNumAtRisk) * 100).toFixed(1) : 0}%)</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // Serious events table
+  const seriousEventsHtml = safety.seriousEvents.length > 0 ? `
+    <div class="card">
+      <div class="card-title">Serious Adverse Events (${safety.seriousEvents.length})</div>
+      <input type="text" class="search-box ae-search" data-table="sae-table" placeholder="Search serious events...">
+      <div style="max-height: 400px; overflow-y: auto;">
+        <table id="sae-table">
+          <thead>
+            <tr>
+              <th>Event Term</th>
+              <th>Organ System</th>
+              ${safety.arms.map(arm => `<th class="text-center">${escapeHtml(arm.title.substring(0, 20))}</th>`).join('')}
+              <th class="text-center">Overall</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${safety.seriousEvents.slice(0, 50).map(event => `
+              <tr>
+                <td><strong>${escapeHtml(event.term)}</strong></td>
+                <td style="font-size: 0.8rem; color: var(--gray-500);">${event.organSystem ? escapeHtml(event.organSystem) : '—'}</td>
+                ${event.byArm.map(a => `
+                  <td class="text-center">
+                    <span class="ae-rate ${getRateClass(a.rate)}">${a.rate.toFixed(1)}%</span>
+                    <div style="font-size: 0.7rem; color: var(--gray-400);">${a.numAffected}/${a.numAtRisk}</div>
+                  </td>
+                `).join('')}
+                <td class="text-center">
+                  <span class="ae-rate ${getRateClass(event.overallRate)}">${event.overallRate.toFixed(1)}%</span>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  ` : '<div class="card"><p class="no-data">No serious adverse events reported</p></div>';
+
+  // Other events table (top 30)
+  const otherEventsHtml = safety.otherEvents.length > 0 ? `
+    <div class="card">
+      <div class="card-title">Other Adverse Events (showing top 30 of ${safety.otherEvents.length})</div>
+      <input type="text" class="search-box ae-search" data-table="oae-table" placeholder="Search other events...">
+      <div style="max-height: 400px; overflow-y: auto;">
+        <table id="oae-table">
+          <thead>
+            <tr>
+              <th>Event Term</th>
+              <th>Organ System</th>
+              ${safety.arms.map(arm => `<th class="text-center">${escapeHtml(arm.title.substring(0, 20))}</th>`).join('')}
+              <th class="text-center">Overall</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${safety.otherEvents.slice(0, 30).map(event => `
+              <tr>
+                <td><strong>${escapeHtml(event.term)}</strong></td>
+                <td style="font-size: 0.8rem; color: var(--gray-500);">${event.organSystem ? escapeHtml(event.organSystem) : '—'}</td>
+                ${event.byArm.map(a => `
+                  <td class="text-center">
+                    <span class="ae-rate ${getRateClass(a.rate)}">${a.rate.toFixed(1)}%</span>
+                    <div style="font-size: 0.7rem; color: var(--gray-400);">${a.numAffected}/${a.numAtRisk}</div>
+                  </td>
+                `).join('')}
+                <td class="text-center">
+                  <span class="ae-rate ${getRateClass(event.overallRate)}">${event.overallRate.toFixed(1)}%</span>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  ` : '<div class="card"><p class="no-data">No other adverse events reported</p></div>';
+
+  return `
+    ${safety.timeFrame ? `<p style="margin-bottom: 1rem; color: var(--gray-600);"><strong>Time Frame:</strong> ${escapeHtml(safety.timeFrame)}</p>` : ''}
+    ${summaryHtml}
+    ${seriousEventsHtml}
+    ${otherEventsHtml}
+  `;
+}
+
+function getStatusBadgeClass(status: string): string {
+  const s = status.toLowerCase();
+  if (s.includes('completed')) return 'status-completed';
+  if (s.includes('recruiting')) return 'status-recruiting';
+  if (s.includes('terminated') || s.includes('withdrawn')) return 'status-terminated';
+  return 'status-other';
+}
+
+function getRateClass(rate: number): string {
+  if (rate >= 10) return 'ae-rate-high';
+  if (rate >= 5) return 'ae-rate-medium';
+  return 'ae-rate-low';
+}
+
+// ============================================
+// Trial Comparison HTML Generator
+// ============================================
+
+function generateTrialComparisonHtml(comparison: {
+  trials: FullTrialData[];
+  comparison: {
+    populations: { nctId: string; enrollment: number; arms: string[] }[];
+    primaryEndpoints: { endpoint: string; byTrial: { nctId: string; value: string; pValue?: string; significant?: boolean }[] }[];
+    safetyHighlights: { event: string; byTrial: { nctId: string; rate: number }[] }[];
+    endpointDifferences: string[];
+  };
+}): string {
+  const { trials } = comparison;
+  const timestamp = new Date().toLocaleString();
+
+  // Build comparison tables
+  const populationHtml = `
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          ${trials.map(t => `<th class="text-center">${t.nctId}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Title</strong></td>
+          ${trials.map(t => `<td style="font-size: 0.8rem;">${escapeHtml(t.title.substring(0, 60))}...</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Phase</strong></td>
+          ${trials.map(t => `<td class="text-center"><span class="phase-badge ${getTrialPhaseClass(t.phase)}">${escapeHtml(t.phase)}</span></td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Status</strong></td>
+          ${trials.map(t => `<td class="text-center"><span class="status-badge ${getStatusBadgeClass(t.status)}">${escapeHtml(t.status)}</span></td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Sponsor</strong></td>
+          ${trials.map(t => `<td style="font-size: 0.85rem;">${escapeHtml(t.sponsor)}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Enrollment</strong></td>
+          ${trials.map(t => `<td class="text-center">${t.enrollment.toLocaleString()}</td>`).join('')}
+        </tr>
+        <tr>
+          <td><strong>Arms</strong></td>
+          ${trials.map(t => `<td style="font-size: 0.8rem;">${t.arms.map(a => `${escapeHtml(a.title)} (N=${a.n || '?'})`).join('<br>')}</td>`).join('')}
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  const endpointsHtml = comparison.comparison.primaryEndpoints.length > 0 ? `
+    <table>
+      <thead>
+        <tr>
+          <th>Primary Endpoint</th>
+          ${trials.map(t => `<th class="text-center">${t.nctId}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${comparison.comparison.primaryEndpoints.map(ep => `
+          <tr>
+            <td><strong>${escapeHtml(ep.endpoint.substring(0, 50))}${ep.endpoint.length > 50 ? '...' : ''}</strong></td>
+            ${trials.map(t => {
+              const result = ep.byTrial.find(r => r.nctId === t.nctId);
+              if (!result) return '<td class="text-center" style="color: var(--gray-400);">N/A</td>';
+              return `
+                <td class="text-center">
+                  <div class="result-value">${escapeHtml(result.value)}</div>
+                  ${result.pValue ? `<div class="p-value ${result.significant ? 'p-significant' : 'p-not-significant'}">${escapeHtml(result.pValue)}</div>` : ''}
+                </td>
+              `;
+            }).join('')}
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  ` : '<p class="no-data">No primary endpoint data available for comparison</p>';
+
+  const safetyHtml = comparison.comparison.safetyHighlights.length > 0 ? `
+    <table>
+      <thead>
+        <tr>
+          <th>Adverse Event</th>
+          ${trials.map(t => `<th class="text-center">${t.nctId}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${comparison.comparison.safetyHighlights.map(event => `
+          <tr>
+            <td><strong>${escapeHtml(event.event)}</strong></td>
+            ${trials.map(t => {
+              const result = event.byTrial.find(r => r.nctId === t.nctId);
+              if (!result) return '<td class="text-center" style="color: var(--gray-400);">—</td>';
+              return `<td class="text-center"><span class="ae-rate ${getRateClass(result.rate)}">${result.rate.toFixed(1)}%</span></td>`;
+            }).join('')}
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  ` : '<p class="no-data">No common adverse events to compare</p>';
+
+  const differencesHtml = comparison.comparison.endpointDifferences.length > 0 ? `
+    <div class="card" style="background: #fef3c7; border-color: #f59e0b;">
+      <div class="card-title" style="color: #92400e;">⚠️ Endpoint Differences</div>
+      <ul style="margin-left: 1.5rem; color: #92400e;">
+        ${comparison.comparison.endpointDifferences.map(d => `<li>${escapeHtml(d)}</li>`).join('')}
+      </ul>
+    </div>
+  ` : '';
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trial Comparison | Helix Intelligence</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-700: #374151;
+      --gray-900: #111827;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 2rem;
+    }
+
+    .header h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header-subtitle {
+      max-width: 1200px;
+      margin: 0.5rem auto 0;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.75rem;
+      background: var(--gray-50);
+      font-weight: 600;
+      color: var(--gray-500);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--gray-200);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: top;
+    }
+
+    tr:hover { background: var(--gray-50); }
+
+    .text-center { text-align: center; }
+
+    .phase-badge, .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .phase-4, .phase-approved { background: #dcfce7; color: #166534; }
+    .phase-3 { background: #dbeafe; color: #1e40af; }
+    .phase-2 { background: #fef3c7; color: #92400e; }
+    .phase-1 { background: var(--gray-100); color: var(--gray-700); }
+    .phase-na { background: var(--gray-100); color: var(--gray-500); }
+
+    .status-completed { background: #dcfce7; color: #166534; }
+    .status-recruiting { background: #dbeafe; color: #1e40af; }
+    .status-terminated { background: #fee2e2; color: #991b1b; }
+    .status-other { background: var(--gray-200); color: var(--gray-700); }
+
+    .result-value { font-weight: 600; }
+
+    .p-value { font-size: 0.8rem; margin-top: 0.25rem; }
+    .p-significant { color: var(--success); }
+    .p-not-significant { color: var(--gray-500); }
+
+    .ae-rate { font-weight: 600; }
+    .ae-rate-high { color: var(--danger); }
+    .ae-rate-medium { color: var(--warning); }
+    .ae-rate-low { color: var(--gray-700); }
+
+    .no-data { color: var(--gray-500); font-style: italic; padding: 1rem; text-align: center; }
+
+    .link { color: var(--primary); text-decoration: none; }
+    .link:hover { text-decoration: underline; }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-500);
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>📊 Trial Comparison</h1>
+    <div class="header-subtitle">
+      Comparing ${trials.length} trials: ${trials.map(t => `<a href="/api/trial/${t.nctId}/results/html" style="color: white;">${t.nctId}</a>`).join(', ')}
+    </div>
+  </header>
+
+  <div class="container">
+    ${differencesHtml}
+
+    <section class="section">
+      <h2 class="section-title">📋 Study Overview</h2>
+      <div class="card">
+        ${populationHtml}
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">🎯 Primary Efficacy Endpoints</h2>
+      <div class="card">
+        ${endpointsHtml}
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">⚠️ Safety Comparison (Common AEs)</h2>
+      <div class="card">
+        ${safetyHtml}
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Data source: ClinicalTrials.gov | ${timestamp}</div>
+    </footer>
+  </div>
 </body>
 </html>`;
 }
