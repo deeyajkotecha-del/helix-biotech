@@ -493,4 +493,56 @@ export interface HelixDatabase {
     markets: Map<string, Market>;
     endpointDefinitions: Map<string, EndpointDefinition>;
 }
+export interface DrugApproval {
+    applicationNumber: string;
+    applicationType: 'NDA' | 'BLA' | 'ANDA';
+    brandName: string;
+    genericName: string;
+    sponsorName: string;
+    approvalDate?: string;
+    activeIngredients: {
+        name: string;
+        strength?: string;
+    }[];
+    dosageForm?: string;
+    route?: string;
+    productNumbers: string[];
+    isBiologic: boolean;
+}
+export interface OrangeBookPatent {
+    patentNumber: string;
+    expiryDate: string;
+    expiryDateParsed: string;
+    drugSubstance: boolean;
+    drugProduct: boolean;
+    patentUseCode?: string;
+    delistFlag: boolean;
+    submissionDate?: string;
+    applicationNumber: string;
+    productNumber: string;
+}
+export interface OrangeBookExclusivity {
+    exclusivityCode: string;
+    exclusivityDate: string;
+    exclusivityDateParsed: string;
+    exclusivityType: string;
+    applicationNumber: string;
+    productNumber: string;
+}
+export interface DrugPatentProfile {
+    drugName: string;
+    brandName: string;
+    sponsor: string;
+    approval: DrugApproval;
+    patents: OrangeBookPatent[];
+    exclusivities: OrangeBookExclusivity[];
+    uniquePatentNumbers: string[];
+    earliestPatentExpiry: string | null;
+    latestPatentExpiry: string | null;
+    latestExclusivityExpiry: string | null;
+    effectiveLOE: string | null;
+    biologicExclusivityExpiry: string | null;
+    daysUntilLOE: number | null;
+    fetchedAt: string;
+}
 //# sourceMappingURL=schema.d.ts.map

@@ -1,85 +1,47 @@
 /**
- * Patents Service
+ * Patents & Exclusivity Service
  *
- * Fetches patent data from USPTO, Orange Book, and EPO.
- * Tracks patent expiry dates and exclusivity periods.
+ * Provides patent and exclusivity data for FDA-approved drugs using:
+ * - FDA Orange Book ZIP download (patents + exclusivities for NDA drugs)
+ * - OpenFDA drugsfda API (drug approval lookup)
+ * - BPCIA 12-year exclusivity calculation for biologics (BLA)
  */
-import { Patent, PatentType } from '../types/schema';
+import { DrugApproval, OrangeBookPatent, OrangeBookExclusivity, DrugPatentProfile } from '../types/schema';
 /**
- * Search patents by drug name
- * TODO: Implement USPTO API integration
- * TODO: Add EPO integration for international patents
+ * Search OpenFDA drugsfda endpoint for a drug by name.
+ * Returns approval information including application number.
  */
-export declare function searchPatentsByDrug(drugName: string): Promise<Patent[]>;
+export declare function searchDrugApprovals(drugName: string): Promise<DrugApproval[]>;
 /**
- * Get patent by number
+ * Get Orange Book patents for a given application number.
  */
-export declare function getPatentByNumber(patentNumber: string): Promise<Patent | null>;
+export declare function getPatentsForApplication(applicationNumber: string): Promise<OrangeBookPatent[]>;
 /**
- * Get all patents for a company
+ * Get Orange Book exclusivities for a given application number.
  */
-export declare function getPatentsByCompany(companyName: string): Promise<Patent[]>;
+export declare function getExclusivitiesForApplication(applicationNumber: string): Promise<OrangeBookExclusivity[]>;
 /**
- * Get Orange Book listings for a drug
+ * Calculate the effective Loss of Exclusivity (LOE) date.
+ * This is the latest of:
+ * - Latest patent expiry
+ * - Latest exclusivity expiry
+ * - 12-year BPCIA exclusivity for biologics
  */
-export declare function getOrangeBookListings(drugName: string): Promise<Patent[]>;
-/**
- * Check for upcoming patent expirations
- */
-export declare function getExpiringPatents(withinMonths: number, options?: {
-    drugNames?: string[];
-    companies?: string[];
-}): Promise<Patent[]>;
-/**
- * Calculate effective patent expiry (including extensions)
- */
-export declare function calculateEffectiveExpiry(patent: Patent): string | null;
-/**
- * Determine patent type from claims/title
- */
-export declare function inferPatentType(title: string, claims?: string[]): PatentType;
-/**
- * Assess patent strength (simplified heuristic)
- */
-export declare function assessPatentStrength(patent: Patent): 'Strong' | 'Moderate' | 'Weak';
-/**
- * Check for generic entry window
- */
-export declare function getGenericEntryWindow(patent: Patent): {
-    earliestEntry: string | null;
-    daysUntilEntry: number | null;
-    hasExclusivity: boolean;
+export declare function calculateEffectiveLOE(patents: OrangeBookPatent[], exclusivities: OrangeBookExclusivity[], approval?: DrugApproval): {
+    effectiveLOE: string | null;
+    latestPatentExpiry: string | null;
+    latestExclusivityExpiry: string | null;
+    biologicExclusivityExpiry: string | null;
+    daysUntilLOE: number | null;
 };
 /**
- * Build patent landscape for a drug
+ * Get complete patent/exclusivity profile for a drug.
+ * This is the main function called by the API endpoint.
  */
-export declare function buildPatentLandscape(drugName: string): Promise<{
-    corePatents: Patent[];
-    methodPatents: Patent[];
-    formulationPatents: Patent[];
-    earliestExpiry: string | null;
-    latestExpiry: string | null;
-    activeLitigation: {
-        patent: Patent;
-        challenger: string;
-        status: string;
-    }[];
-}>;
+export declare function getDrugPatentProfile(drugName: string): Promise<DrugPatentProfile | null>;
 /**
- * Identify patent cliffs
+ * Get patent profiles for all drugs used in trials for a condition.
+ * Cross-references landscape molecules with patent data.
  */
-export declare function identifyPatentCliffs(year: number): Promise<{
-    drug: string;
-    company: string;
-    expiryDate: string;
-    estimatedRevenueAtRisk: number;
-}[]>;
-/**
- * Parse Orange Book data
- */
-export declare function parseOrangeBookEntry(entry: any): Patent;
-/**
- * Normalize patent number format
- */
-export declare function normalizePatentNumber(number: string): string;
+export declare function getPatentsByCondition(condition: string): Promise<DrugPatentProfile[]>;
 //# sourceMappingURL=patents.d.ts.map

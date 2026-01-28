@@ -783,3 +783,60 @@ export interface HelixDatabase {
   markets: Map<string, Market>;                  // Key: market.id
   endpointDefinitions: Map<string, EndpointDefinition>; // Key: endpoint.id
 }
+
+// ============================================
+// 11. Drug Patent Profile (Orange Book + OpenFDA)
+// ============================================
+
+export interface DrugApproval {
+  applicationNumber: string;       // e.g., "NDA211675" or "BLA761036"
+  applicationType: 'NDA' | 'BLA' | 'ANDA';
+  brandName: string;
+  genericName: string;
+  sponsorName: string;
+  approvalDate?: string;           // ISO date
+  activeIngredients: { name: string; strength?: string }[];
+  dosageForm?: string;
+  route?: string;
+  productNumbers: string[];
+  isBiologic: boolean;
+}
+
+export interface OrangeBookPatent {
+  patentNumber: string;
+  expiryDate: string;              // e.g., "Oct 17, 2036"
+  expiryDateParsed: string;        // ISO date
+  drugSubstance: boolean;
+  drugProduct: boolean;
+  patentUseCode?: string;
+  delistFlag: boolean;
+  submissionDate?: string;
+  applicationNumber: string;
+  productNumber: string;
+}
+
+export interface OrangeBookExclusivity {
+  exclusivityCode: string;         // e.g., "NCE", "ODE", "I-883"
+  exclusivityDate: string;         // e.g., "Apr 26, 2031"
+  exclusivityDateParsed: string;   // ISO date
+  exclusivityType: string;         // Human-readable description
+  applicationNumber: string;
+  productNumber: string;
+}
+
+export interface DrugPatentProfile {
+  drugName: string;
+  brandName: string;
+  sponsor: string;
+  approval: DrugApproval;
+  patents: OrangeBookPatent[];
+  exclusivities: OrangeBookExclusivity[];
+  uniquePatentNumbers: string[];
+  earliestPatentExpiry: string | null;
+  latestPatentExpiry: string | null;
+  latestExclusivityExpiry: string | null;
+  effectiveLOE: string | null;     // Latest of all protections
+  biologicExclusivityExpiry: string | null;  // 12 years for BLA reference products
+  daysUntilLOE: number | null;
+  fetchedAt: string;
+}

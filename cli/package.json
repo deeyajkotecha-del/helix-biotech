@@ -23,10 +23,12 @@
   "type": "commonjs",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.71.2",
+    "@types/adm-zip": "^0.5.7",
     "@types/cheerio": "^0.22.35",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.10",
+    "adm-zip": "^0.5.16",
     "axios": "^1.13.3",
     "chalk": "^4.1.2",
     "cheerio": "^1.2.0",

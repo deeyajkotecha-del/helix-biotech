@@ -23,6 +23,8 @@ import { getLandscapeData, generateLandscapeCSV, LandscapeData } from '../servic
 import { searchTrialsByCondition } from '../services/trials';
 import { extractMoleculesFromTrials, MoleculeSummary } from '../services/molecules';
 import { getFullTrialData, compareTrials, FullTrialData, FormattedOutcome, FormattedSafety, FormattedAE } from '../services/trial-results';
+import { getDrugPatentProfile, getPatentsByCondition } from '../services/patents';
+import { DrugPatentProfile, OrangeBookPatent, OrangeBookExclusivity } from '../types/schema';
 
 // Cache directory for analysis results
 const CACHE_DIR = path.resolve(__dirname, '..', '..', 'cache');
@@ -706,6 +708,81 @@ function startServer(port: number): void {
     }
   });
 
+  // ============================================
+  // Patent/Exclusivity Endpoints
+  // ============================================
+
+  // Patent Profile JSON
+  app.get('/api/patents/:drugName', async (req: Request, res: Response) => {
+    try {
+      const drugName = decodeURIComponent(req.params.drugName as string);
+      console.log(chalk.cyan(`  [Patents] Looking up "${drugName}"...`));
+
+      const profile = await getDrugPatentProfile(drugName);
+      if (!profile) {
+        res.status(404).json({ error: `No FDA approval found for "${drugName}"` });
+        return;
+      }
+
+      res.json(profile);
+    } catch (error) {
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  });
+
+  // Patent Profile HTML
+  app.get('/api/patents/:drugName/html', async (req: Request, res: Response) => {
+    try {
+      const drugName = decodeURIComponent(req.params.drugName as string);
+      console.log(chalk.cyan(`  [Patents] Building HTML for "${drugName}"...`));
+
+      const profile = await getDrugPatentProfile(drugName);
+      if (!profile) {
+        res.status(404).send(`<h1>Not Found</h1><p>No FDA approval found for "${drugName}"</p>`);
+        return;
+      }
+
+      const html = generatePatentProfileHtml(profile);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+    }
+  });
+
+  // Patents by Condition JSON
+  app.get('/api/patents/condition/:condition', async (req: Request, res: Response) => {
+    try {
+      const condition = decodeURIComponent(req.params.condition as string);
+      console.log(chalk.cyan(`  [Patents] Finding patents for "${condition}" drugs...`));
+
+      const profiles = await getPatentsByCondition(condition);
+      res.json({
+        condition,
+        drugCount: profiles.length,
+        profiles,
+        fetchedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  });
+
+  // Patents by Condition HTML (Timeline)
+  app.get('/api/patents/condition/:condition/html', async (req: Request, res: Response) => {
+    try {
+      const condition = decodeURIComponent(req.params.condition as string);
+      console.log(chalk.cyan(`  [Patents] Building patent timeline for "${condition}"...`));
+
+      const profiles = await getPatentsByCondition(condition);
+      const html = generatePatentTimelineHtml(condition, profiles);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+    }
+  });
+
   // Start server
   app.listen(port, () => {
     console.log('');
@@ -725,11 +802,15 @@ function startServer(port: number): void {
     console.log(chalk.cyan(`  GET  http://localhost:${port}/api/landscape/ulcerative%20colitis/molecules/html`));
     console.log(chalk.cyan(`  GET  http://localhost:${port}/api/trial/NCT02819635/results/html`));
     console.log(chalk.cyan(`  GET  http://localhost:${port}/api/compare-trials/html?ncts=NCT02819635,NCT03518086`));
+    console.log(chalk.cyan(`  GET  http://localhost:${port}/api/patents/rinvoq/html`));
+    console.log(chalk.cyan(`  GET  http://localhost:${port}/api/patents/condition/ulcerative%20colitis/html`));
     console.log('');
     console.log(chalk.gray('API Endpoints (JSON):'));
     console.log(chalk.gray(`  GET  /api/landscape/:condition/molecules`));
     console.log(chalk.gray(`  GET  /api/trial/:nctId/results`));
     console.log(chalk.gray(`  GET  /api/compare-trials?ncts=NCT1,NCT2`));
+    console.log(chalk.gray(`  GET  /api/patents/:drugName`));
+    console.log(chalk.gray(`  GET  /api/patents/condition/:condition`));
     console.log('');
     console.log(chalk.gray(`Cache: ${CACHE_DIR}`));
     console.log('');
@@ -4120,6 +4201,395 @@ function generateTrialComparisonHtml(comparison: {
     <footer class="footer">
       <div>⬡ Powered by Helix Intelligence</div>
       <div>Data source: ClinicalTrials.gov | ${timestamp}</div>
+    </footer>
+  </div>
+</body>
+</html>`;
+}
+
+// ============================================
+// Patent Profile HTML
+// ============================================
+
+function generatePatentProfileHtml(profile: DrugPatentProfile): string {
+  const timestamp = new Date().toLocaleString();
+
+  // LOE status badge
+  const daysUntil = profile.daysUntilLOE;
+  let loeStatus = '';
+  let loeClass = '';
+  if (daysUntil === null) {
+    loeStatus = 'Unknown';
+    loeClass = 'badge-gray';
+  } else if (daysUntil <= 0) {
+    loeStatus = 'Expired';
+    loeClass = 'badge-red';
+  } else if (daysUntil <= 365) {
+    loeStatus = `${Math.round(daysUntil / 30)} months`;
+    loeClass = 'badge-red';
+  } else if (daysUntil <= 365 * 3) {
+    loeStatus = `${(daysUntil / 365).toFixed(1)} years`;
+    loeClass = 'badge-orange';
+  } else {
+    loeStatus = `${(daysUntil / 365).toFixed(1)} years`;
+    loeClass = 'badge-green';
+  }
+
+  // Patent table rows
+  const patentRows = profile.patents.map(p => {
+    const typeFlags: string[] = [];
+    if (p.drugSubstance) typeFlags.push('Substance');
+    if (p.drugProduct) typeFlags.push('Product');
+    if (p.patentUseCode) typeFlags.push(`Use: ${p.patentUseCode}`);
+    return `<tr>
+      <td><a href="https://patents.google.com/patent/US${p.patentNumber}" target="_blank">${p.patentNumber}</a></td>
+      <td>${typeFlags.join(', ') || '—'}</td>
+      <td>${p.expiryDate || '—'}</td>
+      <td>${p.expiryDateParsed || '—'}</td>
+      <td>${p.delistFlag ? 'Yes' : 'No'}</td>
+    </tr>`;
+  }).join('\n');
+
+  // Exclusivity table rows
+  const exclRows = profile.exclusivities.map(e => `<tr>
+    <td><strong>${e.exclusivityCode}</strong></td>
+    <td>${e.exclusivityType}</td>
+    <td>${e.exclusivityDate}</td>
+    <td>${e.exclusivityDateParsed || '—'}</td>
+  </tr>`).join('\n');
+
+  // Patent expiry timeline visualization
+  const today = new Date();
+  const timelineStart = today.getFullYear();
+  const timelineEnd = timelineStart + 15;
+  const timelineYears: number[] = [];
+  for (let y = timelineStart; y <= timelineEnd; y++) timelineYears.push(y);
+
+  // Group patents by expiry year
+  const patentsByYear = new Map<number, OrangeBookPatent[]>();
+  for (const p of profile.patents) {
+    if (p.expiryDateParsed) {
+      const year = new Date(p.expiryDateParsed).getFullYear();
+      if (!patentsByYear.has(year)) patentsByYear.set(year, []);
+      patentsByYear.get(year)!.push(p);
+    }
+  }
+
+  const timelineBars = timelineYears.map(year => {
+    const patents = patentsByYear.get(year) || [];
+    const count = patents.length;
+    const height = count > 0 ? Math.max(20, Math.min(count * 15, 150)) : 0;
+    const isPast = year < today.getFullYear();
+    const isLOEYear = profile.effectiveLOE && new Date(profile.effectiveLOE).getFullYear() === year;
+    const barClass = isLOEYear ? 'timeline-bar-loe' : isPast ? 'timeline-bar-past' : count > 0 ? 'timeline-bar-active' : '';
+    return `<div class="timeline-col">
+      <div class="timeline-bar ${barClass}" style="height: ${height}px" title="${count} patents expire in ${year}">
+        ${count > 0 ? `<span class="timeline-count">${count}</span>` : ''}
+      </div>
+      <div class="timeline-label${isLOEYear ? ' timeline-loe-label' : ''}">${year}</div>
+    </div>`;
+  }).join('\n');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patent Profile: ${profile.brandName} - Helix Intelligence</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #1a1a3e, #2d1b4e); border-radius: 12px; padding: 30px; margin-bottom: 20px; }
+    .header h1 { font-size: 2em; color: #fff; margin-bottom: 5px; }
+    .header .subtitle { color: #aaa; font-size: 1.1em; }
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .meta-card { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 15px; }
+    .meta-label { color: #888; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
+    .meta-value { font-size: 1.3em; font-weight: 600; color: #fff; margin-top: 4px; }
+    .section { margin-bottom: 25px; }
+    .section-title { font-size: 1.3em; color: #fff; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid #333; }
+    .card { background: #12122a; border-radius: 10px; padding: 20px; border: 1px solid #222; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.85em; font-weight: 600; }
+    .badge-green { background: rgba(0,200,100,0.15); color: #00c864; }
+    .badge-orange { background: rgba(255,165,0,0.15); color: #ffa500; }
+    .badge-red { background: rgba(255,60,60,0.15); color: #ff3c3c; }
+    .badge-gray { background: rgba(150,150,150,0.15); color: #999; }
+    .badge-blue { background: rgba(100,149,237,0.15); color: #6495ed; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 10px 12px; background: rgba(255,255,255,0.05); color: #aaa; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { padding: 10px 12px; border-top: 1px solid #1a1a35; }
+    td a { color: #6495ed; text-decoration: none; }
+    td a:hover { text-decoration: underline; }
+    tr:hover td { background: rgba(255,255,255,0.03); }
+    .loe-banner { background: linear-gradient(135deg, #1a2a1a, #1a3a1a); border: 1px solid #2a4a2a; border-radius: 10px; padding: 25px; text-align: center; margin-bottom: 25px; }
+    .loe-date { font-size: 2em; font-weight: 700; color: #fff; }
+    .loe-detail { color: #aaa; margin-top: 5px; }
+    .timeline { display: flex; align-items: flex-end; gap: 4px; height: 180px; padding: 10px 0; }
+    .timeline-col { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .timeline-bar { width: 100%; max-width: 50px; border-radius: 4px 4px 0 0; display: flex; align-items: flex-end; justify-content: center; transition: all 0.3s; }
+    .timeline-bar-active { background: linear-gradient(to top, #4a6cf7, #6a8cff); }
+    .timeline-bar-past { background: #333; }
+    .timeline-bar-loe { background: linear-gradient(to top, #ff3c3c, #ff6b6b); }
+    .timeline-count { color: #fff; font-size: 0.8em; font-weight: 600; padding: 4px; }
+    .timeline-label { font-size: 0.75em; color: #888; margin-top: 5px; writing-mode: vertical-rl; text-orientation: mixed; }
+    .timeline-loe-label { color: #ff3c3c; font-weight: 700; }
+    .footer { text-align: center; color: #555; font-size: 0.85em; margin-top: 30px; padding: 15px; border-top: 1px solid #222; }
+    .empty-msg { color: #666; font-style: italic; padding: 20px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>${profile.brandName}</h1>
+      <div class="subtitle">${profile.drugName} | ${profile.sponsor} | ${profile.approval.applicationNumber}</div>
+      <div class="meta-grid">
+        <div class="meta-card">
+          <div class="meta-label">Application Type</div>
+          <div class="meta-value">
+            <span class="badge ${profile.approval.isBiologic ? 'badge-blue' : 'badge-green'}">${profile.approval.applicationType}</span>
+          </div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Approval Date</div>
+          <div class="meta-value">${profile.approval.approvalDate || 'Unknown'}</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Unique Patents</div>
+          <div class="meta-value">${profile.uniquePatentNumbers.length}</div>
+        </div>
+        <div class="meta-card">
+          <div class="meta-label">Exclusivities</div>
+          <div class="meta-value">${profile.exclusivities.length}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="loe-banner">
+      <div style="color: #888; font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px;">Effective Loss of Exclusivity</div>
+      <div class="loe-date">${profile.effectiveLOE || 'Unknown'}</div>
+      <div class="loe-detail">
+        <span class="badge ${loeClass}">${loeStatus} remaining</span>
+        ${profile.biologicExclusivityExpiry ? `<span style="color:#888; margin-left:10px;">BPCIA 12-year: ${profile.biologicExclusivityExpiry}</span>` : ''}
+      </div>
+      <div class="loe-detail" style="margin-top:8px;">
+        ${profile.latestPatentExpiry ? `Latest Patent: ${profile.latestPatentExpiry}` : ''}
+        ${profile.latestPatentExpiry && profile.latestExclusivityExpiry ? ' | ' : ''}
+        ${profile.latestExclusivityExpiry ? `Latest Exclusivity: ${profile.latestExclusivityExpiry}` : ''}
+      </div>
+    </div>
+
+    <section class="section">
+      <h2 class="section-title">Patent Expiry Timeline</h2>
+      <div class="card">
+        ${profile.patents.length > 0 ? `<div class="timeline">${timelineBars}</div>
+        <div style="text-align:center; margin-top:10px; font-size:0.85em; color:#888;">
+          <span style="display:inline-block; width:12px; height:12px; background:#4a6cf7; border-radius:2px; margin-right:4px;"></span> Active patents
+          <span style="display:inline-block; width:12px; height:12px; background:#ff3c3c; border-radius:2px; margin-left:15px; margin-right:4px;"></span> LOE year
+          <span style="display:inline-block; width:12px; height:12px; background:#333; border-radius:2px; margin-left:15px; margin-right:4px;"></span> Past
+        </div>` : '<div class="empty-msg">No Orange Book patent data (biologic products use BPCIA exclusivity)</div>'}
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Orange Book Patents (${profile.patents.length})</h2>
+      <div class="card">
+        ${profile.patents.length > 0 ? `<table>
+          <thead><tr><th>Patent #</th><th>Type</th><th>Expiry</th><th>ISO Date</th><th>Delisted</th></tr></thead>
+          <tbody>${patentRows}</tbody>
+        </table>` : '<div class="empty-msg">No patents listed in Orange Book</div>'}
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Exclusivities (${profile.exclusivities.length})</h2>
+      <div class="card">
+        ${profile.exclusivities.length > 0 ? `<table>
+          <thead><tr><th>Code</th><th>Type</th><th>Expiry</th><th>ISO Date</th></tr></thead>
+          <tbody>${exclRows}</tbody>
+        </table>` : `<div class="empty-msg">No exclusivities listed${profile.approval.isBiologic ? ' (biologic &mdash; 12-year BPCIA exclusivity applies)' : ''}</div>`}
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>Helix Intelligence | Patent & Exclusivity Tracker</div>
+      <div>Data: FDA Orange Book + OpenFDA | ${timestamp}</div>
+    </footer>
+  </div>
+</body>
+</html>`;
+}
+
+// ============================================
+// Patent Timeline HTML (by Condition)
+// ============================================
+
+function generatePatentTimelineHtml(condition: string, profiles: DrugPatentProfile[]): string {
+  const timestamp = new Date().toLocaleString();
+  const condTitle = condition.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+  // Build timeline data: group by year
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const timelineStart = currentYear;
+  const timelineEnd = currentYear + 15;
+
+  // Create LOE timeline rows
+  const drugRows = profiles.map(profile => {
+    const loeYear = profile.effectiveLOE ? new Date(profile.effectiveLOE).getFullYear() : null;
+    const daysUntil = profile.daysUntilLOE;
+    let urgency = '';
+    if (daysUntil === null) urgency = 'unknown';
+    else if (daysUntil <= 0) urgency = 'expired';
+    else if (daysUntil <= 365 * 2) urgency = 'imminent';
+    else if (daysUntil <= 365 * 5) urgency = 'approaching';
+    else urgency = 'protected';
+
+    // Timeline bar
+    const barCells = [];
+    for (let y = timelineStart; y <= timelineEnd; y++) {
+      const isLOE = loeYear === y;
+      const isProtected = loeYear !== null && y < loeYear;
+      const isExpired = loeYear !== null && y > loeYear;
+      let cellClass = 'tl-empty';
+      if (isLOE) cellClass = 'tl-loe';
+      else if (isProtected) cellClass = 'tl-protected';
+      else if (isExpired) cellClass = 'tl-expired';
+      barCells.push(`<td class="tl-cell ${cellClass}" title="${profile.brandName}: ${isLOE ? 'LOE' : isProtected ? 'Protected' : isExpired ? 'Exposed' : 'Unknown'} in ${y}"></td>`);
+    }
+
+    return `<tr>
+      <td class="drug-name">
+        <a href="/api/patents/${encodeURIComponent(profile.brandName.toLowerCase())}/html">${profile.brandName}</a>
+        <div class="drug-sub">${profile.drugName} | ${profile.sponsor}</div>
+      </td>
+      <td><span class="badge badge-${profile.approval.applicationType === 'BLA' ? 'blue' : 'green'}">${profile.approval.applicationType}</span></td>
+      <td>${profile.uniquePatentNumbers.length}</td>
+      <td class="loe-cell loe-${urgency}">${profile.effectiveLOE || '—'}</td>
+      ${barCells.join('\n')}
+    </tr>`;
+  }).join('\n');
+
+  // Year headers
+  const yearHeaders = [];
+  for (let y = timelineStart; y <= timelineEnd; y++) {
+    yearHeaders.push(`<th class="tl-header">${y.toString().slice(2)}</th>`);
+  }
+
+  // Summary stats
+  const loeThisYear = profiles.filter(p => p.effectiveLOE && new Date(p.effectiveLOE).getFullYear() === currentYear).length;
+  const loeNext3Years = profiles.filter(p => {
+    if (!p.effectiveLOE) return false;
+    const y = new Date(p.effectiveLOE).getFullYear();
+    return y >= currentYear && y <= currentYear + 3;
+  }).length;
+  const biologics = profiles.filter(p => p.approval.isBiologic).length;
+  const totalPatents = profiles.reduce((sum, p) => sum + p.uniquePatentNumbers.length, 0);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patent Timeline: ${condTitle} - Helix Intelligence</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.6; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #1a1a3e, #2d1b4e); border-radius: 12px; padding: 30px; margin-bottom: 20px; }
+    .header h1 { font-size: 2em; color: #fff; }
+    .header .subtitle { color: #aaa; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-top: 20px; }
+    .stat-card { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 15px; text-align: center; }
+    .stat-num { font-size: 2em; font-weight: 700; color: #fff; }
+    .stat-label { color: #888; font-size: 0.85em; }
+    .section { margin-bottom: 25px; }
+    .section-title { font-size: 1.3em; color: #fff; margin-bottom: 15px; }
+    .card { background: #12122a; border-radius: 10px; padding: 20px; border: 1px solid #222; overflow-x: auto; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.8em; font-weight: 600; }
+    .badge-green { background: rgba(0,200,100,0.15); color: #00c864; }
+    .badge-blue { background: rgba(100,149,237,0.15); color: #6495ed; }
+    table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+    th { text-align: left; padding: 8px 10px; background: rgba(255,255,255,0.05); color: #aaa; font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; }
+    td { padding: 8px 10px; border-top: 1px solid #1a1a35; font-size: 0.9em; }
+    .drug-name a { color: #6495ed; text-decoration: none; font-weight: 600; }
+    .drug-name a:hover { text-decoration: underline; }
+    .drug-sub { color: #666; font-size: 0.8em; }
+    .loe-cell { font-weight: 600; }
+    .loe-expired { color: #ff3c3c; }
+    .loe-imminent { color: #ff8c00; }
+    .loe-approaching { color: #ffd700; }
+    .loe-protected { color: #00c864; }
+    .loe-unknown { color: #666; }
+    .tl-cell { width: 30px; min-width: 30px; height: 20px; border: 1px solid #1a1a35; }
+    .tl-protected { background: rgba(0,200,100,0.25); }
+    .tl-loe { background: #ff3c3c; }
+    .tl-expired { background: rgba(255,60,60,0.1); }
+    .tl-empty { background: transparent; }
+    .tl-header { text-align: center; font-size: 0.75em; width: 30px; min-width: 30px; }
+    .footer { text-align: center; color: #555; font-size: 0.85em; margin-top: 30px; padding: 15px; border-top: 1px solid #222; }
+    .legend { display: flex; gap: 20px; margin-top: 15px; font-size: 0.85em; color: #888; }
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .legend-color { width: 16px; height: 12px; border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Patent & Exclusivity Timeline</h1>
+      <div class="subtitle">${condTitle} — ${profiles.length} drugs analyzed</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">${profiles.length}</div>
+          <div class="stat-label">Drugs Tracked</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">${totalPatents}</div>
+          <div class="stat-label">Total Patents</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">${biologics}</div>
+          <div class="stat-label">Biologics (BLA)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" style="color: ${loeThisYear > 0 ? '#ff3c3c' : '#00c864'}">${loeThisYear}</div>
+          <div class="stat-label">LOE This Year</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" style="color: ${loeNext3Years > 0 ? '#ffa500' : '#00c864'}">${loeNext3Years}</div>
+          <div class="stat-label">LOE Next 3 Years</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <h2 class="section-title">LOE Timeline</h2>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Drug</th>
+              <th>Type</th>
+              <th>Patents</th>
+              <th>Eff. LOE</th>
+              ${yearHeaders.join('\n')}
+            </tr>
+          </thead>
+          <tbody>
+            ${drugRows}
+          </tbody>
+        </table>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-color" style="background: rgba(0,200,100,0.25);"></div> Protected</div>
+          <div class="legend-item"><div class="legend-color" style="background: #ff3c3c;"></div> LOE Year</div>
+          <div class="legend-item"><div class="legend-color" style="background: rgba(255,60,60,0.1);"></div> Exposed</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>Helix Intelligence | Patent & Exclusivity Tracker</div>
+      <div>Data: FDA Orange Book + OpenFDA + BPCIA | ${timestamp}</div>
     </footer>
   </div>
 </body>
