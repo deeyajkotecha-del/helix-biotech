@@ -710,45 +710,9 @@ function startServer(port: number): void {
 
   // ============================================
   // Patent/Exclusivity Endpoints
+  // NOTE: Condition routes MUST come before :drugName routes
+  // to avoid Express matching "condition" as a drug name
   // ============================================
-
-  // Patent Profile JSON
-  app.get('/api/patents/:drugName', async (req: Request, res: Response) => {
-    try {
-      const drugName = decodeURIComponent(req.params.drugName as string);
-      console.log(chalk.cyan(`  [Patents] Looking up "${drugName}"...`));
-
-      const profile = await getDrugPatentProfile(drugName);
-      if (!profile) {
-        res.status(404).json({ error: `No FDA approval found for "${drugName}"` });
-        return;
-      }
-
-      res.json(profile);
-    } catch (error) {
-      res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
-    }
-  });
-
-  // Patent Profile HTML
-  app.get('/api/patents/:drugName/html', async (req: Request, res: Response) => {
-    try {
-      const drugName = decodeURIComponent(req.params.drugName as string);
-      console.log(chalk.cyan(`  [Patents] Building HTML for "${drugName}"...`));
-
-      const profile = await getDrugPatentProfile(drugName);
-      if (!profile) {
-        res.status(404).send(`<h1>Not Found</h1><p>No FDA approval found for "${drugName}"</p>`);
-        return;
-      }
-
-      const html = generatePatentProfileHtml(profile);
-      res.setHeader('Content-Type', 'text/html');
-      res.send(html);
-    } catch (error) {
-      res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
-    }
-  });
 
   // Patents by Condition JSON
   app.get('/api/patents/condition/:condition', async (req: Request, res: Response) => {
@@ -776,6 +740,44 @@ function startServer(port: number): void {
 
       const profiles = await getPatentsByCondition(condition);
       const html = generatePatentTimelineHtml(condition, profiles);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+    }
+  });
+
+  // Patent Profile JSON (must be after /condition/ routes)
+  app.get('/api/patents/:drugName', async (req: Request, res: Response) => {
+    try {
+      const drugName = decodeURIComponent(req.params.drugName as string);
+      console.log(chalk.cyan(`  [Patents] Looking up "${drugName}"...`));
+
+      const profile = await getDrugPatentProfile(drugName);
+      if (!profile) {
+        res.status(404).json({ error: `No FDA approval found for "${drugName}"` });
+        return;
+      }
+
+      res.json(profile);
+    } catch (error) {
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  });
+
+  // Patent Profile HTML (must be after /condition/ routes)
+  app.get('/api/patents/:drugName/html', async (req: Request, res: Response) => {
+    try {
+      const drugName = decodeURIComponent(req.params.drugName as string);
+      console.log(chalk.cyan(`  [Patents] Building HTML for "${drugName}"...`));
+
+      const profile = await getDrugPatentProfile(drugName);
+      if (!profile) {
+        res.status(404).send(`<h1>Not Found</h1><p>No FDA approval found for "${drugName}"</p>`);
+        return;
+      }
+
+      const html = generatePatentProfileHtml(profile);
       res.setHeader('Content-Type', 'text/html');
       res.send(html);
     } catch (error) {

@@ -41,7 +41,7 @@ export declare function calculateEffectiveLOE(patents: OrangeBookPatent[], exclu
 export declare function getDrugPatentProfile(drugName: string): Promise<DrugPatentProfile | null>;
 /**
  * Get patent profiles for all drugs used in trials for a condition.
- * Cross-references landscape molecules with patent data.
+ * Uses ClinicalTrials.gov molecules pipeline to find drugs, then looks up patents.
  */
 export declare function getPatentsByCondition(condition: string): Promise<DrugPatentProfile[]>;
 //# sourceMappingURL=patents.d.ts.map

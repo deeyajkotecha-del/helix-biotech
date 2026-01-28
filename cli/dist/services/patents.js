@@ -54,6 +54,8 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const axios_1 = __importDefault(require("axios"));
 const adm_zip_1 = __importDefault(require("adm-zip"));
+const trials_1 = require("./trials");
+const molecules_1 = require("./molecules");
 // ============================================
 // Constants
 // ============================================
@@ -483,82 +485,70 @@ async function getDrugPatentProfile(drugName) {
 }
 /**
  * Get patent profiles for all drugs used in trials for a condition.
- * Cross-references landscape molecules with patent data.
+ * Uses ClinicalTrials.gov molecules pipeline to find drugs, then looks up patents.
  */
 async function getPatentsByCondition(condition) {
     console.log(`  [Patents] Finding patents for drugs in "${condition}"...`);
-    // Load Orange Book product data to find drugs by ingredient
-    await loadOrangeBookData();
-    // Search OpenFDA for drugs approved for this condition
-    const condNorm = condition.trim().toLowerCase();
-    // Strategy: search OpenFDA for drugs matching the condition
-    let drugNames = [];
-    try {
-        // Rate limit
-        const now = Date.now();
-        const elapsed = now - lastOpenFDACall;
-        if (elapsed < OPENFDA_DELAY_MS) {
-            await new Promise(r => setTimeout(r, OPENFDA_DELAY_MS - elapsed));
-        }
-        lastOpenFDACall = Date.now();
-        const url = `${OPENFDA_DRUGSFDA_URL}?search=openfda.pharm_class_epc:"${encodeURIComponent(condNorm)}"&limit=100`;
-        const response = await axios_1.default.get(url, { timeout: 15000 });
-        if (response.data?.results) {
-            for (const result of response.data.results) {
-                for (const prod of (result.products || [])) {
-                    if (prod.brand_name) {
-                        const name = prod.brand_name.toLowerCase();
-                        if (!drugNames.includes(name))
-                            drugNames.push(name);
-                    }
+    // Step 1: Find molecules via ClinicalTrials.gov (same pipeline as /api/landscape/:condition/molecules)
+    console.log(`  [Patents] Fetching trials from ClinicalTrials.gov...`);
+    const trials = await (0, trials_1.searchTrialsByCondition)(condition, { maxResults: 200 });
+    console.log(`  [Patents] Found ${trials.length} trials, extracting molecules...`);
+    const molecules = (0, molecules_1.extractMoleculesFromTrials)(trials);
+    console.log(`  [Patents] Extracted ${molecules.length} total molecules`);
+    // Step 2: Filter to late-stage molecules (Phase 3+) that are likely FDA-approved
+    const PHASE_RANK = {
+        'Phase 4': 5, 'Phase 3': 4, 'Phase 2/3': 3, 'Phase 2': 2,
+        'Phase 1/2': 1, 'Phase 1': 0, 'Preclinical': -1, 'Not Applicable': -2,
+    };
+    const lateStage = molecules
+        .filter(m => (PHASE_RANK[m.highestPhase] ?? -1) >= 3) // Phase 2/3 and above
+        .sort((a, b) => (PHASE_RANK[b.highestPhase] ?? 0) - (PHASE_RANK[a.highestPhase] ?? 0) || b.trialCount - a.trialCount);
+    // Take top 15 molecules
+    const candidates = lateStage.slice(0, 15);
+    console.log(`  [Patents] ${lateStage.length} late-stage molecules, profiling top ${candidates.length}...`);
+    // Step 3: Look up patents for each molecule
+    const profiles = [];
+    for (const mol of candidates) {
+        // Try the molecule name, then aliases
+        const namesToTry = [mol.name, ...mol.aliases.slice(0, 2)];
+        let found = false;
+        for (const name of namesToTry) {
+            if (found)
+                break;
+            try {
+                const profile = await getDrugPatentProfile(name);
+                if (profile) {
+                    profiles.push(profile);
+                    found = true;
+                    console.log(`  [Patents]   + ${profile.brandName} (${profile.approval.applicationType}) — LOE: ${profile.effectiveLOE || 'unknown'}`);
                 }
             }
-        }
-    }
-    catch (err) {
-        // If pharmacologic class search fails, try indication search via Orange Book
-        console.log(`  [Patents] Pharmacologic class search failed, trying product name search...`);
-    }
-    // Also search Orange Book products by ingredient/trade name matching condition keywords
-    if (drugNames.length === 0) {
-        // Fall back to finding well-known drugs in the Orange Book
-        const condKeywords = condNorm.split(/\s+/);
-        const obProducts = cachedProducts.filter(p => {
-            const text = `${p.ingredient} ${p.tradeName}`.toLowerCase();
-            return condKeywords.some(kw => text.includes(kw));
-        });
-        for (const prod of obProducts) {
-            const name = prod.tradeName.toLowerCase();
-            if (!drugNames.includes(name))
-                drugNames.push(name);
-        }
-    }
-    // Limit to top 20 drugs
-    drugNames = drugNames.slice(0, 20);
-    console.log(`  [Patents] Found ${drugNames.length} drugs to profile`);
-    // Get patent profiles for each drug
-    const profiles = [];
-    for (const name of drugNames) {
-        try {
-            const profile = await getDrugPatentProfile(name);
-            if (profile) {
-                profiles.push(profile);
+            catch (err) {
+                // Try next alias
             }
+            await new Promise(r => setTimeout(r, 400));
         }
-        catch (err) {
-            console.error(`  [Patents] Error profiling "${name}":`, err.message);
+        if (!found) {
+            console.log(`  [Patents]   - ${mol.name}: not found in FDA`);
         }
-        // Rate limit between calls
-        await new Promise(r => setTimeout(r, 400));
     }
+    // Deduplicate by application number
+    const seen = new Set();
+    const deduped = profiles.filter(p => {
+        if (seen.has(p.approval.applicationNumber))
+            return false;
+        seen.add(p.approval.applicationNumber);
+        return true;
+    });
     // Sort by LOE date
-    profiles.sort((a, b) => {
+    deduped.sort((a, b) => {
         if (!a.effectiveLOE)
             return 1;
         if (!b.effectiveLOE)
             return -1;
         return a.effectiveLOE.localeCompare(b.effectiveLOE);
     });
-    return profiles;
+    console.log(`  [Patents] Complete: ${deduped.length} drug profiles with patent data`);
+    return deduped;
 }
 //# sourceMappingURL=patents.js.map
