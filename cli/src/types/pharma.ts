@@ -5,6 +5,7 @@
 export interface PharmaCompany {
   ticker: string;
   name: string;
+  cik: string;
   irPageUrl: string;
   cdnBase?: string;
   urlPatterns?: {
