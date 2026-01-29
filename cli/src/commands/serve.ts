@@ -4837,8 +4837,8 @@ function generatePatentTimelineHtml(condition: string, profiles: DrugPatentProfi
 
 function generateTargetReportHtml(report: any, trialAnalytics: any): string {
   const timestamp = new Date().toLocaleString();
-  const { target, summary, trials, publications, deals, kols, assets, assetStats, assetReport } = report;
-  const assetCount = assets?.length || 0;
+  const { target, summary, trials, publications, deals, kols, curatedAssets, investmentMetrics } = report;
+  const assetCount = curatedAssets?.length || 0;
 
   // Trial rows
   const trialRows = trials.slice(0, 50).map((t: any) => `
@@ -4853,27 +4853,42 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
     </tr>
   `).join('');
 
-  // Asset rows (intelligent research)
-  const assetRows = (assets || []).slice(0, 50).map((a: any) => {
-    const confidenceClass = a.confidence === 'High' ? 'confidence-high' : a.confidence === 'Medium' ? 'confidence-medium' : 'confidence-low';
+  // Asset rows (curated investment-quality data)
+  const assetRows = (curatedAssets || []).map((a: any) => {
     const ownerTypeClass = (a.ownerType || '').toLowerCase().replace(/\s+/g, '-');
+    const regBadges = [];
+    if (a.regulatory?.btd) regBadges.push('<span class="reg-badge reg-btd">BTD</span>');
+    if (a.regulatory?.odd) regBadges.push('<span class="reg-badge reg-odd">ODD</span>');
+    if (a.regulatory?.prime) regBadges.push('<span class="reg-badge reg-prime">PRIME</span>');
+    if (a.regulatory?.fastTrack) regBadges.push('<span class="reg-badge reg-ft">FT</span>');
+
+    const linkedTrials = (a.trialIds || []).slice(0, 3).map((nct: string) =>
+      `<a href="https://clinicaltrials.gov/study/${nct}" target="_blank" class="trial-link">${nct}</a>`
+    ).join(' ');
+
     return `
-    <tr class="${confidenceClass}">
+    <tr class="curated-asset">
       <td>
-        <strong>${a.drugName || a.name}</strong>
-        ${a.codeName ? `<br><span class="code-name">${a.codeName}</span>` : ''}
-        ${a.genericName && a.genericName !== a.codeName ? `<br><span class="generic-name">${a.genericName}</span>` : ''}
+        <strong>${a.primaryName}</strong>
+        ${a.codeNames?.length ? `<br><span class="code-name">${a.codeNames.join(', ')}</span>` : ''}
+        ${regBadges.length ? `<br>${regBadges.join(' ')}` : ''}
       </td>
-      <td><span class="modality-badge modality-${(a.modality || '').toLowerCase().replace(/[^a-z]/g, '')}">${a.modality}</span>${a.payload ? `<br><span class="payload">${a.payload}</span>` : ''}</td>
+      <td>
+        <span class="modality-badge modality-${(a.modality || '').toLowerCase().replace(/[^a-z]/g, '')}">${a.modality}</span>
+        ${a.modalityDetail ? `<br><span class="payload">${a.modalityDetail}</span>` : (a.payload ? `<br><span class="payload">${a.payload}</span>` : '')}
+      </td>
       <td>
         <span class="owner-type owner-${ownerTypeClass}">${a.owner || '-'}</span>
         ${a.partner ? `<br><span class="partner">+ ${a.partner}</span>` : ''}
       </td>
       <td><span class="phase-badge phase-${(a.phase || '').toLowerCase().replace(/[^a-z0-9]/g, '')}">${a.phase}</span></td>
       <td><span class="status-badge status-${(a.status || '').toLowerCase()}">${a.status}</span></td>
-      <td class="indication-cell">${a.leadIndication || (a.otherIndications || a.indications || [])[0] || '-'}</td>
-      <td class="deal-cell">${a.dealTerms || '-'}</td>
-      <td class="notes-cell">${a.notes || a.differentiator || '-'}</td>
+      <td class="indication-cell">${a.leadIndication || '-'}</td>
+      <td class="deal-cell">${a.deal?.headline || '-'}${a.deal?.upfront ? `<br><span class="deal-upfront">Upfront: ${a.deal.upfront}</span>` : ''}</td>
+      <td class="notes-cell">
+        ${a.keyData ? `<span class="key-data">${a.keyData}</span><br>` : ''}
+        ${linkedTrials ? `<span class="linked-trials">${linkedTrials}</span>` : ''}
+      </td>
     </tr>`;
   }).join('');
 
@@ -4995,10 +5010,24 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
     .partner { font-size: 0.8rem; color: #a78bfa; }
     .indication-cell { max-width: 180px; font-size: 0.85rem; }
     .deal-cell { max-width: 200px; font-size: 0.8rem; color: #4ade80; }
-    .notes-cell { max-width: 250px; font-size: 0.8rem; color: #94a3b8; }
-    tr.confidence-high { background: rgba(74, 222, 128, 0.05); }
-    tr.confidence-medium { background: transparent; }
-    tr.confidence-low { background: rgba(251, 191, 36, 0.05); opacity: 0.8; }
+    .notes-cell { max-width: 300px; font-size: 0.8rem; color: #94a3b8; }
+    tr.curated-asset { background: rgba(74, 222, 128, 0.03); }
+    tr.curated-asset:hover { background: rgba(74, 222, 128, 0.08); }
+    .reg-badge { padding: 2px 5px; border-radius: 3px; font-size: 0.65rem; font-weight: 700; margin-right: 3px; }
+    .reg-btd { background: #166534; color: #86efac; }
+    .reg-odd { background: #7c3aed; color: white; }
+    .reg-prime { background: #0891b2; color: white; }
+    .reg-ft { background: #ea580c; color: white; }
+    .key-data { color: #4ade80; font-weight: 500; }
+    .deal-upfront { font-size: 0.75rem; color: #a78bfa; }
+    .linked-trials { font-size: 0.7rem; }
+    .trial-link { color: #60a5fa; margin-right: 5px; }
+    .investment-dashboard { background: linear-gradient(135deg, #1a1a3e 0%, #2d1f4a 100%); padding: 25px; border-radius: 12px; margin-bottom: 25px; }
+    .investment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+    .investment-metric { text-align: center; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; }
+    .investment-metric .big-value { font-size: 2.2rem; font-weight: 700; color: #4ade80; }
+    .investment-metric .metric-label { font-size: 0.8rem; color: #94a3b8; margin-top: 5px; }
+    .deal-highlight { background: rgba(79, 70, 229, 0.2); border-left: 3px solid #6366f1; padding: 10px 15px; margin: 10px 0; border-radius: 0 8px 8px 0; }
     .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
     .summary-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; }
     .summary-card h4 { color: #a5b4fc; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase; }
@@ -5036,7 +5065,11 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-num" style="color: #f472b6;">${assetCount}</div>
-          <div class="stat-label">Unique Assets</div>
+          <div class="stat-label">Curated Assets</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" style="color: #4ade80;">$${investmentMetrics?.totalDisclosedDealValue?.toFixed(1) || '0'}B</div>
+          <div class="stat-label">Deal Value</div>
         </div>
         <div class="stat-card">
           <div class="stat-num">${summary.totalTrials}</div>
@@ -5050,12 +5083,41 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
           <div class="stat-num">${summary.totalPublications}</div>
           <div class="stat-label">Publications</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-num">${summary.totalKOLs}</div>
-          <div class="stat-label">Top Authors</div>
-        </div>
       </div>
     </div>
+
+    ${investmentMetrics ? `
+    <div class="investment-dashboard">
+      <h2 style="color:#a5b4fc;margin-bottom:20px;">Investment Metrics</h2>
+      <div class="investment-grid">
+        <div class="investment-metric">
+          <div class="big-value">$${investmentMetrics.totalDisclosedDealValue?.toFixed(1) || '0'}B</div>
+          <div class="metric-label">Total Deal Value</div>
+        </div>
+        <div class="investment-metric">
+          <div class="big-value">$${investmentMetrics.totalUpfront?.toFixed(0) || '0'}M</div>
+          <div class="metric-label">Total Upfront</div>
+        </div>
+        <div class="investment-metric">
+          <div class="big-value">${investmentMetrics.assetsWithBTD || 0}</div>
+          <div class="metric-label">BTD Designations</div>
+        </div>
+        <div class="investment-metric">
+          <div class="big-value">${investmentMetrics.assetsWithODD || 0}</div>
+          <div class="metric-label">Orphan Drug</div>
+        </div>
+        <div class="investment-metric">
+          <div class="big-value">${investmentMetrics.assetsWithFastTrack || 0}</div>
+          <div class="metric-label">Fast Track</div>
+        </div>
+      </div>
+      ${investmentMetrics.largestDeal?.name ? `
+      <div class="deal-highlight" style="margin-top:20px;">
+        <strong style="color:#a78bfa;">Largest Deal:</strong> ${investmentMetrics.largestDeal.name} - ${investmentMetrics.largestDeal.value}
+      </div>
+      ` : ''}
+    </div>
+    ` : ''}
 
     <div class="analytics-grid">
       <section class="section">
@@ -5079,30 +5141,34 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
     <section class="section" id="assets">
       <h2 class="section-title">Competitive Landscape: ${target} Assets (${assetCount})</h2>
       <p style="color:#94a3b8;margin-bottom:15px;font-size:0.9rem;">
-        Intelligent asset research combining curated database + ClinicalTrials.gov
-        ${report.assetReport ? ` | ${report.assetReport.knownAssetsFound} known assets, ${report.assetReport.newAssetsDiscovered} discovered from trials` : ''}
+        Investment-quality curated database with deal terms, regulatory designations, and clinical data
       </p>
 
-      ${report.assetStats ? `
+      ${investmentMetrics ? `
       <div class="summary-cards">
         <div class="summary-card">
           <h4>By Modality</h4>
-          ${Object.entries(report.assetStats.byModality || {}).map(([k, v]) => `<div class="summary-item"><span class="label">${k}</span><span class="value">${v}</span></div>`).join('')}
+          ${Object.entries(investmentMetrics.modalityBreakdown || {}).map(([k, v]: [string, any]) =>
+            `<div class="summary-item"><span class="label">${k}</span><span class="value">${v.count}${v.dealValue > 0 ? ` <span style="color:#4ade80;font-size:0.75rem;">($${(v.dealValue/1000).toFixed(1)}B)</span>` : ''}</span></div>`
+          ).join('')}
         </div>
         <div class="summary-card">
           <h4>By Phase</h4>
-          ${Object.entries(report.assetStats.byPhase || {}).sort((a, b) => {
-            const order = ['Approved', 'Filed', 'Phase 3', 'Phase 2/3', 'Phase 2', 'Phase 1/2', 'Phase 1'];
+          ${Object.entries(investmentMetrics.phaseDistribution || {}).sort((a, b) => {
+            const order = ['Approved', 'Filed', 'Phase 3', 'Phase 2/3', 'Phase 2', 'Phase 1/2', 'Phase 1', 'Preclinical'];
             return order.indexOf(a[0]) - order.indexOf(b[0]);
           }).map(([k, v]) => `<div class="summary-item"><span class="label">${k}</span><span class="value">${v}</span></div>`).join('')}
         </div>
         <div class="summary-card">
           <h4>By Owner Type</h4>
-          ${Object.entries(report.assetStats.byOwnerType || {}).map(([k, v]) => `<div class="summary-item"><span class="label">${k}</span><span class="value">${v}</span></div>`).join('')}
+          ${Object.entries(investmentMetrics.ownershipBreakdown || {}).map(([k, v]) => `<div class="summary-item"><span class="label">${k}</span><span class="value">${v}</span></div>`).join('')}
         </div>
         <div class="summary-card">
-          <h4>By Geography</h4>
-          ${Object.entries(report.assetStats.byGeography || {}).map(([k, v]) => `<div class="summary-item"><span class="label">${k}</span><span class="value">${v}</span></div>`).join('')}
+          <h4>Regulatory</h4>
+          <div class="summary-item"><span class="label">BTD</span><span class="value">${investmentMetrics.assetsWithBTD || 0}</span></div>
+          <div class="summary-item"><span class="label">ODD</span><span class="value">${investmentMetrics.assetsWithODD || 0}</span></div>
+          <div class="summary-item"><span class="label">PRIME</span><span class="value">${investmentMetrics.assetsWithPRIME || 0}</span></div>
+          <div class="summary-item"><span class="label">Fast Track</span><span class="value">${investmentMetrics.assetsWithFastTrack || 0}</span></div>
         </div>
       </div>
       ` : ''}
@@ -5111,23 +5177,25 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
         <table>
           <thead>
             <tr>
-              <th>Drug Name</th>
-              <th>Modality</th>
+              <th>Drug Name / Regulatory</th>
+              <th>Modality / Tech</th>
               <th>Owner / Partner</th>
               <th>Phase</th>
               <th>Status</th>
               <th>Lead Indication</th>
-              <th>Deal Terms</th>
-              <th>Notes</th>
+              <th>Deal Info</th>
+              <th>Key Data / Trials</th>
             </tr>
           </thead>
           <tbody>
             ${assetRows || '<tr><td colspan="8" style="color:#94a3b8;">No assets found</td></tr>'}
           </tbody>
         </table>
-        ${assetCount > 50 ? `<p style="margin-top:15px;color:#94a3b8;">Showing 50 of ${assetCount} assets. Download Excel for complete data.</p>` : ''}
-        <p style="margin-top:10px;font-size:0.8rem;color:#64748b;">
-          Green rows = High confidence (curated database) | Yellow tint = Low confidence (trial extraction only)
+        <p style="margin-top:15px;font-size:0.8rem;color:#64748b;">
+          <span class="reg-badge reg-btd">BTD</span> Breakthrough Therapy |
+          <span class="reg-badge reg-odd">ODD</span> Orphan Drug |
+          <span class="reg-badge reg-prime">PRIME</span> EU Priority |
+          <span class="reg-badge reg-ft">FT</span> Fast Track
         </p>
       </div>
     </section>

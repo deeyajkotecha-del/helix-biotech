@@ -1,8 +1,8 @@
 /**
- * Target Report Service
+ * Target Report Service - Investment Ready
  *
  * Generates comprehensive intelligence reports for therapeutic targets,
- * compiling data from trials, publications, and the intelligent asset research engine.
+ * compiling data from trials, publications, and curated asset database.
  */
 
 import { ReportData } from './export';
@@ -14,14 +14,22 @@ import {
   getStatusBreakdown,
 } from './trials';
 import { searchPublications, extractTopAuthors } from './publications';
-import { researchTargetAssets, AssetResearchReport, ResearchedAsset } from './asset-research';
 import { Trial, Publication } from '../types/schema';
+import {
+  KnownAsset,
+  InvestmentMetrics,
+  getKnownAssetsForTarget,
+  calculateInvestmentMetrics,
+} from '../data/known-assets';
 
-// Extend ReportData to include researched assets
+// Extended ReportData for investment-ready reports
 export interface ExtendedReportData extends ReportData {
-  assets: ResearchedAsset[];
-  assetStats: AssetResearchReport['summary'];
-  assetReport: AssetResearchReport;
+  curatedAssets: KnownAsset[];
+  investmentMetrics: InvestmentMetrics;
+  // Legacy fields for backwards compatibility
+  assets?: any[];
+  assetStats?: any;
+  assetReport?: any;
 }
 
 // ============================================
@@ -29,24 +37,27 @@ export interface ExtendedReportData extends ReportData {
 // ============================================
 
 /**
- * Generate comprehensive target report
- * Uses the intelligent asset research engine for high-quality asset data
+ * Generate comprehensive investment-ready target report
  */
 export async function generateTargetReport(target: string): Promise<ExtendedReportData> {
-  console.log(`[Report] Generating report for target: ${target}`);
+  console.log(`[Report] Generating investment-ready report for target: ${target}`);
   const startTime = Date.now();
 
-  // Step 1: Run intelligent asset research (includes trial fetching)
-  const assetReport = await researchTargetAssets(target);
-  console.log(`[Report] Asset research complete: ${assetReport.assets.length} assets`);
+  // Step 1: Get curated assets from database (investment-quality data)
+  const curatedAssets = getKnownAssetsForTarget(target);
+  console.log(`[Report] Found ${curatedAssets.length} curated assets`);
 
-  // Step 2: Also fetch all trials for the trials table
+  // Step 2: Calculate investment metrics
+  const investmentMetrics = calculateInvestmentMetrics(curatedAssets);
+  console.log(`[Report] Deal value: $${investmentMetrics.totalDisclosedDealValue.toFixed(1)}B across ${curatedAssets.filter(a => a.deal).length} deals`);
+
+  // Step 3: Fetch all trials for the trials table
   const trials = await fetchTrialsForTarget(target);
 
-  // Step 3: Fetch publications (real PubMed data)
+  // Step 4: Fetch publications (real PubMed data)
   const publications = await fetchPublicationsForTarget(target);
 
-  // Step 4: Extract KOLs from real publication authors
+  // Step 5: Extract KOLs from real publication authors
   const kols = extractTopAuthors(publications, 20);
   console.log(`[Report] Identified ${kols.length} top authors from publications`);
 
@@ -62,20 +73,27 @@ export async function generateTargetReport(target: string): Promise<ExtendedRepo
       totalTrials: trials.length,
       activeTrials,
       totalPublications: publications.length,
-      totalDeals: 0, // Deals from asset report
+      totalDeals: curatedAssets.filter(a => a.deal).length,
       totalKOLs: kols.length,
     },
     trials,
     publications,
-    deals: [], // TODO: Extract deals from asset research
+    deals: curatedAssets.filter(a => a.deal).map(a => ({
+      asset: a.primaryName,
+      headline: a.deal?.headline,
+      upfront: a.deal?.upfront,
+      milestones: a.deal?.milestones,
+      totalValue: a.deal?.totalValue,
+      date: a.deal?.date,
+      partner: a.deal?.partner,
+    })),
     kols,
-    assets: assetReport.assets,
-    assetStats: assetReport.summary,
-    assetReport,
+    curatedAssets,
+    investmentMetrics,
   };
 
   console.log(`[Report] Generated report in ${Date.now() - startTime}ms`);
-  console.log(`[Report] Summary: ${trials.length} trials, ${publications.length} pubs, ${assetReport.assets.length} assets`);
+  console.log(`[Report] Summary: ${curatedAssets.length} curated assets, ${trials.length} trials, ${publications.length} pubs`);
 
   return report;
 }

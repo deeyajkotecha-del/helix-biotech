@@ -1,9 +1,10 @@
 /**
- * Export Service
+ * Export Service - Investment Ready
  *
- * Generates Excel and CSV exports for Helix reports.
- * Supports multi-tab workbooks and single-file CSV exports.
+ * Generates Excel exports with comprehensive asset data,
+ * investment metrics, and regulatory information.
  */
+import { KnownAsset, InvestmentMetrics } from '../data/known-assets';
 export interface ReportData {
     target: string;
     generatedAt: string;
@@ -21,25 +22,15 @@ export interface ReportData {
     pipeline?: any[];
     assets?: any[];
     assetStats?: any;
+    curatedAssets?: KnownAsset[];
+    investmentMetrics?: InvestmentMetrics;
 }
 /**
- * Generate multi-tab Excel workbook from report data
+ * Generate investment-ready Excel workbook
  */
 export declare function generateExcel(reportData: ReportData): Buffer;
-/**
- * Generate CSV from array of objects
- */
 export declare function generateCSV(data: any[], filename?: string): string;
-/**
- * Generate multiple CSVs as a zip (for multi-section reports)
- */
 export declare function generateMultiCSV(reportData: ReportData): Record<string, string>;
-/**
- * Get content type for export format
- */
 export declare function getContentType(format: 'xlsx' | 'csv'): string;
-/**
- * Get file extension for export format
- */
 export declare function getFileExtension(format: 'xlsx' | 'csv'): string;
 //# sourceMappingURL=export.d.ts.map

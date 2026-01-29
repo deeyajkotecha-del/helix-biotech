@@ -1,20 +1,21 @@
 /**
- * Target Report Service
+ * Target Report Service - Investment Ready
  *
  * Generates comprehensive intelligence reports for therapeutic targets,
- * compiling data from trials, publications, and the intelligent asset research engine.
+ * compiling data from trials, publications, and curated asset database.
  */
 import { ReportData } from './export';
-import { AssetResearchReport, ResearchedAsset } from './asset-research';
 import { Trial, Publication } from '../types/schema';
+import { KnownAsset, InvestmentMetrics } from '../data/known-assets';
 export interface ExtendedReportData extends ReportData {
-    assets: ResearchedAsset[];
-    assetStats: AssetResearchReport['summary'];
-    assetReport: AssetResearchReport;
+    curatedAssets: KnownAsset[];
+    investmentMetrics: InvestmentMetrics;
+    assets?: any[];
+    assetStats?: any;
+    assetReport?: any;
 }
 /**
- * Generate comprehensive target report
- * Uses the intelligent asset research engine for high-quality asset data
+ * Generate comprehensive investment-ready target report
  */
 export declare function generateTargetReport(target: string): Promise<ExtendedReportData>;
 /**

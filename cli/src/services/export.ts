@@ -1,11 +1,12 @@
 /**
- * Export Service
+ * Export Service - Investment Ready
  *
- * Generates Excel and CSV exports for Helix reports.
- * Supports multi-tab workbooks and single-file CSV exports.
+ * Generates Excel exports with comprehensive asset data,
+ * investment metrics, and regulatory information.
  */
 
 import * as XLSX from 'xlsx';
+import { KnownAsset, InvestmentMetrics, calculateInvestmentMetrics } from '../data/known-assets';
 
 // ============================================
 // Types
@@ -28,68 +29,108 @@ export interface ReportData {
   pipeline?: any[];
   assets?: any[];
   assetStats?: any;
+  curatedAssets?: KnownAsset[];
+  investmentMetrics?: InvestmentMetrics;
 }
 
 // ============================================
-// Excel Generation
+// Excel Generation - Investment Ready
 // ============================================
 
 /**
- * Generate multi-tab Excel workbook from report data
+ * Generate investment-ready Excel workbook
  */
 export function generateExcel(reportData: ReportData): Buffer {
   const workbook = XLSX.utils.book_new();
 
-  // Summary sheet
-  const summaryData = [
-    ['Helix Intelligence Report'],
-    ['Target:', reportData.target],
-    ['Generated:', reportData.generatedAt],
-    [''],
-    ['Summary Statistics'],
-    ['Total Trials:', reportData.summary.totalTrials],
-    ['Active Trials:', reportData.summary.activeTrials],
-    ['Publications:', reportData.summary.totalPublications],
-    ['Deals:', reportData.summary.totalDeals],
-    ['KOLs Identified:', reportData.summary.totalKOLs],
-  ];
-  const summarySheet = XLSX.utils.aoa_to_sheet(summaryData);
-  summarySheet['!cols'] = [{ wch: 20 }, { wch: 40 }];
-  XLSX.utils.book_append_sheet(workbook, summarySheet, 'Summary');
+  // Calculate investment metrics from curated assets
+  const curatedAssets = reportData.curatedAssets || [];
+  const metrics = curatedAssets.length > 0
+    ? calculateInvestmentMetrics(curatedAssets)
+    : reportData.investmentMetrics;
 
-  // Trials sheet
+  // 1. Investment Summary Sheet (FIRST)
+  if (metrics) {
+    const investmentSummary = generateInvestmentSummaryData(reportData.target, metrics, curatedAssets);
+    const summarySheet = XLSX.utils.aoa_to_sheet(investmentSummary);
+    summarySheet['!cols'] = [{ wch: 35 }, { wch: 25 }, { wch: 20 }, { wch: 20 }];
+    XLSX.utils.book_append_sheet(workbook, summarySheet, 'Investment Summary');
+  }
+
+  // 2. Comprehensive Assets Sheet
+  if (curatedAssets.length > 0) {
+    const assetsData = generateComprehensiveAssetsData(curatedAssets);
+    const assetsSheet = XLSX.utils.json_to_sheet(assetsData);
+    assetsSheet['!cols'] = [
+      { wch: 30 },  // Drug Name
+      { wch: 25 },  // Code Names
+      { wch: 12 },  // Target
+      { wch: 12 },  // Modality
+      { wch: 35 },  // Payload/Tech
+      { wch: 25 },  // Owner
+      { wch: 20 },  // Partner
+      { wch: 15 },  // Owner Type
+      { wch: 12 },  // Phase
+      { wch: 10 },  // Status
+      { wch: 35 },  // Lead Indication
+      { wch: 40 },  // Other Indications
+      { wch: 5 },   // BTD
+      { wch: 5 },   // ODD
+      { wch: 6 },   // PRIME
+      { wch: 10 },  // Fast Track
+      { wch: 35 },  // Deal Headline
+      { wch: 25 },  // Deal Upfront
+      { wch: 25 },  // Deal Milestones
+      { wch: 12 },  // Deal Date
+      { wch: 40 },  // Trial IDs
+      { wch: 10 },  // Trial Count
+      { wch: 50 },  // Key Data
+      { wch: 60 },  // Notes
+    ];
+    XLSX.utils.book_append_sheet(workbook, assetsSheet, 'Assets');
+  }
+
+  // 3. Trials Sheet (linked to assets)
   if (reportData.trials.length > 0) {
-    const trialsForExport = reportData.trials.map(t => ({
-      'NCT ID': t.nctId,
-      'Title': t.briefTitle,
-      'Phase': t.phase,
-      'Status': t.status,
-      'Sponsor': t.leadSponsor?.name || '',
-      'Sponsor Type': t.leadSponsor?.type || '',
-      'Conditions': (t.conditions || []).join('; '),
-      'Interventions': (t.interventions || []).map((i: any) => i.name).join('; '),
-      'Enrollment': t.enrollment?.count || '',
-      'Start Date': t.startDate || '',
-      'Completion Date': t.completionDate || '',
-      'Countries': (t.countries || []).join('; '),
-      'Has Results': t.resultsAvailable ? 'Yes' : 'No',
-    }));
+    const trialsForExport = reportData.trials.map(t => {
+      // Find linked asset
+      const linkedAsset = curatedAssets.find(a =>
+        a.trialIds.includes(t.nctId)
+      );
+
+      return {
+        'NCT ID': t.nctId,
+        'Linked Asset': linkedAsset?.primaryName || '',
+        'Title': t.briefTitle,
+        'Phase': t.phase,
+        'Status': t.status,
+        'Sponsor': t.leadSponsor?.name || '',
+        'Sponsor Type': t.leadSponsor?.type || '',
+        'Conditions': (t.conditions || []).join('; '),
+        'Interventions': (t.interventions || []).map((i: any) => i.name).join('; '),
+        'Enrollment': t.enrollment?.count || '',
+        'Start Date': t.startDate || '',
+        'Completion Date': t.completionDate || '',
+        'Countries': (t.countries || []).join('; '),
+        'Has Results': t.resultsAvailable ? 'Yes' : 'No',
+      };
+    });
     const trialsSheet = XLSX.utils.json_to_sheet(trialsForExport);
     trialsSheet['!cols'] = [
-      { wch: 15 }, { wch: 60 }, { wch: 12 }, { wch: 20 },
+      { wch: 15 }, { wch: 25 }, { wch: 60 }, { wch: 12 }, { wch: 20 },
       { wch: 30 }, { wch: 12 }, { wch: 40 }, { wch: 40 },
       { wch: 10 }, { wch: 12 }, { wch: 12 }, { wch: 20 }, { wch: 10 }
     ];
     XLSX.utils.book_append_sheet(workbook, trialsSheet, 'Trials');
   }
 
-  // Publications sheet
+  // 4. Publications sheet
   if (reportData.publications.length > 0) {
     const pubsForExport = reportData.publications.map(p => ({
       'PMID': p.pmid || '',
       'Title': p.title,
       'Authors': (p.authors || []).map((a: any) => `${a.lastName} ${a.foreName || ''}`).join('; '),
-      'Journal': p.journal || '',
+      'Journal': typeof p.journal === 'object' ? p.journal?.name : p.journal || '',
       'Year': p.publicationDate?.split('-')[0] || '',
       'Type': p.publicationType || '',
       'Abstract': (p.abstract || '').substring(0, 500) + (p.abstract?.length > 500 ? '...' : ''),
@@ -102,27 +143,7 @@ export function generateExcel(reportData: ReportData): Buffer {
     XLSX.utils.book_append_sheet(workbook, pubsSheet, 'Publications');
   }
 
-  // Deals sheet
-  if (reportData.deals.length > 0) {
-    const dealsForExport = reportData.deals.map(d => ({
-      'Date': d.date || d.announcedDate || '',
-      'Type': d.dealType || d.type || '',
-      'Parties': (d.parties || []).join(', '),
-      'Asset': d.asset?.name || d.assetName || '',
-      'Therapeutic Area': d.therapeuticArea || '',
-      'Upfront ($M)': d.terms?.upfrontPayment || '',
-      'Total Value ($M)': d.terms?.totalValue || '',
-      'Source': d.source || '',
-    }));
-    const dealsSheet = XLSX.utils.json_to_sheet(dealsForExport);
-    dealsSheet['!cols'] = [
-      { wch: 12 }, { wch: 15 }, { wch: 40 }, { wch: 30 },
-      { wch: 20 }, { wch: 12 }, { wch: 15 }, { wch: 20 }
-    ];
-    XLSX.utils.book_append_sheet(workbook, dealsSheet, 'Deals');
-  }
-
-  // Authors/KOLs sheet (derived from publications)
+  // 5. Authors/KOLs sheet
   if (reportData.kols.length > 0) {
     const kolsForExport = reportData.kols.map(k => ({
       'Name': k.name || `${k.lastName || ''} ${k.foreName || ''}`.trim(),
@@ -130,60 +151,12 @@ export function generateExcel(reportData: ReportData): Buffer {
       'Publications': k.publicationCount || 0,
       'First Author': k.firstAuthorCount || 0,
       'Last Author': k.lastAuthorCount || 0,
-      'Recent Pubs': k.recentPublications || k.recentPublicationCount || 0,
-      'Active': k.isActive ? 'Yes' : 'No',
     }));
     const kolsSheet = XLSX.utils.json_to_sheet(kolsForExport);
     kolsSheet['!cols'] = [
-      { wch: 30 }, { wch: 50 }, { wch: 12 }, { wch: 12 },
-      { wch: 12 }, { wch: 12 }, { wch: 8 }
+      { wch: 30 }, { wch: 50 }, { wch: 12 }, { wch: 12 }, { wch: 12 }
     ];
     XLSX.utils.book_append_sheet(workbook, kolsSheet, 'Authors');
-  }
-
-  // Assets sheet
-  if (reportData.assets && reportData.assets.length > 0) {
-    const assetsForExport = reportData.assets.map(a => ({
-      'Asset Name': a.name || '',
-      'Code Name': a.genericName || '',
-      'Company': a.company || '',
-      'Modality': a.modality || '',
-      'Phase': a.phase || '',
-      'Status': a.status || '',
-      'Trial Count': a.trialCount || 0,
-      'Indications': (a.indications || []).slice(0, 5).join('; '),
-      'Partners': (a.partners || []).join('; '),
-      'First Trial': a.firstTrialDate || '',
-      'Latest Trial': a.latestTrialDate || '',
-    }));
-    const assetsSheet = XLSX.utils.json_to_sheet(assetsForExport);
-    assetsSheet['!cols'] = [
-      { wch: 35 }, { wch: 15 }, { wch: 30 }, { wch: 20 },
-      { wch: 12 }, { wch: 10 }, { wch: 10 }, { wch: 50 },
-      { wch: 30 }, { wch: 12 }, { wch: 12 }
-    ];
-    XLSX.utils.book_append_sheet(workbook, assetsSheet, 'Assets');
-  }
-
-  // Pipeline sheet (if available)
-  if (reportData.pipeline && reportData.pipeline.length > 0) {
-    const pipelineForExport = reportData.pipeline.map(p => ({
-      'Drug Name': p.drugName || p.name || '',
-      'Generic Name': p.genericName || '',
-      'Phase': typeof p.phase === 'number' ? `Phase ${p.phase}` : p.phase,
-      'Indication': p.indication || '',
-      'Mechanism': p.mechanism || '',
-      'Modality': p.modality || '',
-      'Sponsor': p.sponsor || p.partner || '',
-      'Expected Readout': p.expectedReadout || p.expectedApproval || '',
-      'Peak Revenue': p.peakRevenuePotential || '',
-    }));
-    const pipelineSheet = XLSX.utils.json_to_sheet(pipelineForExport);
-    pipelineSheet['!cols'] = [
-      { wch: 30 }, { wch: 20 }, { wch: 10 }, { wch: 40 },
-      { wch: 30 }, { wch: 20 }, { wch: 25 }, { wch: 15 }, { wch: 12 }
-    ];
-    XLSX.utils.book_append_sheet(workbook, pipelineSheet, 'Pipeline');
   }
 
   // Write to buffer
@@ -191,20 +164,125 @@ export function generateExcel(reportData: ReportData): Buffer {
   return buffer;
 }
 
+/**
+ * Generate Investment Summary data for Excel
+ */
+function generateInvestmentSummaryData(
+  target: string,
+  metrics: InvestmentMetrics,
+  assets: KnownAsset[]
+): any[][] {
+  const data: any[][] = [];
+
+  // Header
+  data.push([`${target} Investment Intelligence Report`]);
+  data.push([`Generated: ${new Date().toISOString()}`]);
+  data.push(['']);
+
+  // Deal Metrics Section
+  data.push(['=== DEAL METRICS ===']);
+  data.push(['Total Disclosed Deal Value:', `$${metrics.totalDisclosedDealValue.toFixed(1)}B`]);
+  data.push(['Total Upfront Payments:', `$${metrics.totalUpfront.toFixed(0)}M`]);
+  data.push(['Largest Deal:', `${metrics.largestDeal.name} - ${metrics.largestDeal.value}`]);
+  data.push(['']);
+
+  // List all deals
+  data.push(['Recent Deals:']);
+  for (const asset of assets.filter(a => a.deal)) {
+    data.push([
+      `  ${asset.primaryName}`,
+      asset.deal?.headline || '',
+      asset.deal?.date || ''
+    ]);
+  }
+  data.push(['']);
+
+  // Regulatory Section
+  data.push(['=== REGULATORY DESIGNATIONS ===']);
+  data.push(['Assets with BTD:', metrics.assetsWithBTD]);
+  data.push(['Assets with ODD:', metrics.assetsWithODD]);
+  data.push(['Assets with PRIME:', metrics.assetsWithPRIME]);
+  data.push(['Assets with Fast Track:', metrics.assetsWithFastTrack]);
+  data.push(['']);
+
+  // Phase Distribution
+  data.push(['=== PHASE DISTRIBUTION ===']);
+  const phaseOrder = ['Filed', 'Approved', 'Phase 3', 'Phase 2/3', 'Phase 2', 'Phase 1/2', 'Phase 1', 'Preclinical'];
+  for (const phase of phaseOrder) {
+    if (metrics.phaseDistribution[phase]) {
+      data.push([phase + ':', metrics.phaseDistribution[phase]]);
+    }
+  }
+  data.push(['']);
+
+  // Modality Breakdown
+  data.push(['=== MODALITY BREAKDOWN ===']);
+  data.push(['Modality', 'Count', 'Deal Value']);
+  for (const [modality, info] of Object.entries(metrics.modalityBreakdown)) {
+    data.push([
+      modality,
+      info.count,
+      info.dealValue > 0 ? `$${(info.dealValue / 1000).toFixed(1)}B` : '-'
+    ]);
+  }
+  data.push(['']);
+
+  // Ownership Breakdown
+  data.push(['=== OWNERSHIP BREAKDOWN ===']);
+  for (const [ownerType, count] of Object.entries(metrics.ownershipBreakdown)) {
+    data.push([ownerType + ':', count]);
+  }
+  data.push(['']);
+
+  // Summary
+  data.push(['=== SUMMARY ===']);
+  data.push(['Total Curated Assets:', metrics.curatedAssets]);
+  data.push(['Assets with Deals:', assets.filter(a => a.deal).length]);
+  data.push(['Assets with Key Data:', assets.filter(a => a.keyData).length]);
+
+  return data;
+}
+
+/**
+ * Generate comprehensive assets data for Excel
+ */
+function generateComprehensiveAssetsData(assets: KnownAsset[]): any[] {
+  return assets.map(a => ({
+    'Drug Name': a.primaryName,
+    'Code Names': a.codeNames.join(', '),
+    'Target': a.target,
+    'Modality': a.modality,
+    'Payload/Tech': a.modalityDetail || a.payload || '',
+    'Owner': a.owner,
+    'Partner': a.partner || '',
+    'Owner Type': a.ownerType,
+    'Phase': a.phase,
+    'Status': a.status,
+    'Lead Indication': a.leadIndication,
+    'Other Indications': (a.otherIndications || []).join('; '),
+    'BTD': a.regulatory.btd ? 'Y' : '',
+    'ODD': a.regulatory.odd ? 'Y' : '',
+    'PRIME': a.regulatory.prime ? 'Y' : '',
+    'Fast Track': a.regulatory.fastTrack ? 'Y' : '',
+    'Deal Headline': a.deal?.headline || '',
+    'Deal Upfront': a.deal?.upfront || '',
+    'Deal Milestones': a.deal?.milestones || '',
+    'Deal Date': a.deal?.date || '',
+    'Trial IDs': a.trialIds.join(', '),
+    'Trial Count': a.trialIds.length,
+    'Key Data': a.keyData || '',
+    'Notes': a.notes || '',
+  }));
+}
+
 // ============================================
 // CSV Generation
 // ============================================
 
-/**
- * Generate CSV from array of objects
- */
 export function generateCSV(data: any[], filename?: string): string {
   if (data.length === 0) return '';
 
-  // Get headers from first object
   const headers = Object.keys(data[0]);
-
-  // Build CSV rows
   const rows: string[] = [];
   rows.push(headers.map(h => escapeCSV(h)).join(','));
 
@@ -222,9 +300,6 @@ export function generateCSV(data: any[], filename?: string): string {
   return rows.join('\n');
 }
 
-/**
- * Generate multiple CSVs as a zip (for multi-section reports)
- */
 export function generateMultiCSV(reportData: ReportData): Record<string, string> {
   const csvFiles: Record<string, string> = {};
 
@@ -249,23 +324,6 @@ export function generateMultiCSV(reportData: ReportData): Record<string, string>
     })));
   }
 
-  if (reportData.deals.length > 0) {
-    csvFiles['deals.csv'] = generateCSV(reportData.deals.map(d => ({
-      date: d.date || d.announcedDate,
-      type: d.dealType || d.type,
-      parties: (d.parties || []).join(', '),
-      value: d.terms?.totalValue,
-    })));
-  }
-
-  if (reportData.kols.length > 0) {
-    csvFiles['kols.csv'] = generateCSV(reportData.kols.map(k => ({
-      name: k.name || `${k.lastName} ${k.foreName}`,
-      institution: k.primaryInstitution || k.institution,
-      publications: k.publicationCount,
-    })));
-  }
-
   return csvFiles;
 }
 
@@ -273,9 +331,6 @@ export function generateMultiCSV(reportData: ReportData): Record<string, string>
 // Utility Functions
 // ============================================
 
-/**
- * Escape CSV field value
- */
 function escapeCSV(value: string): string {
   if (value.includes(',') || value.includes('"') || value.includes('\n')) {
     return `"${value.replace(/"/g, '""')}"`;
@@ -283,18 +338,12 @@ function escapeCSV(value: string): string {
   return value;
 }
 
-/**
- * Get content type for export format
- */
 export function getContentType(format: 'xlsx' | 'csv'): string {
   return format === 'xlsx'
     ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     : 'text/csv';
 }
 
-/**
- * Get file extension for export format
- */
 export function getFileExtension(format: 'xlsx' | 'csv'): string {
   return format;
 }

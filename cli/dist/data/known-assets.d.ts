@@ -1,16 +1,34 @@
 /**
- * Known Assets Database
+ * Known Assets Database - Investment Ready
  *
  * Curated database of known drug assets for key targets.
- * Used to normalize messy clinical trial data and enrich with deal information.
+ * Contains complete deal terms, regulatory designations, and clinical data.
  */
+export interface RegulatoryDesignations {
+    btd: boolean;
+    odd: boolean;
+    fastTrack: boolean;
+    prime: boolean;
+    rmat?: boolean;
+}
+export interface DealTerms {
+    headline: string;
+    upfront?: string;
+    milestones?: string;
+    totalValue?: string;
+    date?: string;
+    partner?: string;
+    territory?: string;
+    notes?: string;
+}
 export interface KnownAsset {
     primaryName: string;
-    codeName?: string;
+    codeNames: string[];
     genericName?: string;
     aliases: string[];
     target: string;
     modality: 'ADC' | 'mAb' | 'Bispecific' | 'CAR-T' | 'Radioconjugate' | 'Small Molecule' | 'BiTE' | 'TCE' | 'Vaccine' | 'Other';
+    modalityDetail?: string;
     payload?: string;
     owner: string;
     ownerType: 'Big Pharma' | 'Biotech' | 'Chinese Biotech' | 'Academic' | 'Other';
@@ -19,11 +37,12 @@ export interface KnownAsset {
     status: 'Active' | 'Discontinued' | 'On Hold';
     leadIndication: string;
     otherIndications?: string[];
-    dealTerms?: string;
-    dealDate?: string;
+    regulatory: RegulatoryDesignations;
+    deal?: DealTerms;
+    trialIds: string[];
+    keyData?: string;
     notes?: string;
     differentiator?: string;
-    trialIds?: string[];
 }
 export interface TargetAssetDatabase {
     target: string;
@@ -35,24 +54,33 @@ export interface TargetAssetDatabase {
 }
 export declare const B7H3_DATABASE: TargetAssetDatabase;
 export declare const TARGET_DATABASES: Record<string, TargetAssetDatabase>;
+export interface InvestmentMetrics {
+    totalDisclosedDealValue: number;
+    totalUpfront: number;
+    largestDeal: {
+        name: string;
+        value: string;
+    };
+    assetsWithBTD: number;
+    assetsWithODD: number;
+    assetsWithPRIME: number;
+    assetsWithFastTrack: number;
+    phaseDistribution: Record<string, number>;
+    modalityBreakdown: Record<string, {
+        count: number;
+        dealValue: number;
+    }>;
+    ownershipBreakdown: Record<string, number>;
+    totalAssets: number;
+    curatedAssets: number;
+}
 /**
- * Get asset database for a target
+ * Calculate investment metrics for a set of assets
  */
+export declare function calculateInvestmentMetrics(assets: KnownAsset[]): InvestmentMetrics;
 export declare function getTargetDatabase(target: string): TargetAssetDatabase | null;
-/**
- * Find known asset by name
- */
 export declare function findKnownAsset(name: string, target?: string): KnownAsset | null;
-/**
- * Check if a drug name should be excluded
- */
 export declare function isExcludedDrug(name: string, target?: string): boolean;
-/**
- * Get all known assets for a target
- */
 export declare function getKnownAssetsForTarget(target: string): KnownAsset[];
-/**
- * Check if intervention name relates to target
- */
 export declare function isTargetRelatedIntervention(interventionName: string, interventionDescription: string | undefined, target: string): boolean;
 //# sourceMappingURL=known-assets.d.ts.map

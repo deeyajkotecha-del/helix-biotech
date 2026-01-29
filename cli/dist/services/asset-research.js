@@ -191,7 +191,7 @@ function mergeAssets(knownAssets, extracted, target) {
         }
         results.push({
             drugName: known.primaryName,
-            codeName: known.codeName,
+            codeName: known.codeNames?.[0],
             genericName: known.genericName,
             aliases: known.aliases,
             target: known.target,
@@ -206,9 +206,9 @@ function mergeAssets(knownAssets, extracted, target) {
             otherIndications: known.otherIndications || [],
             trialCount: trialIds.length,
             trialIds,
-            publicationCount: 0, // TODO: Add publication search
-            dealTerms: known.dealTerms,
-            dealDate: known.dealDate,
+            publicationCount: 0,
+            dealTerms: known.deal?.headline,
+            dealDate: known.deal?.date,
             notes: known.notes,
             differentiator: known.differentiator,
             dataSource: trialIds.length > 0 ? 'Multiple' : 'Known Database',
@@ -217,9 +217,9 @@ function mergeAssets(knownAssets, extracted, target) {
         });
         addedNames.add(known.primaryName.toLowerCase());
         addedNames.add(normalizeDrugName(known.primaryName));
-        if (known.codeName) {
-            addedNames.add(known.codeName.toLowerCase());
-            addedNames.add(normalizeDrugName(known.codeName));
+        for (const codeName of known.codeNames || []) {
+            addedNames.add(codeName.toLowerCase());
+            addedNames.add(normalizeDrugName(codeName));
         }
         if (known.genericName) {
             addedNames.add(known.genericName.toLowerCase());
