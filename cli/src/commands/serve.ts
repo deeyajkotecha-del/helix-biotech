@@ -28,6 +28,7 @@ import { DrugPatentProfile, OrangeBookPatent, OrangeBookExclusivity } from '../t
 import { pharmaRouter } from '../services/pharma-routes';
 import { generateTargetReport, getTrialAnalytics, getPublicationAnalytics, ExtendedReportData } from '../services/target-report';
 import { generateExcel, generateCSV } from '../services/export';
+import { getTargetAnalysis, TargetAnalysis } from '../data/target-analysis';
 
 // Cache directory for analysis results
 const CACHE_DIR = path.resolve(__dirname, '..', '..', 'cache');
@@ -1189,8 +1190,9 @@ function startServer(port: number): void {
 
       const report = await generateTargetReport(target);
       const trialAnalytics = getTrialAnalytics(report.trials);
+      const targetAnalysis = getTargetAnalysis(target);
 
-      const html = generateTargetReportHtml(report, trialAnalytics);
+      const html = generateTargetReportHtml(report, trialAnalytics, targetAnalysis);
       res.setHeader('Content-Type', 'text/html');
       res.send(html);
     } catch (error) {
@@ -5023,7 +5025,7 @@ function generatePatentTimelineHtml(condition: string, profiles: DrugPatentProfi
 // Target Report HTML Generator
 // ============================================
 
-function generateTargetReportHtml(report: any, trialAnalytics: any): string {
+function generateTargetReportHtml(report: any, trialAnalytics: any, targetAnalysis?: TargetAnalysis | null): string {
   const timestamp = new Date().toLocaleString();
   const { target, summary, trials, publications, deals, kols, curatedAssets, investmentMetrics } = report;
   const assetCount = curatedAssets?.length || 0;
@@ -5299,6 +5301,9 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
       <p class="subtitle">Satya Bio Report | Generated ${timestamp}</p>
 
       <div class="nav">
+        ${targetAnalysis ? '<a href="#thesis">Investment Thesis</a>' : ''}
+        ${targetAnalysis?.efficacyComparison?.length ? '<a href="#efficacy">Efficacy</a>' : ''}
+        ${targetAnalysis?.differentiators?.length ? '<a href="#differentiation">Differentiation</a>' : ''}
         <a href="#assets">Assets (${assetCount})</a>
         <a href="#trials">Trials (${summary.totalTrials})</a>
         <a href="#publications">Publications (${summary.totalPublications})</a>
@@ -5365,6 +5370,156 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
       </div>
       ` : ''}
     </div>
+    ` : ''}
+
+    ${targetAnalysis ? `
+    <section class="section" id="thesis">
+      <h2 class="section-title">Investment Thesis</h2>
+      <div class="card" style="background: linear-gradient(135deg, #FEF3C7 0%, #FDF4E8 100%); border: 2px solid #D97706;">
+        <div style="font-size: 1.15rem; font-weight: 600; color: #92400E; margin-bottom: 16px; line-height: 1.5;">
+          ${targetAnalysis.investmentThesis.headline}
+        </div>
+        <div style="margin-bottom: 16px;">
+          <strong style="color: var(--text-primary);">Key Investment Points:</strong>
+          <ul style="margin: 10px 0 0 20px; color: var(--text-secondary); line-height: 1.8;">
+            ${targetAnalysis.investmentThesis.keyPoints.map(p => `<li>${p}</li>`).join('')}
+          </ul>
+        </div>
+        <div style="border-top: 1px solid #D4A574; padding-top: 16px; margin-top: 16px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+              <strong style="color: var(--text-primary);">Market Opportunity:</strong>
+              <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 6px;">
+                Total: ${targetAnalysis.marketOpportunity.totalMarket}<br>
+                Target: <span style="color: #166534; font-weight: 600;">${targetAnalysis.marketOpportunity.targetShare}</span><br>
+                Population: ${targetAnalysis.marketOpportunity.patientPopulation}
+              </div>
+            </div>
+            <div>
+              <strong style="color: var(--text-primary);">Key Catalysts:</strong>
+              <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 6px;">
+                ${targetAnalysis.catalystsToWatch.slice(0, 3).map(c =>
+                  `• ${c.drug}: ${c.event} (${c.timing})`
+                ).join('<br>')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    ${targetAnalysis.efficacyComparison && targetAnalysis.efficacyComparison.length > 0 ? `
+    <section class="section" id="efficacy">
+      <h2 class="section-title">Efficacy Comparison</h2>
+      <p style="color:var(--text-secondary);margin-bottom:15px;font-size:0.9rem;">
+        Head-to-head comparison of clinical efficacy data across development programs (sorted by placebo-adjusted response)
+      </p>
+      <div class="card" style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Drug</th>
+              <th>Trial</th>
+              <th>Dose</th>
+              <th>Endpoint</th>
+              <th>Result</th>
+              <th>Placebo</th>
+              <th style="background: #166534; color: white;">Δ vs Placebo</th>
+              <th>Population</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${[...targetAnalysis.efficacyComparison]
+              .sort((a, b) => b.placeboAdjusted - a.placeboAdjusted)
+              .map((e, i) => `
+              <tr style="${i === 0 ? 'background: #DCFCE7;' : ''}">
+                <td style="font-weight: 600;">${e.drug}</td>
+                <td>${e.trial}</td>
+                <td style="font-size: 0.85rem;">${e.dose}</td>
+                <td>${e.endpoint}</td>
+                <td>${e.result}%</td>
+                <td>${e.placebo}%</td>
+                <td style="font-weight: 700; color: ${e.placeboAdjusted >= 25 ? '#166534' : e.placeboAdjusted >= 20 ? '#16A34A' : 'inherit'};">
+                  ${e.placeboAdjusted}%${i === 0 ? ' ★' : ''}
+                </td>
+                <td style="font-size: 0.85rem; color: ${e.population ? '#7C3AED' : 'inherit'}; font-style: ${e.population ? 'italic' : 'normal'};">
+                  ${e.population || 'All patients'}
+                </td>
+                <td style="font-size: 0.85rem;">${e.source}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        <p style="margin-top:15px;font-size:0.8rem;color:var(--text-muted);">
+          ★ = Best-in-class result | <span style="color: #7C3AED;">Purple</span> = biomarker-selected population
+        </p>
+      </div>
+    </section>
+    ` : ''}
+
+    ${targetAnalysis.differentiators && targetAnalysis.differentiators.length > 0 ? `
+    <section class="section" id="differentiation">
+      <h2 class="section-title">Competitive Differentiation</h2>
+      <p style="color:var(--text-secondary);margin-bottom:15px;font-size:0.9rem;">
+        Strategic positioning and key differentiators for each development program
+      </p>
+      <div class="card" style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Drug</th>
+              <th>Strategy</th>
+              <th>Dosing</th>
+              <th>Biomarker</th>
+              <th>Half-Life</th>
+              <th>Beyond Lead Indication</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${targetAnalysis.differentiators.map((d, i) => `
+              <tr style="${i % 2 === 0 ? 'background: #F3E8FF;' : ''}">
+                <td style="font-weight: 600;">${d.drug}</td>
+                <td style="color: #7C3AED; font-weight: 500;">${d.strategy}</td>
+                <td style="font-size: 0.9rem;">${d.dosing}</td>
+                <td style="${d.biomarker && d.biomarker !== 'No' && d.biomarker !== 'TBD' ? 'font-weight: 600; color: #7C3AED;' : ''}">${d.biomarker}</td>
+                <td>${d.halfLife}</td>
+                <td style="font-size: 0.9rem;">${d.beyondIndication}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    ` : ''}
+
+    ${targetAnalysis.keyRisks && targetAnalysis.keyRisks.length > 0 ? `
+    <section class="section" id="risks">
+      <h2 class="section-title">Key Risks</h2>
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Risk</th>
+              <th>Severity</th>
+              <th>Mitigation</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${targetAnalysis.keyRisks.map(r => `
+              <tr>
+                <td>${r.risk}</td>
+                <td style="font-weight: 600; color: ${r.severity === 'High' ? '#DC2626' : r.severity === 'Medium' ? '#EA580C' : '#166534'};">
+                  ${r.severity}
+                </td>
+                <td style="font-size: 0.9rem; color: var(--text-secondary);">${r.mitigation || '-'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    ` : ''}
     ` : ''}
 
     <div class="analytics-grid">

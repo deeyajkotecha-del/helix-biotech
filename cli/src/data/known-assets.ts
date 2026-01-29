@@ -78,6 +78,30 @@ export interface KnownAsset {
   trialIds: string[];         // Linked NCT IDs
   keyData?: string;           // "52% ORR in SCLC (ASCO 2024)"
 
+  // Efficacy data (for comparison tables)
+  efficacyData?: {
+    endpoint: string;         // e.g., "Clinical Remission"
+    result: number;           // e.g., 47.8 for 47.8%
+    placebo: number;          // e.g., 20.4
+    placeboAdjusted: number;  // result - placebo
+    trial: string;            // Trial name
+    timepoint?: string;       // e.g., "Week 14"
+    population?: string;      // e.g., "biomarker-positive"
+    source: string;           // Publication/conference
+  };
+
+  // Competitive differentiation
+  differentiators?: {
+    strategy: string;         // e.g., "Precision medicine"
+    dosing: string;           // e.g., "Q4W SC"
+    biomarker: string;        // e.g., "Yes (TL1A-high)"
+    halfLife: string;         // e.g., "14 days"
+    beyondIndication: string; // e.g., "SSc-ILD, RA"
+  };
+
+  // Investment thesis for this specific asset
+  investmentThesis?: string;
+
   // Notes
   notes?: string;
   differentiator?: string;
@@ -625,10 +649,10 @@ export const TL1A_DATABASE: TargetAssetDatabase = {
   assets: [
     // ========== Monoclonal Antibodies ==========
     {
-      primaryName: 'Tulisokibart',
-      codeNames: ['PRA023', 'MK-7240'],
+      primaryName: 'Tulisokibart (PRA023, MK-7240)',
+      codeNames: ['PRA023', 'MK-7240', 'tulisokibart'],
       genericName: 'tulisokibart',
-      aliases: ['PRA023', 'PRA-023', 'MK-7240', 'MK7240'],
+      aliases: ['PRA023', 'PRA-023', 'MK-7240', 'MK7240', 'Tulisokibart'],
       target: 'TL1A',
       modality: 'mAb',
       modalityDetail: 'Fully human IgG1 anti-TL1A monoclonal antibody',
@@ -652,17 +676,36 @@ export const TL1A_DATABASE: TargetAssetDatabase = {
         hasBreakdown: true,
       },
       trialIds: ['NCT05668013', 'NCT05499130', 'NCT06097481'],
-      keyData: '74% clinical remission in UC Phase 2b ARTEMIS-UC; 49% endoscopic improvement (NEJM 2024)',
-      notes: 'Lead TL1A inhibitor. Prometheus was acquired by Merck for $10.8B based on Phase 2 data. Multiple Phase 3 trials ongoing.',
-      differentiator: 'Best Phase 2 data; Merck resources; most advanced',
+      keyData: '26% remission (25% placebo-adj) in TL1A-high patients; 49% endoscopic improvement (NEJM 2024)',
+      notes: 'Lead TL1A inhibitor. Prometheus acquired by Merck for $10.8B. Precision medicine approach with biomarker selection.',
+      differentiator: 'Most advanced; Merck resources; precision medicine strategy',
+      efficacyData: {
+        endpoint: 'Clinical Remission',
+        result: 26,
+        placebo: 1,
+        placeboAdjusted: 25,
+        trial: 'ARTEMIS-UC',
+        timepoint: 'Week 12',
+        population: 'TL1A-high biomarker positive',
+        source: 'NEJM 2024',
+      },
+      differentiators: {
+        strategy: 'Precision medicine',
+        dosing: '1000mg → 500mg Q4W SC',
+        biomarker: 'Yes (TL1A-high)',
+        halfLife: '~14 days',
+        beyondIndication: 'SSc-ILD, RA explored',
+      },
+      investmentThesis: 'Most advanced TL1A with Merck backing; precision medicine with biomarker selection may yield enriched responses; $10.8B acquisition validates target',
     },
     {
-      primaryName: 'RVT-3101',
-      codeNames: ['RVT-3101', 'RG6631'],
-      aliases: ['RVT3101', 'RG-6631'],
+      primaryName: 'Afimkibart (RVT-3101, RG6631)',
+      codeNames: ['RVT-3101', 'RG6631', 'afimkibart'],
+      genericName: 'afimkibart',
+      aliases: ['RVT3101', 'RG-6631', 'RVT-3101', 'Afimkibart'],
       target: 'TL1A',
       modality: 'mAb',
-      modalityDetail: 'Anti-TL1A monoclonal antibody',
+      modalityDetail: 'Fully human IgG1 anti-TL1A monoclonal antibody',
       owner: 'Roche',
       ownerType: 'Big Pharma',
       phase: 'Phase 3',
@@ -683,17 +726,35 @@ export const TL1A_DATABASE: TargetAssetDatabase = {
         hasBreakdown: true,
       },
       trialIds: ['NCT05668039', 'NCT06194695'],
-      keyData: '70% clinical response in UC Phase 2 (ACG 2023)',
-      notes: 'Originally from Pfizer. Roche acquired Telavant to get RVT-3101.',
-      differentiator: 'Roche development; competitive Phase 2 data',
+      keyData: '70% clinical response, 35% remission in UC Phase 2 (ACG 2023)',
+      notes: 'Originally from Pfizer. Roche acquired Telavant to get afimkibart.',
+      differentiator: 'Roche development; multi-indication expansion potential',
+      efficacyData: {
+        endpoint: 'Clinical Remission',
+        result: 35,
+        placebo: 12,
+        placeboAdjusted: 23,
+        trial: 'Phase 2',
+        timepoint: 'Week 14',
+        source: 'ACG 2023',
+      },
+      differentiators: {
+        strategy: 'Multi-indication expansion',
+        dosing: '150mg Q4W SC',
+        biomarker: 'No',
+        halfLife: '~14 days',
+        beyondIndication: 'AD, MASH, Celiac potential',
+      },
+      investmentThesis: 'Roche backing with $7.25B acquisition validates asset; multi-indication expansion strategy differentiates from IBD-only competitors',
     },
     {
-      primaryName: 'TEV-48574',
-      codeNames: ['TEV-48574'],
-      aliases: ['TEV48574'],
+      primaryName: 'Duvakitug (TEV-48574, SAR447189)',
+      codeNames: ['TEV-48574', 'SAR447189', 'duvakitug'],
+      genericName: 'duvakitug',
+      aliases: ['TEV48574', 'SAR-447189', 'TEV-48574', 'Duvakitug'],
       target: 'TL1A',
       modality: 'mAb',
-      modalityDetail: 'Anti-TL1A monoclonal antibody',
+      modalityDetail: 'Fully human IgG1 anti-TL1A monoclonal antibody',
       owner: 'Teva',
       ownerType: 'Big Pharma',
       partner: 'Sanofi',
@@ -715,9 +776,26 @@ export const TL1A_DATABASE: TargetAssetDatabase = {
         hasBreakdown: true,
       },
       trialIds: ['NCT05774587'],
-      keyData: 'Phase 2 ongoing in UC',
-      notes: 'Teva developed; Sanofi partnered for global commercialization.',
-      differentiator: 'Sanofi commercialization; competitive landscape',
+      keyData: '47.8% remission (27.4% placebo-adj) at 1000mg Q4W - BEST IN CLASS (DDW 2024)',
+      notes: 'Highest placebo-adjusted remission rate in the class. Sanofi partnered for global commercialization.',
+      differentiator: 'Best-in-class efficacy data; Sanofi commercialization power',
+      efficacyData: {
+        endpoint: 'Clinical Remission',
+        result: 47.8,
+        placebo: 20.4,
+        placeboAdjusted: 27.4,
+        trial: 'RELIEVE UCCD',
+        timepoint: 'Week 14',
+        source: 'DDW 2024',
+      },
+      differentiators: {
+        strategy: 'Best-in-class efficacy',
+        dosing: '500-1000mg Q4W SC',
+        biomarker: 'No',
+        halfLife: '~21 days',
+        beyondIndication: 'IBD only',
+      },
+      investmentThesis: 'Highest placebo-adjusted remission (27.4%) in the class; Sanofi commercialization muscle; potential best-in-class positioning',
     },
     {
       primaryName: 'PF-06480605',
@@ -809,12 +887,12 @@ export const TL1A_DATABASE: TargetAssetDatabase = {
 
     // ========== Bispecifics ==========
     {
-      primaryName: 'SAR443765',
+      primaryName: 'SAR443765 (TL1A x IL-23 Bispecific)',
       codeNames: ['SAR443765'],
       aliases: ['SAR-443765'],
       target: 'TL1A x IL-23',
       modality: 'Bispecific',
-      modalityDetail: 'Bispecific antibody targeting TL1A and IL-23',
+      modalityDetail: 'Bispecific antibody targeting TL1A and IL-23 p19',
       owner: 'Sanofi',
       ownerType: 'Big Pharma',
       phase: 'Phase 2',
@@ -823,9 +901,17 @@ export const TL1A_DATABASE: TargetAssetDatabase = {
       otherIndications: ['Ulcerative Colitis', 'IBD'],
       regulatory: { btd: false, odd: false, fastTrack: false, prime: false },
       trialIds: ['NCT05719701'],
-      keyData: 'Dual-target approach for enhanced efficacy',
-      notes: 'Novel bispecific targeting both TL1A and IL-23 pathways.',
-      differentiator: 'First TL1A bispecific; dual mechanism',
+      keyData: 'First-in-class bispecific combining two validated IBD targets',
+      notes: 'Novel bispecific targeting both TL1A and IL-23 pathways for potentially superior efficacy.',
+      differentiator: 'First TL1A bispecific; dual mechanism may provide best-in-class efficacy',
+      differentiators: {
+        strategy: 'Dual-target synergy',
+        dosing: 'TBD',
+        biomarker: 'No',
+        halfLife: 'TBD',
+        beyondIndication: 'IBD focus',
+      },
+      investmentThesis: 'First-in-class bispecific combining TL1A + IL-23 blockade; potential for superior efficacy vs. monospecifics; Sanofi development resources',
     },
     {
       primaryName: 'CNTE-0532',

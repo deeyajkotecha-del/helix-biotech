@@ -46,6 +46,24 @@ export interface KnownAsset {
     deal?: DealTerms;
     trialIds: string[];
     keyData?: string;
+    efficacyData?: {
+        endpoint: string;
+        result: number;
+        placebo: number;
+        placeboAdjusted: number;
+        trial: string;
+        timepoint?: string;
+        population?: string;
+        source: string;
+    };
+    differentiators?: {
+        strategy: string;
+        dosing: string;
+        biomarker: string;
+        halfLife: string;
+        beyondIndication: string;
+    };
+    investmentThesis?: string;
     notes?: string;
     differentiator?: string;
 }

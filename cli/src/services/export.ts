@@ -9,6 +9,7 @@
 
 import ExcelJS from 'exceljs';
 import { KnownAsset, InvestmentMetrics, calculateInvestmentMetrics } from '../data/known-assets';
+import { getTargetAnalysis, EfficacyDataPoint, DifferentiatorMatrix, TargetAnalysis } from '../data/target-analysis';
 
 // ============================================
 // Types
@@ -87,27 +88,50 @@ export async function generateExcel(reportData: ReportData): Promise<Buffer> {
     ? calculateInvestmentMetrics(curatedAssets)
     : reportData.investmentMetrics;
 
+  // Get target analysis for investment-grade content
+  const targetAnalysis = getTargetAnalysis(reportData.target);
+
   // 1. Investment Summary Sheet
   if (metrics) {
     createSummarySheet(workbook, reportData.target, metrics, curatedAssets);
   }
 
-  // 2. Assets Sheet
+  // 2. Investment Thesis Sheet (NEW)
+  if (targetAnalysis) {
+    createInvestmentThesisSheet(workbook, targetAnalysis);
+  }
+
+  // 3. Efficacy Comparison Sheet (NEW)
+  if (targetAnalysis && targetAnalysis.efficacyComparison.length > 0) {
+    createEfficacyComparisonSheet(workbook, targetAnalysis);
+  }
+
+  // 4. Competitive Differentiation Sheet (NEW)
+  if (targetAnalysis && targetAnalysis.differentiators.length > 0) {
+    createDifferentiatorSheet(workbook, targetAnalysis);
+  }
+
+  // 5. Assets Sheet
   if (curatedAssets.length > 0) {
     createAssetsSheet(workbook, curatedAssets);
   }
 
-  // 3. Trials Sheet
+  // 6. Deal Landscape Sheet (NEW)
+  if (curatedAssets.length > 0) {
+    createDealLandscapeSheet(workbook, curatedAssets, reportData.target);
+  }
+
+  // 7. Trials Sheet
   if (reportData.trials.length > 0) {
     createTrialsSheet(workbook, reportData.trials, curatedAssets);
   }
 
-  // 4. Publications Sheet
+  // 8. Publications Sheet
   if (reportData.publications.length > 0) {
     createPublicationsSheet(workbook, reportData.publications);
   }
 
-  // 5. Authors Sheet
+  // 9. Authors Sheet
   if (reportData.kols.length > 0) {
     createAuthorsSheet(workbook, reportData.kols);
   }
@@ -624,6 +648,461 @@ function createAuthorsSheet(workbook: ExcelJS.Workbook, kols: any[]): void {
   sheet.autoFilter = {
     from: { row: 1, column: 1 },
     to: { row: 1, column: 5 }
+  };
+}
+
+// ============================================
+// Investment Thesis Sheet (NEW)
+// ============================================
+
+function createInvestmentThesisSheet(workbook: ExcelJS.Workbook, analysis: TargetAnalysis): void {
+  const sheet = workbook.addWorksheet('Investment Thesis', {
+    properties: { tabColor: { argb: 'EAB308' } }
+  });
+
+  // Title
+  sheet.mergeCells('A1:E1');
+  const titleCell = sheet.getCell('A1');
+  titleCell.value = `${analysis.target} Investment Thesis`;
+  titleCell.font = { bold: true, size: 18, color: { argb: '1E3A5F' } };
+  titleCell.alignment = { horizontal: 'center' };
+
+  let row = 3;
+
+  // Headline
+  addSectionHeader(sheet, row, 'HEADLINE');
+  row += 2;
+  sheet.mergeCells(`A${row}:E${row}`);
+  sheet.getCell(`A${row}`).value = analysis.investmentThesis.headline;
+  sheet.getCell(`A${row}`).font = { bold: true, size: 14, color: { argb: '166534' } };
+  sheet.getRow(row).height = 30;
+  row += 2;
+
+  // Key Points
+  addSectionHeader(sheet, row, 'KEY INVESTMENT POINTS');
+  row += 2;
+  for (const point of analysis.investmentThesis.keyPoints) {
+    sheet.getCell(`A${row}`).value = `• ${point}`;
+    sheet.getRow(row).height = 22;
+    row++;
+  }
+  row += 1;
+
+  // Mechanism
+  addSectionHeader(sheet, row, 'MECHANISM');
+  row += 2;
+  sheet.getCell(`A${row}`).value = 'Biology:';
+  sheet.getCell(`A${row}`).font = { bold: true };
+  sheet.mergeCells(`B${row}:E${row}`);
+  sheet.getCell(`B${row}`).value = analysis.mechanism.biology;
+  row++;
+  sheet.getCell(`A${row}`).value = 'Rationale:';
+  sheet.getCell(`A${row}`).font = { bold: true };
+  sheet.mergeCells(`B${row}:E${row}`);
+  sheet.getCell(`B${row}`).value = analysis.mechanism.rationale;
+  row++;
+  sheet.getCell(`A${row}`).value = 'Unique Value:';
+  sheet.getCell(`A${row}`).font = { bold: true };
+  sheet.mergeCells(`B${row}:E${row}`);
+  sheet.getCell(`B${row}`).value = analysis.mechanism.uniqueValue;
+  sheet.getCell(`B${row}`).font = { color: { argb: '166534' } };
+  row += 2;
+
+  // Market Opportunity
+  addSectionHeader(sheet, row, 'MARKET OPPORTUNITY');
+  row += 2;
+  sheet.getCell(`A${row}`).value = 'Total Market:';
+  sheet.getCell(`A${row}`).font = { bold: true };
+  sheet.getCell(`B${row}`).value = analysis.marketOpportunity.totalMarket;
+  row++;
+  sheet.getCell(`A${row}`).value = 'Target Share:';
+  sheet.getCell(`A${row}`).font = { bold: true };
+  sheet.getCell(`B${row}`).value = analysis.marketOpportunity.targetShare;
+  sheet.getCell(`B${row}`).font = { bold: true, color: { argb: '166534' } };
+  row++;
+  sheet.getCell(`A${row}`).value = 'Patient Population:';
+  sheet.getCell(`A${row}`).font = { bold: true };
+  sheet.getCell(`B${row}`).value = analysis.marketOpportunity.patientPopulation;
+  row++;
+  sheet.getCell(`A${row}`).value = 'Unmet Need:';
+  sheet.getCell(`A${row}`).font = { bold: true };
+  sheet.mergeCells(`B${row}:E${row}`);
+  sheet.getCell(`B${row}`).value = analysis.marketOpportunity.unmetNeed;
+  row += 2;
+
+  // Key Risks
+  addSectionHeader(sheet, row, 'KEY RISKS');
+  row += 2;
+  sheet.getCell(`A${row}`).value = 'Risk';
+  sheet.getCell(`B${row}`).value = 'Severity';
+  sheet.getCell(`C${row}`).value = 'Mitigation';
+  const riskHeaderRow = sheet.getRow(row);
+  riskHeaderRow.font = { bold: true };
+  riskHeaderRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'E5E7EB' }
+  };
+  row++;
+
+  for (const risk of analysis.keyRisks) {
+    sheet.getCell(`A${row}`).value = risk.risk;
+    sheet.getCell(`B${row}`).value = risk.severity;
+    sheet.getCell(`C${row}`).value = risk.mitigation || '';
+
+    // Color severity
+    const severityCell = sheet.getCell(`B${row}`);
+    if (risk.severity === 'High') {
+      severityCell.font = { bold: true, color: { argb: 'DC2626' } };
+    } else if (risk.severity === 'Medium') {
+      severityCell.font = { color: { argb: 'EA580C' } };
+    } else {
+      severityCell.font = { color: { argb: '166534' } };
+    }
+    row++;
+  }
+  row += 1;
+
+  // Catalysts
+  addSectionHeader(sheet, row, 'CATALYSTS TO WATCH');
+  row += 2;
+  sheet.getCell(`A${row}`).value = 'Event';
+  sheet.getCell(`B${row}`).value = 'Drug';
+  sheet.getCell(`C${row}`).value = 'Timing';
+  sheet.getCell(`D${row}`).value = 'Significance';
+  const catHeaderRow = sheet.getRow(row);
+  catHeaderRow.font = { bold: true };
+  catHeaderRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'E5E7EB' }
+  };
+  row++;
+
+  for (const catalyst of analysis.catalystsToWatch) {
+    sheet.getCell(`A${row}`).value = catalyst.event;
+    sheet.getCell(`B${row}`).value = catalyst.drug;
+    sheet.getCell(`C${row}`).value = catalyst.timing;
+    sheet.getCell(`D${row}`).value = catalyst.significance;
+
+    // Highlight high significance
+    if (catalyst.significance === 'High') {
+      const sigCell = sheet.getCell(`D${row}`);
+      sigCell.font = { bold: true, color: { argb: '166534' } };
+      sheet.getRow(row).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'F0FDF4' }
+      };
+    }
+    row++;
+  }
+
+  // Column widths
+  sheet.getColumn('A').width = 45;
+  sheet.getColumn('B').width = 30;
+  sheet.getColumn('C').width = 40;
+  sheet.getColumn('D').width = 15;
+  sheet.getColumn('E').width = 20;
+}
+
+// ============================================
+// Efficacy Comparison Sheet (NEW)
+// ============================================
+
+function createEfficacyComparisonSheet(workbook: ExcelJS.Workbook, analysis: TargetAnalysis): void {
+  const sheet = workbook.addWorksheet('Efficacy Comparison', {
+    properties: { tabColor: { argb: '22C55E' } },
+    views: [{ state: 'frozen', ySplit: 1 }]
+  });
+
+  sheet.columns = [
+    { header: 'Drug', key: 'drug', width: 30 },
+    { header: 'Trial', key: 'trial', width: 20 },
+    { header: 'Phase', key: 'phase', width: 12 },
+    { header: 'Dose', key: 'dose', width: 22 },
+    { header: 'Indication', key: 'indication', width: 20 },
+    { header: 'Endpoint', key: 'endpoint', width: 22 },
+    { header: 'Result (%)', key: 'result', width: 12 },
+    { header: 'Placebo (%)', key: 'placebo', width: 12 },
+    { header: 'Δ vs Placebo', key: 'delta', width: 14 },
+    { header: 'Timepoint', key: 'timepoint', width: 12 },
+    { header: 'Population', key: 'population', width: 25 },
+    { header: 'Source', key: 'source', width: 15 },
+    { header: 'Notes', key: 'notes', width: 40 },
+  ];
+
+  // Style header
+  const headerRow = sheet.getRow(1);
+  headerRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+  headerRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: COLORS.headerBg }
+  };
+  headerRow.height = 25;
+
+  // Add data - sort by placebo-adjusted descending
+  const sortedData = [...analysis.efficacyComparison].sort((a, b) => b.placeboAdjusted - a.placeboAdjusted);
+
+  sortedData.forEach((data, index) => {
+    const row = sheet.addRow({
+      drug: data.drug,
+      trial: data.trial,
+      phase: data.phase,
+      dose: data.dose,
+      indication: data.indication,
+      endpoint: data.endpoint,
+      result: data.result,
+      placebo: data.placebo,
+      delta: data.placeboAdjusted,
+      timepoint: data.timepoint || '',
+      population: data.population || '',
+      source: data.source,
+      notes: data.notes || '',
+    });
+
+    // Highlight best result (first row after sorting)
+    if (index === 0) {
+      row.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'DCFCE7' }  // Light green
+      };
+      row.getCell('delta').font = { bold: true, color: { argb: '166534' } };
+    }
+
+    // Bold the delta column
+    row.getCell('delta').font = { bold: true };
+
+    // Color delta by value
+    if (data.placeboAdjusted >= 25) {
+      row.getCell('delta').font = { bold: true, color: { argb: '166534' } };
+    } else if (data.placeboAdjusted >= 20) {
+      row.getCell('delta').font = { bold: true, color: { argb: '16A34A' } };
+    }
+
+    // Add note about biomarker selection
+    if (data.population) {
+      row.getCell('population').font = { italic: true, color: { argb: '7C3AED' } };
+    }
+  });
+
+  // Auto-filter
+  sheet.autoFilter = {
+    from: { row: 1, column: 1 },
+    to: { row: 1, column: 13 }
+  };
+}
+
+// ============================================
+// Competitive Differentiation Sheet (NEW)
+// ============================================
+
+function createDifferentiatorSheet(workbook: ExcelJS.Workbook, analysis: TargetAnalysis): void {
+  const sheet = workbook.addWorksheet('Differentiation', {
+    properties: { tabColor: { argb: 'A855F7' } },
+    views: [{ state: 'frozen', ySplit: 1 }]
+  });
+
+  sheet.columns = [
+    { header: 'Drug', key: 'drug', width: 30 },
+    { header: 'Strategy', key: 'strategy', width: 25 },
+    { header: 'Dosing', key: 'dosing', width: 22 },
+    { header: 'Biomarker', key: 'biomarker', width: 18 },
+    { header: 'Half-Life', key: 'halfLife', width: 12 },
+    { header: 'Beyond Indication', key: 'beyond', width: 30 },
+    { header: 'Mechanism', key: 'mechanism', width: 25 },
+    { header: 'Administration', key: 'admin', width: 15 },
+  ];
+
+  // Style header
+  const headerRow = sheet.getRow(1);
+  headerRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+  headerRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: COLORS.headerBg }
+  };
+  headerRow.height = 25;
+
+  // Add data
+  analysis.differentiators.forEach((diff, index) => {
+    const row = sheet.addRow({
+      drug: diff.drug,
+      strategy: diff.strategy,
+      dosing: diff.dosing,
+      biomarker: diff.biomarker,
+      halfLife: diff.halfLife,
+      beyond: diff.beyondIndication,
+      mechanism: diff.mechanism || '',
+      admin: diff.administration || '',
+    });
+
+    // Alternate row colors
+    if (index % 2 === 0) {
+      row.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'F3E8FF' }  // Light purple
+      };
+    }
+
+    // Highlight biomarker if present
+    if (diff.biomarker && diff.biomarker !== 'No' && diff.biomarker !== 'TBD') {
+      row.getCell('biomarker').font = { bold: true, color: { argb: '7C3AED' } };
+    }
+  });
+
+  // Auto-filter
+  sheet.autoFilter = {
+    from: { row: 1, column: 1 },
+    to: { row: 1, column: 8 }
+  };
+}
+
+// ============================================
+// Deal Landscape Sheet (NEW)
+// ============================================
+
+function createDealLandscapeSheet(workbook: ExcelJS.Workbook, assets: KnownAsset[], target: string): void {
+  const sheet = workbook.addWorksheet('Deal Landscape', {
+    properties: { tabColor: { argb: 'F59E0B' } },
+    views: [{ state: 'frozen', ySplit: 1 }]
+  });
+
+  // Filter to only assets with deals
+  const dealAssets = assets.filter(a => a.deal);
+
+  sheet.columns = [
+    { header: 'Drug', key: 'drug', width: 30 },
+    { header: 'Partner', key: 'partner', width: 25 },
+    { header: 'Deal Type', key: 'dealType', width: 20 },
+    { header: 'Upfront ($M)', key: 'upfront', width: 14 },
+    { header: 'Equity ($M)', key: 'equity', width: 14 },
+    { header: 'Committed ($M)', key: 'committed', width: 16 },
+    { header: 'Milestones ($M)', key: 'milestones', width: 16 },
+    { header: 'Total Potential ($M)', key: 'total', width: 18 },
+    { header: 'Date', key: 'date', width: 12 },
+    { header: 'Territory', key: 'territory', width: 25 },
+    { header: 'Verified', key: 'verified', width: 10 },
+    { header: 'Notes', key: 'notes', width: 50 },
+    { header: 'Source', key: 'source', width: 40 },
+  ];
+
+  // Style header
+  const headerRow = sheet.getRow(1);
+  headerRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+  headerRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: COLORS.headerBg }
+  };
+  headerRow.height = 25;
+
+  // Sort by committed value descending
+  const sortedAssets = [...dealAssets].sort((a, b) => {
+    const aCommitted = (a.deal?.upfront || 0) + (a.deal?.equity || 0);
+    const bCommitted = (b.deal?.upfront || 0) + (b.deal?.equity || 0);
+    return bCommitted - aCommitted;
+  });
+
+  // Calculate totals
+  let totalUpfront = 0;
+  let totalEquity = 0;
+  let totalMilestones = 0;
+
+  sortedAssets.forEach((asset, index) => {
+    const upfront = asset.deal?.upfront || 0;
+    const equity = asset.deal?.equity || 0;
+    const milestones = asset.deal?.milestones || 0;
+    const committed = upfront + equity;
+    const total = committed + milestones;
+
+    totalUpfront += upfront;
+    totalEquity += equity;
+    totalMilestones += milestones;
+
+    // Determine deal type
+    let dealType = 'Partnership';
+    if (asset.deal?.headline?.toLowerCase().includes('acquisition')) {
+      dealType = 'Acquisition';
+    } else if (asset.deal?.headline?.toLowerCase().includes('collaboration')) {
+      dealType = 'Collaboration';
+    } else if (asset.deal?.headline?.toLowerCase().includes('licens')) {
+      dealType = 'License';
+    }
+
+    const row = sheet.addRow({
+      drug: asset.primaryName,
+      partner: asset.deal?.partner || '',
+      dealType,
+      upfront: upfront || '',
+      equity: equity || '',
+      committed: committed || '',
+      milestones: milestones || '',
+      total: total || '',
+      date: asset.deal?.date || '',
+      territory: asset.deal?.territory || '',
+      verified: asset.deal?.hasBreakdown ? 'Yes' : 'No',
+      notes: asset.deal?.notes || '',
+      source: asset.deal?.source || '',
+    });
+
+    // Highlight largest deal
+    if (index === 0) {
+      row.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FEF3C7' }  // Light amber
+      };
+    }
+
+    // Bold committed column
+    if (committed > 0) {
+      row.getCell('committed').font = { bold: true, color: { argb: '166534' } };
+    }
+
+    // Color by deal type
+    if (dealType === 'Acquisition') {
+      row.getCell('dealType').font = { bold: true, color: { argb: 'DC2626' } };
+    }
+  });
+
+  // Add totals row
+  const totalCommitted = totalUpfront + totalEquity;
+  const totalPotential = totalCommitted + totalMilestones;
+
+  const totalsRow = sheet.addRow({
+    drug: 'TOTAL',
+    partner: '',
+    dealType: '',
+    upfront: totalUpfront,
+    equity: totalEquity,
+    committed: totalCommitted,
+    milestones: totalMilestones,
+    total: totalPotential,
+    date: '',
+    territory: '',
+    verified: '',
+    notes: '',
+    source: '',
+  });
+
+  totalsRow.font = { bold: true };
+  totalsRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: '1E3A5F' }
+  };
+  totalsRow.getCell('drug').font = { bold: true, color: { argb: 'FFFFFF' } };
+  totalsRow.getCell('committed').font = { bold: true, color: { argb: '4ADE80' } };
+  totalsRow.getCell('total').font = { bold: true, color: { argb: 'FFFFFF' } };
+
+  // Auto-filter (exclude totals row)
+  sheet.autoFilter = {
+    from: { row: 1, column: 1 },
+    to: { row: 1, column: 13 }
   };
 }
 
