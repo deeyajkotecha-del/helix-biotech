@@ -99,15 +99,16 @@ function startServer(port) {
     }
     // Mount pharma intelligence routes
     app.use(pharma_routes_1.pharmaRouter);
-    // Homepage - Satya Bio
+    // Homepage - Satya Bio (Professional SaaS Landing Page)
     app.get('/', (_req, res) => {
         res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Satya Bio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Satya Bio | Biotech Intelligence Platform</title>
+  <meta name="description" content="Comprehensive competitive landscapes, pipeline tracking, and deal intelligence for biotech - powered by real-time data.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --background: #FAF9F7;
@@ -119,162 +120,332 @@ function startServer(port) {
       --text-muted: #9B9A97;
       --accent: #D97756;
       --accent-hover: #C4684A;
+      --accent-light: #FDF4F1;
       --success: #5B8C6F;
-      --warning: #D4A84B;
-      --error: #C75D5D;
+      --success-light: #E8F5E9;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--background); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
-    .hero { background: var(--surface); padding: 80px 20px; text-align: center; border-bottom: 1px solid var(--border); }
-    .hero h1 { font-size: 2.5rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; letter-spacing: -0.02em; }
-    .hero p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 35px; }
-    .search-box { max-width: 600px; margin: 0 auto; display: flex; gap: 12px; }
-    .search-box input { flex: 1; padding: 14px 18px; font-size: 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text-primary); outline: none; transition: all 0.2s; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; }
+
+    /* Sticky Header */
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 16px 24px; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo-sanskrit { color: var(--accent); font-size: 1.1rem; }
+    .nav { display: flex; align-items: center; gap: 32px; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-cta { display: flex; gap: 12px; align-items: center; }
+    .btn-secondary { padding: 10px 20px; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: color 0.2s; }
+    .btn-secondary:hover { color: var(--text-primary); }
+    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-size: 0.95rem; font-weight: 500; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    /* Hero Section */
+    .hero { background: var(--surface); padding: 100px 24px 80px; text-align: center; border-bottom: 1px solid var(--border); }
+    .hero h1 { font-size: 3.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 20px; letter-spacing: -0.03em; line-height: 1.15; max-width: 800px; margin-left: auto; margin-right: auto; }
+    .hero-subtitle { color: var(--text-secondary); font-size: 1.25rem; margin-bottom: 48px; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+    .search-container { max-width: 680px; margin: 0 auto 40px; }
+    .search-box { display: flex; gap: 12px; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 8px; transition: all 0.2s; }
+    .search-box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(217, 119, 86, 0.1); }
+    .search-box input { flex: 1; padding: 14px 18px; font-size: 1.05rem; border: none; background: transparent; color: var(--text-primary); outline: none; }
     .search-box input::placeholder { color: var(--text-muted); }
-    .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(217, 119, 86, 0.1); }
-    .search-box button { padding: 14px 28px; font-size: 1rem; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+    .search-box button { padding: 14px 32px; font-size: 1rem; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; white-space: nowrap; }
     .search-box button:hover { background: var(--accent-hover); }
-    .container { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
-    .quick-links { display: flex; gap: 12px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
-    .quick-links a { padding: 10px 18px; background: var(--background); color: var(--text-secondary); text-decoration: none; border-radius: 20px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; border: 1px solid var(--border); }
-    .quick-links a:hover { background: var(--surface-hover); color: var(--text-primary); border-color: var(--accent); }
-    .section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-top: 40px; }
-    .section-card { background: var(--surface); border-radius: 12px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid var(--border); }
-    .section-card h2 { color: var(--text-primary); font-size: 1.2rem; font-weight: 600; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
-    .endpoint { background: var(--background); padding: 14px 16px; margin: 12px 0; border-radius: 8px; border-left: 3px solid var(--accent); }
-    .endpoint a { color: var(--accent); text-decoration: none; font-weight: 500; }
-    .endpoint a:hover { text-decoration: underline; color: var(--accent-hover); }
-    .endpoint p { color: var(--text-secondary); font-size: 0.85rem; margin-top: 6px; }
-    .method { color: var(--success); font-weight: 600; font-size: 0.75rem; margin-right: 8px; }
-    .pharma-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; margin-top: 16px; }
-    .pharma-link { background: var(--background); padding: 10px 12px; border-radius: 6px; text-align: center; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; border: 1px solid var(--border); }
-    .pharma-link:hover { background: var(--accent); color: white; border-color: var(--accent); }
-    .footer { text-align: center; color: var(--text-muted); padding: 40px 20px; border-top: 1px solid var(--border); margin-top: 50px; font-size: 0.9rem; }
-    .footer a { color: var(--accent); text-decoration: none; }
-    .footer a:hover { text-decoration: underline; }
-    .featured { background: linear-gradient(135deg, var(--accent) 0%, #B85A3D 100%); border: none; box-shadow: 0 4px 12px rgba(217, 119, 86, 0.25); }
-    .featured h2 { color: white; }
-    .featured .endpoint { background: rgba(255,255,255,0.15); border-left-color: rgba(255,255,255,0.5); }
-    .featured .endpoint a { color: white; }
-    .featured .endpoint p { color: rgba(255,255,255,0.8); }
-    .featured .method { color: rgba(255,255,255,0.9); }
+    .quick-examples { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .quick-examples span { color: var(--text-muted); font-size: 0.9rem; }
+    .quick-pill { padding: 8px 16px; background: var(--accent-light); color: var(--accent); text-decoration: none; border-radius: 20px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; border: 1px solid transparent; }
+    .quick-pill:hover { background: var(--accent); color: white; transform: translateY(-1px); }
+
+    /* Credibility Bar */
+    .credibility { background: var(--background); border-bottom: 1px solid var(--border); padding: 28px 24px; }
+    .credibility-inner { max-width: 1000px; margin: 0 auto; display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
+    .cred-sources { display: flex; align-items: center; gap: 24px; }
+    .cred-label { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .cred-logos { display: flex; gap: 20px; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
+    .cred-divider { width: 1px; height: 30px; background: var(--border); }
+    .cred-stats { display: flex; gap: 32px; }
+    .cred-stat { text-align: center; }
+    .cred-stat-value { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+    .cred-stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Features Section */
+    .features { padding: 80px 24px; background: var(--surface); }
+    .features-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-header h2 { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+    .section-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    @media (max-width: 900px) { .features-grid { grid-template-columns: 1fr; } }
+    .feature-card { background: var(--background); border: 1px solid var(--border); border-radius: 16px; padding: 36px 28px; transition: all 0.3s; }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: var(--accent); }
+    .feature-icon { width: 56px; height: 56px; background: var(--accent-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+    .feature-card h3 { font-size: 1.2rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+    .feature-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
+    .feature-link { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+    .feature-link:hover { gap: 10px; }
+
+    /* Example Output Section */
+    .example { padding: 80px 24px; background: var(--background); }
+    .example-inner { max-width: 1100px; margin: 0 auto; }
+    .example-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    @media (max-width: 900px) { .example-content { grid-template-columns: 1fr; } }
+    .example-text h2 { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 20px; }
+    .example-text p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 28px; }
+    .example-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+    .example-feature { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: var(--text-primary); }
+    .example-feature .check { color: var(--success); font-weight: 600; }
+    .example-cta { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--accent); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 1rem; transition: all 0.2s; }
+    .example-cta:hover { background: var(--accent-hover); transform: translateY(-2px); }
+    .example-preview { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+    .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .preview-title { font-weight: 600; color: var(--text-primary); }
+    .preview-badge { padding: 4px 12px; background: var(--success-light); color: var(--success); border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+    .preview-card { background: var(--background); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .preview-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .preview-drug-name { font-weight: 600; color: var(--text-primary); font-size: 0.95rem; }
+    .preview-phase { padding: 3px 10px; background: var(--success-light); color: var(--success); border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+    .preview-codes { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+    .preview-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+    .preview-pill { padding: 3px 10px; background: var(--accent-light); color: var(--accent); border-radius: 8px; font-size: 0.75rem; font-weight: 500; }
+
+    /* Pharma Section */
+    .pharma { padding: 60px 24px; background: var(--surface); border-top: 1px solid var(--border); }
+    .pharma-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+    .pharma h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 24px; }
+    .pharma-grid { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .pharma-chip { padding: 12px 24px; background: var(--background); border: 1px solid var(--border); border-radius: 10px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: all 0.2s; }
+    .pharma-chip:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); }
+
+    /* Footer */
+    .footer { background: var(--text-primary); color: #A8A7A5; padding: 64px 24px 40px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    .footer-brand h4 { color: white; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .footer-brand p { font-size: 0.95rem; line-height: 1.6; max-width: 280px; }
+    .footer-col h5 { color: white; font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-col a { display: block; color: #A8A7A5; text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: color 0.2s; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom { padding-top: 32px; border-top: 1px solid #333; text-align: center; font-size: 0.85rem; }
   </style>
 </head>
 <body>
-  <div class="hero">
-    <h1>Satya Bio</h1>
-    <p>Truth in Biotech Research | Powered by real-time data</p>
-
-    <form class="search-box" onsubmit="event.preventDefault(); const q = document.getElementById('target-search').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
-      <input type="text" id="target-search" placeholder="Enter target, indication, or drug name (e.g., B7-H3, NSCLC, pembrolizumab)">
-      <button type="submit">Generate Report</button>
-    </form>
-
-    <div class="quick-links">
-      <a href="/api/report/target/B7-H3/html">B7-H3 ADCs</a>
-      <a href="/api/report/target/TL1A/html">TL1A Inhibitors</a>
-      <a href="/api/report/target/GLP-1/html">GLP-1 Agonists</a>
-      <a href="/api/landscape/ulcerative%20colitis/molecules/html">UC Landscape</a>
-      <a href="/api/pharma/MRK/html">Merck Profile</a>
+  <!-- Sticky Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <span class="logo-sanskrit">सत्य</span> Satya Bio
+      </a>
+      <nav class="nav">
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#pharma">Companies</a>
+          <a href="/api/report/target/B7-H3/html">Example Report</a>
+        </div>
+        <div class="nav-cta">
+          <a href="#" class="btn-secondary">Log in</a>
+          <a href="#" class="btn-primary">Try Free</a>
+        </div>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <div class="container">
-    <div class="section-grid">
-      <div class="section-card featured">
-        <h2>Target Intelligence Reports</h2>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/report/target/B7-H3/html">/api/report/target/:target/html</a>
-          <p>Comprehensive report: trials, publications, deals, KOLs</p>
-        </div>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/report/target/B7-H3/excel">/api/report/target/:target/excel</a>
-          <p>Download multi-tab Excel workbook</p>
-        </div>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/report/target/B7-H3">/api/report/target/:target</a>
-          <p>JSON API for programmatic access</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Biotech Intelligence<br>in Seconds</h1>
+    <p class="hero-subtitle">Comprehensive competitive landscapes, pipeline tracking, and deal intelligence — powered by real-time data from trusted sources.</p>
+
+    <div class="search-container">
+      <form class="search-box" onsubmit="event.preventDefault(); const q = document.getElementById('target-search').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
+        <input type="text" id="target-search" placeholder="Search any target: B7-H3, TL1A, GLP-1...">
+        <button type="submit">Generate Report</button>
+      </form>
+    </div>
+
+    <div class="quick-examples">
+      <span>Try:</span>
+      <a href="/api/report/target/B7-H3/html" class="quick-pill">B7-H3 ADCs</a>
+      <a href="/api/report/target/TL1A/html" class="quick-pill">TL1A Inhibitors</a>
+      <a href="/api/report/target/GLP-1/html" class="quick-pill">GLP-1 Agonists</a>
+      <a href="/api/report/target/KRAS/html" class="quick-pill">KRAS Inhibitors</a>
+    </div>
+  </section>
+
+  <!-- Credibility Bar -->
+  <section class="credibility">
+    <div class="credibility-inner">
+      <div class="cred-sources">
+        <span class="cred-label">Data from</span>
+        <div class="cred-logos">
+          <span>ClinicalTrials.gov</span>
+          <span>•</span>
+          <span>PubMed</span>
+          <span>•</span>
+          <span>SEC EDGAR</span>
+          <span>•</span>
+          <span>FDA</span>
         </div>
       </div>
-
-      <div class="section-card">
-        <h2>Pharma Intelligence</h2>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/pharma/MRK/html">/api/pharma/:ticker/html</a>
-          <p>Pipeline, catalysts, deals, BD strategy</p>
+      <div class="cred-divider"></div>
+      <div class="cred-stats">
+        <div class="cred-stat">
+          <div class="cred-stat-value">50,000+</div>
+          <div class="cred-stat-label">Trials indexed</div>
         </div>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/pharma/bd-fit?target=MRK&area=ophthalmology&modality=ADC">/api/pharma/bd-fit</a>
-          <p>Analyze BD fit for assets</p>
+        <div class="cred-stat">
+          <div class="cred-stat-value">13</div>
+          <div class="cred-stat-label">Major pharma tracked</div>
         </div>
-        <div class="pharma-grid">
-          <a href="/api/pharma/MRK/html" class="pharma-link">MRK</a>
-          <a href="/api/pharma/PFE/html" class="pharma-link">PFE</a>
-          <a href="/api/pharma/LLY/html" class="pharma-link">LLY</a>
-          <a href="/api/pharma/ABBV/html" class="pharma-link">ABBV</a>
-          <a href="/api/pharma/BMY/html" class="pharma-link">BMY</a>
-          <a href="/api/pharma/AZN/html" class="pharma-link">AZN</a>
-          <a href="/api/pharma/JNJ/html" class="pharma-link">JNJ</a>
-          <a href="/api/pharma/NVS/html" class="pharma-link">NVS</a>
-          <a href="/api/pharma/AMGN/html" class="pharma-link">AMGN</a>
-          <a href="/api/pharma/GILD/html" class="pharma-link">GILD</a>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <h2>Therapeutic Landscapes</h2>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/landscape/ulcerative%20colitis/full">/api/landscape/:condition/full</a>
-          <p>Complete landscape analysis</p>
-        </div>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/landscape/ulcerative%20colitis/molecules/html">/api/landscape/:condition/molecules/html</a>
-          <p>All drugs in development</p>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <h2>Clinical Trial Analysis</h2>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/trial/NCT02819635/results/html">/api/trial/:nctId/results/html</a>
-          <p>Deep efficacy &amp; safety data</p>
-        </div>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/compare-trials/html?ncts=NCT02819635,NCT03518086">/api/compare-trials/html</a>
-          <p>Head-to-head trial comparison</p>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <h2>Patent &amp; Exclusivity</h2>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/patents/rinvoq/html">/api/patents/:drugName/html</a>
-          <p>Patent protection timeline</p>
-        </div>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/patents/condition/ulcerative%20colitis/html">/api/patents/condition/:condition/html</a>
-          <p>LOE timeline by therapeutic area</p>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <h2>Company Analysis</h2>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/report/MRNA">/api/report/:ticker</a>
-          <p>SEC filing analysis (10-K)</p>
-        </div>
-        <div class="endpoint">
-          <span class="method">GET</span> <a href="/api/dashboard">/api/dashboard</a>
-          <p>Analyzed companies dashboard</p>
+        <div class="cred-stat">
+          <div class="cred-stat-value">Daily</div>
+          <div class="cred-stat-label">Updates</div>
         </div>
       </div>
     </div>
+  </section>
 
-    <footer class="footer">
-      <p>Satya Bio | Truth in Biotech Research</p>
-      <p style="margin-top: 8px;">Data: <a href="https://clinicaltrials.gov">ClinicalTrials.gov</a> | <a href="https://pubmed.ncbi.nlm.nih.gov">PubMed</a> | <a href="https://www.fda.gov">FDA</a> | <a href="https://www.sec.gov/edgar">SEC EDGAR</a></p>
-    </footer>
-  </div>
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="features-inner">
+      <div class="section-header">
+        <h2>Everything you need for biotech research</h2>
+        <p>From early target validation to late-stage deal tracking — all in one platform.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Target Landscapes</h3>
+          <p>Every asset, clinical trial, and publication for any target. See the complete competitive picture with deal terms and regulatory designations.</p>
+          <a href="/api/report/target/B7-H3/html" class="feature-link">Explore B7-H3 →</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🏢</div>
+          <h3>Pharma Profiles</h3>
+          <p>Pipeline, upcoming catalysts, and BD strategy for the top 13 pharma companies. Understand their therapeutic focus and M&A appetite.</p>
+          <a href="/api/pharma/MRK/html" class="feature-link">View Merck →</a>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Deal Intelligence</h3>
+          <p>Track M&A, licensing deals, and partnerships with disclosed deal values. See who's buying what and at what price.</p>
+          <a href="/api/report/target/B7-H3/html#assets" class="feature-link">Track deals →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Example Output Section -->
+  <section class="example">
+    <div class="example-inner">
+      <div class="example-content">
+        <div class="example-text">
+          <h2>See what you get</h2>
+          <p>Generate comprehensive intelligence reports in seconds. Every report includes curated assets with investment-grade data.</p>
+
+          <div class="example-features">
+            <div class="example-feature"><span class="check">✓</span> All assets identified</div>
+            <div class="example-feature"><span class="check">✓</span> Deal terms included</div>
+            <div class="example-feature"><span class="check">✓</span> Phase breakdown</div>
+            <div class="example-feature"><span class="check">✓</span> Regulatory status (BTD, ODD)</div>
+            <div class="example-feature"><span class="check">✓</span> Excel download</div>
+            <div class="example-feature"><span class="check">✓</span> Linked sources</div>
+          </div>
+
+          <a href="/api/report/target/B7-H3/html" class="example-cta">See Full B7-H3 Report →</a>
+        </div>
+
+        <div class="example-preview">
+          <div class="preview-header">
+            <span class="preview-title">B7-H3 Landscape</span>
+            <span class="preview-badge">23 Assets</span>
+          </div>
+
+          <div class="preview-card">
+            <div class="preview-card-header">
+              <span class="preview-drug-name">Ifinatamab deruxtecan</span>
+              <span class="preview-phase">Phase 3</span>
+            </div>
+            <div class="preview-codes">DS-7300, I-DXd</div>
+            <div class="preview-meta">
+              <span class="preview-pill">ADC</span>
+              <span class="preview-pill">$22B Merck deal</span>
+              <span class="preview-pill">BTD</span>
+            </div>
+          </div>
+
+          <div class="preview-card">
+            <div class="preview-card-header">
+              <span class="preview-drug-name">Risvutatug rezetecan</span>
+              <span class="preview-phase">Phase 3</span>
+            </div>
+            <div class="preview-codes">HS-20093, GSK4428859</div>
+            <div class="preview-meta">
+              <span class="preview-pill">ADC</span>
+              <span class="preview-pill">$1.7B GSK deal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pharma Quick Access -->
+  <section class="pharma" id="pharma">
+    <div class="pharma-inner">
+      <h3>Pharma Company Profiles</h3>
+      <div class="pharma-grid">
+        <a href="/api/pharma/MRK/html" class="pharma-chip">Merck</a>
+        <a href="/api/pharma/PFE/html" class="pharma-chip">Pfizer</a>
+        <a href="/api/pharma/LLY/html" class="pharma-chip">Eli Lilly</a>
+        <a href="/api/pharma/ABBV/html" class="pharma-chip">AbbVie</a>
+        <a href="/api/pharma/BMY/html" class="pharma-chip">Bristol-Myers</a>
+        <a href="/api/pharma/AZN/html" class="pharma-chip">AstraZeneca</a>
+        <a href="/api/pharma/JNJ/html" class="pharma-chip">J&J</a>
+        <a href="/api/pharma/NVS/html" class="pharma-chip">Novartis</a>
+        <a href="/api/pharma/AMGN/html" class="pharma-chip">Amgen</a>
+        <a href="/api/pharma/GILD/html" class="pharma-chip">Gilead</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4><span style="color: var(--accent);">सत्य</span> Satya Bio</h4>
+          <p>Truth in Biotech Research. Real-time intelligence for biotech investors and strategy teams.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Product</h5>
+          <a href="#features">Features</a>
+          <a href="/api/report/target/B7-H3/html">Example Report</a>
+          <a href="#">API Access</a>
+        </div>
+        <div class="footer-col">
+          <h5>Data Sources</h5>
+          <a href="https://clinicaltrials.gov" target="_blank">ClinicalTrials.gov</a>
+          <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a>
+          <a href="https://www.sec.gov/edgar" target="_blank">SEC EDGAR</a>
+          <a href="https://www.fda.gov" target="_blank">FDA</a>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+          <a href="#">Twitter</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2024 Satya Bio. All rights reserved.
+      </div>
+    </div>
+  </footer>
 </body>
 </html>`);
     });
