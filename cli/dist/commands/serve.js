@@ -99,14 +99,14 @@ function startServer(port) {
     }
     // Mount pharma intelligence routes
     app.use(pharma_routes_1.pharmaRouter);
-    // Homepage - Helix Research Portal
+    // Homepage - Satya Bio
     app.get('/', (_req, res) => {
         res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helix Research Portal</title>
+  <title>Satya Bio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -162,8 +162,8 @@ function startServer(port) {
 </head>
 <body>
   <div class="hero">
-    <h1>Helix Research Portal</h1>
-    <p>Biotech competitive intelligence powered by real-time data</p>
+    <h1>Satya Bio</h1>
+    <p>Truth in Biotech Research | Powered by real-time data</p>
 
     <form class="search-box" onsubmit="event.preventDefault(); const q = document.getElementById('target-search').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
       <input type="text" id="target-search" placeholder="Enter target, indication, or drug name (e.g., B7-H3, NSCLC, pembrolizumab)">
@@ -271,7 +271,7 @@ function startServer(port) {
     </div>
 
     <footer class="footer">
-      <p>Helix Intelligence Platform</p>
+      <p>Satya Bio | Truth in Biotech Research</p>
       <p style="margin-top: 8px;">Data: <a href="https://clinicaltrials.gov">ClinicalTrials.gov</a> | <a href="https://pubmed.ncbi.nlm.nih.gov">PubMed</a> | <a href="https://www.fda.gov">FDA</a> | <a href="https://www.sec.gov/edgar">SEC EDGAR</a></p>
     </footer>
   </div>
@@ -1177,7 +1177,7 @@ function generateHtmlReport(ticker, companyName, filing, analysis) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${ticker} Analysis | Helix Intelligence</title>
+  <title>${ticker} Analysis | Satya Bio</title>
   <style>
     * {
       margin: 0;
@@ -1263,7 +1263,7 @@ function generateHtmlReport(ticker, companyName, filing, analysis) {
       opacity: 1;
     }
 
-    .helix-logo {
+    .satya-logo {
       font-size: 1.5rem;
       font-weight: 700;
       opacity: 0.9;
@@ -1638,7 +1638,7 @@ function generateHtmlReport(ticker, companyName, filing, analysis) {
             <a href="${filing.fileUrl}" target="_blank" class="sec-link">View SEC Filing →</a>
           </div>
         </div>
-        <div class="helix-logo">⬡ Helix</div>
+        <div class="satya-logo">सत्य Satya Bio</div>
       </div>
     </header>
 
@@ -1800,7 +1800,7 @@ function generateHtmlReport(ticker, companyName, filing, analysis) {
 
     <!-- Footer -->
     <footer class="footer">
-      <div class="footer-brand">⬡ Powered by Helix Intelligence</div>
+      <div class="footer-brand">Powered by Satya Bio</div>
       <div>Generated ${new Date().toLocaleString()}</div>
       <div class="disclaimer">
         Data extracted from SEC filings using AI. Verify all information before making investment decisions.
@@ -1979,7 +1979,7 @@ function generateDashboardHtml(data) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Helix Dashboard | Biotech Portfolio Analysis</title>
+  <title>Satya Bio Dashboard | Biotech Portfolio Analysis</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -2205,7 +2205,7 @@ function generateDashboardHtml(data) {
 </head>
 <body>
   <header class="header">
-    <h1>⬡ Helix Dashboard</h1>
+    <h1>⬡ Satya Bio Dashboard</h1>
     <div class="header-stats">
       <div class="header-stat">
         <div class="header-stat-value">${data.length}</div>
@@ -2282,7 +2282,7 @@ function generateDashboardHtml(data) {
     `}
 
     <footer class="footer">
-      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Powered by Satya Bio</div>
       <div>Last updated: ${timestamp}</div>
     </footer>
   </div>
@@ -2373,7 +2373,7 @@ function generateLandscapeHtml(data) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(data.condition)} Landscape | Helix Intelligence</title>
+  <title>${escapeHtml(data.condition)} Landscape | Satya Bio</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -2845,7 +2845,7 @@ function generateLandscapeHtml(data) {
     </section>
 
     <footer class="footer">
-      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Powered by Satya Bio</div>
       <div>Data sources: ClinicalTrials.gov, PubMed, Fierce Biotech, Fierce Pharma, PR Newswire, Endpoints News, BioPharma Dive</div>
       <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--gray-400);">
         This is aggregated public data. Verify all information before making decisions.
@@ -3014,7 +3014,7 @@ function generateMoleculesHtml(condition, trialCount, molecules) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(condition)} Molecules | Helix Intelligence</title>
+  <title>${escapeHtml(condition)} Molecules | Satya Bio</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -3381,7 +3381,7 @@ function generateMoleculesHtml(condition, trialCount, molecules) {
     </div>
 
     <footer class="footer">
-      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Powered by Satya Bio</div>
       <div>Data source: ClinicalTrials.gov</div>
     </footer>
   </div>
@@ -3428,7 +3428,7 @@ function generateTrialResultsHtml(data) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(data.nctId)} Results | Helix Intelligence</title>
+  <title>${escapeHtml(data.nctId)} Results | Satya Bio</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -3802,7 +3802,7 @@ function generateTrialResultsHtml(data) {
     ` : ''}
 
     <footer class="footer">
-      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Powered by Satya Bio</div>
       <div>Data source: <a href="https://clinicaltrials.gov/study/${data.nctId}" class="link">ClinicalTrials.gov</a></div>
       <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--gray-400);">
         Fetched ${timestamp}. Verify all data before making clinical or investment decisions.
@@ -4117,7 +4117,7 @@ function generateTrialComparisonHtml(comparison) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trial Comparison | Helix Intelligence</title>
+  <title>Trial Comparison | Satya Bio</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -4299,7 +4299,7 @@ function generateTrialComparisonHtml(comparison) {
     </section>
 
     <footer class="footer">
-      <div>⬡ Powered by Helix Intelligence</div>
+      <div>Powered by Satya Bio</div>
       <div>Data source: ClinicalTrials.gov | ${timestamp}</div>
     </footer>
   </div>
@@ -4395,7 +4395,7 @@ function generatePatentProfileHtml(profile) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patent Profile: ${profile.brandName} - Helix Intelligence</title>
+  <title>Patent Profile: ${profile.brandName} - Satya Bio</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.6; }
@@ -4512,7 +4512,7 @@ function generatePatentProfileHtml(profile) {
     </section>
 
     <footer class="footer">
-      <div>Helix Intelligence | Patent & Exclusivity Tracker</div>
+      <div>Satya Bio | Patent & Exclusivity Tracker</div>
       <div>Data: FDA Orange Book + OpenFDA | ${timestamp}</div>
     </footer>
   </div>
@@ -4591,7 +4591,7 @@ function generatePatentTimelineHtml(condition, profiles) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patent Timeline: ${condTitle} - Helix Intelligence</title>
+  <title>Patent Timeline: ${condTitle} - Satya Bio</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a1a; color: #e0e0e0; line-height: 1.6; }
@@ -4688,7 +4688,7 @@ function generatePatentTimelineHtml(condition, profiles) {
     </section>
 
     <footer class="footer">
-      <div>Helix Intelligence | Patent & Exclusivity Tracker</div>
+      <div>Satya Bio | Patent & Exclusivity Tracker</div>
       <div>Data: FDA Orange Book + OpenFDA + BPCIA | ${timestamp}</div>
     </footer>
   </div>
@@ -4714,43 +4714,61 @@ function generateTargetReportHtml(report, trialAnalytics) {
       <td>${t.startDate || '-'}</td>
     </tr>
   `).join('');
-    // Asset rows (curated investment-quality data)
-    const assetRows = (curatedAssets || []).map((a) => {
-        const ownerTypeClass = (a.ownerType || '').toLowerCase().replace(/\s+/g, '-');
+    // Asset cards (curated investment-quality data)
+    const assetCards = (curatedAssets || []).map((a) => {
         const regBadges = [];
         if (a.regulatory?.btd)
-            regBadges.push('<span class="reg-badge reg-btd">BTD</span>');
+            regBadges.push('<span class="reg-pill">BTD</span>');
         if (a.regulatory?.odd)
-            regBadges.push('<span class="reg-badge reg-odd">ODD</span>');
+            regBadges.push('<span class="reg-pill">ODD</span>');
         if (a.regulatory?.prime)
-            regBadges.push('<span class="reg-badge reg-prime">PRIME</span>');
+            regBadges.push('<span class="reg-pill">PRIME</span>');
         if (a.regulatory?.fastTrack)
-            regBadges.push('<span class="reg-badge reg-ft">FT</span>');
-        const linkedTrials = (a.trialIds || []).slice(0, 3).map((nct) => `<a href="https://clinicaltrials.gov/study/${nct}" target="_blank" class="trial-link">${nct}</a>`).join(' ');
+            regBadges.push('<span class="reg-pill">FT</span>');
+        const linkedTrials = (a.trialIds || []).slice(0, 4).map((nct) => `<a href="https://clinicaltrials.gov/study/${nct}" target="_blank" class="trial-nct">${nct}</a>`).join(' ');
+        const phaseClass = (a.phase || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const statusClass = (a.status || '').toLowerCase() === 'active' ? 'active' : 'inactive';
+        // Build other indications list
+        const otherIndications = (a.indications || []).filter((i) => i !== a.leadIndication).slice(0, 3);
         return `
-    <tr class="curated-asset">
-      <td>
-        <strong>${a.primaryName}</strong>
-        ${a.codeNames?.length ? `<br><span class="code-name">${a.codeNames.join(', ')}</span>` : ''}
-        ${regBadges.length ? `<br>${regBadges.join(' ')}` : ''}
-      </td>
-      <td>
-        <span class="modality-badge modality-${(a.modality || '').toLowerCase().replace(/[^a-z]/g, '')}">${a.modality}</span>
-        ${a.modalityDetail ? `<br><span class="payload">${a.modalityDetail}</span>` : (a.payload ? `<br><span class="payload">${a.payload}</span>` : '')}
-      </td>
-      <td>
-        <span class="owner-type owner-${ownerTypeClass}">${a.owner || '-'}</span>
-        ${a.partner ? `<br><span class="partner">+ ${a.partner}</span>` : ''}
-      </td>
-      <td><span class="phase-badge phase-${(a.phase || '').toLowerCase().replace(/[^a-z0-9]/g, '')}">${a.phase}</span></td>
-      <td><span class="status-badge status-${(a.status || '').toLowerCase()}">${a.status}</span></td>
-      <td class="indication-cell">${a.leadIndication || '-'}</td>
-      <td class="deal-cell">${a.deal?.headline || '-'}${a.deal?.upfront ? `<br><span class="deal-upfront">Upfront: ${a.deal.upfront}</span>` : ''}</td>
-      <td class="notes-cell">
-        ${a.keyData ? `<span class="key-data">${a.keyData}</span><br>` : ''}
-        ${linkedTrials ? `<span class="linked-trials">${linkedTrials}</span>` : ''}
-      </td>
-    </tr>`;
+    <div class="asset-card">
+      <div class="asset-header">
+        <div class="asset-name-section">
+          <div class="asset-name">${a.primaryName}</div>
+          ${a.codeNames?.length ? `<div class="asset-codes">${a.codeNames.join(', ')}</div>` : ''}
+        </div>
+        <div class="asset-badges">
+          <span class="phase-pill phase-${phaseClass}">${a.phase}</span>
+          <span class="status-pill status-${statusClass}">${a.status}</span>
+        </div>
+      </div>
+
+      <div class="asset-meta">
+        <span class="modality-pill">${a.modality}</span>
+        <span class="meta-separator">•</span>
+        <span class="asset-moa">${a.modalityDetail || a.payload || a.mechanism || ''}</span>
+      </div>
+      <div class="asset-owner">
+        ${a.owner || '-'}${a.ownerType ? ` <span class="owner-type-tag">(${a.ownerType})</span>` : ''}${a.partner ? ` + ${a.partner}` : ''}
+      </div>
+
+      <div class="asset-indications">
+        <div class="lead-indication"><strong>Lead:</strong> ${a.leadIndication || '-'}</div>
+        ${otherIndications.length ? `<div class="other-indications"><strong>Also:</strong> ${otherIndications.join(', ')}</div>` : ''}
+      </div>
+
+      ${a.deal?.headline || a.keyData ? `
+      <div class="asset-highlights">
+        ${a.deal?.headline ? `<div class="deal-info">💰 ${a.deal.headline}${a.deal.upfront ? ` (Upfront: ${a.deal.upfront})` : ''}</div>` : ''}
+        ${a.keyData ? `<div class="key-data-info">📊 ${a.keyData}</div>` : ''}
+      </div>
+      ` : ''}
+
+      <div class="asset-footer">
+        ${linkedTrials ? `<div class="trials-row"><strong>Trials:</strong> ${linkedTrials}</div>` : ''}
+        ${regBadges.length ? `<div class="reg-row">${regBadges.join('')}</div>` : ''}
+      </div>
+    </div>`;
     }).join('');
     // Publication rows
     const pubRows = publications.slice(0, 20).map((p) => `
@@ -4804,7 +4822,7 @@ function generateTargetReportHtml(report, trialAnalytics) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${target} - Helix Intelligence Report</title>
+  <title>${target} - Satya Bio Report</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -4859,34 +4877,46 @@ function generateTargetReportHtml(report, trialAnalytics) {
     .type-badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; font-weight: 500; }
     .type-badge.industry { background: #F3E5F5; color: #7B1FA2; }
     .type-badge.academic { background: #E0F7FA; color: #00838F; }
-    .modality-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; }
-    .modality-badge.modality-adc { background: #FFEBEE; color: #C62828; }
-    .modality-badge.modality-mab { background: #E3F2FD; color: #1565C0; }
-    .modality-badge.modality-cart { background: #FCE4EC; color: #AD1457; }
-    .modality-badge.modality-bispecific { background: #FFF3E0; color: #E65100; }
-    .modality-badge.modality-radioconjugate { background: #FFFDE7; color: #F57F17; }
-    .payload { font-size: 0.75rem; color: var(--text-secondary); }
-    .code-name { font-size: 0.8rem; color: var(--accent); }
-    .owner-type { font-weight: 500; }
-    .owner-big-pharma { color: #AD1457; }
-    .owner-biotech { color: #1565C0; }
-    .owner-chinese-biotech { color: #E65100; }
-    .owner-academic { color: #2E7D32; }
-    .partner { font-size: 0.8rem; color: var(--text-secondary); }
-    .indication-cell { max-width: 200px; font-size: 0.85rem; }
-    .deal-cell { max-width: 220px; font-size: 0.85rem; color: var(--success); font-weight: 500; }
-    .notes-cell { max-width: 300px; font-size: 0.85rem; color: var(--text-secondary); }
-    tr.curated-asset { background: var(--surface); }
-    tr.curated-asset:hover { background: var(--surface-hover); }
-    .reg-badge { padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-right: 4px; }
-    .reg-btd { background: #E8F5E9; color: #2E7D32; }
-    .reg-odd { background: #F3E5F5; color: #7B1FA2; }
-    .reg-prime { background: #E0F7FA; color: #00838F; }
-    .reg-ft { background: #FFF3E0; color: #E65100; }
-    .key-data { color: var(--success); font-weight: 500; }
-    .deal-upfront { font-size: 0.75rem; color: var(--text-secondary); }
-    .linked-trials { font-size: 0.75rem; }
-    .trial-link { color: var(--accent); margin-right: 6px; }
+    /* Asset Card Grid */
+    .asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 20px; }
+    .asset-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); transition: box-shadow 0.2s, transform 0.2s; }
+    .asset-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .asset-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 18px 20px 12px; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .asset-name-section { flex: 1; }
+    .asset-name { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+    .asset-codes { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+    .asset-badges { display: flex; gap: 8px; flex-shrink: 0; margin-left: 12px; }
+    .phase-pill { padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+    .phase-pill.phase-phase3, .phase-pill.phase-filed { background: #DCFCE7; color: #166534; }
+    .phase-pill.phase-phase23, .phase-pill.phase-phase2 { background: #DBEAFE; color: #1E40AF; }
+    .phase-pill.phase-phase12, .phase-pill.phase-phase1 { background: #F3F4F6; color: #4B5563; }
+    .phase-pill.phase-preclinical { background: #F3F4F6; color: #6B7280; }
+    .phase-pill.phase-approved { background: #F3E8FF; color: #7C3AED; }
+    .status-pill { padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 500; }
+    .status-pill.status-active { background: #DCFCE7; color: #166534; }
+    .status-pill.status-inactive, .status-pill.status-terminated { background: #FEE2E2; color: #991B1B; }
+    .asset-meta { display: flex; align-items: center; gap: 8px; padding: 12px 20px; font-size: 0.9rem; border-bottom: 1px solid var(--border); background: var(--background); }
+    .modality-pill { background: var(--accent); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+    .meta-separator { color: var(--text-muted); }
+    .asset-moa { color: var(--text-secondary); font-size: 0.85rem; }
+    .asset-owner { padding: 10px 20px; font-size: 0.9rem; color: var(--text-primary); border-bottom: 1px solid var(--border); }
+    .owner-type-tag { color: var(--text-muted); font-weight: 400; }
+    .asset-indications { padding: 12px 20px; font-size: 0.9rem; border-bottom: 1px solid var(--border); }
+    .lead-indication { color: var(--text-primary); margin-bottom: 4px; }
+    .lead-indication strong { color: var(--text-secondary); font-weight: 500; }
+    .other-indications { color: var(--text-muted); font-size: 0.85rem; }
+    .other-indications strong { color: var(--text-secondary); font-weight: 500; }
+    .asset-highlights { padding: 12px 20px; background: #FFFBEB; border-bottom: 1px solid #FDE68A; }
+    .deal-info { color: #92400E; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .deal-info:last-child { margin-bottom: 0; }
+    .key-data-info { color: #166534; font-size: 0.9rem; font-weight: 500; }
+    .asset-footer { padding: 12px 20px; background: var(--background); }
+    .trials-row { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
+    .trials-row strong { color: var(--text-secondary); font-weight: 500; }
+    .trial-nct { color: var(--accent); text-decoration: none; margin-right: 8px; font-weight: 500; }
+    .trial-nct:hover { text-decoration: underline; }
+    .reg-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .reg-pill { padding: 3px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: var(--surface); border: 1px solid var(--border); color: var(--text-secondary); }
     .investment-dashboard { background: var(--surface); padding: 28px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid var(--border); }
     .investment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
     .investment-metric { text-align: center; padding: 20px; background: var(--background); border-radius: 10px; }
@@ -4917,7 +4947,7 @@ function generateTargetReportHtml(report, trialAnalytics) {
 
     <div class="header">
       <h1>${target}</h1>
-      <p class="subtitle">Helix Intelligence Report | Generated ${timestamp}</p>
+      <p class="subtitle">Satya Bio Report | Generated ${timestamp}</p>
 
       <div class="nav">
         <a href="#assets">Assets (${assetCount})</a>
@@ -5037,31 +5067,15 @@ function generateTargetReportHtml(report, trialAnalytics) {
       </div>
       ` : ''}
 
-      <div class="card">
-        <table>
-          <thead>
-            <tr>
-              <th>Drug Name / Regulatory</th>
-              <th>Modality / Tech</th>
-              <th>Owner / Partner</th>
-              <th>Phase</th>
-              <th>Status</th>
-              <th>Lead Indication</th>
-              <th>Deal Info</th>
-              <th>Key Data / Trials</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${assetRows || '<tr><td colspan="8" style="color:#94a3b8;">No assets found</td></tr>'}
-          </tbody>
-        </table>
-        <p style="margin-top:15px;font-size:0.8rem;color:#64748b;">
-          <span class="reg-badge reg-btd">BTD</span> Breakthrough Therapy |
-          <span class="reg-badge reg-odd">ODD</span> Orphan Drug |
-          <span class="reg-badge reg-prime">PRIME</span> EU Priority |
-          <span class="reg-badge reg-ft">FT</span> Fast Track
-        </p>
+      <div class="asset-grid">
+        ${assetCards || '<p style="color:var(--text-muted);padding:20px;">No assets found</p>'}
       </div>
+      <p style="margin-top:20px;font-size:0.8rem;color:var(--text-muted);text-align:center;">
+        <span class="reg-pill">BTD</span> Breakthrough Therapy &nbsp;
+        <span class="reg-pill">ODD</span> Orphan Drug &nbsp;
+        <span class="reg-pill">PRIME</span> EU Priority &nbsp;
+        <span class="reg-pill">FT</span> Fast Track
+      </p>
     </section>
 
     <section class="section" id="trials">
@@ -5109,7 +5123,7 @@ function generateTargetReportHtml(report, trialAnalytics) {
     </section>
 
     <footer class="footer">
-      <div>Helix Intelligence Platform</div>
+      <div>Satya Bio | Truth in Biotech Research</div>
       <div>Data: ClinicalTrials.gov, PubMed, SEC EDGAR, FDA Orange Book</div>
     </footer>
   </div>

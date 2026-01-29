@@ -408,7 +408,7 @@ function generateProfileHtml(profile) {
     </table>
 
     <p style="margin-top: 40px; color: #64748b; font-size: 0.85rem;">
-      Source: ${strategy.source || 'Pharma Intelligence Module'} | Helix Intelligence Platform
+      Source: ${strategy.source || 'Pharma Intelligence Module'} | Satya Bio
     </p>
   </div>
 </body>
