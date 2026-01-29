@@ -17,6 +17,7 @@ export interface DataSourceInfo {
     assetsDiscovered?: number;
     searchQueries?: string[];
     totalSourcesChecked?: number;
+    error?: string;
 }
 export interface ExtendedReportData extends ReportData {
     curatedAssets: KnownAsset[];

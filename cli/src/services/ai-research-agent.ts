@@ -74,11 +74,17 @@ export interface ResearchResult {
 export async function researchTarget(target: string): Promise<ResearchResult> {
   const config = getConfig();
 
+  // Debug: Check API key
+  console.log(`[AI Research] ========== DEBUG ==========`);
+  console.log(`[AI Research] API Key exists: ${!!config.claudeApiKey}`);
+  console.log(`[AI Research] API Key prefix: ${config.claudeApiKey?.substring(0, 15)}...`);
+  console.log(`[AI Research] Target: ${target}`);
+
   if (!config.claudeApiKey) {
-    throw new Error(
-      'Anthropic API key not configured for AI research.\n' +
-      'Set ANTHROPIC_API_KEY in your environment or .env file.'
-    );
+    const errorMsg = 'Anthropic API key not configured for AI research.\n' +
+      'Set ANTHROPIC_API_KEY in your environment or .env file.';
+    console.error(`[AI Research] ERROR: ${errorMsg}`);
+    throw new Error(errorMsg);
   }
 
   console.log(`[AI Research] Starting research for target: ${target}`);
@@ -89,20 +95,52 @@ export async function researchTarget(target: string): Promise<ResearchResult> {
   });
 
   const researchPrompt = buildResearchPrompt(target);
+  console.log(`[AI Research] Prompt length: ${researchPrompt.length} chars`);
 
   try {
-    // Use Claude with web search tool
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 8000,
-      tools: [{
-        type: 'web_search_20250305',
-        name: 'web_search',
-      }],
-      messages: [{
-        role: 'user',
-        content: researchPrompt,
-      }],
+    console.log(`[AI Research] Calling Claude API with web search...`);
+
+    let response: Anthropic.Message;
+
+    try {
+      // First try with web search tool
+      response = await anthropic.messages.create({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        tools: [{
+          type: 'web_search_20250305',
+          name: 'web_search',
+        } as any], // Type assertion needed for beta feature
+        messages: [{
+          role: 'user',
+          content: researchPrompt,
+        }],
+      });
+    } catch (webSearchError: any) {
+      // If web search fails (unsupported, rate limit, etc.), try without it
+      console.log(`[AI Research] Web search failed (${webSearchError?.message}), trying without web search...`);
+
+      response = await anthropic.messages.create({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        messages: [{
+          role: 'user',
+          content: researchPrompt + '\n\nNote: Use your training knowledge to compile this list. Focus on well-known drugs and recent developments you are aware of.',
+        }],
+      });
+    }
+
+    console.log(`[AI Research] API Response received`);
+    console.log(`[AI Research] Response stop_reason: ${response.stop_reason}`);
+    console.log(`[AI Research] Response content blocks: ${response.content.length}`);
+
+    // Log content block types
+    response.content.forEach((block, i) => {
+      console.log(`[AI Research] Block ${i}: type=${block.type}`);
+      if (block.type === 'text') {
+        console.log(`[AI Research] Block ${i} text length: ${block.text.length}`);
+        console.log(`[AI Research] Block ${i} text preview: ${block.text.substring(0, 500)}...`);
+      }
     });
 
     // Extract assets from response
@@ -119,15 +157,21 @@ export async function researchTarget(target: string): Promise<ResearchResult> {
       totalSourcesChecked: countSourcesFromResponse(response),
       dataSource: 'ai-research',
     };
-  } catch (error) {
+  } catch (error: any) {
+    console.error(`[AI Research] ========== ERROR ==========`);
+    console.error(`[AI Research] Error type: ${error?.constructor?.name}`);
+    console.error(`[AI Research] Error message: ${error?.message}`);
+    console.error(`[AI Research] Error status: ${error?.status}`);
+    console.error(`[AI Research] Full error:`, error);
+
     if (error instanceof Anthropic.APIError) {
       if (error.status === 401) {
-        throw new Error('Invalid Anthropic API key for AI research.');
+        throw new Error('Invalid Anthropic API key. Please check ANTHROPIC_API_KEY in your .env file or environment variables.');
       }
       if (error.status === 429) {
         throw new Error('API rate limit exceeded. Please try again later.');
       }
-      throw new Error(`AI research error: ${error.message}`);
+      throw new Error(`AI research API error (${error.status}): ${error.message}`);
     }
     throw error;
   }

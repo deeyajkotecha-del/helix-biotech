@@ -34,6 +34,7 @@ export interface DataSourceInfo {
   assetsDiscovered?: number;
   searchQueries?: string[];
   totalSourcesChecked?: number;
+  error?: string;  // Error message if research failed
 }
 
 // Extended ReportData for investment-ready reports
@@ -95,13 +96,19 @@ export async function generateTargetReport(
         searchQueries: researchResult.searchQueries,
         totalSourcesChecked: researchResult.totalSourcesChecked,
       };
-    } catch (error) {
-      console.error(`[Report] AI research failed: ${error}`);
+    } catch (error: any) {
+      const errorMessage = error?.message || 'Unknown error';
+      console.error(`[Report] ========== AI RESEARCH FAILED ==========`);
+      console.error(`[Report] Error type: ${error?.constructor?.name}`);
+      console.error(`[Report] Error message: ${errorMessage}`);
+      console.error(`[Report] Full error:`, error);
+      console.error(`[Report] Stack trace:`, error?.stack);
       // Continue with empty assets - trials and publications may still be valuable
       dataSource = {
         type: 'ai-research',
         lastUpdated: new Date().toISOString(),
         assetsDiscovered: 0,
+        error: errorMessage,
       };
     }
   } else {

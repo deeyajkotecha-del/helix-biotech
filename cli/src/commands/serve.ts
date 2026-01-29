@@ -5035,7 +5035,7 @@ function buildDataSourceIndicator(dataSource: any): string {
     return '';
   }
 
-  const { type, lastUpdated, fromCache, cacheAge, assetsDiscovered, totalSourcesChecked } = dataSource;
+  const { type, lastUpdated, fromCache, cacheAge, assetsDiscovered, totalSourcesChecked, error } = dataSource;
 
   if (type === 'curated') {
     return `
@@ -5049,6 +5049,19 @@ function buildDataSourceIndicator(dataSource: any): string {
   }
 
   if (type === 'ai-research') {
+    // Check if there was an error
+    if (error) {
+      return `
+        <div class="data-source-indicator ai-error">
+          <span class="source-icon">&#9888;</span>
+          <span class="source-text">
+            <strong>AI Research Failed</strong> - ${escapeHtml(error)}
+            <br><small>Clinical trials and publications are still shown below. To enable AI research, configure a valid ANTHROPIC_API_KEY.</small>
+          </span>
+          <a href="?refresh=true" class="refresh-btn" title="Retry research">&#128260; Retry</a>
+        </div>`;
+    }
+
     const cacheInfo = fromCache
       ? `<span class="cache-badge">Cached ${cacheAge} ago</span>`
       : '<span class="fresh-badge">Fresh research</span>';
@@ -5356,6 +5369,7 @@ function generateTargetReportHtml(report: any, trialAnalytics: any, targetAnalys
     .data-source-indicator { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 0.9rem; }
     .data-source-indicator.curated { background: #DCFCE7; border: 1px solid #BBF7D0; color: #166534; }
     .data-source-indicator.ai-research { background: #DBEAFE; border: 1px solid #BFDBFE; color: #1E40AF; }
+    .data-source-indicator.ai-error { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
     .source-icon { font-size: 1.2rem; }
     .source-text { flex: 1; }
     .source-text strong { font-weight: 600; }
