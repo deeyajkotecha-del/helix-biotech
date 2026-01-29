@@ -4872,9 +4872,22 @@ function generatePatentTimelineHtml(condition, profiles) {
 // Target Report HTML Generator
 // ============================================
 function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
-    const timestamp = new Date().toLocaleString();
+    // Format date cleanly (no time)
+    const now = new Date();
+    const timestamp = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const { target, summary, trials, publications, deals, kols, curatedAssets, investmentMetrics } = report;
     const assetCount = curatedAssets?.length || 0;
+    // Helper: Format deal values - show $M for <1B, $B for >=1B
+    const formatDealValue = (valueInMillions) => {
+        if (!valueInMillions || valueInMillions === 0)
+            return '$0';
+        if (valueInMillions >= 1000) {
+            return `$${(valueInMillions / 1000).toFixed(1)}B`;
+        }
+        else {
+            return `$${Math.round(valueInMillions)}M`;
+        }
+    };
     // Trial rows
     const trialRows = trials.slice(0, 50).map((t) => `
     <tr>
@@ -4934,13 +4947,13 @@ function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
       <div class="asset-highlights">
         ${a.deal ? `
           <div class="deal-info">
-            💰 $${((a.deal.committed || 0) / 1000).toFixed(1)}B committed${a.deal.partner ? ` to ${a.deal.partner}` : ''}
+            💰 ${formatDealValue(a.deal.committed || 0)} committed${a.deal.partner ? ` to ${a.deal.partner}` : ''}
             ${a.deal.hasBreakdown ? `
               <div class="deal-breakdown">
-                ${a.deal.upfront ? `• $${a.deal.upfront >= 1000 ? (a.deal.upfront / 1000).toFixed(1) + 'B' : a.deal.upfront + 'M'} upfront` : ''}
-                ${a.deal.equity ? ` + $${a.deal.equity >= 1000 ? (a.deal.equity / 1000).toFixed(1) + 'B' : a.deal.equity + 'M'} equity` : ''}
-                ${a.deal.milestones ? `<br>• Up to $${a.deal.milestones >= 1000 ? (a.deal.milestones / 1000).toFixed(1) + 'B' : a.deal.milestones + 'M'} in milestones` : ''}
-                ${a.deal.totalPotential ? `<br>• Total potential: $${(a.deal.totalPotential / 1000).toFixed(1)}B` : ''}
+                ${a.deal.upfront ? `• ${formatDealValue(a.deal.upfront)} upfront` : ''}
+                ${a.deal.equity ? ` + ${formatDealValue(a.deal.equity)} equity` : ''}
+                ${a.deal.milestones ? `<br>• Up to ${formatDealValue(a.deal.milestones)} in milestones` : ''}
+                ${a.deal.totalPotential ? `<br>• Total potential: ${formatDealValue(a.deal.totalPotential)}` : ''}
               </div>
             ` : `<span class="unverified-deal"> ★ unverified</span>`}
           </div>
@@ -5134,7 +5147,7 @@ function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
 
     <div class="header">
       <h1>${target}</h1>
-      <p class="subtitle">Satya Bio Report | Generated ${timestamp}</p>
+      <p class="subtitle">Satya Bio Report | Updated ${timestamp}</p>
 
       <div class="nav">
         ${targetAnalysis ? '<a href="#thesis">Investment Thesis</a>' : ''}
@@ -5149,7 +5162,7 @@ function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
 
       <div class="stats-grid">
         <div class="stat-card" style="background: linear-gradient(135deg, var(--success) 0%, #4A7A5E 100%); border: none;">
-          <div class="stat-num" style="color: white;">$${((investmentMetrics?.totalCommitted || 0) / 1000).toFixed(1)}B</div>
+          <div class="stat-num" style="color: white;">${formatDealValue(investmentMetrics?.totalCommitted || 0)}</div>
           <div class="stat-label" style="color: rgba(255,255,255,0.9);">Committed Capital</div>
         </div>
         <div class="stat-card">
@@ -5176,12 +5189,12 @@ function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
       <h2 style="color:var(--text-primary);margin-bottom:20px;font-weight:600;">Investment Metrics</h2>
       <div class="investment-grid">
         <div class="investment-metric" style="background: linear-gradient(135deg, var(--success) 0%, #4A7A5E 100%);">
-          <div class="big-value" style="color: white;">$${((investmentMetrics.totalCommitted || 0) / 1000).toFixed(1)}B</div>
+          <div class="big-value" style="color: white;">${formatDealValue(investmentMetrics.totalCommitted || 0)}</div>
           <div class="metric-label" style="color: rgba(255,255,255,0.9);">Committed</div>
           <div style="color: rgba(255,255,255,0.7); font-size: 0.75rem; margin-top: 4px;">(upfront + equity)</div>
         </div>
         <div class="investment-metric">
-          <div class="big-value">$${((investmentMetrics.totalPotential || 0) / 1000).toFixed(1)}B</div>
+          <div class="big-value">${formatDealValue(investmentMetrics.totalPotential || 0)}</div>
           <div class="metric-label">Total Potential</div>
           <div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px;">(w/ milestones)</div>
         </div>
@@ -5201,8 +5214,8 @@ function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
       ${investmentMetrics.largestDeal?.name ? `
       <div class="deal-highlight">
         <strong>Largest Deal:</strong> ${investmentMetrics.largestDeal.name} —
-        $${((investmentMetrics.largestDeal.committed || 0) / 1000).toFixed(1)}B committed${investmentMetrics.largestDeal.partner ? ` to ${investmentMetrics.largestDeal.partner}` : ''}
-        <span style="color: var(--text-secondary); font-size: 0.9rem;"> ($${((investmentMetrics.largestDeal.potential || 0) / 1000).toFixed(1)}B potential with milestones)</span>
+        ${formatDealValue(investmentMetrics.largestDeal.committed || 0)} committed${investmentMetrics.largestDeal.partner ? ` to ${investmentMetrics.largestDeal.partner}` : ''}
+        <span style="color: var(--text-secondary); font-size: 0.9rem;"> (${formatDealValue(investmentMetrics.largestDeal.potential || 0)} potential with milestones)</span>
       </div>
       ` : ''}
     </div>
@@ -5378,14 +5391,14 @@ function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
     <section class="section" id="assets">
       <h2 class="section-title">Competitive Landscape: ${target} Assets (${assetCount})</h2>
       <p style="color:#94a3b8;margin-bottom:15px;font-size:0.9rem;">
-        Investment-quality curated database with deal terms, regulatory designations, and clinical data
+        ${assetCount} assets tracked • ${investmentMetrics?.assetsWithDeals || 0} deals worth ${formatDealValue(investmentMetrics?.totalCommitted || 0)} • ${investmentMetrics?.phase3Assets || 0} in Phase 3
       </p>
 
       ${investmentMetrics ? `
       <div class="summary-cards">
         <div class="summary-card">
           <h4>By Modality</h4>
-          ${Object.entries(investmentMetrics.modalityBreakdown || {}).map(([k, v]) => `<div class="summary-item"><span class="label">${k}</span><span class="value">${v.count}${v.committed > 0 ? ` <span style="color:var(--success);font-size:0.75rem;">($${(v.committed / 1000).toFixed(1)}B)</span>` : ''}</span></div>`).join('')}
+          ${Object.entries(investmentMetrics.modalityBreakdown || {}).map(([k, v]) => `<div class="summary-item"><span class="label">${k}</span><span class="value">${v.count}${v.committed > 0 ? ` <span style="color:var(--success);font-size:0.75rem;">(${formatDealValue(v.committed)})</span>` : ''}</span></div>`).join('')}
         </div>
         <div class="summary-card">
           <h4>By Phase</h4>
