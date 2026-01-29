@@ -1124,8 +1124,12 @@ function startServer(port) {
     app.get('/api/report/target/:target/html', async (req, res) => {
         try {
             const target = decodeURIComponent(req.params.target);
+            const forceRefresh = req.query.refresh === 'true';
+            if (forceRefresh) {
+                console.log(chalk_1.default.yellow(`  [Report] Force refresh requested for "${target}"`));
+            }
             console.log(chalk_1.default.cyan(`  [Report] Generating HTML report for "${target}"...`));
-            const report = await (0, target_report_1.generateTargetReport)(target);
+            const report = await (0, target_report_1.generateTargetReport)(target, { forceRefresh });
             const trialAnalytics = (0, target_report_1.getTrialAnalytics)(report.trials);
             const targetAnalysis = (0, target_analysis_1.getTargetAnalysis)(target);
             const html = generateTargetReportHtml(report, trialAnalytics, targetAnalysis);
@@ -4869,14 +4873,50 @@ function generatePatentTimelineHtml(condition, profiles) {
 </html>`;
 }
 // ============================================
+// Data Source Indicator Helper
+// ============================================
+function buildDataSourceIndicator(dataSource) {
+    if (!dataSource) {
+        return '';
+    }
+    const { type, lastUpdated, fromCache, cacheAge, assetsDiscovered, totalSourcesChecked } = dataSource;
+    if (type === 'curated') {
+        return `
+      <div class="data-source-indicator curated">
+        <span class="source-icon">&#9989;</span>
+        <span class="source-text">
+          <strong>Curated Database</strong> - Investment-grade data, manually verified
+          <span class="source-date">(Last updated: ${lastUpdated || 'Recent'})</span>
+        </span>
+      </div>`;
+    }
+    if (type === 'ai-research') {
+        const cacheInfo = fromCache
+            ? `<span class="cache-badge">Cached ${cacheAge} ago</span>`
+            : '<span class="fresh-badge">Fresh research</span>';
+        return `
+      <div class="data-source-indicator ai-research">
+        <span class="source-icon">&#129302;</span>
+        <span class="source-text">
+          <strong>AI Research Agent</strong> - Discovered ${assetsDiscovered || 0} assets from ${totalSourcesChecked || 'multiple'} sources
+          ${cacheInfo}
+        </span>
+        <a href="?refresh=true" class="refresh-btn" title="Refresh research">&#128260; Refresh</a>
+      </div>`;
+    }
+    return '';
+}
+// ============================================
 // Target Report HTML Generator
 // ============================================
 function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
     // Format date cleanly (no time)
     const now = new Date();
     const timestamp = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    const { target, summary, trials, publications, deals, kols, curatedAssets, investmentMetrics } = report;
+    const { target, summary, trials, publications, deals, kols, curatedAssets, investmentMetrics, dataSource } = report;
     const assetCount = curatedAssets?.length || 0;
+    // Build data source indicator
+    const dataSourceHtml = buildDataSourceIndicator(dataSource);
     // Helper: Format deal values - show $M for <1B, $B for >=1B
     const formatDealValue = (valueInMillions) => {
         if (!valueInMillions || valueInMillions === 0)
@@ -5139,6 +5179,19 @@ function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
     .footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 24px; margin-top: 32px; border-top: 1px solid var(--border); }
     .back-link { margin-bottom: 20px; }
     .back-link a { color: var(--accent); font-weight: 500; }
+    /* Data Source Indicator */
+    .data-source-indicator { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; margin: 16px 0; font-size: 0.9rem; }
+    .data-source-indicator.curated { background: #DCFCE7; border: 1px solid #BBF7D0; color: #166534; }
+    .data-source-indicator.ai-research { background: #DBEAFE; border: 1px solid #BFDBFE; color: #1E40AF; }
+    .source-icon { font-size: 1.2rem; }
+    .source-text { flex: 1; }
+    .source-text strong { font-weight: 600; }
+    .source-date { color: inherit; opacity: 0.7; margin-left: 8px; font-size: 0.85rem; }
+    .cache-badge, .fresh-badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; margin-left: 8px; }
+    .cache-badge { background: rgba(0,0,0,0.1); }
+    .fresh-badge { background: #22C55E; color: white; }
+    .refresh-btn { background: #3B82F6; color: white; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; text-decoration: none; font-weight: 500; transition: background 0.2s; }
+    .refresh-btn:hover { background: #2563EB; text-decoration: none; color: white; }
   </style>
 </head>
 <body>
@@ -5148,6 +5201,7 @@ function generateTargetReportHtml(report, trialAnalytics, targetAnalysis) {
     <div class="header">
       <h1>${target}</h1>
       <p class="subtitle">Satya Bio Report | Updated ${timestamp}</p>
+      ${dataSourceHtml}
 
       <div class="nav">
         ${targetAnalysis ? '<a href="#thesis">Investment Thesis</a>' : ''}

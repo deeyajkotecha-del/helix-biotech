@@ -4,6 +4,7 @@
  *
  * Generates comprehensive intelligence reports for therapeutic targets,
  * compiling data from trials, publications, and curated asset database.
+ * For uncurated targets, uses AI-powered research with web search.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateTargetReport = generateTargetReport;
@@ -12,26 +13,69 @@ exports.getPublicationAnalytics = getPublicationAnalytics;
 const trials_1 = require("./trials");
 const publications_1 = require("./publications");
 const known_assets_1 = require("../data/known-assets");
+const research_cache_1 = require("./research-cache");
+const ai_research_agent_1 = require("./ai-research-agent");
 // ============================================
 // Main Report Generation
 // ============================================
 /**
  * Generate comprehensive investment-ready target report
+ * Uses curated data when available, falls back to AI research for uncurated targets
  */
-async function generateTargetReport(target) {
+async function generateTargetReport(target, options = {}) {
     console.log(`[Report] Generating investment-ready report for target: ${target}`);
     const startTime = Date.now();
     // Step 1: Get curated assets from database (investment-quality data)
-    const curatedAssets = (0, known_assets_1.getKnownAssetsForTarget)(target);
+    let curatedAssets = (0, known_assets_1.getKnownAssetsForTarget)(target);
     console.log(`[Report] Found ${curatedAssets.length} curated assets`);
-    // Step 2: Calculate investment metrics
+    // Step 2: If no curated data, use AI research agent
+    let dataSource;
+    let discoveredAssets;
+    if (curatedAssets.length === 0) {
+        console.log(`[Report] No curated data for ${target}, using AI research agent...`);
+        try {
+            const researchResult = await (0, research_cache_1.getCachedOrResearch)(target, {
+                forceRefresh: options.forceRefresh,
+            });
+            discoveredAssets = researchResult.assets;
+            curatedAssets = (0, ai_research_agent_1.convertToKnownAssets)(researchResult.assets);
+            console.log(`[Report] AI research found ${researchResult.assets.length} assets`);
+            dataSource = {
+                type: 'ai-research',
+                lastUpdated: researchResult.researchedAt,
+                fromCache: researchResult.fromCache,
+                cacheAge: researchResult.cacheAge,
+                assetsDiscovered: researchResult.assets.length,
+                searchQueries: researchResult.searchQueries,
+                totalSourcesChecked: researchResult.totalSourcesChecked,
+            };
+        }
+        catch (error) {
+            console.error(`[Report] AI research failed: ${error}`);
+            // Continue with empty assets - trials and publications may still be valuable
+            dataSource = {
+                type: 'ai-research',
+                lastUpdated: new Date().toISOString(),
+                assetsDiscovered: 0,
+            };
+        }
+    }
+    else {
+        dataSource = {
+            type: 'curated',
+            lastUpdated: '2026-01-29', // Update this with actual curation date
+        };
+    }
+    // Step 3: Calculate investment metrics
     const investmentMetrics = (0, known_assets_1.calculateInvestmentMetrics)(curatedAssets);
-    console.log(`[Report] Committed: $${(investmentMetrics.totalCommitted / 1000).toFixed(1)}B, Potential: $${(investmentMetrics.totalPotential / 1000).toFixed(1)}B across ${investmentMetrics.assetsWithDeals} deals`);
-    // Step 3: Fetch all trials for the trials table
+    if (investmentMetrics.totalCommitted > 0) {
+        console.log(`[Report] Committed: $${(investmentMetrics.totalCommitted / 1000).toFixed(1)}B, Potential: $${(investmentMetrics.totalPotential / 1000).toFixed(1)}B across ${investmentMetrics.assetsWithDeals} deals`);
+    }
+    // Step 4: Fetch all trials for the trials table
     const trials = await fetchTrialsForTarget(target);
-    // Step 4: Fetch publications (real PubMed data)
+    // Step 5: Fetch publications (real PubMed data)
     const publications = await fetchPublicationsForTarget(target);
-    // Step 5: Extract KOLs from real publication authors
+    // Step 6: Extract KOLs from real publication authors
     const kols = (0, publications_1.extractTopAuthors)(publications, 20);
     console.log(`[Report] Identified ${kols.length} top authors from publications`);
     // Calculate summary statistics
@@ -63,9 +107,11 @@ async function generateTargetReport(target) {
         kols,
         curatedAssets,
         investmentMetrics,
+        dataSource,
+        discoveredAssets,
     };
     console.log(`[Report] Generated report in ${Date.now() - startTime}ms`);
-    console.log(`[Report] Summary: ${curatedAssets.length} curated assets, ${trials.length} trials, ${publications.length} pubs`);
+    console.log(`[Report] Summary: ${curatedAssets.length} assets (${dataSource.type}), ${trials.length} trials, ${publications.length} pubs`);
     return report;
 }
 // ============================================

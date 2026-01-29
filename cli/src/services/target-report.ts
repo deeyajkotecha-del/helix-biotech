@@ -3,6 +3,7 @@
  *
  * Generates comprehensive intelligence reports for therapeutic targets,
  * compiling data from trials, publications, and curated asset database.
+ * For uncurated targets, uses AI-powered research with web search.
  */
 
 import { ReportData } from './export';
@@ -21,11 +22,28 @@ import {
   getKnownAssetsForTarget,
   calculateInvestmentMetrics,
 } from '../data/known-assets';
+import { getCachedOrResearch } from './research-cache';
+import { convertToKnownAssets, DiscoveredAsset } from './ai-research-agent';
+
+// Data source information for transparency
+export interface DataSourceInfo {
+  type: 'curated' | 'ai-research' | 'hybrid';
+  lastUpdated: string;
+  cacheAge?: string;
+  fromCache?: boolean;
+  assetsDiscovered?: number;
+  searchQueries?: string[];
+  totalSourcesChecked?: number;
+}
 
 // Extended ReportData for investment-ready reports
 export interface ExtendedReportData extends ReportData {
   curatedAssets: KnownAsset[];
   investmentMetrics: InvestmentMetrics;
+  // Data source tracking
+  dataSource: DataSourceInfo;
+  // AI-discovered assets (if any)
+  discoveredAssets?: DiscoveredAsset[];
   // Legacy fields for backwards compatibility
   assets?: any[];
   assetStats?: any;
@@ -38,26 +56,74 @@ export interface ExtendedReportData extends ReportData {
 
 /**
  * Generate comprehensive investment-ready target report
+ * Uses curated data when available, falls back to AI research for uncurated targets
  */
-export async function generateTargetReport(target: string): Promise<ExtendedReportData> {
+export async function generateTargetReport(
+  target: string,
+  options: { forceRefresh?: boolean } = {}
+): Promise<ExtendedReportData> {
   console.log(`[Report] Generating investment-ready report for target: ${target}`);
   const startTime = Date.now();
 
   // Step 1: Get curated assets from database (investment-quality data)
-  const curatedAssets = getKnownAssetsForTarget(target);
+  let curatedAssets = getKnownAssetsForTarget(target);
   console.log(`[Report] Found ${curatedAssets.length} curated assets`);
 
-  // Step 2: Calculate investment metrics
-  const investmentMetrics = calculateInvestmentMetrics(curatedAssets);
-  console.log(`[Report] Committed: $${(investmentMetrics.totalCommitted / 1000).toFixed(1)}B, Potential: $${(investmentMetrics.totalPotential / 1000).toFixed(1)}B across ${investmentMetrics.assetsWithDeals} deals`);
+  // Step 2: If no curated data, use AI research agent
+  let dataSource: DataSourceInfo;
+  let discoveredAssets: DiscoveredAsset[] | undefined;
 
-  // Step 3: Fetch all trials for the trials table
+  if (curatedAssets.length === 0) {
+    console.log(`[Report] No curated data for ${target}, using AI research agent...`);
+
+    try {
+      const researchResult = await getCachedOrResearch(target, {
+        forceRefresh: options.forceRefresh,
+      });
+
+      discoveredAssets = researchResult.assets;
+      curatedAssets = convertToKnownAssets(researchResult.assets);
+
+      console.log(`[Report] AI research found ${researchResult.assets.length} assets`);
+
+      dataSource = {
+        type: 'ai-research',
+        lastUpdated: researchResult.researchedAt,
+        fromCache: researchResult.fromCache,
+        cacheAge: researchResult.cacheAge,
+        assetsDiscovered: researchResult.assets.length,
+        searchQueries: researchResult.searchQueries,
+        totalSourcesChecked: researchResult.totalSourcesChecked,
+      };
+    } catch (error) {
+      console.error(`[Report] AI research failed: ${error}`);
+      // Continue with empty assets - trials and publications may still be valuable
+      dataSource = {
+        type: 'ai-research',
+        lastUpdated: new Date().toISOString(),
+        assetsDiscovered: 0,
+      };
+    }
+  } else {
+    dataSource = {
+      type: 'curated',
+      lastUpdated: '2026-01-29', // Update this with actual curation date
+    };
+  }
+
+  // Step 3: Calculate investment metrics
+  const investmentMetrics = calculateInvestmentMetrics(curatedAssets);
+  if (investmentMetrics.totalCommitted > 0) {
+    console.log(`[Report] Committed: $${(investmentMetrics.totalCommitted / 1000).toFixed(1)}B, Potential: $${(investmentMetrics.totalPotential / 1000).toFixed(1)}B across ${investmentMetrics.assetsWithDeals} deals`);
+  }
+
+  // Step 4: Fetch all trials for the trials table
   const trials = await fetchTrialsForTarget(target);
 
-  // Step 4: Fetch publications (real PubMed data)
+  // Step 5: Fetch publications (real PubMed data)
   const publications = await fetchPublicationsForTarget(target);
 
-  // Step 5: Extract KOLs from real publication authors
+  // Step 6: Extract KOLs from real publication authors
   const kols = extractTopAuthors(publications, 20);
   console.log(`[Report] Identified ${kols.length} top authors from publications`);
 
@@ -93,10 +159,12 @@ export async function generateTargetReport(target: string): Promise<ExtendedRepo
     kols,
     curatedAssets,
     investmentMetrics,
+    dataSource,
+    discoveredAssets,
   };
 
   console.log(`[Report] Generated report in ${Date.now() - startTime}ms`);
-  console.log(`[Report] Summary: ${curatedAssets.length} curated assets, ${trials.length} trials, ${publications.length} pubs`);
+  console.log(`[Report] Summary: ${curatedAssets.length} assets (${dataSource.type}), ${trials.length} trials, ${publications.length} pubs`);
 
   return report;
 }
