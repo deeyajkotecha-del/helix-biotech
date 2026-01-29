@@ -1,0 +1,428 @@
+"use strict";
+/**
+ * Asset Research Engine
+ *
+ * Intelligent multi-source research for therapeutic target assets.
+ * Combines clinical trials, publications, and curated databases
+ * to produce comprehensive competitive intelligence.
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.researchTargetAssets = researchTargetAssets;
+exports.formatAssetForDisplay = formatAssetForDisplay;
+const known_assets_1 = require("../data/known-assets");
+const trials_1 = require("./trials");
+// ============================================
+// Main Research Function
+// ============================================
+/**
+ * Research all assets for a therapeutic target
+ */
+async function researchTargetAssets(target) {
+    console.log(`[AssetResearch] Starting research for target: ${target}`);
+    const startTime = Date.now();
+    // Step 1: Get known assets from curated database
+    const knownAssets = (0, known_assets_1.getKnownAssetsForTarget)(target);
+    console.log(`[AssetResearch] Found ${knownAssets.length} known assets in database`);
+    // Step 2: Search clinical trials
+    const trials = await fetchAllTrialsForTarget(target);
+    console.log(`[AssetResearch] Found ${trials.length} clinical trials`);
+    // Step 3: Extract and filter interventions
+    const extractedAssets = extractAssetsFromTrials(trials, target);
+    console.log(`[AssetResearch] Extracted ${extractedAssets.length} unique interventions`);
+    // Step 4: Merge known assets with extracted assets
+    const mergedAssets = mergeAssets(knownAssets, extractedAssets, target);
+    console.log(`[AssetResearch] Merged to ${mergedAssets.length} final assets`);
+    // Step 5: Calculate summary statistics
+    const summary = calculateSummary(mergedAssets);
+    const report = {
+        target,
+        generatedAt: new Date().toISOString(),
+        assets: mergedAssets,
+        summary,
+        knownAssetsFound: knownAssets.length,
+        newAssetsDiscovered: mergedAssets.length - knownAssets.length,
+        excludedDrugs: extractedAssets.filter(a => a.excluded).length,
+    };
+    console.log(`[AssetResearch] Completed in ${Date.now() - startTime}ms`);
+    return report;
+}
+// ============================================
+// Data Collection
+// ============================================
+/**
+ * Fetch trials from multiple search strategies
+ */
+async function fetchAllTrialsForTarget(target) {
+    const db = (0, known_assets_1.getTargetDatabase)(target);
+    const searchTerms = db
+        ? [db.target, ...db.aliases]
+        : [target];
+    const allTrials = [];
+    const seen = new Set();
+    for (const term of searchTerms) {
+        try {
+            // Search by condition
+            const conditionTrials = await (0, trials_1.searchTrialsByCondition)(term, { maxResults: 100 });
+            for (const t of conditionTrials) {
+                if (!seen.has(t.nctId)) {
+                    seen.add(t.nctId);
+                    allTrials.push(t);
+                }
+            }
+            // Search by intervention
+            const interventionTrials = await (0, trials_1.searchTrialsByIntervention)(term, { maxResults: 100 });
+            for (const t of interventionTrials) {
+                if (!seen.has(t.nctId)) {
+                    seen.add(t.nctId);
+                    allTrials.push(t);
+                }
+            }
+        }
+        catch (error) {
+            console.error(`[AssetResearch] Error searching for ${term}: ${error}`);
+        }
+    }
+    return allTrials;
+}
+/**
+ * Extract and classify interventions from trials
+ */
+function extractAssetsFromTrials(trials, target) {
+    const interventionMap = new Map();
+    for (const trial of trials) {
+        for (const intervention of trial.interventions || []) {
+            if (!intervention.name)
+                continue;
+            const name = intervention.name;
+            const normalizedName = normalizeDrugName(name);
+            // Check if excluded
+            let excluded = false;
+            let excludeReason;
+            if ((0, known_assets_1.isExcludedDrug)(name, target)) {
+                excluded = true;
+                excludeReason = 'Generic/supportive care drug';
+            }
+            // Check if target-related
+            const isRelated = (0, known_assets_1.isTargetRelatedIntervention)(name, intervention.description, target);
+            // Try to find known asset
+            const knownAsset = (0, known_assets_1.findKnownAsset)(name, target);
+            // Skip if not related and not a known asset
+            if (!isRelated && !knownAsset && !isLikelyTargetDrug(name, target)) {
+                continue;
+            }
+            const key = knownAsset?.primaryName.toLowerCase() || normalizedName;
+            if (!interventionMap.has(key)) {
+                interventionMap.set(key, {
+                    name: knownAsset?.primaryName || name,
+                    normalizedName,
+                    type: intervention.type,
+                    description: intervention.description,
+                    sponsor: trial.leadSponsor?.name || 'Unknown',
+                    sponsorType: trial.leadSponsor?.type || 'Other',
+                    phase: trial.phase,
+                    status: normalizeStatus(trial.status),
+                    conditions: trial.conditions || [],
+                    trialId: trial.nctId,
+                    trialStartDate: trial.startDate,
+                    isTargetRelated: isRelated,
+                    knownAsset,
+                    excluded,
+                    excludeReason,
+                });
+            }
+            else {
+                // Update existing entry with more info
+                const existing = interventionMap.get(key);
+                // Keep the most advanced phase
+                existing.phase = getMostAdvancedPhase([existing.phase, trial.phase]);
+                // Add conditions
+                for (const cond of trial.conditions || []) {
+                    if (!existing.conditions.includes(cond)) {
+                        existing.conditions.push(cond);
+                    }
+                }
+            }
+        }
+    }
+    return Array.from(interventionMap.values());
+}
+/**
+ * Check if drug name looks like a target-specific drug
+ */
+function isLikelyTargetDrug(name, target) {
+    const lower = name.toLowerCase();
+    // Contains target name
+    const targetLower = target.toLowerCase().replace(/[-\s]/g, '');
+    if (lower.replace(/[-\s]/g, '').includes(targetLower))
+        return true;
+    // Drug naming patterns that suggest target specificity
+    // ADC patterns
+    if (lower.includes('adc') || lower.includes('deruxtecan') || lower.includes('vedotin') ||
+        lower.includes('duocarmazine') || lower.includes('mafodotin'))
+        return true;
+    // CAR-T patterns
+    if (lower.includes('car-t') || lower.includes('cart') || lower.includes('car t'))
+        return true;
+    // Bispecific patterns
+    if (lower.includes('bispecific') || lower.includes('bite'))
+        return true;
+    // Company code patterns (e.g., DS-7300, MGC018)
+    if (/^[A-Z]{2,4}[-]?\d{3,5}[A-Z]?$/i.test(name.trim()))
+        return true;
+    return false;
+}
+// ============================================
+// Asset Merging
+// ============================================
+/**
+ * Merge known assets with extracted assets
+ */
+function mergeAssets(knownAssets, extracted, target) {
+    const results = [];
+    const addedNames = new Set();
+    // First add all known assets, enriched with trial data
+    for (const known of knownAssets) {
+        const matchingExtracted = extracted.filter(e => e.knownAsset?.primaryName === known.primaryName ||
+            e.normalizedName === normalizeDrugName(known.primaryName));
+        const trialIds = matchingExtracted.map(e => e.trialId);
+        const conditions = new Set();
+        for (const e of matchingExtracted) {
+            e.conditions.forEach(c => conditions.add(c));
+        }
+        results.push({
+            drugName: known.primaryName,
+            codeName: known.codeName,
+            genericName: known.genericName,
+            aliases: known.aliases,
+            target: known.target,
+            modality: known.modality,
+            payload: known.payload,
+            owner: known.owner,
+            ownerType: known.ownerType,
+            partner: known.partner,
+            phase: known.phase,
+            status: known.status === 'Active' ? 'Active' : known.status === 'Discontinued' ? 'Terminated' : 'Unknown',
+            leadIndication: known.leadIndication,
+            otherIndications: known.otherIndications || [],
+            trialCount: trialIds.length,
+            trialIds,
+            publicationCount: 0, // TODO: Add publication search
+            dealTerms: known.dealTerms,
+            dealDate: known.dealDate,
+            notes: known.notes,
+            differentiator: known.differentiator,
+            dataSource: trialIds.length > 0 ? 'Multiple' : 'Known Database',
+            confidence: 'High',
+            lastUpdated: new Date().toISOString(),
+        });
+        addedNames.add(known.primaryName.toLowerCase());
+        addedNames.add(normalizeDrugName(known.primaryName));
+        if (known.codeName) {
+            addedNames.add(known.codeName.toLowerCase());
+            addedNames.add(normalizeDrugName(known.codeName));
+        }
+        if (known.genericName) {
+            addedNames.add(known.genericName.toLowerCase());
+            addedNames.add(normalizeDrugName(known.genericName));
+        }
+        // Add all aliases
+        for (const alias of known.aliases) {
+            addedNames.add(alias.toLowerCase());
+            addedNames.add(normalizeDrugName(alias));
+        }
+    }
+    // Then add extracted assets not in known database
+    for (const item of extracted) {
+        if (item.excluded)
+            continue;
+        if (addedNames.has(item.normalizedName))
+            continue;
+        if (addedNames.has(item.name.toLowerCase()))
+            continue;
+        if (item.knownAsset)
+            continue; // Already added via known assets
+        // Classify modality from intervention
+        const modality = classifyModality(item.name, item.type, item.description);
+        results.push({
+            drugName: item.name,
+            aliases: [],
+            target,
+            modality,
+            owner: item.sponsor,
+            ownerType: classifyOwnerType(item.sponsor),
+            phase: item.phase,
+            status: item.status,
+            leadIndication: item.conditions[0] || 'Solid tumors',
+            otherIndications: item.conditions.slice(1),
+            trialCount: 1, // TODO: Aggregate across trials
+            trialIds: [item.trialId],
+            publicationCount: 0,
+            dataSource: 'Clinical Trials',
+            confidence: item.isTargetRelated ? 'Medium' : 'Low',
+            lastUpdated: new Date().toISOString(),
+        });
+        addedNames.add(item.normalizedName);
+    }
+    // Sort by phase (most advanced first), then by trial count
+    return results.sort((a, b) => {
+        const phaseOrder = ['Approved', 'Filed', 'Phase 3', 'Phase 2/3', 'Phase 2', 'Phase 1/2', 'Phase 1', 'Preclinical'];
+        const aPhaseIndex = phaseOrder.indexOf(a.phase);
+        const bPhaseIndex = phaseOrder.indexOf(b.phase);
+        if (aPhaseIndex !== bPhaseIndex) {
+            return (aPhaseIndex === -1 ? 999 : aPhaseIndex) - (bPhaseIndex === -1 ? 999 : bPhaseIndex);
+        }
+        return b.trialCount - a.trialCount;
+    });
+}
+// ============================================
+// Classification Functions
+// ============================================
+/**
+ * Classify modality from drug name and intervention type
+ */
+function classifyModality(name, type, description) {
+    const text = `${name} ${description || ''}`.toLowerCase();
+    if (text.includes('adc') || text.includes('antibody-drug conjugate') ||
+        text.includes('deruxtecan') || text.includes('vedotin') ||
+        text.includes('duocarmazine') || text.includes('mafodotin') ||
+        text.includes('govitecan') || text.includes('emtansine')) {
+        return 'ADC';
+    }
+    if (text.includes('car-t') || text.includes('cart') || text.includes('car t') ||
+        text.includes('chimeric antigen receptor')) {
+        return 'CAR-T';
+    }
+    if (text.includes('bispecific') || text.includes('bite') || text.includes('dart')) {
+        return 'Bispecific';
+    }
+    if (text.includes('radioimmuno') || text.includes('radiopharm') ||
+        text.includes('lutetium') || text.includes('iodine-131') || text.includes('actinium')) {
+        return 'Radioconjugate';
+    }
+    if (type === 'Biological' || text.includes('antibody') || text.includes('mab')) {
+        return 'mAb';
+    }
+    if (type === 'Drug' || text.includes('inhibitor')) {
+        return 'Small Molecule';
+    }
+    return 'Other';
+}
+/**
+ * Classify owner type from sponsor name
+ */
+function classifyOwnerType(sponsor) {
+    const lower = sponsor.toLowerCase();
+    // Big Pharma
+    const bigPharma = [
+        'merck', 'pfizer', 'novartis', 'roche', 'johnson', 'abbvie', 'bms',
+        'bristol-myers', 'astrazeneca', 'sanofi', 'gsk', 'glaxo', 'lilly',
+        'amgen', 'gilead', 'takeda', 'daiichi', 'boehringer'
+    ];
+    if (bigPharma.some(p => lower.includes(p)))
+        return 'Big Pharma';
+    // Chinese Biotech
+    const chineseBiotech = [
+        'hansoh', 'hengrui', 'beigene', 'innovent', 'junshi', 'zai lab',
+        'simcere', 'kelun', 'luye', 'alphamab', 'chia tai', 'shanghai',
+        'beijing', 'china', 'chinese', 'sichuan', 'jiangsu', 'nanjing',
+        'fudan', 'peking', 'tsinghua'
+    ];
+    if (chineseBiotech.some(p => lower.includes(p)))
+        return 'Chinese Biotech';
+    // Academic
+    const academic = [
+        'university', 'college', 'institute', 'hospital', 'medical center',
+        'cancer center', 'memorial sloan', 'md anderson', 'dana-farber',
+        'mayo clinic', 'cleveland clinic', 'nih', 'national cancer'
+    ];
+    if (academic.some(p => lower.includes(p)))
+        return 'Academic';
+    // Default to Biotech
+    return 'Biotech';
+}
+// ============================================
+// Summary Statistics
+// ============================================
+function calculateSummary(assets) {
+    const byModality = {};
+    const byPhase = {};
+    const byOwnerType = {};
+    const byGeography = {};
+    for (const asset of assets) {
+        byModality[asset.modality] = (byModality[asset.modality] || 0) + 1;
+        byPhase[asset.phase] = (byPhase[asset.phase] || 0) + 1;
+        byOwnerType[asset.ownerType] = (byOwnerType[asset.ownerType] || 0) + 1;
+        // Geography
+        let geo = 'Other';
+        if (asset.ownerType === 'Chinese Biotech')
+            geo = 'China';
+        else if (['Big Pharma', 'Biotech'].includes(asset.ownerType))
+            geo = 'US/EU';
+        else if (asset.ownerType === 'Academic')
+            geo = 'Academic';
+        byGeography[geo] = (byGeography[geo] || 0) + 1;
+    }
+    return {
+        totalAssets: assets.length,
+        byModality,
+        byPhase,
+        byOwnerType,
+        byGeography,
+    };
+}
+// ============================================
+// Utility Functions
+// ============================================
+function normalizeDrugName(name) {
+    return name
+        .toLowerCase()
+        .replace(/\([^)]*\)/g, '') // Remove parenthetical content like (I-DXd)
+        .replace(/[-\s]+/g, '')
+        .replace(/\d+\s*(mg|mcg|ml|iu)/gi, '')
+        .trim();
+}
+function normalizeStatus(status) {
+    if (['Recruiting', 'Active, not recruiting', 'Enrolling by invitation', 'Not yet recruiting'].includes(status)) {
+        return 'Active';
+    }
+    if (status === 'Completed')
+        return 'Completed';
+    if (['Terminated', 'Withdrawn'].includes(status))
+        return 'Terminated';
+    if (status === 'Suspended')
+        return 'On Hold';
+    return 'Unknown';
+}
+function getMostAdvancedPhase(phases) {
+    const phaseOrder = ['Approved', 'Filed', 'Phase 3', 'Phase 2/3', 'Phase 2', 'Phase 1/2', 'Phase 1', 'Early Phase 1', 'Preclinical', 'Not Applicable'];
+    for (const phase of phaseOrder) {
+        for (const p of phases) {
+            if (p.toLowerCase().includes(phase.toLowerCase().replace(' ', '')))
+                return phase;
+            if (p === phase)
+                return phase;
+        }
+    }
+    return phases[0] || 'Unknown';
+}
+// ============================================
+// Export for HTML formatting
+// ============================================
+function formatAssetForDisplay(asset) {
+    return {
+        drugName: `${asset.drugName}${asset.codeName ? ` (${asset.codeName})` : ''}`,
+        modality: asset.modality,
+        target: asset.target,
+        payload: asset.payload || '-',
+        owner: asset.owner,
+        partner: asset.partner || '-',
+        phase: asset.phase,
+        status: asset.status,
+        leadIndication: asset.leadIndication,
+        dealTerms: asset.dealTerms || '-',
+        notes: asset.notes || asset.differentiator || '-',
+        confidence: asset.confidence,
+        trialCount: asset.trialCount,
+    };
+}
+//# sourceMappingURL=asset-research.js.map
