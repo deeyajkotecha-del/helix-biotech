@@ -1,11 +1,15 @@
 /**
- * Asset Research Engine
+ * Asset Research Engine - Multi-Layer Verification
  *
- * Intelligent multi-source research for therapeutic target assets.
- * Combines clinical trials, publications, and curated databases
- * to produce comprehensive competitive intelligence.
+ * Discovers and verifies therapeutic assets for any target.
+ * Uses strict multi-layer filtering to prevent false positives.
+ *
+ * PRINCIPLE: Accuracy over completeness.
+ * Better to miss a real asset than to include a false one.
  */
-export interface ResearchedAsset {
+import { TargetInfo } from '../data/target-aliases';
+export type ConfidenceLevel = 'HIGH' | 'MEDIUM' | 'LOW' | 'EXCLUDE';
+export interface VerifiedAsset {
     drugName: string;
     codeName?: string;
     genericName?: string;
@@ -25,11 +29,35 @@ export interface ResearchedAsset {
     publicationCount: number;
     dealTerms?: string;
     dealDate?: string;
+    confidence: ConfidenceLevel;
+    verificationMethod: 'curated_database' | 'name_match' | 'mechanism_match' | 'trial_association';
+    verificationDetails?: string;
     notes?: string;
     differentiator?: string;
-    dataSource: 'Known Database' | 'Clinical Trials' | 'Publications' | 'Multiple';
-    confidence: 'High' | 'Medium' | 'Low';
     lastUpdated: string;
+}
+export interface AssetDiscoveryResult {
+    target: string;
+    targetInfo: TargetInfo;
+    generatedAt: string;
+    verified: VerifiedAsset[];
+    probable: VerifiedAsset[];
+    unverified: VerifiedAsset[];
+    summary: {
+        totalVerified: number;
+        totalProbable: number;
+        totalUnverified: number;
+        totalExcluded: number;
+        byModality: Record<string, number>;
+        byPhase: Record<string, number>;
+    };
+}
+/**
+ * Discover and verify assets for a therapeutic target.
+ * Uses multi-layer filtering to ensure accuracy.
+ */
+export declare function discoverAssets(target: string): Promise<AssetDiscoveryResult>;
+export interface ResearchedAsset extends VerifiedAsset {
 }
 export interface AssetResearchReport {
     target: string;
@@ -47,10 +75,13 @@ export interface AssetResearchReport {
     excludedDrugs: number;
 }
 /**
- * Research all assets for a therapeutic target
+ * Legacy function for backwards compatibility
  */
 export declare function researchTargetAssets(target: string): Promise<AssetResearchReport>;
-export declare function formatAssetForDisplay(asset: ResearchedAsset): {
+/**
+ * Format asset for display (legacy)
+ */
+export declare function formatAssetForDisplay(asset: VerifiedAsset): {
     drugName: string;
     modality: string;
     target: string;
