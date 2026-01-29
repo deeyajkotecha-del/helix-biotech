@@ -107,40 +107,57 @@ function startServer(port) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Helix Research Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --background: #FAF9F7;
+      --surface: #FFFFFF;
+      --surface-hover: #F5F4F2;
+      --border: #E5E4E2;
+      --text-primary: #1A1915;
+      --text-secondary: #706F6C;
+      --text-muted: #9B9A97;
+      --accent: #D97756;
+      --accent-hover: #C4684A;
+      --success: #5B8C6F;
+      --warning: #D4A84B;
+      --error: #C75D5D;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a1a; color: #e2e8f0; min-height: 100vh; }
-    .hero { background: linear-gradient(135deg, #1e1e3f 0%, #2d1f4a 50%, #1e3a5f 100%); padding: 60px 20px; text-align: center; }
-    .hero h1 { font-size: 3rem; color: #a78bfa; margin-bottom: 10px; }
-    .hero p { color: #94a3b8; font-size: 1.2rem; margin-bottom: 30px; }
-    .search-box { max-width: 600px; margin: 0 auto; display: flex; gap: 10px; }
-    .search-box input { flex: 1; padding: 15px 20px; font-size: 1rem; border: 2px solid #4f46e5; border-radius: 8px; background: #1e1e3f; color: #e2e8f0; outline: none; }
-    .search-box input::placeholder { color: #64748b; }
-    .search-box input:focus { border-color: #818cf8; box-shadow: 0 0 20px rgba(129, 140, 248, 0.3); }
-    .search-box button { padding: 15px 30px; font-size: 1rem; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
-    .search-box button:hover { background: #6366f1; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-    .quick-links { display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap; }
-    .quick-links a { padding: 10px 20px; background: rgba(255,255,255,0.1); color: #e2e8f0; text-decoration: none; border-radius: 20px; font-size: 0.9rem; transition: all 0.2s; }
-    .quick-links a:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
-    .section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-top: 40px; }
-    .section-card { background: #1e1e3f; border-radius: 12px; padding: 25px; border: 1px solid #334155; }
-    .section-card h2 { color: #a5b4fc; font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-    .endpoint { background: rgba(0,0,0,0.2); padding: 12px 15px; margin: 10px 0; border-radius: 8px; border-left: 3px solid #4f46e5; }
-    .endpoint a { color: #60a5fa; text-decoration: none; font-weight: 500; }
-    .endpoint a:hover { text-decoration: underline; }
-    .endpoint p { color: #94a3b8; font-size: 0.85rem; margin-top: 5px; }
-    .method { color: #4ade80; font-weight: bold; font-size: 0.75rem; margin-right: 8px; }
-    .pharma-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 15px; }
-    .pharma-link { background: #334155; padding: 8px 12px; border-radius: 6px; text-align: center; color: #e2e8f0; text-decoration: none; font-size: 0.9rem; transition: all 0.2s; }
-    .pharma-link:hover { background: #4f46e5; transform: translateY(-2px); }
-    .footer { text-align: center; color: #64748b; padding: 30px; border-top: 1px solid #334155; margin-top: 40px; }
-    .footer a { color: #60a5fa; text-decoration: none; }
-    .featured { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); border: none; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--background); color: var(--text-primary); min-height: 100vh; line-height: 1.6; }
+    .hero { background: var(--surface); padding: 80px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+    .hero h1 { font-size: 2.5rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; letter-spacing: -0.02em; }
+    .hero p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 35px; }
+    .search-box { max-width: 600px; margin: 0 auto; display: flex; gap: 12px; }
+    .search-box input { flex: 1; padding: 14px 18px; font-size: 1rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text-primary); outline: none; transition: all 0.2s; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(217, 119, 86, 0.1); }
+    .search-box button { padding: 14px 28px; font-size: 1rem; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+    .search-box button:hover { background: var(--accent-hover); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 50px 20px; }
+    .quick-links { display: flex; gap: 12px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+    .quick-links a { padding: 10px 18px; background: var(--background); color: var(--text-secondary); text-decoration: none; border-radius: 20px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; border: 1px solid var(--border); }
+    .quick-links a:hover { background: var(--surface-hover); color: var(--text-primary); border-color: var(--accent); }
+    .section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-top: 40px; }
+    .section-card { background: var(--surface); border-radius: 12px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+    .section-card h2 { color: var(--text-primary); font-size: 1.2rem; font-weight: 600; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+    .endpoint { background: var(--background); padding: 14px 16px; margin: 12px 0; border-radius: 8px; border-left: 3px solid var(--accent); }
+    .endpoint a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    .endpoint a:hover { text-decoration: underline; color: var(--accent-hover); }
+    .endpoint p { color: var(--text-secondary); font-size: 0.85rem; margin-top: 6px; }
+    .method { color: var(--success); font-weight: 600; font-size: 0.75rem; margin-right: 8px; }
+    .pharma-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; margin-top: 16px; }
+    .pharma-link { background: var(--background); padding: 10px 12px; border-radius: 6px; text-align: center; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; border: 1px solid var(--border); }
+    .pharma-link:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    .footer { text-align: center; color: var(--text-muted); padding: 40px 20px; border-top: 1px solid var(--border); margin-top: 50px; font-size: 0.9rem; }
+    .footer a { color: var(--accent); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .featured { background: linear-gradient(135deg, var(--accent) 0%, #B85A3D 100%); border: none; box-shadow: 0 4px 12px rgba(217, 119, 86, 0.25); }
     .featured h2 { color: white; }
-    .featured .endpoint { background: rgba(255,255,255,0.1); border-left-color: white; }
+    .featured .endpoint { background: rgba(255,255,255,0.15); border-left-color: rgba(255,255,255,0.5); }
     .featured .endpoint a { color: white; }
-    .featured .endpoint p { color: rgba(255,255,255,0.7); }
+    .featured .endpoint p { color: rgba(255,255,255,0.8); }
+    .featured .method { color: rgba(255,255,255,0.9); }
   </style>
 </head>
 <body>
@@ -255,7 +272,7 @@ function startServer(port) {
 
     <footer class="footer">
       <p>Helix Intelligence Platform</p>
-      <p>Data: <a href="https://clinicaltrials.gov">ClinicalTrials.gov</a> | <a href="https://pubmed.ncbi.nlm.nih.gov">PubMed</a> | <a href="https://www.fda.gov">FDA</a> | <a href="https://www.sec.gov/edgar">SEC EDGAR</a></p>
+      <p style="margin-top: 8px;">Data: <a href="https://clinicaltrials.gov">ClinicalTrials.gov</a> | <a href="https://pubmed.ncbi.nlm.nih.gov">PubMed</a> | <a href="https://www.fda.gov">FDA</a> | <a href="https://www.sec.gov/edgar">SEC EDGAR</a></p>
     </footer>
   </div>
 </body>
@@ -4788,99 +4805,110 @@ function generateTargetReportHtml(report, trialAnalytics) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${target} - Helix Intelligence Report</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --background: #FAF9F7;
+      --surface: #FFFFFF;
+      --surface-hover: #F5F4F2;
+      --border: #E5E4E2;
+      --text-primary: #1A1915;
+      --text-secondary: #706F6C;
+      --text-muted: #9B9A97;
+      --accent: #D97756;
+      --accent-hover: #C4684A;
+      --success: #5B8C6F;
+      --warning: #D4A84B;
+      --error: #C75D5D;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a1a; color: #e2e8f0; }
-    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-    .header { background: linear-gradient(135deg, #1e1e3f 0%, #2d1f4a 100%); padding: 30px; border-radius: 12px; margin-bottom: 25px; }
-    h1 { color: #a78bfa; font-size: 2rem; margin-bottom: 5px; }
-    .subtitle { color: #94a3b8; margin-bottom: 20px; }
-    .nav { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-    .nav a { background: #334155; color: #e2e8f0; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; }
-    .nav a:hover { background: #475569; }
-    .nav a.download { background: #4f46e5; }
-    .nav a.download:hover { background: #6366f1; }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-    .stat-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; text-align: center; }
-    .stat-num { font-size: 2rem; font-weight: bold; color: #818cf8; }
-    .stat-label { font-size: 0.85rem; color: #94a3b8; margin-top: 5px; }
-    .section { margin-bottom: 30px; }
-    .section-title { color: #a5b4fc; font-size: 1.3rem; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 1px solid #334155; }
-    .card { background: #1e1e3f; border-radius: 10px; padding: 20px; overflow-x: auto; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+    .header { background: var(--surface); padding: 32px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+    h1 { color: var(--text-primary); font-size: 2rem; font-weight: 600; margin-bottom: 8px; }
+    .subtitle { color: var(--text-secondary); margin-bottom: 24px; }
+    .nav { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+    .nav a { background: var(--background); color: var(--text-secondary); padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: 500; border: 1px solid var(--border); transition: all 0.2s; }
+    .nav a:hover { background: var(--surface-hover); color: var(--text-primary); }
+    .nav a.download { background: var(--accent); color: white; border-color: var(--accent); }
+    .nav a.download:hover { background: var(--accent-hover); }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 24px; }
+    .stat-card { background: var(--background); padding: 20px; border-radius: 10px; text-align: center; border: 1px solid var(--border); }
+    .stat-num { font-size: 1.8rem; font-weight: 600; color: var(--accent); }
+    .stat-label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px; }
+    .section { margin-bottom: 32px; }
+    .section-title { color: var(--text-primary); font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .card { background: var(--surface); border-radius: 10px; padding: 20px; overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid var(--border); }
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    th { background: #0f0f2a; color: #a5b4fc; padding: 12px; text-align: left; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; position: sticky; top: 0; }
-    td { padding: 12px; border-bottom: 1px solid #2d2d5a; }
-    tr:hover { background: rgba(255,255,255,0.03); }
+    th { background: var(--background); color: var(--text-secondary); padding: 12px; text-align: left; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; position: sticky; top: 0; border-bottom: 1px solid var(--border); }
+    td { padding: 12px; border-bottom: 1px solid var(--border); color: var(--text-primary); }
+    tr:nth-child(even) { background: var(--background); }
+    tr:hover { background: var(--surface-hover); }
     .title-cell { max-width: 400px; }
-    a { color: #60a5fa; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .phase-badge { padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; background: #334155; }
-    .phase-badge.phase-phase3 { background: #166534; color: #86efac; }
-    .phase-badge.phase-phase2 { background: #854d0e; color: #fde047; }
-    .phase-badge.phase-phase1 { background: #1e3a5f; color: #93c5fd; }
-    .status-badge { padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; }
-    .status-badge.status-recruiting { background: #166534; color: #86efac; }
-    .status-badge.status-active--not-recruiting { background: #854d0e; color: #fde047; }
-    .status-badge.status-completed { background: #1e3a5f; color: #93c5fd; }
-    .deal-badge { background: #4f46e5; color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; }
-    .active-badge { background: #166534; color: #86efac; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; }
-    .inactive-badge { background: #374151; color: #9ca3af; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; }
-    .type-badge { padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; }
-    .type-badge.industry { background: #7c3aed; color: white; }
-    .type-badge.academic { background: #0891b2; color: white; }
-    .type-badge.government { background: #059669; color: white; }
-    .modality-badge { padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; background: #334155; }
-    .modality-badge.modality-adc { background: #dc2626; color: white; }
-    .modality-badge.modality-monoclonalantibody, .modality-badge.modality-mab { background: #2563eb; color: white; }
-    .modality-badge.modality-smallmolecule { background: #7c3aed; color: white; }
-    .modality-badge.modality-cart { background: #db2777; color: white; }
-    .modality-badge.modality-bispecific { background: #ea580c; color: white; }
-    .modality-badge.modality-vaccine { background: #059669; color: white; }
-    .modality-badge.modality-radioconjugate { background: #eab308; color: black; }
-    .payload { font-size: 0.7rem; color: #94a3b8; }
-    .code-name { font-size: 0.8rem; color: #60a5fa; }
-    .generic-name { font-size: 0.75rem; color: #94a3b8; font-style: italic; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; color: var(--accent-hover); }
+    .phase-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; background: var(--background); border: 1px solid var(--border); }
+    .phase-badge.phase-phase3, .phase-badge.phase-filed { background: #E8F5E9; color: #2E7D32; border-color: #C8E6C9; }
+    .phase-badge.phase-phase2 { background: #FFF8E1; color: #F57F17; border-color: #FFECB3; }
+    .phase-badge.phase-phase1 { background: #E3F2FD; color: #1565C0; border-color: #BBDEFB; }
+    .status-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; }
+    .status-badge.status-recruiting, .status-badge.status-active { background: #E8F5E9; color: #2E7D32; }
+    .status-badge.status-completed { background: var(--background); color: var(--text-secondary); }
+    .active-badge { background: #E8F5E9; color: #2E7D32; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; }
+    .inactive-badge { background: var(--background); color: var(--text-muted); padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; }
+    .type-badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; text-transform: uppercase; font-weight: 500; }
+    .type-badge.industry { background: #F3E5F5; color: #7B1FA2; }
+    .type-badge.academic { background: #E0F7FA; color: #00838F; }
+    .modality-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; }
+    .modality-badge.modality-adc { background: #FFEBEE; color: #C62828; }
+    .modality-badge.modality-mab { background: #E3F2FD; color: #1565C0; }
+    .modality-badge.modality-cart { background: #FCE4EC; color: #AD1457; }
+    .modality-badge.modality-bispecific { background: #FFF3E0; color: #E65100; }
+    .modality-badge.modality-radioconjugate { background: #FFFDE7; color: #F57F17; }
+    .payload { font-size: 0.75rem; color: var(--text-secondary); }
+    .code-name { font-size: 0.8rem; color: var(--accent); }
     .owner-type { font-weight: 500; }
-    .owner-big-pharma { color: #f472b6; }
-    .owner-biotech { color: #60a5fa; }
-    .owner-chinese-biotech { color: #fbbf24; }
-    .owner-academic { color: #34d399; }
-    .partner { font-size: 0.8rem; color: #a78bfa; }
-    .indication-cell { max-width: 180px; font-size: 0.85rem; }
-    .deal-cell { max-width: 200px; font-size: 0.8rem; color: #4ade80; }
-    .notes-cell { max-width: 300px; font-size: 0.8rem; color: #94a3b8; }
-    tr.curated-asset { background: rgba(74, 222, 128, 0.03); }
-    tr.curated-asset:hover { background: rgba(74, 222, 128, 0.08); }
-    .reg-badge { padding: 2px 5px; border-radius: 3px; font-size: 0.65rem; font-weight: 700; margin-right: 3px; }
-    .reg-btd { background: #166534; color: #86efac; }
-    .reg-odd { background: #7c3aed; color: white; }
-    .reg-prime { background: #0891b2; color: white; }
-    .reg-ft { background: #ea580c; color: white; }
-    .key-data { color: #4ade80; font-weight: 500; }
-    .deal-upfront { font-size: 0.75rem; color: #a78bfa; }
-    .linked-trials { font-size: 0.7rem; }
-    .trial-link { color: #60a5fa; margin-right: 5px; }
-    .investment-dashboard { background: linear-gradient(135deg, #1a1a3e 0%, #2d1f4a 100%); padding: 25px; border-radius: 12px; margin-bottom: 25px; }
-    .investment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
-    .investment-metric { text-align: center; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; }
-    .investment-metric .big-value { font-size: 2.2rem; font-weight: 700; color: #4ade80; }
-    .investment-metric .metric-label { font-size: 0.8rem; color: #94a3b8; margin-top: 5px; }
-    .deal-highlight { background: rgba(79, 70, 229, 0.2); border-left: 3px solid #6366f1; padding: 10px 15px; margin: 10px 0; border-radius: 0 8px 8px 0; }
-    .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
-    .summary-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; }
-    .summary-card h4 { color: #a5b4fc; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase; }
-    .summary-item { display: flex; justify-content: space-between; padding: 4px 0; font-size: 0.9rem; }
-    .summary-item .label { color: #94a3b8; }
-    .summary-item .value { color: #e2e8f0; font-weight: 600; }
-    .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-bottom: 25px; }
-    .bar-row { display: flex; align-items: center; margin-bottom: 8px; }
-    .bar-label { width: 100px; font-size: 0.85rem; color: #94a3b8; }
-    .bar-container { flex: 1; display: flex; align-items: center; gap: 8px; }
-    .bar { height: 20px; background: linear-gradient(90deg, #6366f1, #8b5cf6); border-radius: 4px; min-width: 4px; }
-    .bar-value { font-size: 0.85rem; color: #e2e8f0; min-width: 30px; }
-    .footer { text-align: center; color: #64748b; font-size: 0.85rem; padding: 20px; margin-top: 30px; border-top: 1px solid #334155; }
+    .owner-big-pharma { color: #AD1457; }
+    .owner-biotech { color: #1565C0; }
+    .owner-chinese-biotech { color: #E65100; }
+    .owner-academic { color: #2E7D32; }
+    .partner { font-size: 0.8rem; color: var(--text-secondary); }
+    .indication-cell { max-width: 200px; font-size: 0.85rem; }
+    .deal-cell { max-width: 220px; font-size: 0.85rem; color: var(--success); font-weight: 500; }
+    .notes-cell { max-width: 300px; font-size: 0.85rem; color: var(--text-secondary); }
+    tr.curated-asset { background: var(--surface); }
+    tr.curated-asset:hover { background: var(--surface-hover); }
+    .reg-badge { padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-right: 4px; }
+    .reg-btd { background: #E8F5E9; color: #2E7D32; }
+    .reg-odd { background: #F3E5F5; color: #7B1FA2; }
+    .reg-prime { background: #E0F7FA; color: #00838F; }
+    .reg-ft { background: #FFF3E0; color: #E65100; }
+    .key-data { color: var(--success); font-weight: 500; }
+    .deal-upfront { font-size: 0.75rem; color: var(--text-secondary); }
+    .linked-trials { font-size: 0.75rem; }
+    .trial-link { color: var(--accent); margin-right: 6px; }
+    .investment-dashboard { background: var(--surface); padding: 28px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+    .investment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; }
+    .investment-metric { text-align: center; padding: 20px; background: var(--background); border-radius: 10px; }
+    .investment-metric .big-value { font-size: 2rem; font-weight: 600; color: var(--success); }
+    .investment-metric .metric-label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px; }
+    .deal-highlight { background: #FFF8E1; border-left: 3px solid var(--warning); padding: 14px 18px; margin: 16px 0 0 0; border-radius: 0 8px 8px 0; }
+    .deal-highlight strong { color: var(--text-primary); }
+    .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+    .summary-card { background: var(--background); padding: 18px; border-radius: 8px; border: 1px solid var(--border); }
+    .summary-card h4 { color: var(--text-secondary); font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .summary-item { display: flex; justify-content: space-between; padding: 5px 0; font-size: 0.9rem; }
+    .summary-item .label { color: var(--text-secondary); }
+    .summary-item .value { color: var(--text-primary); font-weight: 600; }
+    .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin-bottom: 28px; }
+    .bar-row { display: flex; align-items: center; margin-bottom: 10px; }
+    .bar-label { width: 100px; font-size: 0.85rem; color: var(--text-secondary); }
+    .bar-container { flex: 1; display: flex; align-items: center; gap: 10px; }
+    .bar { height: 24px; background: linear-gradient(90deg, var(--accent), #E89B7D); border-radius: 4px; min-width: 4px; }
+    .bar-value { font-size: 0.85rem; color: var(--text-primary); font-weight: 500; min-width: 30px; }
+    .footer { text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 24px; margin-top: 32px; border-top: 1px solid var(--border); }
     .back-link { margin-bottom: 20px; }
-    .back-link a { color: #60a5fa; }
+    .back-link a { color: var(--accent); font-weight: 500; }
   </style>
 </head>
 <body>
@@ -4902,11 +4930,11 @@ function generateTargetReportHtml(report, trialAnalytics) {
 
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-num" style="color: #f472b6;">${assetCount}</div>
+          <div class="stat-num">${assetCount}</div>
           <div class="stat-label">Curated Assets</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" style="color: #4ade80;">$${investmentMetrics?.totalDisclosedDealValue?.toFixed(1) || '0'}B</div>
+          <div class="stat-num" style="color: var(--success);">$${investmentMetrics?.totalDisclosedDealValue?.toFixed(1) || '0'}B</div>
           <div class="stat-label">Deal Value</div>
         </div>
         <div class="stat-card">
@@ -4914,7 +4942,7 @@ function generateTargetReportHtml(report, trialAnalytics) {
           <div class="stat-label">Clinical Trials</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" style="color: #4ade80;">${summary.activeTrials}</div>
+          <div class="stat-num" style="color: var(--success);">${summary.activeTrials}</div>
           <div class="stat-label">Active Trials</div>
         </div>
         <div class="stat-card">
@@ -4926,7 +4954,7 @@ function generateTargetReportHtml(report, trialAnalytics) {
 
     ${investmentMetrics ? `
     <div class="investment-dashboard">
-      <h2 style="color:#a5b4fc;margin-bottom:20px;">Investment Metrics</h2>
+      <h2 style="color:var(--text-primary);margin-bottom:20px;font-weight:600;">Investment Metrics</h2>
       <div class="investment-grid">
         <div class="investment-metric">
           <div class="big-value">$${investmentMetrics.totalDisclosedDealValue?.toFixed(1) || '0'}B</div>
@@ -4950,8 +4978,8 @@ function generateTargetReportHtml(report, trialAnalytics) {
         </div>
       </div>
       ${investmentMetrics.largestDeal?.name ? `
-      <div class="deal-highlight" style="margin-top:20px;">
-        <strong style="color:#a78bfa;">Largest Deal:</strong> ${investmentMetrics.largestDeal.name} - ${investmentMetrics.largestDeal.value}
+      <div class="deal-highlight">
+        <strong>Largest Deal:</strong> ${investmentMetrics.largestDeal.name} - ${investmentMetrics.largestDeal.value}
       </div>
       ` : ''}
     </div>

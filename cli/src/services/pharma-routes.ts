@@ -274,37 +274,55 @@ function generateProfileHtml(profile: ReturnType<typeof getPharmaProfile>): stri
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${company.name} (${company.ticker}) - Pharma Intelligence</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    :root {
+      --background: #FAF9F7;
+      --surface: #FFFFFF;
+      --surface-hover: #F5F4F2;
+      --border: #E5E4E2;
+      --text-primary: #1A1915;
+      --text-secondary: #706F6C;
+      --text-muted: #9B9A97;
+      --accent: #D97756;
+      --accent-hover: #C4684A;
+      --success: #5B8C6F;
+      --warning: #D4A84B;
+      --error: #C75D5D;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--background); color: var(--text-primary); padding: 20px; line-height: 1.6; }
     .container { max-width: 1200px; margin: 0 auto; }
-    h1 { color: #818cf8; margin-bottom: 8px; }
-    h2 { color: #a5b4fc; margin: 30px 0 15px; border-bottom: 1px solid #334155; padding-bottom: 8px; }
-    h3 { color: #93c5fd; margin: 20px 0 10px; }
-    .subtitle { color: #94a3b8; margin-bottom: 20px; }
+    h1 { color: var(--text-primary); margin-bottom: 8px; font-weight: 700; }
+    h2 { color: var(--text-primary); margin: 30px 0 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; font-weight: 600; }
+    h3 { color: var(--text-secondary); margin: 20px 0 10px; font-weight: 600; }
+    .subtitle { color: var(--text-secondary); margin-bottom: 20px; }
     .meta { display: flex; gap: 20px; margin-bottom: 25px; flex-wrap: wrap; }
-    .meta-card { background: #1e293b; border-radius: 8px; padding: 15px 20px; flex: 1; min-width: 200px; }
-    .meta-card .label { color: #94a3b8; font-size: 0.85rem; }
-    .meta-card .value { color: #f1f5f9; font-size: 1.3rem; font-weight: bold; margin-top: 4px; }
-    table { width: 100%; border-collapse: collapse; margin: 10px 0 25px; }
-    th { background: #1e293b; color: #a5b4fc; padding: 10px 12px; text-align: left; font-size: 0.85rem; text-transform: uppercase; }
-    td { padding: 10px 12px; border-bottom: 1px solid #1e293b; font-size: 0.9rem; }
-    tr:hover { background: #1e293b44; }
-    .badge { padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
-    .badge-high { background: #991b1b; color: #fca5a5; }
-    .badge-medium { background: #92400e; color: #fcd34d; }
-    .badge-low { background: #1e3a5f; color: #93c5fd; }
-    .section { background: #1e293b; border-radius: 10px; padding: 20px; margin: 15px 0; }
-    .tag { display: inline-block; background: #334155; color: #cbd5e1; padding: 4px 10px; border-radius: 6px; margin: 3px; font-size: 0.85rem; }
-    .quote { border-left: 3px solid #818cf8; padding: 10px 15px; margin: 10px 0; background: #1e293b; border-radius: 0 8px 8px 0; }
-    .quote .speaker { color: #818cf8; font-weight: bold; margin-top: 5px; }
-    a { color: #60a5fa; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    .meta-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 15px 20px; flex: 1; min-width: 200px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .meta-card .label { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .meta-card .value { color: var(--text-primary); font-size: 1.3rem; font-weight: 700; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0 25px; background: var(--surface); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    th { background: var(--surface-hover); color: var(--text-secondary); padding: 12px 14px; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+    td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--text-primary); }
+    tr:hover { background: var(--surface-hover); }
+    tr:last-child td { border-bottom: none; }
+    .badge { padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+    .badge-high { background: #FEE2E2; color: var(--error); }
+    .badge-medium { background: #FEF3C7; color: #B45309; }
+    .badge-low { background: #DBEAFE; color: #1D4ED8; }
+    .section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 15px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .tag { display: inline-block; background: var(--surface-hover); color: var(--text-secondary); padding: 4px 12px; border-radius: 8px; margin: 3px; font-size: 0.85rem; border: 1px solid var(--border); }
+    .quote { border-left: 3px solid var(--accent); padding: 10px 15px; margin: 10px 0; background: var(--surface); border-radius: 0 8px 8px 0; }
+    .quote .speaker { color: var(--accent); font-weight: 600; margin-top: 5px; }
+    a { color: var(--accent); text-decoration: none; font-weight: 500; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
     .back { margin-bottom: 20px; }
-    .verified { color: #4ade80; }
-    .unverified { color: #94a3b8; }
+    .verified { color: var(--success); font-weight: 600; }
+    .unverified { color: var(--text-muted); }
     .nav { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-    .nav a { background: #334155; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; }
-    .nav a:hover { background: #475569; text-decoration: none; }
+    .nav a { background: var(--surface); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
+    .nav a:hover { background: var(--surface-hover); text-decoration: none; color: var(--text-primary); }
+    ul { margin-left: 20px; color: var(--text-secondary); }
+    li { margin: 8px 0; }
   </style>
 </head>
 <body>
