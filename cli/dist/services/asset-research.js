@@ -102,12 +102,15 @@ function extractAssetsFromTrials(trials, target) {
                 excluded = true;
                 excludeReason = 'Generic/supportive care drug';
             }
-            // Check if target-related
+            // Check if target-related (strict check)
             const isRelated = (0, known_assets_1.isTargetRelatedIntervention)(name, intervention.description, target);
             // Try to find known asset
             const knownAsset = (0, known_assets_1.findKnownAsset)(name, target);
-            // Skip if not related and not a known asset
-            if (!isRelated && !knownAsset && !isLikelyTargetDrug(name, target)) {
+            // STRICT FILTERING: Only include if we're confident this drug targets our target
+            // Priority 1: Known asset from curated database (HIGH confidence)
+            // Priority 2: Drug name/description explicitly mentions target (MEDIUM confidence)
+            // EXCLUDE: Everything else - better to miss than to include false positives
+            if (!knownAsset && !isRelated && !isLikelyTargetDrug(name, target)) {
                 continue;
             }
             const key = knownAsset?.primaryName.toLowerCase() || normalizedName;
@@ -148,27 +151,28 @@ function extractAssetsFromTrials(trials, target) {
 }
 /**
  * Check if drug name looks like a target-specific drug
+ *
+ * STRICT MODE: Only return true if we have HIGH confidence this drug targets
+ * the specific target. False positives destroy credibility.
  */
 function isLikelyTargetDrug(name, target) {
     const lower = name.toLowerCase();
-    // Contains target name
     const targetLower = target.toLowerCase().replace(/[-\s]/g, '');
+    // STRICT: Must contain target name in the drug name itself
+    // This is the only reliable way to link a drug to a target
     if (lower.replace(/[-\s]/g, '').includes(targetLower))
         return true;
-    // Drug naming patterns that suggest target specificity
-    // ADC patterns
-    if (lower.includes('adc') || lower.includes('deruxtecan') || lower.includes('vedotin') ||
-        lower.includes('duocarmazine') || lower.includes('mafodotin'))
+    // Check for explicit "anti-TARGET" patterns
+    if (lower.includes(`anti-${targetLower}`) || lower.includes(`anti ${targetLower}`))
         return true;
-    // CAR-T patterns
-    if (lower.includes('car-t') || lower.includes('cart') || lower.includes('car t'))
-        return true;
-    // Bispecific patterns
-    if (lower.includes('bispecific') || lower.includes('bite'))
-        return true;
-    // Company code patterns (e.g., DS-7300, MGC018)
-    if (/^[A-Z]{2,4}[-]?\d{3,5}[A-Z]?$/i.test(name.trim()))
-        return true;
+    // REMOVED: Generic modality patterns (ADC, CAR-T, bispecific)
+    // These patterns are too loose - an ADC could target ANY target
+    // Just because a drug is an ADC doesn't mean it targets our specific target
+    // REMOVED: Company code patterns (e.g., DS-7300)
+    // A company code tells us nothing about the target
+    // DS-7300 could target B7-H3 or HER2 or anything else
+    // DEFAULT: When in doubt, exclude
+    // It's better to miss a real asset than to include a false one
     return false;
 }
 // ============================================
@@ -243,6 +247,16 @@ function mergeAssets(knownAssets, extracted, target) {
             continue; // Already added via known assets
         // Classify modality from intervention
         const modality = classifyModality(item.name, item.type, item.description);
+        // Assign confidence based on how well we can verify target relationship
+        // HIGH: In curated database (already handled above)
+        // MEDIUM: Drug name or description explicitly mentions target
+        // LOW: Only indirect evidence - EXCLUDE from default reports
+        const confidence = item.isTargetRelated ? 'Medium' : 'Low';
+        // SKIP LOW confidence assets - they're likely false positives
+        // False positives destroy credibility more than missing assets
+        if (confidence === 'Low') {
+            continue;
+        }
         results.push({
             drugName: item.name,
             aliases: [],
@@ -258,7 +272,7 @@ function mergeAssets(knownAssets, extracted, target) {
             trialIds: [item.trialId],
             publicationCount: 0,
             dataSource: 'Clinical Trials',
-            confidence: item.isTargetRelated ? 'Medium' : 'Low',
+            confidence,
             lastUpdated: new Date().toISOString(),
         });
         addedNames.add(item.normalizedName);

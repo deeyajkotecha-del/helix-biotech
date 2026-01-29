@@ -794,72 +794,10 @@ exports.TL1A_DATABASE = {
             },
             investmentThesis: 'First-in-class bispecific combining TL1A + IL-23 blockade; potential for superior efficacy vs. monospecifics; Sanofi development resources',
         },
-        {
-            primaryName: 'CNTE-0532',
-            codeNames: ['CNTE-0532'],
-            aliases: [],
-            target: 'TL1A x TNFα',
-            modality: 'Bispecific',
-            modalityDetail: 'Bispecific antibody targeting TL1A and TNFα',
-            owner: 'Connect Biopharma',
-            ownerType: 'Biotech',
-            phase: 'Preclinical',
-            status: 'Active',
-            leadIndication: 'IBD',
-            regulatory: { btd: false, odd: false, fastTrack: false, prime: false },
-            trialIds: [],
-            notes: 'Preclinical bispecific program.',
-            differentiator: 'TNFα combination',
-        },
-        // ========== Other Modalities ==========
-        {
-            primaryName: 'NM26',
-            codeNames: ['NM26'],
-            aliases: [],
-            target: 'TL1A',
-            modality: 'mAb',
-            modalityDetail: 'Anti-TL1A monoclonal antibody',
-            owner: 'Numab Therapeutics',
-            ownerType: 'Biotech',
-            partner: 'Johnson & Johnson',
-            phase: 'Phase 1',
-            status: 'Active',
-            leadIndication: 'Inflammatory diseases',
-            otherIndications: ['IBD'],
-            regulatory: { btd: false, odd: false, fastTrack: false, prime: false },
-            deal: {
-                headline: 'J&J licensing agreement',
-                upfront: 30, // $30M upfront
-                equity: 0,
-                milestones: 525, // Up to $525M milestones
-                date: '2022-09',
-                partner: 'Johnson & Johnson',
-                territory: 'Global',
-                source: 'https://www.numab.com/',
-                hasBreakdown: true,
-            },
-            trialIds: [],
-            notes: 'Numab multi-specific platform.',
-            differentiator: 'J&J partnership',
-        },
-        {
-            primaryName: 'OSE-703',
-            codeNames: ['OSE-703'],
-            aliases: [],
-            target: 'TL1A',
-            modality: 'mAb',
-            modalityDetail: 'Anti-TL1A monoclonal antibody',
-            owner: 'OSE Immunotherapeutics',
-            ownerType: 'Biotech',
-            phase: 'Preclinical',
-            status: 'Active',
-            leadIndication: 'Autoimmune diseases',
-            otherIndications: ['IBD'],
-            regulatory: { btd: false, odd: false, fastTrack: false, prime: false },
-            trialIds: [],
-            notes: 'European biotech TL1A program.',
-            differentiator: 'Early-stage option',
-        },
+        // NOTE: Removed false positives after verification:
+        // - NM26: Actually targets IL-31, not TL1A (Numab)
+        // - OSE-703: Actually targets CD127/IL-7R, not TL1A (OSE Immunotherapeutics)
+        // - CNTE-0532: Cannot verify this drug exists (Connect Biopharma)
     ],
     excludedDrugs: [
         // Generic IBD drugs
@@ -870,6 +808,10 @@ exports.TL1A_DATABASE = {
         'infliximab', 'adalimumab', 'certolizumab', 'golimumab', 'vedolizumab',
         'ustekinumab', 'risankizumab', 'mirikizumab', 'guselkumab',
         'tofacitinib', 'upadacitinib', 'filgotinib', 'ozanimod', 'etrasimod',
+        // FALSE POSITIVES - drugs that do NOT target TL1A (verified 2024-01)
+        'NM26', // Numab - actually targets IL-31, not TL1A
+        'OSE-703', // OSE Immunotherapeutics - actually targets CD127/IL-7R, not TL1A
+        'CNTE-0532', // Connect Biopharma - cannot verify this drug exists
     ],
     excludedSponsors: [],
 };
