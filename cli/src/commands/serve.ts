@@ -980,7 +980,7 @@ function startServer(port: number): void {
       console.log(chalk.cyan(`  [Report] Generating Excel for "${target}"...`));
 
       const report = await generateTargetReport(target);
-      const buffer = generateExcel(report);
+      const buffer = await generateExcel(report);
 
       const filename = `${target.replace(/[^a-zA-Z0-9]/g, '_')}_Report.xlsx`;
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

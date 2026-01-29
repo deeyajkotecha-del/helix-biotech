@@ -919,7 +919,7 @@ function startServer(port) {
             const target = decodeURIComponent(req.params.target);
             console.log(chalk_1.default.cyan(`  [Report] Generating Excel for "${target}"...`));
             const report = await (0, target_report_1.generateTargetReport)(target);
-            const buffer = (0, export_1.generateExcel)(report);
+            const buffer = await (0, export_1.generateExcel)(report);
             const filename = `${target.replace(/[^a-zA-Z0-9]/g, '_')}_Report.xlsx`;
             res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);

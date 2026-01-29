@@ -35,6 +35,7 @@
     "commander": "^14.0.2",
     "cors": "^2.8.6",
     "dotenv": "^16.6.1",
+    "exceljs": "^4.4.0",
     "express": "^5.2.1",
     "ora": "^5.4.1",
     "typescript": "^5.9.3",

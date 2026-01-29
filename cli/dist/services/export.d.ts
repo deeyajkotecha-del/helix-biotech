@@ -1,8 +1,10 @@
 /**
- * Export Service - Investment Ready
+ * Export Service - Professional Quality Excel
  *
- * Generates Excel exports with comprehensive asset data,
- * investment metrics, and regulatory information.
+ * Generates investment-grade Excel exports with:
+ * - Auto-filters and freeze panes
+ * - Conditional formatting by modality
+ * - Styled headers and summary dashboards
  */
 import { KnownAsset, InvestmentMetrics } from '../data/known-assets';
 export interface ReportData {
@@ -26,9 +28,9 @@ export interface ReportData {
     investmentMetrics?: InvestmentMetrics;
 }
 /**
- * Generate investment-ready Excel workbook
+ * Generate professional Excel workbook
  */
-export declare function generateExcel(reportData: ReportData): Buffer;
+export declare function generateExcel(reportData: ReportData): Promise<Buffer>;
 export declare function generateCSV(data: any[], filename?: string): string;
 export declare function generateMultiCSV(reportData: ReportData): Record<string, string>;
 export declare function getContentType(format: 'xlsx' | 'csv'): string;

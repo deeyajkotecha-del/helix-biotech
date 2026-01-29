@@ -1,268 +1,479 @@
 "use strict";
 /**
- * Export Service - Investment Ready
+ * Export Service - Professional Quality Excel
  *
- * Generates Excel exports with comprehensive asset data,
- * investment metrics, and regulatory information.
+ * Generates investment-grade Excel exports with:
+ * - Auto-filters and freeze panes
+ * - Conditional formatting by modality
+ * - Styled headers and summary dashboards
  */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateExcel = generateExcel;
 exports.generateCSV = generateCSV;
 exports.generateMultiCSV = generateMultiCSV;
 exports.getContentType = getContentType;
 exports.getFileExtension = getFileExtension;
-const XLSX = __importStar(require("xlsx"));
+const exceljs_1 = __importDefault(require("exceljs"));
 const known_assets_1 = require("../data/known-assets");
 // ============================================
-// Excel Generation - Investment Ready
+// Color Schemes
+// ============================================
+const COLORS = {
+    headerBg: '1E3A5F', // Dark blue
+    headerText: 'FFFFFF', // White
+    dealHighlight: '4ADE80', // Green for deal values
+    // Modality colors (light backgrounds)
+    ADC: 'E3F2FD', // Light blue
+    'CAR-T': 'E8F5E9', // Light green
+    Bispecific: 'F3E5F5', // Light purple
+    mAb: 'FFF3E0', // Light orange
+    Radioconjugate: 'FFFDE7', // Light yellow
+    Other: 'F5F5F5', // Light gray
+    // Phase colors
+    'Phase 3': 'C8E6C9', // Green
+    'Filed': 'A5D6A7', // Darker green
+    'Approved': '81C784', // Even darker green
+    'Phase 2': 'FFF9C4', // Yellow
+    'Phase 1': 'E1F5FE', // Light blue
+    // Owner type colors
+    'Big Pharma': 'FCE4EC', // Light pink
+    'Biotech': 'E3F2FD', // Light blue
+    'Chinese Biotech': 'FFF8E1', // Light amber
+    'Academic': 'E8F5E9', // Light green
+};
+function getModalityColor(modality) {
+    return COLORS[modality] || COLORS.Other;
+}
+// ============================================
+// Excel Generation - Professional Quality
 // ============================================
 /**
- * Generate investment-ready Excel workbook
+ * Generate professional Excel workbook
  */
-function generateExcel(reportData) {
-    const workbook = XLSX.utils.book_new();
-    // Calculate investment metrics from curated assets
+async function generateExcel(reportData) {
+    const workbook = new exceljs_1.default.Workbook();
+    workbook.creator = 'Helix Intelligence Platform';
+    workbook.created = new Date();
     const curatedAssets = reportData.curatedAssets || [];
     const metrics = curatedAssets.length > 0
         ? (0, known_assets_1.calculateInvestmentMetrics)(curatedAssets)
         : reportData.investmentMetrics;
-    // 1. Investment Summary Sheet (FIRST)
+    // 1. Investment Summary Sheet
     if (metrics) {
-        const investmentSummary = generateInvestmentSummaryData(reportData.target, metrics, curatedAssets);
-        const summarySheet = XLSX.utils.aoa_to_sheet(investmentSummary);
-        summarySheet['!cols'] = [{ wch: 35 }, { wch: 25 }, { wch: 20 }, { wch: 20 }];
-        XLSX.utils.book_append_sheet(workbook, summarySheet, 'Investment Summary');
+        createSummarySheet(workbook, reportData.target, metrics, curatedAssets);
     }
-    // 2. Comprehensive Assets Sheet
+    // 2. Assets Sheet
     if (curatedAssets.length > 0) {
-        const assetsData = generateComprehensiveAssetsData(curatedAssets);
-        const assetsSheet = XLSX.utils.json_to_sheet(assetsData);
-        assetsSheet['!cols'] = [
-            { wch: 30 }, // Drug Name
-            { wch: 25 }, // Code Names
-            { wch: 12 }, // Target
-            { wch: 12 }, // Modality
-            { wch: 35 }, // Payload/Tech
-            { wch: 25 }, // Owner
-            { wch: 20 }, // Partner
-            { wch: 15 }, // Owner Type
-            { wch: 12 }, // Phase
-            { wch: 10 }, // Status
-            { wch: 35 }, // Lead Indication
-            { wch: 40 }, // Other Indications
-            { wch: 5 }, // BTD
-            { wch: 5 }, // ODD
-            { wch: 6 }, // PRIME
-            { wch: 10 }, // Fast Track
-            { wch: 35 }, // Deal Headline
-            { wch: 25 }, // Deal Upfront
-            { wch: 25 }, // Deal Milestones
-            { wch: 12 }, // Deal Date
-            { wch: 40 }, // Trial IDs
-            { wch: 10 }, // Trial Count
-            { wch: 50 }, // Key Data
-            { wch: 60 }, // Notes
-        ];
-        XLSX.utils.book_append_sheet(workbook, assetsSheet, 'Assets');
+        createAssetsSheet(workbook, curatedAssets);
     }
-    // 3. Trials Sheet (linked to assets)
+    // 3. Trials Sheet
     if (reportData.trials.length > 0) {
-        const trialsForExport = reportData.trials.map(t => {
-            // Find linked asset
-            const linkedAsset = curatedAssets.find(a => a.trialIds.includes(t.nctId));
-            return {
-                'NCT ID': t.nctId,
-                'Linked Asset': linkedAsset?.primaryName || '',
-                'Title': t.briefTitle,
-                'Phase': t.phase,
-                'Status': t.status,
-                'Sponsor': t.leadSponsor?.name || '',
-                'Sponsor Type': t.leadSponsor?.type || '',
-                'Conditions': (t.conditions || []).join('; '),
-                'Interventions': (t.interventions || []).map((i) => i.name).join('; '),
-                'Enrollment': t.enrollment?.count || '',
-                'Start Date': t.startDate || '',
-                'Completion Date': t.completionDate || '',
-                'Countries': (t.countries || []).join('; '),
-                'Has Results': t.resultsAvailable ? 'Yes' : 'No',
-            };
-        });
-        const trialsSheet = XLSX.utils.json_to_sheet(trialsForExport);
-        trialsSheet['!cols'] = [
-            { wch: 15 }, { wch: 25 }, { wch: 60 }, { wch: 12 }, { wch: 20 },
-            { wch: 30 }, { wch: 12 }, { wch: 40 }, { wch: 40 },
-            { wch: 10 }, { wch: 12 }, { wch: 12 }, { wch: 20 }, { wch: 10 }
-        ];
-        XLSX.utils.book_append_sheet(workbook, trialsSheet, 'Trials');
+        createTrialsSheet(workbook, reportData.trials, curatedAssets);
     }
-    // 4. Publications sheet
+    // 4. Publications Sheet
     if (reportData.publications.length > 0) {
-        const pubsForExport = reportData.publications.map(p => ({
-            'PMID': p.pmid || '',
-            'Title': p.title,
-            'Authors': (p.authors || []).map((a) => `${a.lastName} ${a.foreName || ''}`).join('; '),
-            'Journal': typeof p.journal === 'object' ? p.journal?.name : p.journal || '',
-            'Year': p.publicationDate?.split('-')[0] || '',
-            'Type': p.publicationType || '',
-            'Abstract': (p.abstract || '').substring(0, 500) + (p.abstract?.length > 500 ? '...' : ''),
-        }));
-        const pubsSheet = XLSX.utils.json_to_sheet(pubsForExport);
-        pubsSheet['!cols'] = [
-            { wch: 12 }, { wch: 80 }, { wch: 50 }, { wch: 30 },
-            { wch: 6 }, { wch: 15 }, { wch: 100 }
-        ];
-        XLSX.utils.book_append_sheet(workbook, pubsSheet, 'Publications');
+        createPublicationsSheet(workbook, reportData.publications);
     }
-    // 5. Authors/KOLs sheet
+    // 5. Authors Sheet
     if (reportData.kols.length > 0) {
-        const kolsForExport = reportData.kols.map(k => ({
-            'Name': k.name || `${k.lastName || ''} ${k.foreName || ''}`.trim(),
-            'Institution': k.primaryInstitution || k.institution || '',
-            'Publications': k.publicationCount || 0,
-            'First Author': k.firstAuthorCount || 0,
-            'Last Author': k.lastAuthorCount || 0,
-        }));
-        const kolsSheet = XLSX.utils.json_to_sheet(kolsForExport);
-        kolsSheet['!cols'] = [
-            { wch: 30 }, { wch: 50 }, { wch: 12 }, { wch: 12 }, { wch: 12 }
-        ];
-        XLSX.utils.book_append_sheet(workbook, kolsSheet, 'Authors');
+        createAuthorsSheet(workbook, reportData.kols);
     }
     // Write to buffer
-    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
-    return buffer;
+    const buffer = await workbook.xlsx.writeBuffer();
+    return Buffer.from(buffer);
 }
-/**
- * Generate Investment Summary data for Excel
- */
-function generateInvestmentSummaryData(target, metrics, assets) {
-    const data = [];
-    // Header
-    data.push([`${target} Investment Intelligence Report`]);
-    data.push([`Generated: ${new Date().toISOString()}`]);
-    data.push(['']);
-    // Deal Metrics Section
-    data.push(['=== DEAL METRICS ===']);
-    data.push(['Total Disclosed Deal Value:', `$${metrics.totalDisclosedDealValue.toFixed(1)}B`]);
-    data.push(['Total Upfront Payments:', `$${metrics.totalUpfront.toFixed(0)}M`]);
-    data.push(['Largest Deal:', `${metrics.largestDeal.name} - ${metrics.largestDeal.value}`]);
-    data.push(['']);
-    // List all deals
-    data.push(['Recent Deals:']);
-    for (const asset of assets.filter(a => a.deal)) {
-        data.push([
-            `  ${asset.primaryName}`,
-            asset.deal?.headline || '',
-            asset.deal?.date || ''
-        ]);
+// ============================================
+// Summary Dashboard Sheet
+// ============================================
+function createSummarySheet(workbook, target, metrics, assets) {
+    const sheet = workbook.addWorksheet('Investment Summary', {
+        properties: { tabColor: { argb: '4F46E5' } }
+    });
+    // Title
+    sheet.mergeCells('A1:D1');
+    const titleCell = sheet.getCell('A1');
+    titleCell.value = `${target} Investment Intelligence Report`;
+    titleCell.font = { bold: true, size: 18, color: { argb: '1E3A5F' } };
+    titleCell.alignment = { horizontal: 'center' };
+    sheet.mergeCells('A2:D2');
+    sheet.getCell('A2').value = `Generated: ${new Date().toISOString()}`;
+    sheet.getCell('A2').font = { italic: true, color: { argb: '6B7280' } };
+    let row = 4;
+    // DEAL METRICS SECTION
+    addSectionHeader(sheet, row, 'DEAL METRICS');
+    row += 2;
+    addMetricRow(sheet, row++, 'Total Disclosed Deal Value', `$${metrics.totalDisclosedDealValue.toFixed(1)}B`, '4ADE80');
+    addMetricRow(sheet, row++, 'Total Upfront Payments', `$${metrics.totalUpfront.toFixed(0)}M`, '60A5FA');
+    addMetricRow(sheet, row++, 'Largest Deal', `${metrics.largestDeal.name} - ${metrics.largestDeal.value}`, 'F472B6');
+    addMetricRow(sheet, row++, 'Assets with Deals', `${assets.filter(a => a.deal).length}`);
+    row += 2;
+    // Recent Deals List
+    addSectionHeader(sheet, row, 'RECENT DEALS');
+    row += 2;
+    const dealAssets = assets.filter(a => a.deal);
+    for (const asset of dealAssets) {
+        sheet.getCell(`A${row}`).value = asset.primaryName;
+        sheet.getCell(`B${row}`).value = asset.deal?.headline || '';
+        sheet.getCell(`C${row}`).value = asset.deal?.upfront || '';
+        sheet.getCell(`D${row}`).value = asset.deal?.date || '';
+        // Highlight deal rows
+        const dealRow = sheet.getRow(row);
+        dealRow.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'F0FDF4' } // Light green
+        };
+        row++;
     }
-    data.push(['']);
-    // Regulatory Section
-    data.push(['=== REGULATORY DESIGNATIONS ===']);
-    data.push(['Assets with BTD:', metrics.assetsWithBTD]);
-    data.push(['Assets with ODD:', metrics.assetsWithODD]);
-    data.push(['Assets with PRIME:', metrics.assetsWithPRIME]);
-    data.push(['Assets with Fast Track:', metrics.assetsWithFastTrack]);
-    data.push(['']);
-    // Phase Distribution
-    data.push(['=== PHASE DISTRIBUTION ===']);
+    row += 2;
+    // REGULATORY SECTION
+    addSectionHeader(sheet, row, 'REGULATORY DESIGNATIONS');
+    row += 2;
+    addMetricRow(sheet, row++, 'Breakthrough Therapy (BTD)', `${metrics.assetsWithBTD}`, '166534');
+    addMetricRow(sheet, row++, 'Orphan Drug (ODD)', `${metrics.assetsWithODD}`, '7C3AED');
+    addMetricRow(sheet, row++, 'EU PRIME', `${metrics.assetsWithPRIME}`, '0891B2');
+    addMetricRow(sheet, row++, 'Fast Track', `${metrics.assetsWithFastTrack}`, 'EA580C');
+    row += 2;
+    // PHASE DISTRIBUTION
+    addSectionHeader(sheet, row, 'PHASE DISTRIBUTION');
+    row += 2;
     const phaseOrder = ['Filed', 'Approved', 'Phase 3', 'Phase 2/3', 'Phase 2', 'Phase 1/2', 'Phase 1', 'Preclinical'];
     for (const phase of phaseOrder) {
         if (metrics.phaseDistribution[phase]) {
-            data.push([phase + ':', metrics.phaseDistribution[phase]]);
+            sheet.getCell(`A${row}`).value = phase;
+            sheet.getCell(`B${row}`).value = metrics.phaseDistribution[phase];
+            const phaseRow = sheet.getRow(row);
+            const phaseColor = COLORS[phase] || 'F5F5F5';
+            phaseRow.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: phaseColor }
+            };
+            row++;
         }
     }
-    data.push(['']);
-    // Modality Breakdown
-    data.push(['=== MODALITY BREAKDOWN ===']);
-    data.push(['Modality', 'Count', 'Deal Value']);
+    row += 2;
+    // MODALITY BREAKDOWN
+    addSectionHeader(sheet, row, 'MODALITY BREAKDOWN');
+    row += 2;
+    sheet.getCell(`A${row}`).value = 'Modality';
+    sheet.getCell(`B${row}`).value = 'Count';
+    sheet.getCell(`C${row}`).value = 'Deal Value';
+    const modalityHeaderRow = sheet.getRow(row);
+    modalityHeaderRow.font = { bold: true };
+    row++;
     for (const [modality, info] of Object.entries(metrics.modalityBreakdown)) {
-        data.push([
-            modality,
-            info.count,
-            info.dealValue > 0 ? `$${(info.dealValue / 1000).toFixed(1)}B` : '-'
-        ]);
+        sheet.getCell(`A${row}`).value = modality;
+        sheet.getCell(`B${row}`).value = info.count;
+        sheet.getCell(`C${row}`).value = info.dealValue > 0 ? `$${(info.dealValue / 1000).toFixed(1)}B` : '-';
+        const modalityRow = sheet.getRow(row);
+        modalityRow.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: getModalityColor(modality) }
+        };
+        row++;
     }
-    data.push(['']);
-    // Ownership Breakdown
-    data.push(['=== OWNERSHIP BREAKDOWN ===']);
+    row += 2;
+    // OWNERSHIP BREAKDOWN
+    addSectionHeader(sheet, row, 'OWNERSHIP BREAKDOWN');
+    row += 2;
     for (const [ownerType, count] of Object.entries(metrics.ownershipBreakdown)) {
-        data.push([ownerType + ':', count]);
+        sheet.getCell(`A${row}`).value = ownerType;
+        sheet.getCell(`B${row}`).value = count;
+        const ownerColor = COLORS[ownerType] || 'F5F5F5';
+        const ownerRow = sheet.getRow(row);
+        ownerRow.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: ownerColor }
+        };
+        row++;
     }
-    data.push(['']);
-    // Summary
-    data.push(['=== SUMMARY ===']);
-    data.push(['Total Curated Assets:', metrics.curatedAssets]);
-    data.push(['Assets with Deals:', assets.filter(a => a.deal).length]);
-    data.push(['Assets with Key Data:', assets.filter(a => a.keyData).length]);
-    return data;
+    // Column widths
+    sheet.getColumn('A').width = 35;
+    sheet.getColumn('B').width = 25;
+    sheet.getColumn('C').width = 20;
+    sheet.getColumn('D').width = 15;
 }
-/**
- * Generate comprehensive assets data for Excel
- */
-function generateComprehensiveAssetsData(assets) {
-    return assets.map(a => ({
-        'Drug Name': a.primaryName,
-        'Code Names': a.codeNames.join(', '),
-        'Target': a.target,
-        'Modality': a.modality,
-        'Payload/Tech': a.modalityDetail || a.payload || '',
-        'Owner': a.owner,
-        'Partner': a.partner || '',
-        'Owner Type': a.ownerType,
-        'Phase': a.phase,
-        'Status': a.status,
-        'Lead Indication': a.leadIndication,
-        'Other Indications': (a.otherIndications || []).join('; '),
-        'BTD': a.regulatory.btd ? 'Y' : '',
-        'ODD': a.regulatory.odd ? 'Y' : '',
-        'PRIME': a.regulatory.prime ? 'Y' : '',
-        'Fast Track': a.regulatory.fastTrack ? 'Y' : '',
-        'Deal Headline': a.deal?.headline || '',
-        'Deal Upfront': a.deal?.upfront || '',
-        'Deal Milestones': a.deal?.milestones || '',
-        'Deal Date': a.deal?.date || '',
-        'Trial IDs': a.trialIds.join(', '),
-        'Trial Count': a.trialIds.length,
-        'Key Data': a.keyData || '',
-        'Notes': a.notes || '',
-    }));
+function addSectionHeader(sheet, row, title) {
+    sheet.mergeCells(`A${row}:D${row}`);
+    const cell = sheet.getCell(`A${row}`);
+    cell.value = title;
+    cell.font = { bold: true, size: 12, color: { argb: 'FFFFFF' } };
+    cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '1E3A5F' }
+    };
+    cell.alignment = { horizontal: 'left' };
+}
+function addMetricRow(sheet, row, label, value, valueColor) {
+    sheet.getCell(`A${row}`).value = label;
+    sheet.getCell(`A${row}`).font = { bold: true };
+    const valueCell = sheet.getCell(`B${row}`);
+    valueCell.value = value;
+    if (valueColor) {
+        valueCell.font = { bold: true, color: { argb: valueColor } };
+    }
 }
 // ============================================
-// CSV Generation
+// Assets Sheet
+// ============================================
+function createAssetsSheet(workbook, assets) {
+    const sheet = workbook.addWorksheet('Assets', {
+        properties: { tabColor: { argb: 'DC2626' } },
+        views: [{ state: 'frozen', ySplit: 1 }] // Freeze header row
+    });
+    // Define columns
+    sheet.columns = [
+        { header: 'Drug Name', key: 'drugName', width: 30 },
+        { header: 'Code Names', key: 'codeNames', width: 22 },
+        { header: 'Target', key: 'target', width: 12 },
+        { header: 'Modality', key: 'modality', width: 14 },
+        { header: 'Payload/Tech', key: 'tech', width: 35 },
+        { header: 'Owner', key: 'owner', width: 25 },
+        { header: 'Partner', key: 'partner', width: 18 },
+        { header: 'Owner Type', key: 'ownerType', width: 15 },
+        { header: 'Phase', key: 'phase', width: 12 },
+        { header: 'Status', key: 'status', width: 10 },
+        { header: 'Lead Indication', key: 'indication', width: 35 },
+        { header: 'Other Indications', key: 'otherIndications', width: 40 },
+        { header: 'BTD', key: 'btd', width: 5 },
+        { header: 'ODD', key: 'odd', width: 5 },
+        { header: 'PRIME', key: 'prime', width: 6 },
+        { header: 'Fast Track', key: 'fastTrack', width: 10 },
+        { header: 'Deal Headline', key: 'dealHeadline', width: 35 },
+        { header: 'Deal Upfront', key: 'dealUpfront', width: 22 },
+        { header: 'Deal Milestones', key: 'dealMilestones', width: 22 },
+        { header: 'Deal Date', key: 'dealDate', width: 12 },
+        { header: 'Trial IDs', key: 'trialIds', width: 40 },
+        { header: 'Trial Count', key: 'trialCount', width: 10 },
+        { header: 'Key Data', key: 'keyData', width: 50 },
+        { header: 'Notes', key: 'notes', width: 60 },
+    ];
+    // Style header row
+    const headerRow = sheet.getRow(1);
+    headerRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+    headerRow.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: COLORS.headerBg }
+    };
+    headerRow.alignment = { horizontal: 'center', vertical: 'middle' };
+    headerRow.height = 25;
+    // Add data rows with conditional formatting
+    assets.forEach((asset, index) => {
+        const row = sheet.addRow({
+            drugName: asset.primaryName,
+            codeNames: asset.codeNames.join(', '),
+            target: asset.target,
+            modality: asset.modality,
+            tech: asset.modalityDetail || asset.payload || '',
+            owner: asset.owner,
+            partner: asset.partner || '',
+            ownerType: asset.ownerType,
+            phase: asset.phase,
+            status: asset.status,
+            indication: asset.leadIndication,
+            otherIndications: (asset.otherIndications || []).join('; '),
+            btd: asset.regulatory.btd ? 'Y' : '',
+            odd: asset.regulatory.odd ? 'Y' : '',
+            prime: asset.regulatory.prime ? 'Y' : '',
+            fastTrack: asset.regulatory.fastTrack ? 'Y' : '',
+            dealHeadline: asset.deal?.headline || '',
+            dealUpfront: asset.deal?.upfront || '',
+            dealMilestones: asset.deal?.milestones || '',
+            dealDate: asset.deal?.date || '',
+            trialIds: asset.trialIds.join(', '),
+            trialCount: asset.trialIds.length,
+            keyData: asset.keyData || '',
+            notes: asset.notes || '',
+        });
+        // Color row by modality
+        const bgColor = getModalityColor(asset.modality);
+        row.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: bgColor }
+        };
+        // Highlight cells with deals in green
+        if (asset.deal?.headline) {
+            row.getCell('dealHeadline').font = { bold: true, color: { argb: '166534' } };
+        }
+        // Bold regulatory designations
+        if (asset.regulatory.btd) {
+            row.getCell('btd').font = { bold: true, color: { argb: '166534' } };
+        }
+        if (asset.regulatory.odd) {
+            row.getCell('odd').font = { bold: true, color: { argb: '7C3AED' } };
+        }
+        // Add borders
+        row.eachCell({ includeEmpty: true }, (cell) => {
+            cell.border = {
+                top: { style: 'thin', color: { argb: 'E5E7EB' } },
+                bottom: { style: 'thin', color: { argb: 'E5E7EB' } },
+            };
+        });
+    });
+    // Add auto-filter
+    sheet.autoFilter = {
+        from: { row: 1, column: 1 },
+        to: { row: 1, column: 24 }
+    };
+}
+// ============================================
+// Trials Sheet
+// ============================================
+function createTrialsSheet(workbook, trials, assets) {
+    const sheet = workbook.addWorksheet('Trials', {
+        properties: { tabColor: { argb: '2563EB' } },
+        views: [{ state: 'frozen', ySplit: 1 }]
+    });
+    sheet.columns = [
+        { header: 'NCT ID', key: 'nctId', width: 15 },
+        { header: 'Linked Asset', key: 'linkedAsset', width: 25 },
+        { header: 'Title', key: 'title', width: 60 },
+        { header: 'Phase', key: 'phase', width: 12 },
+        { header: 'Status', key: 'status', width: 20 },
+        { header: 'Sponsor', key: 'sponsor', width: 30 },
+        { header: 'Sponsor Type', key: 'sponsorType', width: 12 },
+        { header: 'Conditions', key: 'conditions', width: 40 },
+        { header: 'Interventions', key: 'interventions', width: 40 },
+        { header: 'Enrollment', key: 'enrollment', width: 10 },
+        { header: 'Start Date', key: 'startDate', width: 12 },
+        { header: 'Completion', key: 'completion', width: 12 },
+        { header: 'Countries', key: 'countries', width: 20 },
+    ];
+    // Style header
+    const headerRow = sheet.getRow(1);
+    headerRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+    headerRow.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: COLORS.headerBg }
+    };
+    headerRow.height = 25;
+    // Add data
+    trials.forEach(trial => {
+        const linkedAsset = assets.find(a => a.trialIds.includes(trial.nctId));
+        const row = sheet.addRow({
+            nctId: trial.nctId,
+            linkedAsset: linkedAsset?.primaryName || '',
+            title: trial.briefTitle,
+            phase: trial.phase,
+            status: trial.status,
+            sponsor: trial.leadSponsor?.name || '',
+            sponsorType: trial.leadSponsor?.type || '',
+            conditions: (trial.conditions || []).join('; '),
+            interventions: (trial.interventions || []).map((i) => i.name).join('; '),
+            enrollment: trial.enrollment?.count || '',
+            startDate: trial.startDate || '',
+            completion: trial.completionDate || '',
+            countries: (trial.countries || []).join('; '),
+        });
+        // Highlight linked trials
+        if (linkedAsset) {
+            row.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: 'F0FDF4' }
+            };
+            row.getCell('linkedAsset').font = { bold: true, color: { argb: '166534' } };
+        }
+        // Color by status
+        if (trial.status === 'Recruiting') {
+            row.getCell('status').font = { color: { argb: '166534' } };
+        }
+        else if (trial.status === 'Completed') {
+            row.getCell('status').font = { color: { argb: '6B7280' } };
+        }
+    });
+    // Auto-filter
+    sheet.autoFilter = {
+        from: { row: 1, column: 1 },
+        to: { row: 1, column: 13 }
+    };
+}
+// ============================================
+// Publications Sheet
+// ============================================
+function createPublicationsSheet(workbook, publications) {
+    const sheet = workbook.addWorksheet('Publications', {
+        properties: { tabColor: { argb: '059669' } },
+        views: [{ state: 'frozen', ySplit: 1 }]
+    });
+    sheet.columns = [
+        { header: 'PMID', key: 'pmid', width: 12 },
+        { header: 'Title', key: 'title', width: 80 },
+        { header: 'Authors', key: 'authors', width: 50 },
+        { header: 'Journal', key: 'journal', width: 30 },
+        { header: 'Year', key: 'year', width: 8 },
+        { header: 'Type', key: 'type', width: 15 },
+    ];
+    const headerRow = sheet.getRow(1);
+    headerRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+    headerRow.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: COLORS.headerBg }
+    };
+    publications.forEach(pub => {
+        sheet.addRow({
+            pmid: pub.pmid || '',
+            title: pub.title,
+            authors: (pub.authors || []).map((a) => `${a.lastName} ${a.foreName || ''}`).join('; '),
+            journal: typeof pub.journal === 'object' ? pub.journal?.name : pub.journal || '',
+            year: pub.publicationDate?.split('-')[0] || '',
+            type: pub.publicationType || '',
+        });
+    });
+    sheet.autoFilter = {
+        from: { row: 1, column: 1 },
+        to: { row: 1, column: 6 }
+    };
+}
+// ============================================
+// Authors Sheet
+// ============================================
+function createAuthorsSheet(workbook, kols) {
+    const sheet = workbook.addWorksheet('Authors', {
+        properties: { tabColor: { argb: '7C3AED' } },
+        views: [{ state: 'frozen', ySplit: 1 }]
+    });
+    sheet.columns = [
+        { header: 'Name', key: 'name', width: 30 },
+        { header: 'Institution', key: 'institution', width: 50 },
+        { header: 'Publications', key: 'pubs', width: 12 },
+        { header: 'First Author', key: 'first', width: 12 },
+        { header: 'Last Author', key: 'last', width: 12 },
+    ];
+    const headerRow = sheet.getRow(1);
+    headerRow.font = { bold: true, color: { argb: 'FFFFFF' } };
+    headerRow.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: COLORS.headerBg }
+    };
+    kols.forEach(kol => {
+        sheet.addRow({
+            name: kol.name || `${kol.lastName || ''} ${kol.foreName || ''}`.trim(),
+            institution: kol.primaryInstitution || kol.institution || '',
+            pubs: kol.publicationCount || 0,
+            first: kol.firstAuthorCount || 0,
+            last: kol.lastAuthorCount || 0,
+        });
+    });
+    sheet.autoFilter = {
+        from: { row: 1, column: 1 },
+        to: { row: 1, column: 5 }
+    };
+}
+// ============================================
+// CSV Generation (kept for backwards compat)
 // ============================================
 function generateCSV(data, filename) {
     if (data.length === 0)
@@ -308,9 +519,6 @@ function generateMultiCSV(reportData) {
     }
     return csvFiles;
 }
-// ============================================
-// Utility Functions
-// ============================================
 function escapeCSV(value) {
     if (value.includes(',') || value.includes('"') || value.includes('\n')) {
         return `"${value.replace(/"/g, '""')}"`;
