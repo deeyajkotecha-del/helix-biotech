@@ -12,14 +12,19 @@ export interface RegulatoryDesignations {
     rmat?: boolean;
 }
 export interface DealTerms {
-    headline: string;
-    upfront?: string;
-    milestones?: string;
-    totalValue?: string;
+    upfront?: number;
+    equity?: number;
+    committed?: number;
+    milestones?: number;
+    totalPotential?: number;
+    headline?: string;
     date?: string;
     partner?: string;
     territory?: string;
     notes?: string;
+    source?: string;
+    sourceDate?: string;
+    hasBreakdown: boolean;
 }
 export interface KnownAsset {
     primaryName: string;
@@ -55,11 +60,16 @@ export interface TargetAssetDatabase {
 export declare const B7H3_DATABASE: TargetAssetDatabase;
 export declare const TARGET_DATABASES: Record<string, TargetAssetDatabase>;
 export interface InvestmentMetrics {
-    totalDisclosedDealValue: number;
+    totalCommitted: number;
+    totalPotential: number;
     totalUpfront: number;
+    totalEquity: number;
+    totalMilestones: number;
     largestDeal: {
         name: string;
-        value: string;
+        committed: number;
+        potential: number;
+        partner?: string;
     };
     assetsWithBTD: number;
     assetsWithODD: number;
@@ -68,14 +78,20 @@ export interface InvestmentMetrics {
     phaseDistribution: Record<string, number>;
     modalityBreakdown: Record<string, {
         count: number;
-        dealValue: number;
+        committed: number;
+        potential: number;
     }>;
     ownershipBreakdown: Record<string, number>;
     totalAssets: number;
     curatedAssets: number;
+    assetsWithDeals: number;
+    assetsWithVerifiedDeals: number;
+    phase3Assets: number;
+    activeAssets: number;
 }
 /**
  * Calculate investment metrics for a set of assets
+ * Uses committed (upfront + equity) as primary metric, not total potential
  */
 export declare function calculateInvestmentMetrics(assets: KnownAsset[]): InvestmentMetrics;
 export declare function getTargetDatabase(target: string): TargetAssetDatabase | null;

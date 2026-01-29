@@ -55,7 +55,7 @@ function getModalityColor(modality) {
  */
 async function generateExcel(reportData) {
     const workbook = new exceljs_1.default.Workbook();
-    workbook.creator = 'Helix Intelligence Platform';
+    workbook.creator = 'Satya Bio';
     workbook.created = new Date();
     const curatedAssets = reportData.curatedAssets || [];
     const metrics = curatedAssets.length > 0
@@ -105,20 +105,53 @@ function createSummarySheet(workbook, target, metrics, assets) {
     // DEAL METRICS SECTION
     addSectionHeader(sheet, row, 'DEAL METRICS');
     row += 2;
-    addMetricRow(sheet, row++, 'Total Disclosed Deal Value', `$${metrics.totalDisclosedDealValue.toFixed(1)}B`, '4ADE80');
-    addMetricRow(sheet, row++, 'Total Upfront Payments', `$${metrics.totalUpfront.toFixed(0)}M`, '60A5FA');
-    addMetricRow(sheet, row++, 'Largest Deal', `${metrics.largestDeal.name} - ${metrics.largestDeal.value}`, 'F472B6');
-    addMetricRow(sheet, row++, 'Assets with Deals', `${assets.filter(a => a.deal).length}`);
+    addMetricRow(sheet, row++, 'Total Committed (upfront + equity)', `$${(metrics.totalCommitted / 1000).toFixed(2)}B`, '166534');
+    addMetricRow(sheet, row++, 'Total Potential (with milestones)', `$${(metrics.totalPotential / 1000).toFixed(2)}B`, '4ADE80');
+    addMetricRow(sheet, row++, 'Total Upfront', `$${metrics.totalUpfront.toFixed(0)}M`, '60A5FA');
+    addMetricRow(sheet, row++, 'Total Equity Investments', `$${metrics.totalEquity.toFixed(0)}M`, '818CF8');
+    addMetricRow(sheet, row++, 'Total Milestones (contingent)', `$${metrics.totalMilestones.toFixed(0)}M`, 'F472B6');
+    addMetricRow(sheet, row++, 'Largest Deal', `${metrics.largestDeal.name} - $${(metrics.largestDeal.committed / 1000).toFixed(1)}B committed`, 'DC2626');
+    addMetricRow(sheet, row++, 'Assets with Deals', `${metrics.assetsWithDeals} (${metrics.assetsWithVerifiedDeals} verified)`);
     row += 2;
     // Recent Deals List
-    addSectionHeader(sheet, row, 'RECENT DEALS');
+    addSectionHeader(sheet, row, 'DEALS BREAKDOWN');
     row += 2;
+    // Headers
+    sheet.getCell(`A${row}`).value = 'Drug';
+    sheet.getCell(`B${row}`).value = 'Partner';
+    sheet.getCell(`C${row}`).value = 'Upfront ($M)';
+    sheet.getCell(`D${row}`).value = 'Equity ($M)';
+    sheet.getCell(`E${row}`).value = 'Committed ($M)';
+    sheet.getCell(`F${row}`).value = 'Milestones ($M)';
+    sheet.getCell(`G${row}`).value = 'Total ($M)';
+    sheet.getCell(`H${row}`).value = 'Date';
+    const dealHeaderRow = sheet.getRow(row);
+    dealHeaderRow.font = { bold: true };
+    dealHeaderRow.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'E5E7EB' }
+    };
+    row++;
     const dealAssets = assets.filter(a => a.deal);
     for (const asset of dealAssets) {
+        const upfront = asset.deal?.upfront || 0;
+        const equity = asset.deal?.equity || 0;
+        const milestones = asset.deal?.milestones || 0;
+        const committed = upfront + equity;
+        const total = committed + milestones;
         sheet.getCell(`A${row}`).value = asset.primaryName;
-        sheet.getCell(`B${row}`).value = asset.deal?.headline || '';
-        sheet.getCell(`C${row}`).value = asset.deal?.upfront || '';
-        sheet.getCell(`D${row}`).value = asset.deal?.date || '';
+        sheet.getCell(`B${row}`).value = asset.deal?.partner || '';
+        sheet.getCell(`C${row}`).value = upfront || '';
+        sheet.getCell(`D${row}`).value = equity || '';
+        sheet.getCell(`E${row}`).value = committed || '';
+        sheet.getCell(`F${row}`).value = milestones || '';
+        sheet.getCell(`G${row}`).value = total || '';
+        sheet.getCell(`H${row}`).value = asset.deal?.date || '';
+        // Highlight committed column
+        if (committed > 0) {
+            sheet.getCell(`E${row}`).font = { bold: true, color: { argb: '166534' } };
+        }
         // Highlight deal rows
         const dealRow = sheet.getRow(row);
         dealRow.fill = {
@@ -161,14 +194,16 @@ function createSummarySheet(workbook, target, metrics, assets) {
     row += 2;
     sheet.getCell(`A${row}`).value = 'Modality';
     sheet.getCell(`B${row}`).value = 'Count';
-    sheet.getCell(`C${row}`).value = 'Deal Value';
+    sheet.getCell(`C${row}`).value = 'Committed ($B)';
+    sheet.getCell(`D${row}`).value = 'Potential ($B)';
     const modalityHeaderRow = sheet.getRow(row);
     modalityHeaderRow.font = { bold: true };
     row++;
     for (const [modality, info] of Object.entries(metrics.modalityBreakdown)) {
         sheet.getCell(`A${row}`).value = modality;
         sheet.getCell(`B${row}`).value = info.count;
-        sheet.getCell(`C${row}`).value = info.dealValue > 0 ? `$${(info.dealValue / 1000).toFixed(1)}B` : '-';
+        sheet.getCell(`C${row}`).value = info.committed > 0 ? `$${(info.committed / 1000).toFixed(2)}B` : '-';
+        sheet.getCell(`D${row}`).value = info.potential > 0 ? `$${(info.potential / 1000).toFixed(2)}B` : '-';
         const modalityRow = sheet.getRow(row);
         modalityRow.fill = {
             type: 'pattern',
@@ -228,7 +263,7 @@ function createAssetsSheet(workbook, assets) {
         properties: { tabColor: { argb: 'DC2626' } },
         views: [{ state: 'frozen', ySplit: 1 }] // Freeze header row
     });
-    // Define columns
+    // Define columns - with accurate deal metrics
     sheet.columns = [
         { header: 'Drug Name', key: 'drugName', width: 30 },
         { header: 'Code Names', key: 'codeNames', width: 22 },
@@ -246,10 +281,14 @@ function createAssetsSheet(workbook, assets) {
         { header: 'ODD', key: 'odd', width: 5 },
         { header: 'PRIME', key: 'prime', width: 6 },
         { header: 'Fast Track', key: 'fastTrack', width: 10 },
-        { header: 'Deal Headline', key: 'dealHeadline', width: 35 },
-        { header: 'Deal Upfront', key: 'dealUpfront', width: 22 },
-        { header: 'Deal Milestones', key: 'dealMilestones', width: 22 },
+        { header: 'Deal Partner', key: 'dealPartner', width: 18 },
+        { header: 'Upfront ($M)', key: 'dealUpfront', width: 14 },
+        { header: 'Equity ($M)', key: 'dealEquity', width: 13 },
+        { header: 'Committed ($M)', key: 'dealCommitted', width: 15 },
+        { header: 'Milestones ($M)', key: 'dealMilestones', width: 15 },
+        { header: 'Total Potential ($M)', key: 'dealTotal', width: 18 },
         { header: 'Deal Date', key: 'dealDate', width: 12 },
+        { header: 'Verified', key: 'dealVerified', width: 8 },
         { header: 'Trial IDs', key: 'trialIds', width: 40 },
         { header: 'Trial Count', key: 'trialCount', width: 10 },
         { header: 'Key Data', key: 'keyData', width: 50 },
@@ -267,6 +306,12 @@ function createAssetsSheet(workbook, assets) {
     headerRow.height = 25;
     // Add data rows with conditional formatting
     assets.forEach((asset, index) => {
+        // Calculate committed value
+        const upfront = asset.deal?.upfront || 0;
+        const equity = asset.deal?.equity || 0;
+        const milestones = asset.deal?.milestones || 0;
+        const committed = upfront + equity;
+        const totalPotential = committed + milestones;
         const row = sheet.addRow({
             drugName: asset.primaryName,
             codeNames: asset.codeNames.join(', '),
@@ -284,10 +329,14 @@ function createAssetsSheet(workbook, assets) {
             odd: asset.regulatory.odd ? 'Y' : '',
             prime: asset.regulatory.prime ? 'Y' : '',
             fastTrack: asset.regulatory.fastTrack ? 'Y' : '',
-            dealHeadline: asset.deal?.headline || '',
-            dealUpfront: asset.deal?.upfront || '',
-            dealMilestones: asset.deal?.milestones || '',
+            dealPartner: asset.deal?.partner || '',
+            dealUpfront: upfront || '',
+            dealEquity: equity || '',
+            dealCommitted: committed || '',
+            dealMilestones: milestones || '',
+            dealTotal: totalPotential || '',
             dealDate: asset.deal?.date || '',
+            dealVerified: asset.deal?.hasBreakdown ? 'Y' : '',
             trialIds: asset.trialIds.join(', '),
             trialCount: asset.trialIds.length,
             keyData: asset.keyData || '',
@@ -300,9 +349,9 @@ function createAssetsSheet(workbook, assets) {
             pattern: 'solid',
             fgColor: { argb: bgColor }
         };
-        // Highlight cells with deals in green
-        if (asset.deal?.headline) {
-            row.getCell('dealHeadline').font = { bold: true, color: { argb: '166534' } };
+        // Highlight committed column in green if there's a deal
+        if (committed > 0) {
+            row.getCell('dealCommitted').font = { bold: true, color: { argb: '166534' } };
         }
         // Bold regulatory designations
         if (asset.regulatory.btd) {
@@ -322,7 +371,7 @@ function createAssetsSheet(workbook, assets) {
     // Add auto-filter
     sheet.autoFilter = {
         from: { row: 1, column: 1 },
-        to: { row: 1, column: 24 }
+        to: { row: 1, column: 28 }
     };
 }
 // ============================================

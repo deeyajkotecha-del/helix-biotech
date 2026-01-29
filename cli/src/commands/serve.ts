@@ -5086,9 +5086,21 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
         ${otherIndications.length ? `<div class="other-indications"><strong>Also:</strong> ${otherIndications.join(', ')}</div>` : ''}
       </div>
 
-      ${a.deal?.headline || a.keyData ? `
+      ${a.deal || a.keyData ? `
       <div class="asset-highlights">
-        ${a.deal?.headline ? `<div class="deal-info">💰 ${a.deal.headline}${a.deal.upfront ? ` (Upfront: ${a.deal.upfront})` : ''}</div>` : ''}
+        ${a.deal ? `
+          <div class="deal-info">
+            💰 $${((a.deal.committed || 0) / 1000).toFixed(1)}B committed${a.deal.partner ? ` to ${a.deal.partner}` : ''}
+            ${a.deal.hasBreakdown ? `
+              <div class="deal-breakdown">
+                ${a.deal.upfront ? `• $${a.deal.upfront >= 1000 ? (a.deal.upfront/1000).toFixed(1) + 'B' : a.deal.upfront + 'M'} upfront` : ''}
+                ${a.deal.equity ? ` + $${a.deal.equity >= 1000 ? (a.deal.equity/1000).toFixed(1) + 'B' : a.deal.equity + 'M'} equity` : ''}
+                ${a.deal.milestones ? `<br>• Up to $${a.deal.milestones >= 1000 ? (a.deal.milestones/1000).toFixed(1) + 'B' : a.deal.milestones + 'M'} in milestones` : ''}
+                ${a.deal.totalPotential ? `<br>• Total potential: $${(a.deal.totalPotential/1000).toFixed(1)}B` : ''}
+              </div>
+            ` : `<span class="unverified-deal"> ★ unverified</span>`}
+          </div>
+        ` : ''}
         ${a.keyData ? `<div class="key-data-info">📊 ${a.keyData}</div>` : ''}
       </div>
       ` : ''}
@@ -5242,8 +5254,10 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
     .other-indications { color: var(--text-muted); font-size: 0.85rem; }
     .other-indications strong { color: var(--text-secondary); font-weight: 500; }
     .asset-highlights { padding: 12px 20px; background: #FFFBEB; border-bottom: 1px solid #FDE68A; }
-    .deal-info { color: #92400E; font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .deal-info { color: #166534; font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
     .deal-info:last-child { margin-bottom: 0; }
+    .deal-breakdown { font-size: 0.85rem; font-weight: 400; color: #92400E; margin-top: 6px; line-height: 1.5; }
+    .unverified-deal { font-size: 0.75rem; font-weight: 400; color: var(--text-muted); margin-left: 8px; }
     .key-data-info { color: #166534; font-size: 0.9rem; font-weight: 500; }
     .asset-footer { padding: 12px 20px; background: var(--background); }
     .trials-row { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
@@ -5290,29 +5304,28 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
         <a href="#publications">Publications (${summary.totalPublications})</a>
         <a href="#authors">Authors (${summary.totalKOLs})</a>
         <a href="/api/report/target/${encodeURIComponent(target)}/excel" class="download">Download Excel</a>
-        <a href="/api/report/target/${encodeURIComponent(target)}">JSON API</a>
       </div>
 
       <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-num">${assetCount}</div>
-          <div class="stat-label">Curated Assets</div>
+        <div class="stat-card" style="background: linear-gradient(135deg, var(--success) 0%, #4A7A5E 100%); border: none;">
+          <div class="stat-num" style="color: white;">$${((investmentMetrics?.totalCommitted || 0) / 1000).toFixed(1)}B</div>
+          <div class="stat-label" style="color: rgba(255,255,255,0.9);">Committed Capital</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" style="color: var(--success);">$${investmentMetrics?.totalDisclosedDealValue?.toFixed(1) || '0'}B</div>
-          <div class="stat-label">Deal Value</div>
+          <div class="stat-num">${investmentMetrics?.phase3Assets || 0}</div>
+          <div class="stat-label">Phase 3 Assets</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">${summary.totalTrials}</div>
-          <div class="stat-label">Clinical Trials</div>
+          <div class="stat-num">${investmentMetrics?.assetsWithBTD || 0}</div>
+          <div class="stat-label">BTD Designations</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num" style="color: var(--success);">${summary.activeTrials}</div>
+          <div class="stat-num">${summary.activeTrials}</div>
           <div class="stat-label">Active Trials</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">${summary.totalPublications}</div>
-          <div class="stat-label">Publications</div>
+          <div class="stat-num">${assetCount}</div>
+          <div class="stat-label">Curated Assets</div>
         </div>
       </div>
     </div>
@@ -5321,30 +5334,34 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
     <div class="investment-dashboard">
       <h2 style="color:var(--text-primary);margin-bottom:20px;font-weight:600;">Investment Metrics</h2>
       <div class="investment-grid">
-        <div class="investment-metric">
-          <div class="big-value">$${investmentMetrics.totalDisclosedDealValue?.toFixed(1) || '0'}B</div>
-          <div class="metric-label">Total Deal Value</div>
+        <div class="investment-metric" style="background: linear-gradient(135deg, var(--success) 0%, #4A7A5E 100%);">
+          <div class="big-value" style="color: white;">$${((investmentMetrics.totalCommitted || 0) / 1000).toFixed(1)}B</div>
+          <div class="metric-label" style="color: rgba(255,255,255,0.9);">Committed</div>
+          <div style="color: rgba(255,255,255,0.7); font-size: 0.75rem; margin-top: 4px;">(upfront + equity)</div>
         </div>
         <div class="investment-metric">
-          <div class="big-value">$${investmentMetrics.totalUpfront?.toFixed(0) || '0'}M</div>
-          <div class="metric-label">Total Upfront</div>
+          <div class="big-value">$${((investmentMetrics.totalPotential || 0) / 1000).toFixed(1)}B</div>
+          <div class="metric-label">Total Potential</div>
+          <div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px;">(w/ milestones)</div>
+        </div>
+        <div class="investment-metric">
+          <div class="big-value">${investmentMetrics.phase3Assets || 0}</div>
+          <div class="metric-label">Phase 3 Assets</div>
         </div>
         <div class="investment-metric">
           <div class="big-value">${investmentMetrics.assetsWithBTD || 0}</div>
           <div class="metric-label">BTD Designations</div>
         </div>
         <div class="investment-metric">
-          <div class="big-value">${investmentMetrics.assetsWithODD || 0}</div>
-          <div class="metric-label">Orphan Drug</div>
-        </div>
-        <div class="investment-metric">
-          <div class="big-value">${investmentMetrics.assetsWithFastTrack || 0}</div>
-          <div class="metric-label">Fast Track</div>
+          <div class="big-value">${investmentMetrics.assetsWithDeals || 0}</div>
+          <div class="metric-label">Deals Tracked</div>
         </div>
       </div>
       ${investmentMetrics.largestDeal?.name ? `
       <div class="deal-highlight">
-        <strong>Largest Deal:</strong> ${investmentMetrics.largestDeal.name} - ${investmentMetrics.largestDeal.value}
+        <strong>Largest Deal:</strong> ${investmentMetrics.largestDeal.name} —
+        $${((investmentMetrics.largestDeal.committed || 0) / 1000).toFixed(1)}B committed${investmentMetrics.largestDeal.partner ? ` to ${investmentMetrics.largestDeal.partner}` : ''}
+        <span style="color: var(--text-secondary); font-size: 0.9rem;"> ($${((investmentMetrics.largestDeal.potential || 0) / 1000).toFixed(1)}B potential with milestones)</span>
       </div>
       ` : ''}
     </div>
@@ -5380,7 +5397,7 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
         <div class="summary-card">
           <h4>By Modality</h4>
           ${Object.entries(investmentMetrics.modalityBreakdown || {}).map(([k, v]: [string, any]) =>
-            `<div class="summary-item"><span class="label">${k}</span><span class="value">${v.count}${v.dealValue > 0 ? ` <span style="color:#4ade80;font-size:0.75rem;">($${(v.dealValue/1000).toFixed(1)}B)</span>` : ''}</span></div>`
+            `<div class="summary-item"><span class="label">${k}</span><span class="value">${v.count}${v.committed > 0 ? ` <span style="color:var(--success);font-size:0.75rem;">($${(v.committed/1000).toFixed(1)}B)</span>` : ''}</span></div>`
           ).join('')}
         </div>
         <div class="summary-card">
@@ -5395,7 +5412,7 @@ function generateTargetReportHtml(report: any, trialAnalytics: any): string {
           ${Object.entries(investmentMetrics.ownershipBreakdown || {}).map(([k, v]) => `<div class="summary-item"><span class="label">${k}</span><span class="value">${v}</span></div>`).join('')}
         </div>
         <div class="summary-card">
-          <h4>Regulatory</h4>
+          <h4>Regulatory Designations</h4>
           <div class="summary-item"><span class="label">BTD</span><span class="value">${investmentMetrics.assetsWithBTD || 0}</span></div>
           <div class="summary-item"><span class="label">ODD</span><span class="value">${investmentMetrics.assetsWithODD || 0}</span></div>
           <div class="summary-item"><span class="label">PRIME</span><span class="value">${investmentMetrics.assetsWithPRIME || 0}</span></div>

@@ -26,7 +26,7 @@ async function generateTargetReport(target) {
     console.log(`[Report] Found ${curatedAssets.length} curated assets`);
     // Step 2: Calculate investment metrics
     const investmentMetrics = (0, known_assets_1.calculateInvestmentMetrics)(curatedAssets);
-    console.log(`[Report] Deal value: $${investmentMetrics.totalDisclosedDealValue.toFixed(1)}B across ${curatedAssets.filter(a => a.deal).length} deals`);
+    console.log(`[Report] Committed: $${(investmentMetrics.totalCommitted / 1000).toFixed(1)}B, Potential: $${(investmentMetrics.totalPotential / 1000).toFixed(1)}B across ${investmentMetrics.assetsWithDeals} deals`);
     // Step 3: Fetch all trials for the trials table
     const trials = await fetchTrialsForTarget(target);
     // Step 4: Fetch publications (real PubMed data)
@@ -51,11 +51,14 @@ async function generateTargetReport(target) {
         deals: curatedAssets.filter(a => a.deal).map(a => ({
             asset: a.primaryName,
             headline: a.deal?.headline,
-            upfront: a.deal?.upfront,
-            milestones: a.deal?.milestones,
-            totalValue: a.deal?.totalValue,
+            upfront: a.deal?.upfront || 0,
+            equity: a.deal?.equity || 0,
+            committed: a.deal?.committed || 0,
+            milestones: a.deal?.milestones || 0,
+            totalPotential: a.deal?.totalPotential || 0,
             date: a.deal?.date,
             partner: a.deal?.partner,
+            hasBreakdown: a.deal?.hasBreakdown || false,
         })),
         kols,
         curatedAssets,

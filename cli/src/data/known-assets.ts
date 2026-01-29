@@ -18,14 +18,30 @@ export interface RegulatoryDesignations {
 }
 
 export interface DealTerms {
-  headline: string;           // e.g., "$22B collaboration with Merck"
-  upfront?: string;           // e.g., "$4B + $1.5B equity"
-  milestones?: string;        // e.g., "Up to $16.5B"
-  totalValue?: string;        // e.g., "$22B"
-  date?: string;              // e.g., "2023-10"
-  partner?: string;           // Deal partner
+  // Guaranteed money (actually paid or committed) - in millions USD
+  upfront?: number;           // Upfront payment in millions
+  equity?: number;            // Equity investment in millions
+  committed?: number;         // Calculated: upfront + equity
+
+  // Contingent money (may never be paid) - in millions USD
+  milestones?: number;        // Contingent milestone payments in millions
+
+  // Total (for reference only)
+  totalPotential?: number;    // Calculated: committed + milestones
+
+  // Display/metadata
+  headline?: string;          // e.g., "Merck collaboration"
+  date?: string;              // Deal announcement date (YYYY-MM)
+  partner?: string;           // Who the deal is with
   territory?: string;         // e.g., "Global ex-China"
   notes?: string;
+
+  // Source (for accuracy)
+  source?: string;            // URL to press release
+  sourceDate?: string;        // When the source was published
+
+  // Data quality
+  hasBreakdown: boolean;      // True if we have upfront/milestones split
 }
 
 export interface KnownAsset {
@@ -105,14 +121,16 @@ export const B7H3_DATABASE: TargetAssetDatabase = {
       otherIndications: ['NSCLC', 'Solid tumors', 'Breast cancer', 'Prostate cancer'],
       regulatory: { btd: true, odd: true, fastTrack: true, prime: false },
       deal: {
-        headline: '$22B collaboration with Merck',
-        upfront: '$4B + $1.5B equity investment',
-        milestones: 'Up to $16.5B',
-        totalValue: '$22B',
+        headline: 'Merck-Daiichi Sankyo collaboration',
+        upfront: 4000,          // $4B
+        equity: 1500,           // $1.5B
+        milestones: 16500,      // $16.5B contingent
         date: '2023-10',
         partner: 'Merck',
         territory: 'Global (co-develop/co-commercialize)',
         notes: 'Includes I-DXd + 2 other Daiichi ADCs. Largest ADC deal ever.',
+        source: 'https://www.merck.com/news/merck-and-daiichi-sankyo-enter-global-collaboration/',
+        hasBreakdown: true,
       },
       trialIds: ['NCT05280470', 'NCT04145622', 'NCT05104866', 'NCT06362252'],
       keyData: '52% ORR in ES-SCLC; 26% ORR in heavily pretreated solid tumors (ASCO 2024)',
@@ -137,13 +155,14 @@ export const B7H3_DATABASE: TargetAssetDatabase = {
       otherIndications: ['NSCLC', 'Solid tumors'],
       regulatory: { btd: false, odd: false, fastTrack: true, prime: false },
       deal: {
-        headline: '$1.7B deal with GSK',
-        upfront: '$85M',
-        milestones: 'Up to $1.525B',
-        totalValue: '$1.7B',
+        headline: 'GSK collaboration',
+        upfront: 85,            // $85M
+        milestones: 1525,       // $1.525B contingent
         date: '2024-01',
         partner: 'GSK',
         territory: 'Ex-China rights',
+        source: 'https://www.gsk.com/en-gb/media/press-releases/',
+        hasBreakdown: true,
       },
       trialIds: ['NCT06052423', 'NCT05276609'],
       keyData: '75% ORR in ES-SCLC 2L+ (WCLC 2023); durable responses',
@@ -187,13 +206,14 @@ export const B7H3_DATABASE: TargetAssetDatabase = {
       otherIndications: ['SCLC', 'NSCLC'],
       regulatory: { btd: false, odd: false, fastTrack: false, prime: false },
       deal: {
-        headline: '$1.67B deal with BioNTech',
-        upfront: '$170M',
-        milestones: 'Up to $1.5B',
-        totalValue: '$1.67B',
+        headline: 'BioNTech collaboration',
+        upfront: 170,           // $170M
+        milestones: 1500,       // $1.5B contingent
         date: '2024-03',
         partner: 'BioNTech',
         territory: 'Global ex-Greater China',
+        source: 'https://www.biontech.com/press/',
+        hasBreakdown: true,
       },
       trialIds: ['NCT05914116'],
       keyData: 'Early clinical; BioNTech validation',
@@ -215,13 +235,14 @@ export const B7H3_DATABASE: TargetAssetDatabase = {
       leadIndication: 'Solid tumors',
       regulatory: { btd: false, odd: false, fastTrack: false, prime: false },
       deal: {
-        headline: '1.345B RMB deal with Qilu',
-        upfront: '45M RMB',
-        milestones: '1.3B RMB',
-        totalValue: '1.345B RMB (~$185M)',
+        headline: 'Qilu Pharmaceutical collaboration (China)',
+        upfront: 6,             // ~45M RMB = ~$6M
+        milestones: 179,        // ~1.3B RMB = ~$179M contingent
         date: '2024-04',
         partner: 'Qilu Pharmaceutical',
         territory: 'Greater China',
+        notes: 'RMB deal: 45M RMB upfront + 1.3B RMB milestones',
+        hasBreakdown: true,
       },
       trialIds: ['NCT05865470'],
       notes: 'China-focused ADC program.',
@@ -607,33 +628,62 @@ export const TARGET_DATABASES: Record<string, TargetAssetDatabase> = {
 // ============================================
 
 export interface InvestmentMetrics {
-  totalDisclosedDealValue: number;      // in billions
-  totalUpfront: number;                 // in millions
-  largestDeal: { name: string; value: string };
+  // Deal metrics - committed is the primary metric (actual money)
+  totalCommitted: number;               // upfront + equity in millions (ACTUAL MONEY)
+  totalPotential: number;               // committed + milestones in millions (MARKETING NUMBER)
+  totalUpfront: number;                 // just upfront in millions
+  totalEquity: number;                  // just equity in millions
+  totalMilestones: number;              // just milestones in millions
+
+  // Largest deal
+  largestDeal: {
+    name: string;
+    committed: number;                  // in millions
+    potential: number;                  // in millions
+    partner?: string;
+  };
+
+  // Regulatory designations
   assetsWithBTD: number;
   assetsWithODD: number;
   assetsWithPRIME: number;
   assetsWithFastTrack: number;
+
+  // Breakdowns
   phaseDistribution: Record<string, number>;
-  modalityBreakdown: Record<string, { count: number; dealValue: number }>;
+  modalityBreakdown: Record<string, { count: number; committed: number; potential: number }>;
   ownershipBreakdown: Record<string, number>;
+
+  // Counts
   totalAssets: number;
   curatedAssets: number;
+  assetsWithDeals: number;
+  assetsWithVerifiedDeals: number;      // deals with hasBreakdown = true
+
+  // Phase 3 specific
+  phase3Assets: number;
+  activeAssets: number;
 }
 
 /**
  * Calculate investment metrics for a set of assets
+ * Uses committed (upfront + equity) as primary metric, not total potential
  */
 export function calculateInvestmentMetrics(assets: KnownAsset[]): InvestmentMetrics {
-  let totalDealValue = 0;
   let totalUpfront = 0;
-  let largestDeal = { name: '', value: '', numericValue: 0 };
+  let totalEquity = 0;
+  let totalMilestones = 0;
+  let assetsWithDeals = 0;
+  let assetsWithVerifiedDeals = 0;
+
+  let largestDeal = { name: '', committed: 0, potential: 0, partner: '' };
 
   const phaseDistribution: Record<string, number> = {};
-  const modalityBreakdown: Record<string, { count: number; dealValue: number }> = {};
+  const modalityBreakdown: Record<string, { count: number; committed: number; potential: number }> = {};
   const ownershipBreakdown: Record<string, number> = {};
 
   let btdCount = 0, oddCount = 0, primeCount = 0, fastTrackCount = 0;
+  let phase3Count = 0, activeCount = 0;
 
   for (const asset of assets) {
     // Count regulatory designations
@@ -644,45 +694,63 @@ export function calculateInvestmentMetrics(assets: KnownAsset[]): InvestmentMetr
 
     // Phase distribution
     phaseDistribution[asset.phase] = (phaseDistribution[asset.phase] || 0) + 1;
+    if (asset.phase === 'Phase 3' || asset.phase === 'Filed') phase3Count++;
+    if (asset.status === 'Active') activeCount++;
 
     // Ownership
     ownershipBreakdown[asset.ownerType] = (ownershipBreakdown[asset.ownerType] || 0) + 1;
 
     // Modality
     if (!modalityBreakdown[asset.modality]) {
-      modalityBreakdown[asset.modality] = { count: 0, dealValue: 0 };
+      modalityBreakdown[asset.modality] = { count: 0, committed: 0, potential: 0 };
     }
     modalityBreakdown[asset.modality].count++;
 
-    // Deal value parsing
-    if (asset.deal?.totalValue) {
-      const dealNum = parseDealValue(asset.deal.totalValue);
-      if (dealNum > 0) {
-        totalDealValue += dealNum;
-        modalityBreakdown[asset.modality].dealValue += dealNum;
+    // Deal metrics - calculate committed and potential
+    if (asset.deal) {
+      assetsWithDeals++;
+      if (asset.deal.hasBreakdown) assetsWithVerifiedDeals++;
 
-        if (dealNum > largestDeal.numericValue) {
-          largestDeal = {
-            name: asset.primaryName,
-            value: asset.deal.totalValue,
-            numericValue: dealNum
-          };
-        }
-      }
-    }
+      const upfront = asset.deal.upfront || 0;
+      const equity = asset.deal.equity || 0;
+      const milestones = asset.deal.milestones || 0;
 
-    if (asset.deal?.upfront) {
-      const upfrontNum = parseDealValue(asset.deal.upfront);
-      if (upfrontNum > 0) {
-        totalUpfront += upfrontNum;
+      const committed = upfront + equity;
+      const potential = committed + milestones;
+
+      // Store calculated values back on the deal
+      asset.deal.committed = committed;
+      asset.deal.totalPotential = potential;
+
+      totalUpfront += upfront;
+      totalEquity += equity;
+      totalMilestones += milestones;
+
+      modalityBreakdown[asset.modality].committed += committed;
+      modalityBreakdown[asset.modality].potential += potential;
+
+      // Track largest deal by committed value (actual money)
+      if (committed > largestDeal.committed) {
+        largestDeal = {
+          name: asset.primaryName,
+          committed,
+          potential,
+          partner: asset.deal.partner || '',
+        };
       }
     }
   }
 
+  const totalCommitted = totalUpfront + totalEquity;
+  const totalPotential = totalCommitted + totalMilestones;
+
   return {
-    totalDisclosedDealValue: totalDealValue / 1000, // Convert to billions
-    totalUpfront: totalUpfront,
-    largestDeal: { name: largestDeal.name, value: largestDeal.value },
+    totalCommitted,
+    totalPotential,
+    totalUpfront,
+    totalEquity,
+    totalMilestones,
+    largestDeal,
     assetsWithBTD: btdCount,
     assetsWithODD: oddCount,
     assetsWithPRIME: primeCount,
@@ -692,36 +760,11 @@ export function calculateInvestmentMetrics(assets: KnownAsset[]): InvestmentMetr
     ownershipBreakdown,
     totalAssets: assets.length,
     curatedAssets: assets.length,
+    assetsWithDeals,
+    assetsWithVerifiedDeals,
+    phase3Assets: phase3Count,
+    activeAssets: activeCount,
   };
-}
-
-/**
- * Parse deal value string to numeric (in millions)
- */
-function parseDealValue(value: string): number {
-  if (!value) return 0;
-
-  const cleanValue = value.toLowerCase().replace(/[,$]/g, '');
-
-  // Handle "XXB" or "XX billion"
-  const billionMatch = cleanValue.match(/([\d.]+)\s*b/);
-  if (billionMatch) {
-    return parseFloat(billionMatch[1]) * 1000;
-  }
-
-  // Handle "XXM" or "XX million"
-  const millionMatch = cleanValue.match(/([\d.]+)\s*m/);
-  if (millionMatch) {
-    return parseFloat(millionMatch[1]);
-  }
-
-  // Handle RMB values
-  const rmbMatch = cleanValue.match(/([\d.]+)\s*rmb/);
-  if (rmbMatch) {
-    return parseFloat(rmbMatch[1]) * 0.14; // Rough RMB to USD conversion
-  }
-
-  return 0;
 }
 
 // ============================================
