@@ -1,8 +1,8 @@
 /**
  * Pharma Company Registry
  *
- * Registry of major pharma companies with IR page URLs,
- * presentation URL patterns, and verification status.
+ * Registry of 13 major pharma companies with SEC CIK numbers,
+ * IR page URLs, presentation URL patterns, and verification status.
  */
 import { PharmaCompany } from '../types/pharma';
 export declare const PHARMA_COMPANIES: Record<string, PharmaCompany>;
@@ -29,4 +29,8 @@ export declare function getJPM2026Urls(): {
     name: string;
     url: string | null;
 }[];
+/**
+ * Get SEC EDGAR URL for a company
+ */
+export declare function getSecEdgarUrl(ticker: string): string | null;
 //# sourceMappingURL=pharma-registry.d.ts.map

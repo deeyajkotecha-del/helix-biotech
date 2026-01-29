@@ -2,8 +2,8 @@
 /**
  * Pharma Company Registry
  *
- * Registry of major pharma companies with IR page URLs,
- * presentation URL patterns, and verification status.
+ * Registry of 13 major pharma companies with SEC CIK numbers,
+ * IR page URLs, presentation URL patterns, and verification status.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PHARMA_COMPANIES = void 0;
@@ -11,6 +11,7 @@ exports.getAllTickers = getAllTickers;
 exports.getVerifiedCompanies = getVerifiedCompanies;
 exports.buildPresentationUrl = buildPresentationUrl;
 exports.getJPM2026Urls = getJPM2026Urls;
+exports.getSecEdgarUrl = getSecEdgarUrl;
 // ============================================
 // Company Registry
 // ============================================
@@ -18,6 +19,7 @@ exports.PHARMA_COMPANIES = {
     MRK: {
         ticker: 'MRK',
         name: 'Merck & Co.',
+        cik: '0000310158',
         irPageUrl: 'https://www.merck.com/investor-relations/',
         cdnBase: 'https://s21.q4cdn.com/488056881/files/doc_presentations/',
         urlPatterns: {
@@ -26,29 +28,10 @@ exports.PHARMA_COMPANIES = {
         },
         verified: true,
     },
-    BMY: {
-        ticker: 'BMY',
-        name: 'Bristol-Myers Squibb',
-        irPageUrl: 'https://www.bms.com/investors.html',
-        cdnBase: 'https://s21.q4cdn.com/104322789/files/doc_presentations/',
-        urlPatterns: {
-            jpm: 'https://s21.q4cdn.com/104322789/files/doc_presentations/{year}-JPM-Healthcare-Conference.pdf',
-        },
-        verified: true,
-    },
-    AZN: {
-        ticker: 'AZN',
-        name: 'AstraZeneca',
-        irPageUrl: 'https://www.astrazeneca.com/investor-relations.html',
-        cdnBase: 'https://www.astrazeneca.com/content/dam/az/Investor_Relations/',
-        urlPatterns: {
-            jpm: 'https://www.astrazeneca.com/content/dam/az/Investor_Relations/JPM-{year}-presentation.pdf',
-        },
-        verified: true,
-    },
     PFE: {
         ticker: 'PFE',
         name: 'Pfizer Inc.',
+        cik: '0000078003',
         irPageUrl: 'https://investors.pfizer.com/',
         cdnBase: 'https://s28.q4cdn.com/781576035/files/doc_presentations/',
         urlPatterns: {
@@ -56,58 +39,89 @@ exports.PHARMA_COMPANIES = {
         },
         verified: true,
     },
+    JNJ: {
+        ticker: 'JNJ',
+        name: 'Johnson & Johnson',
+        cik: '0000200406',
+        irPageUrl: 'https://www.investor.jnj.com/',
+        verified: false,
+    },
     LLY: {
         ticker: 'LLY',
         name: 'Eli Lilly and Company',
+        cik: '0000059478',
         irPageUrl: 'https://investor.lilly.com/',
         verified: false,
     },
     ABBV: {
         ticker: 'ABBV',
         name: 'AbbVie Inc.',
+        cik: '0001551152',
         irPageUrl: 'https://investors.abbvie.com/',
         verified: false,
     },
-    JNJ: {
-        ticker: 'JNJ',
-        name: 'Johnson & Johnson',
-        irPageUrl: 'https://www.investor.jnj.com/',
-        verified: false,
-    },
-    NVS: {
-        ticker: 'NVS',
-        name: 'Novartis AG',
-        irPageUrl: 'https://www.novartis.com/investors',
-        verified: false,
-    },
-    ROG: {
-        ticker: 'ROG',
-        name: 'Roche Holding AG',
-        irPageUrl: 'https://www.roche.com/investors',
-        verified: false,
+    BMY: {
+        ticker: 'BMY',
+        name: 'Bristol-Myers Squibb',
+        cik: '0000014272',
+        irPageUrl: 'https://www.bms.com/investors.html',
+        cdnBase: 'https://s21.q4cdn.com/104322789/files/doc_presentations/',
+        urlPatterns: {
+            jpm: 'https://s21.q4cdn.com/104322789/files/doc_presentations/{year}-JPM-Healthcare-Conference.pdf',
+        },
+        verified: true,
     },
     AMGN: {
         ticker: 'AMGN',
         name: 'Amgen Inc.',
+        cik: '0000318154',
         irPageUrl: 'https://investors.amgen.com/',
         verified: false,
     },
     GILD: {
         ticker: 'GILD',
         name: 'Gilead Sciences',
+        cik: '0000882095',
         irPageUrl: 'https://investors.gilead.com/',
         verified: false,
     },
-    REGN: {
-        ticker: 'REGN',
-        name: 'Regeneron Pharmaceuticals',
-        irPageUrl: 'https://investor.regeneron.com/',
+    AZN: {
+        ticker: 'AZN',
+        name: 'AstraZeneca',
+        cik: '0000901832',
+        irPageUrl: 'https://www.astrazeneca.com/investor-relations.html',
+        cdnBase: 'https://www.astrazeneca.com/content/dam/az/Investor_Relations/',
+        urlPatterns: {
+            jpm: 'https://www.astrazeneca.com/content/dam/az/Investor_Relations/JPM-{year}-presentation.pdf',
+        },
+        verified: true,
+    },
+    NVS: {
+        ticker: 'NVS',
+        name: 'Novartis AG',
+        cik: '0001114448',
+        irPageUrl: 'https://www.novartis.com/investors',
         verified: false,
     },
-    VRTX: {
-        ticker: 'VRTX',
-        name: 'Vertex Pharmaceuticals',
-        irPageUrl: 'https://investors.vrtx.com/',
+    SNY: {
+        ticker: 'SNY',
+        name: 'Sanofi',
+        cik: '0001121404',
+        irPageUrl: 'https://www.sanofi.com/en/investors',
+        verified: false,
+    },
+    GSK: {
+        ticker: 'GSK',
+        name: 'GSK plc',
+        cik: '0001131399',
+        irPageUrl: 'https://www.gsk.com/en-gb/investors/',
+        verified: false,
+    },
+    RHHBY: {
+        ticker: 'RHHBY',
+        name: 'Roche Holding AG',
+        cik: '0001140262',
+        irPageUrl: 'https://www.roche.com/investors',
         verified: false,
     },
 };
@@ -149,5 +163,14 @@ function getJPM2026Urls() {
         name: company.name,
         url: buildPresentationUrl(company.ticker, 'jpm', { year: 2026 }),
     }));
+}
+/**
+ * Get SEC EDGAR URL for a company
+ */
+function getSecEdgarUrl(ticker) {
+    const company = exports.PHARMA_COMPANIES[ticker.toUpperCase()];
+    if (!company)
+        return null;
+    return `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${company.cik}&type=10-K&dateb=&owner=include&count=40`;
 }
 //# sourceMappingURL=pharma-registry.js.map

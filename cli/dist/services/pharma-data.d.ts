@@ -17,6 +17,7 @@ export declare function getPharmaProfile(ticker: string): PharmaProfile | null;
 export declare function getAllPharmaSummary(): {
     ticker: string;
     name: string;
+    cik: string;
     verified: boolean;
     hasData: boolean;
     pipelineCount: number;
