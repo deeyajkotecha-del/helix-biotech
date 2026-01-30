@@ -31,6 +31,8 @@ import { generateExcel, generateCSV } from '../services/export';
 import { getTargetAnalysis, TargetAnalysis } from '../data/target-analysis';
 import { getARWRProfile, getARWRPipeline, getARWRCatalysts, getARWRPresentations, ARWR_PROFILE } from '../data/companies/arwr';
 import { scrapeIRDocuments, isTickerSupported, getSupportedTickers } from '../services/ir-scraper';
+import { FEATURED_COMPANIES, CompanyData, Catalyst } from '../types/company';
+import { getNextCatalyst, getPastCatalysts, getUpcomingCatalysts, formatCatalystDateShort, getCatalystDisplayText } from '../utils/catalyst-utils';
 import { downloadAllDocuments, getDownloadedDocuments } from '../services/pdf-downloader';
 
 // Cache directory for analysis results
@@ -931,293 +933,50 @@ function startServer(port: number): void {
 
     <section class="companies-section">
       <h2>Featured Companies</h2>
-      <p class="companies-meta">Showing 8 companies • Sort by: Market Cap</p>
+      <p class="companies-meta">Showing ${FEATURED_COMPANIES.length} companies • Sort by: Market Cap</p>
 
       <div class="companies-grid">
-        <!-- ARWR -->
-        <div class="company-card">
-          <div class="company-header">
-            <div>
-              <div class="company-ticker">ARWR</div>
-              <div class="company-name">Arrowhead Pharmaceuticals</div>
-            </div>
-            <span class="platform-badge">RNAi</span>
-          </div>
-          <p class="company-desc">Leader in RNAi therapeutics with TRiM platform enabling targeted delivery to liver, lung, muscle, and CNS. First approved drug (Plozasiran) in 2024.</p>
-          <div class="company-stats">
-            <div class="stat">
-              <div class="stat-value">$4.2B</div>
-              <div class="stat-label">Market Cap</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">15</div>
-              <div class="stat-label">Pipeline</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">3</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-          </div>
-          <div class="company-catalyst">
-            <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">SHASTA-3/4 data (H1 2025)</span>
-          </div>
-          <div class="area-tags">
-            <span class="area-tag">Cardiometabolic</span>
-            <span class="area-tag">CNS</span>
-            <span class="area-tag">Pulmonary</span>
-          </div>
-          <a href="/api/company/ARWR/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>
+        ${FEATURED_COMPANIES.map(company => {
+          const nextCatalyst = getNextCatalyst(company.catalysts);
+          const catalystText = nextCatalyst ? getCatalystDisplayText(nextCatalyst) : 'TBD';
+          const thirdStat = company.approvedCount !== undefined && company.approvedCount > 0
+            ? { value: company.approvedCount, label: 'Approved' }
+            : { value: company.phase3Count, label: 'Phase 3' };
 
-        <!-- ALNY -->
+          return `
         <div class="company-card">
           <div class="company-header">
             <div>
-              <div class="company-ticker">ALNY</div>
-              <div class="company-name">Alnylam Pharmaceuticals</div>
+              <div class="company-ticker">${company.ticker}</div>
+              <div class="company-name">${company.name}</div>
             </div>
-            <span class="platform-badge">RNAi</span>
+            <span class="platform-badge">${company.platform}</span>
           </div>
-          <p class="company-desc">Pioneer in RNAi therapeutics with 5 approved drugs including Onpattro and Amvuttra. GalNAc conjugate platform for liver-targeted delivery.</p>
+          <p class="company-desc">${company.description}</p>
           <div class="company-stats">
             <div class="stat">
-              <div class="stat-value">$28.5B</div>
+              <div class="stat-value">${company.marketCap}</div>
               <div class="stat-label">Market Cap</div>
             </div>
             <div class="stat">
-              <div class="stat-value">12</div>
+              <div class="stat-value">${company.pipelineCount}</div>
               <div class="stat-label">Pipeline</div>
             </div>
             <div class="stat">
-              <div class="stat-value">5</div>
-              <div class="stat-label">Approved</div>
+              <div class="stat-value">${thirdStat.value}</div>
+              <div class="stat-label">${thirdStat.label}</div>
             </div>
           </div>
           <div class="company-catalyst">
             <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">Zilebesiran Ph3 data (2025)</span>
+            <span class="catalyst-date">${catalystText}</span>
           </div>
           <div class="area-tags">
-            <span class="area-tag">Rare Disease</span>
-            <span class="area-tag">Cardiometabolic</span>
-            <span class="area-tag">CNS</span>
+            ${company.therapeuticAreas.map(area => `<span class="area-tag">${area}</span>`).join('\n            ')}
           </div>
-          <a href="/api/company/ALNY/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>
-
-        <!-- IONS -->
-        <div class="company-card">
-          <div class="company-header">
-            <div>
-              <div class="company-ticker">IONS</div>
-              <div class="company-name">Ionis Pharmaceuticals</div>
-            </div>
-            <span class="platform-badge">Antisense</span>
-          </div>
-          <p class="company-desc">Leading antisense technology company with 4 approved drugs. LICA platform enables next-gen delivery. Major partnerships with Biogen, AZ, Roche.</p>
-          <div class="company-stats">
-            <div class="stat">
-              <div class="stat-value">$7.8B</div>
-              <div class="stat-label">Market Cap</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">40+</div>
-              <div class="stat-label">Pipeline</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">4</div>
-              <div class="stat-label">Approved</div>
-            </div>
-          </div>
-          <div class="company-catalyst">
-            <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">Olezarsen PDUFA (Dec 2025)</span>
-          </div>
-          <div class="area-tags">
-            <span class="area-tag">Rare Disease</span>
-            <span class="area-tag">CNS</span>
-            <span class="area-tag">Cardiometabolic</span>
-          </div>
-          <a href="/api/company/IONS/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>
-
-        <!-- XENE -->
-        <div class="company-card">
-          <div class="company-header">
-            <div>
-              <div class="company-ticker">XENE</div>
-              <div class="company-name">Xenon Pharmaceuticals</div>
-            </div>
-            <span class="platform-badge">Ion Channel</span>
-          </div>
-          <p class="company-desc">Focused on ion channel drug discovery for epilepsy and pain. Lead asset XEN1101 in Phase 3 for focal epilepsy with breakthrough therapy designation.</p>
-          <div class="company-stats">
-            <div class="stat">
-              <div class="stat-value">$3.1B</div>
-              <div class="stat-label">Market Cap</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">4</div>
-              <div class="stat-label">Pipeline</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">1</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-          </div>
-          <div class="company-catalyst">
-            <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">XEN1101 Ph3 data (H2 2025)</span>
-          </div>
-          <div class="area-tags">
-            <span class="area-tag">CNS</span>
-            <span class="area-tag">Epilepsy</span>
-            <span class="area-tag">Pain</span>
-          </div>
-          <a href="/api/company/XENE/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>
-
-        <!-- MLTX -->
-        <div class="company-card">
-          <div class="company-header">
-            <div>
-              <div class="company-ticker">MLTX</div>
-              <div class="company-name">MoonLake Immunotherapeutics</div>
-            </div>
-            <span class="platform-badge">Antibody</span>
-          </div>
-          <p class="company-desc">Developing sonelokimab, a tri-specific nanobody targeting IL-17A/F for psoriatic diseases. Phase 3 programs in psoriasis, PsA, and axSpA.</p>
-          <div class="company-stats">
-            <div class="stat">
-              <div class="stat-value">$4.8B</div>
-              <div class="stat-label">Market Cap</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">1</div>
-              <div class="stat-label">Pipeline</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">3</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-          </div>
-          <div class="company-catalyst">
-            <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">VEGA Ph3 topline (H1 2026)</span>
-          </div>
-          <div class="area-tags">
-            <span class="area-tag">Immunology</span>
-            <span class="area-tag">Dermatology</span>
-          </div>
-          <a href="/api/company/MLTX/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>
-
-        <!-- VKTX -->
-        <div class="company-card">
-          <div class="company-header">
-            <div>
-              <div class="company-ticker">VKTX</div>
-              <div class="company-name">Viking Therapeutics</div>
-            </div>
-            <span class="platform-badge">Small Molecule</span>
-          </div>
-          <p class="company-desc">Developing oral GLP-1/GIP agonist VK2735 for obesity/MASH. Best-in-class oral weight loss profile with 14.7% weight loss at 13 weeks.</p>
-          <div class="company-stats">
-            <div class="stat">
-              <div class="stat-value">$6.2B</div>
-              <div class="stat-label">Market Cap</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">3</div>
-              <div class="stat-label">Pipeline</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">1</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-          </div>
-          <div class="company-catalyst">
-            <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">VK2735 VENTURE Ph3 (2025)</span>
-          </div>
-          <div class="area-tags">
-            <span class="area-tag">Metabolic</span>
-            <span class="area-tag">Obesity</span>
-            <span class="area-tag">MASH</span>
-          </div>
-          <a href="/api/company/VKTX/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>
-
-        <!-- IMVT -->
-        <div class="company-card">
-          <div class="company-header">
-            <div>
-              <div class="company-ticker">IMVT</div>
-              <div class="company-name">Immunovant</div>
-            </div>
-            <span class="platform-badge">Antibody</span>
-          </div>
-          <p class="company-desc">Developing batoclimab, an anti-FcRn antibody for autoimmune diseases. Phase 3 programs in myasthenia gravis, TED, and CIDP.</p>
-          <div class="company-stats">
-            <div class="stat">
-              <div class="stat-value">$5.1B</div>
-              <div class="stat-label">Market Cap</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">1</div>
-              <div class="stat-label">Pipeline</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">3</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-          </div>
-          <div class="company-catalyst">
-            <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">MG Ph3 topline (H2 2025)</span>
-          </div>
-          <div class="area-tags">
-            <span class="area-tag">Immunology</span>
-            <span class="area-tag">Rare Disease</span>
-          </div>
-          <a href="/api/company/IMVT/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>
-
-        <!-- RCKT -->
-        <div class="company-card">
-          <div class="company-header">
-            <div>
-              <div class="company-ticker">RCKT</div>
-              <div class="company-name">Rocket Pharmaceuticals</div>
-            </div>
-            <span class="platform-badge">Gene Therapy</span>
-          </div>
-          <p class="company-desc">Gene therapy company with first approved product Rocket Fuel (RP-L201) for LAD-I. Pipeline includes FA, PKD, and Danon disease programs.</p>
-          <div class="company-stats">
-            <div class="stat">
-              <div class="stat-value">$1.8B</div>
-              <div class="stat-label">Market Cap</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">4</div>
-              <div class="stat-label">Pipeline</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">1</div>
-              <div class="stat-label">Approved</div>
-            </div>
-          </div>
-          <div class="company-catalyst">
-            <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">RP-A501 BLA filing (2025)</span>
-          </div>
-          <div class="area-tags">
-            <span class="area-tag">Rare Disease</span>
-            <span class="area-tag">Hematology</span>
-          </div>
-          <a href="/api/company/RCKT/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>
+          <a href="/api/company/${company.ticker}/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
+        </div>`;
+        }).join('')}
       </div>
     </section>
   </div>
