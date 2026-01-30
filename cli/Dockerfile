@@ -5,16 +5,23 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only
-RUN npm ci --only=production
+# Install ALL dependencies (including dev deps for building)
+RUN npm ci
 
-# Copy built files
-COPY dist ./dist
+# Copy source files
+COPY tsconfig.json ./
+COPY src ./src
+
+# Build TypeScript
+RUN npm run build
+
+# Remove dev dependencies after build
+RUN npm prune --production
 
 # Create cache directory
 RUN mkdir -p cache
 
-# Expose port (Railway will override with PORT env var)
+# Expose port (Railway/Render will override with PORT env var)
 EXPOSE 3001
 
 # Health check
