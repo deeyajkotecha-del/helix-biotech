@@ -266,7 +266,7 @@ function startServer(port: number): void {
       <nav class="nav">
         <div class="nav-links">
           <a href="#categories">Targets</a>
-          <a href="#pharma">Companies</a>
+          <a href="/companies">Companies</a>
           <a href="#features">Research</a>
           <a href="#">About</a>
         </div>
@@ -544,7 +544,7 @@ function startServer(port: number): void {
       <a href="/" class="logo">Satya<span>Bio</span></a>
       <nav class="nav-links">
         <a href="/#categories">Targets</a>
-        <a href="/#pharma">Companies</a>
+        <a href="/companies">Companies</a>
         <a href="/research" class="active">Research</a>
         <a href="#">About</a>
       </nav>
@@ -1380,7 +1380,7 @@ function startServer(port: number): void {
       <a href="/" class="logo">Satya<span>Bio</span></a>
       <nav class="nav-links">
         <a href="/#categories">Targets</a>
-        <a href="/#pharma">Companies</a>
+        <a href="/companies">Companies</a>
         <a href="/research" class="active">Research</a>
         <a href="#">About</a>
       </nav>
