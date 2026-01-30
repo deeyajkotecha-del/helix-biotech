@@ -632,132 +632,112 @@ function startServer(port: number): void {
 </html>`);
   });
 
-  // Companies Marketplace Page
+  // Companies Marketplace Page (Elion-style)
   app.get('/companies', (_req: Request, res: Response) => {
+    const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Explore Biotech Companies | Satya Bio</title>
-  <meta name="description" content="Deep-dive research on 200+ public biotechs with pipeline analysis, clinical data, and catalyst tracking.">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Companies | Satya Bio</title>
+  <meta name="description" content="Browse biotech companies by category, stage, and therapeutic area.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #1a2b3c;
-      --primary-light: #2d4a5e;
+      --navy: #1a2b3c;
+      --navy-light: #2d4a6f;
       --accent: #e07a5f;
-      --accent-hover: #d06a4f;
-      --accent-light: #fef5f3;
-      --highlight: #fef08a;
       --bg: #fafaf8;
       --surface: #ffffff;
       --border: #e5e5e0;
-      --border-light: #eeeeea;
       --text: #1a1d21;
       --text-secondary: #5f6368;
       --text-muted: #9aa0a6;
-      --success: #10b981;
-      --info: #3b82f6;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
 
     /* Header */
-    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 72px; position: sticky; top: 0; z-index: 100; }
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px; position: sticky; top: 0; z-index: 100; }
     .header-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
-    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+    .logo { font-size: 1.25rem; font-weight: 700; color: var(--navy); text-decoration: none; }
     .logo span { color: var(--accent); }
-    .nav-links { display: flex; gap: 32px; }
-    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+    .nav-links a:hover, .nav-links a.active { color: var(--navy); }
     .nav-cta { display: flex; gap: 12px; }
-    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-weight: 600; text-decoration: none; }
-    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
-    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-ghost { padding: 8px 16px; color: var(--text-secondary); font-weight: 500; text-decoration: none; font-size: 0.9rem; }
+    .btn-primary { padding: 8px 18px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 6px; font-size: 0.9rem; }
 
-    /* Hero with floating circles */
-    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 80px 32px; text-align: center; position: relative; overflow: hidden; }
-    .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; }
-    .circle { position: absolute; border-radius: 50%; opacity: 0.15; animation: float 20s ease-in-out infinite; }
-    .circle-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #fef08a 0%, #fde68a 100%); top: -100px; right: 10%; animation-delay: 0s; }
-    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #fef5f3 0%, #fecaca 100%); bottom: -50px; left: 5%; animation-delay: -5s; }
-    .circle-3 { width: 150px; height: 150px; background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); top: 20%; right: 5%; animation-delay: -10s; }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      25% { transform: translate(20px, -20px) rotate(5deg); }
-      50% { transform: translate(-10px, 20px) rotate(-5deg); }
-      75% { transform: translate(-20px, -10px) rotate(3deg); }
-    }
-    .hero-content { position: relative; z-index: 1; }
-    .hero h1 { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: white; margin-bottom: 16px; }
-    .hero p { color: rgba(255,255,255,0.85); font-size: 1.2rem; max-width: 700px; margin: 0 auto 32px; }
+    /* Main Container */
+    .main { max-width: 1400px; margin: 0 auto; padding: 32px; }
 
-    /* Search Box */
-    .search-container { max-width: 600px; margin: 0 auto; }
-    .search-box { display: flex; background: var(--surface); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-    .search-box input { flex: 1; padding: 16px 24px; font-size: 1rem; border: none; outline: none; font-family: inherit; }
-    .search-box input::placeholder { color: var(--text-muted); }
-    .search-box button { padding: 16px 28px; background: var(--accent); color: white; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-    .search-box button:hover { background: var(--accent-hover); }
+    /* Page Title */
+    .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-bottom: 24px; }
 
-    /* Main Layout */
-    .main { max-width: 1400px; margin: 0 auto; padding: 40px 32px; display: grid; grid-template-columns: 280px 1fr; gap: 40px; }
-    @media (max-width: 968px) { .main { grid-template-columns: 1fr; } }
+    /* Filter Pills */
+    .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; align-items: center; }
+    .filter-pill { padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.15s; text-decoration: none; }
+    .filter-pill:hover { border-color: var(--navy); color: var(--navy); }
+    .filter-pill.active { background: var(--navy); border-color: var(--navy); color: white; }
+    .filter-reset { padding: 8px 16px; background: transparent; border: none; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; font-weight: 500; }
+    .filter-reset:hover { color: var(--accent); }
 
-    /* Sidebar Filters */
-    .sidebar { position: sticky; top: 112px; height: fit-content; }
-    .filter-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-    .filter-section h3 { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
-    .filter-options { display: flex; flex-direction: column; gap: 8px; }
-    .filter-option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
-    .filter-option:hover { border-color: var(--accent); background: var(--accent-light); }
-    .filter-option.active { border-color: var(--accent); background: var(--accent-light); }
-    .filter-option input { display: none; }
-    .filter-checkbox { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
-    .filter-option.active .filter-checkbox { background: var(--accent); border-color: var(--accent); }
-    .filter-option.active .filter-checkbox::after { content: '✓'; color: white; font-size: 12px; font-weight: 700; }
-    .filter-count { margin-left: auto; font-size: 0.8rem; color: var(--text-muted); background: var(--border-light); padding: 2px 8px; border-radius: 10px; }
+    /* Recently Viewed */
+    .recent-section { margin-bottom: 40px; }
+    .recent-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .recent-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .recent-pill { padding: 6px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; font-size: 0.85rem; color: var(--text); text-decoration: none; transition: all 0.15s; }
+    .recent-pill:hover { border-color: var(--accent); background: #fef5f3; }
+    .recent-pill .ticker { font-weight: 600; margin-right: 4px; }
 
-    /* Companies Grid */
-    .companies-section h2 { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; }
-    .companies-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
-    .companies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    /* Category Grid */
+    .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
 
-    /* Company Card */
-    .company-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.25s; display: flex; flex-direction: column; }
-    .company-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: var(--accent); }
-    .company-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-    .company-ticker { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--primary); }
-    .company-name { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 8px; }
-    .platform-badge { display: inline-block; padding: 4px 12px; background: var(--accent-light); color: var(--accent); font-size: 0.75rem; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
-    .company-desc { color: var(--text-secondary); font-size: 0.9rem; margin: 16px 0; flex: 1; line-height: 1.5; }
-    .company-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding-top: 16px; border-top: 1px solid var(--border-light); margin-bottom: 16px; }
-    .stat { text-align: center; }
-    .stat-value { font-size: 1rem; font-weight: 700; color: var(--primary); }
-    .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
-    .company-catalyst { background: var(--highlight); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px; }
-    .catalyst-label { font-weight: 600; color: var(--primary); }
-    .catalyst-date { color: var(--text-secondary); }
-    .view-btn { display: block; width: 100%; padding: 12px; background: var(--primary); color: white; text-align: center; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; }
-    .view-btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+    /* Category Card */
+    .category-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+    .category-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+    .category-title { font-size: 1rem; font-weight: 600; color: var(--navy); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .category-title:hover { color: var(--accent); }
+    .category-count { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
 
-    /* Therapeutic Area Tags */
-    .area-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-    .area-tag { padding: 3px 10px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 12px; font-size: 0.75rem; color: var(--text-secondary); }
+    /* Subcategory */
+    .subcategory { border-bottom: 1px solid #f0f0ec; }
+    .subcategory:last-child { border-bottom: none; }
+    .subcategory-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; cursor: pointer; }
+    .subcategory-header:hover { color: var(--accent); }
+    .subcategory-name { font-size: 0.9rem; font-weight: 500; color: var(--text); }
+    .subcategory-right { display: flex; align-items: center; gap: 8px; }
+    .subcategory-count { font-size: 0.85rem; color: var(--text-muted); }
+    .expand-icon { font-size: 0.75rem; color: var(--text-muted); transition: transform 0.2s; width: 16px; text-align: center; }
+    .subcategory.expanded .expand-icon { transform: rotate(180deg); }
+
+    /* Company List */
+    .company-list { display: none; padding-left: 16px; padding-bottom: 8px; }
+    .subcategory.expanded .company-list { display: block; }
+    .company-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5f5f2; text-decoration: none; color: inherit; }
+    .company-item:last-child { border-bottom: none; }
+    .company-item:hover { color: var(--accent); }
+    .company-info { display: flex; align-items: center; gap: 8px; }
+    .company-ticker { font-weight: 600; font-size: 0.85rem; color: var(--navy); min-width: 50px; }
+    .company-name { font-size: 0.85rem; color: var(--text-secondary); }
+    .company-item:hover .company-ticker { color: var(--accent); }
+
+    /* Card Footer */
+    .card-footer { padding-top: 12px; margin-top: 8px; border-top: 1px solid var(--border); }
+    .updated-text { font-size: 0.75rem; color: var(--text-muted); }
 
     /* Footer */
-    .footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 48px 32px; text-align: center; margin-top: 64px; }
-    .footer p { font-size: 0.9rem; }
+    .footer { background: var(--navy); color: rgba(255,255,255,0.7); padding: 32px; text-align: center; margin-top: 64px; }
+    .footer p { font-size: 0.85rem; }
 
     /* Mobile */
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .hero { padding: 60px 20px; }
-      .hero h1 { font-size: 2rem; }
-      .main { padding: 24px 20px; }
-      .sidebar { display: none; }
-      .companies-grid { grid-template-columns: 1fr; }
+      .main { padding: 20px 16px; }
+      .category-grid { grid-template-columns: 1fr; }
+      .filter-bar { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 8px; }
     }
   </style>
 </head>
@@ -778,221 +758,496 @@ function startServer(port: number): void {
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-bg">
-      <div class="circle circle-1"></div>
-      <div class="circle circle-2"></div>
-      <div class="circle circle-3"></div>
+  <main class="main">
+    <h1 class="page-title">Companies</h1>
+
+    <!-- Filter Pills -->
+    <div class="filter-bar">
+      <span class="filter-pill" onclick="filterByTag('large-cap')">Large Cap</span>
+      <span class="filter-pill" onclick="filterByTag('platform')">Platform</span>
+      <span class="filter-pill" onclick="filterByTag('commercial')">Commercial</span>
+      <span class="filter-pill" onclick="filterByTag('oncology')">Clinical Oncology</span>
+      <span class="filter-pill" onclick="filterByTag('immunology')">Clinical I&I</span>
+      <span class="filter-pill" onclick="filterByTag('neuro')">Clinical Neuro</span>
+      <span class="filter-pill" onclick="filterByTag('rare')">Clinical Rare</span>
+      <span class="filter-pill" onclick="filterByTag('tools')">Tools</span>
+      <button class="filter-reset" onclick="resetFilters()">Reset</button>
     </div>
-    <div class="hero-content">
-      <h1>Explore Biotech Companies</h1>
-      <p>Deep-dive research on 200+ public biotechs with pipeline analysis, clinical data, and catalyst tracking.</p>
-      <div class="search-container">
-        <form class="search-box" onsubmit="event.preventDefault(); filterCompanies();">
-          <input type="text" id="company-search" placeholder="Search by ticker, name, or platform...">
-          <button type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </section>
 
-  <div class="main">
-    <aside class="sidebar">
-      <div class="filter-section">
-        <h3>By Platform</h3>
-        <div class="filter-options">
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="rnai">
-            <span class="filter-checkbox"></span>
-            RNAi / siRNA
-            <span class="filter-count">3</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="adc">
-            <span class="filter-checkbox"></span>
-            ADC
-            <span class="filter-count">12</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="gene-therapy">
-            <span class="filter-checkbox"></span>
-            Gene Therapy
-            <span class="filter-count">8</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="cell-therapy">
-            <span class="filter-checkbox"></span>
-            Cell Therapy
-            <span class="filter-count">15</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="small-molecule">
-            <span class="filter-checkbox"></span>
-            Small Molecule
-            <span class="filter-count">45</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="antibody">
-            <span class="filter-checkbox"></span>
-            Antibody
-            <span class="filter-count">28</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <h3>By Therapeutic Area</h3>
-        <div class="filter-options">
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="oncology">
-            <span class="filter-checkbox"></span>
-            Oncology
-            <span class="filter-count">67</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="cardio">
-            <span class="filter-checkbox"></span>
-            Cardiovascular
-            <span class="filter-count">18</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="cns">
-            <span class="filter-checkbox"></span>
-            CNS / Neuro
-            <span class="filter-count">24</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="rare">
-            <span class="filter-checkbox"></span>
-            Rare Disease
-            <span class="filter-count">31</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="immunology">
-            <span class="filter-checkbox"></span>
-            Immunology
-            <span class="filter-count">22</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <h3>By Market Cap</h3>
-        <div class="filter-options">
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="large">
-            <span class="filter-checkbox"></span>
-            Large Cap (&gt;$10B)
-            <span class="filter-count">15</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="mid">
-            <span class="filter-checkbox"></span>
-            Mid Cap ($1-10B)
-            <span class="filter-count">42</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="small">
-            <span class="filter-checkbox"></span>
-            Small Cap (&lt;$1B)
-            <span class="filter-count">89</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <h3>By Phase</h3>
-        <div class="filter-options">
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="approved">
-            <span class="filter-checkbox"></span>
-            Has Approved Drug
-            <span class="filter-count">28</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="phase3">
-            <span class="filter-checkbox"></span>
-            Phase 3
-            <span class="filter-count">54</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="phase2">
-            <span class="filter-checkbox"></span>
-            Phase 2
-            <span class="filter-count">87</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="phase1">
-            <span class="filter-checkbox"></span>
-            Phase 1
-            <span class="filter-count">112</span>
-          </label>
-        </div>
-      </div>
-    </aside>
-
-    <section class="companies-section">
-      <h2>Featured Companies</h2>
-      <p class="companies-meta">Showing ${FEATURED_COMPANIES.length} companies • Sort by: Market Cap</p>
-
-      <div class="companies-grid">
-        ${FEATURED_COMPANIES.map(company => {
-          const nextCatalyst = getNextCatalyst(company.catalysts);
-          const catalystText = nextCatalyst ? getCatalystDisplayText(nextCatalyst) : 'TBD';
-          const thirdStat = company.approvedCount !== undefined && company.approvedCount > 0
-            ? { value: company.approvedCount, label: 'Approved' }
-            : { value: company.phase3Count, label: 'Phase 3' };
-
-          return `
-        <div class="company-card">
-          <div class="company-header">
-            <div>
-              <div class="company-ticker">${company.ticker}</div>
-              <div class="company-name">${company.name}</div>
-            </div>
-            <span class="platform-badge">${company.platform}</span>
-          </div>
-          <p class="company-desc">${company.description}</p>
-          <div class="company-stats">
-            <div class="stat">
-              <div class="stat-value">${company.marketCap}</div>
-              <div class="stat-label">Market Cap</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">${company.pipelineCount}</div>
-              <div class="stat-label">Pipeline</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">${thirdStat.value}</div>
-              <div class="stat-label">${thirdStat.label}</div>
-            </div>
-          </div>
-          <div class="company-catalyst">
-            <span class="catalyst-label">Next Catalyst:</span>
-            <span class="catalyst-date">${catalystText}</span>
-          </div>
-          <div class="area-tags">
-            ${company.therapeuticAreas.map(area => `<span class="area-tag">${area}</span>`).join('\n            ')}
-          </div>
-          <a href="/api/company/${company.ticker}/html" class="view-btn" style="margin-top: 16px;">View Company →</a>
-        </div>`;
-        }).join('')}
+    <!-- Recently Viewed -->
+    <section class="recent-section">
+      <div class="recent-label">Recently Viewed</div>
+      <div class="recent-pills">
+        <a href="/api/company/ARWR/html" class="recent-pill"><span class="ticker">ARWR</span> Arrowhead</a>
+        <a href="/api/company/VKTX/html" class="recent-pill"><span class="ticker">VKTX</span> Viking</a>
+        <a href="/api/company/ALNY/html" class="recent-pill"><span class="ticker">ALNY</span> Alnylam</a>
+        <a href="/api/company/XENE/html" class="recent-pill"><span class="ticker">XENE</span> Xenon</a>
       </div>
     </section>
-  </div>
+
+    <!-- Category Grid -->
+    <div class="category-grid">
+      <!-- Commercial Stage -->
+      <div class="category-card" data-tags="commercial large-cap platform">
+        <div class="category-header">
+          <span class="category-title">Commercial Stage</span>
+          <span class="category-count">29</span>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Large Cap Biopharma</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">6</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/REGN/html" class="company-item"><div class="company-info"><span class="company-ticker">REGN</span><span class="company-name">Regeneron</span></div></a>
+            <a href="/api/company/VRTX/html" class="company-item"><div class="company-info"><span class="company-ticker">VRTX</span><span class="company-name">Vertex</span></div></a>
+            <a href="/api/company/GILD/html" class="company-item"><div class="company-info"><span class="company-ticker">GILD</span><span class="company-name">Gilead</span></div></a>
+            <a href="/api/company/AMGN/html" class="company-item"><div class="company-info"><span class="company-ticker">AMGN</span><span class="company-name">Amgen</span></div></a>
+            <a href="/api/company/BMRN/html" class="company-item"><div class="company-info"><span class="company-ticker">BMRN</span><span class="company-name">BioMarin</span></div></a>
+            <a href="/api/company/ALNY/html" class="company-item"><div class="company-info"><span class="company-ticker">ALNY</span><span class="company-name">Alnylam</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Platform Biotech</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">7</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/MRNA/html" class="company-item"><div class="company-info"><span class="company-ticker">MRNA</span><span class="company-name">Moderna</span></div></a>
+            <a href="/api/company/IONS/html" class="company-item"><div class="company-info"><span class="company-ticker">IONS</span><span class="company-name">Ionis</span></div></a>
+            <a href="/api/company/ARWR/html" class="company-item"><div class="company-info"><span class="company-ticker">ARWR</span><span class="company-name">Arrowhead</span></div></a>
+            <a href="/api/company/EXEL/html" class="company-item"><div class="company-info"><span class="company-ticker">EXEL</span><span class="company-name">Exelixis</span></div></a>
+            <a href="/api/company/SRPT/html" class="company-item"><div class="company-info"><span class="company-ticker">SRPT</span><span class="company-name">Sarepta</span></div></a>
+            <a href="/api/company/BLUE/html" class="company-item"><div class="company-info"><span class="company-ticker">BLUE</span><span class="company-name">Bluebird Bio</span></div></a>
+            <a href="/api/company/NTLA/html" class="company-item"><div class="company-info"><span class="company-ticker">NTLA</span><span class="company-name">Intellia</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Specialty Commercial</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">16</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/INCY/html" class="company-item"><div class="company-info"><span class="company-ticker">INCY</span><span class="company-name">Incyte</span></div></a>
+            <a href="/api/company/UTHR/html" class="company-item"><div class="company-info"><span class="company-ticker">UTHR</span><span class="company-name">United Therapeutics</span></div></a>
+            <a href="/api/company/NBIX/html" class="company-item"><div class="company-info"><span class="company-ticker">NBIX</span><span class="company-name">Neurocrine</span></div></a>
+            <a href="/api/company/HALO/html" class="company-item"><div class="company-info"><span class="company-ticker">HALO</span><span class="company-name">Halozyme</span></div></a>
+            <a href="/api/company/BPMC/html" class="company-item"><div class="company-info"><span class="company-ticker">BPMC</span><span class="company-name">Blueprint Medicines</span></div></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="updated-text">Updated ${today}</span>
+        </div>
+      </div>
+
+      <!-- Clinical Oncology -->
+      <div class="category-card" data-tags="oncology">
+        <div class="category-header">
+          <span class="category-title">Clinical Oncology</span>
+          <span class="category-count">12</span>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Targeted Therapy</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">5</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/RVMD/html" class="company-item"><div class="company-info"><span class="company-ticker">RVMD</span><span class="company-name">Revolution Medicines</span></div></a>
+            <a href="/api/company/RLAY/html" class="company-item"><div class="company-info"><span class="company-ticker">RLAY</span><span class="company-name">Relay Therapeutics</span></div></a>
+            <a href="/api/company/KYMR/html" class="company-item"><div class="company-info"><span class="company-ticker">KYMR</span><span class="company-name">Kymera</span></div></a>
+            <a href="/api/company/ARVN/html" class="company-item"><div class="company-info"><span class="company-ticker">ARVN</span><span class="company-name">Arvinas</span></div></a>
+            <a href="/api/company/NUVB/html" class="company-item"><div class="company-info"><span class="company-ticker">NUVB</span><span class="company-name">Nuvation Bio</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Immunotherapy</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">4</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/IMAB/html" class="company-item"><div class="company-info"><span class="company-ticker">IMAB</span><span class="company-name">I-Mab</span></div></a>
+            <a href="/api/company/AGEN/html" class="company-item"><div class="company-info"><span class="company-ticker">AGEN</span><span class="company-name">Agenus</span></div></a>
+            <a href="/api/company/IOVA/html" class="company-item"><div class="company-info"><span class="company-ticker">IOVA</span><span class="company-name">Iovance</span></div></a>
+            <a href="/api/company/FATE/html" class="company-item"><div class="company-info"><span class="company-ticker">FATE</span><span class="company-name">Fate Therapeutics</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">ADC / Payload</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">3</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/IMGN/html" class="company-item"><div class="company-info"><span class="company-ticker">IMGN</span><span class="company-name">ImmunoGen</span></div></a>
+            <a href="/api/company/MGNX/html" class="company-item"><div class="company-info"><span class="company-ticker">MGNX</span><span class="company-name">MacroGenics</span></div></a>
+            <a href="/api/company/SGEN/html" class="company-item"><div class="company-info"><span class="company-ticker">SGEN</span><span class="company-name">Seagen</span></div></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="updated-text">Updated ${today}</span>
+        </div>
+      </div>
+
+      <!-- Clinical I&I -->
+      <div class="category-card" data-tags="immunology">
+        <div class="category-header">
+          <span class="category-title">Clinical I&I</span>
+          <span class="category-count">8</span>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Inflammation</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">4</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/MLTX/html" class="company-item"><div class="company-info"><span class="company-ticker">MLTX</span><span class="company-name">MoonLake</span></div></a>
+            <a href="/api/company/RXDX/html" class="company-item"><div class="company-info"><span class="company-ticker">RXDX</span><span class="company-name">Prometheus Bio</span></div></a>
+            <a href="/api/company/ANAB/html" class="company-item"><div class="company-info"><span class="company-ticker">ANAB</span><span class="company-name">AnaptysBio</span></div></a>
+            <a href="/api/company/DICE/html" class="company-item"><div class="company-info"><span class="company-ticker">DICE</span><span class="company-name">DICE Therapeutics</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Autoimmune</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">4</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/IMVT/html" class="company-item"><div class="company-info"><span class="company-ticker">IMVT</span><span class="company-name">Immunovant</span></div></a>
+            <a href="/api/company/ARGX/html" class="company-item"><div class="company-info"><span class="company-ticker">ARGX</span><span class="company-name">argenx</span></div></a>
+            <a href="/api/company/HRMY/html" class="company-item"><div class="company-info"><span class="company-ticker">HRMY</span><span class="company-name">Harmony Bio</span></div></a>
+            <a href="/api/company/CABA/html" class="company-item"><div class="company-info"><span class="company-ticker">CABA</span><span class="company-name">Cabaletta Bio</span></div></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="updated-text">Updated ${today}</span>
+        </div>
+      </div>
+
+      <!-- Clinical Neuropsychiatry -->
+      <div class="category-card" data-tags="neuro">
+        <div class="category-header">
+          <span class="category-title">Clinical Neuropsychiatry</span>
+          <span class="category-count">7</span>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Psychiatry</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">4</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/XENE/html" class="company-item"><div class="company-info"><span class="company-ticker">XENE</span><span class="company-name">Xenon Pharma</span></div></a>
+            <a href="/api/company/CRTX/html" class="company-item"><div class="company-info"><span class="company-ticker">CRTX</span><span class="company-name">Cortexyme</span></div></a>
+            <a href="/api/company/CMPS/html" class="company-item"><div class="company-info"><span class="company-ticker">CMPS</span><span class="company-name">COMPASS Pathways</span></div></a>
+            <a href="/api/company/MNMD/html" class="company-item"><div class="company-info"><span class="company-ticker">MNMD</span><span class="company-name">Mind Medicine</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Neurology</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">3</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/DNLI/html" class="company-item"><div class="company-info"><span class="company-ticker">DNLI</span><span class="company-name">Denali</span></div></a>
+            <a href="/api/company/PRAX/html" class="company-item"><div class="company-info"><span class="company-ticker">PRAX</span><span class="company-name">Praxis Precision</span></div></a>
+            <a href="/api/company/ANNX/html" class="company-item"><div class="company-info"><span class="company-ticker">ANNX</span><span class="company-name">Annexon Bio</span></div></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="updated-text">Updated ${today}</span>
+        </div>
+      </div>
+
+      <!-- Clinical Rare Disease -->
+      <div class="category-card" data-tags="rare">
+        <div class="category-header">
+          <span class="category-title">Clinical Rare Disease</span>
+          <span class="category-count">6</span>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Genetic Diseases</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">3</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/RCKT/html" class="company-item"><div class="company-info"><span class="company-ticker">RCKT</span><span class="company-name">Rocket Pharma</span></div></a>
+            <a href="/api/company/RGNX/html" class="company-item"><div class="company-info"><span class="company-ticker">RGNX</span><span class="company-name">Regenxbio</span></div></a>
+            <a href="/api/company/SGMO/html" class="company-item"><div class="company-info"><span class="company-ticker">SGMO</span><span class="company-name">Sangamo</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Metabolic Rare</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">3</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/FOLD/html" class="company-item"><div class="company-info"><span class="company-ticker">FOLD</span><span class="company-name">Amicus</span></div></a>
+            <a href="/api/company/RARE/html" class="company-item"><div class="company-info"><span class="company-ticker">RARE</span><span class="company-name">Ultragenyx</span></div></a>
+            <a href="/api/company/CPRX/html" class="company-item"><div class="company-info"><span class="company-ticker">CPRX</span><span class="company-name">Catalyst Pharma</span></div></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="updated-text">Updated ${today}</span>
+        </div>
+      </div>
+
+      <!-- Gene Therapy & Editing -->
+      <div class="category-card" data-tags="platform">
+        <div class="category-header">
+          <span class="category-title">Gene Therapy & Editing</span>
+          <span class="category-count">8</span>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Gene Therapy</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">4</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/RCKT/html" class="company-item"><div class="company-info"><span class="company-ticker">RCKT</span><span class="company-name">Rocket Pharma</span></div></a>
+            <a href="/api/company/BLUE/html" class="company-item"><div class="company-info"><span class="company-ticker">BLUE</span><span class="company-name">Bluebird Bio</span></div></a>
+            <a href="/api/company/SRPT/html" class="company-item"><div class="company-info"><span class="company-ticker">SRPT</span><span class="company-name">Sarepta</span></div></a>
+            <a href="/api/company/RGNX/html" class="company-item"><div class="company-info"><span class="company-ticker">RGNX</span><span class="company-name">Regenxbio</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Gene Editing</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">2</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/NTLA/html" class="company-item"><div class="company-info"><span class="company-ticker">NTLA</span><span class="company-name">Intellia</span></div></a>
+            <a href="/api/company/CRSP/html" class="company-item"><div class="company-info"><span class="company-ticker">CRSP</span><span class="company-name">CRISPR Therapeutics</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">RNAi / Antisense</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">2</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/ARWR/html" class="company-item"><div class="company-info"><span class="company-ticker">ARWR</span><span class="company-name">Arrowhead</span></div></a>
+            <a href="/api/company/IONS/html" class="company-item"><div class="company-info"><span class="company-ticker">IONS</span><span class="company-name">Ionis</span></div></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="updated-text">Updated ${today}</span>
+        </div>
+      </div>
+
+      <!-- Metabolic & Cardiovascular -->
+      <div class="category-card" data-tags="commercial">
+        <div class="category-header">
+          <span class="category-title">Metabolic & Cardiovascular</span>
+          <span class="category-count">6</span>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Obesity / GLP-1</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">3</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/VKTX/html" class="company-item"><div class="company-info"><span class="company-ticker">VKTX</span><span class="company-name">Viking Therapeutics</span></div></a>
+            <a href="/api/company/ALTX/html" class="company-item"><div class="company-info"><span class="company-ticker">ALTX</span><span class="company-name">Altimmune</span></div></a>
+            <a href="/api/company/ZEAL/html" class="company-item"><div class="company-info"><span class="company-ticker">ZEAL</span><span class="company-name">Zealand Pharma</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">NASH / Liver</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">2</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/MDGL/html" class="company-item"><div class="company-info"><span class="company-ticker">MDGL</span><span class="company-name">Madrigal</span></div></a>
+            <a href="/api/company/AKRO/html" class="company-item"><div class="company-info"><span class="company-ticker">AKRO</span><span class="company-name">Akero</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Cardiovascular</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">1</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/VRNA/html" class="company-item"><div class="company-info"><span class="company-ticker">VRNA</span><span class="company-name">Verona Pharma</span></div></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="updated-text">Updated ${today}</span>
+        </div>
+      </div>
+
+      <!-- Tools & Services -->
+      <div class="category-card" data-tags="tools">
+        <div class="category-header">
+          <span class="category-title">Tools & Services</span>
+          <span class="category-count">4</span>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Bioprocessing</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">2</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/RGEN/html" class="company-item"><div class="company-info"><span class="company-ticker">RGEN</span><span class="company-name">Repligen</span></div></a>
+            <a href="/api/company/CYTK/html" class="company-item"><div class="company-info"><span class="company-ticker">CYTK</span><span class="company-name">Cytokinetics</span></div></a>
+          </div>
+        </div>
+
+        <div class="subcategory" onclick="toggleSubcategory(this)">
+          <div class="subcategory-header">
+            <span class="subcategory-name">Drug Delivery</span>
+            <div class="subcategory-right">
+              <span class="subcategory-count">2</span>
+              <span class="expand-icon">▼</span>
+            </div>
+          </div>
+          <div class="company-list">
+            <a href="/api/company/HALO/html" class="company-item"><div class="company-info"><span class="company-ticker">HALO</span><span class="company-name">Halozyme</span></div></a>
+            <a href="/api/company/AVRO/html" class="company-item"><div class="company-info"><span class="company-ticker">AVRO</span><span class="company-name">Avrobio</span></div></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <span class="updated-text">Updated ${today}</span>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <footer class="footer">
     <p>© 2026 Satya Bio. Institutional-grade biotech intelligence.</p>
   </footer>
 
   <script>
-    function filterCompanies() {
-      const query = document.getElementById('company-search').value.toLowerCase();
-      const cards = document.querySelectorAll('.company-card');
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(query) ? 'flex' : 'none';
+    // Toggle subcategory expand/collapse
+    function toggleSubcategory(el) {
+      // Prevent event from bubbling to company links
+      if (event.target.closest('.company-item')) return;
+      el.classList.toggle('expanded');
+    }
+
+    // Filter by tag
+    function filterByTag(tag) {
+      const pills = document.querySelectorAll('.filter-pill');
+      const cards = document.querySelectorAll('.category-card');
+
+      // Toggle active state on clicked pill
+      pills.forEach(pill => {
+        if (pill.textContent.toLowerCase().includes(tag.replace('-', ' ').toLowerCase().substring(0, 4))) {
+          pill.classList.toggle('active');
+        }
       });
+
+      // Get all active filters
+      const activeFilters = Array.from(document.querySelectorAll('.filter-pill.active'))
+        .map(p => p.textContent.toLowerCase());
+
+      if (activeFilters.length === 0) {
+        cards.forEach(card => card.style.display = 'block');
+        return;
+      }
+
+      cards.forEach(card => {
+        const cardTags = card.dataset.tags || '';
+        const matches = activeFilters.some(filter => {
+          if (filter.includes('large')) return cardTags.includes('large-cap');
+          if (filter.includes('platform')) return cardTags.includes('platform');
+          if (filter.includes('commercial')) return cardTags.includes('commercial');
+          if (filter.includes('oncology')) return cardTags.includes('oncology');
+          if (filter.includes('i&i')) return cardTags.includes('immunology');
+          if (filter.includes('neuro')) return cardTags.includes('neuro');
+          if (filter.includes('rare')) return cardTags.includes('rare');
+          if (filter.includes('tools')) return cardTags.includes('tools');
+          return false;
+        });
+        card.style.display = matches ? 'block' : 'none';
+      });
+    }
+
+    // Reset filters
+    function resetFilters() {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.category-card').forEach(c => c.style.display = 'block');
     }
   </script>
 </body>
