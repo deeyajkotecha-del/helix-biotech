@@ -164,7 +164,7 @@ function startServer(port) {
     .header { position: sticky; top: 0; z-index: 100; background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); padding: 0 32px; height: 72px; }
     .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
     .logo { font-size: 1.5rem; font-weight: 800; color: var(--text-navy); text-decoration: none; letter-spacing: -0.03em; }
-    .logo span { font-weight: 500; color: var(--text-secondary); }
+    .logo span { font-weight: 800; color: var(--accent); }
     .nav { display: flex; align-items: center; gap: 8px; }
     .nav-links { display: flex; gap: 4px; }
     .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; padding: 10px 16px; border-radius: 8px; transition: all 0.2s; position: relative; }
@@ -254,7 +254,7 @@ function startServer(port) {
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
     @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
     .footer-brand h4 { color: white; font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
-    .footer-brand h4 span { font-weight: 500; opacity: 0.7; }
+    .footer-brand h4 span { font-weight: 800; color: var(--accent); }
     .footer-brand p { font-size: 0.95rem; line-height: 1.6; max-width: 280px; }
     .footer-col h5 { color: white; font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.8px; }
     .footer-col a { display: block; color: #9AA0A6; text-decoration: none; font-size: 0.95rem; margin-bottom: 10px; transition: color 0.2s; }
@@ -481,6 +481,518 @@ function startServer(port) {
         © 2026 Satya Bio. All rights reserved.
       </div>
     </div>
+  </footer>
+</body>
+</html>`);
+    });
+    // Research Listing Page
+    app.get('/research', (_req, res) => {
+        res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research | Satya Bio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a2b3c;
+      --primary-light: #2d4a5e;
+      --accent: #e07a5f;
+      --accent-hover: #d06a4f;
+      --highlight: #fef08a;
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --border: #e5e5e0;
+      --text: #1a1d21;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Header */
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 72px; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-cta { display: flex; gap: 12px; }
+    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-weight: 600; text-decoration: none; }
+    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; }
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    /* Hero */
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 80px 32px; text-align: center; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: white; margin-bottom: 16px; }
+    .hero p { color: rgba(255,255,255,0.8); font-size: 1.2rem; max-width: 600px; margin: 0 auto; }
+
+    /* Reports Grid */
+    .reports { padding: 64px 32px; }
+    .reports-inner { max-width: 1000px; margin: 0 auto; }
+    .reports-header { margin-bottom: 48px; }
+    .reports-header h2 { font-family: 'Fraunces', serif; font-size: 1.75rem; color: var(--primary); margin-bottom: 8px; }
+    .reports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .report-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.25s; text-decoration: none; color: inherit; display: block; }
+    .report-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+    .report-card-image { height: 180px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); display: flex; align-items: center; justify-content: center; }
+    .report-card-image span { font-size: 3rem; }
+    .report-card-content { padding: 24px; }
+    .report-badge { display: inline-block; padding: 4px 12px; background: var(--highlight); color: var(--primary); font-size: 0.75rem; font-weight: 700; border-radius: 4px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .report-card h3 { font-family: 'Fraunces', serif; font-size: 1.25rem; color: var(--primary); margin-bottom: 8px; line-height: 1.3; }
+    .report-card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px; }
+    .report-meta { display: flex; gap: 16px; font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Footer */
+    .footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 48px 32px; text-align: center; }
+    .footer p { font-size: 0.9rem; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2rem; }
+      .reports { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">Satya<span>Bio</span></a>
+      <nav class="nav-links">
+        <a href="/#categories">Targets</a>
+        <a href="/#pharma">Companies</a>
+        <a href="/research" class="active">Research</a>
+        <a href="#">About</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#" class="btn-ghost">Log in</a>
+        <a href="#" class="btn-primary">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Research & Insights</h1>
+    <p>Deep-dive analysis on biotech deal trends, competitive landscapes, and investment opportunities.</p>
+  </section>
+
+  <section class="reports">
+    <div class="reports-inner">
+      <div class="reports-header">
+        <h2>Latest Reports</h2>
+      </div>
+      <div class="reports-grid">
+        <a href="/research/2025-licensing-deals" class="report-card">
+          <div class="report-card-image"><span>📊</span></div>
+          <div class="report-card-content">
+            <span class="report-badge">Deal Intelligence</span>
+            <h3>2024–2025 Biopharma Licensing Deals: A Comprehensive Analysis</h3>
+            <p>Analysis of 389 licensing deals across therapeutic areas, modalities, and development stages.</p>
+            <div class="report-meta">
+              <span>Jan 2026</span>
+              <span>•</span>
+              <span>389 deals analyzed</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/api/report/target/TL1A/html" class="report-card">
+          <div class="report-card-image"><span>🎯</span></div>
+          <div class="report-card-content">
+            <span class="report-badge">Target Landscape</span>
+            <h3>TL1A Inhibitors: The Next Blockbuster IBD Target</h3>
+            <p>Complete competitive landscape with $18.5B+ in committed capital across 9 clinical-stage assets.</p>
+            <div class="report-meta">
+              <span>Jan 2026</span>
+              <span>•</span>
+              <span>9 assets tracked</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="/api/report/target/B7-H3/html" class="report-card">
+          <div class="report-card-image"><span>🔬</span></div>
+          <div class="report-card-content">
+            <span class="report-badge">Target Landscape</span>
+            <h3>B7-H3 ADCs: Racing to First Approval</h3>
+            <p>23 assets in development with $28B+ in total deal value. Phase 3 data readouts expected 2026.</p>
+            <div class="report-meta">
+              <span>Jan 2026</span>
+              <span>•</span>
+              <span>23 assets tracked</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="report-card" style="opacity: 0.6; pointer-events: none;">
+          <div class="report-card-image"><span>🏢</span></div>
+          <div class="report-card-content">
+            <span class="report-badge">Coming Soon</span>
+            <h3>Big Pharma M&A Playbook 2026</h3>
+            <p>Which therapeutic areas are attracting acquisition interest and at what valuations.</p>
+            <div class="report-meta">
+              <span>Feb 2026</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Satya Bio. Institutional-grade biotech intelligence.</p>
+  </footer>
+</body>
+</html>`);
+    });
+    // Research Report: 2025 Licensing Deals
+    app.get('/research/2025-licensing-deals', (_req, res) => {
+        res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2024–2025 Biopharma Licensing Deals | Satya Bio Research</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a2b3c;
+      --primary-light: #2d4a5e;
+      --accent: #e07a5f;
+      --accent-hover: #d06a4f;
+      --accent-light: #fef5f3;
+      --highlight: #fef08a;
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --border: #e5e5e0;
+      --text: #1a1d21;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+      --success: #22c55e;
+      --success-light: #dcfce7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+    /* Header */
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 72px; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-cta { display: flex; gap: 12px; }
+    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-weight: 600; text-decoration: none; }
+    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; }
+
+    /* Report Hero */
+    .report-hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 64px 32px 80px; }
+    .report-hero-inner { max-width: 900px; margin: 0 auto; }
+    .report-badge { display: inline-block; padding: 6px 14px; background: rgba(255,255,255,0.15); color: white; font-size: 0.8rem; font-weight: 700; border-radius: 4px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .report-hero h1 { font-family: 'Fraunces', serif; font-size: 2.75rem; font-weight: 700; color: white; margin-bottom: 16px; line-height: 1.2; }
+    .report-hero .subtitle { color: rgba(255,255,255,0.85); font-size: 1.2rem; margin-bottom: 32px; max-width: 700px; }
+    .report-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+    .report-meta-item { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+    .report-meta-item strong { color: white; font-weight: 600; }
+
+    /* Metrics Bar */
+    .metrics-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 32px; margin-top: -40px; margin-left: 32px; margin-right: 32px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: relative; z-index: 10; }
+    .metrics-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
+    .metric-value { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+    .metric-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* Main Content */
+    .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 48px 32px; display: grid; grid-template-columns: 1fr 300px; gap: 48px; }
+    .main-content { min-width: 0; }
+
+    /* Sidebar */
+    .sidebar { position: sticky; top: 100px; height: fit-content; }
+    .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .sidebar-card h4 { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+    .btn-download { display: block; width: 100%; padding: 14px 20px; text-align: center; font-weight: 600; border-radius: 8px; text-decoration: none; margin-bottom: 12px; transition: all 0.2s; }
+    .btn-download.primary { background: var(--accent); color: white; }
+    .btn-download.primary:hover { background: var(--accent-hover); }
+    .btn-download.secondary { background: var(--surface); color: var(--text); border: 2px solid var(--border); }
+    .btn-download.secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .toc-list { list-style: none; }
+    .toc-list li { margin-bottom: 10px; }
+    .toc-list a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+    .toc-list a:hover { color: var(--accent); }
+    .related-link { display: block; padding: 12px 0; border-bottom: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 0.9rem; }
+    .related-link:last-child { border-bottom: none; }
+    .related-link:hover { color: var(--accent); }
+
+    /* Section Styles */
+    .section { margin-bottom: 48px; }
+    .section-title { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 20px; }
+    .section-title .hl { background: var(--highlight); padding: 0 6px; margin: 0 -3px; }
+
+    /* Insight Cards */
+    .insight-card { background: var(--surface); border-left: 4px solid var(--accent); border-radius: 0 12px 12px 0; padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .insight-card h4 { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+    .insight-card p { color: var(--text-secondary); font-size: 0.95rem; margin: 0; }
+
+    /* Bar Chart */
+    .chart-container { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin: 24px 0; }
+    .chart-title { font-weight: 700; color: var(--primary); margin-bottom: 20px; }
+    .bar-row { display: flex; align-items: center; margin-bottom: 12px; }
+    .bar-label { width: 140px; font-size: 0.85rem; color: var(--text-secondary); flex-shrink: 0; }
+    .bar-track { flex: 1; height: 32px; background: var(--bg); border-radius: 6px; overflow: hidden; margin-right: 12px; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent) 0%, #f4a261 100%); border-radius: 6px; transition: width 0.5s ease; }
+    .bar-value { width: 70px; font-size: 0.9rem; font-weight: 700; color: var(--primary); text-align: right; }
+
+    /* Data Table */
+    .data-table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    .data-table th { background: var(--bg); padding: 14px 16px; text-align: left; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .data-table tr:hover { background: var(--bg); }
+    .data-table tr.summary-row { background: var(--primary); color: white; font-weight: 600; }
+    .data-table tr.summary-row td { border-bottom: none; }
+    .phase-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+    .phase-badge.preclinical { background: var(--highlight); color: #854d0e; }
+    .phase-badge.phase1 { background: #dbeafe; color: #1e40af; }
+    .phase-badge.phase2 { background: #fef3c7; color: #92400e; }
+    .phase-badge.phase3 { background: #dcfce7; color: #166534; }
+    .phase-badge.approved { background: var(--success-light); color: #166534; }
+
+    /* Footer CTA */
+    .footer-cta { background: var(--primary); padding: 64px 32px; text-align: center; }
+    .footer-cta h3 { font-family: 'Fraunces', serif; font-size: 1.75rem; color: white; margin-bottom: 12px; }
+    .footer-cta p { color: rgba(255,255,255,0.7); margin-bottom: 24px; }
+    .footer-cta .btn { padding: 14px 32px; background: var(--accent); color: white; font-weight: 700; text-decoration: none; border-radius: 8px; display: inline-block; }
+    .footer-cta .btn:hover { background: var(--accent-hover); }
+
+    /* Footer */
+    .footer { background: var(--primary); color: rgba(255,255,255,0.5); padding: 24px 32px; text-align: center; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); }
+
+    @media (max-width: 900px) {
+      .content-wrapper { grid-template-columns: 1fr; }
+      .sidebar { position: static; order: -1; }
+      .metrics-inner { grid-template-columns: repeat(2, 1fr); }
+      .report-hero h1 { font-size: 2rem; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .metrics-inner { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .metric-value { font-size: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">Satya<span>Bio</span></a>
+      <nav class="nav-links">
+        <a href="/#categories">Targets</a>
+        <a href="/#pharma">Companies</a>
+        <a href="/research" class="active">Research</a>
+        <a href="#">About</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#" class="btn-ghost">Log in</a>
+        <a href="#" class="btn-primary">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="report-hero">
+    <div class="report-hero-inner">
+      <span class="report-badge">Deal Intelligence Report</span>
+      <h1>2024–2025 Biopharma Licensing Deals: A Comprehensive Analysis</h1>
+      <p class="subtitle">An in-depth analysis of licensing deal structures, valuations, and trends across therapeutic areas, modalities, and development stages.</p>
+      <div class="report-meta">
+        <div class="report-meta-item"><strong>Published:</strong> January 2026</div>
+        <div class="report-meta-item"><strong>Deals Analyzed:</strong> 389</div>
+        <div class="report-meta-item"><strong>Total Value:</strong> $383B+</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="metrics-bar">
+    <div class="metrics-inner">
+      <div class="metric">
+        <div class="metric-value">389</div>
+        <div class="metric-label">Total Deals</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">$95M</div>
+        <div class="metric-label">Avg Upfront</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">$985M</div>
+        <div class="metric-label">Avg Total Value</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">34%</div>
+        <div class="metric-label">Preclinical Stage</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-wrapper">
+    <main class="main-content">
+      <section class="section" id="summary">
+        <h2 class="section-title">Executive <span class="hl">Summary</span></h2>
+        <p style="margin-bottom: 20px;">The 2024–2025 biopharma licensing landscape reveals significant shifts in deal-making priorities, with oncology maintaining dominance while cardiometabolic assets command the highest premiums. Our analysis of 389 licensing deals uncovers key patterns in valuation, stage preferences, and therapeutic focus.</p>
+
+        <div class="insight-card">
+          <h4>Key Finding #1: Cardiometabolic Commands Premium</h4>
+          <p>Cardiometabolic deals average $151M upfront — 37% higher than oncology ($110M) despite oncology's deal volume dominance.</p>
+        </div>
+
+        <div class="insight-card">
+          <h4>Key Finding #2: Early-Stage Dominance</h4>
+          <p>34% of all deals are for preclinical assets, signaling pharma's increasing appetite for early-stage risk in exchange for lower upfronts and greater upside.</p>
+        </div>
+
+        <div class="insight-card">
+          <h4>Key Finding #3: Platform Deals Rising</h4>
+          <p>Multi-target platform deals now represent 18% of total value, up from 11% in 2023, as pharma seeks broader optionality.</p>
+        </div>
+      </section>
+
+      <section class="section" id="therapeutic">
+        <h2 class="section-title">Deals by <span class="hl">Therapeutic Area</span></h2>
+        <p style="margin-bottom: 24px;">Average upfront payments vary significantly by therapeutic area, reflecting risk profiles, market sizes, and competitive dynamics.</p>
+
+        <div class="chart-container">
+          <div class="chart-title">Average Upfront Payment by Therapeutic Area ($M)</div>
+          <div class="bar-row">
+            <span class="bar-label">Cardiometabolic</span>
+            <div class="bar-track"><div class="bar-fill" style="width: 100%;"></div></div>
+            <span class="bar-value">$151M</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Oncology</span>
+            <div class="bar-track"><div class="bar-fill" style="width: 73%;"></div></div>
+            <span class="bar-value">$110M</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Immunology</span>
+            <div class="bar-track"><div class="bar-fill" style="width: 66%;"></div></div>
+            <span class="bar-value">$99M</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Neurology</span>
+            <div class="bar-track"><div class="bar-fill" style="width: 58%;"></div></div>
+            <span class="bar-value">$87M</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Infectious Disease</span>
+            <div class="bar-track"><div class="bar-fill" style="width: 47%;"></div></div>
+            <span class="bar-value">$71M</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Rare Disease</span>
+            <div class="bar-track"><div class="bar-fill" style="width: 44%;"></div></div>
+            <span class="bar-value">$66M</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="stage">
+        <h2 class="section-title">Deals by <span class="hl">Development Stage</span></h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>Deal Count</th>
+              <th>Avg Upfront</th>
+              <th>Avg Total Value</th>
+              <th>% of Deals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="phase-badge preclinical">Preclinical</span></td>
+              <td>132</td>
+              <td>$45M</td>
+              <td>$620M</td>
+              <td>34%</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge phase1">Phase 1</span></td>
+              <td>89</td>
+              <td>$78M</td>
+              <td>$890M</td>
+              <td>23%</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge phase2">Phase 2</span></td>
+              <td>97</td>
+              <td>$125M</td>
+              <td>$1.2B</td>
+              <td>25%</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge phase3">Phase 3</span></td>
+              <td>54</td>
+              <td>$210M</td>
+              <td>$1.8B</td>
+              <td>14%</td>
+            </tr>
+            <tr>
+              <td><span class="phase-badge approved">Approved</span></td>
+              <td>17</td>
+              <td>$340M</td>
+              <td>$2.1B</td>
+              <td>4%</td>
+            </tr>
+            <tr class="summary-row">
+              <td><strong>Total / Average</strong></td>
+              <td><strong>389</strong></td>
+              <td><strong>$95M</strong></td>
+              <td><strong>$985M</strong></td>
+              <td><strong>100%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section" id="methodology">
+        <h2 class="section-title">Methodology</h2>
+        <p>This analysis includes 389 licensing deals announced between January 2024 and December 2025, sourced from SEC filings, press releases, and proprietary databases. Deals were categorized by therapeutic area, development stage at signing, and deal structure. Platform deals were allocated proportionally across therapeutic areas when applicable.</p>
+      </section>
+    </main>
+
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h4>Download Report</h4>
+        <a href="#" class="btn-download primary">Download PDF</a>
+        <a href="#" class="btn-download secondary">Download Excel Data</a>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Table of Contents</h4>
+        <ul class="toc-list">
+          <li><a href="#summary">Executive Summary</a></li>
+          <li><a href="#therapeutic">By Therapeutic Area</a></li>
+          <li><a href="#stage">By Development Stage</a></li>
+          <li><a href="#methodology">Methodology</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Related Reports</h4>
+        <a href="/api/report/target/TL1A/html" class="related-link">TL1A Target Landscape →</a>
+        <a href="/api/report/target/B7-H3/html" class="related-link">B7-H3 ADC Landscape →</a>
+        <a href="/research" class="related-link">All Research →</a>
+      </div>
+    </aside>
+  </div>
+
+  <section class="footer-cta">
+    <h3>Want custom analysis?</h3>
+    <p>Get bespoke research on specific targets, therapeutic areas, or competitive landscapes.</p>
+    <a href="#" class="btn">Contact Us</a>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Satya Bio. All rights reserved.</p>
   </footer>
 </body>
 </html>`);
