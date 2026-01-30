@@ -265,7 +265,7 @@ function startServer(port: number): void {
       <a href="/" class="logo">Satya<span>Bio</span></a>
       <nav class="nav">
         <div class="nav-links">
-          <a href="#categories">Targets</a>
+          <a href="/targets">Targets</a>
           <a href="/companies">Companies</a>
           <a href="#features">Research</a>
           <a href="#">About</a>
@@ -543,7 +543,7 @@ function startServer(port: number): void {
     <div class="header-inner">
       <a href="/" class="logo">Satya<span>Bio</span></a>
       <nav class="nav-links">
-        <a href="/#categories">Targets</a>
+        <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
         <a href="/research" class="active">Research</a>
         <a href="#">About</a>
@@ -764,7 +764,7 @@ function startServer(port: number): void {
     <div class="header-inner">
       <a href="/" class="logo">Satya<span>Bio</span></a>
       <nav class="nav-links">
-        <a href="/#categories">Targets</a>
+        <a href="/targets">Targets</a>
         <a href="/companies" class="active">Companies</a>
         <a href="/research">Research</a>
         <a href="#">About</a>
@@ -1240,6 +1240,722 @@ function startServer(port: number): void {
 </html>`);
   });
 
+  // Targets Marketplace Page
+  app.get('/targets', (_req: Request, res: Response) => {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Drug Targets | Satya Bio</title>
+  <meta name="description" content="Deep-dive research on validated and emerging therapeutic targets with competitive landscapes, clinical data, and deal activity.">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a2b3c;
+      --primary-light: #2d4a5e;
+      --accent: #e07a5f;
+      --accent-hover: #d06a4f;
+      --accent-light: #fef5f3;
+      --highlight: #fef08a;
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --border: #e5e5e0;
+      --border-light: #eeeeea;
+      --text: #1a1d21;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+      --success: #10b981;
+      --info: #3b82f6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Header */
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 72px; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-cta { display: flex; gap: 12px; }
+    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-weight: 600; text-decoration: none; }
+    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    /* Hero with floating circles */
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 80px 32px; text-align: center; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; }
+    .circle { position: absolute; border-radius: 50%; opacity: 0.15; animation: float 20s ease-in-out infinite; }
+    .circle-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #fef08a 0%, #fde68a 100%); top: -100px; right: 10%; animation-delay: 0s; }
+    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #fef5f3 0%, #fecaca 100%); bottom: -50px; left: 5%; animation-delay: -5s; }
+    .circle-3 { width: 150px; height: 150px; background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); top: 20%; right: 5%; animation-delay: -10s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(20px, -20px) rotate(5deg); }
+      50% { transform: translate(-10px, 20px) rotate(-5deg); }
+      75% { transform: translate(-20px, -10px) rotate(3deg); }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: white; margin-bottom: 16px; }
+    .hero p { color: rgba(255,255,255,0.85); font-size: 1.2rem; max-width: 700px; margin: 0 auto 32px; }
+
+    /* Search Box */
+    .search-container { max-width: 600px; margin: 0 auto; }
+    .search-box { display: flex; background: var(--surface); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    .search-box input { flex: 1; padding: 16px 24px; font-size: 1rem; border: none; outline: none; font-family: inherit; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box button { padding: 16px 28px; background: var(--accent); color: white; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .search-box button:hover { background: var(--accent-hover); }
+
+    /* Main Layout */
+    .main { max-width: 1400px; margin: 0 auto; padding: 40px 32px; display: grid; grid-template-columns: 280px 1fr; gap: 40px; }
+    @media (max-width: 968px) { .main { grid-template-columns: 1fr; } }
+
+    /* Sidebar Filters */
+    .sidebar { position: sticky; top: 112px; height: fit-content; }
+    .filter-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+    .filter-section h3 { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
+    .filter-options { display: flex; flex-direction: column; gap: 8px; }
+    .filter-option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+    .filter-option:hover { border-color: var(--accent); background: var(--accent-light); }
+    .filter-option.active { border-color: var(--accent); background: var(--accent-light); }
+    .filter-option input { display: none; }
+    .filter-checkbox { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+    .filter-option.active .filter-checkbox { background: var(--accent); border-color: var(--accent); }
+    .filter-option.active .filter-checkbox::after { content: '✓'; color: white; font-size: 12px; font-weight: 700; }
+    .filter-count { margin-left: auto; font-size: 0.8rem; color: var(--text-muted); background: var(--border-light); padding: 2px 8px; border-radius: 10px; }
+
+    /* Targets Grid */
+    .targets-section h2 { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; }
+    .targets-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
+    .targets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+
+    /* Target Card */
+    .target-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.25s; display: flex; flex-direction: column; }
+    .target-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: var(--accent); }
+    .target-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .target-name { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+    .target-fullname { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 8px; }
+    .area-badge { display: inline-block; padding: 4px 12px; background: var(--accent-light); color: var(--accent); font-size: 0.75rem; font-weight: 700; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .area-badge.oncology { background: #fef2f2; color: #dc2626; }
+    .area-badge.metabolic { background: #fefce8; color: #ca8a04; }
+    .area-badge.immunology { background: #f0fdf4; color: #16a34a; }
+    .area-badge.cardiovascular { background: #eff6ff; color: #2563eb; }
+    .target-desc { color: var(--text-secondary); font-size: 0.9rem; margin: 16px 0; flex: 1; line-height: 1.5; }
+    .target-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 16px; border-top: 1px solid var(--border-light); margin-bottom: 16px; }
+    .stat { text-align: center; }
+    .stat-value { font-size: 1rem; font-weight: 700; color: var(--primary); }
+    .stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+    .target-highlight { background: var(--highlight); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px; }
+    .highlight-label { font-weight: 600; color: var(--primary); }
+    .view-btn { display: block; width: 100%; padding: 12px; background: var(--primary); color: white; text-align: center; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; }
+    .view-btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+
+    /* Modality Tags */
+    .modality-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .modality-tag { padding: 3px 10px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 12px; font-size: 0.75rem; color: var(--text-secondary); }
+
+    /* Footer */
+    .footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 48px 32px; text-align: center; margin-top: 64px; }
+    .footer p { font-size: 0.9rem; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px; }
+      .hero h1 { font-size: 2rem; }
+      .main { padding: 24px 20px; }
+      .sidebar { display: none; }
+      .targets-grid { grid-template-columns: 1fr; }
+      .target-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">Satya<span>Bio</span></a>
+      <nav class="nav-links">
+        <a href="/targets" class="active">Targets</a>
+        <a href="/companies">Companies</a>
+        <a href="/research">Research</a>
+        <a href="#">About</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#" class="btn-ghost">Log in</a>
+        <a href="#" class="btn-primary">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+    </div>
+    <div class="hero-content">
+      <h1>Explore Drug Targets</h1>
+      <p>Deep-dive research on validated and emerging therapeutic targets with competitive landscapes, clinical data, and deal activity.</p>
+      <div class="search-container">
+        <form class="search-box" onsubmit="event.preventDefault(); filterTargets();">
+          <input type="text" id="target-search" placeholder="Search by target name, gene, or therapeutic area...">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div class="main">
+    <aside class="sidebar">
+      <div class="filter-section">
+        <h3>By Therapeutic Area</h3>
+        <div class="filter-options">
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="oncology">
+            <span class="filter-checkbox"></span>
+            Oncology
+            <span class="filter-count">6</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="immunology">
+            <span class="filter-checkbox"></span>
+            Immunology
+            <span class="filter-count">1</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="cardiovascular">
+            <span class="filter-checkbox"></span>
+            Cardiovascular
+            <span class="filter-count">1</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="cns">
+            <span class="filter-checkbox"></span>
+            CNS
+            <span class="filter-count">0</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="metabolic">
+            <span class="filter-checkbox"></span>
+            Metabolic
+            <span class="filter-count">1</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="rare">
+            <span class="filter-checkbox"></span>
+            Rare Disease
+            <span class="filter-count">0</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3>By Modality</h3>
+        <div class="filter-options">
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="small-molecule">
+            <span class="filter-checkbox"></span>
+            Small Molecule
+            <span class="filter-count">4</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="antibody">
+            <span class="filter-checkbox"></span>
+            Antibody
+            <span class="filter-count">6</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="adc">
+            <span class="filter-checkbox"></span>
+            ADC
+            <span class="filter-count">3</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="rnai">
+            <span class="filter-checkbox"></span>
+            RNAi
+            <span class="filter-count">1</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="gene-therapy">
+            <span class="filter-checkbox"></span>
+            Gene Therapy
+            <span class="filter-count">0</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="cell-therapy">
+            <span class="filter-checkbox"></span>
+            Cell Therapy
+            <span class="filter-count">1</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3>By Validation</h3>
+        <div class="filter-options">
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="approved">
+            <span class="filter-checkbox"></span>
+            Approved Drug Exists
+            <span class="filter-count">6</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="phase3">
+            <span class="filter-checkbox"></span>
+            Phase 3 Assets
+            <span class="filter-count">8</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="emerging">
+            <span class="filter-checkbox"></span>
+            Emerging Target
+            <span class="filter-count">2</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h3>By Competition</h3>
+        <div class="filter-options">
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="crowded">
+            <span class="filter-checkbox"></span>
+            Crowded (10+ assets)
+            <span class="filter-count">4</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="moderate">
+            <span class="filter-checkbox"></span>
+            Moderate (5-10)
+            <span class="filter-count">3</span>
+          </label>
+          <label class="filter-option" onclick="this.classList.toggle('active')">
+            <input type="checkbox" value="early">
+            <span class="filter-checkbox"></span>
+            Early (1-5)
+            <span class="filter-count">3</span>
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <section class="targets-section">
+      <h2>Featured Targets</h2>
+      <p class="targets-meta">Showing 10 targets • Sort by: Assets in Development</p>
+
+      <div class="targets-grid">
+        <!-- GLP-1 -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">GLP-1</div>
+              <div class="target-fullname">GLP-1R (Glucagon-like peptide-1 receptor)</div>
+            </div>
+            <span class="area-badge metabolic">Metabolic</span>
+          </div>
+          <p class="target-desc">Blockbuster target for obesity and T2D. GLP-1 agonists (Ozempic, Wegovy, Mounjaro) represent the fastest-growing drug class in history with $50B+ market potential.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">25+</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">8</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">5</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">12</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Hot Area:</span> Oral formulations, dual/triple agonists, muscle-sparing approaches
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">Peptide</span>
+            <span class="modality-tag">Small Molecule</span>
+            <span class="modality-tag">Oral</span>
+          </div>
+          <a href="/api/report/target/GLP-1/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- PD-1/PD-L1 -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">PD-1/PD-L1</div>
+              <div class="target-fullname">Programmed Death 1 / Ligand 1</div>
+            </div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <p class="target-desc">The dominant immune checkpoint in oncology. Keytruda and Opdivo generated $40B+ in 2023. Now a crowded space with 10+ approved drugs and combination strategies.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">50+</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">15+</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">10+</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">50+</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Crowded:</span> Differentiation through combinations, new indications, subcutaneous
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">Antibody</span>
+            <span class="modality-tag">Small Molecule</span>
+            <span class="modality-tag">Bispecific</span>
+          </div>
+          <a href="/api/report/target/PD-1/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- KRAS -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">KRAS</div>
+              <div class="target-fullname">Kirsten Rat Sarcoma Viral Oncogene</div>
+            </div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <p class="target-desc">Once "undruggable" oncogene now with approved G12C inhibitors (Sotorasib, Adagrasib). Race to target other mutations (G12D, G12V) and overcome resistance.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">20+</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">5</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">2</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">8</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Hot Area:</span> G12D inhibitors, pan-KRAS, degraders, combinations
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">Small Molecule</span>
+            <span class="modality-tag">Degrader</span>
+            <span class="modality-tag">RNAi</span>
+          </div>
+          <a href="/api/report/target/KRAS/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- TL1A -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">TL1A</div>
+              <div class="target-fullname">TNFSF15 (TNF Superfamily Member 15)</div>
+            </div>
+            <span class="area-badge immunology">Immunology</span>
+          </div>
+          <p class="target-desc">Emerging IBD target with anti-fibrotic potential. Multiple Phase 2 readouts expected. Could be next major IBD mechanism after IL-23 and JAK inhibitors.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">8</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">0</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">0</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">5</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Emerging:</span> Prometheus lead, Roche/Roivant, Merck all racing to clinic
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">Antibody</span>
+          </div>
+          <a href="/api/report/target/TL1A/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- B7-H3 -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">B7-H3</div>
+              <div class="target-fullname">CD276</div>
+            </div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <p class="target-desc">Immune checkpoint highly expressed in solid tumors with limited normal tissue expression. Multiple ADC and bispecific approaches in development.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">15+</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">0</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">6</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Hot Area:</span> ADCs (MacroGenics), bispecifics, CAR-T approaches
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">ADC</span>
+            <span class="modality-tag">Bispecific</span>
+            <span class="modality-tag">CAR-T</span>
+          </div>
+          <a href="/api/report/target/B7-H3/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- CD19 -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">CD19</div>
+              <div class="target-fullname">B-Lymphocyte Antigen CD19</div>
+            </div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <p class="target-desc">The canonical CAR-T target. Multiple approved CAR-Ts (Kymriah, Yescarta, Breyanzi) and bispecifics (Blincyto). Now expanding to autoimmune diseases.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">30+</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">10+</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">5</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">15</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Expanding:</span> Autoimmune (lupus, MS), allogeneic CAR-T, bispecifics
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">CAR-T</span>
+            <span class="modality-tag">Bispecific</span>
+            <span class="modality-tag">ADC</span>
+          </div>
+          <a href="/api/report/target/CD19/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- PCSK9 -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">PCSK9</div>
+              <div class="target-fullname">Proprotein Convertase Subtilisin/Kexin 9</div>
+            </div>
+            <span class="area-badge cardiovascular">Cardiovascular</span>
+          </div>
+          <p class="target-desc">Validated LDL-lowering target with approved antibodies (Repatha, Praluent) and siRNA (Leqvio). Next wave: oral small molecules and gene editing.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">12</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">4</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">4</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Next Wave:</span> Oral inhibitors, base editing (Verve), annual dosing
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">Antibody</span>
+            <span class="modality-tag">siRNA</span>
+            <span class="modality-tag">Small Molecule</span>
+          </div>
+          <a href="/api/report/target/PCSK9/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- TROP2 -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">TROP2</div>
+              <div class="target-fullname">Trophoblast Cell-Surface Antigen 2</div>
+            </div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <p class="target-desc">Validated ADC target with Trodelvy approved for breast and urothelial cancers. Datopotamab deruxtecan (Dato-DXd) competing for NSCLC and breast.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">10+</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">4</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">1</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Competition:</span> Gilead (Trodelvy) vs AZ/Daiichi (Dato-DXd) battle
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">ADC</span>
+            <span class="modality-tag">Antibody</span>
+          </div>
+          <a href="/api/report/target/TROP2/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- Claudin 18.2 -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">Claudin 18.2</div>
+              <div class="target-fullname">CLDN18.2</div>
+            </div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <p class="target-desc">Emerging gastric cancer target with tight junction specificity. Zolbetuximab (Astellas) in Phase 3. Multiple CAR-T and ADC programs following.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">8</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">2</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">0</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">4</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Emerging:</span> Gastric 1L potential, pancreatic expansion, CAR-T
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">Antibody</span>
+            <span class="modality-tag">CAR-T</span>
+            <span class="modality-tag">ADC</span>
+          </div>
+          <a href="/api/report/target/CLDN18.2/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+
+        <!-- HER2 -->
+        <div class="target-card">
+          <div class="target-header">
+            <div>
+              <div class="target-name">HER2</div>
+              <div class="target-fullname">ERBB2 (Human Epidermal Growth Factor Receptor 2)</div>
+            </div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <p class="target-desc">Classic oncology target with Herceptin, Perjeta, Enhertu approved. ADC revolution (Enhertu) expanding to HER2-low. $15B+ market.</p>
+          <div class="target-stats">
+            <div class="stat">
+              <div class="stat-value">40+</div>
+              <div class="stat-label">Assets</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">12</div>
+              <div class="stat-label">Phase 3</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">8</div>
+              <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value">20+</div>
+              <div class="stat-label">Deals</div>
+            </div>
+          </div>
+          <div class="target-highlight">
+            <span class="highlight-label">Expanding:</span> HER2-low breast, gastric, NSCLC, colorectal
+          </div>
+          <div class="modality-tags">
+            <span class="modality-tag">Antibody</span>
+            <span class="modality-tag">ADC</span>
+            <span class="modality-tag">TKI</span>
+          </div>
+          <a href="/api/report/target/HER2/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 Satya Bio. Institutional-grade biotech intelligence.</p>
+  </footer>
+
+  <script>
+    function filterTargets() {
+      const query = document.getElementById('target-search').value.toLowerCase();
+      const cards = document.querySelectorAll('.target-card');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(query) ? 'flex' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>`);
+  });
+
   // Research Report: 2025 Licensing Deals
   app.get('/research/2025-licensing-deals', (_req: Request, res: Response) => {
     res.send(`<!DOCTYPE html>
@@ -1379,7 +2095,7 @@ function startServer(port: number): void {
     <div class="header-inner">
       <a href="/" class="logo">Satya<span>Bio</span></a>
       <nav class="nav-links">
-        <a href="/#categories">Targets</a>
+        <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
         <a href="/research" class="active">Research</a>
         <a href="#">About</a>
