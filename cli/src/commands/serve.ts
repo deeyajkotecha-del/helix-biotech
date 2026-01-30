@@ -85,178 +85,386 @@ function startServer(port: number): void {
 
   // Homepage - Satya Bio (Professional SaaS Landing Page)
   app.get('/', (_req: Request, res: Response) => {
+    const today = new Date();
+    const lastUpdated = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
     res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Satya Bio | Biotech Intelligence Platform</title>
-  <meta name="description" content="Make confident investment decisions with institutional-grade biotech intelligence. Explore, compare, and evaluate drug pipelines.">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Satya Bio | Biotech Intelligence for the Buy Side</title>
+  <meta name="description" content="Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals.">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --background: #FAFAF8;
-      --surface: #FFFFFF;
-      --surface-alt: #F5F5F3;
-      --border: #E5E5E0;
-      --border-light: #EEEEEA;
-      --text-primary: #1A1D21;
-      --text-navy: #1E3A5F;
-      --text-secondary: #5F6368;
-      --text-muted: #9AA0A6;
-      --accent: #E07A5F;
-      --accent-hover: #D06A4F;
-      --accent-light: #FEF5F3;
-      --highlight: #FEF3C7;
-      --highlight-strong: #FDE68A;
-      --success: #34A853;
-      --success-light: #E6F4EA;
+      --navy: #1a2b3c;
+      --navy-light: #2d4a5e;
+      --accent: #e07a5f;
+      --accent-hover: #d06a4f;
+      --accent-light: #fef5f3;
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --surface-alt: #f5f5f3;
+      --border: #e5e5e0;
+      --border-light: #eeeeea;
+      --text: #1a1d21;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+      --highlight: #fef3c7;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
 
-    /* Floating Circles Animation */
-    .hero-bg {
+    /* Mesh gradient overlay */
+    .hero-gradient {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      overflow: hidden;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(254,245,243,0.8) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(224,122,95,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 50% 20%, rgba(254,243,199,0.5) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, #f5f0eb 100%);
       pointer-events: none;
       z-index: 0;
+    }
+
+    /* Floating circles - BOLD and visible */
+    .hero-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
     }
     .circle {
       position: absolute;
       border-radius: 50%;
-      opacity: 0.4;
-      animation: float 20s ease-in-out infinite;
+      filter: blur(1px);
     }
-    .circle-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); top: -100px; right: 10%; animation-delay: 0s; }
-    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #FEF5F3 0%, #FECACA 100%); bottom: 20%; left: 5%; animation-delay: -5s; }
-    .circle-3 { width: 150px; height: 150px; background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%); top: 30%; right: 5%; animation-delay: -10s; }
-    .circle-4 { width: 100px; height: 100px; background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); bottom: 10%; right: 20%; animation-delay: -15s; }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      25% { transform: translate(20px, -20px) rotate(5deg); }
-      50% { transform: translate(-10px, 20px) rotate(-5deg); }
-      75% { transform: translate(-20px, -10px) rotate(3deg); }
+    .circle-1 {
+      width: 500px; height: 500px;
+      background: linear-gradient(135deg, rgba(254,243,199,0.6) 0%, rgba(253,230,138,0.5) 100%);
+      top: -200px; right: -5%;
+      opacity: 0.7;
+      animation: float1 30s ease-in-out infinite;
     }
+    .circle-2 {
+      width: 350px; height: 350px;
+      background: linear-gradient(135deg, rgba(254,205,193,0.6) 0%, rgba(224,122,95,0.35) 100%);
+      bottom: -10%; left: -5%;
+      opacity: 0.6;
+      animation: float2 25s ease-in-out infinite;
+    }
+    .circle-3 {
+      width: 200px; height: 200px;
+      background: linear-gradient(135deg, rgba(224,242,254,0.7) 0%, rgba(186,230,253,0.5) 100%);
+      top: 30%; right: 15%;
+      opacity: 0.65;
+      animation: float3 20s ease-in-out infinite;
+    }
+    .circle-4 {
+      width: 280px; height: 280px;
+      background: linear-gradient(135deg, rgba(224,122,95,0.25) 0%, rgba(254,205,193,0.4) 100%);
+      top: 60%; left: 20%;
+      opacity: 0.5;
+      animation: float4 35s ease-in-out infinite;
+    }
+    .circle-5 {
+      width: 150px; height: 150px;
+      background: linear-gradient(135deg, rgba(254,243,199,0.7) 0%, rgba(253,230,138,0.4) 100%);
+      top: 10%; left: 10%;
+      opacity: 0.55;
+      animation: float5 28s ease-in-out infinite;
+    }
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -20px) scale(1.02); }
+      50% { transform: translate(-20px, 30px) scale(0.98); }
+      75% { transform: translate(20px, 20px) scale(1.01); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-25px, -30px) scale(1.03); }
+      66% { transform: translate(35px, 15px) scale(0.97); }
+    }
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-40px, 25px); }
+    }
+    @keyframes float4 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      40% { transform: translate(20px, -35px) scale(1.02); }
+      80% { transform: translate(-30px, 20px) scale(0.98); }
+    }
+    @keyframes float5 {
+      0%, 100% { transform: translate(0, 0); }
+      30% { transform: translate(25px, 20px); }
+      70% { transform: translate(-15px, -25px); }
+    }
+
+    /* Floating ticker pills */
+    .floating-tickers {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .ticker-pill {
+      position: absolute;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(224,122,95,0.3);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--navy);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      backdrop-filter: blur(4px);
+    }
+    .ticker-pill:nth-child(1) { top: 20%; left: 8%; animation: tickerFloat1 40s ease-in-out infinite; }
+    .ticker-pill:nth-child(2) { top: 65%; left: 5%; animation: tickerFloat2 35s ease-in-out infinite; }
+    .ticker-pill:nth-child(3) { top: 25%; right: 6%; animation: tickerFloat3 45s ease-in-out infinite; }
+    .ticker-pill:nth-child(4) { top: 70%; right: 8%; animation: tickerFloat4 38s ease-in-out infinite; }
+    .ticker-pill:nth-child(5) { top: 45%; left: 3%; animation: tickerFloat5 42s ease-in-out infinite; }
+    @keyframes tickerFloat1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(15px, 25px); } }
+    @keyframes tickerFloat2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px); } }
+    @keyframes tickerFloat3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-25px, 15px); } }
+    @keyframes tickerFloat4 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-15px, -25px); } }
+    @keyframes tickerFloat5 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(10px, -15px); } }
 
     /* Header */
-    .header { position: sticky; top: 0; z-index: 100; background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); padding: 0 32px; height: 72px; }
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(250,250,248,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); padding: 0 32px; height: 68px; }
     .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
-    .logo { font-size: 1.5rem; font-weight: 800; color: var(--text-navy); text-decoration: none; letter-spacing: -0.03em; }
-    .logo span { font-weight: 800; color: var(--accent); }
-    .nav { display: flex; align-items: center; gap: 8px; }
-    .nav-links { display: flex; gap: 4px; }
-    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; padding: 10px 16px; border-radius: 8px; transition: all 0.2s; position: relative; }
-    .nav-links a:hover { color: var(--text-primary); background: var(--surface); }
-    .nav-links a::after { content: ''; position: absolute; bottom: 6px; left: 16px; right: 16px; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 0.2s; }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .header-search { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0 14px; margin: 0 20px; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
-    .header-search:focus-within { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 4px rgba(224, 122, 95, 0.1); }
-    .header-search input { border: none; background: transparent; padding: 10px 10px; font-size: 0.95rem; width: 220px; outline: none; color: var(--text-primary); font-family: inherit; }
-    .header-search input::placeholder { color: var(--text-muted); }
-    .header-search svg { width: 18px; height: 18px; color: var(--text-muted); }
-    .nav-cta { display: flex; gap: 10px; align-items: center; margin-left: 12px; }
-    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-size: 0.95rem; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
-    .btn-ghost:hover { color: var(--text-primary); background: var(--surface); }
-    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-size: 0.95rem; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(224, 122, 95, 0.3); }
-    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(224, 122, 95, 0.4); }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--navy); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta { display: flex; gap: 12px; }
+    .btn-primary { padding: 10px 20px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; font-size: 0.9rem; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
 
-    /* Hero Section */
-    .hero { background: var(--background); padding: 100px 32px 80px; text-align: center; position: relative; overflow: hidden; }
-    .hero-content { position: relative; z-index: 1; }
-    .hero h1 { font-size: 3.5rem; font-weight: 800; color: var(--text-navy); margin-bottom: 20px; letter-spacing: -0.04em; line-height: 1.1; max-width: 800px; margin-left: auto; margin-right: auto; }
-    .hero h1 .highlight { background: linear-gradient(120deg, var(--highlight) 0%, var(--highlight-strong) 100%); padding: 0 8px; margin: 0 -4px; border-radius: 4px; }
-    @media (max-width: 768px) { .hero h1 { font-size: 2.25rem; } }
-    @media (max-width: 480px) { .hero h1 { font-size: 1.75rem; } }
-    .hero-subtitle { color: var(--text-secondary); font-size: 1.25rem; margin-bottom: 48px; max-width: 580px; margin-left: auto; margin-right: auto; line-height: 1.6; font-weight: 400; }
-    .search-container { max-width: 620px; margin: 0 auto 36px; }
-    .search-box { display: flex; gap: 0; background: var(--surface); border: 2px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-    .search-box:focus-within { border-color: var(--accent); box-shadow: 0 4px 24px rgba(224, 122, 95, 0.15); }
-    .search-box input { flex: 1; padding: 18px 24px; font-size: 1.05rem; border: none; background: transparent; color: var(--text-primary); outline: none; font-family: inherit; }
-    .search-box input::placeholder { color: var(--text-muted); }
-    .search-box button { padding: 18px 32px; font-size: 1rem; background: var(--accent); color: white; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s; }
-    .search-box button:hover { background: var(--accent-hover); }
-    .quick-examples { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-    .quick-pill { padding: 8px 18px; background: var(--surface); color: var(--text-secondary); text-decoration: none; border-radius: 20px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-    .quick-pill:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(224, 122, 95, 0.25); }
+    /* Hero - Striking */
+    .hero { background: transparent; padding: 110px 32px 90px; text-align: center; position: relative; overflow: hidden; min-height: 70vh; display: flex; align-items: center; justify-content: center; }
+    .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 4.5rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 24px;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      text-shadow: 0 2px 4px rgba(26,43,60,0.08);
+    }
+    .hero-subtitle { color: var(--text-secondary); font-size: 1.35rem; margin-bottom: 48px; line-height: 1.6; max-width: 650px; margin-left: auto; margin-right: auto; }
 
-    /* Stats Bar */
-    .stats-bar { background: var(--surface-alt); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 28px 32px; }
-    .stats-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: center; gap: 64px; flex-wrap: wrap; }
-    .stat-item { text-align: center; }
-    .stat-value { font-size: 2rem; font-weight: 800; color: var(--text-navy); letter-spacing: -0.02em; }
-    .stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+    /* Hero Search - Glowing */
+    .hero-search { max-width: 580px; margin: 0 auto 28px; position: relative; }
+    .hero-search input {
+      width: 100%;
+      padding: 20px 28px 20px 56px;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-family: inherit;
+      background: white;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hero-search input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.12), 0 0 0 4px rgba(224,122,95,0.15);
+      transform: translateY(-2px);
+    }
+    .hero-search input::placeholder { color: var(--text-muted); }
+    .hero-search-icon { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; color: var(--text-muted); transition: color 0.2s; }
+    .hero-search:focus-within .hero-search-icon { color: var(--accent); }
+    .hero-updated { font-size: 0.85rem; color: var(--text-muted); margin-top: 20px; }
+    .hero-updated span { background: rgba(224,122,95,0.12); color: var(--accent); padding: 4px 12px; border-radius: 12px; font-weight: 600; }
 
-    /* Categories Section */
-    .categories { padding: 80px 32px; background: var(--background); }
-    .categories-inner { max-width: 1040px; margin: 0 auto; }
-    .categories-header { text-align: center; margin-bottom: 56px; }
-    .categories-header h2 { font-size: 2rem; font-weight: 800; color: var(--text-navy); margin-bottom: 12px; letter-spacing: -0.02em; }
-    .categories-header p { color: var(--text-secondary); font-size: 1.1rem; }
-    .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-    @media (max-width: 768px) { .categories-grid { grid-template-columns: 1fr; } }
-    .category-card { background: var(--surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); transition: all 0.25s; }
-    .category-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-color: var(--border); }
-    .category-card h3 { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
-    .category-list { display: flex; flex-direction: column; gap: 10px; }
-    .category-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--surface-alt); border: 1px solid var(--border-light); border-radius: 10px; text-decoration: none; color: var(--text-primary); font-size: 0.95rem; font-weight: 600; transition: all 0.2s; }
-    .category-item:hover { border-color: var(--accent); background: var(--accent-light); transform: translateX(4px); }
-    .category-item .count { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; }
+    /* Live Preview Cards - Striking */
+    .preview-section { padding: 96px 32px; background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); }
+    .preview-inner { max-width: 1180px; margin: 0 auto; }
+    .preview-header { text-align: center; margin-bottom: 56px; }
+    .preview-header h2 { font-family: 'Fraunces', serif; font-size: 2.2rem; color: var(--navy); margin-bottom: 12px; font-weight: 700; }
+    .preview-header p { color: var(--text-muted); font-size: 1.05rem; }
+    .preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    @media (max-width: 900px) { .preview-grid { grid-template-columns: 1fr; } }
 
-    /* Features Section */
-    .features { padding: 80px 32px; background: var(--surface-alt); }
-    .features-inner { max-width: 1040px; margin: 0 auto; }
-    .features-header { text-align: center; margin-bottom: 56px; }
-    .features-header h2 { font-size: 2rem; font-weight: 800; color: var(--text-navy); margin-bottom: 12px; letter-spacing: -0.02em; }
-    .features-header p { color: var(--text-secondary); font-size: 1.1rem; }
-    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    @media (max-width: 768px) { .features-grid { grid-template-columns: 1fr; } }
-    .feature-card { background: var(--surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 32px 28px; transition: all 0.25s; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
-    .feature-card:hover { border-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-4px); }
-    .feature-icon { width: 52px; height: 52px; background: linear-gradient(135deg, var(--accent-light) 0%, #FEE2E2 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
-    .feature-card h3 { font-size: 1.15rem; font-weight: 700; color: var(--text-navy); margin-bottom: 10px; }
-    .feature-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.65; margin-bottom: 20px; }
-    .feature-link { color: var(--accent); font-weight: 700; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
-    .feature-link:hover { gap: 10px; }
+    .preview-card {
+      background: linear-gradient(135deg, #ffffff 0%, #fefdfb 50%, #faf8f6 100%);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 20px;
+      padding: 36px;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .preview-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(224,122,95,0.03) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .preview-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.14), 0 8px 24px rgba(224,122,95,0.1);
+      transform: translateY(-8px) scale(1.01);
+    }
+    .preview-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; position: relative; z-index: 1; }
+    .preview-card h3 { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); }
 
-    /* Pharma Section */
-    .pharma { padding: 64px 32px; background: var(--background); border-top: 1px solid var(--border-light); }
-    .pharma-inner { max-width: 960px; margin: 0 auto; text-align: center; }
-    .pharma h3 { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.8px; }
-    .pharma-grid { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-    .pharma-chip { padding: 12px 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-    .pharma-chip:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(224, 122, 95, 0.25); }
+    /* Vibrant badges with pulse */
+    .preview-badge {
+      padding: 6px 14px;
+      background: linear-gradient(135deg, var(--accent) 0%, #d06a4f 100%);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border-radius: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(224,122,95,0.4);
+      animation: badgePulse 3s ease-in-out infinite;
+    }
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 2px 8px rgba(224,122,95,0.4); }
+      50% { box-shadow: 0 4px 16px rgba(224,122,95,0.6); }
+    }
+
+    .preview-stats { margin-bottom: 28px; position: relative; z-index: 1; }
+    .preview-stat { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-light); }
+    .preview-stat:last-child { border-bottom: none; }
+    .preview-stat-label { color: var(--text-secondary); font-size: 0.9rem; }
+    .preview-stat-value {
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+    .preview-stat-value.highlight { color: var(--accent); }
+
+    .preview-items { margin-bottom: 28px; position: relative; z-index: 1; }
+    .preview-item { padding: 14px 0; border-bottom: 1px solid var(--border-light); font-size: 0.9rem; color: var(--text-secondary); }
+    .preview-item:last-child { border-bottom: none; }
+    .preview-item strong { color: var(--navy); font-weight: 700; }
+
+    .preview-link {
+      display: block;
+      text-align: center;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--navy) 0%, #243848 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.25s;
+      box-shadow: 0 6px 20px rgba(26,43,60,0.25);
+      position: relative;
+      z-index: 1;
+    }
+    .preview-link:hover {
+      background: linear-gradient(135deg, var(--navy-light) 0%, #2d4a5e 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(26,43,60,0.3);
+    }
+
+    /* Value Props - Premium */
+    .value-section { padding: 88px 32px; background: var(--bg); }
+    .value-inner { max-width: 920px; margin: 0 auto; }
+    .value-header { text-align: center; margin-bottom: 56px; }
+    .value-header h2 { font-family: 'Fraunces', serif; font-size: 2.2rem; color: var(--navy); margin-bottom: 14px; font-weight: 700; }
+    .value-header p { color: var(--text-secondary); font-size: 1.1rem; }
+    .value-list { display: flex; flex-direction: column; gap: 18px; }
+    .value-item { display: flex; align-items: flex-start; gap: 18px; padding: 24px 28px; background: var(--surface); border: 1px solid var(--border-light); border-radius: 14px; transition: all 0.25s; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .value-item:hover { border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateX(4px); }
+    .value-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 8px; }
+    .value-text { flex: 1; }
+    .value-text h4 { font-size: 1.05rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .value-text p { font-size: 0.92rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+    /* At a Glance - Premium Dark Navy */
+    .glance-section { background: linear-gradient(135deg, var(--navy) 0%, #243848 100%); padding: 72px 32px; }
+    .glance-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
+    .glance-title { font-family: 'Fraunces', serif; font-size: 1.3rem; color: rgba(255,255,255,0.7); margin-bottom: 40px; font-weight: 500; letter-spacing: 0.02em; }
+    .glance-stats { display: flex; justify-content: center; gap: 100px; flex-wrap: wrap; }
+    .glance-stat { text-align: center; }
+    .glance-value { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 800; color: white; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .glance-label { font-size: 0.95rem; color: rgba(255,255,255,0.6); font-weight: 500; }
+    .glance-meta { margin-top: 40px; display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
+    .glance-meta-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+    .glance-meta-item svg { width: 14px; height: 14px; }
+
+    /* CTA Section */
+    .cta-section { padding: 80px 32px; background: var(--surface-alt); }
+    .cta-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+    .cta-inner h2 { font-family: 'Fraunces', serif; font-size: 2rem; color: var(--navy); margin-bottom: 12px; }
+    .cta-inner p { color: var(--text-secondary); font-size: 1rem; margin-bottom: 32px; }
+    .cta-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto 16px; }
+    .cta-form input { flex: 1; padding: 14px 18px; border: 2px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .cta-form input:focus { border-color: var(--accent); }
+    .cta-form button { padding: 14px 28px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .cta-form button:hover { background: var(--accent-hover); }
+    .cta-note { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* Company Logos Section */
+    .logos-section { padding: 48px 32px; background: var(--surface); border-top: 1px solid var(--border-light); }
+    .logos-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
+    .logos-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .logos-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .logo-item {
+      padding: 10px 20px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy);
+      transition: all 0.2s;
+    }
+    .logo-item:hover { border-color: var(--accent); background: var(--accent-light); }
+    .logo-item span { color: var(--text-muted); font-weight: 500; font-size: 0.75rem; margin-left: 8px; }
 
     /* Footer */
-    .footer { background: var(--text-navy); color: #9AA0A6; padding: 64px 32px 40px; }
-    .footer-inner { max-width: 1040px; margin: 0 auto; }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
-    .footer-brand h4 { color: white; font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
-    .footer-brand h4 span { font-weight: 800; color: var(--accent); }
-    .footer-brand p { font-size: 0.95rem; line-height: 1.6; max-width: 280px; }
-    .footer-col h5 { color: white; font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.8px; }
-    .footer-col a { display: block; color: #9AA0A6; text-decoration: none; font-size: 0.95rem; margin-bottom: 10px; transition: color 0.2s; }
-    .footer-col a:hover { color: white; }
-    .footer-bottom { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.85rem; }
+    .footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 48px 32px; text-align: center; }
+    .footer p { font-size: 0.9rem; }
 
     /* Mobile */
     @media (max-width: 768px) {
-      .header { padding: 0 20px; height: 64px; }
-      .header-search { display: none; }
       .nav-links { display: none; }
-      .hero { padding: 64px 20px 56px; }
-      .hero h1 { font-size: 2rem; }
-      .hero-subtitle { font-size: 1.05rem; }
-      .search-box input { padding: 14px 18px; font-size: 0.95rem; }
-      .search-box button { padding: 14px 20px; font-size: 0.9rem; }
-      .stats-inner { gap: 32px; }
-      .stat-value { font-size: 1.5rem; }
-      .categories, .features { padding: 56px 20px; }
+      .hero { padding: 80px 20px 60px; min-height: 60vh; }
+      .hero h1 { font-size: 2.6rem; }
+      .hero-subtitle { font-size: 1rem; margin-bottom: 36px; }
+      .hero-search input { padding: 16px 20px 16px 48px; font-size: 0.95rem; }
+      .floating-tickers { display: none; }
+      .preview-section, .value-section, .cta-section { padding: 56px 20px; }
+      .preview-card { padding: 24px; border-left-width: 3px; }
+      .preview-stat-value { font-size: 1.5rem; }
+      .glance-section { padding: 56px 20px; }
+      .glance-stats { gap: 48px; }
+      .glance-value { font-size: 2.5rem; }
+      .cta-form { flex-direction: column; }
+      .value-item { padding: 20px; }
+      .logos-section { padding: 40px 20px; }
+      .logos-row { gap: 16px; }
+      .logo-item { padding: 8px 14px; font-size: 0.8rem; }
+      .logo-item span { display: none; }
     }
   </style>
 </head>
@@ -265,205 +473,211 @@ function startServer(port: number): void {
   <header class="header">
     <div class="header-inner">
       <a href="/" class="logo">Satya<span>Bio</span></a>
-      <nav class="nav">
-        <div class="nav-links">
-          <a href="/targets">Targets</a>
-          <a href="/companies">Companies</a>
-          <a href="/research">Research</a>
-          <a href="/about">About</a>
-        </div>
-        <form class="header-search" onsubmit="event.preventDefault(); const q = this.querySelector('input').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-          <input type="text" placeholder="Search targets...">
-        </form>
-        <div class="nav-cta">
-          <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
-          <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
-        </div>
+      <nav class="nav-links">
+        <a href="/targets">Targets</a>
+        <a href="/companies">Companies</a>
+        <a href="/research">Research</a>
+        <a href="/about">About</a>
       </nav>
+      <div class="nav-cta">
+        <a href="#cta" class="btn-primary">Request Access</a>
+      </div>
     </div>
   </header>
 
   <!-- Hero -->
   <section class="hero">
+    <div class="hero-gradient"></div>
     <div class="hero-bg">
       <div class="circle circle-1"></div>
       <div class="circle circle-2"></div>
       <div class="circle circle-3"></div>
       <div class="circle circle-4"></div>
+      <div class="circle circle-5"></div>
+    </div>
+    <div class="floating-tickers">
+      <div class="ticker-pill">ARWR</div>
+      <div class="ticker-pill">VKTX</div>
+      <div class="ticker-pill">ALNY</div>
+      <div class="ticker-pill">RCKT</div>
+      <div class="ticker-pill">IONS</div>
     </div>
     <div class="hero-content">
-      <h1>Make <span class="highlight">confident</span> investment decisions, from screening to <span class="highlight">deep diligence</span></h1>
-      <p class="hero-subtitle">Explore, compare, and evaluate drug pipelines with institutional-grade intelligence.</p>
-
-      <div class="search-container">
-        <form class="search-box" onsubmit="event.preventDefault(); const q = document.getElementById('target-search').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
-          <input type="text" id="target-search" placeholder="Search any target: TL1A, B7-H3, KRAS, GLP-1...">
-          <button type="submit">Search</button>
-        </form>
+      <h1>Biotech Intelligence<br>for the Buy Side</h1>
+      <p class="hero-subtitle">Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals</p>
+      <div class="hero-search">
+        <svg class="hero-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        <input type="text" placeholder="Search targets, companies, or therapeutic areas..." onfocus="window.location.href='/companies'">
       </div>
+      <div class="hero-updated">Data updated <span>${lastUpdated}</span></div>
+    </div>
+  </section>
 
-      <div class="quick-examples">
-        <a href="/api/report/target/B7-H3/html" class="quick-pill">B7-H3</a>
-        <a href="/api/report/target/TL1A/html" class="quick-pill">TL1A</a>
-        <a href="/api/report/target/KRAS/html" class="quick-pill">KRAS</a>
-        <a href="/api/report/target/PCSK9/html" class="quick-pill">PCSK9</a>
-        <a href="/api/report/target/CD19/html" class="quick-pill">CD19</a>
-        <a href="/api/report/target/PD-1/html" class="quick-pill">PD-1</a>
+  <!-- Live Preview Cards -->
+  <section class="preview-section">
+    <div class="preview-inner">
+      <div class="preview-header">
+        <h2>See What We Track</h2>
+        <p>Real data, updated daily</p>
+      </div>
+      <div class="preview-grid">
+        <!-- GLP-1 Landscape -->
+        <div class="preview-card">
+          <div class="preview-card-header">
+            <h3>GLP-1 Landscape</h3>
+            <span class="preview-badge">Hot Target</span>
+          </div>
+          <div class="preview-stats">
+            <div class="preview-stat">
+              <span class="preview-stat-label">Assets in development</span>
+              <span class="preview-stat-value">25</span>
+            </div>
+            <div class="preview-stat">
+              <span class="preview-stat-label">Approved</span>
+              <span class="preview-stat-value">6</span>
+            </div>
+            <div class="preview-stat">
+              <span class="preview-stat-label">Phase 3</span>
+              <span class="preview-stat-value">7</span>
+            </div>
+            <div class="preview-stat">
+              <span class="preview-stat-label">Disclosed deal value</span>
+              <span class="preview-stat-value highlight">$22.8B</span>
+            </div>
+          </div>
+          <a href="/api/report/target/GLP-1/html" class="preview-link">View Report</a>
+        </div>
+
+        <!-- Upcoming Catalysts -->
+        <div class="preview-card">
+          <div class="preview-card-header">
+            <h3>Upcoming Catalysts</h3>
+            <span class="preview-badge">Live</span>
+          </div>
+          <div class="preview-items">
+            <div class="preview-item"><strong>RCKT:</strong> KRESLADI PDUFA — Mar 28, 2026</div>
+            <div class="preview-item"><strong>XENE:</strong> X-TOLE2 Phase 3 data — Q1 2026</div>
+            <div class="preview-item"><strong>VKTX:</strong> Oral VK2735 Phase 2 data — H1 2026</div>
+            <div class="preview-item"><strong>RVMD:</strong> RMC-6236 PDAC Phase 3 — H2 2026</div>
+          </div>
+          <a href="/companies" class="preview-link">View All Catalysts</a>
+        </div>
+
+        <!-- Recent Deals -->
+        <div class="preview-card">
+          <div class="preview-card-header">
+            <h3>Recent Deal Activity</h3>
+            <span class="preview-badge">2024-25</span>
+          </div>
+          <div class="preview-items">
+            <div class="preview-item"><strong>AZ / CSPC:</strong> $4.7B — GLP-1 portfolio</div>
+            <div class="preview-item"><strong>Roche / Zealand:</strong> $5.3B — Petrelintide</div>
+            <div class="preview-item"><strong>Pfizer / Metsera:</strong> $4.9B — Obesity portfolio</div>
+            <div class="preview-item"><strong>Novo / Akero:</strong> $620M — MASH (EFX)</div>
+          </div>
+          <a href="/api/report/target/GLP-1/html" class="preview-link">View Deal Tracker</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Stats Bar -->
-  <section class="stats-bar">
-    <div class="stats-inner">
-      <div class="stat-item">
-        <div class="stat-value">500+</div>
-        <div class="stat-label">Assets tracked</div>
+  <!-- Value Props -->
+  <section class="value-section">
+    <div class="value-inner">
+      <div class="value-header">
+        <h2>What takes hours, done in minutes</h2>
+        <p>Stop piecing together data from SEC filings, clinicaltrials.gov, and company IR pages</p>
       </div>
-      <div class="stat-item">
-        <div class="stat-value">50,000+</div>
-        <div class="stat-label">Clinical trials</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">$200B+</div>
-        <div class="stat-label">Deal value indexed</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">Real-time</div>
-        <div class="stat-label">Data updates</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Categories -->
-  <section class="categories" id="categories">
-    <div class="categories-inner">
-      <div class="categories-header">
-        <h2>Browse by Category</h2>
-        <p>Find investment opportunities across modalities, therapeutic areas, and company types.</p>
-      </div>
-
-      <div class="categories-grid">
-        <div class="category-card">
-          <h3>By Modality</h3>
-          <div class="category-list">
-            <a href="/api/report/target/B7-H3/html" class="category-item">ADCs <span class="count">23 assets</span></a>
-            <a href="/api/report/target/CD19/html" class="category-item">CAR-T <span class="count">18 assets</span></a>
-            <a href="/api/report/target/BCMA/html" class="category-item">Bispecifics <span class="count">31 assets</span></a>
-            <a href="/api/report/target/GLP-1/html" class="category-item">Small Molecules <span class="count">45 assets</span></a>
+      <div class="value-list">
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <h4>Track every asset targeting GLP-1 across all clinical stages</h4>
+            <p>Complete competitive landscapes with deal terms, trial data, and regulatory milestones</p>
           </div>
         </div>
-
-        <div class="category-card">
-          <h3>By Therapeutic Area</h3>
-          <div class="category-list">
-            <a href="/api/report/target/KRAS/html" class="category-item">Oncology <span class="count">156 targets</span></a>
-            <a href="/api/report/target/TL1A/html" class="category-item">Immunology <span class="count">42 targets</span></a>
-            <a href="/api/report/target/PCSK9/html" class="category-item">Cardiovascular <span class="count">28 targets</span></a>
-            <a href="/api/report/target/GLP-1/html" class="category-item">Metabolic <span class="count">35 targets</span></a>
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <h4>Monitor 60+ biotech pipelines with real-time catalyst updates</h4>
+            <p>PDUFA dates, Phase 3 readouts, and key events automatically tracked</p>
           </div>
         </div>
-
-        <div class="category-card">
-          <h3>By Company Type</h3>
-          <div class="category-list">
-            <a href="/api/pharma/MRK/html" class="category-item">Big Pharma <span class="count">13 companies</span></a>
-            <a href="/api/pharma/MRNA/html" class="category-item">US Biotech <span class="count">200+ companies</span></a>
-            <a href="/api/report/target/B7-H3/html" class="category-item">China Biotech <span class="count">50+ companies</span></a>
-            <a href="#" class="category-item">Academic <span class="count">Research only</span></a>
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <h4>Compare competitive landscapes across therapeutic areas</h4>
+            <p>Side-by-side analysis of clinical data, deal valuations, and market positioning</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="features-inner">
-      <div class="features-header">
-        <h2>Built for Investment Professionals</h2>
-        <p>The tools you need for biotech due diligence, all in one place.</p>
+  <!-- Satya Bio At A Glance -->
+  <section class="glance-section">
+    <div class="glance-inner">
+      <div class="glance-title">Satya Bio At A Glance</div>
+      <div class="glance-stats">
+        <div class="glance-stat">
+          <div class="glance-value">60+</div>
+          <div class="glance-label">public biotechs</div>
+        </div>
+        <div class="glance-stat">
+          <div class="glance-value">200+</div>
+          <div class="glance-label">pipeline assets</div>
+        </div>
+        <div class="glance-stat">
+          <div class="glance-value">$30B+</div>
+          <div class="glance-label">deal value tracked</div>
+        </div>
       </div>
-
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🎯</div>
-          <h3>Target Landscapes</h3>
-          <p>Complete competitive landscape for any target with deal terms, regulatory status, and clinical data.</p>
-          <a href="/api/report/target/B7-H3/html" class="feature-link">View example →</a>
+      <div class="glance-meta">
+        <div class="glance-meta-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          Updated ${lastUpdated}
         </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🏢</div>
-          <h3>Company Profiles</h3>
-          <p>Pipeline, catalysts, and BD strategy for the top pharma companies and biotechs.</p>
-          <a href="/api/pharma/MRK/html" class="feature-link">View Merck →</a>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <h3>Deal Intelligence</h3>
-          <p>M&A, licensing, and partnerships with disclosed values. Track who's buying what.</p>
-          <a href="/api/report/target/TL1A/html" class="feature-link">View TL1A deals →</a>
+        <div class="glance-meta-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          Primary source verified
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Pharma -->
-  <section class="pharma" id="pharma">
-    <div class="pharma-inner">
-      <h3>Company Profiles</h3>
-      <div class="pharma-grid">
-        <a href="/api/pharma/MRK/html" class="pharma-chip">Merck</a>
-        <a href="/api/pharma/PFE/html" class="pharma-chip">Pfizer</a>
-        <a href="/api/pharma/LLY/html" class="pharma-chip">Eli Lilly</a>
-        <a href="/api/pharma/ABBV/html" class="pharma-chip">AbbVie</a>
-        <a href="/api/pharma/BMY/html" class="pharma-chip">Bristol-Myers</a>
-        <a href="/api/pharma/AZN/html" class="pharma-chip">AstraZeneca</a>
-        <a href="/api/pharma/JNJ/html" class="pharma-chip">J&J</a>
-        <a href="/api/pharma/NVS/html" class="pharma-chip">Novartis</a>
-        <a href="/api/pharma/AMGN/html" class="pharma-chip">Amgen</a>
-        <a href="/api/pharma/GILD/html" class="pharma-chip">Gilead</a>
-        <a href="/api/pharma/RHHBY/html" class="pharma-chip">Roche</a>
-        <a href="/api/pharma/GSK/html" class="pharma-chip">GSK</a>
-        <a href="/api/pharma/SNY/html" class="pharma-chip">Sanofi</a>
+  <!-- Company Logos -->
+  <section class="logos-section">
+    <div class="logos-inner">
+      <div class="logos-title">Companies We Track</div>
+      <div class="logos-row">
+        <div class="logo-item">ARWR<span>RNAi</span></div>
+        <div class="logo-item">ALNY<span>RNAi</span></div>
+        <div class="logo-item">VKTX<span>GLP-1</span></div>
+        <div class="logo-item">IONS<span>ASO</span></div>
+        <div class="logo-item">RCKT<span>Gene Therapy</span></div>
+        <div class="logo-item">NTLA<span>CRISPR</span></div>
+        <div class="logo-item">RVMD<span>KRAS</span></div>
+        <div class="logo-item">MRNA<span>mRNA</span></div>
       </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <div class="cta-inner">
+      <h2>Request Access</h2>
+      <p>Currently in private beta with select funds</p>
+      <form class="cta-form" onsubmit="event.preventDefault(); const email = this.querySelector('input').value; if(email) { window.location.href = 'mailto:hello@satyabio.com?subject=Beta%20Access%20Request&body=Email:%20' + encodeURIComponent(email); }">
+        <input type="email" placeholder="work@fund.com" required>
+        <button type="submit">Request Access</button>
+      </form>
+      <p class="cta-note">We'll be in touch within 24 hours</p>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <h4>Satya<span>Bio</span></h4>
-          <p>Institutional-grade biotech intelligence for investors and strategy teams.</p>
-        </div>
-        <div class="footer-col">
-          <h5>Product</h5>
-          <a href="#features">Features</a>
-          <a href="/api/report/target/B7-H3/html">Target Reports</a>
-          <a href="/api/pharma/MRK/html">Company Profiles</a>
-        </div>
-        <div class="footer-col">
-          <h5>Data</h5>
-          <a href="https://clinicaltrials.gov" target="_blank">ClinicalTrials.gov</a>
-          <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a>
-          <a href="https://www.sec.gov/edgar" target="_blank">SEC EDGAR</a>
-        </div>
-        <div class="footer-col">
-          <h5>Company</h5>
-          <a href="/about">About</a>
-          <a href="#">Contact</a>
-          <a href="#">API Access</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        © 2026 Satya Bio. All rights reserved.
-      </div>
-    </div>
+    <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
   </footer>
 </body>
 </html>`);
@@ -569,7 +783,6 @@ function startServer(port: number): void {
       </div>
       <div class="reports-grid">
         <a href="/research/2025-licensing-deals" class="report-card">
-          <div class="report-card-image"><span>📊</span></div>
           <div class="report-card-content">
             <span class="report-badge">Deal Intelligence</span>
             <h3>2024–2025 Biopharma Licensing Deals: A Comprehensive Analysis</h3>
@@ -583,7 +796,6 @@ function startServer(port: number): void {
         </a>
 
         <a href="/api/report/target/TL1A/html" class="report-card">
-          <div class="report-card-image"><span>🎯</span></div>
           <div class="report-card-content">
             <span class="report-badge">Target Landscape</span>
             <h3>TL1A Inhibitors: The Next Blockbuster IBD Target</h3>
@@ -597,7 +809,6 @@ function startServer(port: number): void {
         </a>
 
         <a href="/api/report/target/B7-H3/html" class="report-card">
-          <div class="report-card-image"><span>🔬</span></div>
           <div class="report-card-content">
             <span class="report-badge">Target Landscape</span>
             <h3>B7-H3 ADCs: Racing to First Approval</h3>
@@ -611,7 +822,6 @@ function startServer(port: number): void {
         </a>
 
         <a href="#" class="report-card" style="opacity: 0.6; pointer-events: none;">
-          <div class="report-card-image"><span>🏢</span></div>
           <div class="report-card-content">
             <span class="report-badge">Coming Soon</span>
             <h3>Big Pharma M&A Playbook 2026</h3>
@@ -720,18 +930,82 @@ function startServer(port: number): void {
     .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
     .page-subtitle { color: var(--text-secondary); font-size: 0.95rem; }
 
+    /* Search Bar */
+    .search-container { margin-bottom: 24px; }
+    .search-wrapper { position: relative; max-width: 600px; }
+    .search-input {
+      width: 100%;
+      padding: 16px 20px 16px 52px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: white;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      outline: none;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 0 0 4px rgba(224,122,95,0.12);
+    }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .search-wrapper:focus-within .search-icon { color: var(--accent); }
+    .search-clear {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: var(--border);
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+      transition: all 0.15s;
+    }
+    .search-clear:hover { background: var(--accent); color: white; }
+    .search-clear.visible { display: flex; }
+    .search-results-info {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    .search-results-info strong { color: var(--navy); }
+    .no-results {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-secondary);
+    }
+    .no-results h3 { font-size: 1.1rem; color: var(--navy); margin-bottom: 8px; }
+
     /* Sticky Category Navigation */
     .category-nav { position: sticky; top: 64px; background: var(--bg); padding: 16px 0; z-index: 50; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
     .category-pills { display: flex; gap: 10px; flex-wrap: wrap; }
     .category-pill { padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.15s; text-decoration: none; white-space: nowrap; }
     .category-pill:hover { border-color: var(--navy); color: var(--navy); }
     .category-pill.active { background: var(--navy); border-color: var(--navy); color: white; }
-    .category-pill .emoji { margin-right: 4px; }
+    /* Category pills - text only */
 
     /* Section */
     .section { margin-bottom: 48px; scroll-margin-top: 140px; }
     .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
-    .section-emoji { font-size: 1.5rem; }
+    /* Section styling - clean, no emojis */
     .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); }
     .section-count { background: var(--navy); color: white; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
     .subsection-title { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin: 24px 0 16px 0; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -807,25 +1081,40 @@ function startServer(port: number): void {
       <p class="page-subtitle">Explore biotech companies with real-time catalyst tracking and deep research</p>
     </div>
 
+    <!-- Search Bar -->
+    <div class="search-container">
+      <div class="search-wrapper">
+        <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        <input type="text" class="search-input" id="companySearch" placeholder="Search companies by name, ticker, or therapeutic area..." autocomplete="off">
+        <button class="search-clear" id="searchClear" title="Clear search">&times;</button>
+      </div>
+      <div class="search-results-info" id="searchResultsInfo" style="display: none;"></div>
+    </div>
+
+    <!-- No Results Message -->
+    <div class="no-results" id="noResults" style="display: none;">
+      <h3>No companies found</h3>
+      <p>Try a different search term</p>
+    </div>
+
     <!-- Sticky Category Navigation -->
-    <nav class="category-nav">
+    <nav class="category-nav" id="categoryNav">
       <div class="category-pills">
-        <a href="#commercial" class="category-pill active"><span class="emoji">🏢</span>Commercial (29)</a>
-        <a href="#oncology" class="category-pill"><span class="emoji">🎯</span>Oncology (7)</a>
-        <a href="#immunology" class="category-pill"><span class="emoji">🔥</span>I&I (3)</a>
-        <a href="#neuro" class="category-pill"><span class="emoji">🧠</span>Neuro (7)</a>
-        <a href="#rare" class="category-pill"><span class="emoji">💎</span>Rare (3)</a>
-        <a href="#gene" class="category-pill"><span class="emoji">🧬</span>Gene Therapy (4)</a>
-        <a href="#metabolic" class="category-pill"><span class="emoji">❤️</span>Metabolic (3)</a>
-        <a href="#vaccines" class="category-pill"><span class="emoji">💉</span>Vaccines (3)</a>
-        <a href="#tools" class="category-pill"><span class="emoji">🔧</span>Tools (2)</a>
+        <a href="#commercial" class="category-pill active">Commercial (29)</a>
+        <a href="#oncology" class="category-pill">Oncology (7)</a>
+        <a href="#immunology" class="category-pill">I&I (3)</a>
+        <a href="#neuro" class="category-pill">Neuro (7)</a>
+        <a href="#rare" class="category-pill">Rare Disease (3)</a>
+        <a href="#gene" class="category-pill">Gene Therapy (4)</a>
+        <a href="#metabolic" class="category-pill">Metabolic (3)</a>
+        <a href="#vaccines" class="category-pill">Vaccines (3)</a>
+        <a href="#tools" class="category-pill">Tools (2)</a>
       </div>
     </nav>
 
     <!-- ==================== COMMERCIAL STAGE (29) ==================== -->
     <section id="commercial" class="section">
       <div class="section-header">
-        <span class="section-emoji">🏢</span>
         <h2 class="section-title">Commercial Stage</h2>
         <span class="section-count">29</span>
       </div>
@@ -878,7 +1167,6 @@ function startServer(port: number): void {
     <!-- ==================== CLINICAL ONCOLOGY (7) ==================== -->
     <section id="oncology" class="section">
       <div class="section-header">
-        <span class="section-emoji">🎯</span>
         <h2 class="section-title">Clinical Oncology</h2>
         <span class="section-count">7</span>
       </div>
@@ -896,7 +1184,6 @@ function startServer(port: number): void {
     <!-- ==================== CLINICAL I&I (3) ==================== -->
     <section id="immunology" class="section">
       <div class="section-header">
-        <span class="section-emoji">🔥</span>
         <h2 class="section-title">Clinical I&I</h2>
         <span class="section-count">3</span>
       </div>
@@ -910,7 +1197,6 @@ function startServer(port: number): void {
     <!-- ==================== CLINICAL NEUROPSYCHIATRY (7) ==================== -->
     <section id="neuro" class="section">
       <div class="section-header">
-        <span class="section-emoji">🧠</span>
         <h2 class="section-title">Clinical Neuropsychiatry</h2>
         <span class="section-count">7</span>
       </div>
@@ -928,7 +1214,6 @@ function startServer(port: number): void {
     <!-- ==================== CLINICAL RARE DISEASE (3) ==================== -->
     <section id="rare" class="section">
       <div class="section-header">
-        <span class="section-emoji">💎</span>
         <h2 class="section-title">Clinical Rare Disease</h2>
         <span class="section-count">3</span>
       </div>
@@ -942,7 +1227,6 @@ function startServer(port: number): void {
     <!-- ==================== CLINICAL GENE THERAPY (4) ==================== -->
     <section id="gene" class="section">
       <div class="section-header">
-        <span class="section-emoji">🧬</span>
         <h2 class="section-title">Gene Therapy & Editing</h2>
         <span class="section-count">4</span>
       </div>
@@ -957,7 +1241,6 @@ function startServer(port: number): void {
     <!-- ==================== CLINICAL METABOLIC/CV (3) ==================== -->
     <section id="metabolic" class="section">
       <div class="section-header">
-        <span class="section-emoji">❤️</span>
         <h2 class="section-title">Metabolic & Cardiovascular</h2>
         <span class="section-count">3</span>
       </div>
@@ -971,7 +1254,6 @@ function startServer(port: number): void {
     <!-- ==================== CLINICAL VACCINES (3) ==================== -->
     <section id="vaccines" class="section">
       <div class="section-header">
-        <span class="section-emoji">💉</span>
         <h2 class="section-title">Clinical Vaccines</h2>
         <span class="section-count">3</span>
       </div>
@@ -985,7 +1267,6 @@ function startServer(port: number): void {
     <!-- ==================== TOOLS & BIOPROCESSING (2) ==================== -->
     <section id="tools" class="section">
       <div class="section-header">
-        <span class="section-emoji">🔧</span>
         <h2 class="section-title">Tools & Bioprocessing</h2>
         <span class="section-count">2</span>
       </div>
@@ -1036,6 +1317,108 @@ function startServer(port: number): void {
 
     window.addEventListener('scroll', updateActivePill);
     updateActivePill();
+
+    // Search functionality
+    const searchInput = document.getElementById('companySearch');
+    const searchClear = document.getElementById('searchClear');
+    const searchResultsInfo = document.getElementById('searchResultsInfo');
+    const noResults = document.getElementById('noResults');
+    const categoryNav = document.getElementById('categoryNav');
+    const allSections = document.querySelectorAll('.section');
+    const allCards = document.querySelectorAll('.company-card');
+
+    // Store original parent for each card
+    allCards.forEach(card => {
+      card.dataset.originalParent = card.parentElement.className;
+    });
+
+    function performSearch(query) {
+      const q = query.toLowerCase().trim();
+
+      if (!q) {
+        // Reset to normal view
+        allSections.forEach(s => s.style.display = '');
+        allCards.forEach(card => card.style.display = '');
+        categoryNav.style.display = '';
+        searchResultsInfo.style.display = 'none';
+        noResults.style.display = 'none';
+        searchClear.classList.remove('visible');
+        return;
+      }
+
+      searchClear.classList.add('visible');
+
+      let matchCount = 0;
+
+      allCards.forEach(card => {
+        const ticker = card.querySelector('.card-ticker')?.textContent?.toLowerCase() || '';
+        const name = card.querySelector('.card-name')?.textContent?.toLowerCase() || '';
+        const platform = card.querySelector('.platform-badge')?.textContent?.toLowerCase() || '';
+        const description = card.querySelector('.card-description')?.textContent?.toLowerCase() || '';
+        const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent.toLowerCase()).join(' ');
+
+        const searchText = ticker + ' ' + name + ' ' + platform + ' ' + description + ' ' + tags;
+
+        if (searchText.includes(q)) {
+          card.style.display = '';
+          matchCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Hide sections with no visible cards
+      allSections.forEach(section => {
+        const visibleCards = section.querySelectorAll('.company-card:not([style*="display: none"])');
+        if (visibleCards.length === 0) {
+          section.style.display = 'none';
+        } else {
+          section.style.display = '';
+        }
+      });
+
+      // Hide category nav during search
+      categoryNav.style.display = 'none';
+
+      // Show results info
+      if (matchCount > 0) {
+        searchResultsInfo.innerHTML = '<strong>' + matchCount + '</strong> ' + (matchCount === 1 ? 'company' : 'companies') + ' matching "<strong>' + escapeHtml(query) + '</strong>"';
+        searchResultsInfo.style.display = 'block';
+        noResults.style.display = 'none';
+      } else {
+        searchResultsInfo.style.display = 'none';
+        noResults.querySelector('p').textContent = 'No companies found for "' + query + '". Try a different search term.';
+        noResults.style.display = 'block';
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Debounce search
+    let searchTimeout;
+    searchInput.addEventListener('input', function() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => performSearch(this.value), 150);
+    });
+
+    searchClear.addEventListener('click', function() {
+      searchInput.value = '';
+      performSearch('');
+      searchInput.focus();
+    });
+
+    // Clear search on Escape
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        performSearch('');
+        searchInput.blur();
+      }
+    });
   </script>
 </body>
 </html>`);
@@ -1765,18 +2148,19 @@ function startServer(port: number): void {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About | Satya Bio</title>
-  <meta name="description" content="Institutional-grade biotech intelligence for investment professionals.">
+  <meta name="description" content="We're building the intelligence layer for biotech investing.">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #1a2b3c;
-      --primary-light: #2d4a5e;
+      --navy: #1a2b3c;
+      --navy-light: #2d4a5e;
       --accent: #e07a5f;
       --accent-hover: #d06a4f;
       --accent-light: #fef5f3;
       --bg: #fafaf8;
       --surface: #ffffff;
       --border: #e5e5e0;
+      --border-light: #eeeeea;
       --text: #1a1d21;
       --text-secondary: #5f6368;
       --text-muted: #9aa0a6;
@@ -1784,61 +2168,68 @@ function startServer(port: number): void {
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
 
-    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 72px; position: sticky; top: 0; z-index: 100; }
+    /* Header */
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 68px; position: sticky; top: 0; z-index: 100; }
     .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
-    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--navy); text-decoration: none; }
     .logo span { color: var(--accent); }
     .nav-links { display: flex; gap: 32px; }
-    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
-    .nav-cta { display: flex; gap: 12px; }
-    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-weight: 600; text-decoration: none; }
-    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
-    .btn-primary:hover { background: var(--accent-hover); }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--navy); }
+    .nav-cta a { padding: 10px 20px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; font-size: 0.9rem; }
 
-    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 80px 32px; text-align: center; position: relative; overflow: hidden; }
+    /* Hero */
+    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); padding: 100px 32px; text-align: center; position: relative; overflow: hidden; }
     .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; }
-    .circle { position: absolute; border-radius: 50%; opacity: 0.15; animation: float 20s ease-in-out infinite; }
+    .circle { position: absolute; border-radius: 50%; opacity: 0.12; }
     .circle-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #fef08a 0%, #fde68a 100%); top: -100px; right: 10%; }
-    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #fef5f3 0%, #fecaca 100%); bottom: -50px; left: 5%; animation-delay: -5s; }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      50% { transform: translate(-10px, 20px) rotate(-5deg); }
-    }
-    .hero-content { position: relative; z-index: 1; }
-    .hero h1 { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: white; margin-bottom: 16px; }
-    .hero p { color: rgba(255,255,255,0.85); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #fef5f3 0%, #fecaca 100%); bottom: -50px; left: 5%; }
+    .hero-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: white; margin-bottom: 20px; }
+    .hero p { color: rgba(255,255,255,0.85); font-size: 1.25rem; line-height: 1.6; }
 
-    .main { max-width: 900px; margin: 0 auto; padding: 64px 32px; }
+    /* Main Content */
+    .main { max-width: 800px; margin: 0 auto; padding: 80px 32px; }
 
+    /* Section */
     .section { margin-bottom: 64px; }
-    .section h2 { font-family: 'Fraunces', serif; font-size: 1.75rem; color: var(--primary); margin-bottom: 24px; }
-    .section p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 16px; }
+    .section h2 { font-family: 'Fraunces', serif; font-size: 1.75rem; color: var(--navy); margin-bottom: 20px; }
+    .section > p { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8; }
 
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 32px; }
-    .feature { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
-    .feature-icon { width: 48px; height: 48px; background: var(--accent-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 1.5rem; }
-    .feature h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
-    .feature p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; }
+    /* Track List */
+    .track-list { margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+    .track-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border-light); border-radius: 12px; }
+    .track-icon { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; margin-top: 8px; flex-shrink: 0; }
+    .track-text { color: var(--text); font-size: 1rem; font-weight: 500; }
 
-    .data-sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
-    .data-source { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
-    .data-source-name { font-weight: 700; color: var(--primary); margin-bottom: 4px; }
-    .data-source-type { font-size: 0.85rem; color: var(--text-muted); }
+    /* Different List */
+    .different-list { margin-top: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .different-item { display: flex; align-items: flex-start; gap: 16px; }
+    .different-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+    .different-content h4 { font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+    .different-content p { font-size: 0.9rem; color: var(--text-secondary); margin: 0; }
 
-    .cta-section { background: var(--primary); border-radius: 24px; padding: 48px; text-align: center; color: white; }
-    .cta-section h2 { font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 16px; }
-    .cta-section p { opacity: 0.85; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
-    .cta-btn { display: inline-block; padding: 14px 32px; background: var(--accent); color: white; font-weight: 700; text-decoration: none; border-radius: 10px; transition: all 0.2s; }
-    .cta-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+    /* CTA Section */
+    .cta-section { background: var(--navy); border-radius: 20px; padding: 56px 40px; text-align: center; color: white; }
+    .cta-section h2 { font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 12px; }
+    .cta-section > p { opacity: 0.8; margin-bottom: 32px; }
+    .cta-form { display: flex; gap: 12px; max-width: 420px; margin: 0 auto 16px; }
+    .cta-form input { flex: 1; padding: 14px 18px; border: none; border-radius: 10px; font-size: 1rem; font-family: inherit; outline: none; }
+    .cta-form button { padding: 14px 24px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .cta-form button:hover { background: var(--accent-hover); }
+    .cta-note { font-size: 0.85rem; opacity: 0.6; }
 
-    .footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 48px 32px; text-align: center; margin-top: 64px; }
+    /* Footer */
+    .footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 40px 32px; text-align: center; margin-top: 80px; }
+    .footer p { font-size: 0.9rem; }
 
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .hero { padding: 60px 20px; }
+      .hero { padding: 64px 20px; }
       .hero h1 { font-size: 2rem; }
-      .main { padding: 40px 20px; }
+      .hero p { font-size: 1.05rem; }
+      .main { padding: 48px 20px; }
+      .cta-form { flex-direction: column; }
     }
   </style>
 </head>
@@ -1853,8 +2244,7 @@ function startServer(port: number): void {
         <a href="/about" class="active">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
-        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
+        <a href="#cta">Request Access</a>
       </div>
     </div>
   </header>
@@ -1866,83 +2256,82 @@ function startServer(port: number): void {
     </div>
     <div class="hero-content">
       <h1>About Satya Bio</h1>
-      <p>Institutional-grade biotech intelligence for investment professionals</p>
+      <p>We're building the intelligence layer for biotech investing</p>
     </div>
   </section>
 
   <main class="main">
     <section class="section">
       <h2>Our Mission</h2>
-      <p>Satya Bio provides comprehensive, real-time intelligence on the biotech landscape. We help investment professionals, analysts, and researchers make informed decisions by aggregating and analyzing data from multiple authoritative sources.</p>
-      <p>Our platform delivers deep-dive research on therapeutic targets, company pipelines, clinical trials, and competitive landscapes—all in one place.</p>
+      <p>Biotech investing requires synthesizing data from dozens of sources — SEC filings, clinical trials, company presentations, deal announcements. We built Satya Bio to do that synthesis automatically, so investors can focus on what matters: making better decisions.</p>
     </section>
 
     <section class="section">
-      <h2>What We Do</h2>
-      <div class="features">
-        <div class="feature">
-          <div class="feature-icon">🎯</div>
-          <h3>Target Landscapes</h3>
-          <p>Comprehensive analysis of drug targets including competitive landscapes, clinical assets, and key publications.</p>
+      <h2>What We Track</h2>
+      <div class="track-list">
+        <div class="track-item">
+          <div class="track-icon"></div>
+          <div class="track-text">60+ public biotech companies with full pipeline coverage</div>
         </div>
-        <div class="feature">
-          <div class="feature-icon">🏢</div>
-          <h3>Company Research</h3>
-          <p>Pipeline analysis, catalyst tracking, and financial metrics for 200+ public biotech companies.</p>
+        <div class="track-item">
+          <div class="track-icon"></div>
+          <div class="track-text">200+ drug assets across all clinical stages</div>
         </div>
-        <div class="feature">
-          <div class="feature-icon">🔬</div>
-          <h3>Clinical Intelligence</h3>
-          <p>Real-time trial data, efficacy comparisons, and regulatory milestone tracking.</p>
+        <div class="track-item">
+          <div class="track-icon"></div>
+          <div class="track-text">10+ therapeutic target landscapes</div>
         </div>
-        <div class="feature">
-          <div class="feature-icon">💼</div>
-          <h3>Deal Tracking</h3>
-          <p>Licensing agreements, M&A activity, and partnership analysis across the industry.</p>
+        <div class="track-item">
+          <div class="track-icon"></div>
+          <div class="track-text">$30B+ in licensing and M&A deal value</div>
+        </div>
+        <div class="track-item">
+          <div class="track-icon"></div>
+          <div class="track-text">Catalyst tracking with automated date updates</div>
         </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>Data Sources</h2>
-      <p>We aggregate and analyze data from authoritative public sources:</p>
-      <div class="data-sources">
-        <div class="data-source">
-          <div class="data-source-name">ClinicalTrials.gov</div>
-          <div class="data-source-type">Trial Data</div>
+      <h2>How We're Different</h2>
+      <div class="different-list">
+        <div class="different-item">
+          <div class="different-dot"></div>
+          <div class="different-content">
+            <h4>Built by biotech investors, for biotech investors</h4>
+            <p>We understand the questions you're actually trying to answer</p>
+          </div>
         </div>
-        <div class="data-source">
-          <div class="data-source-name">SEC EDGAR</div>
-          <div class="data-source-type">Financials & Filings</div>
+        <div class="different-item">
+          <div class="different-dot"></div>
+          <div class="different-content">
+            <h4>Updated daily, not quarterly</h4>
+            <p>Real-time catalyst tracking and pipeline updates</p>
+          </div>
         </div>
-        <div class="data-source">
-          <div class="data-source-name">PubMed</div>
-          <div class="data-source-type">Publications</div>
-        </div>
-        <div class="data-source">
-          <div class="data-source-name">Company IR Pages</div>
-          <div class="data-source-type">Presentations & PRs</div>
-        </div>
-        <div class="data-source">
-          <div class="data-source-name">FDA Orange Book</div>
-          <div class="data-source-type">Patents & Exclusivity</div>
-        </div>
-        <div class="data-source">
-          <div class="data-source-name">OpenFDA</div>
-          <div class="data-source-type">Regulatory Events</div>
+        <div class="different-item">
+          <div class="different-dot"></div>
+          <div class="different-content">
+            <h4>Primary source data, not aggregated news</h4>
+            <p>SEC filings, ClinicalTrials.gov, FDA databases, company IR pages</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="cta-section">
-      <h2>Request Early Access</h2>
-      <p>Satya Bio is currently in private beta. Join the waitlist to get early access when we launch.</p>
-      <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio.%0A%0AName:%0ACompany:%0ARole:" class="cta-btn">Join the Waitlist →</a>
+    <section class="cta-section" id="cta">
+      <h2>Request Access</h2>
+      <p>Currently in private beta with select funds</p>
+      <form class="cta-form" onsubmit="event.preventDefault(); const email = this.querySelector('input').value; if(email) { window.location.href = 'mailto:hello@satyabio.com?subject=Beta%20Access%20Request&body=Email:%20' + encodeURIComponent(email); }">
+        <input type="email" placeholder="work@fund.com" required>
+        <button type="submit">Request Access</button>
+      </form>
+      <p class="cta-note">We'll be in touch within 24 hours</p>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© 2026 Satya Bio. Institutional-grade biotech intelligence.</p>
+    <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
   </footer>
 </body>
 </html>`);
@@ -4108,7 +4497,7 @@ function generateHtmlReport(
       <div>
         <!-- Pipeline Table -->
         <div class="card">
-          <h2 class="card-title"><span class="card-icon">🧬</span> Pipeline</h2>
+          <h2 class="card-title">Pipeline</h2>
           <table class="pipeline-table">
             <thead>
               <tr>
@@ -4126,7 +4515,7 @@ function generateHtmlReport(
                   <td><span class="phase-badge ${getPhaseClass(drug.phase)}">${escapeHtml(drug.phase)}</span></td>
                   <td>${escapeHtml(drug.indication)}</td>
                   <td>${drug.status ? escapeHtml(drug.status) : '—'}</td>
-                  <td>${drug.catalyst ? `<span class="catalyst-tag">📅 ${escapeHtml(drug.catalyst)}</span>` : '—'}</td>
+                  <td>${drug.catalyst ? `<span class="catalyst-tag">${escapeHtml(drug.catalyst)}</span>` : '—'}</td>
                 </tr>
               `).join('')}
             </tbody>
@@ -4136,7 +4525,7 @@ function generateHtmlReport(
         <!-- Partnerships -->
         ${analysis.partnerships.length > 0 ? `
         <div class="card">
-          <h2 class="card-title"><span class="card-icon">🤝</span> Partnerships</h2>
+          <h2 class="card-title">Partnerships</h2>
           <div class="partnership-cards">
             ${analysis.partnerships.map(p => `
               <div class="partnership-card">
@@ -4155,7 +4544,7 @@ function generateHtmlReport(
         <!-- Recent Events -->
         ${analysis.recentEvents.length > 0 ? `
         <div class="card">
-          <h2 class="card-title"><span class="card-icon">📰</span> Recent Events</h2>
+          <h2 class="card-title">Recent Events</h2>
           <ul class="events-list">
             ${analysis.recentEvents.map(event => `
               <li>${escapeHtml(event)}</li>
@@ -4168,7 +4557,7 @@ function generateHtmlReport(
       <div>
         <!-- Financials -->
         <div class="card">
-          <h2 class="card-title"><span class="card-icon">💰</span> Financials</h2>
+          <h2 class="card-title">Financials</h2>
           <div class="financials-grid" style="grid-template-columns: 1fr;">
             <div class="financial-item ${runwayClass}">
               <div class="financial-label">Cash Position</div>
@@ -4201,7 +4590,7 @@ function generateHtmlReport(
         <!-- FDA Interactions -->
         ${analysis.fdaInteractions.length > 0 ? `
         <div class="card">
-          <h2 class="card-title"><span class="card-icon">🏛️</span> FDA Interactions</h2>
+          <h2 class="card-title">FDA Interactions</h2>
           <ul class="fda-list">
             ${analysis.fdaInteractions.map(item => `
               <li>
@@ -4217,7 +4606,7 @@ function generateHtmlReport(
         ${analysis.risks.length > 0 ? `
         <div class="card collapsible">
           <h2 class="card-title collapsible-header">
-            <span><span class="card-icon">⚠️</span> Key Risks</span>
+            <span>Key Risks</span>
           </h2>
           <div class="collapsible-content">
             <ul class="risk-list">
@@ -4928,7 +5317,7 @@ function generateDashboardHtml(data: DashboardRow[]): string {
                   <td><span class="phase-badge ${getPhaseClass(row.phase)}">${escapeHtml(row.phase)}</span></td>
                   <td class="${runwayClass}">${runwayIcon} ${row.runway ? row.runway + ' mo' : '—'}</td>
                   <td>${row.cash || '—'}</td>
-                  <td>${row.catalyst ? `<span class="catalyst-tag">📅 ${escapeHtml(row.catalyst)}</span>` : '—'}</td>
+                  <td>${row.catalyst ? `<span class="catalyst-tag">${escapeHtml(row.catalyst)}</span>` : '—'}</td>
                   <td>${row.pipelineCount} assets</td>
                 </tr>
               `;
@@ -5316,7 +5705,7 @@ function generateLandscapeHtml(data: LandscapeData): string {
   <div class="container">
     <!-- Section 1: Clinical Landscape -->
     <section class="section">
-      <h2 class="section-title">🧬 Clinical Landscape</h2>
+      <h2 class="section-title">Clinical Landscape</h2>
 
       <div class="grid-2">
         <div class="card">
@@ -5410,7 +5799,7 @@ function generateLandscapeHtml(data: LandscapeData): string {
 
     <!-- Section 3: Deal Tracker -->
     <section class="section">
-      <h2 class="section-title">💰 Deal Tracker</h2>
+      <h2 class="section-title">Deal Tracker</h2>
 
       <div class="card">
         <div class="card-title">Recent Deals & News (${data.dealsNews.length})</div>
@@ -6422,7 +6811,7 @@ function generateTrialResultsHtml(data: FullTrialData): string {
 
     <!-- Study Arms -->
     <section class="section">
-      <h2 class="section-title">📊 Study Population & Arms</h2>
+      <h2 class="section-title">Study Population & Arms</h2>
       <div class="card">
         <table>
           <thead>
@@ -6443,19 +6832,19 @@ function generateTrialResultsHtml(data: FullTrialData): string {
     ${data.hasResults ? `
     <!-- Primary Outcomes -->
     <section class="section">
-      <h2 class="section-title">🎯 Primary Outcomes</h2>
+      <h2 class="section-title">Primary Outcomes</h2>
       ${primaryOutcomesHtml}
     </section>
 
     <!-- Secondary Outcomes -->
     <section class="section">
-      <h2 class="section-title">📈 Secondary Outcomes</h2>
+      <h2 class="section-title">Secondary Outcomes</h2>
       ${secondaryOutcomesHtml}
     </section>
 
     <!-- Safety -->
     <section class="section">
-      <h2 class="section-title">⚠️ Adverse Events</h2>
+      <h2 class="section-title">Adverse Events</h2>
       ${safetyHtml}
     </section>
     ` : ''}
@@ -6781,7 +7170,7 @@ function generateTrialComparisonHtml(comparison: {
 
   const differencesHtml = comparison.comparison.endpointDifferences.length > 0 ? `
     <div class="card" style="background: #fef3c7; border-color: #f59e0b;">
-      <div class="card-title" style="color: #92400e;">⚠️ Endpoint Differences</div>
+      <div class="card-title" style="color: #92400e;">Endpoint Differences</div>
       <ul style="margin-left: 1.5rem; color: #92400e;">
         ${comparison.comparison.endpointDifferences.map(d => `<li>${escapeHtml(d)}</li>`).join('')}
       </ul>
@@ -6944,7 +7333,7 @@ function generateTrialComparisonHtml(comparison: {
 </head>
 <body>
   <header class="header">
-    <h1>📊 Trial Comparison</h1>
+    <h1>Trial Comparison</h1>
     <div class="header-subtitle">
       Comparing ${trials.length} trials: ${trials.map(t => `<a href="/api/trial/${t.nctId}/results/html" style="color: white;">${t.nctId}</a>`).join(', ')}
     </div>
@@ -6954,21 +7343,21 @@ function generateTrialComparisonHtml(comparison: {
     ${differencesHtml}
 
     <section class="section">
-      <h2 class="section-title">📋 Study Overview</h2>
+      <h2 class="section-title">Study Overview</h2>
       <div class="card">
         ${populationHtml}
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">🎯 Primary Efficacy Endpoints</h2>
+      <h2 class="section-title">Primary Efficacy Endpoints</h2>
       <div class="card">
         ${endpointsHtml}
       </div>
     </section>
 
     <section class="section">
-      <h2 class="section-title">⚠️ Safety Comparison (Common AEs)</h2>
+      <h2 class="section-title">Safety Comparison</h2>
       <div class="card">
         ${safetyHtml}
       </div>
@@ -7513,7 +7902,7 @@ function generateTargetReportHtml(report: any, trialAnalytics: any, targetAnalys
       <div class="asset-highlights">
         ${a.deal ? `
           <div class="deal-info">
-            💰 ${formatDealValue(a.deal.committed || 0)} committed${a.deal.partner ? ` to ${a.deal.partner}` : ''}
+            ${formatDealValue(a.deal.committed || 0)} committed${a.deal.partner ? ` to ${a.deal.partner}` : ''}
             ${a.deal.hasBreakdown ? `
               <div class="deal-breakdown">
                 ${a.deal.upfront ? `• ${formatDealValue(a.deal.upfront)} upfront` : ''}
@@ -7524,7 +7913,7 @@ function generateTargetReportHtml(report: any, trialAnalytics: any, targetAnalys
             ` : `<span class="unverified-deal"> ★ unverified</span>`}
           </div>
         ` : ''}
-        ${a.keyData ? `<div class="key-data-info">📊 ${a.keyData}</div>` : ''}
+        ${a.keyData ? `<div class="key-data-info">${a.keyData}</div>` : ''}
       </div>
       ` : ''}
 
