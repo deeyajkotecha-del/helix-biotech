@@ -1630,9 +1630,32 @@ function startServer(port: number): void {
     .view-btn { display: block; width: 100%; padding: 12px; background: var(--primary); color: white; text-align: center; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; }
     .view-btn:hover { background: var(--primary-light); transform: translateY(-1px); }
 
-    /* Modality Tags */
-    .modality-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-    .modality-tag { padding: 3px 10px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 12px; font-size: 0.75rem; color: var(--text-secondary); }
+    /* Market Status */
+    .market-status { display: inline-block; padding: 5px 12px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+    .status-approved { background: #dcfce7; color: #16a34a; }
+    .status-race { background: #ffedd5; color: #c2410c; }
+    .status-early { background: #f3f4f6; color: #6b7280; }
+
+    /* Competitor Section - Fixed Layout */
+    .competitor-section { margin: 10px 0; padding: 10px; background: var(--bg); border-radius: 8px; }
+    .competitor-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; min-height: 28px; }
+    .competitor-row:last-child { margin-bottom: 0; }
+    .competitor-label { flex: 0 0 85px; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); }
+    .competitor-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; }
+    .competitor-text { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.75rem; color: var(--text); }
+    .competitor-text .company { font-weight: 600; color: var(--primary); }
+    .competitor-text .ticker { color: var(--accent); font-weight: 600; }
+    .stage-pill { flex: 0 0 auto; font-size: 0.6rem; font-weight: 600; padding: 2px 7px; border-radius: 8px; white-space: nowrap; }
+    .stage-pill-approved { background: #dcfce7; color: #16a34a; }
+    .stage-pill-phase3 { background: #dbeafe; color: #2563eb; }
+    .stage-pill-phase2 { background: #fef9c3; color: #ca8a04; }
+    .stage-pill-phase1 { background: #f3f4f6; color: #6b7280; }
+
+    /* Target Footer */
+    .target-footer { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border-light); }
+    .companies-count { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
+    .companies-count strong { color: var(--primary); }
+    .target-card .view-btn { margin-top: 10px; }
 
     /* Footer */
     .footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 48px 32px; text-align: center; margin-top: 64px; }
@@ -1647,6 +1670,8 @@ function startServer(port: number): void {
       .sidebar { display: none; }
       .targets-grid { grid-template-columns: 1fr; }
       .target-stats { grid-template-columns: repeat(2, 1fr); }
+      .competitor-label { flex: 0 0 70px; font-size: 0.55rem; }
+      .competitor-text { font-size: 0.7rem; }
     }
   </style>
 </head>
@@ -1690,526 +1715,373 @@ function startServer(port: number): void {
       <div class="filter-section">
         <h3>By Therapeutic Area</h3>
         <div class="filter-options">
-          <label class="filter-option" onclick="this.classList.toggle('active')">
+          <label class="filter-option" data-filter="oncology" onclick="toggleFilter(this)">
             <input type="checkbox" value="oncology">
             <span class="filter-checkbox"></span>
             Oncology
-            <span class="filter-count">6</span>
+            <span class="filter-count">7</span>
           </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
+          <label class="filter-option" data-filter="immunology" onclick="toggleFilter(this)">
             <input type="checkbox" value="immunology">
             <span class="filter-checkbox"></span>
             Immunology
-            <span class="filter-count">1</span>
+            <span class="filter-count">5</span>
           </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
+          <label class="filter-option" data-filter="cardiovascular" onclick="toggleFilter(this)">
             <input type="checkbox" value="cardiovascular">
             <span class="filter-checkbox"></span>
             Cardiovascular
             <span class="filter-count">1</span>
           </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="cns">
+          <label class="filter-option" data-filter="neuropsychiatry" onclick="toggleFilter(this)">
+            <input type="checkbox" value="neuropsychiatry">
             <span class="filter-checkbox"></span>
-            CNS
-            <span class="filter-count">0</span>
+            Neuropsychiatry
+            <span class="filter-count">2</span>
           </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
+          <label class="filter-option" data-filter="metabolic" onclick="toggleFilter(this)">
             <input type="checkbox" value="metabolic">
             <span class="filter-checkbox"></span>
             Metabolic
             <span class="filter-count">1</span>
           </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
+          <label class="filter-option" data-filter="rare" onclick="toggleFilter(this)">
             <input type="checkbox" value="rare">
             <span class="filter-checkbox"></span>
             Rare Disease
-            <span class="filter-count">0</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <h3>By Modality</h3>
-        <div class="filter-options">
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="small-molecule">
-            <span class="filter-checkbox"></span>
-            Small Molecule
-            <span class="filter-count">4</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="antibody">
-            <span class="filter-checkbox"></span>
-            Antibody
-            <span class="filter-count">6</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="adc">
-            <span class="filter-checkbox"></span>
-            ADC
-            <span class="filter-count">3</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="rnai">
-            <span class="filter-checkbox"></span>
-            RNAi
-            <span class="filter-count">1</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="gene-therapy">
-            <span class="filter-checkbox"></span>
-            Gene Therapy
-            <span class="filter-count">0</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="cell-therapy">
-            <span class="filter-checkbox"></span>
-            Cell Therapy
-            <span class="filter-count">1</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <h3>By Validation</h3>
-        <div class="filter-options">
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="approved">
-            <span class="filter-checkbox"></span>
-            Approved Drug Exists
-            <span class="filter-count">6</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="phase3">
-            <span class="filter-checkbox"></span>
-            Phase 3 Assets
-            <span class="filter-count">8</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="emerging">
-            <span class="filter-checkbox"></span>
-            Emerging Target
             <span class="filter-count">2</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="filter-section">
-        <h3>By Competition</h3>
-        <div class="filter-options">
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="crowded">
-            <span class="filter-checkbox"></span>
-            Crowded (10+ assets)
-            <span class="filter-count">4</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="moderate">
-            <span class="filter-checkbox"></span>
-            Moderate (5-10)
-            <span class="filter-count">3</span>
-          </label>
-          <label class="filter-option" onclick="this.classList.toggle('active')">
-            <input type="checkbox" value="early">
-            <span class="filter-checkbox"></span>
-            Early (1-5)
-            <span class="filter-count">3</span>
           </label>
         </div>
       </div>
     </aside>
 
     <section class="targets-section">
-      <h2>Featured Targets</h2>
-      <p class="targets-meta">Showing 10 targets • Sort by: Assets in Development</p>
+      <h2>Target Landscape</h2>
+      <p class="targets-meta" id="targets-count">Showing 18 targets</p>
 
-      <div class="targets-grid">
-        <!-- GLP-1 -->
-        <div class="target-card">
+      <div class="targets-grid" id="targets-grid">
+        <!-- KRAS G12C -->
+        <div class="target-card" data-category="oncology">
           <div class="target-header">
-            <div>
-              <div class="target-name">GLP-1</div>
-              <div class="target-fullname">GLP-1R (Glucagon-like peptide-1 receptor)</div>
-            </div>
-            <span class="area-badge metabolic">Metabolic</span>
-          </div>
-          <p class="target-desc">Blockbuster target for obesity and T2D. GLP-1 agonists (Ozempic, Wegovy, Mounjaro) represent the fastest-growing drug class in history with $50B+ market potential.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">25+</div>
-              <div class="stat-label">Assets</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">8</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">5</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">12</div>
-              <div class="stat-label">Deals</div>
-            </div>
-          </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Hot Area:</span> Oral formulations, dual/triple agonists, muscle-sparing approaches
-          </div>
-          <div class="modality-tags">
-            <span class="modality-tag">Peptide</span>
-            <span class="modality-tag">Small Molecule</span>
-            <span class="modality-tag">Oral</span>
-          </div>
-          <a href="/api/report/target/GLP-1/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
-        </div>
-
-        <!-- PD-1/PD-L1 -->
-        <div class="target-card">
-          <div class="target-header">
-            <div>
-              <div class="target-name">PD-1/PD-L1</div>
-              <div class="target-fullname">Programmed Death 1 / Ligand 1</div>
-            </div>
+            <div><div class="target-name">KRAS G12C</div></div>
             <span class="area-badge oncology">Oncology</span>
           </div>
-          <p class="target-desc">The dominant immune checkpoint in oncology. Keytruda and Opdivo generated $40B+ in 2023. Now a crowded space with 10+ approved drugs and combination strategies.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">50+</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-approved">Approved Drug Exists</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Market Leader</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Amgen</span> (<span class="ticker">AMGN</span>) - Lumakras</span><span class="stage-pill stage-pill-approved">Approved</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">15+</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">10+</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">50+</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Challenger</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Revolution</span> (<span class="ticker">RVMD</span>) - Elironrasib</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Crowded:</span> Differentiation through combinations, new indications, subcutaneous
+          <div class="target-footer">
+            <div class="companies-count"><strong>8+</strong> companies pursuing</div>
+            <p class="target-desc">Amgen, Mirati approved. Next-gen focus on combos.</p>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">Antibody</span>
-            <span class="modality-tag">Small Molecule</span>
-            <span class="modality-tag">Bispecific</span>
-          </div>
-          <a href="/api/report/target/PD-1/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
         </div>
 
-        <!-- KRAS -->
-        <div class="target-card">
+        <!-- RAS(ON) Multi -->
+        <div class="target-card" data-category="oncology">
           <div class="target-header">
-            <div>
-              <div class="target-name">KRAS</div>
-              <div class="target-fullname">Kirsten Rat Sarcoma Viral Oncogene</div>
-            </div>
+            <div><div class="target-name">RAS(ON) Multi</div></div>
             <span class="area-badge oncology">Oncology</span>
           </div>
-          <p class="target-desc">Once "undruggable" oncogene now with approved G12C inhibitors (Sotorasib, Adagrasib). Race to target other mutations (G12D, G12V) and overcome resistance.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">20+</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-race">Race to First</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Revolution</span> (<span class="ticker">RVMD</span>) - Daraxonrasib</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">5</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">2</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">8</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Mirati/BMS</span> - MRTX1133</span><span class="stage-pill stage-pill-phase1">Phase 1</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Hot Area:</span> G12D inhibitors, pan-KRAS, degraders, combinations
+          <div class="target-footer">
+            <div class="companies-count"><strong>4</strong> companies pursuing</div>
+            <p class="target-desc">First multi-RAS inhibitor; BTD granted.</p>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">Small Molecule</span>
-            <span class="modality-tag">Degrader</span>
-            <span class="modality-tag">RNAi</span>
+        </div>
+
+        <!-- Menin-MLL -->
+        <div class="target-card" data-category="oncology">
+          <div class="target-header">
+            <div><div class="target-name">Menin-MLL</div></div>
+            <span class="area-badge oncology">Oncology</span>
           </div>
-          <a href="/api/report/target/KRAS/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+          <div class="market-status status-approved">Approved Drug Exists</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Market Leader</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Syndax</span> (<span class="ticker">SNDX</span>) - Revuforj</span><span class="stage-pill stage-pill-approved">Approved</span></span>
+            </div>
+            <div class="competitor-row">
+              <span class="competitor-label">Challenger</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Kura</span> (<span class="ticker">KURA</span>) - Ziftomenib</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
+            </div>
+          </div>
+          <div class="target-footer">
+            <div class="companies-count"><strong>3</strong> companies pursuing</div>
+            <p class="target-desc">First-in-class for KMT2A AML.</p>
+          </div>
+        </div>
+
+        <!-- TIGIT -->
+        <div class="target-card" data-category="oncology">
+          <div class="target-header">
+            <div><div class="target-name">TIGIT</div></div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <div class="market-status status-race">Race to First</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Arcus/Gilead</span> (<span class="ticker">RCUS</span>) - Domvanalimab</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
+            </div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Merck</span> (<span class="ticker">MRK</span>) - Vibostolimab</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
+            </div>
+          </div>
+          <div class="target-footer">
+            <div class="companies-count"><strong>10+</strong> companies pursuing</div>
+            <p class="target-desc">Crowded checkpoint. Fc design matters.</p>
+          </div>
         </div>
 
         <!-- TL1A -->
-        <div class="target-card">
+        <div class="target-card" data-category="immunology">
           <div class="target-header">
-            <div>
-              <div class="target-name">TL1A</div>
-              <div class="target-fullname">TNFSF15 (TNF Superfamily Member 15)</div>
-            </div>
-            <span class="area-badge immunology">Immunology</span>
+            <div><div class="target-name">TL1A</div></div>
+            <span class="area-badge immunology">I&I</span>
           </div>
-          <p class="target-desc">Emerging IBD target with anti-fibrotic potential. Multiple Phase 2 readouts expected. Could be next major IBD mechanism after IL-23 and JAK inhibitors.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">8</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-early">Early Stage</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Prometheus</span> - PRA023</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">0</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">0</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">5</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Spyre</span> (<span class="ticker">SYRE</span>) - SPY002</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Emerging:</span> Prometheus lead, Roche/Roivant, Merck all racing to clinic
+          <div class="target-footer">
+            <div class="companies-count"><strong>6</strong> companies pursuing</div>
+            <p class="target-desc">Hot IBD target. Extended half-life key.</p>
+            <a href="/api/report/target/TL1A/html" class="view-btn">View Report</a>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">Antibody</span>
-          </div>
-          <a href="/api/report/target/TL1A/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
         </div>
 
-        <!-- B7-H3 -->
-        <div class="target-card">
+        <!-- FcRn -->
+        <div class="target-card" data-category="immunology">
           <div class="target-header">
-            <div>
-              <div class="target-name">B7-H3</div>
-              <div class="target-fullname">CD276</div>
-            </div>
-            <span class="area-badge oncology">Oncology</span>
+            <div><div class="target-name">FcRn</div></div>
+            <span class="area-badge immunology">I&I</span>
           </div>
-          <p class="target-desc">Immune checkpoint highly expressed in solid tumors with limited normal tissue expression. Multiple ADC and bispecific approaches in development.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">15+</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-approved">Approved Drug Exists</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Market Leader</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">argenx</span> (<span class="ticker">ARGX</span>) - VYVGART</span><span class="stage-pill stage-pill-approved">Approved</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">3</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">0</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">6</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Challenger</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Immunovant</span> (<span class="ticker">IMVT</span>) - IMVT-1402</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Hot Area:</span> ADCs (MacroGenics), bispecifics, CAR-T approaches
+          <div class="target-footer">
+            <div class="companies-count"><strong>5</strong> companies pursuing</div>
+            <p class="target-desc">$4B+ market. MG, CIDP, ITP.</p>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">ADC</span>
-            <span class="modality-tag">Bispecific</span>
-            <span class="modality-tag">CAR-T</span>
-          </div>
-          <a href="/api/report/target/B7-H3/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
         </div>
 
-        <!-- CD19 -->
-        <div class="target-card">
+        <!-- IL-4Ra -->
+        <div class="target-card" data-category="immunology">
           <div class="target-header">
-            <div>
-              <div class="target-name">CD19</div>
-              <div class="target-fullname">B-Lymphocyte Antigen CD19</div>
-            </div>
-            <span class="area-badge oncology">Oncology</span>
+            <div><div class="target-name">IL-4Ra / IL-13</div></div>
+            <span class="area-badge immunology">I&I</span>
           </div>
-          <p class="target-desc">The canonical CAR-T target. Multiple approved CAR-Ts (Kymriah, Yescarta, Breyanzi) and bispecifics (Blincyto). Now expanding to autoimmune diseases.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">30+</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-approved">Approved Drug Exists</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Market Leader</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Regeneron</span> (<span class="ticker">REGN</span>) - Dupixent</span><span class="stage-pill stage-pill-approved">Approved</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">10+</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">5</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">15</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Challenger</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Apogee</span> (<span class="ticker">APGE</span>) - APG777</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Expanding:</span> Autoimmune (lupus, MS), allogeneic CAR-T, bispecifics
+          <div class="target-footer">
+            <div class="companies-count"><strong>4</strong> companies pursuing</div>
+            <p class="target-desc">$13B+ blockbuster. Q12W dosing goal.</p>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">CAR-T</span>
-            <span class="modality-tag">Bispecific</span>
-            <span class="modality-tag">ADC</span>
-          </div>
-          <a href="/api/report/target/CD19/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
         </div>
 
-        <!-- PCSK9 -->
-        <div class="target-card">
+        <!-- KIT mast cell -->
+        <div class="target-card" data-category="immunology">
           <div class="target-header">
-            <div>
-              <div class="target-name">PCSK9</div>
-              <div class="target-fullname">Proprotein Convertase Subtilisin/Kexin 9</div>
+            <div><div class="target-name">KIT (mast cell)</div></div>
+            <span class="area-badge immunology">I&I</span>
+          </div>
+          <div class="market-status status-race">Race to First</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Celldex</span> (<span class="ticker">CLDX</span>) - Barzolvolimab</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
             </div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Allakos</span> - Various</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
+            </div>
+          </div>
+          <div class="target-footer">
+            <div class="companies-count"><strong>3</strong> companies pursuing</div>
+            <p class="target-desc">Mast cell depletion for urticaria.</p>
+          </div>
+        </div>
+
+        <!-- GLP-1 -->
+        <div class="target-card" data-category="metabolic">
+          <div class="target-header">
+            <div><div class="target-name">GLP-1/GIP dual</div></div>
+            <span class="area-badge metabolic">Metabolic</span>
+          </div>
+          <div class="market-status status-approved">Approved Drug Exists</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Market Leader</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Eli Lilly</span> (<span class="ticker">LLY</span>) - Mounjaro</span><span class="stage-pill stage-pill-approved">Approved</span></span>
+            </div>
+            <div class="competitor-row">
+              <span class="competitor-label">Challenger</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Viking</span> (<span class="ticker">VKTX</span>) - VK2735</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
+            </div>
+          </div>
+          <div class="target-footer">
+            <div class="companies-count"><strong>10+</strong> companies pursuing</div>
+            <p class="target-desc">$50B+ market. Oral formulation key.</p>
+            <a href="/api/report/target/GLP-1/html" class="view-btn">View Report</a>
+          </div>
+        </div>
+
+        <!-- Aldosterone -->
+        <div class="target-card" data-category="cardiovascular">
+          <div class="target-header">
+            <div><div class="target-name">Aldosterone synth</div></div>
             <span class="area-badge cardiovascular">Cardiovascular</span>
           </div>
-          <p class="target-desc">Validated LDL-lowering target with approved antibodies (Repatha, Praluent) and siRNA (Leqvio). Next wave: oral small molecules and gene editing.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">12</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-race">Race to First</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Mineralys</span> (<span class="ticker">MLYS</span>) - Lorundrostat</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">4</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">3</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">4</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Alnylam</span> (<span class="ticker">ALNY</span>) - Zilebesiran</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Next Wave:</span> Oral inhibitors, base editing (Verve), annual dosing
+          <div class="target-footer">
+            <div class="companies-count"><strong>3</strong> companies pursuing</div>
+            <p class="target-desc">CYP11B2 for resistant HTN.</p>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">Antibody</span>
-            <span class="modality-tag">siRNA</span>
-            <span class="modality-tag">Small Molecule</span>
-          </div>
-          <a href="/api/report/target/PCSK9/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
         </div>
 
-        <!-- TROP2 -->
-        <div class="target-card">
+        <!-- DMD -->
+        <div class="target-card" data-category="rare">
           <div class="target-header">
-            <div>
-              <div class="target-name">TROP2</div>
-              <div class="target-fullname">Trophoblast Cell-Surface Antigen 2</div>
-            </div>
-            <span class="area-badge oncology">Oncology</span>
+            <div><div class="target-name">DMD gene therapy</div></div>
+            <span class="area-badge" style="background:#faf5ff;color:#7c3aed;">Rare Disease</span>
           </div>
-          <p class="target-desc">Validated ADC target with Trodelvy approved for breast and urothelial cancers. Datopotamab deruxtecan (Dato-DXd) competing for NSCLC and breast.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">10+</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-approved">Approved Drug Exists</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Market Leader</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Sarepta</span> (<span class="ticker">SRPT</span>) - Elevidys</span><span class="stage-pill stage-pill-approved">Approved</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">4</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">1</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">3</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Challenger</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Solid Bio</span> - SGT-003</span><span class="stage-pill stage-pill-phase1">Phase 1/2</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Competition:</span> Gilead (Trodelvy) vs AZ/Daiichi (Dato-DXd) battle
+          <div class="target-footer">
+            <div class="companies-count"><strong>4</strong> companies pursuing</div>
+            <p class="target-desc">First DMD gene therapy approved.</p>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">ADC</span>
-            <span class="modality-tag">Antibody</span>
-          </div>
-          <a href="/api/report/target/TROP2/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
         </div>
 
-        <!-- Claudin 18.2 -->
-        <div class="target-card">
+        <!-- Hepcidin -->
+        <div class="target-card" data-category="rare">
           <div class="target-header">
-            <div>
-              <div class="target-name">Claudin 18.2</div>
-              <div class="target-fullname">CLDN18.2</div>
-            </div>
-            <span class="area-badge oncology">Oncology</span>
+            <div><div class="target-name">Hepcidin mimetic</div></div>
+            <span class="area-badge" style="background:#faf5ff;color:#7c3aed;">Rare Disease</span>
           </div>
-          <p class="target-desc">Emerging gastric cancer target with tight junction specificity. Zolbetuximab (Astellas) in Phase 3. Multiple CAR-T and ADC programs following.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">8</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-race">Race to First</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Protagonist</span> (<span class="ticker">PTGX</span>) - Rusfertide</span><span class="stage-pill stage-pill-phase3">NDA Filed</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">2</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">0</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">4</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Disc Med</span> (<span class="ticker">IRON</span>) - Various</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Emerging:</span> Gastric 1L potential, pancreatic expansion, CAR-T
+          <div class="target-footer">
+            <div class="companies-count"><strong>2</strong> companies pursuing</div>
+            <p class="target-desc">First-in-class for PV. Takeda partner.</p>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">Antibody</span>
-            <span class="modality-tag">CAR-T</span>
-            <span class="modality-tag">ADC</span>
-          </div>
-          <a href="/api/report/target/CLDN18.2/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
         </div>
 
-        <!-- HER2 -->
-        <div class="target-card">
+        <!-- Nav1.6 -->
+        <div class="target-card" data-category="neuropsychiatry">
           <div class="target-header">
-            <div>
-              <div class="target-name">HER2</div>
-              <div class="target-fullname">ERBB2 (Human Epidermal Growth Factor Receptor 2)</div>
-            </div>
-            <span class="area-badge oncology">Oncology</span>
+            <div><div class="target-name">Nav1.6 / SCN8A</div></div>
+            <span class="area-badge" style="background:#fef3c7;color:#92400e;">Neuro</span>
           </div>
-          <p class="target-desc">Classic oncology target with Herceptin, Perjeta, Enhertu approved. ADC revolution (Enhertu) expanding to HER2-low. $15B+ market.</p>
-          <div class="target-stats">
-            <div class="stat">
-              <div class="stat-value">40+</div>
-              <div class="stat-label">Assets</div>
+          <div class="market-status status-early">Early Stage</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Praxis</span> (<span class="ticker">PRAX</span>) - Relutrigine</span><span class="stage-pill stage-pill-phase2">Phase 2/3</span></span>
             </div>
-            <div class="stat">
-              <div class="stat-value">12</div>
-              <div class="stat-label">Phase 3</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">8</div>
-              <div class="stat-label">Approved</div>
-            </div>
-            <div class="stat">
-              <div class="stat-value">20+</div>
-              <div class="stat-label">Deals</div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text">None significant</span><span class="stage-pill stage-pill-phase1">-</span></span>
             </div>
           </div>
-          <div class="target-highlight">
-            <span class="highlight-label">Expanding:</span> HER2-low breast, gastric, NSCLC, colorectal
+          <div class="target-footer">
+            <div class="companies-count"><strong>1</strong> company pursuing</div>
+            <p class="target-desc">BTD for SCN8A epilepsy. Low competition.</p>
           </div>
-          <div class="modality-tags">
-            <span class="modality-tag">Antibody</span>
-            <span class="modality-tag">ADC</span>
-            <span class="modality-tag">TKI</span>
+        </div>
+
+        <!-- T-type Ca2+ -->
+        <div class="target-card" data-category="neuropsychiatry">
+          <div class="target-header">
+            <div><div class="target-name">T-type Ca2+ channel</div></div>
+            <span class="area-badge" style="background:#fef3c7;color:#92400e;">Neuro</span>
           </div>
-          <a href="/api/report/target/HER2/html" class="view-btn" style="margin-top: 16px;">View Target →</a>
+          <div class="market-status status-race">Race to First</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Praxis</span> (<span class="ticker">PRAX</span>) - Ulixacaltamide</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
+            </div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text">None significant</span><span class="stage-pill stage-pill-phase1">-</span></span>
+            </div>
+          </div>
+          <div class="target-footer">
+            <div class="companies-count"><strong>1</strong> company pursuing</div>
+            <p class="target-desc">BTD for essential tremor.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -2220,14 +2092,30 @@ function startServer(port: number): void {
   </footer>
 
   <script>
-    function filterTargets() {
-      const query = document.getElementById('target-search').value.toLowerCase();
-      const cards = document.querySelectorAll('.target-card');
-      cards.forEach(card => {
-        const text = card.textContent.toLowerCase();
-        card.style.display = text.includes(query) ? 'flex' : 'none';
-      });
+    const activeFilters = new Set();
+    function toggleFilter(el) {
+      el.classList.toggle('active');
+      const f = el.dataset.filter;
+      if (el.classList.contains('active')) activeFilters.add(f);
+      else activeFilters.delete(f);
+      applyFilters();
     }
+    function applyFilters() {
+      const cards = document.querySelectorAll('.target-card');
+      const q = document.getElementById('target-search').value.toLowerCase();
+      let count = 0;
+      cards.forEach(card => {
+        const cats = (card.dataset.category || '').split(' ');
+        const text = card.textContent.toLowerCase();
+        const matchSearch = !q || text.includes(q);
+        const matchFilter = activeFilters.size === 0 || [...activeFilters].some(f => cats.includes(f));
+        if (matchSearch && matchFilter) { card.style.display = 'flex'; count++; }
+        else card.style.display = 'none';
+      });
+      document.getElementById('targets-count').textContent = 'Showing ' + count + ' targets';
+    }
+    function filterTargets() { applyFilters(); }
+    document.getElementById('target-search').addEventListener('input', applyFilters);
   </script>
 </body>
 </html>`);
