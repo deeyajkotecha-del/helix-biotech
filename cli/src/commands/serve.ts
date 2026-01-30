@@ -1100,179 +1100,272 @@ function startServer(port: number): void {
     <!-- Sticky Category Navigation -->
     <nav class="category-nav" id="categoryNav">
       <div class="category-pills">
-        <a href="#commercial" class="category-pill active">Commercial (29)</a>
-        <a href="#oncology" class="category-pill">Oncology (7)</a>
-        <a href="#immunology" class="category-pill">I&I (3)</a>
-        <a href="#neuro" class="category-pill">Neuro (7)</a>
-        <a href="#rare" class="category-pill">Rare Disease (3)</a>
-        <a href="#gene" class="category-pill">Gene Therapy (4)</a>
-        <a href="#metabolic" class="category-pill">Metabolic (3)</a>
-        <a href="#vaccines" class="category-pill">Vaccines (3)</a>
-        <a href="#tools" class="category-pill">Tools (2)</a>
+        <a href="#largecap" class="category-pill active">Large-Cap (8)</a>
+        <a href="#platform" class="category-pill">Platform (10)</a>
+        <a href="#commercial" class="category-pill">Commercial (41)</a>
+        <a href="#oncology" class="category-pill">Oncology (33)</a>
+        <a href="#ii" class="category-pill">I&I (17)</a>
+        <a href="#rare" class="category-pill">Rare Disease (14)</a>
+        <a href="#neuro" class="category-pill">Neuro (6)</a>
+        <a href="#metabolic" class="category-pill">Metabolic/CV (7)</a>
+        <a href="#nephro" class="category-pill">Nephrology (2)</a>
+        <a href="#vaccines" class="category-pill">Vaccines (4)</a>
+        <a href="#tools" class="category-pill">Tools (3)</a>
       </div>
     </nav>
 
-    <!-- ==================== COMMERCIAL STAGE (29) ==================== -->
+    <!-- ==================== LARGE-CAP BIOPHARMA (8) ==================== -->
+    <section id="largecap" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Large-Cap BioPharma</h2>
+        <span class="section-count">8</span>
+      </div>
+      <div class="cards-grid">
+        ${companyCard('GILD', 'Gilead Sciences', 'Small Molecule', 'HIV, Oncology, Liver. Key products: Biktarvy, Trodelvy, Livdelzi.', '$95B+', '50+', '15+', '25+', 'Lenacapavir HIV data (2026)', ['HIV', 'Oncology', 'Liver'])}
+        ${companyCard('AMGN', 'Amgen', 'Biologics', 'Oncology, I&I, Bone. Key products: Repatha, Prolia, Lumakras.', '$150B+', '40+', '10+', '20+', 'MariTide obesity Ph3 (2026)', ['Oncology', 'I&I', 'Bone'])}
+        ${companyCard('VRTX', 'Vertex Pharmaceuticals', 'Small Molecule', 'Rare Disease (CF), Pain, Gene Therapy. Key products: Trikafta, JOURNAVX, Casgevy.', '$120B+', '20+', '5', '5', 'VX-548 pain Ph3 (2026)', ['Rare Disease', 'Pain', 'Gene Therapy'])}
+        ${companyCard('BMRN', 'BioMarin Pharmaceutical', 'Enzyme', 'Rare Disease. Key products: Voxzogo, Palynziq, Roctavian.', '$12B', '10+', '2', '7', 'Roctavian expansion (2026)', ['Rare Disease', 'Enzyme'])}
+        ${companyCard('REGN', 'Regeneron Pharmaceuticals', 'Antibody', 'I&I, Ophthalmology, Oncology. Key products: Dupixent, EYLEA HD, Libtayo.', '$90B+', '35+', '10+', '8', 'Dupixent COPD Ph3 (2026)', ['I&I', 'Ophthalmology', 'Oncology'])}
+        ${companyCard('BIIB', 'Biogen', 'Antibody', 'Neuropsychiatry. Key products: Leqembi, Spinraza, Tysabri.', '$25B', '20+', '5', '8', 'Leqembi expansion (2026)', ['Neuropsychiatry', 'MS', 'SMA'])}
+        ${companyCard('ABBV', 'AbbVie', 'Small Molecule', 'I&I, Oncology, Neuro. Key products: Humira, Skyrizi, Rinvoq.', '$300B+', '50+', '15+', '30+', 'Skyrizi/Rinvoq growth (2026)', ['I&I', 'Oncology', 'Neuro'])}
+        ${companyCard('ALNY', 'Alnylam Pharmaceuticals', 'RNAi', 'Rare Disease (RNAi). Key products: Amvuttra, Onpattro, Givlaari.', '$28.5B', '12', '3', '5', getNextCatalystDisplay('ALNY') || 'Vutrisiran ATTR-CM (2026)', ['Rare Disease', 'RNAi', 'Cardiometabolic'])}
+      </div>
+    </section>
+
+    <!-- ==================== PLATFORM (10) ==================== -->
+    <section id="platform" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Platform</h2>
+        <span class="section-count">10</span>
+      </div>
+      <div class="cards-grid">
+        ${companyCard('MRNA', 'Moderna', 'mRNA', 'Vaccines, Oncology, Rare. COVID/RSV vaccines platform.', '$15B', '45+', '8', '2', 'mRNA-1283 COVID (2026)', ['Vaccines', 'Oncology', 'Rare Disease'])}
+        ${companyCard('IONS', 'Ionis Pharmaceuticals', 'Antisense', 'Neuro, Cardio, Rare. Key products: SPINRAZA, WAINUA.', '$7.8B', '40+', '5', '4', getNextCatalystDisplay('IONS') || 'Olezarsen sNDA (2026)', ['Neuro', 'Cardio', 'Rare'])}
+        ${companyCard('ARWR', 'Arrowhead Pharmaceuticals', 'RNAi', 'Liver, Cardio, Pulmonary. Key product: Plozasiran.', '$4.2B', '15', '3', '1', getNextCatalystDisplay('ARWR') || 'ARO-INHBE obesity (2026)', ['Liver', 'Cardio', 'Pulmonary'])}
+        ${companyCard('CRSP', 'CRISPR Therapeutics', 'Gene Editing', 'Rare Disease (Gene Editing). Key product: Casgevy.', '$3.5B', '8', '2', '1', 'CTX112 CAR-T (2026)', ['Rare Disease', 'Gene Editing', 'Hematology'])}
+        ${companyCard('RNA', 'Avidity Biosciences', 'AOC', 'Neuromuscular, Cardio. Lead: del-desiran (Ph3).', '$3.0B', '5', '2', '', 'del-desiran DM1 Ph3 (2026)', ['Neuromuscular', 'Cardio', 'AOC'])}
+        ${companyCard('BEAM', 'Beam Therapeutics', 'Base Editing', 'Rare Disease (Gene Editing). Lead: BEAM-101 (Ph1/2).', '$3.1B', '5', '1', '', 'BEAM-302 AATD (2026)', ['Gene Editing', 'Sickle Cell', 'Liver'])}
+        ${companyCard('NTLA', 'Intellia Therapeutics', 'CRISPR', 'Rare Disease (Gene Editing). Lead: NTLA-2001 (Ph3).', '$2.8B', '6', '2', '', 'NTLA-2001 ATTR Ph3 (2026)', ['Gene Editing', 'ATTR', 'HAE'])}
+        ${companyCard('SANA', 'Sana Biotechnology', 'Cell Therapy', 'Cell Engineering platform for hypoimmune cells.', '$1.2B', '4', '1', '', 'SC291 Ph1 (2026)', ['Cell Therapy', 'Hypoimmune', 'Platform'])}
+        ${companyCard('PRME', 'Prime Medicine', 'Gene Editing', 'Prime Editing platform. Lead: PM359 (Ph1).', '$0.8B', '3', '0', '', 'PM359 IND (2026)', ['Gene Editing', 'Rare Disease', 'Platform'])}
+        ${companyCard('RGNX', 'Regenxbio', 'Gene Therapy', 'AAV gene therapy platform. Multiple programs.', '$0.6B', '8', '2', '', 'RGX-314 wet AMD (2026)', ['Gene Therapy', 'Ophthalmology', 'Platform'])}
+      </div>
+    </section>
+
+    <!-- ==================== COMMERCIAL SPECIALTY (41) ==================== -->
     <section id="commercial" class="section">
       <div class="section-header">
-        <h2 class="section-title">Commercial Stage</h2>
-        <span class="section-count">29</span>
+        <h2 class="section-title">Commercial Specialty</h2>
+        <span class="section-count">41</span>
       </div>
-
-      <!-- Large Cap Biopharma (6) -->
-      <div class="subsection-title">Large Cap Biopharma</div>
       <div class="cards-grid">
-        ${companyCard('REGN', 'Regeneron Pharmaceuticals', 'Antibody', 'Innovative biotech with blockbuster Eylea and Dupixent franchises. VelocImmune platform drives rapid drug discovery.', '$90B+', '35+', '10+', '8', 'Dupixent COPD Phase 3 readouts (2026)', ['Ophthalmology', 'Immunology', 'Oncology'])}
-        ${companyCard('VRTX', 'Vertex Pharmaceuticals', 'Small Molecule', 'Dominates cystic fibrosis with Trikafta. Expanding into pain, gene editing (Casgevy), and kidney disease.', '$120B+', '20+', '5', '5', 'VX-548 pain Phase 3 data (2026)', ['Cystic Fibrosis', 'Pain', 'Gene Editing'])}
-        ${companyCard('GILD', 'Gilead Sciences', 'Small Molecule', 'Leader in HIV/HCV with Biktarvy franchise. Growing oncology via Kite cell therapy and Trodelvy ADC.', '$95B+', '50+', '15+', '25+', 'Lenacapavir long-acting HIV data (2026)', ['HIV', 'Oncology', 'Cell Therapy'])}
-        ${companyCard('AMGN', 'Amgen', 'Biologics', 'Pioneer in biotechnology with blockbuster portfolio including Enbrel, Prolia, and Repatha. Strong biosimilars business.', '$150B+', '40+', '10+', '20+', 'MariTide obesity Phase 3 data (2026)', ['Oncology', 'Bone Health', 'Cardiovascular'])}
-        ${companyCard('BMRN', 'BioMarin Pharmaceutical', 'Enzyme', 'Leader in rare disease enzyme replacement therapies with Vimizim, Naglazyme, and Voxzogo.', '$12B', '10+', '2', '7', 'BMN 351 DMD data (2026)', ['Rare Disease', 'Skeletal', 'Enzyme'])}
-        ${companyCard('ALNY', 'Alnylam Pharmaceuticals', 'RNAi', 'Pioneer in RNAi therapeutics with 5 approved drugs including Onpattro and Amvuttra. GalNAc platform.', '$28.5B', '12', '3', '5', getNextCatalystDisplay('ALNY') || 'Vutrisiran ATTR-CM data (H1 2026)', ['Rare Disease', 'Cardiometabolic', 'CNS'])}
-      </div>
-
-      <!-- Platform Biotech (7) -->
-      <div class="subsection-title">Platform Biotech</div>
-      <div class="cards-grid">
-        ${companyCard('MRNA', 'Moderna', 'mRNA', 'mRNA platform company with COVID vaccine success. Expanding into RSV, flu, cancer, and rare diseases.', '$15B', '45+', '8', '2', 'mRNA-1283 next-gen COVID data (2026)', ['Vaccines', 'Oncology', 'Rare Disease'])}
-        ${companyCard('IONS', 'Ionis Pharmaceuticals', 'Antisense', 'Leading antisense platform with 4 approved drugs. LICA platform enables next-gen delivery.', '$7.8B', '40+', '5', '4', getNextCatalystDisplay('IONS') || 'Olezarsen sNDA (Q1 2026)', ['Rare Disease', 'CNS', 'Cardiometabolic'])}
-        ${companyCard('ARWR', 'Arrowhead Pharmaceuticals', 'RNAi', 'RNAi leader with TRiM platform for liver, lung, muscle, CNS delivery. Plozasiran approved Dec 2024.', '$4.2B', '15', '3', '1', getNextCatalystDisplay('ARWR') || 'ARO-INHBE obesity data (H1 2026)', ['Cardiometabolic', 'CNS', 'Pulmonary'])}
-        ${companyCard('CRSP', 'CRISPR Therapeutics', 'CRISPR', 'First approved CRISPR therapy (Casgevy with Vertex). Developing in vivo programs and CAR-T therapies.', '$3.5B', '8', '2', '1', 'CTX112 allo CAR-T data (H1 2026)', ['Gene Editing', 'Hematology', 'Cell Therapy'])}
-        ${companyCard('NTLA', 'Intellia Therapeutics', 'CRISPR', 'Leading in vivo CRISPR company. NTLA-2001 for ATTR and NTLA-2002 for HAE showing transformative results.', '$2.8B', '6', '2', '', 'NTLA-2001 ATTR-CM Phase 3 (H2 2026)', ['Gene Editing', 'ATTR', 'HAE'])}
-        ${companyCard('BEAM', 'Beam Therapeutics', 'Base Editing', 'Proprietary base editing platform for precision genetic medicines. Risto-cel for SCD advancing to BLA.', '$3.1B', '5', '1', '', 'BEAM-302 AATD accelerated pathway (2026)', ['Gene Editing', 'Sickle Cell', 'Liver'])}
-        ${companyCard('RNA', 'Arcturus Therapeutics', 'mRNA', 'mRNA platform with LUNAR delivery and STARR self-amplifying tech. First approved sa-mRNA COVID vaccine.', '$0.2B', '6', '1', '1', 'ARCT-032 CF Phase 2 data (H1 2026)', ['Vaccines', 'Rare Disease', 'Liver'])}
-      </div>
-
-      <!-- Specialty Commercial (16) -->
-      <div class="subsection-title">Specialty Commercial</div>
-      <div class="cards-grid">
-        ${companyCard('INCY', 'Incyte', 'Small Molecule', 'Oncology and inflammation leader with Jakafi franchise. Expanding into dermatology and solid tumors.', '$14B', '20+', '5', '4', 'Povorcitinib atopic derm Phase 3 (2026)', ['Oncology', 'Immunology', 'Dermatology'])}
-        ${companyCard('EXEL', 'Exelixis', 'Small Molecule', 'Cabometyx/Cometriq oncology franchise. Strong in kidney and liver cancer with expanding pipeline.', '$8B', '10+', '4', '2', 'Zanzalintinib Phase 3 data (2026)', ['Oncology', 'Kidney Cancer', 'Liver Cancer'])}
-        ${companyCard('EXAS', 'Exact Sciences', 'Diagnostics', 'Market leader in cancer screening with Cologuard. Oncotype DX for breast cancer. Abbott acquisition pending.', '$19.4B', '5', 'N/A', '3', 'Abbott acquisition close (Q2 2026)', ['Diagnostics', 'Oncology', 'Screening'])}
-        ${companyCard('NTRA', 'Natera', 'Diagnostics', 'Leader in cell-free DNA testing with Signatera MRD and Panorama prenatal. Strong oncology growth.', '$33B', '8', 'N/A', '4', 'Signatera expanded indications (2026)', ['Diagnostics', 'Oncology', 'Prenatal'])}
-        ${companyCard('NBIX', 'Neurocrine Biosciences', 'Small Molecule', 'CNS leader with Ingrezza for tardive dyskinesia. Expanding in psychiatry and movement disorders.', '$14B', '12', '3', '2', 'NBI-1065845 MDD Phase 3 (2026)', ['CNS', 'Movement Disorders', 'Psychiatry'])}
-        ${companyCard('UTHR', 'United Therapeutics', 'Biologics', 'Pulmonary arterial hypertension leader with Tyvaso franchise. Pioneering xenotransplantation.', '$14B', '8', '2', '5', 'Tyvaso DPI expansion (2026)', ['Pulmonary', 'Rare Disease', 'Transplant'])}
-        ${companyCard('HALO', 'Halozyme Therapeutics', 'Drug Delivery', 'ENHANZE platform enables SC delivery of biologics. Royalty streams from Roche, J&J, BMS partnerships.', '$7.2B', '20+', 'N/A', '8', 'New ENHANZE partnerships (2026)', ['Drug Delivery', 'Subcutaneous', 'Royalties'])}
-        ${companyCard('SRPT', 'Sarepta Therapeutics', 'Gene Therapy', 'Gene therapy and RNA-targeting leader with Elevidys approved for DMD. Multiple exon-skipping drugs.', '$9.5B', '15+', '3', '5', 'Elevidys confirmatory data (H1 2026)', ['Muscular Dystrophy', 'Gene Therapy', 'RNA'])}
-        ${companyCard('MDGL', 'Madrigal Pharmaceuticals', 'Small Molecule', 'First FDA-approved MASH therapy with Rezdiffra (resmetirom). THR-beta selective agonist.', '$6.8B', '1', '1', '1', 'Rezdiffra commercial expansion (2026)', ['MASH', 'Liver Disease', 'Metabolic'])}
-        ${companyCard('INSM', 'Insmed', 'Biologics', 'Brensocatib approved for bronchiectasis. Arikayce for MAC lung disease. Growing respiratory franchise.', '$34.7B', '6', '3', '2', 'ARIKAYCE ENCORE Phase 3 (Mar 2026)', ['Pulmonary', 'Rare Disease', 'Anti-infective'])}
-        ${companyCard('KRYS', 'Krystal Biotech', 'Gene Therapy', 'VYJUVEK approved for DEB. HSV-1 platform for skin, lung, eye. KB407 for CF advancing.', '$7B', '6', '2', '1', 'KB408 AATD interim data (H1 2026)', ['Rare Disease', 'Dermatology', 'Gene Therapy'])}
-        ${companyCard('TVTX', 'Travere Therapeutics', 'Small Molecule', 'Rare kidney disease focus with FILSPARI (sparsentan) for IgAN. FSGS approval under FDA review.', '$3.0B', '3', '1', '2', 'FILSPARI FSGS FDA decision (2026)', ['Rare Disease', 'Nephrology', 'IgAN'])}
-        ${companyCard('FOLD', 'Amicus Therapeutics', 'Enzyme', 'Rare disease with Galafold for Fabry. Pombiliti for Pompe disease gaining commercial traction.', '$3.2B', '4', '1', '2', 'Pombiliti commercial expansion (2026)', ['Rare Disease', 'Lysosomal', 'Metabolic'])}
-        ${companyCard('RARE', 'Ultragenyx Pharmaceutical', 'Biologics', 'Rare disease company with multiple approved therapies. Gene therapy and mRNA platforms expanding.', '$4.5B', '15+', '3', '4', 'GTX-102 Angelman data (H1 2026)', ['Rare Disease', 'Metabolic', 'Gene Therapy'])}
-        ${companyCard('AXSM', 'Axsome Therapeutics', 'Small Molecule', 'CNS leader with Auvelity for MDD and Sunosi for EDS. Rapidly growing commercial franchise.', '$9.3B', '6', '3', '3', 'Solriamfetol ADHD Phase 3 (2026)', ['CNS', 'Depression', 'Sleep'])}
-        ${companyCard('CYTK', 'Cytokinetics', 'Small Molecule', 'Muscle biology pioneer with aficamten NDA submitted for HCM. Cardiac myosin modulators for heart failure.', '$5.5B', '3', '2', '', 'Aficamten PDUFA (Sep 2025)', ['Cardiovascular', 'HCM', 'Heart Failure'])}
+        ${companyCard('MIRM', 'Mirum Pharmaceuticals', 'Small Molecule', 'Rare - Liver. Key product: Livmarli.', '$4.5B', '4', '2', '3', 'Volixibat PSC (2026)', ['Rare Disease', 'Liver', 'Cholestasis'])}
+        ${companyCard('ALKS', 'Alkermes', 'Small Molecule', 'Neuropsychiatry. Key products: Vivitrol, Aristada.', '$5.0B', '6', '2', '4', 'ALKS 2680 narcolepsy (2026)', ['Neuropsychiatry', 'Addiction', 'Schizophrenia'])}
+        ${companyCard('FOLD', 'Amicus Therapeutics', 'Enzyme', 'Rare - Lysosomal. Key products: Galafold, Pombiliti.', '$3.2B', '4', '1', '2', 'Pombiliti expansion (2026)', ['Rare Disease', 'Lysosomal', 'Metabolic'])}
+        ${companyCard('HALO', 'Halozyme Therapeutics', 'Drug Delivery', 'Drug Delivery. ENHANZE royalties.', '$7.2B', '20+', 'N/A', '8', 'New ENHANZE deals (2026)', ['Drug Delivery', 'Royalties', 'Platform'])}
+        ${companyCard('KRYS', 'Krystal Biotech', 'Gene Therapy', 'Rare - Dermatology. Key product: Vyjuvek.', '$7B', '6', '2', '1', 'KB408 AATD (2026)', ['Rare Disease', 'Dermatology', 'Gene Therapy'])}
+        ${companyCard('CYTK', 'Cytokinetics', 'Small Molecule', 'Cardiovascular. Key product: Myqorzo.', '$5.5B', '3', '2', '1', 'Aficamten HCM (2026)', ['Cardiovascular', 'HCM', 'Heart Failure'])}
+        ${companyCard('GRAL', 'Grail', 'Diagnostics', 'Dx - Oncology. Key product: Galleri.', '$2.0B', '2', 'N/A', '1', 'Galleri Medicare (2026)', ['Diagnostics', 'Oncology', 'Screening'])}
+        ${companyCard('INCY', 'Incyte', 'Small Molecule', 'Oncology, I&I. Key products: Jakafi, Opzelura.', '$14B', '20+', '5', '4', 'Povorcitinib AD (2026)', ['Oncology', 'I&I', 'Dermatology'])}
+        ${companyCard('PTCT', 'PTC Therapeutics', 'Small Molecule', 'Rare Disease. Key products: Translarna, Evrysdi royalties.', '$2.5B', '6', '2', '3', 'Sepiapterin Ph3 (2026)', ['Rare Disease', 'Neuromuscular', 'PKU'])}
+        ${companyCard('EXEL', 'Exelixis', 'Small Molecule', 'Oncology. Key product: Cabometyx.', '$8B', '10+', '4', '2', 'Zanzalintinib Ph3 (2026)', ['Oncology', 'Kidney Cancer', 'Liver Cancer'])}
+        ${companyCard('EXAS', 'Exact Sciences', 'Diagnostics', 'Dx - Oncology. Key products: Cologuard, Oncotype DX.', '$19.4B', '5', 'N/A', '3', 'Cologuard Plus (2026)', ['Diagnostics', 'Oncology', 'Screening'])}
+        ${companyCard('NTRA', 'Natera', 'Diagnostics', 'Dx - Oncology, Prenatal. Key products: Signatera, Panorama.', '$33B', '8', 'N/A', '4', 'Signatera expansion (2026)', ['Diagnostics', 'Oncology', 'Prenatal'])}
+        ${companyCard('TGTX', 'TG Therapeutics', 'Antibody', 'I&I (MS). Key product: Briumvi.', '$4.5B', '3', '1', '1', 'Briumvi growth (2026)', ['I&I', 'MS', 'Autoimmune'])}
+        ${companyCard('UTHR', 'United Therapeutics', 'Biologics', 'Rare - PAH. Key product: Tyvaso DPI.', '$14B', '8', '2', '5', 'Tyvaso DPI expansion (2026)', ['Rare Disease', 'PAH', 'Pulmonary'])}
+        ${companyCard('TVTX', 'Travere Therapeutics', 'Small Molecule', 'Rare - Nephrology. Key product: Filspari.', '$3.0B', '3', '1', '2', 'Filspari FSGS (2026)', ['Rare Disease', 'Nephrology', 'IgAN'])}
+        ${companyCard('MDGL', 'Madrigal Pharmaceuticals', 'Small Molecule', 'Metabolic - MASH. Key product: Rezdiffra.', '$6.8B', '1', '1', '1', 'Rezdiffra launch (2026)', ['Metabolic', 'MASH', 'Liver'])}
+        ${companyCard('NBIX', 'Neurocrine Biosciences', 'Small Molecule', 'Neuropsychiatry. Key product: Ingrezza.', '$14B', '12', '3', '2', 'NBI-1065845 MDD (2026)', ['Neuropsychiatry', 'Movement Disorders', 'Psychiatry'])}
+        ${companyCard('ACAD', 'Acadia Pharmaceuticals', 'Small Molecule', 'Neuropsychiatry. Key products: Nuplazid, Daybue.', '$4.5B', '4', '2', '2', 'Daybue growth (2026)', ['Neuropsychiatry', 'Rett Syndrome', 'Parkinson'])}
+        ${companyCard('ADMA', 'ADMA Biologics', 'Biologics', 'I&I (Immunoglobulins). Key product: ASCENIV.', '$3.0B', '2', 'N/A', '1', 'ASCENIV expansion (2026)', ['I&I', 'Immunoglobulins', 'Plasma'])}
+        ${companyCard('INSM', 'Insmed', 'Biologics', 'Rare - Pulmonary. Key products: Arikayce, Brinsupri.', '$34.7B', '6', '3', '2', 'Brensocatib launch (2026)', ['Rare Disease', 'Pulmonary', 'Anti-infective'])}
+        ${companyCard('APLS', 'Apellis Pharmaceuticals', 'Small Molecule', 'Ophthalmology. Key product: Syfovre.', '$5.0B', '4', '2', '1', 'Syfovre growth (2026)', ['Ophthalmology', 'AMD', 'Complement'])}
+        ${companyCard('RARE', 'Ultragenyx Pharmaceutical', 'Biologics', 'Rare Disease. Key products: Crysvita, Evkeeza.', '$4.5B', '15+', '3', '4', 'GTX-102 Angelman (2026)', ['Rare Disease', 'Metabolic', 'Gene Therapy'])}
+        ${companyCard('CPRX', 'Catalyst Pharmaceuticals', 'Small Molecule', 'Neuropsychiatry. Key product: Firdapse.', '$2.5B', '2', '1', '1', 'Firdapse SMA (2026)', ['Neuropsychiatry', 'LEMS', 'Rare Disease'])}
+        ${companyCard('VCYT', 'Veracyte', 'Diagnostics', 'Dx - Oncology. Key products: Decipher, Afirma.', '$2.0B', '4', 'N/A', '3', 'Prosigna expansion (2026)', ['Diagnostics', 'Oncology', 'Genomics'])}
+        ${companyCard('NVAX', 'Novavax', 'Vaccine', 'Vaccines. COVID vaccine.', '$1.2B', '5', '2', '1', 'CIC flu combo (2026)', ['Vaccines', 'COVID', 'Influenza'])}
+        ${companyCard('ARDX', 'Ardelyx', 'Small Molecule', 'Nephrology, GI. Key products: Ibsrela, Xphozah.', '$1.5B', '3', '1', '2', 'Xphozah growth (2026)', ['Nephrology', 'GI', 'Hyperphosphatemia'])}
+        ${companyCard('AGIO', 'Agios Pharmaceuticals', 'Small Molecule', 'Rare - Hematology. Key product: Pyrukynd.', '$3.0B', '3', '1', '1', 'Pyrukynd expansion (2026)', ['Rare Disease', 'Hematology', 'PK Deficiency'])}
+        ${companyCard('DVAX', 'Dynavax Technologies', 'Vaccine', 'Vaccines. Key product: Heplisav-B.', '$1.5B', '3', '1', '1', 'Heplisav-B growth (2026)', ['Vaccines', 'Hepatitis B', 'Adjuvant'])}
+        ${companyCard('VCEL', 'Vericel', 'Regenerative', 'Regenerative. Key products: MACI, Epicel.', '$2.5B', '3', '1', '2', 'NexoBrid launch (2026)', ['Regenerative', 'Orthopedics', 'Burn'])}
+        ${companyCard('MNKD', 'MannKind', 'Inhalation', 'Diabetes, Pulmonary. Key products: Afrezza, Tyvaso DPI.', '$1.0B', '3', '1', '2', 'V-Go growth (2026)', ['Diabetes', 'Pulmonary', 'Inhalation'])}
+        ${companyCard('BCRX', 'BioCryst Pharmaceuticals', 'Small Molecule', 'Rare Disease. Key product: Orladeyo.', '$3.5B', '4', '1', '1', 'Orladeyo HAE (2026)', ['Rare Disease', 'HAE', 'Oral'])}
+        ${companyCard('CDNA', 'CareDx', 'Diagnostics', 'Dx - Transplant. Key product: AlloSure.', '$0.8B', '3', 'N/A', '2', 'AlloSure expansion (2026)', ['Diagnostics', 'Transplant', 'Rejection'])}
+        ${companyCard('IOVA', 'Iovance Biotherapeutics', 'Cell Therapy', 'Oncology. Key product: Amtagvi.', '$4.0B', '3', '2', '1', 'Amtagvi lung (2026)', ['Oncology', 'Cell Therapy', 'TIL'])}
+        ${companyCard('SPRY', 'ARS Pharmaceuticals', 'Small Molecule', 'Allergy. Key product: Neffy.', '$1.5B', '2', '1', '1', 'Neffy launch (2026)', ['Allergy', 'Anaphylaxis', 'Epinephrine'])}
+        ${companyCard('GERN', 'Geron', 'Small Molecule', 'Oncology. Key product: Rytelo.', '$4.0B', '2', '1', '1', 'Rytelo launch (2026)', ['Oncology', 'MDS', 'Telomerase'])}
+        ${companyCard('EBS', 'Emergent BioSolutions', 'Biologics', 'Vaccines/Biodefense. Biodefense products.', '$0.5B', '5', '1', '3', 'ACAM2000 (2026)', ['Vaccines', 'Biodefense', 'Anthrax'])}
+        ${companyCard('RIGL', 'Rigel Pharmaceuticals', 'Small Molecule', 'I&I. Key product: Rezlidhia.', '$0.3B', '3', '1', '1', 'Rezlidhia growth (2026)', ['I&I', 'Hematology', 'Kinase'])}
+        ${companyCard('MYGN', 'Myriad Genetics', 'Diagnostics', 'Dx - Oncology. Key product: BRACAnalysis.', '$1.5B', '5', 'N/A', '4', 'Precise expansion (2026)', ['Diagnostics', 'Oncology', 'Hereditary Cancer'])}
+        ${companyCard('SRPT', 'Sarepta Therapeutics', 'Gene Therapy', 'Rare - DMD. Key product: Elevidys.', '$9.5B', '15+', '3', '5', 'Elevidys confirmatory (2026)', ['Rare Disease', 'DMD', 'Gene Therapy'])}
+        ${companyCard('MDXG', 'MiMedx Group', 'Regenerative', 'Regenerative. Key products: AmnioFix, EpiFix.', '$1.0B', '2', 'N/A', '2', 'Wound care growth (2026)', ['Regenerative', 'Wound Care', 'Amniotic'])}
+        ${companyCard('IRWD', 'Ironwood Pharmaceuticals', 'Small Molecule', 'GI. Linzess royalties.', '$1.2B', '2', '1', '1', 'Linzess royalties (2026)', ['GI', 'IBS', 'Royalties'])}
       </div>
     </section>
 
-    <!-- ==================== CLINICAL ONCOLOGY (7) ==================== -->
+    <!-- ==================== CLINICAL - ONCOLOGY (33) ==================== -->
     <section id="oncology" class="section">
       <div class="section-header">
-        <h2 class="section-title">Clinical Oncology</h2>
-        <span class="section-count">7</span>
+        <h2 class="section-title">Clinical - Oncology</h2>
+        <span class="section-count">33</span>
       </div>
       <div class="cards-grid">
-        ${companyCard('RVMD', 'Revolution Medicines', 'Small Molecule', 'Leading RAS(ON) inhibitor developer for KRAS-driven cancers. RMC-6236 and RMC-6291 in advanced trials.', '$8.5B', '4', '2', '', 'RMC-6236 PDAC Phase 3 data (H2 2026)', ['KRAS', 'Lung Cancer', 'Pancreatic'])}
-        ${companyCard('RCUS', 'Arcus Biosciences', 'Antibody', 'Next-gen immuno-oncology with TIGIT inhibitor domvanalimab and HIF-2α inhibitor casdatifan.', '$2.7B', '6', '3', '', 'Casdatifan ccRCC data readouts (2026)', ['Oncology', 'Kidney Cancer', 'Lung Cancer'])}
-        ${companyCard('RLAY', 'Relay Therapeutics', 'Small Molecule', 'Motion-based drug design platform. RLY-2608 PI3Kα inhibitor for breast cancer advancing.', '$1.8B', '4', '1', '', 'RLY-2608 Phase 3 initiation (2026)', ['Oncology', 'Breast Cancer', 'PI3K'])}
-        ${companyCard('IDYA', 'IDEAYA Biosciences', 'Small Molecule', 'Precision oncology with darovasertib for uveal melanoma. Werner helicase and PARG programs.', '$2.8B', '6', '2', '', 'Darovasertib OptimUM-02 PFS data (Q1 2026)', ['Oncology', 'Melanoma', 'Precision Medicine'])}
-        ${companyCard('RPTX', 'Repare Therapeutics', 'Small Molecule', 'Synthetic lethality oncology company. SNIPRx platform targeting DNA damage repair deficiencies.', '$0.1B', '3', '1', '', 'XenoTherapeutics acquisition pending', ['Oncology', 'DNA Repair', 'Synthetic Lethality'])}
-        ${companyCard('PMVP', 'PMV Pharmaceuticals', 'Small Molecule', 'Precision oncology targeting p53 mutations. Rezatapopt for Y220C-mutant tumors showing responses.', '$0.08B', '2', '1', '', 'Rezatapopt NDA filing (end 2026)', ['Oncology', 'p53', 'Precision Medicine'])}
-        ${companyCard('YMAB', 'Y-mAbs Therapeutics', 'Antibody', 'Anti-GD2 therapy DANYELZA for neuroblastoma. SADA PRIT radiopharmaceutical platform. Acquired by SERB.', 'Acquired', '4', '1', '1', 'Acquired by SERB (Sep 2025)', ['Oncology', 'Neuroblastoma', 'Radiopharm'])}
+        ${companyCard('RVMD', 'Revolution Medicines', 'Small Molecule', 'Oncology (RAS). Lead: Daraxonrasib (Ph3).', '$8.5B', '4', '2', '', 'RMC-6236 PDAC Ph3 (2026)', ['Oncology', 'KRAS', 'Pancreatic'])}
+        ${companyCard('CELC', 'Celcuity', 'Small Molecule', 'Oncology (HER2). Lead: Gedatolisib (Ph3).', '$0.8B', '2', '1', '', 'Gedatolisib breast (2026)', ['Oncology', 'HER2', 'Breast Cancer'])}
+        ${companyCard('CGON', 'CG Oncology', 'Oncolytic', 'Oncology (Oncolytic). Lead: CG0070 (Ph3).', '$1.0B', '2', '1', '', 'CG0070 bladder Ph3 (2026)', ['Oncology', 'Oncolytic Virus', 'Bladder Cancer'])}
+        ${companyCard('ACLX', 'Arcellx', 'Cell Therapy', 'Oncology (CAR-T). Lead: Anitocabtagene (Ph2).', '$3.0B', '3', '1', '', 'Anito myeloma (2026)', ['Oncology', 'CAR-T', 'Multiple Myeloma'])}
+        ${companyCard('NUVL', 'Nuvalent', 'Small Molecule', 'Oncology (TKI). Lead: NVL-520 (Ph2).', '$5.0B', '3', '1', '', 'NVL-520 ROS1 (2026)', ['Oncology', 'TKI', 'Lung Cancer'])}
+        ${companyCard('SMMT', 'Summit Therapeutics', 'Antibody', 'Oncology (PD-1). Lead: Ivonescimab (Ph3).', '$8.0B', '2', '2', '', 'Ivonescimab NSCLC (2026)', ['Oncology', 'PD-1', 'Lung Cancer'])}
+        ${companyCard('IDYA', 'Ideaya Biosciences', 'Small Molecule', 'Oncology (Synth Lethality). Lead: Darovasertib (Ph3).', '$2.8B', '6', '2', '', 'Darovasertib melanoma (2026)', ['Oncology', 'Melanoma', 'Synthetic Lethality'])}
+        ${companyCard('SNDX', 'Syndax Pharmaceuticals', 'Small Molecule', 'Oncology (Menin). Lead: Revumenib (BLA).', '$2.5B', '4', '1', '', 'Revumenib AML (2026)', ['Oncology', 'Menin', 'AML'])}
+        ${companyCard('IBRX', 'ImmunityBio', 'Biologics', 'Oncology (IL-15). Key product: Anktiva.', '$1.0B', '5', '2', '1', 'Anktiva bladder (2026)', ['Oncology', 'IL-15', 'Bladder Cancer'])}
+        ${companyCard('IMNM', 'Immunome', 'Antibody', 'Oncology (Antibodies). Lead: IMM-1-104 (Ph1).', '$0.3B', '2', '0', '', 'IMM-1-104 solid (2026)', ['Oncology', 'Antibody', 'Solid Tumors'])}
+        ${companyCard('TNGX', 'Tango Therapeutics', 'Small Molecule', 'Oncology (Synth Lethality). Lead: TNG908 (Ph2).', '$1.0B', '3', '1', '', 'TNG908 MTAP (2026)', ['Oncology', 'Synthetic Lethality', 'MTAP'])}
+        ${companyCard('JANX', 'Janux Therapeutics', 'Bispecific', 'Oncology (T-cell Engager). Lead: JANX007 (Ph1).', '$2.0B', '3', '0', '', 'JANX007 prostate (2026)', ['Oncology', 'Bispecific', 'Prostate Cancer'])}
+        ${companyCard('CRVS', 'Corvus Pharmaceuticals', 'Antibody', 'Oncology (IO). Lead: Mupadolimab (Ph2).', '$0.2B', '2', '1', '', 'Mupadolimab solid (2026)', ['Oncology', 'IO', 'Solid Tumors'])}
+        ${companyCard('RCUS', 'Arcus Biosciences', 'Antibody', 'Oncology (IO). Lead: Domvanalimab (Ph3).', '$2.7B', '6', '3', '', 'Domvanalimab NSCLC (2026)', ['Oncology', 'TIGIT', 'Lung Cancer'])}
+        ${companyCard('ORIC', 'Oric Pharmaceuticals', 'Small Molecule', 'Oncology. Lead: ORIC-114 (Ph2).', '$0.5B', '3', '1', '', 'ORIC-114 EGFR (2026)', ['Oncology', 'EGFR', 'Lung Cancer'])}
+        ${companyCard('DAWN', 'Day One Biopharmaceuticals', 'Small Molecule', 'Oncology (Pediatric). Key product: Tovorafenib.', '$2.5B', '2', '1', '1', 'Tovorafenib expansion (2026)', ['Oncology', 'Pediatric', 'RAF'])}
+        ${companyCard('PGEN', 'Precigen', 'Gene Therapy', 'Oncology (Gene Therapy). Lead: PRGN-3005 (Ph1).', '$0.2B', '4', '1', '', 'PRGN-3005 ovarian (2026)', ['Oncology', 'Gene Therapy', 'Ovarian Cancer'])}
+        ${companyCard('NRIX', 'Nurix Therapeutics', 'Degrader', 'Oncology (Degrader). Lead: NX-2127 (Ph1).', '$1.0B', '4', '0', '', 'NX-2127 BTK (2026)', ['Oncology', 'Degrader', 'B-cell'])}
+        ${companyCard('CTMX', 'CytomX Therapeutics', 'Probody', 'Oncology (Probody). Lead: CX-904 (Ph1).', '$0.3B', '3', '0', '', 'CX-904 solid (2026)', ['Oncology', 'Probody', 'Solid Tumors'])}
+        ${companyCard('KURA', 'Kura Oncology', 'Small Molecule', 'Oncology (Menin). Lead: Ziftomenib (Ph3).', '$2.0B', '3', '1', '', 'Ziftomenib NPM1 (2026)', ['Oncology', 'Menin', 'AML'])}
+        ${companyCard('RLAY', 'Relay Therapeutics', 'Small Molecule', 'Oncology (PI3Ka). Lead: Zovegalisib (Ph3).', '$1.8B', '4', '1', '', 'RLY-2608 breast (2026)', ['Oncology', 'PI3K', 'Breast Cancer'])}
+        ${companyCard('GLUE', 'Monte Rosa Therapeutics', 'Degrader', 'Oncology (Degrader). Lead: MRT-2359 (Ph1).', '$0.4B', '3', '0', '', 'MRT-2359 GSPT1 (2026)', ['Oncology', 'Degrader', 'Solid Tumors'])}
+        ${companyCard('ERAS', 'Erasca', 'Small Molecule', 'Oncology (RAS). Lead: Naporafenib (Ph2).', '$0.3B', '3', '1', '', 'Naporafenib combo (2026)', ['Oncology', 'RAS', 'Solid Tumors'])}
+        ${companyCard('XNCR', 'Xencor', 'Bispecific', 'Oncology (Bispecific). Lead: Vudalimab (Ph2).', '$1.5B', '8', '2', '', 'Vudalimab NSCLC (2026)', ['Oncology', 'Bispecific', 'Lung Cancer'])}
+        ${companyCard('OLMA', 'Olema Pharmaceuticals', 'Small Molecule', 'Oncology (ER). Lead: Palazestrant (Ph3).', '$1.0B', '2', '1', '', 'Palazestrant breast (2026)', ['Oncology', 'ER Degrader', 'Breast Cancer'])}
+        ${companyCard('REPL', 'Replimune Group', 'Oncolytic', 'Oncology (Oncolytic). Lead: RP1 (Ph2).', '$0.5B', '3', '1', '', 'RP1 melanoma (2026)', ['Oncology', 'Oncolytic Virus', 'Melanoma'])}
+        ${companyCard('BCAX', 'Bicara Therapeutics', 'Bispecific', 'Oncology (Bispecific). Lead: BCA101 (Ph2).', '$0.4B', '2', '1', '', 'BCA101 HNSCC (2026)', ['Oncology', 'Bispecific', 'Head & Neck'])}
+        ${companyCard('CMPX', 'Compass Therapeutics', 'Antibody', 'Oncology (IO). Lead: CTX-009 (Ph2).', '$0.2B', '3', '1', '', 'CTX-009 biliary (2026)', ['Oncology', 'IO', 'Biliary Cancer'])}
+        ${companyCard('VSTM', 'Verastem', 'Small Molecule', 'Oncology (RAF/MEK). Lead: Avutometinib (Ph3).', '$0.8B', '2', '2', '', 'Avutometinib ovarian (2026)', ['Oncology', 'RAF/MEK', 'Ovarian Cancer'])}
+        ${companyCard('CGEM', 'Cullinan Therapeutics', 'Antibody', 'Oncology. Lead: CLN-978 (Ph1).', '$0.5B', '4', '0', '', 'CLN-978 B-cell (2026)', ['Oncology', 'T-cell Engager', 'B-cell'])}
+        ${companyCard('AVBP', 'Arrivent Biopharma', 'Small Molecule', 'Oncology. Lead: ARRY-440 (Ph2).', '$0.3B', '2', '1', '', 'Furmonertinib NSCLC (2026)', ['Oncology', 'EGFR', 'Lung Cancer'])}
+        ${companyCard('IMRX', 'Immuneering', 'Small Molecule', 'Oncology. Lead: IMM-1-104 (Ph1).', '$0.1B', '2', '0', '', 'IMM-6-415 RAS (2026)', ['Oncology', 'RAS', 'Solid Tumors'])}
+        ${companyCard('TYRA', 'Tyra Biosciences', 'Small Molecule', 'Oncology (TKI). Lead: TYRA-300 (Ph2).', '$0.8B', '3', '1', '', 'TYRA-300 bladder (2026)', ['Oncology', 'FGFR', 'Bladder Cancer'])}
       </div>
     </section>
 
-    <!-- ==================== CLINICAL I&I (3) ==================== -->
-    <section id="immunology" class="section">
+    <!-- ==================== CLINICAL - I&I (17) ==================== -->
+    <section id="ii" class="section">
       <div class="section-header">
-        <h2 class="section-title">Clinical I&I</h2>
-        <span class="section-count">3</span>
+        <h2 class="section-title">Clinical - I&I</h2>
+        <span class="section-count">17</span>
       </div>
       <div class="cards-grid">
-        ${companyCard('PTGX', 'Protagonist Therapeutics', 'Peptide', 'Rusfertide NDA submitted for polycythemia vera. Icotrokinra oral IL-23 antagonist with J&J.', '$5.3B', '4', '2', '', 'Rusfertide FDA decision (2026)', ['Hematology', 'Immunology', 'Obesity'])}
-        ${companyCard('ANNX', 'Annexon Biosciences', 'Antibody', 'C1q-targeting antibody ANX005 for autoimmune neurology. Huntington disease and Guillain-Barré.', '$0.8B', '3', '2', '', 'ANX005 HD Phase 3 data (2026)', ['Neurology', 'Autoimmune', 'Complement'])}
-        ${companyCard('IRON', 'Disc Medicine', 'Antibody', 'Hepcidin biology for blood disorders. Bitopertin NDA for erythropoietic porphyrias near FDA decision.', '$3.0B', '4', '2', '', 'Bitopertin FDA decision (Q1 2026)', ['Hematology', 'Rare Disease', 'Iron Disorders'])}
+        ${companyCard('PTGX', 'Protagonist Therapeutics', 'Peptide', 'I&I, Hematology. Lead: Rusfertide (Ph3).', '$5.3B', '4', '2', '', 'Rusfertide PV (2026)', ['I&I', 'Hematology', 'PV'])}
+        ${companyCard('ARQT', 'Arcutis Biotherapeutics', 'Small Molecule', 'I&I (Dermatology). Lead: Roflumilast (Ph3).', '$0.8B', '3', '2', '2', 'Roflumilast scalp (2026)', ['I&I', 'Dermatology', 'Psoriasis'])}
+        ${companyCard('KYMR', 'Kymera Therapeutics', 'Degrader', 'I&I (Degrader). Lead: KT-474 (Ph2).', '$2.0B', '4', '1', '', 'KT-474 atopic derm (2026)', ['I&I', 'Degrader', 'IRAK4'])}
+        ${companyCard('IMVT', 'Immunovant', 'Antibody', 'I&I (FcRn). Lead: IMVT-1402 (Ph3).', '$5.0B', '3', '2', '', 'IMVT-1402 MG (2026)', ['I&I', 'FcRn', 'Autoimmune'])}
+        ${companyCard('APGE', 'Apogee Therapeutics', 'Antibody', 'I&I (Dermatology). Lead: APG777 (Ph2).', '$3.0B', '2', '1', '', 'APG777 atopic derm (2026)', ['I&I', 'Dermatology', 'Atopic Derm'])}
+        ${companyCard('VRDN', 'Viridian Therapeutics', 'Antibody', 'I&I (Thyroid Eye). Lead: VRDN-003 (Ph3).', '$2.5B', '3', '2', '', 'VRDN-003 TED (2026)', ['I&I', 'Thyroid Eye', 'IGF-1R'])}
+        ${companyCard('DNTH', 'Dianthus Therapeutics', 'Antibody', 'I&I (Complement). Lead: DNTH103 (Ph2).', '$1.0B', '2', '1', '', 'DNTH103 gMG (2026)', ['I&I', 'Complement', 'Myasthenia Gravis'])}
+        ${companyCard('IRON', 'Disc Medicine', 'Antibody', 'Hematology. Lead: Bitopertin (Ph3).', '$3.0B', '4', '2', '', 'Bitopertin EPP (2026)', ['Hematology', 'Iron Disorders', 'Porphyria'])}
+        ${companyCard('CLDX', 'Celldex Therapeutics', 'Antibody', 'I&I (KIT). Lead: Barzolvolimab (Ph3).', '$3.5B', '3', '2', '', 'Barzolvolimab CSU (2026)', ['I&I', 'KIT', 'Urticaria'])}
+        ${companyCard('RAPT', 'RAPT Therapeutics', 'Small Molecule', 'I&I. Lead: Zelnecirnon (Ph2).', '$0.3B', '2', '1', '', 'Zelnecirnon atopic (2026)', ['I&I', 'CCR4', 'Atopic Derm'])}
+        ${companyCard('SYRE', 'Spyre Therapeutics', 'Antibody', 'I&I (IBD). Lead: SPY001 (Ph2).', '$2.0B', '2', '1', '', 'SPY001 UC (2026)', ['I&I', 'IBD', 'IL-18'])}
+        ${companyCard('ANAB', 'Anaptysbio', 'Antibody', 'I&I (PD-1 Agonist). Lead: Rosnilimab (Ph3).', '$1.5B', '3', '2', '', 'Rosnilimab alopecia (2026)', ['I&I', 'PD-1 Agonist', 'Alopecia'])}
+        ${companyCard('ORKA', 'Oruka Therapeutics', 'Antibody', 'I&I (Dermatology). Lead: ORKA-001 (Ph2).', '$0.8B', '2', '1', '', 'ORKA-001 psoriasis (2026)', ['I&I', 'Dermatology', 'IL-13'])}
+        ${companyCard('UPB', 'Upstream Bio', 'Antibody', 'I&I (Pulmonary). Lead: UPB-101 (Ph2).', '$0.5B', '2', '1', '', 'UPB-101 asthma (2026)', ['I&I', 'Pulmonary', 'TSLP'])}
+        ${companyCard('ANNX', 'Annexon Biosciences', 'Antibody', 'I&I (Complement). Lead: ANX005 (Ph3).', '$0.8B', '3', '2', '', 'ANX005 HD (2026)', ['I&I', 'Complement', 'Huntington'])}
+        ${companyCard('INBX', 'Inhibrx Biosciences', 'Antibody', 'I&I. Lead: INBRX-101 (Ph2).', '$0.6B', '3', '1', '', 'INBRX-101 AATD (2026)', ['I&I', 'AATD', 'Rare Disease'])}
+        ${companyCard('KROS', 'Keros Therapeutics', 'Antibody', 'I&I (Hematology). Lead: KER-050 (Ph2).', '$1.0B', '3', '1', '', 'KER-050 MDS (2026)', ['I&I', 'Hematology', 'MDS'])}
       </div>
     </section>
 
-    <!-- ==================== CLINICAL NEUROPSYCHIATRY (7) ==================== -->
-    <section id="neuro" class="section">
-      <div class="section-header">
-        <h2 class="section-title">Clinical Neuropsychiatry</h2>
-        <span class="section-count">7</span>
-      </div>
-      <div class="cards-grid">
-        ${companyCard('PRAX', 'Praxis Precision Medicines', 'Small Molecule', 'CNS precision medicines for epilepsy and mood disorders. T-type calcium channel modulators.', '$0.8B', '3', '1', '', 'PRAX-628 essential tremor data (H1 2026)', ['Epilepsy', 'Movement Disorders', 'CNS'])}
-        ${companyCard('BHVN', 'Biohaven', 'Small Molecule', 'Troriluzole for SCA received CRL. BHV-7000 for epilepsy and MDD. Taldefgrobep for SMA/obesity.', '$1.0B', '6', '3', '', 'BHV-7000 focal epilepsy data (H1 2026)', ['Neurology', 'Psychiatry', 'Rare Disease'])}
-        ${companyCard('DNLI', 'Denali Therapeutics', 'Small Molecule', 'Neurodegeneration with TV platform for CNS delivery. Programs in ALS, Parkinson, Alzheimer, Hunter.', '$4.2B', '8', '2', '', 'DNL310 Hunter syndrome pivotal (2026)', ['Neurodegeneration', 'ALS', 'Lysosomal'])}
-        ${companyCard('ANVS', 'Annovis Bio', 'Small Molecule', 'Buntanetap for Alzheimer and Parkinson. Inhibits neurotoxic proteins (amyloid, tau, alpha-synuclein).', '$0.1B', '3', '2', '', 'Buntanetap AD Phase 3 6-mo readout (2026)', ['Alzheimer', 'Parkinson', 'Neurodegeneration'])}
-        ${companyCard('SAGE', 'Sage Therapeutics', 'Small Molecule', 'Zurzuvae approved for PPD. Acquired by Supernus (Jul 2025). Dalzanemdor for Huntington cognition.', 'Acquired', '3', '1', '1', 'Acquired by Supernus (Jul 2025)', ['Psychiatry', 'Depression', 'PPD'])}
-        ${companyCard('CERE', 'Cerevel Therapeutics', 'Small Molecule', 'Neuroscience company with darigabat for epilepsy and emraclidine for schizophrenia. Acquired by AbbVie.', 'Acquired', '5', '2', '', 'Acquired by AbbVie (Aug 2024)', ['Psychiatry', 'Epilepsy', 'Schizophrenia'])}
-        ${companyCard('KRTX', 'Karuna Therapeutics', 'Small Molecule', 'KarXT (xanomeline-trospium) for schizophrenia. Acquired by Bristol Myers Squibb.', 'Acquired', '2', '1', '', 'Acquired by BMS (Mar 2024)', ['Psychiatry', 'Schizophrenia', 'Alzheimer'])}
-      </div>
-    </section>
-
-    <!-- ==================== CLINICAL RARE DISEASE (3) ==================== -->
+    <!-- ==================== CLINICAL - RARE DISEASE (14) ==================== -->
     <section id="rare" class="section">
       <div class="section-header">
-        <h2 class="section-title">Clinical Rare Disease</h2>
-        <span class="section-count">3</span>
+        <h2 class="section-title">Clinical - Rare Disease</h2>
+        <span class="section-count">14</span>
       </div>
       <div class="cards-grid">
-        ${companyCard('RCKT', 'Rocket Pharmaceuticals', 'Gene Therapy', 'Gene therapy with KRESLADI for LAD-I near FDA approval (PDUFA Mar 28, 2026). FA, PKD, Danon programs.', '$1.8B', '4', '1', '', getNextCatalystDisplay('RCKT') || 'KRESLADI PDUFA (Mar 28, 2026)', ['Rare Disease', 'Hematology', 'Gene Therapy'])}
-        ${companyCard('BLUE', 'Bluebird Bio', 'Gene Therapy', 'Gene therapy pioneer with Zynteglo (beta-thal), Skysona (CALD), and Lyfgenia (SCD) approved.', '$0.3B', '3', '1', '3', 'Commercial expansion (2026)', ['Rare Disease', 'Hematology', 'Gene Therapy'])}
-        ${companyCard('MIRM', 'Mirum Pharmaceuticals', 'Small Molecule', 'LIVMARLI (maralixibat) for cholestatic diseases. Volixibat for PSC and PBC advancing.', '$4.5B', '4', '2', '3', 'Volixibat VISTAS PSC data (Q2 2026)', ['Rare Disease', 'Liver', 'Cholestasis'])}
+        ${companyCard('BBIO', 'BridgeBio Pharma', 'Small Molecule', 'Rare Disease, Cardio. Key product: Acoramidis (Approved).', '$8.0B', '8', '3', '1', 'Acoramidis ATTR-CM (2026)', ['Rare Disease', 'Cardio', 'ATTR'])}
+        ${companyCard('ROIV', 'Roivant Sciences', 'Holding', 'Multiple (Holding Co). Multiple Vants.', '$10.0B', '15+', '5', '3', 'IMVT-1402 Ph3 (2026)', ['Platform', 'Multiple', 'Holding Co'])}
+        ${companyCard('SRRK', 'Scholar Rock Holding', 'Antibody', 'Rare - Neuromuscular. Lead: Apitegromab (Ph3).', '$2.0B', '3', '2', '', 'Apitegromab SMA (2026)', ['Rare Disease', 'Neuromuscular', 'SMA'])}
+        ${companyCard('RYTM', 'Rhythm Pharmaceuticals', 'Small Molecule', 'Rare - Metabolic (Obesity). Key product: Setmelanotide.', '$2.5B', '3', '1', '1', 'Setmelanotide expansion (2026)', ['Rare Disease', 'Obesity', 'MC4R'])}
+        ${companyCard('COGT', 'Cogent Biosciences', 'Small Molecule', 'Rare - Mast Cell. Lead: Bezuclastinib (Ph3).', '$2.0B', '2', '2', '', 'Bezuclastinib GIST (2026)', ['Rare Disease', 'Mast Cell', 'KIT'])}
+        ${companyCard('DYN', 'Dyne Therapeutics', 'AOC', 'Rare - Neuromuscular. Lead: DYNE-101 (Ph2).', '$2.0B', '3', '1', '', 'DYNE-101 DM1 (2026)', ['Rare Disease', 'Neuromuscular', 'AOC'])}
+        ${companyCard('QURE', 'uniQure', 'Gene Therapy', 'Rare - Gene Therapy. Lead: AMT-130 (Ph1/2).', '$1.0B', '4', '1', '1', 'AMT-130 HD (2026)', ['Rare Disease', 'Gene Therapy', 'Huntington'])}
+        ${companyCard('SLNO', 'Soleno Therapeutics', 'Small Molecule', 'Rare - PWS. Lead: DCCR (Ph3).', '$1.5B', '2', '1', '', 'DCCR Prader-Willi (2026)', ['Rare Disease', 'PWS', 'Metabolic'])}
+        ${companyCard('TSHA', 'Taysha Gene Therapies', 'Gene Therapy', 'Rare - Gene Therapy. Lead: TSHA-120 (Ph1/2).', '$0.3B', '4', '1', '', 'TSHA-120 GAN (2026)', ['Rare Disease', 'Gene Therapy', 'GAN'])}
+        ${companyCard('KALV', 'KalVista Pharmaceuticals', 'Small Molecule', 'Rare - HAE. Key product: Sebetralstat (Approved).', '$2.0B', '3', '1', '1', 'Sebetralstat launch (2026)', ['Rare Disease', 'HAE', 'Oral'])}
+        ${companyCard('PVLA', 'Palvella Therapeutics', 'Small Molecule', 'Rare - Dermatology. Lead: PV-10 (Ph3).', '$0.2B', '2', '1', '', 'QTORIN EB (2026)', ['Rare Disease', 'Dermatology', 'EB'])}
+        ${companyCard('FDMT', '4D Molecular Therapeutics', 'Gene Therapy', 'Rare - Ophthalmology (Gene Therapy). Lead: 4D-150 (Ph2).', '$0.5B', '4', '1', '', '4D-150 wet AMD (2026)', ['Rare Disease', 'Gene Therapy', 'Ophthalmology'])}
+        ${companyCard('LXEO', 'Lexeo Therapeutics', 'Gene Therapy', 'Rare - Gene Therapy. Lead: LX1001 (Ph1/2).', '$0.3B', '3', '0', '', 'LX1001 cardiac (2026)', ['Rare Disease', 'Gene Therapy', 'Cardiac'])}
+        ${companyCard('SVRA', 'Savara', 'Biologics', 'Rare - Pulmonary. Lead: Molgramostim (Ph3).', '$0.8B', '2', '1', '', 'Molgramostim aPAP (2026)', ['Rare Disease', 'Pulmonary', 'aPAP'])}
       </div>
     </section>
 
-    <!-- ==================== CLINICAL GENE THERAPY (4) ==================== -->
-    <section id="gene" class="section">
+    <!-- ==================== CLINICAL - NEUROPSYCHIATRY (6) ==================== -->
+    <section id="neuro" class="section">
       <div class="section-header">
-        <h2 class="section-title">Gene Therapy & Editing</h2>
-        <span class="section-count">4</span>
+        <h2 class="section-title">Clinical - Neuropsychiatry</h2>
+        <span class="section-count">6</span>
       </div>
       <div class="cards-grid">
-        ${companyCard('NTLA', 'Intellia Therapeutics', 'CRISPR', 'Leading in vivo CRISPR company. NTLA-2001 for ATTR and NTLA-2002 for HAE in pivotal studies.', '$2.8B', '6', '2', '', 'NTLA-2001 ATTR-CM Phase 3 (H2 2026)', ['Gene Editing', 'ATTR', 'HAE'])}
-        ${companyCard('BEAM', 'Beam Therapeutics', 'Base Editing', 'Precision base editing platform. Risto-cel for SCD targeting BLA submission. BEAM-302 for AATD.', '$3.1B', '5', '1', '', 'Risto-cel BLA submission (end 2026)', ['Gene Editing', 'Sickle Cell', 'Liver'])}
-        ${companyCard('EDIT', 'Editas Medicine', 'CRISPR', 'CRISPR gene editing for blood diseases and in vivo therapies. EDIT-401 targeting LDLR for FH.', '$0.2B', '4', '1', '', 'EDIT-401 IND filing (mid-2026)', ['Gene Editing', 'Hematology', 'Liver'])}
-        ${companyCard('TNYA', 'Tenaya Therapeutics', 'Gene Therapy', 'Gene therapy for inherited cardiomyopathies. TN-201 for HCM and TN-401 for ARVC in clinical trials.', '$0.15B', '4', '1', '', 'MyPEAK-1 TN-201 HCM data (H1/H2 2026)', ['Cardiovascular', 'Gene Therapy', 'Cardiomyopathy'])}
+        ${companyCard('PRAX', 'Praxis Precision Medicines', 'Small Molecule', 'Neuropsychiatry (Epilepsy). Lead: Ulixacaltamide (Ph3).', '$0.8B', '3', '1', '', 'Ulixacaltamide epilepsy (2026)', ['Neuropsychiatry', 'Epilepsy', 'Ion Channel'])}
+        ${companyCard('DNLI', 'Denali Therapeutics', 'Biologics', 'Neuropsychiatry (Neurodegeneration). Lead: Tividenofusp alfa (BLA).', '$4.2B', '8', '2', '', 'DNL310 Hunter (2026)', ['Neuropsychiatry', 'Neurodegeneration', 'Lysosomal'])}
+        ${companyCard('STOK', 'Stoke Therapeutics', 'Antisense', 'Neuropsychiatry (Genetic). Lead: STK-001 (Ph2).', '$1.0B', '3', '1', '', 'STK-001 Dravet (2026)', ['Neuropsychiatry', 'Genetic', 'Antisense'])}
+        ${companyCard('BHVN', 'Biohaven', 'Small Molecule', 'Neuropsychiatry (Multiple). Lead: Troriluzole (Ph3).', '$1.0B', '6', '3', '', 'BHV-7000 epilepsy (2026)', ['Neuropsychiatry', 'Psychiatry', 'Neurology'])}
+        ${companyCard('AVXL', 'Anavex Life Sciences', 'Small Molecule', 'Neuropsychiatry (Alzheimers). Lead: Blarcamesine (Ph3).', '$0.5B', '3', '2', '', 'Blarcamesine Alzheimers (2026)', ['Neuropsychiatry', 'Alzheimer', 'Sigma-1'])}
+        ${companyCard('PRTA', 'Prothena', 'Antibody', 'Neuropsychiatry (Amyloid). Lead: Birtamimab (Ph3).', '$2.5B', '5', '2', '', 'Birtamimab AL amyloid (2026)', ['Neuropsychiatry', 'Amyloid', 'AL Amyloidosis'])}
       </div>
     </section>
 
-    <!-- ==================== CLINICAL METABOLIC/CV (3) ==================== -->
+    <!-- ==================== CLINICAL - METABOLIC/CV (7) ==================== -->
     <section id="metabolic" class="section">
       <div class="section-header">
-        <h2 class="section-title">Metabolic & Cardiovascular</h2>
-        <span class="section-count">3</span>
+        <h2 class="section-title">Clinical - Metabolic/CV</h2>
+        <span class="section-count">7</span>
       </div>
       <div class="cards-grid">
-        ${companyCard('VKTX', 'Viking Therapeutics', 'Small Molecule', 'Oral GLP-1/GIP agonist VK2735 for obesity/MASH. Best-in-class oral weight loss (14.7% at 13 weeks).', '$6.2B', '3', '2', '', getNextCatalystDisplay('VKTX') || 'Oral VK2735 Phase 2 data (H1 2026)', ['Metabolic', 'Obesity', 'MASH'])}
-        ${companyCard('AKRO', 'Akero Therapeutics', 'Biologics', 'Efruxifermin (FGF21) for MASH showing strong Phase 2b results. Being acquired by Novo Nordisk.', '$2.5B', '1', '1', '', 'Acquired by Novo Nordisk (pending)', ['MASH', 'Liver Disease', 'FGF21'])}
-        ${companyCard('CYTK', 'Cytokinetics', 'Small Molecule', 'Muscle biology pioneer with aficamten NDA submitted for HCM. Cardiac myosin modulators.', '$5.5B', '3', '2', '', 'Aficamten PDUFA (Sep 2025)', ['Cardiovascular', 'HCM', 'Heart Failure'])}
+        ${companyCard('VKTX', 'Viking Therapeutics', 'Small Molecule', 'Metabolic (Obesity). Lead: VK2735 (Ph3).', '$6.2B', '3', '2', '', getNextCatalystDisplay('VKTX') || 'VK2735 obesity Ph3 (2026)', ['Metabolic', 'Obesity', 'GLP-1'])}
+        ${companyCard('MLYS', 'Mineralys Therapeutics', 'Small Molecule', 'Cardiovascular (HTN). Lead: Lorundrostat (Ph2).', '$1.5B', '2', '1', '', 'Lorundrostat HTN (2026)', ['Cardiovascular', 'HTN', 'Aldosterone'])}
+        ${companyCard('SION', 'Sionna Therapeutics', 'Small Molecule', 'Cardiovascular. Lead: SIO-2007 (Ph1).', '$0.3B', '2', '0', '', 'SIO-2007 lipids (2026)', ['Cardiovascular', 'Lipids', 'PCSK9'])}
+        ${companyCard('ALT', 'Altimmune', 'Biologics', 'Metabolic (Obesity). Lead: Pemvidutide (Ph2).', '$1.0B', '2', '1', '', 'Pemvidutide obesity (2026)', ['Metabolic', 'Obesity', 'GLP-1/Glucagon'])}
+        ${companyCard('GOSS', 'Gossamer Bio', 'Small Molecule', 'I&I, Oncology. Lead: Seralutinib (Ph3).', '$0.5B', '3', '2', '', 'Seralutinib PAH (2026)', ['I&I', 'Oncology', 'PAH'])}
+        ${companyCard('AKBA', 'Akebia Therapeutics', 'Small Molecule', 'Nephrology (Anemia). Key product: Vadadustat.', '$0.2B', '2', '1', '', 'Vadadustat anemia (2026)', ['Nephrology', 'Anemia', 'HIF-PHI'])}
+        ${companyCard('RZLT', 'Rezolute', 'Antibody', 'Metabolic (Hypoglycemia). Lead: RZ358 (Ph3).', '$0.5B', '2', '1', '', 'RZ358 CHI (2026)', ['Metabolic', 'Hypoglycemia', 'Insulin'])}
       </div>
     </section>
 
-    <!-- ==================== CLINICAL VACCINES (3) ==================== -->
-    <section id="vaccines" class="section">
+    <!-- ==================== CLINICAL - NEPHROLOGY (2) ==================== -->
+    <section id="nephro" class="section">
       <div class="section-header">
-        <h2 class="section-title">Clinical Vaccines</h2>
-        <span class="section-count">3</span>
-      </div>
-      <div class="cards-grid">
-        ${companyCard('PCVX', 'Vaxcyte', 'Vaccine', 'Broadest pneumococcal vaccine VAX-31 in Phase 3 (95% IPD coverage). VAX-24 for infants advancing.', '$4.3B', '5', '2', '', 'VAX-31 OPUS Phase 3 data (Q4 2026)', ['Vaccines', 'Pneumococcal', 'Infectious Disease'])}
-        ${companyCard('NVAX', 'Novavax', 'Vaccine', 'Protein-based COVID vaccine Nuvaxovid. Sanofi partnership for commercialization. Matrix-M adjuvant licensed to Pfizer.', '$1.2B', '5', '2', '1', 'CIC COVID-flu combo data (2026)', ['Vaccines', 'COVID', 'Influenza'])}
-        ${companyCard('DVAX', 'Dynavax Technologies', 'Vaccine', 'HEPLISAV-B hepatitis B vaccine with 46% US market share. CpG 1018 adjuvant platform. Acquired by Sanofi.', 'Acquired', '3', '1', '1', 'Acquired by Sanofi (Q1 2026)', ['Vaccines', 'Hepatitis B', 'Adjuvant'])}
-      </div>
-    </section>
-
-    <!-- ==================== TOOLS & BIOPROCESSING (2) ==================== -->
-    <section id="tools" class="section">
-      <div class="section-header">
-        <h2 class="section-title">Tools & Bioprocessing</h2>
+        <h2 class="section-title">Clinical - Nephrology</h2>
         <span class="section-count">2</span>
       </div>
       <div class="cards-grid">
-        ${companyCard('HALO', 'Halozyme Therapeutics', 'Drug Delivery', 'ENHANZE platform enables SC delivery of biologics. Royalty streams from 20+ pharma partnerships.', '$7.2B', '20+', 'N/A', '8', 'New ENHANZE partnerships (2026)', ['Drug Delivery', 'Subcutaneous', 'Royalties'])}
-        ${companyCard('RGEN', 'Repligen Corporation', 'Bioprocessing', 'Leading bioprocessing equipment and consumables. Filtration, chromatography, and analytics.', '$8.5B', 'N/A', 'N/A', '', 'Bioprocessing market recovery (2026)', ['Bioprocessing', 'Manufacturing', 'Equipment'])}
+        ${companyCard('VERA', 'Vera Therapeutics', 'Biologics', 'Nephrology (IgAN). Lead: Atacicept (Ph3).', '$3.0B', '2', '2', '', 'Atacicept IgAN (2026)', ['Nephrology', 'IgAN', 'BAFF/APRIL'])}
+        ${companyCard('KOD', 'Kodiak Sciences', 'Biologics', 'Ophthalmology (Retinal). Lead: Tarcocimab (Ph3).', '$0.5B', '2', '1', '', 'Tarcocimab wet AMD (2026)', ['Ophthalmology', 'Retinal', 'Anti-VEGF'])}
+      </div>
+    </section>
+
+    <!-- ==================== CLINICAL - VACCINES (4) ==================== -->
+    <section id="vaccines" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Clinical - Vaccines</h2>
+        <span class="section-count">4</span>
+      </div>
+      <div class="cards-grid">
+        ${companyCard('VIR', 'Vir Biotechnology', 'Antibody', 'Infectious Disease. Lead: Elebsiran (Ph2).', '$1.5B', '6', '2', '', 'Elebsiran HBV (2026)', ['Infectious Disease', 'HBV', 'siRNA'])}
+        ${companyCard('IVVD', 'Invivyd', 'Antibody', 'Infectious Disease. Lead: VYD222 (Ph2).', '$0.3B', '2', '1', '', 'VYD222 COVID (2026)', ['Infectious Disease', 'COVID', 'Antibody'])}
+        ${companyCard('ABUS', 'Arbutus Biopharma', 'Antisense', 'Infectious Disease (HBV). Lead: Imdusiran (Ph2).', '$0.2B', '3', '1', '', 'Imdusiran HBV (2026)', ['Infectious Disease', 'HBV', 'siRNA'])}
+        ${companyCard('PCVX', 'Vaxcyte', 'Vaccine', 'Vaccines. Lead: VAX-31 (Ph3).', '$4.3B', '5', '2', '', 'VAX-31 pneumo (2026)', ['Vaccines', 'Pneumococcal', 'Conjugate'])}
+      </div>
+    </section>
+
+    <!-- ==================== TOOLS & BIOPROCESSING (3) ==================== -->
+    <section id="tools" class="section">
+      <div class="section-header">
+        <h2 class="section-title">Tools & Bioprocessing</h2>
+        <span class="section-count">3</span>
+      </div>
+      <div class="cards-grid">
+        ${companyCard('TWST', 'Twist Bioscience', 'Platform', 'Synthetic Biology. Synthetic DNA platform.', '$2.0B', 'N/A', 'N/A', '', 'Biopharma growth (2026)', ['Synthetic Biology', 'DNA', 'Platform'])}
+        ${companyCard('RXRX', 'Recursion Pharmaceuticals', 'AI Platform', 'AI Drug Discovery. AI platform.', '$3.0B', '10+', '2', '', 'REC-994 NF2 (2026)', ['AI', 'Drug Discovery', 'Platform'])}
+        ${companyCard('ABSI', 'Absci', 'AI Platform', 'AI Drug Discovery. AI antibody platform.', '$0.5B', '3', '0', '', 'ABS-101 Ph1 (2026)', ['AI', 'Antibody', 'Platform'])}
       </div>
     </section>
   </main>
