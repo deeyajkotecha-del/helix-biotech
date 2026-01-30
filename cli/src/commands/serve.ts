@@ -632,28 +632,70 @@ function startServer(port: number): void {
 </html>`);
   });
 
-  // Companies Marketplace Page (Elion-style)
+  // Companies Marketplace Page (Visual Cards with Sections) - Complete list of ~60 companies
   app.get('/companies', (_req: Request, res: Response) => {
     const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    // Helper to get next catalyst for a company
+    const getNextCatalystDisplay = (ticker: string): string => {
+      const company = FEATURED_COMPANIES.find(c => c.ticker === ticker);
+      if (!company) return '';
+      const nextCatalyst = getNextCatalyst(company.catalysts);
+      if (!nextCatalyst) return '';
+      return getCatalystDisplayText(nextCatalyst);
+    };
+
+    // Company card generator function
+    const companyCard = (ticker: string, name: string, platform: string, description: string, marketCap: string, pipeline: string, phase3: string, approved: string, catalyst: string, tags: string[]) => `
+        <div class="company-card">
+          <div class="card-header">
+            <div>
+              <div class="card-ticker-row">
+                <span class="card-ticker">${ticker}</span>
+                <span class="card-name">${name}</span>
+              </div>
+            </div>
+            <span class="platform-badge">${platform}</span>
+          </div>
+          <p class="card-description">${description}</p>
+          <div class="stats-row">
+            <div class="stat"><span class="stat-value">${marketCap}</span><span class="stat-label">Market Cap</span></div>
+            <div class="stat"><span class="stat-value">${pipeline}</span><span class="stat-label">Pipeline</span></div>
+            <div class="stat"><span class="stat-value">${phase3}</span><span class="stat-label">Phase 3</span></div>
+            ${approved ? `<div class="stat"><span class="stat-value">${approved}</span><span class="stat-label">Approved</span></div>` : ''}
+          </div>
+          <div class="catalyst-box">
+            <div class="catalyst-label">Next Catalyst</div>
+            <div class="catalyst-text">${catalyst}</div>
+          </div>
+          <div class="tags-row">
+            ${tags.map(t => `<span class="tag">${t}</span>`).join('')}
+          </div>
+          <a href="/api/company/${ticker}/html" class="view-btn">View Company</a>
+        </div>`;
+
     res.send(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Companies | Satya Bio</title>
-  <meta name="description" content="Browse biotech companies by category, stage, and therapeutic area.">
+  <meta name="description" content="Browse 60+ biotech companies by category, stage, and therapeutic area.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --navy: #1a2b3c;
       --navy-light: #2d4a6f;
       --accent: #e07a5f;
+      --accent-light: #fef5f3;
       --bg: #fafaf8;
       --surface: #ffffff;
       --border: #e5e5e0;
       --text: #1a1d21;
       --text-secondary: #5f6368;
       --text-muted: #9aa0a6;
+      --catalyst-bg: #fef9c3;
+      --catalyst-border: #fde047;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
@@ -674,59 +716,59 @@ function startServer(port: number): void {
     .main { max-width: 1400px; margin: 0 auto; padding: 32px; }
 
     /* Page Title */
-    .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-bottom: 24px; }
+    .page-header { margin-bottom: 24px; }
+    .page-title { font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .page-subtitle { color: var(--text-secondary); font-size: 0.95rem; }
 
-    /* Filter Pills */
-    .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; align-items: center; }
-    .filter-pill { padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.15s; text-decoration: none; }
-    .filter-pill:hover { border-color: var(--navy); color: var(--navy); }
-    .filter-pill.active { background: var(--navy); border-color: var(--navy); color: white; }
-    .filter-reset { padding: 8px 16px; background: transparent; border: none; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; font-weight: 500; }
-    .filter-reset:hover { color: var(--accent); }
+    /* Sticky Category Navigation */
+    .category-nav { position: sticky; top: 64px; background: var(--bg); padding: 16px 0; z-index: 50; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+    .category-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+    .category-pill { padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.15s; text-decoration: none; white-space: nowrap; }
+    .category-pill:hover { border-color: var(--navy); color: var(--navy); }
+    .category-pill.active { background: var(--navy); border-color: var(--navy); color: white; }
+    .category-pill .emoji { margin-right: 4px; }
 
-    /* Recently Viewed */
-    .recent-section { margin-bottom: 40px; }
-    .recent-label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
-    .recent-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-    .recent-pill { padding: 6px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; font-size: 0.85rem; color: var(--text); text-decoration: none; transition: all 0.15s; }
-    .recent-pill:hover { border-color: var(--accent); background: #fef5f3; }
-    .recent-pill .ticker { font-weight: 600; margin-right: 4px; }
+    /* Section */
+    .section { margin-bottom: 48px; scroll-margin-top: 140px; }
+    .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+    .section-emoji { font-size: 1.5rem; }
+    .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); }
+    .section-count { background: var(--navy); color: white; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+    .subsection-title { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); margin: 24px 0 16px 0; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* Category Grid */
-    .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
+    /* Company Cards Grid */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
 
-    /* Category Card */
-    .category-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
-    .category-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
-    .category-title { font-size: 1rem; font-weight: 600; color: var(--navy); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-    .category-title:hover { color: var(--accent); }
-    .category-count { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
+    /* Company Card */
+    .company-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.2s; }
+    .company-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
-    /* Subcategory */
-    .subcategory { border-bottom: 1px solid #f0f0ec; }
-    .subcategory:last-child { border-bottom: none; }
-    .subcategory-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; cursor: pointer; }
-    .subcategory-header:hover { color: var(--accent); }
-    .subcategory-name { font-size: 0.9rem; font-weight: 500; color: var(--text); }
-    .subcategory-right { display: flex; align-items: center; gap: 8px; }
-    .subcategory-count { font-size: 0.85rem; color: var(--text-muted); }
-    .expand-icon { font-size: 0.75rem; color: var(--text-muted); transition: transform 0.2s; width: 16px; text-align: center; }
-    .subcategory.expanded .expand-icon { transform: rotate(180deg); }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .card-ticker-row { display: flex; align-items: center; gap: 8px; }
+    .card-ticker { font-size: 1rem; font-weight: 700; color: var(--navy); }
+    .card-name { font-size: 0.8rem; color: var(--text-secondary); }
+    .platform-badge { padding: 3px 8px; background: var(--accent-light); color: var(--accent); font-size: 0.65rem; font-weight: 600; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
 
-    /* Company List */
-    .company-list { display: none; padding-left: 16px; padding-bottom: 8px; }
-    .subcategory.expanded .company-list { display: block; }
-    .company-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5f5f2; text-decoration: none; color: inherit; }
-    .company-item:last-child { border-bottom: none; }
-    .company-item:hover { color: var(--accent); }
-    .company-info { display: flex; align-items: center; gap: 8px; }
-    .company-ticker { font-weight: 600; font-size: 0.85rem; color: var(--navy); min-width: 50px; }
-    .company-name { font-size: 0.85rem; color: var(--text-secondary); }
-    .company-item:hover .company-ticker { color: var(--accent); }
+    .card-description { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-    /* Card Footer */
-    .card-footer { padding-top: 12px; margin-top: 8px; border-top: 1px solid var(--border); }
-    .updated-text { font-size: 0.75rem; color: var(--text-muted); }
+    /* Stats Row */
+    .stats-row { display: flex; gap: 12px; margin-bottom: 12px; padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stat { display: flex; flex-direction: column; }
+    .stat-value { font-weight: 700; font-size: 0.85rem; color: var(--navy); }
+    .stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+
+    /* Catalyst Box */
+    .catalyst-box { background: var(--catalyst-bg); border: 1px solid var(--catalyst-border); border-radius: 6px; padding: 8px 12px; margin-bottom: 12px; }
+    .catalyst-label { font-size: 0.65rem; font-weight: 600; color: #92400e; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 2px; }
+    .catalyst-text { font-size: 0.8rem; color: #78350f; font-weight: 500; }
+
+    /* Tags */
+    .tags-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .tag { padding: 4px 10px; background: #f3f4f6; color: var(--text-secondary); font-size: 0.75rem; border-radius: 12px; }
+
+    /* View Button */
+    .view-btn { display: block; width: 100%; padding: 10px 16px; background: var(--navy); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 600; transition: background 0.15s; }
+    .view-btn:hover { background: var(--navy-light); }
 
     /* Footer */
     .footer { background: var(--navy); color: rgba(255,255,255,0.7); padding: 32px; text-align: center; margin-top: 64px; }
@@ -736,8 +778,9 @@ function startServer(port: number): void {
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .main { padding: 20px 16px; }
-      .category-grid { grid-template-columns: 1fr; }
-      .filter-bar { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 8px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .category-pills { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 8px; }
+      .category-nav { top: 64px; }
     }
   </style>
 </head>
@@ -759,439 +802,198 @@ function startServer(port: number): void {
   </header>
 
   <main class="main">
-    <h1 class="page-title">Companies</h1>
-
-    <!-- Filter Pills -->
-    <div class="filter-bar">
-      <span class="filter-pill" onclick="filterByTag('large-cap')">Large Cap</span>
-      <span class="filter-pill" onclick="filterByTag('platform')">Platform</span>
-      <span class="filter-pill" onclick="filterByTag('commercial')">Commercial</span>
-      <span class="filter-pill" onclick="filterByTag('oncology')">Clinical Oncology</span>
-      <span class="filter-pill" onclick="filterByTag('immunology')">Clinical I&I</span>
-      <span class="filter-pill" onclick="filterByTag('neuro')">Clinical Neuro</span>
-      <span class="filter-pill" onclick="filterByTag('rare')">Clinical Rare</span>
-      <span class="filter-pill" onclick="filterByTag('tools')">Tools</span>
-      <button class="filter-reset" onclick="resetFilters()">Reset</button>
+    <div class="page-header">
+      <h1 class="page-title">Companies</h1>
+      <p class="page-subtitle">Explore biotech companies with real-time catalyst tracking and deep research</p>
     </div>
 
-    <!-- Recently Viewed -->
-    <section class="recent-section">
-      <div class="recent-label">Recently Viewed</div>
-      <div class="recent-pills">
-        <a href="/api/company/ARWR/html" class="recent-pill"><span class="ticker">ARWR</span> Arrowhead</a>
-        <a href="/api/company/VKTX/html" class="recent-pill"><span class="ticker">VKTX</span> Viking</a>
-        <a href="/api/company/ALNY/html" class="recent-pill"><span class="ticker">ALNY</span> Alnylam</a>
-        <a href="/api/company/XENE/html" class="recent-pill"><span class="ticker">XENE</span> Xenon</a>
+    <!-- Sticky Category Navigation -->
+    <nav class="category-nav">
+      <div class="category-pills">
+        <a href="#commercial" class="category-pill active"><span class="emoji">🏢</span>Commercial (29)</a>
+        <a href="#oncology" class="category-pill"><span class="emoji">🎯</span>Oncology (7)</a>
+        <a href="#immunology" class="category-pill"><span class="emoji">🔥</span>I&I (3)</a>
+        <a href="#neuro" class="category-pill"><span class="emoji">🧠</span>Neuro (7)</a>
+        <a href="#rare" class="category-pill"><span class="emoji">💎</span>Rare (3)</a>
+        <a href="#gene" class="category-pill"><span class="emoji">🧬</span>Gene Therapy (4)</a>
+        <a href="#metabolic" class="category-pill"><span class="emoji">❤️</span>Metabolic (3)</a>
+        <a href="#vaccines" class="category-pill"><span class="emoji">💉</span>Vaccines (3)</a>
+        <a href="#tools" class="category-pill"><span class="emoji">🔧</span>Tools (2)</a>
+      </div>
+    </nav>
+
+    <!-- ==================== COMMERCIAL STAGE (29) ==================== -->
+    <section id="commercial" class="section">
+      <div class="section-header">
+        <span class="section-emoji">🏢</span>
+        <h2 class="section-title">Commercial Stage</h2>
+        <span class="section-count">29</span>
+      </div>
+
+      <!-- Large Cap Biopharma (6) -->
+      <div class="subsection-title">Large Cap Biopharma</div>
+      <div class="cards-grid">
+        ${companyCard('REGN', 'Regeneron Pharmaceuticals', 'Antibody', 'Innovative biotech with blockbuster Eylea and Dupixent franchises. VelocImmune platform drives rapid drug discovery.', '$90B+', '35+', '10+', '8', 'Dupixent COPD Phase 3 readouts (2026)', ['Ophthalmology', 'Immunology', 'Oncology'])}
+        ${companyCard('VRTX', 'Vertex Pharmaceuticals', 'Small Molecule', 'Dominates cystic fibrosis with Trikafta. Expanding into pain, gene editing (Casgevy), and kidney disease.', '$120B+', '20+', '5', '5', 'VX-548 pain Phase 3 data (2026)', ['Cystic Fibrosis', 'Pain', 'Gene Editing'])}
+        ${companyCard('GILD', 'Gilead Sciences', 'Small Molecule', 'Leader in HIV/HCV with Biktarvy franchise. Growing oncology via Kite cell therapy and Trodelvy ADC.', '$95B+', '50+', '15+', '25+', 'Lenacapavir long-acting HIV data (2026)', ['HIV', 'Oncology', 'Cell Therapy'])}
+        ${companyCard('AMGN', 'Amgen', 'Biologics', 'Pioneer in biotechnology with blockbuster portfolio including Enbrel, Prolia, and Repatha. Strong biosimilars business.', '$150B+', '40+', '10+', '20+', 'MariTide obesity Phase 3 data (2026)', ['Oncology', 'Bone Health', 'Cardiovascular'])}
+        ${companyCard('BMRN', 'BioMarin Pharmaceutical', 'Enzyme', 'Leader in rare disease enzyme replacement therapies with Vimizim, Naglazyme, and Voxzogo.', '$12B', '10+', '2', '7', 'BMN 351 DMD data (2026)', ['Rare Disease', 'Skeletal', 'Enzyme'])}
+        ${companyCard('ALNY', 'Alnylam Pharmaceuticals', 'RNAi', 'Pioneer in RNAi therapeutics with 5 approved drugs including Onpattro and Amvuttra. GalNAc platform.', '$28.5B', '12', '3', '5', getNextCatalystDisplay('ALNY') || 'Vutrisiran ATTR-CM data (H1 2026)', ['Rare Disease', 'Cardiometabolic', 'CNS'])}
+      </div>
+
+      <!-- Platform Biotech (7) -->
+      <div class="subsection-title">Platform Biotech</div>
+      <div class="cards-grid">
+        ${companyCard('MRNA', 'Moderna', 'mRNA', 'mRNA platform company with COVID vaccine success. Expanding into RSV, flu, cancer, and rare diseases.', '$15B', '45+', '8', '2', 'mRNA-1283 next-gen COVID data (2026)', ['Vaccines', 'Oncology', 'Rare Disease'])}
+        ${companyCard('IONS', 'Ionis Pharmaceuticals', 'Antisense', 'Leading antisense platform with 4 approved drugs. LICA platform enables next-gen delivery.', '$7.8B', '40+', '5', '4', getNextCatalystDisplay('IONS') || 'Olezarsen sNDA (Q1 2026)', ['Rare Disease', 'CNS', 'Cardiometabolic'])}
+        ${companyCard('ARWR', 'Arrowhead Pharmaceuticals', 'RNAi', 'RNAi leader with TRiM platform for liver, lung, muscle, CNS delivery. Plozasiran approved Dec 2024.', '$4.2B', '15', '3', '1', getNextCatalystDisplay('ARWR') || 'ARO-INHBE obesity data (H1 2026)', ['Cardiometabolic', 'CNS', 'Pulmonary'])}
+        ${companyCard('CRSP', 'CRISPR Therapeutics', 'CRISPR', 'First approved CRISPR therapy (Casgevy with Vertex). Developing in vivo programs and CAR-T therapies.', '$3.5B', '8', '2', '1', 'CTX112 allo CAR-T data (H1 2026)', ['Gene Editing', 'Hematology', 'Cell Therapy'])}
+        ${companyCard('NTLA', 'Intellia Therapeutics', 'CRISPR', 'Leading in vivo CRISPR company. NTLA-2001 for ATTR and NTLA-2002 for HAE showing transformative results.', '$2.8B', '6', '2', '', 'NTLA-2001 ATTR-CM Phase 3 (H2 2026)', ['Gene Editing', 'ATTR', 'HAE'])}
+        ${companyCard('BEAM', 'Beam Therapeutics', 'Base Editing', 'Proprietary base editing platform for precision genetic medicines. Risto-cel for SCD advancing to BLA.', '$3.1B', '5', '1', '', 'BEAM-302 AATD accelerated pathway (2026)', ['Gene Editing', 'Sickle Cell', 'Liver'])}
+        ${companyCard('RNA', 'Arcturus Therapeutics', 'mRNA', 'mRNA platform with LUNAR delivery and STARR self-amplifying tech. First approved sa-mRNA COVID vaccine.', '$0.2B', '6', '1', '1', 'ARCT-032 CF Phase 2 data (H1 2026)', ['Vaccines', 'Rare Disease', 'Liver'])}
+      </div>
+
+      <!-- Specialty Commercial (16) -->
+      <div class="subsection-title">Specialty Commercial</div>
+      <div class="cards-grid">
+        ${companyCard('INCY', 'Incyte', 'Small Molecule', 'Oncology and inflammation leader with Jakafi franchise. Expanding into dermatology and solid tumors.', '$14B', '20+', '5', '4', 'Povorcitinib atopic derm Phase 3 (2026)', ['Oncology', 'Immunology', 'Dermatology'])}
+        ${companyCard('EXEL', 'Exelixis', 'Small Molecule', 'Cabometyx/Cometriq oncology franchise. Strong in kidney and liver cancer with expanding pipeline.', '$8B', '10+', '4', '2', 'Zanzalintinib Phase 3 data (2026)', ['Oncology', 'Kidney Cancer', 'Liver Cancer'])}
+        ${companyCard('EXAS', 'Exact Sciences', 'Diagnostics', 'Market leader in cancer screening with Cologuard. Oncotype DX for breast cancer. Abbott acquisition pending.', '$19.4B', '5', 'N/A', '3', 'Abbott acquisition close (Q2 2026)', ['Diagnostics', 'Oncology', 'Screening'])}
+        ${companyCard('NTRA', 'Natera', 'Diagnostics', 'Leader in cell-free DNA testing with Signatera MRD and Panorama prenatal. Strong oncology growth.', '$33B', '8', 'N/A', '4', 'Signatera expanded indications (2026)', ['Diagnostics', 'Oncology', 'Prenatal'])}
+        ${companyCard('NBIX', 'Neurocrine Biosciences', 'Small Molecule', 'CNS leader with Ingrezza for tardive dyskinesia. Expanding in psychiatry and movement disorders.', '$14B', '12', '3', '2', 'NBI-1065845 MDD Phase 3 (2026)', ['CNS', 'Movement Disorders', 'Psychiatry'])}
+        ${companyCard('UTHR', 'United Therapeutics', 'Biologics', 'Pulmonary arterial hypertension leader with Tyvaso franchise. Pioneering xenotransplantation.', '$14B', '8', '2', '5', 'Tyvaso DPI expansion (2026)', ['Pulmonary', 'Rare Disease', 'Transplant'])}
+        ${companyCard('HALO', 'Halozyme Therapeutics', 'Drug Delivery', 'ENHANZE platform enables SC delivery of biologics. Royalty streams from Roche, J&J, BMS partnerships.', '$7.2B', '20+', 'N/A', '8', 'New ENHANZE partnerships (2026)', ['Drug Delivery', 'Subcutaneous', 'Royalties'])}
+        ${companyCard('SRPT', 'Sarepta Therapeutics', 'Gene Therapy', 'Gene therapy and RNA-targeting leader with Elevidys approved for DMD. Multiple exon-skipping drugs.', '$9.5B', '15+', '3', '5', 'Elevidys confirmatory data (H1 2026)', ['Muscular Dystrophy', 'Gene Therapy', 'RNA'])}
+        ${companyCard('MDGL', 'Madrigal Pharmaceuticals', 'Small Molecule', 'First FDA-approved MASH therapy with Rezdiffra (resmetirom). THR-beta selective agonist.', '$6.8B', '1', '1', '1', 'Rezdiffra commercial expansion (2026)', ['MASH', 'Liver Disease', 'Metabolic'])}
+        ${companyCard('INSM', 'Insmed', 'Biologics', 'Brensocatib approved for bronchiectasis. Arikayce for MAC lung disease. Growing respiratory franchise.', '$34.7B', '6', '3', '2', 'ARIKAYCE ENCORE Phase 3 (Mar 2026)', ['Pulmonary', 'Rare Disease', 'Anti-infective'])}
+        ${companyCard('KRYS', 'Krystal Biotech', 'Gene Therapy', 'VYJUVEK approved for DEB. HSV-1 platform for skin, lung, eye. KB407 for CF advancing.', '$7B', '6', '2', '1', 'KB408 AATD interim data (H1 2026)', ['Rare Disease', 'Dermatology', 'Gene Therapy'])}
+        ${companyCard('TVTX', 'Travere Therapeutics', 'Small Molecule', 'Rare kidney disease focus with FILSPARI (sparsentan) for IgAN. FSGS approval under FDA review.', '$3.0B', '3', '1', '2', 'FILSPARI FSGS FDA decision (2026)', ['Rare Disease', 'Nephrology', 'IgAN'])}
+        ${companyCard('FOLD', 'Amicus Therapeutics', 'Enzyme', 'Rare disease with Galafold for Fabry. Pombiliti for Pompe disease gaining commercial traction.', '$3.2B', '4', '1', '2', 'Pombiliti commercial expansion (2026)', ['Rare Disease', 'Lysosomal', 'Metabolic'])}
+        ${companyCard('RARE', 'Ultragenyx Pharmaceutical', 'Biologics', 'Rare disease company with multiple approved therapies. Gene therapy and mRNA platforms expanding.', '$4.5B', '15+', '3', '4', 'GTX-102 Angelman data (H1 2026)', ['Rare Disease', 'Metabolic', 'Gene Therapy'])}
+        ${companyCard('AXSM', 'Axsome Therapeutics', 'Small Molecule', 'CNS leader with Auvelity for MDD and Sunosi for EDS. Rapidly growing commercial franchise.', '$9.3B', '6', '3', '3', 'Solriamfetol ADHD Phase 3 (2026)', ['CNS', 'Depression', 'Sleep'])}
+        ${companyCard('CYTK', 'Cytokinetics', 'Small Molecule', 'Muscle biology pioneer with aficamten NDA submitted for HCM. Cardiac myosin modulators for heart failure.', '$5.5B', '3', '2', '', 'Aficamten PDUFA (Sep 2025)', ['Cardiovascular', 'HCM', 'Heart Failure'])}
       </div>
     </section>
 
-    <!-- Category Grid -->
-    <div class="category-grid">
-      <!-- Commercial Stage -->
-      <div class="category-card" data-tags="commercial large-cap platform">
-        <div class="category-header">
-          <span class="category-title">Commercial Stage</span>
-          <span class="category-count">29</span>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Large Cap Biopharma</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">6</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/REGN/html" class="company-item"><div class="company-info"><span class="company-ticker">REGN</span><span class="company-name">Regeneron</span></div></a>
-            <a href="/api/company/VRTX/html" class="company-item"><div class="company-info"><span class="company-ticker">VRTX</span><span class="company-name">Vertex</span></div></a>
-            <a href="/api/company/GILD/html" class="company-item"><div class="company-info"><span class="company-ticker">GILD</span><span class="company-name">Gilead</span></div></a>
-            <a href="/api/company/AMGN/html" class="company-item"><div class="company-info"><span class="company-ticker">AMGN</span><span class="company-name">Amgen</span></div></a>
-            <a href="/api/company/BMRN/html" class="company-item"><div class="company-info"><span class="company-ticker">BMRN</span><span class="company-name">BioMarin</span></div></a>
-            <a href="/api/company/ALNY/html" class="company-item"><div class="company-info"><span class="company-ticker">ALNY</span><span class="company-name">Alnylam</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Platform Biotech</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">7</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/MRNA/html" class="company-item"><div class="company-info"><span class="company-ticker">MRNA</span><span class="company-name">Moderna</span></div></a>
-            <a href="/api/company/IONS/html" class="company-item"><div class="company-info"><span class="company-ticker">IONS</span><span class="company-name">Ionis</span></div></a>
-            <a href="/api/company/ARWR/html" class="company-item"><div class="company-info"><span class="company-ticker">ARWR</span><span class="company-name">Arrowhead</span></div></a>
-            <a href="/api/company/EXEL/html" class="company-item"><div class="company-info"><span class="company-ticker">EXEL</span><span class="company-name">Exelixis</span></div></a>
-            <a href="/api/company/SRPT/html" class="company-item"><div class="company-info"><span class="company-ticker">SRPT</span><span class="company-name">Sarepta</span></div></a>
-            <a href="/api/company/BLUE/html" class="company-item"><div class="company-info"><span class="company-ticker">BLUE</span><span class="company-name">Bluebird Bio</span></div></a>
-            <a href="/api/company/NTLA/html" class="company-item"><div class="company-info"><span class="company-ticker">NTLA</span><span class="company-name">Intellia</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Specialty Commercial</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">16</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/INCY/html" class="company-item"><div class="company-info"><span class="company-ticker">INCY</span><span class="company-name">Incyte</span></div></a>
-            <a href="/api/company/UTHR/html" class="company-item"><div class="company-info"><span class="company-ticker">UTHR</span><span class="company-name">United Therapeutics</span></div></a>
-            <a href="/api/company/NBIX/html" class="company-item"><div class="company-info"><span class="company-ticker">NBIX</span><span class="company-name">Neurocrine</span></div></a>
-            <a href="/api/company/HALO/html" class="company-item"><div class="company-info"><span class="company-ticker">HALO</span><span class="company-name">Halozyme</span></div></a>
-            <a href="/api/company/BPMC/html" class="company-item"><div class="company-info"><span class="company-ticker">BPMC</span><span class="company-name">Blueprint Medicines</span></div></a>
-          </div>
-        </div>
-
-        <div class="card-footer">
-          <span class="updated-text">Updated ${today}</span>
-        </div>
+    <!-- ==================== CLINICAL ONCOLOGY (7) ==================== -->
+    <section id="oncology" class="section">
+      <div class="section-header">
+        <span class="section-emoji">🎯</span>
+        <h2 class="section-title">Clinical Oncology</h2>
+        <span class="section-count">7</span>
       </div>
-
-      <!-- Clinical Oncology -->
-      <div class="category-card" data-tags="oncology">
-        <div class="category-header">
-          <span class="category-title">Clinical Oncology</span>
-          <span class="category-count">12</span>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Targeted Therapy</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">5</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/RVMD/html" class="company-item"><div class="company-info"><span class="company-ticker">RVMD</span><span class="company-name">Revolution Medicines</span></div></a>
-            <a href="/api/company/RLAY/html" class="company-item"><div class="company-info"><span class="company-ticker">RLAY</span><span class="company-name">Relay Therapeutics</span></div></a>
-            <a href="/api/company/KYMR/html" class="company-item"><div class="company-info"><span class="company-ticker">KYMR</span><span class="company-name">Kymera</span></div></a>
-            <a href="/api/company/ARVN/html" class="company-item"><div class="company-info"><span class="company-ticker">ARVN</span><span class="company-name">Arvinas</span></div></a>
-            <a href="/api/company/NUVB/html" class="company-item"><div class="company-info"><span class="company-ticker">NUVB</span><span class="company-name">Nuvation Bio</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Immunotherapy</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">4</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/IMAB/html" class="company-item"><div class="company-info"><span class="company-ticker">IMAB</span><span class="company-name">I-Mab</span></div></a>
-            <a href="/api/company/AGEN/html" class="company-item"><div class="company-info"><span class="company-ticker">AGEN</span><span class="company-name">Agenus</span></div></a>
-            <a href="/api/company/IOVA/html" class="company-item"><div class="company-info"><span class="company-ticker">IOVA</span><span class="company-name">Iovance</span></div></a>
-            <a href="/api/company/FATE/html" class="company-item"><div class="company-info"><span class="company-ticker">FATE</span><span class="company-name">Fate Therapeutics</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">ADC / Payload</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">3</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/IMGN/html" class="company-item"><div class="company-info"><span class="company-ticker">IMGN</span><span class="company-name">ImmunoGen</span></div></a>
-            <a href="/api/company/MGNX/html" class="company-item"><div class="company-info"><span class="company-ticker">MGNX</span><span class="company-name">MacroGenics</span></div></a>
-            <a href="/api/company/SGEN/html" class="company-item"><div class="company-info"><span class="company-ticker">SGEN</span><span class="company-name">Seagen</span></div></a>
-          </div>
-        </div>
-
-        <div class="card-footer">
-          <span class="updated-text">Updated ${today}</span>
-        </div>
+      <div class="cards-grid">
+        ${companyCard('RVMD', 'Revolution Medicines', 'Small Molecule', 'Leading RAS(ON) inhibitor developer for KRAS-driven cancers. RMC-6236 and RMC-6291 in advanced trials.', '$8.5B', '4', '2', '', 'RMC-6236 PDAC Phase 3 data (H2 2026)', ['KRAS', 'Lung Cancer', 'Pancreatic'])}
+        ${companyCard('RCUS', 'Arcus Biosciences', 'Antibody', 'Next-gen immuno-oncology with TIGIT inhibitor domvanalimab and HIF-2α inhibitor casdatifan.', '$2.7B', '6', '3', '', 'Casdatifan ccRCC data readouts (2026)', ['Oncology', 'Kidney Cancer', 'Lung Cancer'])}
+        ${companyCard('RLAY', 'Relay Therapeutics', 'Small Molecule', 'Motion-based drug design platform. RLY-2608 PI3Kα inhibitor for breast cancer advancing.', '$1.8B', '4', '1', '', 'RLY-2608 Phase 3 initiation (2026)', ['Oncology', 'Breast Cancer', 'PI3K'])}
+        ${companyCard('IDYA', 'IDEAYA Biosciences', 'Small Molecule', 'Precision oncology with darovasertib for uveal melanoma. Werner helicase and PARG programs.', '$2.8B', '6', '2', '', 'Darovasertib OptimUM-02 PFS data (Q1 2026)', ['Oncology', 'Melanoma', 'Precision Medicine'])}
+        ${companyCard('RPTX', 'Repare Therapeutics', 'Small Molecule', 'Synthetic lethality oncology company. SNIPRx platform targeting DNA damage repair deficiencies.', '$0.1B', '3', '1', '', 'XenoTherapeutics acquisition pending', ['Oncology', 'DNA Repair', 'Synthetic Lethality'])}
+        ${companyCard('PMVP', 'PMV Pharmaceuticals', 'Small Molecule', 'Precision oncology targeting p53 mutations. Rezatapopt for Y220C-mutant tumors showing responses.', '$0.08B', '2', '1', '', 'Rezatapopt NDA filing (end 2026)', ['Oncology', 'p53', 'Precision Medicine'])}
+        ${companyCard('YMAB', 'Y-mAbs Therapeutics', 'Antibody', 'Anti-GD2 therapy DANYELZA for neuroblastoma. SADA PRIT radiopharmaceutical platform. Acquired by SERB.', 'Acquired', '4', '1', '1', 'Acquired by SERB (Sep 2025)', ['Oncology', 'Neuroblastoma', 'Radiopharm'])}
       </div>
+    </section>
 
-      <!-- Clinical I&I -->
-      <div class="category-card" data-tags="immunology">
-        <div class="category-header">
-          <span class="category-title">Clinical I&I</span>
-          <span class="category-count">8</span>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Inflammation</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">4</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/MLTX/html" class="company-item"><div class="company-info"><span class="company-ticker">MLTX</span><span class="company-name">MoonLake</span></div></a>
-            <a href="/api/company/RXDX/html" class="company-item"><div class="company-info"><span class="company-ticker">RXDX</span><span class="company-name">Prometheus Bio</span></div></a>
-            <a href="/api/company/ANAB/html" class="company-item"><div class="company-info"><span class="company-ticker">ANAB</span><span class="company-name">AnaptysBio</span></div></a>
-            <a href="/api/company/DICE/html" class="company-item"><div class="company-info"><span class="company-ticker">DICE</span><span class="company-name">DICE Therapeutics</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Autoimmune</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">4</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/IMVT/html" class="company-item"><div class="company-info"><span class="company-ticker">IMVT</span><span class="company-name">Immunovant</span></div></a>
-            <a href="/api/company/ARGX/html" class="company-item"><div class="company-info"><span class="company-ticker">ARGX</span><span class="company-name">argenx</span></div></a>
-            <a href="/api/company/HRMY/html" class="company-item"><div class="company-info"><span class="company-ticker">HRMY</span><span class="company-name">Harmony Bio</span></div></a>
-            <a href="/api/company/CABA/html" class="company-item"><div class="company-info"><span class="company-ticker">CABA</span><span class="company-name">Cabaletta Bio</span></div></a>
-          </div>
-        </div>
-
-        <div class="card-footer">
-          <span class="updated-text">Updated ${today}</span>
-        </div>
+    <!-- ==================== CLINICAL I&I (3) ==================== -->
+    <section id="immunology" class="section">
+      <div class="section-header">
+        <span class="section-emoji">🔥</span>
+        <h2 class="section-title">Clinical I&I</h2>
+        <span class="section-count">3</span>
       </div>
-
-      <!-- Clinical Neuropsychiatry -->
-      <div class="category-card" data-tags="neuro">
-        <div class="category-header">
-          <span class="category-title">Clinical Neuropsychiatry</span>
-          <span class="category-count">7</span>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Psychiatry</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">4</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/XENE/html" class="company-item"><div class="company-info"><span class="company-ticker">XENE</span><span class="company-name">Xenon Pharma</span></div></a>
-            <a href="/api/company/CRTX/html" class="company-item"><div class="company-info"><span class="company-ticker">CRTX</span><span class="company-name">Cortexyme</span></div></a>
-            <a href="/api/company/CMPS/html" class="company-item"><div class="company-info"><span class="company-ticker">CMPS</span><span class="company-name">COMPASS Pathways</span></div></a>
-            <a href="/api/company/MNMD/html" class="company-item"><div class="company-info"><span class="company-ticker">MNMD</span><span class="company-name">Mind Medicine</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Neurology</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">3</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/DNLI/html" class="company-item"><div class="company-info"><span class="company-ticker">DNLI</span><span class="company-name">Denali</span></div></a>
-            <a href="/api/company/PRAX/html" class="company-item"><div class="company-info"><span class="company-ticker">PRAX</span><span class="company-name">Praxis Precision</span></div></a>
-            <a href="/api/company/ANNX/html" class="company-item"><div class="company-info"><span class="company-ticker">ANNX</span><span class="company-name">Annexon Bio</span></div></a>
-          </div>
-        </div>
-
-        <div class="card-footer">
-          <span class="updated-text">Updated ${today}</span>
-        </div>
+      <div class="cards-grid">
+        ${companyCard('PTGX', 'Protagonist Therapeutics', 'Peptide', 'Rusfertide NDA submitted for polycythemia vera. Icotrokinra oral IL-23 antagonist with J&J.', '$5.3B', '4', '2', '', 'Rusfertide FDA decision (2026)', ['Hematology', 'Immunology', 'Obesity'])}
+        ${companyCard('ANNX', 'Annexon Biosciences', 'Antibody', 'C1q-targeting antibody ANX005 for autoimmune neurology. Huntington disease and Guillain-Barré.', '$0.8B', '3', '2', '', 'ANX005 HD Phase 3 data (2026)', ['Neurology', 'Autoimmune', 'Complement'])}
+        ${companyCard('IRON', 'Disc Medicine', 'Antibody', 'Hepcidin biology for blood disorders. Bitopertin NDA for erythropoietic porphyrias near FDA decision.', '$3.0B', '4', '2', '', 'Bitopertin FDA decision (Q1 2026)', ['Hematology', 'Rare Disease', 'Iron Disorders'])}
       </div>
+    </section>
 
-      <!-- Clinical Rare Disease -->
-      <div class="category-card" data-tags="rare">
-        <div class="category-header">
-          <span class="category-title">Clinical Rare Disease</span>
-          <span class="category-count">6</span>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Genetic Diseases</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">3</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/RCKT/html" class="company-item"><div class="company-info"><span class="company-ticker">RCKT</span><span class="company-name">Rocket Pharma</span></div></a>
-            <a href="/api/company/RGNX/html" class="company-item"><div class="company-info"><span class="company-ticker">RGNX</span><span class="company-name">Regenxbio</span></div></a>
-            <a href="/api/company/SGMO/html" class="company-item"><div class="company-info"><span class="company-ticker">SGMO</span><span class="company-name">Sangamo</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Metabolic Rare</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">3</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/FOLD/html" class="company-item"><div class="company-info"><span class="company-ticker">FOLD</span><span class="company-name">Amicus</span></div></a>
-            <a href="/api/company/RARE/html" class="company-item"><div class="company-info"><span class="company-ticker">RARE</span><span class="company-name">Ultragenyx</span></div></a>
-            <a href="/api/company/CPRX/html" class="company-item"><div class="company-info"><span class="company-ticker">CPRX</span><span class="company-name">Catalyst Pharma</span></div></a>
-          </div>
-        </div>
-
-        <div class="card-footer">
-          <span class="updated-text">Updated ${today}</span>
-        </div>
+    <!-- ==================== CLINICAL NEUROPSYCHIATRY (7) ==================== -->
+    <section id="neuro" class="section">
+      <div class="section-header">
+        <span class="section-emoji">🧠</span>
+        <h2 class="section-title">Clinical Neuropsychiatry</h2>
+        <span class="section-count">7</span>
       </div>
-
-      <!-- Gene Therapy & Editing -->
-      <div class="category-card" data-tags="platform">
-        <div class="category-header">
-          <span class="category-title">Gene Therapy & Editing</span>
-          <span class="category-count">8</span>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Gene Therapy</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">4</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/RCKT/html" class="company-item"><div class="company-info"><span class="company-ticker">RCKT</span><span class="company-name">Rocket Pharma</span></div></a>
-            <a href="/api/company/BLUE/html" class="company-item"><div class="company-info"><span class="company-ticker">BLUE</span><span class="company-name">Bluebird Bio</span></div></a>
-            <a href="/api/company/SRPT/html" class="company-item"><div class="company-info"><span class="company-ticker">SRPT</span><span class="company-name">Sarepta</span></div></a>
-            <a href="/api/company/RGNX/html" class="company-item"><div class="company-info"><span class="company-ticker">RGNX</span><span class="company-name">Regenxbio</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Gene Editing</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">2</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/NTLA/html" class="company-item"><div class="company-info"><span class="company-ticker">NTLA</span><span class="company-name">Intellia</span></div></a>
-            <a href="/api/company/CRSP/html" class="company-item"><div class="company-info"><span class="company-ticker">CRSP</span><span class="company-name">CRISPR Therapeutics</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">RNAi / Antisense</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">2</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/ARWR/html" class="company-item"><div class="company-info"><span class="company-ticker">ARWR</span><span class="company-name">Arrowhead</span></div></a>
-            <a href="/api/company/IONS/html" class="company-item"><div class="company-info"><span class="company-ticker">IONS</span><span class="company-name">Ionis</span></div></a>
-          </div>
-        </div>
-
-        <div class="card-footer">
-          <span class="updated-text">Updated ${today}</span>
-        </div>
+      <div class="cards-grid">
+        ${companyCard('PRAX', 'Praxis Precision Medicines', 'Small Molecule', 'CNS precision medicines for epilepsy and mood disorders. T-type calcium channel modulators.', '$0.8B', '3', '1', '', 'PRAX-628 essential tremor data (H1 2026)', ['Epilepsy', 'Movement Disorders', 'CNS'])}
+        ${companyCard('BHVN', 'Biohaven', 'Small Molecule', 'Troriluzole for SCA received CRL. BHV-7000 for epilepsy and MDD. Taldefgrobep for SMA/obesity.', '$1.0B', '6', '3', '', 'BHV-7000 focal epilepsy data (H1 2026)', ['Neurology', 'Psychiatry', 'Rare Disease'])}
+        ${companyCard('DNLI', 'Denali Therapeutics', 'Small Molecule', 'Neurodegeneration with TV platform for CNS delivery. Programs in ALS, Parkinson, Alzheimer, Hunter.', '$4.2B', '8', '2', '', 'DNL310 Hunter syndrome pivotal (2026)', ['Neurodegeneration', 'ALS', 'Lysosomal'])}
+        ${companyCard('ANVS', 'Annovis Bio', 'Small Molecule', 'Buntanetap for Alzheimer and Parkinson. Inhibits neurotoxic proteins (amyloid, tau, alpha-synuclein).', '$0.1B', '3', '2', '', 'Buntanetap AD Phase 3 6-mo readout (2026)', ['Alzheimer', 'Parkinson', 'Neurodegeneration'])}
+        ${companyCard('SAGE', 'Sage Therapeutics', 'Small Molecule', 'Zurzuvae approved for PPD. Acquired by Supernus (Jul 2025). Dalzanemdor for Huntington cognition.', 'Acquired', '3', '1', '1', 'Acquired by Supernus (Jul 2025)', ['Psychiatry', 'Depression', 'PPD'])}
+        ${companyCard('CERE', 'Cerevel Therapeutics', 'Small Molecule', 'Neuroscience company with darigabat for epilepsy and emraclidine for schizophrenia. Acquired by AbbVie.', 'Acquired', '5', '2', '', 'Acquired by AbbVie (Aug 2024)', ['Psychiatry', 'Epilepsy', 'Schizophrenia'])}
+        ${companyCard('KRTX', 'Karuna Therapeutics', 'Small Molecule', 'KarXT (xanomeline-trospium) for schizophrenia. Acquired by Bristol Myers Squibb.', 'Acquired', '2', '1', '', 'Acquired by BMS (Mar 2024)', ['Psychiatry', 'Schizophrenia', 'Alzheimer'])}
       </div>
+    </section>
 
-      <!-- Metabolic & Cardiovascular -->
-      <div class="category-card" data-tags="commercial">
-        <div class="category-header">
-          <span class="category-title">Metabolic & Cardiovascular</span>
-          <span class="category-count">6</span>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Obesity / GLP-1</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">3</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/VKTX/html" class="company-item"><div class="company-info"><span class="company-ticker">VKTX</span><span class="company-name">Viking Therapeutics</span></div></a>
-            <a href="/api/company/ALTX/html" class="company-item"><div class="company-info"><span class="company-ticker">ALTX</span><span class="company-name">Altimmune</span></div></a>
-            <a href="/api/company/ZEAL/html" class="company-item"><div class="company-info"><span class="company-ticker">ZEAL</span><span class="company-name">Zealand Pharma</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">NASH / Liver</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">2</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/MDGL/html" class="company-item"><div class="company-info"><span class="company-ticker">MDGL</span><span class="company-name">Madrigal</span></div></a>
-            <a href="/api/company/AKRO/html" class="company-item"><div class="company-info"><span class="company-ticker">AKRO</span><span class="company-name">Akero</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Cardiovascular</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">1</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/VRNA/html" class="company-item"><div class="company-info"><span class="company-ticker">VRNA</span><span class="company-name">Verona Pharma</span></div></a>
-          </div>
-        </div>
-
-        <div class="card-footer">
-          <span class="updated-text">Updated ${today}</span>
-        </div>
+    <!-- ==================== CLINICAL RARE DISEASE (3) ==================== -->
+    <section id="rare" class="section">
+      <div class="section-header">
+        <span class="section-emoji">💎</span>
+        <h2 class="section-title">Clinical Rare Disease</h2>
+        <span class="section-count">3</span>
       </div>
-
-      <!-- Tools & Services -->
-      <div class="category-card" data-tags="tools">
-        <div class="category-header">
-          <span class="category-title">Tools & Services</span>
-          <span class="category-count">4</span>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Bioprocessing</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">2</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/RGEN/html" class="company-item"><div class="company-info"><span class="company-ticker">RGEN</span><span class="company-name">Repligen</span></div></a>
-            <a href="/api/company/CYTK/html" class="company-item"><div class="company-info"><span class="company-ticker">CYTK</span><span class="company-name">Cytokinetics</span></div></a>
-          </div>
-        </div>
-
-        <div class="subcategory" onclick="toggleSubcategory(this)">
-          <div class="subcategory-header">
-            <span class="subcategory-name">Drug Delivery</span>
-            <div class="subcategory-right">
-              <span class="subcategory-count">2</span>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="company-list">
-            <a href="/api/company/HALO/html" class="company-item"><div class="company-info"><span class="company-ticker">HALO</span><span class="company-name">Halozyme</span></div></a>
-            <a href="/api/company/AVRO/html" class="company-item"><div class="company-info"><span class="company-ticker">AVRO</span><span class="company-name">Avrobio</span></div></a>
-          </div>
-        </div>
-
-        <div class="card-footer">
-          <span class="updated-text">Updated ${today}</span>
-        </div>
+      <div class="cards-grid">
+        ${companyCard('RCKT', 'Rocket Pharmaceuticals', 'Gene Therapy', 'Gene therapy with KRESLADI for LAD-I near FDA approval (PDUFA Mar 28, 2026). FA, PKD, Danon programs.', '$1.8B', '4', '1', '', getNextCatalystDisplay('RCKT') || 'KRESLADI PDUFA (Mar 28, 2026)', ['Rare Disease', 'Hematology', 'Gene Therapy'])}
+        ${companyCard('BLUE', 'Bluebird Bio', 'Gene Therapy', 'Gene therapy pioneer with Zynteglo (beta-thal), Skysona (CALD), and Lyfgenia (SCD) approved.', '$0.3B', '3', '1', '3', 'Commercial expansion (2026)', ['Rare Disease', 'Hematology', 'Gene Therapy'])}
+        ${companyCard('MIRM', 'Mirum Pharmaceuticals', 'Small Molecule', 'LIVMARLI (maralixibat) for cholestatic diseases. Volixibat for PSC and PBC advancing.', '$4.5B', '4', '2', '3', 'Volixibat VISTAS PSC data (Q2 2026)', ['Rare Disease', 'Liver', 'Cholestasis'])}
       </div>
-    </div>
+    </section>
+
+    <!-- ==================== CLINICAL GENE THERAPY (4) ==================== -->
+    <section id="gene" class="section">
+      <div class="section-header">
+        <span class="section-emoji">🧬</span>
+        <h2 class="section-title">Gene Therapy & Editing</h2>
+        <span class="section-count">4</span>
+      </div>
+      <div class="cards-grid">
+        ${companyCard('NTLA', 'Intellia Therapeutics', 'CRISPR', 'Leading in vivo CRISPR company. NTLA-2001 for ATTR and NTLA-2002 for HAE in pivotal studies.', '$2.8B', '6', '2', '', 'NTLA-2001 ATTR-CM Phase 3 (H2 2026)', ['Gene Editing', 'ATTR', 'HAE'])}
+        ${companyCard('BEAM', 'Beam Therapeutics', 'Base Editing', 'Precision base editing platform. Risto-cel for SCD targeting BLA submission. BEAM-302 for AATD.', '$3.1B', '5', '1', '', 'Risto-cel BLA submission (end 2026)', ['Gene Editing', 'Sickle Cell', 'Liver'])}
+        ${companyCard('EDIT', 'Editas Medicine', 'CRISPR', 'CRISPR gene editing for blood diseases and in vivo therapies. EDIT-401 targeting LDLR for FH.', '$0.2B', '4', '1', '', 'EDIT-401 IND filing (mid-2026)', ['Gene Editing', 'Hematology', 'Liver'])}
+        ${companyCard('TNYA', 'Tenaya Therapeutics', 'Gene Therapy', 'Gene therapy for inherited cardiomyopathies. TN-201 for HCM and TN-401 for ARVC in clinical trials.', '$0.15B', '4', '1', '', 'MyPEAK-1 TN-201 HCM data (H1/H2 2026)', ['Cardiovascular', 'Gene Therapy', 'Cardiomyopathy'])}
+      </div>
+    </section>
+
+    <!-- ==================== CLINICAL METABOLIC/CV (3) ==================== -->
+    <section id="metabolic" class="section">
+      <div class="section-header">
+        <span class="section-emoji">❤️</span>
+        <h2 class="section-title">Metabolic & Cardiovascular</h2>
+        <span class="section-count">3</span>
+      </div>
+      <div class="cards-grid">
+        ${companyCard('VKTX', 'Viking Therapeutics', 'Small Molecule', 'Oral GLP-1/GIP agonist VK2735 for obesity/MASH. Best-in-class oral weight loss (14.7% at 13 weeks).', '$6.2B', '3', '2', '', getNextCatalystDisplay('VKTX') || 'Oral VK2735 Phase 2 data (H1 2026)', ['Metabolic', 'Obesity', 'MASH'])}
+        ${companyCard('AKRO', 'Akero Therapeutics', 'Biologics', 'Efruxifermin (FGF21) for MASH showing strong Phase 2b results. Being acquired by Novo Nordisk.', '$2.5B', '1', '1', '', 'Acquired by Novo Nordisk (pending)', ['MASH', 'Liver Disease', 'FGF21'])}
+        ${companyCard('CYTK', 'Cytokinetics', 'Small Molecule', 'Muscle biology pioneer with aficamten NDA submitted for HCM. Cardiac myosin modulators.', '$5.5B', '3', '2', '', 'Aficamten PDUFA (Sep 2025)', ['Cardiovascular', 'HCM', 'Heart Failure'])}
+      </div>
+    </section>
+
+    <!-- ==================== CLINICAL VACCINES (3) ==================== -->
+    <section id="vaccines" class="section">
+      <div class="section-header">
+        <span class="section-emoji">💉</span>
+        <h2 class="section-title">Clinical Vaccines</h2>
+        <span class="section-count">3</span>
+      </div>
+      <div class="cards-grid">
+        ${companyCard('PCVX', 'Vaxcyte', 'Vaccine', 'Broadest pneumococcal vaccine VAX-31 in Phase 3 (95% IPD coverage). VAX-24 for infants advancing.', '$4.3B', '5', '2', '', 'VAX-31 OPUS Phase 3 data (Q4 2026)', ['Vaccines', 'Pneumococcal', 'Infectious Disease'])}
+        ${companyCard('NVAX', 'Novavax', 'Vaccine', 'Protein-based COVID vaccine Nuvaxovid. Sanofi partnership for commercialization. Matrix-M adjuvant licensed to Pfizer.', '$1.2B', '5', '2', '1', 'CIC COVID-flu combo data (2026)', ['Vaccines', 'COVID', 'Influenza'])}
+        ${companyCard('DVAX', 'Dynavax Technologies', 'Vaccine', 'HEPLISAV-B hepatitis B vaccine with 46% US market share. CpG 1018 adjuvant platform. Acquired by Sanofi.', 'Acquired', '3', '1', '1', 'Acquired by Sanofi (Q1 2026)', ['Vaccines', 'Hepatitis B', 'Adjuvant'])}
+      </div>
+    </section>
+
+    <!-- ==================== TOOLS & BIOPROCESSING (2) ==================== -->
+    <section id="tools" class="section">
+      <div class="section-header">
+        <span class="section-emoji">🔧</span>
+        <h2 class="section-title">Tools & Bioprocessing</h2>
+        <span class="section-count">2</span>
+      </div>
+      <div class="cards-grid">
+        ${companyCard('HALO', 'Halozyme Therapeutics', 'Drug Delivery', 'ENHANZE platform enables SC delivery of biologics. Royalty streams from 20+ pharma partnerships.', '$7.2B', '20+', 'N/A', '8', 'New ENHANZE partnerships (2026)', ['Drug Delivery', 'Subcutaneous', 'Royalties'])}
+        ${companyCard('RGEN', 'Repligen Corporation', 'Bioprocessing', 'Leading bioprocessing equipment and consumables. Filtration, chromatography, and analytics.', '$8.5B', 'N/A', 'N/A', '', 'Bioprocessing market recovery (2026)', ['Bioprocessing', 'Manufacturing', 'Equipment'])}
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
@@ -1199,56 +1001,41 @@ function startServer(port: number): void {
   </footer>
 
   <script>
-    // Toggle subcategory expand/collapse
-    function toggleSubcategory(el) {
-      // Prevent event from bubbling to company links
-      if (event.target.closest('.company-item')) return;
-      el.classList.toggle('expanded');
-    }
+    // Smooth scroll for category pills
+    document.querySelectorAll('.category-pill').forEach(pill => {
+      pill.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
 
-    // Filter by tag
-    function filterByTag(tag) {
-      const pills = document.querySelectorAll('.filter-pill');
-      const cards = document.querySelectorAll('.category-card');
+    // Scroll spy for active pill
+    const sections = document.querySelectorAll('.section');
+    const pills = document.querySelectorAll('.category-pill');
 
-      // Toggle active state on clicked pill
-      pills.forEach(pill => {
-        if (pill.textContent.toLowerCase().includes(tag.replace('-', ' ').toLowerCase().substring(0, 4))) {
-          pill.classList.toggle('active');
+    function updateActivePill() {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.pageYOffset >= sectionTop - 200) {
+          current = section.getAttribute('id');
         }
       });
 
-      // Get all active filters
-      const activeFilters = Array.from(document.querySelectorAll('.filter-pill.active'))
-        .map(p => p.textContent.toLowerCase());
-
-      if (activeFilters.length === 0) {
-        cards.forEach(card => card.style.display = 'block');
-        return;
-      }
-
-      cards.forEach(card => {
-        const cardTags = card.dataset.tags || '';
-        const matches = activeFilters.some(filter => {
-          if (filter.includes('large')) return cardTags.includes('large-cap');
-          if (filter.includes('platform')) return cardTags.includes('platform');
-          if (filter.includes('commercial')) return cardTags.includes('commercial');
-          if (filter.includes('oncology')) return cardTags.includes('oncology');
-          if (filter.includes('i&i')) return cardTags.includes('immunology');
-          if (filter.includes('neuro')) return cardTags.includes('neuro');
-          if (filter.includes('rare')) return cardTags.includes('rare');
-          if (filter.includes('tools')) return cardTags.includes('tools');
-          return false;
-        });
-        card.style.display = matches ? 'block' : 'none';
+      pills.forEach(pill => {
+        pill.classList.remove('active');
+        if (pill.getAttribute('href') === '#' + current) {
+          pill.classList.add('active');
+        }
       });
     }
 
-    // Reset filters
-    function resetFilters() {
-      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.category-card').forEach(c => c.style.display = 'block');
-    }
+    window.addEventListener('scroll', updateActivePill);
+    updateActivePill();
   </script>
 </body>
 </html>`);
