@@ -269,16 +269,16 @@ function startServer(port: number): void {
         <div class="nav-links">
           <a href="/targets">Targets</a>
           <a href="/companies">Companies</a>
-          <a href="#features">Research</a>
-          <a href="#">About</a>
+          <a href="/research">Research</a>
+          <a href="/about">About</a>
         </div>
         <form class="header-search" onsubmit="event.preventDefault(); const q = this.querySelector('input').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
           <input type="text" placeholder="Search targets...">
         </form>
         <div class="nav-cta">
-          <a href="#" class="btn-ghost">Log in</a>
-          <a href="#" class="btn-primary">Get Started</a>
+          <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
+          <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
         </div>
       </nav>
     </div>
@@ -455,7 +455,7 @@ function startServer(port: number): void {
         </div>
         <div class="footer-col">
           <h5>Company</h5>
-          <a href="#">About</a>
+          <a href="/about">About</a>
           <a href="#">Contact</a>
           <a href="#">API Access</a>
         </div>
@@ -548,11 +548,11 @@ function startServer(port: number): void {
         <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
         <a href="/research" class="active">Research</a>
-        <a href="#">About</a>
+        <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost">Log in</a>
-        <a href="#" class="btn-primary">Get Started</a>
+        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
+        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
@@ -769,11 +769,11 @@ function startServer(port: number): void {
         <a href="/targets">Targets</a>
         <a href="/companies" class="active">Companies</a>
         <a href="/research">Research</a>
-        <a href="#">About</a>
+        <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost">Log in</a>
-        <a href="#" class="btn-primary">Get Started</a>
+        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
+        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
@@ -1140,11 +1140,11 @@ function startServer(port: number): void {
         <a href="/targets" class="active">Targets</a>
         <a href="/companies">Companies</a>
         <a href="/research">Research</a>
-        <a href="#">About</a>
+        <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost">Log in</a>
-        <a href="#" class="btn-primary">Get Started</a>
+        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
+        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
@@ -1715,6 +1715,378 @@ function startServer(port: number): void {
 </html>`);
   });
 
+  // About Page
+  app.get('/about', (_req: Request, res: Response) => {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Satya Bio</title>
+  <meta name="description" content="Institutional-grade biotech intelligence for investment professionals.">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a2b3c;
+      --primary-light: #2d4a5e;
+      --accent: #e07a5f;
+      --accent-hover: #d06a4f;
+      --accent-light: #fef5f3;
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --border: #e5e5e0;
+      --text: #1a1d21;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 72px; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-cta { display: flex; gap: 12px; }
+    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-weight: 600; text-decoration: none; }
+    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 80px 32px; text-align: center; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; }
+    .circle { position: absolute; border-radius: 50%; opacity: 0.15; animation: float 20s ease-in-out infinite; }
+    .circle-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #fef08a 0%, #fde68a 100%); top: -100px; right: 10%; }
+    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #fef5f3 0%, #fecaca 100%); bottom: -50px; left: 5%; animation-delay: -5s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-10px, 20px) rotate(-5deg); }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: white; margin-bottom: 16px; }
+    .hero p { color: rgba(255,255,255,0.85); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+
+    .main { max-width: 900px; margin: 0 auto; padding: 64px 32px; }
+
+    .section { margin-bottom: 64px; }
+    .section h2 { font-family: 'Fraunces', serif; font-size: 1.75rem; color: var(--primary); margin-bottom: 24px; }
+    .section p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 16px; }
+
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 32px; }
+    .feature { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+    .feature-icon { width: 48px; height: 48px; background: var(--accent-light); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 1.5rem; }
+    .feature h3 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+    .feature p { color: var(--text-secondary); font-size: 0.9rem; margin: 0; }
+
+    .data-sources { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
+    .data-source { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+    .data-source-name { font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+    .data-source-type { font-size: 0.85rem; color: var(--text-muted); }
+
+    .cta-section { background: var(--primary); border-radius: 24px; padding: 48px; text-align: center; color: white; }
+    .cta-section h2 { font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 16px; }
+    .cta-section p { opacity: 0.85; margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .cta-btn { display: inline-block; padding: 14px 32px; background: var(--accent); color: white; font-weight: 700; text-decoration: none; border-radius: 10px; transition: all 0.2s; }
+    .cta-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+    .footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 48px 32px; text-align: center; margin-top: 64px; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px; }
+      .hero h1 { font-size: 2rem; }
+      .main { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">Satya<span>Bio</span></a>
+      <nav class="nav-links">
+        <a href="/targets">Targets</a>
+        <a href="/companies">Companies</a>
+        <a href="/research">Research</a>
+        <a href="/about" class="active">About</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
+        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+    </div>
+    <div class="hero-content">
+      <h1>About Satya Bio</h1>
+      <p>Institutional-grade biotech intelligence for investment professionals</p>
+    </div>
+  </section>
+
+  <main class="main">
+    <section class="section">
+      <h2>Our Mission</h2>
+      <p>Satya Bio provides comprehensive, real-time intelligence on the biotech landscape. We help investment professionals, analysts, and researchers make informed decisions by aggregating and analyzing data from multiple authoritative sources.</p>
+      <p>Our platform delivers deep-dive research on therapeutic targets, company pipelines, clinical trials, and competitive landscapes—all in one place.</p>
+    </section>
+
+    <section class="section">
+      <h2>What We Do</h2>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">🎯</div>
+          <h3>Target Landscapes</h3>
+          <p>Comprehensive analysis of drug targets including competitive landscapes, clinical assets, and key publications.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🏢</div>
+          <h3>Company Research</h3>
+          <p>Pipeline analysis, catalyst tracking, and financial metrics for 200+ public biotech companies.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔬</div>
+          <h3>Clinical Intelligence</h3>
+          <p>Real-time trial data, efficacy comparisons, and regulatory milestone tracking.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">💼</div>
+          <h3>Deal Tracking</h3>
+          <p>Licensing agreements, M&A activity, and partnership analysis across the industry.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Data Sources</h2>
+      <p>We aggregate and analyze data from authoritative public sources:</p>
+      <div class="data-sources">
+        <div class="data-source">
+          <div class="data-source-name">ClinicalTrials.gov</div>
+          <div class="data-source-type">Trial Data</div>
+        </div>
+        <div class="data-source">
+          <div class="data-source-name">SEC EDGAR</div>
+          <div class="data-source-type">Financials & Filings</div>
+        </div>
+        <div class="data-source">
+          <div class="data-source-name">PubMed</div>
+          <div class="data-source-type">Publications</div>
+        </div>
+        <div class="data-source">
+          <div class="data-source-name">Company IR Pages</div>
+          <div class="data-source-type">Presentations & PRs</div>
+        </div>
+        <div class="data-source">
+          <div class="data-source-name">FDA Orange Book</div>
+          <div class="data-source-type">Patents & Exclusivity</div>
+        </div>
+        <div class="data-source">
+          <div class="data-source-name">OpenFDA</div>
+          <div class="data-source-type">Regulatory Events</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h2>Request Early Access</h2>
+      <p>Satya Bio is currently in private beta. Join the waitlist to get early access when we launch.</p>
+      <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio.%0A%0AName:%0ACompany:%0ARole:" class="cta-btn">Join the Waitlist →</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Satya Bio. Institutional-grade biotech intelligence.</p>
+  </footer>
+</body>
+</html>`);
+  });
+
+  // Research Hub Page
+  app.get('/research', (_req: Request, res: Response) => {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research | Satya Bio</title>
+  <meta name="description" content="In-depth biotech research reports and analysis.">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a2b3c;
+      --primary-light: #2d4a5e;
+      --accent: #e07a5f;
+      --accent-hover: #d06a4f;
+      --accent-light: #fef5f3;
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --border: #e5e5e0;
+      --text: #1a1d21;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 72px; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-cta { display: flex; gap: 12px; }
+    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-weight: 600; text-decoration: none; }
+    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 80px 32px; text-align: center; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; }
+    .circle { position: absolute; border-radius: 50%; opacity: 0.15; animation: float 20s ease-in-out infinite; }
+    .circle-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #fef08a 0%, #fde68a 100%); top: -100px; right: 10%; }
+    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #fef5f3 0%, #fecaca 100%); bottom: -50px; left: 5%; animation-delay: -5s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-10px, 20px) rotate(-5deg); }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: white; margin-bottom: 16px; }
+    .hero p { color: rgba(255,255,255,0.85); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+
+    .main { max-width: 1200px; margin: 0 auto; padding: 64px 32px; }
+
+    .section-title { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 24px; }
+
+    .reports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; }
+    .report-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: all 0.25s; text-decoration: none; color: inherit; display: block; }
+    .report-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: var(--accent); }
+    .report-badge { display: inline-block; padding: 4px 12px; background: var(--accent-light); color: var(--accent); font-size: 0.75rem; font-weight: 700; border-radius: 20px; text-transform: uppercase; margin-bottom: 16px; }
+    .report-badge.new { background: #dcfce7; color: #16a34a; }
+    .report-title { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+    .report-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 16px; line-height: 1.6; }
+    .report-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--border); }
+    .report-date { font-size: 0.85rem; color: var(--text-muted); }
+    .report-link { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
+
+    .coming-soon { opacity: 0.6; pointer-events: none; }
+    .coming-soon .report-badge { background: var(--bg); color: var(--text-muted); }
+
+    .footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 48px 32px; text-align: center; margin-top: 64px; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px; }
+      .hero h1 { font-size: 2rem; }
+      .main { padding: 40px 20px; }
+      .reports-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">Satya<span>Bio</span></a>
+      <nav class="nav-links">
+        <a href="/targets">Targets</a>
+        <a href="/companies">Companies</a>
+        <a href="/research" class="active">Research</a>
+        <a href="/about">About</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
+        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+    </div>
+    <div class="hero-content">
+      <h1>Research Reports</h1>
+      <p>In-depth analysis of biotech trends, therapeutic landscapes, and market dynamics</p>
+    </div>
+  </section>
+
+  <main class="main">
+    <h2 class="section-title">Featured Reports</h2>
+    <div class="reports-grid">
+      <a href="/research/2025-licensing-deals" class="report-card">
+        <span class="report-badge new">New</span>
+        <h3 class="report-title">2024-2025 Biopharma Licensing Deals</h3>
+        <p class="report-desc">Comprehensive analysis of major licensing and partnership deals, including deal terms, valuations, and strategic implications.</p>
+        <div class="report-meta">
+          <span class="report-date">Updated Jan 2026</span>
+          <span class="report-link">Read Report →</span>
+        </div>
+      </a>
+
+      <a href="/api/report/target/GLP-1/html" class="report-card">
+        <span class="report-badge">Target Landscape</span>
+        <h3 class="report-title">GLP-1 Competitive Landscape</h3>
+        <p class="report-desc">Deep dive into the GLP-1 agonist market including Ozempic, Mounjaro competitors, and emerging oral formulations.</p>
+        <div class="report-meta">
+          <span class="report-date">Auto-updated</span>
+          <span class="report-link">View Landscape →</span>
+        </div>
+      </a>
+
+      <a href="/api/report/target/TL1A/html" class="report-card">
+        <span class="report-badge">Target Landscape</span>
+        <h3 class="report-title">TL1A: The Next Big IBD Target</h3>
+        <p class="report-desc">Analysis of the emerging TL1A space including Prometheus, Roche/Roivant, and Merck programs for IBD and fibrosis.</p>
+        <div class="report-meta">
+          <span class="report-date">Auto-updated</span>
+          <span class="report-link">View Landscape →</span>
+        </div>
+      </a>
+
+      <a href="/api/report/target/KRAS/html" class="report-card">
+        <span class="report-badge">Target Landscape</span>
+        <h3 class="report-title">KRAS Inhibitor Landscape</h3>
+        <p class="report-desc">From "undruggable" to approved: tracking G12C inhibitors, emerging G12D programs, and resistance mechanisms.</p>
+        <div class="report-meta">
+          <span class="report-date">Auto-updated</span>
+          <span class="report-link">View Landscape →</span>
+        </div>
+      </a>
+
+      <div class="report-card coming-soon">
+        <span class="report-badge">Coming Soon</span>
+        <h3 class="report-title">Q1 2026 Biotech Catalysts Guide</h3>
+        <p class="report-desc">Comprehensive guide to major clinical data readouts, PDUFA dates, and conferences in Q1 2026.</p>
+        <div class="report-meta">
+          <span class="report-date">Coming Feb 2026</span>
+          <span class="report-link">Subscribe for Updates</span>
+        </div>
+      </div>
+
+      <div class="report-card coming-soon">
+        <span class="report-badge">Coming Soon</span>
+        <h3 class="report-title">ADC Landscape Report</h3>
+        <p class="report-desc">Analysis of the antibody-drug conjugate space including approved drugs, pipeline assets, and emerging payloads.</p>
+        <div class="report-meta">
+          <span class="report-date">Coming Q1 2026</span>
+          <span class="report-link">Subscribe for Updates</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Satya Bio. Institutional-grade biotech intelligence.</p>
+  </footer>
+</body>
+</html>`);
+  });
+
   // Research Report: 2025 Licensing Deals
   app.get('/research/2025-licensing-deals', (_req: Request, res: Response) => {
     res.send(`<!DOCTYPE html>
@@ -1857,11 +2229,11 @@ function startServer(port: number): void {
         <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
         <a href="/research" class="active">Research</a>
-        <a href="#">About</a>
+        <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost">Log in</a>
-        <a href="#" class="btn-primary">Get Started</a>
+        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
+        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
