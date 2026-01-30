@@ -1719,7 +1719,7 @@ function startServer(port: number): void {
             <input type="checkbox" value="oncology">
             <span class="filter-checkbox"></span>
             Oncology
-            <span class="filter-count">7</span>
+            <span class="filter-count">8</span>
           </label>
           <label class="filter-option" data-filter="immunology" onclick="toggleFilter(this)">
             <input type="checkbox" value="immunology">
@@ -1757,7 +1757,7 @@ function startServer(port: number): void {
 
     <section class="targets-section">
       <h2>Target Landscape</h2>
-      <p class="targets-meta" id="targets-count">Showing 18 targets</p>
+      <p class="targets-meta" id="targets-count">Showing 15 targets</p>
 
       <div class="targets-grid" id="targets-grid">
         <!-- KRAS G12C -->
@@ -1852,27 +1852,51 @@ function startServer(port: number): void {
           </div>
         </div>
 
+        <!-- B7-H3 -->
+        <div class="target-card" data-category="oncology">
+          <div class="target-header">
+            <div><div class="target-name">B7-H3</div></div>
+            <span class="area-badge oncology">Oncology</span>
+          </div>
+          <div class="market-status status-race">Race to First</div>
+          <div class="competitor-section">
+            <div class="competitor-row">
+              <span class="competitor-label">Frontrunner</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">MacroGenics</span> (<span class="ticker">MGNX</span>) - Vobramitamab duo</span><span class="stage-pill stage-pill-phase3">Phase 3</span></span>
+            </div>
+            <div class="competitor-row">
+              <span class="competitor-label">Fast Follower</span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Multiple</span> - ADCs, CAR-T</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
+            </div>
+          </div>
+          <div class="target-footer">
+            <div class="companies-count"><strong>23</strong> assets in development</div>
+            <p class="target-desc">Highly expressed in solid tumors with limited normal tissue.</p>
+            <a href="/api/report/target/B7-H3/html" class="view-btn">View Full Landscape →</a>
+          </div>
+        </div>
+
         <!-- TL1A -->
         <div class="target-card" data-category="immunology">
           <div class="target-header">
             <div><div class="target-name">TL1A</div></div>
             <span class="area-badge immunology">I&I</span>
           </div>
-          <div class="market-status status-early">Early Stage</div>
+          <div class="market-status status-race">Race to First</div>
           <div class="competitor-section">
             <div class="competitor-row">
               <span class="competitor-label">Frontrunner</span>
-              <span class="competitor-info"><span class="competitor-text"><span class="company">Prometheus</span> - PRA023</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Spyre</span> (<span class="ticker">SYRE</span>) - SPY002</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
             </div>
             <div class="competitor-row">
               <span class="competitor-label">Fast Follower</span>
-              <span class="competitor-info"><span class="competitor-text"><span class="company">Spyre</span> (<span class="ticker">SYRE</span>) - SPY002</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
+              <span class="competitor-info"><span class="competitor-text"><span class="company">Prometheus</span> - PRA023</span><span class="stage-pill stage-pill-phase2">Phase 2</span></span>
             </div>
           </div>
           <div class="target-footer">
-            <div class="companies-count"><strong>6</strong> companies pursuing</div>
-            <p class="target-desc">Hot IBD target. Extended half-life key.</p>
-            <a href="/api/report/target/TL1A/html" class="view-btn">View Report</a>
+            <div class="companies-count"><strong>9</strong> assets in development</div>
+            <p class="target-desc">Hot IBD target with anti-fibrotic potential.</p>
+            <a href="/api/report/target/TL1A/html" class="view-btn">View Full Landscape →</a>
           </div>
         </div>
 
