@@ -64,6 +64,8 @@ const pharma_routes_1 = require("../services/pharma-routes");
 const target_report_1 = require("../services/target-report");
 const export_1 = require("../services/export");
 const target_analysis_1 = require("../data/target-analysis");
+const arwr_1 = require("../data/companies/arwr");
+const ir_scraper_1 = require("../services/ir-scraper");
 // Cache directory for analysis results
 const CACHE_DIR = path.resolve(__dirname, '..', '..', 'cache');
 // Rate limiting: track timestamps of Claude API calls
@@ -1687,6 +1689,108 @@ function startServer(port) {
             res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
         }
     });
+    // ============================================
+    // Company Research Module
+    // ============================================
+    // Company Profile - JSON
+    app.get('/api/company/:ticker', async (req, res) => {
+        try {
+            const ticker = req.params.ticker.toUpperCase();
+            if (ticker === 'ARWR') {
+                res.json((0, arwr_1.getARWRProfile)());
+            }
+            else {
+                res.status(404).json({ error: `Company profile not found for ${ticker}` });
+            }
+        }
+        catch (error) {
+            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        }
+    });
+    // Company Pipeline - JSON
+    app.get('/api/company/:ticker/pipeline', async (req, res) => {
+        try {
+            const ticker = req.params.ticker.toUpperCase();
+            if (ticker === 'ARWR') {
+                res.json((0, arwr_1.getARWRPipeline)());
+            }
+            else {
+                res.status(404).json({ error: `Pipeline not found for ${ticker}` });
+            }
+        }
+        catch (error) {
+            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        }
+    });
+    // Company Catalysts - JSON
+    app.get('/api/company/:ticker/catalysts', async (req, res) => {
+        try {
+            const ticker = req.params.ticker.toUpperCase();
+            if (ticker === 'ARWR') {
+                res.json((0, arwr_1.getARWRCatalysts)());
+            }
+            else {
+                res.status(404).json({ error: `Catalysts not found for ${ticker}` });
+            }
+        }
+        catch (error) {
+            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        }
+    });
+    // Company Presentations - JSON
+    app.get('/api/company/:ticker/presentations', async (req, res) => {
+        try {
+            const ticker = req.params.ticker.toUpperCase();
+            if (ticker === 'ARWR') {
+                res.json((0, arwr_1.getARWRPresentations)());
+            }
+            else {
+                res.status(404).json({ error: `Presentations not found for ${ticker}` });
+            }
+        }
+        catch (error) {
+            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        }
+    });
+    // Company Profile - HTML Report
+    app.get('/api/company/:ticker/html', async (req, res) => {
+        try {
+            const ticker = req.params.ticker.toUpperCase();
+            if (ticker === 'ARWR') {
+                const profile = (0, arwr_1.getARWRProfile)();
+                const html = generateCompanyReportHtml(profile);
+                res.setHeader('Content-Type', 'text/html');
+                res.send(html);
+            }
+            else {
+                res.status(404).send(`<h1>Company Not Found</h1><p>No profile available for ${ticker}</p>`);
+            }
+        }
+        catch (error) {
+            res.status(500).send(`<h1>Error</h1><p>${error instanceof Error ? error.message : 'Unknown error'}</p>`);
+        }
+    });
+    // Scrape IR Documents (refresh)
+    app.get('/api/company/:ticker/refresh', async (req, res) => {
+        try {
+            const ticker = req.params.ticker.toUpperCase();
+            if (!(0, ir_scraper_1.isTickerSupported)(ticker)) {
+                res.status(404).json({ error: `IR scraping not configured for ${ticker}` });
+                return;
+            }
+            console.log(chalk_1.default.cyan(`  [Company] Scraping IR documents for ${ticker}...`));
+            const result = await (0, ir_scraper_1.scrapeIRDocuments)(ticker);
+            res.json({
+                ticker,
+                documentsFound: result.totalDocuments,
+                documentsByYear: result.documentsByYear,
+                scrapedAt: result.scrapedAt,
+            });
+        }
+        catch (error) {
+            res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        }
+    });
     // Start server
     app.listen(port, () => {
         console.log('');
@@ -1723,6 +1827,14 @@ function startServer(port) {
         console.log(chalk_1.default.magenta(`  GET  http://localhost:${port}/api/pharma/catalysts`));
         console.log(chalk_1.default.magenta(`  GET  http://localhost:${port}/api/pharma/compare?a=MRK&b=PFE`));
         console.log(chalk_1.default.magenta(`  GET  http://localhost:${port}/api/pharma/bd-fit?target=MRK&area=oncology&modality=ADC`));
+        console.log('');
+        console.log(chalk_1.default.blue('Company Research:'));
+        console.log(chalk_1.default.blue(`  GET  http://localhost:${port}/api/company/ARWR/html`));
+        console.log(chalk_1.default.blue(`  GET  http://localhost:${port}/api/company/ARWR`));
+        console.log(chalk_1.default.blue(`  GET  http://localhost:${port}/api/company/ARWR/pipeline`));
+        console.log(chalk_1.default.blue(`  GET  http://localhost:${port}/api/company/ARWR/catalysts`));
+        console.log(chalk_1.default.blue(`  GET  http://localhost:${port}/api/company/ARWR/presentations`));
+        console.log(chalk_1.default.blue(`  GET  http://localhost:${port}/api/company/ARWR/refresh`));
         console.log('');
         console.log(chalk_1.default.gray(`Cache: ${CACHE_DIR}`));
         console.log('');
@@ -2695,6 +2807,178 @@ function getKeyCatalyst(pipeline) {
             return item.catalyst;
     }
     return null;
+}
+// ============================================
+// Company Report HTML Generator
+// ============================================
+function generateCompanyReportHtml(profile) {
+    const { company, pipeline, clinicalData, catalysts, presentations, stats } = profile;
+    const timestamp = new Date().toLocaleString();
+    const phaseOrder = {
+        'Approved': 0,
+        'Filed': 1,
+        'Phase 3': 2,
+        'Phase 2b': 3,
+        'Phase 2': 4,
+        'Phase 1/2': 5,
+        'Phase 1': 6,
+        'Preclinical': 7,
+    };
+    const sortedPipeline = [...pipeline].sort((a, b) => (phaseOrder[a.phase] ?? 99) - (phaseOrder[b.phase] ?? 99));
+    const getPhaseBadgeClass = (phase) => {
+        if (phase === 'Approved')
+            return 'phase-approved';
+        if (phase === 'Phase 3' || phase === 'Filed')
+            return 'phase-phase3';
+        if (phase.includes('Phase 2'))
+            return 'phase-phase2';
+        if (phase.includes('Phase 1'))
+            return 'phase-phase1';
+        return '';
+    };
+    const highCatalysts = catalysts.filter(c => c.importance === 'high');
+    const mediumCatalysts = catalysts.filter(c => c.importance === 'medium');
+    // Build pipeline rows
+    const pipelineRows = sortedPipeline.map(asset => {
+        const codes = asset.codeNames.filter(c => c !== asset.name).join(', ');
+        const partnerBadge = asset.partner ? '<span class="partner-badge">' + escapeHtml(asset.partner) + '</span>' : '-';
+        const catalystSpan = asset.nextCatalyst ? '<span class="catalyst-text">' + escapeHtml(asset.nextCatalyst) + '</span>' : '-';
+        return '<tr>' +
+            '<td><div class="drug-name">' + escapeHtml(asset.name) + '</div><div class="drug-codes">' + escapeHtml(codes) + '</div></td>' +
+            '<td>' + escapeHtml(asset.target) + '</td>' +
+            '<td><span class="phase-badge ' + getPhaseBadgeClass(asset.phase) + '">' + escapeHtml(asset.phase) + '</span></td>' +
+            '<td>' + escapeHtml(asset.leadIndication) + '</td>' +
+            '<td>' + partnerBadge + '</td>' +
+            '<td>' + escapeHtml(asset.keyData || '-') + '</td>' +
+            '<td>' + catalystSpan + '</td>' +
+            '</tr>';
+    }).join('');
+    // Build catalyst cards
+    const catalystCards = [...highCatalysts, ...mediumCatalysts].slice(0, 8).map(c => {
+        const notesDiv = c.notes ? '<div style="margin-top: 8px; font-size: 0.85rem; color: var(--text-secondary);">' + escapeHtml(c.notes) + '</div>' : '';
+        return '<div class="catalyst-card ' + c.importance + '">' +
+            '<div class="catalyst-drug">' + escapeHtml(c.drug) + '</div>' +
+            '<div class="catalyst-event">' + escapeHtml(c.event) + '</div>' +
+            '<span class="catalyst-date">' + escapeHtml(c.expectedDate) + '</span>' +
+            notesDiv +
+            '</div>';
+    }).join('');
+    // Build clinical data cards
+    const clinicalCards = clinicalData.slice(0, 6).map(d => {
+        const comparatorDiv = d.comparator ? '<div style="font-size: 0.85rem; color: var(--text-secondary);">vs ' + escapeHtml(d.comparator) + ': ' + escapeHtml(d.comparatorResult || '') + '</div>' : '';
+        return '<div class="data-card">' +
+            '<div class="data-header"><div>' +
+            '<div class="data-drug">' + escapeHtml(d.drug) + '</div>' +
+            '<div class="data-trial">' + escapeHtml(d.trial) + ' (' + escapeHtml(d.indication) + ')</div>' +
+            '</div><div class="data-result">' + escapeHtml(d.result) + '</div></div>' +
+            '<div class="data-endpoint">' + escapeHtml(d.endpoint) + '</div>' +
+            comparatorDiv +
+            '<div class="data-source">' + escapeHtml(d.source) + ' (' + escapeHtml(d.sourceDate) + ')</div>' +
+            '</div>';
+    }).join('');
+    // Build presentation items
+    const presentationItems = presentations.slice(0, 10).map(p => {
+        const eventPart = p.event ? ' &bull; ' + escapeHtml(p.event) : '';
+        const sizePart = p.fileSize ? ' &bull; ' + escapeHtml(p.fileSize) : '';
+        return '<div class="presentation-item">' +
+            '<div class="presentation-info">' +
+            '<div class="presentation-title">' + escapeHtml(p.title) + '</div>' +
+            '<div class="presentation-meta">' + escapeHtml(p.date) + eventPart + sizePart + '</div>' +
+            '</div>' +
+            '<a href="' + escapeHtml(p.url) + '" target="_blank" class="presentation-download">Download PDF</a>' +
+            '</div>';
+    }).join('');
+    return '<!DOCTYPE html>' +
+        '<html lang="en">' +
+        '<head>' +
+        '<meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+        '<title>' + escapeHtml(company.ticker) + ' - ' + escapeHtml(company.name) + ' | Satya Bio</title>' +
+        '<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">' +
+        '<style>' +
+        ':root { --navy: #1E3A5F; --coral: #E07A5F; --cream: #FAFAF8; --text: #1a1a1a; --text-secondary: #666; --border: #e0e0e0; --success: #10B981; --warning: #F59E0B; --info: #3B82F6; }' +
+        '* { box-sizing: border-box; margin: 0; padding: 0; }' +
+        'body { font-family: "Plus Jakarta Sans", -apple-system, sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; }' +
+        '.container { max-width: 1400px; margin: 0 auto; padding: 24px; }' +
+        'a { color: var(--coral); text-decoration: none; } a:hover { text-decoration: underline; }' +
+        '.header { background: linear-gradient(135deg, var(--navy) 0%, #2d4a6f 100%); color: white; padding: 48px 0; margin-bottom: 32px; }' +
+        '.header-content { max-width: 1400px; margin: 0 auto; padding: 0 24px; }' +
+        '.back-link { color: rgba(255,255,255,0.7); margin-bottom: 16px; display: inline-block; } .back-link:hover { color: white; }' +
+        '.company-title { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }' +
+        '.ticker-badge { background: var(--coral); color: white; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 1.5rem; }' +
+        'h1 { font-size: 2.5rem; font-weight: 700; }' +
+        '.company-desc { font-size: 1.1rem; opacity: 0.9; max-width: 800px; margin-bottom: 24px; }' +
+        '.platform-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; }' +
+        '.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 24px; }' +
+        '.stat-card { background: rgba(255,255,255,0.15); padding: 20px; border-radius: 12px; text-align: center; }' +
+        '.stat-num { font-size: 2rem; font-weight: 700; color: white; }' +
+        '.stat-label { font-size: 0.85rem; opacity: 0.8; }' +
+        '.section { background: white; border-radius: 16px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid var(--border); }' +
+        '.section-title { font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 20px; }' +
+        'table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }' +
+        'th { background: var(--cream); color: var(--text-secondary); padding: 12px; text-align: left; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; border-bottom: 2px solid var(--border); }' +
+        'td { padding: 14px 12px; border-bottom: 1px solid var(--border); }' +
+        'tr:hover { background: var(--cream); }' +
+        '.drug-name { font-weight: 600; color: var(--navy); }' +
+        '.drug-codes { font-size: 0.8rem; color: var(--text-secondary); }' +
+        '.phase-badge { padding: 4px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 600; display: inline-block; }' +
+        '.phase-approved { background: #F3E8FF; color: #7C3AED; }' +
+        '.phase-phase3 { background: #DCFCE7; color: #166534; }' +
+        '.phase-phase2 { background: #DBEAFE; color: #1E40AF; }' +
+        '.phase-phase1 { background: #F3F4F6; color: #4B5563; }' +
+        '.partner-badge { background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }' +
+        '.catalyst-text { font-size: 0.85rem; color: var(--success); font-weight: 500; }' +
+        '.catalyst-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 16px; }' +
+        '.catalyst-card { background: var(--cream); border-radius: 12px; padding: 20px; border-left: 4px solid var(--coral); }' +
+        '.catalyst-card.high { border-left-color: var(--success); }' +
+        '.catalyst-drug { font-weight: 700; color: var(--navy); margin-bottom: 4px; }' +
+        '.catalyst-event { font-size: 0.95rem; margin-bottom: 8px; }' +
+        '.catalyst-date { display: inline-block; background: white; padding: 4px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--coral); }' +
+        '.data-card { background: var(--cream); border-radius: 12px; padding: 20px; }' +
+        '.data-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }' +
+        '.data-drug { font-weight: 700; color: var(--navy); }' +
+        '.data-trial { font-size: 0.85rem; color: var(--text-secondary); }' +
+        '.data-result { font-size: 1.5rem; font-weight: 700; color: var(--success); }' +
+        '.data-endpoint { font-size: 0.9rem; color: var(--text-secondary); }' +
+        '.data-source { font-size: 0.8rem; color: var(--text-secondary); margin-top: 8px; }' +
+        '.presentation-list { display: grid; gap: 12px; }' +
+        '.presentation-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--cream); border-radius: 10px; }' +
+        '.presentation-info { flex: 1; }' +
+        '.presentation-title { font-weight: 600; color: var(--navy); margin-bottom: 4px; }' +
+        '.presentation-meta { font-size: 0.85rem; color: var(--text-secondary); }' +
+        '.presentation-download { background: var(--coral); color: white; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; }' +
+        '.presentation-download:hover { background: #c66a52; }' +
+        '.footer { text-align: center; color: var(--text-secondary); padding: 32px; font-size: 0.85rem; }' +
+        '</style></head><body>' +
+        '<div class="header"><div class="header-content">' +
+        '<a href="/" class="back-link">&larr; Back to Satya Bio</a>' +
+        '<div class="company-title">' +
+        '<span class="ticker-badge">' + escapeHtml(company.ticker) + '</span>' +
+        '<h1>' + escapeHtml(company.name) + '</h1></div>' +
+        '<p class="company-desc">' + escapeHtml(company.description) + '</p>' +
+        '<span class="platform-badge">' + escapeHtml(company.platform) + '</span>' +
+        '<div class="stats-grid">' +
+        '<div class="stat-card"><div class="stat-num">' + stats.totalPipelineAssets + '</div><div class="stat-label">Pipeline Assets</div></div>' +
+        '<div class="stat-card"><div class="stat-num">' + stats.approvedProducts + '</div><div class="stat-label">Approved</div></div>' +
+        '<div class="stat-card"><div class="stat-num">' + stats.phase3Programs + '</div><div class="stat-label">Phase 3</div></div>' +
+        '<div class="stat-card"><div class="stat-num">' + stats.partneredPrograms + '</div><div class="stat-label">Partnered</div></div>' +
+        '<div class="stat-card"><div class="stat-num">' + stats.upcomingCatalysts + '</div><div class="stat-label">Key Catalysts</div></div>' +
+        '<div class="stat-card"><div class="stat-num">' + stats.totalPresentations + '</div><div class="stat-label">Presentations</div></div>' +
+        '</div></div></div>' +
+        '<div class="container">' +
+        '<div class="section"><h2 class="section-title">Pipeline</h2>' +
+        '<table><thead><tr><th>Drug</th><th>Target</th><th>Phase</th><th>Lead Indication</th><th>Partner</th><th>Key Data</th><th>Next Catalyst</th></tr></thead>' +
+        '<tbody>' + pipelineRows + '</tbody></table></div>' +
+        '<div class="section"><h2 class="section-title">Upcoming Catalysts</h2>' +
+        '<div class="catalyst-grid">' + catalystCards + '</div></div>' +
+        '<div class="section"><h2 class="section-title">Key Clinical Data</h2>' +
+        '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;">' + clinicalCards + '</div></div>' +
+        '<div class="section"><h2 class="section-title">Investor Presentations</h2>' +
+        '<div class="presentation-list">' + presentationItems + '</div></div>' +
+        '</div>' +
+        '<div class="footer"><p>Generated by Satya Bio | ' + timestamp + '</p>' +
+        '<p style="margin-top: 8px;">Data from ' + stats.totalPresentations + ' investor presentations analyzed</p></div>' +
+        '</body></html>';
 }
 function generateDashboardHtml(data) {
     const timestamp = new Date().toLocaleString();
