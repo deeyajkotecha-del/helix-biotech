@@ -86,297 +86,330 @@ function startServer(port: number): void {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Satya Bio | Biotech Intelligence Platform</title>
-  <meta name="description" content="Comprehensive competitive landscapes, pipeline tracking, and deal intelligence for biotech - powered by real-time data.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Make confident investment decisions with institutional-grade biotech intelligence. Explore, compare, and evaluate drug pipelines.">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --background: #FAF9F7;
+      --background: #FAFAF8;
       --surface: #FFFFFF;
-      --surface-hover: #F5F4F2;
-      --border: #E5E4E2;
-      --text-primary: #1A1915;
-      --text-secondary: #706F6C;
-      --text-muted: #9B9A97;
-      --accent: #D97756;
-      --accent-hover: #C4684A;
-      --accent-light: #FDF4F1;
-      --success: #5B8C6F;
-      --success-light: #E8F5E9;
+      --surface-alt: #F5F5F3;
+      --border: #E5E5E0;
+      --border-light: #EEEEEA;
+      --text-primary: #1A1D21;
+      --text-navy: #1E3A5F;
+      --text-secondary: #5F6368;
+      --text-muted: #9AA0A6;
+      --accent: #E07A5F;
+      --accent-hover: #D06A4F;
+      --accent-light: #FEF5F3;
+      --highlight: #FEF3C7;
+      --highlight-strong: #FDE68A;
+      --success: #34A853;
+      --success-light: #E6F4EA;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; }
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--background); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
-    /* Sticky Header */
-    .header { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 16px 24px; }
-    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-    .logo-sanskrit { color: var(--accent); font-size: 1.1rem; }
-    .nav { display: flex; align-items: center; gap: 32px; }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--text-primary); }
-    .nav-cta { display: flex; gap: 12px; align-items: center; }
-    .btn-secondary { padding: 10px 20px; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: color 0.2s; }
-    .btn-secondary:hover { color: var(--text-primary); }
-    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-size: 0.95rem; font-weight: 500; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
-    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    /* Floating Circles Animation */
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: float 20s ease-in-out infinite;
+    }
+    .circle-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); top: -100px; right: 10%; animation-delay: 0s; }
+    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #FEF5F3 0%, #FECACA 100%); bottom: 20%; left: 5%; animation-delay: -5s; }
+    .circle-3 { width: 150px; height: 150px; background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%); top: 30%; right: 5%; animation-delay: -10s; }
+    .circle-4 { width: 100px; height: 100px; background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); bottom: 10%; right: 20%; animation-delay: -15s; }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(20px, -20px) rotate(5deg); }
+      50% { transform: translate(-10px, 20px) rotate(-5deg); }
+      75% { transform: translate(-20px, -10px) rotate(3deg); }
+    }
+
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); padding: 0 32px; height: 72px; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--text-navy); text-decoration: none; letter-spacing: -0.03em; }
+    .logo span { font-weight: 500; color: var(--text-secondary); }
+    .nav { display: flex; align-items: center; gap: 8px; }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; padding: 10px 16px; border-radius: 8px; transition: all 0.2s; position: relative; }
+    .nav-links a:hover { color: var(--text-primary); background: var(--surface); }
+    .nav-links a::after { content: ''; position: absolute; bottom: 6px; left: 16px; right: 16px; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 0.2s; }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .header-search { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0 14px; margin: 0 20px; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .header-search:focus-within { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 4px rgba(224, 122, 95, 0.1); }
+    .header-search input { border: none; background: transparent; padding: 10px 10px; font-size: 0.95rem; width: 220px; outline: none; color: var(--text-primary); font-family: inherit; }
+    .header-search input::placeholder { color: var(--text-muted); }
+    .header-search svg { width: 18px; height: 18px; color: var(--text-muted); }
+    .nav-cta { display: flex; gap: 10px; align-items: center; margin-left: 12px; }
+    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-size: 0.95rem; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
+    .btn-ghost:hover { color: var(--text-primary); background: var(--surface); }
+    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-size: 0.95rem; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; box-shadow: 0 2px 8px rgba(224, 122, 95, 0.3); }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(224, 122, 95, 0.4); }
 
     /* Hero Section */
-    .hero { background: var(--surface); padding: 100px 24px 80px; text-align: center; border-bottom: 1px solid var(--border); }
-    .hero h1 { font-size: 3.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 20px; letter-spacing: -0.03em; line-height: 1.15; max-width: 800px; margin-left: auto; margin-right: auto; }
-    .hero-subtitle { color: var(--text-secondary); font-size: 1.25rem; margin-bottom: 48px; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.7; }
-    .search-container { max-width: 680px; margin: 0 auto 40px; }
-    .search-box { display: flex; gap: 12px; background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 8px; transition: all 0.2s; }
-    .search-box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(217, 119, 86, 0.1); }
-    .search-box input { flex: 1; padding: 14px 18px; font-size: 1.05rem; border: none; background: transparent; color: var(--text-primary); outline: none; }
+    .hero { background: var(--background); padding: 100px 32px 80px; text-align: center; position: relative; overflow: hidden; }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-size: 3.5rem; font-weight: 800; color: var(--text-navy); margin-bottom: 20px; letter-spacing: -0.04em; line-height: 1.1; max-width: 800px; margin-left: auto; margin-right: auto; }
+    .hero h1 .highlight { background: linear-gradient(120deg, var(--highlight) 0%, var(--highlight-strong) 100%); padding: 0 8px; margin: 0 -4px; border-radius: 4px; }
+    @media (max-width: 768px) { .hero h1 { font-size: 2.25rem; } }
+    @media (max-width: 480px) { .hero h1 { font-size: 1.75rem; } }
+    .hero-subtitle { color: var(--text-secondary); font-size: 1.25rem; margin-bottom: 48px; max-width: 580px; margin-left: auto; margin-right: auto; line-height: 1.6; font-weight: 400; }
+    .search-container { max-width: 620px; margin: 0 auto 36px; }
+    .search-box { display: flex; gap: 0; background: var(--surface); border: 2px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .search-box:focus-within { border-color: var(--accent); box-shadow: 0 4px 24px rgba(224, 122, 95, 0.15); }
+    .search-box input { flex: 1; padding: 18px 24px; font-size: 1.05rem; border: none; background: transparent; color: var(--text-primary); outline: none; font-family: inherit; }
     .search-box input::placeholder { color: var(--text-muted); }
-    .search-box button { padding: 14px 32px; font-size: 1rem; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; white-space: nowrap; }
+    .search-box button { padding: 18px 32px; font-size: 1rem; background: var(--accent); color: white; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s; }
     .search-box button:hover { background: var(--accent-hover); }
     .quick-examples { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-    .quick-examples span { color: var(--text-muted); font-size: 0.9rem; }
-    .quick-pill { padding: 8px 16px; background: var(--accent-light); color: var(--accent); text-decoration: none; border-radius: 20px; font-size: 0.9rem; font-weight: 500; transition: all 0.2s; border: 1px solid transparent; }
-    .quick-pill:hover { background: var(--accent); color: white; transform: translateY(-1px); }
+    .quick-pill { padding: 8px 18px; background: var(--surface); color: var(--text-secondary); text-decoration: none; border-radius: 20px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .quick-pill:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(224, 122, 95, 0.25); }
 
-    /* Credibility Bar */
-    .credibility { background: var(--background); border-bottom: 1px solid var(--border); padding: 28px 24px; }
-    .credibility-inner { max-width: 1000px; margin: 0 auto; display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
-    .cred-sources { display: flex; align-items: center; gap: 24px; }
-    .cred-label { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-    .cred-logos { display: flex; gap: 20px; color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
-    .cred-divider { width: 1px; height: 30px; background: var(--border); }
-    .cred-stats { display: flex; gap: 32px; }
-    .cred-stat { text-align: center; }
-    .cred-stat-value { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
-    .cred-stat-label { font-size: 0.8rem; color: var(--text-muted); }
+    /* Stats Bar */
+    .stats-bar { background: var(--surface-alt); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 28px 32px; }
+    .stats-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: center; gap: 64px; flex-wrap: wrap; }
+    .stat-item { text-align: center; }
+    .stat-value { font-size: 2rem; font-weight: 800; color: var(--text-navy); letter-spacing: -0.02em; }
+    .stat-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+    /* Categories Section */
+    .categories { padding: 80px 32px; background: var(--background); }
+    .categories-inner { max-width: 1040px; margin: 0 auto; }
+    .categories-header { text-align: center; margin-bottom: 56px; }
+    .categories-header h2 { font-size: 2rem; font-weight: 800; color: var(--text-navy); margin-bottom: 12px; letter-spacing: -0.02em; }
+    .categories-header p { color: var(--text-secondary); font-size: 1.1rem; }
+    .categories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    @media (max-width: 768px) { .categories-grid { grid-template-columns: 1fr; } }
+    .category-card { background: var(--surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); transition: all 0.25s; }
+    .category-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-color: var(--border); }
+    .category-card h3 { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
+    .category-list { display: flex; flex-direction: column; gap: 10px; }
+    .category-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--surface-alt); border: 1px solid var(--border-light); border-radius: 10px; text-decoration: none; color: var(--text-primary); font-size: 0.95rem; font-weight: 600; transition: all 0.2s; }
+    .category-item:hover { border-color: var(--accent); background: var(--accent-light); transform: translateX(4px); }
+    .category-item .count { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; }
 
     /* Features Section */
-    .features { padding: 80px 24px; background: var(--surface); }
-    .features-inner { max-width: 1100px; margin: 0 auto; }
-    .section-header { text-align: center; margin-bottom: 56px; }
-    .section-header h2 { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
-    .section-header p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
-    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-    @media (max-width: 900px) { .features-grid { grid-template-columns: 1fr; } }
-    .feature-card { background: var(--background); border: 1px solid var(--border); border-radius: 16px; padding: 36px 28px; transition: all 0.3s; }
-    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: var(--accent); }
-    .feature-icon { width: 56px; height: 56px; background: var(--accent-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
-    .feature-card h3 { font-size: 1.2rem; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
-    .feature-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; margin-bottom: 20px; }
-    .feature-link { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+    .features { padding: 80px 32px; background: var(--surface-alt); }
+    .features-inner { max-width: 1040px; margin: 0 auto; }
+    .features-header { text-align: center; margin-bottom: 56px; }
+    .features-header h2 { font-size: 2rem; font-weight: 800; color: var(--text-navy); margin-bottom: 12px; letter-spacing: -0.02em; }
+    .features-header p { color: var(--text-secondary); font-size: 1.1rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 768px) { .features-grid { grid-template-columns: 1fr; } }
+    .feature-card { background: var(--surface); border: 1px solid var(--border-light); border-radius: 16px; padding: 32px 28px; transition: all 0.25s; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .feature-card:hover { border-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.08); transform: translateY(-4px); }
+    .feature-icon { width: 52px; height: 52px; background: linear-gradient(135deg, var(--accent-light) 0%, #FEE2E2 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+    .feature-card h3 { font-size: 1.15rem; font-weight: 700; color: var(--text-navy); margin-bottom: 10px; }
+    .feature-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.65; margin-bottom: 20px; }
+    .feature-link { color: var(--accent); font-weight: 700; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
     .feature-link:hover { gap: 10px; }
 
-    /* Example Output Section */
-    .example { padding: 80px 24px; background: var(--background); }
-    .example-inner { max-width: 1100px; margin: 0 auto; }
-    .example-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-    @media (max-width: 900px) { .example-content { grid-template-columns: 1fr; } }
-    .example-text h2 { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 20px; }
-    .example-text p { color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 28px; }
-    .example-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
-    .example-feature { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: var(--text-primary); }
-    .example-feature .check { color: var(--success); font-weight: 600; }
-    .example-cta { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; background: var(--accent); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 1rem; transition: all 0.2s; }
-    .example-cta:hover { background: var(--accent-hover); transform: translateY(-2px); }
-    .example-preview { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
-    .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-    .preview-title { font-weight: 600; color: var(--text-primary); }
-    .preview-badge { padding: 4px 12px; background: var(--success-light); color: var(--success); border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
-    .preview-card { background: var(--background); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
-    .preview-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-    .preview-drug-name { font-weight: 600; color: var(--text-primary); font-size: 0.95rem; }
-    .preview-phase { padding: 3px 10px; background: var(--success-light); color: var(--success); border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
-    .preview-codes { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
-    .preview-meta { display: flex; gap: 8px; flex-wrap: wrap; }
-    .preview-pill { padding: 3px 10px; background: var(--accent-light); color: var(--accent); border-radius: 8px; font-size: 0.75rem; font-weight: 500; }
-
     /* Pharma Section */
-    .pharma { padding: 60px 24px; background: var(--surface); border-top: 1px solid var(--border); }
-    .pharma-inner { max-width: 900px; margin: 0 auto; text-align: center; }
-    .pharma h3 { font-size: 1.1rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 24px; }
+    .pharma { padding: 64px 32px; background: var(--background); border-top: 1px solid var(--border-light); }
+    .pharma-inner { max-width: 960px; margin: 0 auto; text-align: center; }
+    .pharma h3 { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.8px; }
     .pharma-grid { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-    .pharma-chip { padding: 12px 24px; background: var(--background); border: 1px solid var(--border); border-radius: 10px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: all 0.2s; }
-    .pharma-chip:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); }
+    .pharma-chip { padding: 12px 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 600; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .pharma-chip:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(224, 122, 95, 0.25); }
 
     /* Footer */
-    .footer { background: var(--text-primary); color: #A8A7A5; padding: 64px 24px 40px; }
-    .footer-inner { max-width: 1100px; margin: 0 auto; }
+    .footer { background: var(--text-navy); color: #9AA0A6; padding: 64px 32px 40px; }
+    .footer-inner { max-width: 1040px; margin: 0 auto; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-    .footer-brand h4 { color: white; font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    .footer-brand h4 { color: white; font-size: 1.4rem; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .footer-brand h4 span { font-weight: 500; opacity: 0.7; }
     .footer-brand p { font-size: 0.95rem; line-height: 1.6; max-width: 280px; }
-    .footer-col h5 { color: white; font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .footer-col a { display: block; color: #A8A7A5; text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: color 0.2s; }
+    .footer-col h5 { color: white; font-size: 0.8rem; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.8px; }
+    .footer-col a { display: block; color: #9AA0A6; text-decoration: none; font-size: 0.95rem; margin-bottom: 10px; transition: color 0.2s; }
     .footer-col a:hover { color: white; }
-    .footer-bottom { padding-top: 32px; border-top: 1px solid #333; text-align: center; font-size: 0.85rem; }
+    .footer-bottom { padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.85rem; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .header { padding: 0 20px; height: 64px; }
+      .header-search { display: none; }
+      .nav-links { display: none; }
+      .hero { padding: 64px 20px 56px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1.05rem; }
+      .search-box input { padding: 14px 18px; font-size: 0.95rem; }
+      .search-box button { padding: 14px 20px; font-size: 0.9rem; }
+      .stats-inner { gap: 32px; }
+      .stat-value { font-size: 1.5rem; }
+      .categories, .features { padding: 56px 20px; }
+    }
   </style>
 </head>
 <body>
-  <!-- Sticky Header -->
+  <!-- Header -->
   <header class="header">
     <div class="header-inner">
-      <a href="/" class="logo">
-        <span class="logo-sanskrit">सत्य</span> Satya Bio
-      </a>
+      <a href="/" class="logo">Satya<span>Bio</span></a>
       <nav class="nav">
         <div class="nav-links">
-          <a href="#features">Features</a>
+          <a href="#categories">Targets</a>
           <a href="#pharma">Companies</a>
-          <a href="/api/report/target/B7-H3/html">Example Report</a>
+          <a href="#features">Research</a>
+          <a href="#">About</a>
         </div>
+        <form class="header-search" onsubmit="event.preventDefault(); const q = this.querySelector('input').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <input type="text" placeholder="Search targets...">
+        </form>
         <div class="nav-cta">
-          <a href="#" class="btn-secondary">Log in</a>
-          <a href="#" class="btn-primary">Try Free</a>
+          <a href="#" class="btn-ghost">Log in</a>
+          <a href="#" class="btn-primary">Get Started</a>
         </div>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hero">
-    <h1>Biotech Intelligence<br>in Seconds</h1>
-    <p class="hero-subtitle">Comprehensive competitive landscapes, pipeline tracking, and deal intelligence — powered by real-time data from trusted sources.</p>
-
-    <div class="search-container">
-      <form class="search-box" onsubmit="event.preventDefault(); const q = document.getElementById('target-search').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
-        <input type="text" id="target-search" placeholder="Search any target: B7-H3, TL1A, GLP-1...">
-        <button type="submit">Generate Report</button>
-      </form>
+    <div class="hero-bg">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="circle circle-4"></div>
     </div>
+    <div class="hero-content">
+      <h1>Make <span class="highlight">confident</span> investment decisions, from screening to <span class="highlight">deep diligence</span></h1>
+      <p class="hero-subtitle">Explore, compare, and evaluate drug pipelines with institutional-grade intelligence.</p>
 
-    <div class="quick-examples">
-      <span>Try:</span>
-      <a href="/api/report/target/B7-H3/html" class="quick-pill">B7-H3 ADCs</a>
-      <a href="/api/report/target/TL1A/html" class="quick-pill">TL1A Inhibitors</a>
-      <a href="/api/report/target/GLP-1/html" class="quick-pill">GLP-1 Agonists</a>
-      <a href="/api/report/target/KRAS/html" class="quick-pill">KRAS Inhibitors</a>
-    </div>
-  </section>
-
-  <!-- Credibility Bar -->
-  <section class="credibility">
-    <div class="credibility-inner">
-      <div class="cred-sources">
-        <span class="cred-label">Data from</span>
-        <div class="cred-logos">
-          <span>ClinicalTrials.gov</span>
-          <span>•</span>
-          <span>PubMed</span>
-          <span>•</span>
-          <span>SEC EDGAR</span>
-          <span>•</span>
-          <span>FDA</span>
-        </div>
+      <div class="search-container">
+        <form class="search-box" onsubmit="event.preventDefault(); const q = document.getElementById('target-search').value; if(q) window.location.href = '/api/report/target/' + encodeURIComponent(q) + '/html';">
+          <input type="text" id="target-search" placeholder="Search any target: TL1A, B7-H3, KRAS, GLP-1...">
+          <button type="submit">Search</button>
+        </form>
       </div>
-      <div class="cred-divider"></div>
-      <div class="cred-stats">
-        <div class="cred-stat">
-          <div class="cred-stat-value">50,000+</div>
-          <div class="cred-stat-label">Trials indexed</div>
-        </div>
-        <div class="cred-stat">
-          <div class="cred-stat-value">13</div>
-          <div class="cred-stat-label">Major pharma tracked</div>
-        </div>
-        <div class="cred-stat">
-          <div class="cred-stat-value">Daily</div>
-          <div class="cred-stat-label">Updates</div>
-        </div>
+
+      <div class="quick-examples">
+        <a href="/api/report/target/B7-H3/html" class="quick-pill">B7-H3</a>
+        <a href="/api/report/target/TL1A/html" class="quick-pill">TL1A</a>
+        <a href="/api/report/target/KRAS/html" class="quick-pill">KRAS</a>
+        <a href="/api/report/target/PCSK9/html" class="quick-pill">PCSK9</a>
+        <a href="/api/report/target/CD19/html" class="quick-pill">CD19</a>
+        <a href="/api/report/target/PD-1/html" class="quick-pill">PD-1</a>
       </div>
     </div>
   </section>
 
-  <!-- Features Section -->
+  <!-- Stats Bar -->
+  <section class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-value">500+</div>
+        <div class="stat-label">Assets tracked</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">50,000+</div>
+        <div class="stat-label">Clinical trials</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">$200B+</div>
+        <div class="stat-label">Deal value indexed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">Real-time</div>
+        <div class="stat-label">Data updates</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories" id="categories">
+    <div class="categories-inner">
+      <div class="categories-header">
+        <h2>Browse by Category</h2>
+        <p>Find investment opportunities across modalities, therapeutic areas, and company types.</p>
+      </div>
+
+      <div class="categories-grid">
+        <div class="category-card">
+          <h3>By Modality</h3>
+          <div class="category-list">
+            <a href="/api/report/target/B7-H3/html" class="category-item">ADCs <span class="count">23 assets</span></a>
+            <a href="/api/report/target/CD19/html" class="category-item">CAR-T <span class="count">18 assets</span></a>
+            <a href="/api/report/target/BCMA/html" class="category-item">Bispecifics <span class="count">31 assets</span></a>
+            <a href="/api/report/target/GLP-1/html" class="category-item">Small Molecules <span class="count">45 assets</span></a>
+          </div>
+        </div>
+
+        <div class="category-card">
+          <h3>By Therapeutic Area</h3>
+          <div class="category-list">
+            <a href="/api/report/target/KRAS/html" class="category-item">Oncology <span class="count">156 targets</span></a>
+            <a href="/api/report/target/TL1A/html" class="category-item">Immunology <span class="count">42 targets</span></a>
+            <a href="/api/report/target/PCSK9/html" class="category-item">Cardiovascular <span class="count">28 targets</span></a>
+            <a href="/api/report/target/GLP-1/html" class="category-item">Metabolic <span class="count">35 targets</span></a>
+          </div>
+        </div>
+
+        <div class="category-card">
+          <h3>By Company Type</h3>
+          <div class="category-list">
+            <a href="/api/pharma/MRK/html" class="category-item">Big Pharma <span class="count">13 companies</span></a>
+            <a href="/api/pharma/MRNA/html" class="category-item">US Biotech <span class="count">200+ companies</span></a>
+            <a href="/api/report/target/B7-H3/html" class="category-item">China Biotech <span class="count">50+ companies</span></a>
+            <a href="#" class="category-item">Academic <span class="count">Research only</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
   <section class="features" id="features">
     <div class="features-inner">
-      <div class="section-header">
-        <h2>Everything you need for biotech research</h2>
-        <p>From early target validation to late-stage deal tracking — all in one platform.</p>
+      <div class="features-header">
+        <h2>Built for Investment Professionals</h2>
+        <p>The tools you need for biotech due diligence, all in one place.</p>
       </div>
 
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">🎯</div>
           <h3>Target Landscapes</h3>
-          <p>Every asset, clinical trial, and publication for any target. See the complete competitive picture with deal terms and regulatory designations.</p>
-          <a href="/api/report/target/B7-H3/html" class="feature-link">Explore B7-H3 →</a>
+          <p>Complete competitive landscape for any target with deal terms, regulatory status, and clinical data.</p>
+          <a href="/api/report/target/B7-H3/html" class="feature-link">View example →</a>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">🏢</div>
-          <h3>Pharma Profiles</h3>
-          <p>Pipeline, upcoming catalysts, and BD strategy for the top 13 pharma companies. Understand their therapeutic focus and M&A appetite.</p>
+          <h3>Company Profiles</h3>
+          <p>Pipeline, catalysts, and BD strategy for the top pharma companies and biotechs.</p>
           <a href="/api/pharma/MRK/html" class="feature-link">View Merck →</a>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon">📊</div>
           <h3>Deal Intelligence</h3>
-          <p>Track M&A, licensing deals, and partnerships with disclosed deal values. See who's buying what and at what price.</p>
-          <a href="/api/report/target/B7-H3/html#assets" class="feature-link">Track deals →</a>
+          <p>M&A, licensing, and partnerships with disclosed values. Track who's buying what.</p>
+          <a href="/api/report/target/TL1A/html" class="feature-link">View TL1A deals →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Example Output Section -->
-  <section class="example">
-    <div class="example-inner">
-      <div class="example-content">
-        <div class="example-text">
-          <h2>See what you get</h2>
-          <p>Generate comprehensive intelligence reports in seconds. Every report includes curated assets with investment-grade data.</p>
-
-          <div class="example-features">
-            <div class="example-feature"><span class="check">✓</span> All assets identified</div>
-            <div class="example-feature"><span class="check">✓</span> Deal terms included</div>
-            <div class="example-feature"><span class="check">✓</span> Phase breakdown</div>
-            <div class="example-feature"><span class="check">✓</span> Regulatory status (BTD, ODD)</div>
-            <div class="example-feature"><span class="check">✓</span> Excel download</div>
-            <div class="example-feature"><span class="check">✓</span> Linked sources</div>
-          </div>
-
-          <a href="/api/report/target/B7-H3/html" class="example-cta">See Full B7-H3 Report →</a>
-        </div>
-
-        <div class="example-preview">
-          <div class="preview-header">
-            <span class="preview-title">B7-H3 Landscape</span>
-            <span class="preview-badge">23 Assets</span>
-          </div>
-
-          <div class="preview-card">
-            <div class="preview-card-header">
-              <span class="preview-drug-name">Ifinatamab deruxtecan</span>
-              <span class="preview-phase">Phase 3</span>
-            </div>
-            <div class="preview-codes">DS-7300, I-DXd</div>
-            <div class="preview-meta">
-              <span class="preview-pill">ADC</span>
-              <span class="preview-pill">$22B Merck deal</span>
-              <span class="preview-pill">BTD</span>
-            </div>
-          </div>
-
-          <div class="preview-card">
-            <div class="preview-card-header">
-              <span class="preview-drug-name">Risvutatug rezetecan</span>
-              <span class="preview-phase">Phase 3</span>
-            </div>
-            <div class="preview-codes">HS-20093, GSK4428859</div>
-            <div class="preview-meta">
-              <span class="preview-pill">ADC</span>
-              <span class="preview-pill">$1.7B GSK deal</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pharma Quick Access -->
+  <!-- Pharma -->
   <section class="pharma" id="pharma">
     <div class="pharma-inner">
-      <h3>Pharma Company Profiles</h3>
+      <h3>Company Profiles</h3>
       <div class="pharma-grid">
         <a href="/api/pharma/MRK/html" class="pharma-chip">Merck</a>
         <a href="/api/pharma/PFE/html" class="pharma-chip">Pfizer</a>
@@ -388,6 +421,9 @@ function startServer(port: number): void {
         <a href="/api/pharma/NVS/html" class="pharma-chip">Novartis</a>
         <a href="/api/pharma/AMGN/html" class="pharma-chip">Amgen</a>
         <a href="/api/pharma/GILD/html" class="pharma-chip">Gilead</a>
+        <a href="/api/pharma/RHHBY/html" class="pharma-chip">Roche</a>
+        <a href="/api/pharma/GSK/html" class="pharma-chip">GSK</a>
+        <a href="/api/pharma/SNY/html" class="pharma-chip">Sanofi</a>
       </div>
     </div>
   </section>
@@ -397,31 +433,30 @@ function startServer(port: number): void {
     <div class="footer-inner">
       <div class="footer-grid">
         <div class="footer-brand">
-          <h4><span style="color: var(--accent);">सत्य</span> Satya Bio</h4>
-          <p>Truth in Biotech Research. Real-time intelligence for biotech investors and strategy teams.</p>
+          <h4>Satya<span>Bio</span></h4>
+          <p>Institutional-grade biotech intelligence for investors and strategy teams.</p>
         </div>
         <div class="footer-col">
           <h5>Product</h5>
           <a href="#features">Features</a>
-          <a href="/api/report/target/B7-H3/html">Example Report</a>
-          <a href="#">API Access</a>
+          <a href="/api/report/target/B7-H3/html">Target Reports</a>
+          <a href="/api/pharma/MRK/html">Company Profiles</a>
         </div>
         <div class="footer-col">
-          <h5>Data Sources</h5>
+          <h5>Data</h5>
           <a href="https://clinicaltrials.gov" target="_blank">ClinicalTrials.gov</a>
           <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank">PubMed</a>
           <a href="https://www.sec.gov/edgar" target="_blank">SEC EDGAR</a>
-          <a href="https://www.fda.gov" target="_blank">FDA</a>
         </div>
         <div class="footer-col">
           <h5>Company</h5>
           <a href="#">About</a>
           <a href="#">Contact</a>
-          <a href="#">Twitter</a>
+          <a href="#">API Access</a>
         </div>
       </div>
       <div class="footer-bottom">
-        © 2024 Satya Bio. All rights reserved.
+        © 2026 Satya Bio. All rights reserved.
       </div>
     </div>
   </footer>
