@@ -1,13 +1,12 @@
-# Dependencies
+# Dependencies (will be installed fresh)
 node_modules
 
-# Source files (we only need dist)
-src/
-tsconfig.json
-
-# Environment files (secrets should be set in Railway)
+# Environment files (secrets should be set in Render)
 .env
 .env.*
+
+# Build output (will be created during build)
+dist/
 
 # Cache (will be created fresh in container)
 cache/
