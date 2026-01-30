@@ -77,6 +77,7 @@ export interface TargetAssetDatabase {
 }
 export declare const B7H3_DATABASE: TargetAssetDatabase;
 export declare const TL1A_DATABASE: TargetAssetDatabase;
+export declare const GLP1_DATABASE: TargetAssetDatabase;
 export declare const TARGET_DATABASES: Record<string, TargetAssetDatabase>;
 export interface InvestmentMetrics {
     totalCommitted: number;

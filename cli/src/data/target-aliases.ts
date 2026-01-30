@@ -221,6 +221,29 @@ export const TARGET_ALIASES: Record<string, TargetInfo> = {
       'IL-17 antibody',
     ],
   },
+
+  // ========== GLP-1 ==========
+  'GLP-1': {
+    officialName: 'GLP-1',
+    aliases: [
+      'GLP-1', 'GLP1', 'GLP-1R', 'GLP1R',
+      'glucagon-like peptide-1', 'glucagon-like peptide 1',
+      'incretin', 'GLP-1 receptor', 'GLP-1 agonist',
+    ],
+    geneSymbol: 'GLP1R',
+    uniprotId: 'P43220',
+    commonMechanisms: [
+      'GLP-1 agonist',
+      'GLP-1 receptor agonist',
+      'GLP-1R agonist',
+      'GLP-1 analog',
+      'incretin mimetic',
+      'dual GLP-1/GIP',
+      'triple agonist',
+      'GLP-1/GIP/glucagon',
+    ],
+    relatedTargets: ['GIP', 'GCGR', 'Amylin'],
+  },
 };
 
 // ============================================
