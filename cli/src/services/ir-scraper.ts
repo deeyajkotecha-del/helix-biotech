@@ -133,88 +133,97 @@ function generateDocumentId(url: string, title: string): string {
 
 /**
  * Scrape the download library page for documents
+ * Works with ARWR's NIR widget-based IR site structure
  */
 async function scrapeDownloadLibrary(config: IRSiteConfig): Promise<IRDocument[]> {
   const documents: IRDocument[] = [];
+  const seenIds = new Set<string>();
 
   if (!config.downloadLibraryPath) return documents;
 
-  let page = 1;
+  let page = 0;
   let hasMore = true;
 
   while (hasMore && page <= 10) { // Max 10 pages
     try {
-      const url = `${config.baseUrl}${config.downloadLibraryPath}${page > 1 ? `?page=${page}` : ''}`;
+      const url = `${config.baseUrl}${config.downloadLibraryPath}${page > 0 ? `?page=${page}` : ''}`;
       console.log(`[IR Scraper] Fetching download library page ${page}: ${url}`);
 
       const response = await axios.get(url, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; SatyaBio/1.0; +https://satyabio.com)',
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         },
-        timeout: 30000,
+        timeout: 60000,
       });
 
       const $ = cheerio.load(response.data);
       let foundDocs = 0;
 
-      // Look for download links
-      $('a[href*="/static-files/"]').each((_, el) => {
-        const href = $(el).attr('href') || '';
-        const fullUrl = href.startsWith('http') ? href : `${config.baseUrl}${href}`;
+      // ARWR uses table rows with specific NIR widget classes
+      $('tr').each((_, row) => {
+        const $row = $(row);
 
-        // Get the text content and surrounding context
-        let title = $(el).text().trim();
+        // Get date from NIR asset date field
+        const dateStr = $row.find('.field-nir-asset-date .field__item').first().text().trim();
 
-        // Look for title in parent elements
-        if (!title || title.length < 3) {
-          title = $(el).closest('tr, .download-item, .document-item, li')
-            .find('td:first, .title, .name, h3, h4')
-            .first()
-            .text()
-            .trim();
+        // Get title link from NIR asset title field
+        const $titleLink = $row.find('.field-nir-asset-title a[href*="/static-files/"]').first();
+        let href = $titleLink.attr('href') || '';
+        let title = $titleLink.text().trim();
+
+        // Fallback: look for any static-files link in the row
+        if (!href) {
+          const $anyLink = $row.find('a[href*="/static-files/"]').first();
+          href = $anyLink.attr('href') || '';
+          if (!title || title.length < 3) {
+            title = $anyLink.text().trim();
+          }
         }
 
-        // Look for date
-        let dateStr = '';
-        const row = $(el).closest('tr, .download-item, .document-item, li');
-        row.find('td, .date, time').each((_, dateEl) => {
-          const text = $(dateEl).text().trim();
-          if (/\d{4}/.test(text) && text.length < 30) {
-            dateStr = text;
-            return false;
+        // Skip generic titles like "View Presentation" or "PDF"
+        if (title && (title.toLowerCase() === 'view presentation' || title.toLowerCase() === 'pdf')) {
+          // Try to get a better title from the title attribute
+          const betterTitle = $row.find('a[href*="/static-files/"]').attr('title');
+          if (betterTitle) {
+            title = betterTitle.replace(/\.pdf$/i, '');
           }
-        });
+        }
 
-        // Look for file size
-        let fileSize = '';
-        row.find('td, .size, .file-size').each((_, sizeEl) => {
-          const text = $(sizeEl).text().trim();
-          if (/\d+\s*(KB|MB|GB)/i.test(text)) {
-            fileSize = text;
-            return false;
+        // Get file size
+        const fileSize = $row.find('.filesize').first().text().trim();
+
+        if (href && title && title.length > 3) {
+          const fullUrl = href.startsWith('http') ? href : `${config.baseUrl}${href}`;
+          const id = generateDocumentId(fullUrl, title);
+
+          if (!seenIds.has(id)) {
+            seenIds.add(id);
+            foundDocs++;
+            documents.push({
+              id,
+              title: title.replace(/\s+/g, ' ').trim(),
+              url: fullUrl,
+              date: dateStr || 'Unknown',
+              dateObj: parseDate(dateStr),
+              type: inferDocumentType(title, fullUrl),
+              fileSize,
+              fileSizeBytes: parseFileSize(fileSize),
+              category: 'download-library',
+            });
           }
-        });
-
-        if (title && fullUrl.includes('/static-files/')) {
-          foundDocs++;
-          documents.push({
-            id: generateDocumentId(fullUrl, title),
-            title,
-            url: fullUrl,
-            date: dateStr || 'Unknown',
-            dateObj: parseDate(dateStr),
-            type: inferDocumentType(title, fullUrl),
-            fileSize,
-            fileSizeBytes: parseFileSize(fileSize),
-            category: 'download-library',
-          });
         }
       });
 
       console.log(`[IR Scraper] Found ${foundDocs} documents on page ${page}`);
 
-      // Check for next page
-      hasMore = foundDocs > 0 && $('a[href*="page="]').length > 0;
+      // Check for next page - look for pagination links
+      const hasNextPage = $('a[href*="page="]').filter((_, el) => {
+        const pageNum = $(el).attr('href')?.match(/page=(\d+)/);
+        return !!(pageNum && parseInt(pageNum[1]) > page);
+      }).length > 0;
+
+      hasMore = foundDocs > 0 && hasNextPage;
       page++;
 
       // Rate limiting
@@ -229,75 +238,146 @@ async function scrapeDownloadLibrary(config: IRSiteConfig): Promise<IRDocument[]
 }
 
 /**
- * Scrape the events and presentations page
+ * Scrape a single year's events page
  */
-async function scrapeEventsPage(config: IRSiteConfig): Promise<IRDocument[]> {
+async function scrapeEventsPageForYear(config: IRSiteConfig, year: number): Promise<IRDocument[]> {
   const documents: IRDocument[] = [];
 
   try {
-    const url = `${config.baseUrl}${config.eventsPath}`;
-    console.log(`[IR Scraper] Fetching events page: ${url}`);
+    const url = `${config.baseUrl}${config.eventsPath}?year=${year}`;
+    console.log(`[IR Scraper] Fetching events for ${year}: ${url}`);
 
     const response = await axios.get(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; SatyaBio/1.0; +https://satyabio.com)',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Cache-Control': 'no-cache',
       },
-      timeout: 30000,
+      timeout: 60000,
+      maxRedirects: 5,
     });
 
     const $ = cheerio.load(response.data);
 
-    // Look for PDF links
-    $('a[href*=".pdf"], a[href*="/static-files/"]').each((_, el) => {
-      const href = $(el).attr('href') || '';
-      const fullUrl = href.startsWith('http') ? href : `${config.baseUrl}${href}`;
+    // Find all event items - ARWR uses nir-widget--event structure
+    $('.nir-widget--event, .module_item, .event-item, article').each((_, eventEl) => {
+      const $event = $(eventEl);
 
-      let title = $(el).text().trim();
-      if (!title || title.length < 3) {
-        title = $(el).attr('title') || $(el).attr('aria-label') || 'Untitled';
+      // Get event title/name
+      let eventName = $event.find('.nir-widget--field--title, .module_headline, .event-title, h3, h4').first().text().trim();
+
+      // Get date
+      let dateStr = $event.find('.nir-widget--field--date, .module_date, .date, time').first().text().trim();
+      if (!dateStr) {
+        // Try to extract date from text content
+        const eventText = $event.text();
+        const dateMatch = eventText.match(/(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}/i);
+        if (dateMatch) dateStr = dateMatch[0];
       }
 
-      // Get date from parent
+      // Find all PDF/document links within this event
+      $event.find('a[href*="/static-files/"], a[href*=".pdf"]').each((_, linkEl) => {
+        const $link = $(linkEl);
+        const href = $link.attr('href') || '';
+        if (!href) return;
+
+        const fullUrl = href.startsWith('http') ? href : `${config.baseUrl}${href}`;
+
+        // Get link text as title, or use event name
+        let title = $link.text().trim();
+        if (!title || title.length < 3 || title.toLowerCase() === 'pdf' || title.toLowerCase() === 'download') {
+          title = $link.attr('title') || $link.attr('aria-label') || eventName || 'Untitled';
+        }
+
+        // Clean up title
+        title = title.replace(/\s+/g, ' ').trim();
+
+        // Skip if we already have this URL
+        if (documents.some(d => d.url === fullUrl)) return;
+
+        documents.push({
+          id: generateDocumentId(fullUrl, title),
+          title,
+          url: fullUrl,
+          date: dateStr || `${year}`,
+          dateObj: parseDate(dateStr || `Jan 1, ${year}`),
+          type: inferDocumentType(title, fullUrl),
+          event: eventName !== title ? eventName : undefined,
+          category: 'events',
+        });
+      });
+    });
+
+    // Also look for standalone PDF links not in event containers
+    $('a[href*="/static-files/"], a[href*=".pdf"]').each((_, el) => {
+      const $link = $(el);
+      const href = $link.attr('href') || '';
+      if (!href) return;
+
+      const fullUrl = href.startsWith('http') ? href : `${config.baseUrl}${href}`;
+
+      // Skip if already found
+      if (documents.some(d => d.url === fullUrl)) return;
+
+      let title = $link.text().trim();
+      if (!title || title.length < 3) {
+        title = $link.attr('title') || $link.attr('aria-label') || 'Untitled';
+      }
+
+      // Try to find date from nearby elements
       let dateStr = '';
-      const parent = $(el).closest('.event-item, .presentation-item, tr, li, article');
-      parent.find('.date, time, .event-date').each((_, dateEl) => {
+      const parent = $link.closest('tr, li, div, .row');
+      parent.find('.date, time, td:contains("/"), td:contains(",")').each((_, dateEl) => {
         const text = $(dateEl).text().trim();
-        if (/\d{4}/.test(text)) {
+        if (/\d{4}/.test(text) && text.length < 30) {
           dateStr = text;
           return false;
         }
       });
 
-      // Get event name
-      let event = '';
-      parent.find('.event-name, .event-title, h3, h4').each((_, eventEl) => {
-        const text = $(eventEl).text().trim();
-        if (text && text !== title) {
-          event = text;
-          return false;
-        }
+      documents.push({
+        id: generateDocumentId(fullUrl, title),
+        title: title.replace(/\s+/g, ' ').trim(),
+        url: fullUrl,
+        date: dateStr || `${year}`,
+        dateObj: parseDate(dateStr || `Jan 1, ${year}`),
+        type: inferDocumentType(title, fullUrl),
+        category: 'events',
       });
-
-      if (fullUrl && !documents.some(d => d.url === fullUrl)) {
-        documents.push({
-          id: generateDocumentId(fullUrl, title),
-          title,
-          url: fullUrl,
-          date: dateStr || 'Unknown',
-          dateObj: parseDate(dateStr),
-          type: inferDocumentType(title, fullUrl),
-          event,
-          category: 'events',
-        });
-      }
     });
 
-    console.log(`[IR Scraper] Found ${documents.length} documents on events page`);
+    console.log(`[IR Scraper] Found ${documents.length} documents for ${year}`);
   } catch (error: any) {
-    console.error('[IR Scraper] Error scraping events page:', error.message);
+    console.error(`[IR Scraper] Error scraping ${year}:`, error.message);
   }
 
   return documents;
+}
+
+/**
+ * Scrape ALL years from events and presentations page
+ */
+async function scrapeEventsPage(config: IRSiteConfig): Promise<IRDocument[]> {
+  const allDocuments: IRDocument[] = [];
+  const currentYear = new Date().getFullYear();
+  const startYear = 2015; // Go back to 2015 to capture historical presentations
+
+  console.log(`[IR Scraper] Scraping events from ${startYear} to ${currentYear}...`);
+
+  // Scrape each year sequentially to avoid rate limiting
+  for (let year = currentYear; year >= startYear; year--) {
+    const yearDocs = await scrapeEventsPageForYear(config, year);
+    allDocuments.push(...yearDocs);
+
+    // Rate limiting between years
+    if (year > startYear) {
+      await new Promise(resolve => setTimeout(resolve, 800));
+    }
+  }
+
+  console.log(`[IR Scraper] Total events documents found: ${allDocuments.length}`);
+  return allDocuments;
 }
 
 // ============================================
@@ -378,4 +458,43 @@ export function getSupportedTickers(): string[] {
  */
 export function isTickerSupported(ticker: string): boolean {
   return ticker.toUpperCase() in IR_CONFIGS;
+}
+
+/**
+ * Scrape ALL presentations for a company (convenience function)
+ */
+export async function scrapeAllPresentations(ticker: string): Promise<{
+  ticker: string;
+  totalPresentations: number;
+  presentations: IRDocument[];
+  byYear: Record<string, number>;
+  byType: Record<string, number>;
+}> {
+  const result = await scrapeIRDocuments(ticker);
+
+  // Filter to just presentations (exclude webcasts, SEC filings)
+  const presentations = result.documents.filter(
+    d => d.type === 'presentation' || d.type === 'poster' || d.url.includes('/static-files/')
+  );
+
+  // Count by year
+  const byYear: Record<string, number> = {};
+  for (const doc of presentations) {
+    const year = doc.dateObj.getFullYear().toString();
+    byYear[year] = (byYear[year] || 0) + 1;
+  }
+
+  // Count by type
+  const byType: Record<string, number> = {};
+  for (const doc of presentations) {
+    byType[doc.type] = (byType[doc.type] || 0) + 1;
+  }
+
+  return {
+    ticker: ticker.toUpperCase(),
+    totalPresentations: presentations.length,
+    presentations,
+    byYear,
+    byType,
+  };
 }
