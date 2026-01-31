@@ -1717,37 +1717,37 @@ function startServer(port: number): void {
       <div class="filter-section">
         <h3>By Therapeutic Area</h3>
         <div class="filter-options">
-          <label class="filter-option" data-filter="oncology" onclick="toggleFilter(this)">
+          <label class="filter-option" data-filter="oncology" >
             <input type="checkbox" value="oncology">
             <span class="filter-checkbox"></span>
             Oncology
             <span class="filter-count">8</span>
           </label>
-          <label class="filter-option" data-filter="immunology" onclick="toggleFilter(this)">
+          <label class="filter-option" data-filter="immunology" >
             <input type="checkbox" value="immunology">
             <span class="filter-checkbox"></span>
             Immunology
             <span class="filter-count">5</span>
           </label>
-          <label class="filter-option" data-filter="cardiovascular" onclick="toggleFilter(this)">
+          <label class="filter-option" data-filter="cardiovascular" >
             <input type="checkbox" value="cardiovascular">
             <span class="filter-checkbox"></span>
             Cardiovascular
             <span class="filter-count">1</span>
           </label>
-          <label class="filter-option" data-filter="neuropsychiatry" onclick="toggleFilter(this)">
+          <label class="filter-option" data-filter="neuropsychiatry" >
             <input type="checkbox" value="neuropsychiatry">
             <span class="filter-checkbox"></span>
             Neuropsychiatry
             <span class="filter-count">2</span>
           </label>
-          <label class="filter-option" data-filter="metabolic" onclick="toggleFilter(this)">
+          <label class="filter-option" data-filter="metabolic" >
             <input type="checkbox" value="metabolic">
             <span class="filter-checkbox"></span>
             Metabolic
             <span class="filter-count">1</span>
           </label>
-          <label class="filter-option" data-filter="rare" onclick="toggleFilter(this)">
+          <label class="filter-option" data-filter="rare" >
             <input type="checkbox" value="rare">
             <span class="filter-checkbox"></span>
             Rare Disease
@@ -2119,13 +2119,16 @@ function startServer(port: number): void {
 
   <script>
     const activeFilters = new Set();
-    function toggleFilter(el) {
+
+    function toggleFilter(el, event) {
+      if (event) event.preventDefault();
       el.classList.toggle('active');
       const f = el.dataset.filter;
       if (el.classList.contains('active')) activeFilters.add(f);
       else activeFilters.delete(f);
       applyFilters();
     }
+
     function applyFilters() {
       const cards = document.querySelectorAll('.target-card');
       const q = document.getElementById('target-search').value.toLowerCase();
@@ -2140,13 +2143,27 @@ function startServer(port: number): void {
       });
       document.getElementById('targets-count').textContent = 'Showing ' + count + ' targets';
     }
+
     function filterTargets() { applyFilters(); }
+
+    // Initialize filter click handlers
+    document.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        e.preventDefault();
+        option.classList.toggle('active');
+        const f = option.dataset.filter;
+        if (option.classList.contains('active')) activeFilters.add(f);
+        else activeFilters.delete(f);
+        applyFilters();
+      });
+    });
+
     document.getElementById('target-search').addEventListener('input', applyFilters);
 
     // Make target cards clickable
     document.querySelectorAll('.target-card').forEach(card => {
       card.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') return; // Don't interfere with existing links
+        if (e.target.tagName === 'A') return;
         const targetName = card.querySelector('.target-name')?.textContent;
         if (targetName) {
           window.location.href = '/api/report/target/' + encodeURIComponent(targetName) + '/html';
