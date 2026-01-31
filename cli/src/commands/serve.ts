@@ -87,7 +87,7 @@ function startServer(port: number): void {
   // Homepage - Satya Bio (Professional SaaS Landing Page)
   app.get('/', (_req: Request, res: Response) => {
     const today = new Date();
-    const lastUpdated = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const lastUpdated = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/New_York' });
 
     res.send(`<!DOCTYPE html>
 <html lang="en">
@@ -509,7 +509,7 @@ function startServer(port: number): void {
       <p class="hero-subtitle">Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals</p>
       <div class="hero-search">
         <svg class="hero-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-        <input type="text" placeholder="Search targets, companies, or therapeutic areas..." onfocus="window.location.href='/companies'">
+        <input type="text" placeholder="Search targets, companies, or therapeutic areas..." onfocus="window.location.href='/targets'">
       </div>
       <div class="hero-updated">Data updated <span>${lastUpdated}</span></div>
     </div>
