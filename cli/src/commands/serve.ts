@@ -859,7 +859,7 @@ function startServer(port: number): void {
 
     // Company card generator function
     const companyCard = (ticker: string, name: string, platform: string, description: string, marketCap: string, pipeline: string, phase3: string, approved: string, catalyst: string, tags: string[]) => `
-        <div class="company-card">
+        <a href="/api/company/${ticker}/html" class="company-card">
           <div class="card-header">
             <div>
               <div class="card-ticker-row">
@@ -883,8 +883,8 @@ function startServer(port: number): void {
           <div class="tags-row">
             ${tags.map(t => `<span class="tag">${t}</span>`).join('')}
           </div>
-          <a href="/api/company/${ticker}/html" class="view-btn">View Company</a>
-        </div>`;
+          <span class="view-btn">View Company</span>
+        </a>`;
 
     res.send(`<!DOCTYPE html>
 <html lang="en">
@@ -1016,7 +1016,7 @@ function startServer(port: number): void {
     .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
 
     /* Company Card */
-    .company-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.2s; }
+    .company-card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.2s; cursor: pointer; }
     .company-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
     .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
@@ -1612,7 +1612,7 @@ function startServer(port: number): void {
     .targets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
 
     /* Target Card */
-    .target-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.25s; display: flex; flex-direction: column; }
+    .target-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.25s; display: flex; flex-direction: column; cursor: pointer; }
     .target-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: var(--accent); }
     .target-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
     .target-name { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--primary); }
@@ -2142,6 +2142,17 @@ function startServer(port: number): void {
     }
     function filterTargets() { applyFilters(); }
     document.getElementById('target-search').addEventListener('input', applyFilters);
+
+    // Make target cards clickable
+    document.querySelectorAll('.target-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') return; // Don't interfere with existing links
+        const targetName = card.querySelector('.target-name')?.textContent;
+        if (targetName) {
+          window.location.href = '/api/report/target/' + encodeURIComponent(targetName) + '/html';
+        }
+      });
+    });
   </script>
 </body>
 </html>`);
