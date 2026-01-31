@@ -34,6 +34,7 @@ import { scrapeIRDocuments, isTickerSupported, getSupportedTickers } from '../se
 import { FEATURED_COMPANIES, CompanyData, Catalyst } from '../types/company';
 import { getNextCatalyst, getPastCatalysts, getUpcomingCatalysts, formatCatalystDateShort, getCatalystDisplayText } from '../utils/catalyst-utils';
 import { downloadAllDocuments, getDownloadedDocuments } from '../services/pdf-downloader';
+import { findKOLsCached, KOL, findEmailBySearch } from '../services/kol-finder';
 
 // Cache directory for analysis results
 const CACHE_DIR = path.resolve(__dirname, '..', '..', 'cache');
@@ -765,8 +766,7 @@ function startServer(port: number): void {
         <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
-        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
+                <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
@@ -1069,8 +1069,7 @@ function startServer(port: number): void {
         <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
-        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
+                <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
@@ -1686,8 +1685,7 @@ function startServer(port: number): void {
         <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
-        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
+                <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
@@ -2145,6 +2143,463 @@ function startServer(port: number): void {
 </html>`);
   });
 
+  // KOL Finder Page
+  app.get('/kols', (_req: Request, res: Response) => {
+    res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOL Finder | Satya Bio</title>
+  <meta name="description" content="Find Key Opinion Leaders by target, disease, or therapeutic area.">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a2b3c;
+      --primary-light: #2d4a5e;
+      --accent: #e07a5f;
+      --accent-hover: #d06a4f;
+      --accent-light: #fef5f3;
+      --highlight: #fef08a;
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --border: #e5e5e0;
+      --border-light: #eeeeea;
+      --text: #1a1d21;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+      --success: #10b981;
+      --info: #3b82f6;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Header */
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 72px; position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+    .nav-cta { display: flex; gap: 12px; }
+    .btn-ghost { padding: 10px 18px; color: var(--text-secondary); font-weight: 600; text-decoration: none; }
+    .btn-primary { padding: 10px 22px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--accent-hover); }
+
+    /* Hero */
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); padding: 60px 32px 80px; text-align: center; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; }
+    .circle { position: absolute; border-radius: 50%; opacity: 0.1; }
+    .circle-1 { width: 300px; height: 300px; background: linear-gradient(135deg, #fef08a 0%, #fde68a 100%); top: -100px; right: 10%; }
+    .circle-2 { width: 200px; height: 200px; background: linear-gradient(135deg, #fef5f3 0%, #fecaca 100%); bottom: -80px; left: 5%; }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: 2.8rem; font-weight: 700; color: white; margin-bottom: 12px; }
+    .hero p { color: rgba(255,255,255,0.85); font-size: 1.15rem; max-width: 700px; margin: 0 auto 32px; }
+
+    /* Search Box */
+    .search-container { max-width: 700px; margin: 0 auto; }
+    .search-box { display: flex; background: var(--surface); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.15); }
+    .search-box input { flex: 1; padding: 18px 24px; font-size: 1.05rem; border: none; outline: none; font-family: inherit; }
+    .search-box input::placeholder { color: var(--text-muted); }
+    .search-box button { padding: 18px 32px; background: var(--accent); color: white; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .search-box button:hover { background: var(--accent-hover); }
+    .search-box button:disabled { background: var(--text-muted); cursor: not-allowed; }
+    .search-hint { color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-top: 12px; }
+    .search-hint span { background: rgba(255,255,255,0.15); padding: 3px 10px; border-radius: 12px; margin: 0 4px; cursor: pointer; transition: background 0.2s; }
+    .search-hint span:hover { background: rgba(255,255,255,0.25); }
+
+    /* Main Layout */
+    .main { max-width: 1400px; margin: 0 auto; padding: 40px 32px; display: grid; grid-template-columns: 260px 1fr; gap: 40px; }
+    @media (max-width: 968px) { .main { grid-template-columns: 1fr; } }
+
+    /* Sidebar Filters */
+    .sidebar { position: sticky; top: 112px; height: fit-content; }
+    .filter-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+    .filter-section h3 { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 16px; }
+    .filter-options { display: flex; flex-direction: column; gap: 6px; }
+    .filter-option { display: flex; align-items: center; padding: 10px 12px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem; }
+    .filter-option:hover { border-color: var(--accent); background: var(--accent-light); }
+    .filter-option.active { border-color: var(--accent); background: var(--accent-light); }
+    .filter-option input[type="radio"] { margin-right: 10px; accent-color: var(--accent); }
+    select.filter-select { width: 100%; padding: 12px; font-size: 0.9rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); cursor: pointer; font-family: inherit; }
+    select.filter-select:focus { outline: none; border-color: var(--accent); }
+
+    /* Results Section */
+    .results-section h2 { font-family: 'Fraunces', serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 8px; }
+    .results-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+    .search-time { background: var(--border-light); padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; }
+
+    /* Loading State */
+    .loading { text-align: center; padding: 60px; color: var(--text-muted); }
+    .loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Empty State */
+    .empty-state { text-align: center; padding: 80px 40px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; }
+    .empty-state h3 { font-family: 'Fraunces', serif; font-size: 1.3rem; color: var(--primary); margin-bottom: 12px; }
+    .empty-state p { color: var(--text-muted); max-width: 400px; margin: 0 auto; }
+
+    /* Results Table */
+    .results-table { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .table-wrapper { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    thead { background: var(--bg); }
+    th { padding: 14px 16px; text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: 16px; border-bottom: 1px solid var(--border-light); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: var(--bg); }
+
+    .kol-name { font-weight: 600; color: var(--primary); cursor: pointer; }
+    .kol-name:hover { color: var(--accent); text-decoration: underline; }
+    .institution { color: var(--text-secondary); font-size: 0.85rem; max-width: 250px; }
+    .country-badge { display: inline-block; padding: 3px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+    .country-US { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    .country-CN { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+    .country-UK { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+    .country-DE { background: #fefce8; border-color: #fef08a; color: #a16207; }
+    .country-FR { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    .country-JP { background: #fdf2f8; border-color: #fbcfe8; color: #be185d; }
+    .email-link { color: var(--accent); text-decoration: none; font-size: 0.85rem; }
+    .email-link:hover { text-decoration: underline; }
+    .email-none { color: var(--text-muted); }
+    .count-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; padding: 4px 8px; background: var(--bg); border-radius: 8px; font-weight: 600; font-size: 0.85rem; }
+    .count-high { background: #dcfce7; color: #166534; }
+    .role-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+    .role-pi { background: #dbeafe; color: #1e40af; }
+    .role-author { background: #fef3c7; color: #92400e; }
+    .role-both { background: #dcfce7; color: #166534; }
+
+    /* Find Email Button */
+    .find-email-btn { padding: 4px 12px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .find-email-btn:hover { background: var(--accent-hover); }
+    .email-searching { color: var(--accent); font-style: italic; }
+
+    /* Expanded Details */
+    .kol-details { display: none; background: var(--bg); padding: 20px; border-top: 1px solid var(--border-light); }
+    .kol-details.show { display: block; }
+    .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 768px) { .details-grid { grid-template-columns: 1fr; } }
+    .details-section h4 { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .details-list { list-style: none; }
+    .details-list li { padding: 8px 0; border-bottom: 1px solid var(--border-light); font-size: 0.85rem; color: var(--text-secondary); }
+    .details-list li:last-child { border-bottom: none; }
+    .details-list a { color: var(--accent); text-decoration: none; }
+    .details-list a:hover { text-decoration: underline; }
+
+    /* Footer */
+    .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 24px 32px; text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 60px; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">Satya<span>Bio</span></a>
+      <nav class="nav-links">
+        <a href="/targets">Targets</a>
+        <a href="/companies">Companies</a>
+        <a href="/kols" class="active">KOL Finder</a>
+        <a href="/research">Research</a>
+        <a href="/about">About</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#" class="btn-primary">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+    </div>
+    <div class="hero-content">
+      <h1>KOL Finder</h1>
+      <p>Find Key Opinion Leaders by target, disease, or therapeutic area. Powered by PubMed and ClinicalTrials.gov.</p>
+      <div class="search-container">
+        <form class="search-box" id="search-form" onsubmit="searchKOLs(event)">
+          <input type="text" id="search-input" placeholder="Search by target, disease, or drug name..." autocomplete="off">
+          <button type="submit" id="search-btn">Search</button>
+        </form>
+        <div class="search-hint">
+          Try: <span onclick="setSearch('TL1A')">TL1A</span>
+          <span onclick="setSearch('ulcerative colitis')">ulcerative colitis</span>
+          <span onclick="setSearch('KRAS G12C')">KRAS G12C</span>
+          <span onclick="setSearch('CAR-T')">CAR-T</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main">
+    <aside class="sidebar">
+      <div class="filter-section">
+        <h3>Min. Publications</h3>
+        <select class="filter-select" id="filter-pubs" onchange="applyFilters()">
+          <option value="0">Any</option>
+          <option value="3">3+</option>
+          <option value="5">5+</option>
+          <option value="10">10+</option>
+        </select>
+      </div>
+      <div class="filter-section">
+        <h3>Role</h3>
+        <div class="filter-options">
+          <label class="filter-option">
+            <input type="radio" name="role" value="all" checked onchange="applyFilters()"> All
+          </label>
+          <label class="filter-option">
+            <input type="radio" name="role" value="pi" onchange="applyFilters()"> Clinical Trial PI
+          </label>
+          <label class="filter-option">
+            <input type="radio" name="role" value="author" onchange="applyFilters()"> Publication Author
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <section class="results-section">
+      <h2>Results</h2>
+      <div class="results-meta" id="results-meta">
+        <span id="results-count">Enter a search term to find KOLs</span>
+      </div>
+
+      <div id="results-container">
+        <div class="empty-state">
+          <h3>Search for Key Opinion Leaders</h3>
+          <p>Enter a target, disease, or drug name to find researchers and clinical trial investigators in that field.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Satya Bio - Biotech Intelligence for the Buy Side
+  </footer>
+
+  <script>
+    let allKOLs = [];
+    let currentQuery = '';
+
+    function setSearch(term) {
+      document.getElementById('search-input').value = term;
+      searchKOLs(new Event('submit'));
+    }
+
+    async function searchKOLs(e) {
+      e.preventDefault();
+      const query = document.getElementById('search-input').value.trim();
+      if (!query) return;
+
+      currentQuery = query;
+      const btn = document.getElementById('search-btn');
+      const container = document.getElementById('results-container');
+
+      btn.disabled = true;
+      btn.textContent = 'Searching...';
+      container.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>Searching PubMed and ClinicalTrials.gov...</p></div>';
+
+      try {
+        const minPubs = document.getElementById('filter-pubs').value;
+        const role = document.querySelector('input[name="role"]:checked').value;
+
+        const params = new URLSearchParams({
+          q: query,
+          minPubs: minPubs,
+          role: role
+        });
+
+        const response = await fetch('/api/kols?' + params);
+        const data = await response.json();
+
+        allKOLs = data.kols || [];
+        renderResults(data);
+      } catch (error) {
+        container.innerHTML = '<div class="empty-state"><h3>Error</h3><p>Failed to search. Please try again.</p></div>';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Search';
+      }
+    }
+
+    function applyFilters() {
+      if (!currentQuery) return;
+      searchKOLs(new Event('submit'));
+    }
+
+    function renderResults(data) {
+      const container = document.getElementById('results-container');
+      const meta = document.getElementById('results-meta');
+
+      if (!data.kols || data.kols.length === 0) {
+        container.innerHTML = '<div class="empty-state"><h3>No KOLs Found</h3><p>Try a different search term or adjust your filters.</p></div>';
+        meta.innerHTML = '<span id="results-count">No results found</span>';
+        return;
+      }
+
+      const searchTime = data.searchTime ? (data.searchTime / 1000).toFixed(1) : '?';
+      meta.innerHTML = \`
+        <span id="results-count">Found <strong>\${data.kols.length}</strong> KOLs for "\${escapeHtml(data.query)}"</span>
+        <span class="search-time">\${searchTime}s</span>
+      \`;
+
+      let html = '<div class="results-table"><div class="table-wrapper"><table>';
+      html += '<thead><tr><th>Name</th><th>Institution</th><th>Email</th><th>Pubs</th><th>Trials</th><th>Role</th></tr></thead>';
+      html += '<tbody>';
+
+      data.kols.forEach((kol, idx) => {
+        const pubClass = kol.publicationCount >= 5 ? 'count-high' : '';
+        const trialClass = kol.trialCount >= 3 ? 'count-high' : '';
+
+        let roleClass = 'role-author';
+        let roleText = 'Author';
+        if (kol.role === 'PI + Author') {
+          roleClass = 'role-both';
+          roleText = 'PI + Author';
+        } else if (kol.role === 'PI') {
+          roleClass = 'role-pi';
+          roleText = 'PI';
+        }
+
+        const emailCell = kol.email
+          ? '<a href="mailto:' + escapeHtml(kol.email) + '" class="email-link">' + escapeHtml(kol.email) + '</a>'
+          : '<button class="find-email-btn" onclick="findEmail(' + idx + ', \\'' + escapeHtml(kol.name).replace(/'/g, "\\\\'") + '\\', \\'' + escapeHtml(kol.institution || '').replace(/'/g, "\\\\'") + '\\')">Find</button>';
+
+        html += \`<tr>
+          <td><span class="kol-name" onclick="toggleDetails(\${idx})">\${escapeHtml(kol.name)}</span></td>
+          <td><span class="institution">\${escapeHtml(kol.institution || '—')}</span></td>
+          <td id="email-cell-\${idx}">\${emailCell}</td>
+          <td><span class="count-badge \${pubClass}">\${kol.publicationCount}</span></td>
+          <td><span class="count-badge \${trialClass}">\${kol.trialCount}</span></td>
+          <td><span class="role-badge \${roleClass}">\${roleText}</span></td>
+        </tr>\`;
+
+        // Details row
+        html += \`<tr class="kol-details-row"><td colspan="6">
+          <div class="kol-details" id="details-\${idx}">
+            <div class="details-grid">
+              <div class="details-section">
+                <h4>Publications (\${kol.publicationCount})</h4>
+                <ul class="details-list">\`;
+
+        if (kol.publications && kol.publications.length > 0) {
+          kol.publications.slice(0, 5).forEach(pub => {
+            html += \`<li><a href="https://pubmed.ncbi.nlm.nih.gov/\${pub.pmid}/" target="_blank">\${escapeHtml(truncate(pub.title, 80))}</a><br><small>\${escapeHtml(pub.journal)} (\${pub.year})</small></li>\`;
+          });
+        } else {
+          html += '<li>No publications found</li>';
+        }
+
+        html += \`</ul></div>
+              <div class="details-section">
+                <h4>Clinical Trials (\${kol.trialCount})</h4>
+                <ul class="details-list">\`;
+
+        if (kol.trials && kol.trials.length > 0) {
+          kol.trials.slice(0, 5).forEach(trial => {
+            html += \`<li><a href="https://clinicaltrials.gov/study/\${trial.nctId}" target="_blank">\${trial.nctId}</a>: \${escapeHtml(truncate(trial.title, 60))}<br><small>\${trial.phase} - \${trial.status}</small></li>\`;
+          });
+        } else {
+          html += '<li>No clinical trials found</li>';
+        }
+
+        html += '</ul></div></div></div></td></tr>';
+      });
+
+      html += '</tbody></table></div></div>';
+      container.innerHTML = html;
+    }
+
+    function toggleDetails(idx) {
+      const details = document.getElementById('details-' + idx);
+      if (details) {
+        details.classList.toggle('show');
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function truncate(str, len) {
+      if (!str) return '';
+      return str.length > len ? str.substring(0, len) + '...' : str;
+    }
+
+    async function findEmail(idx, name, institution) {
+      const cell = document.getElementById('email-cell-' + idx);
+      if (!cell) return;
+
+      cell.innerHTML = '<span class="email-searching">...</span>';
+
+      try {
+        const params = new URLSearchParams({ name, institution });
+        const response = await fetch('/api/kols/email?' + params);
+        const data = await response.json();
+
+        if (data.email) {
+          cell.innerHTML = '<a href="mailto:' + escapeHtml(data.email) + '" class="email-link">' + escapeHtml(data.email) + '</a>';
+          // Update the stored KOL data
+          if (allKOLs[idx]) {
+            allKOLs[idx].email = data.email;
+          }
+        } else {
+          cell.innerHTML = '<span class="email-none">Not found</span>';
+        }
+      } catch (error) {
+        cell.innerHTML = '<span class="email-none">Error</span>';
+      }
+    }
+  </script>
+</body>
+</html>`);
+  });
+
+  // KOL Finder API
+  app.get('/api/kols', async (req: Request, res: Response) => {
+    try {
+      const query = (req.query.q as string) || '';
+      const country = (req.query.country as string) || '';
+      const minPubs = parseInt((req.query.minPubs as string) || '0', 10);
+      const role = (req.query.role as string) || 'all';
+
+      if (!query) {
+        return res.json({ query: '', kols: [], totalKOLs: 0, searchTime: 0 });
+      }
+
+      const result = await findKOLsCached(query, {
+        country: country || undefined,
+        minPublications: minPubs,
+        roleFilter: role as 'all' | 'pi' | 'author',
+        maxResults: 50,
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error('KOL search error:', error);
+      res.status(500).json({ error: 'Failed to search KOLs' });
+    }
+  });
+
+  // KOL Email Finder API - search for a single KOL's email
+  app.get('/api/kols/email', async (req: Request, res: Response) => {
+    try {
+      const name = (req.query.name as string) || '';
+      const institution = (req.query.institution as string) || '';
+
+      if (!name) {
+        return res.status(400).json({ error: 'Name is required' });
+      }
+
+      const email = await findEmailBySearch(name, institution);
+      res.json({ name, institution, email });
+    } catch (error) {
+      console.error('Email search error:', error);
+      res.status(500).json({ error: 'Failed to search for email' });
+    }
+  });
+
   // About Page
   app.get('/about', (_req: Request, res: Response) => {
     res.send(`<!DOCTYPE html>
@@ -2434,8 +2889,7 @@ function startServer(port: number): void {
         <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
-        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
+                <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
@@ -2668,8 +3122,7 @@ function startServer(port: number): void {
         <a href="/about">About</a>
       </nav>
       <div class="nav-cta">
-        <a href="#" class="btn-ghost" onclick="alert('Login coming soon! Join the waitlist to get early access.'); return false;">Log in</a>
-        <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
+                <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request&body=I'd%20like%20to%20request%20early%20access%20to%20Satya%20Bio." class="btn-primary">Get Started</a>
       </div>
     </div>
   </header>
