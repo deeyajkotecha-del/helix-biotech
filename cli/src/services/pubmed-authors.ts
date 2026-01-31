@@ -324,6 +324,22 @@ function extractCountry(affiliation: string): string {
 export function extractInstitutionName(affiliation: string): string {
   if (!affiliation) return '';
 
+  // First, clean up the affiliation string
+  let cleaned = affiliation
+    // Remove email addresses
+    .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '')
+    // Remove "Electronic address:" prefix
+    .replace(/Electronic address:\s*/gi, '')
+    // Remove zip codes (5 digit or 5+4 format)
+    .replace(/\b\d{5}(-\d{4})?\b/g, '')
+    // Remove country names
+    .replace(/,?\s*(United States|USA|U\.S\.A\.?|U\.S\.?)\s*\.?\s*$/gi, '')
+    // Remove state abbreviations at end
+    .replace(/,?\s*[A-Z]{2}\s*\.?\s*$/g, '')
+    // Remove trailing periods and commas
+    .replace(/[,.\s]+$/, '')
+    .trim();
+
   // Common institution patterns to look for
   const institutionPatterns = [
     // Cancer Centers (check first as they're more specific)
@@ -388,20 +404,22 @@ export function extractInstitutionName(affiliation: string): string {
 
   // First check for known institutions
   for (const [pattern, name] of knownInstitutions) {
-    if (pattern.test(affiliation)) {
+    if (pattern.test(cleaned)) {
       return name;
     }
   }
 
   // Try to extract institution using patterns
   for (const pattern of institutionPatterns) {
-    const match = affiliation.match(pattern);
+    const match = cleaned.match(pattern);
     if (match && match[1]) {
       let inst = match[1].trim();
       // Clean up the result
       inst = inst.replace(/^(the|from|at)\s+/i, '');
       inst = inst.replace(/,.*$/, ''); // Remove trailing comma and everything after
       inst = inst.replace(/\s+/g, ' '); // Normalize whitespace
+      // Remove trailing location info (common US cities)
+      inst = inst.replace(/,?\s*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\s*$/g, '');
       if (inst.length > 5 && inst.length < 80) {
         return inst;
       }
@@ -409,7 +427,7 @@ export function extractInstitutionName(affiliation: string): string {
   }
 
   // Fallback: try to get first meaningful segment before comma
-  const segments = affiliation.split(',').map(s => s.trim());
+  const segments = cleaned.split(',').map(s => s.trim());
   for (const seg of segments) {
     if (seg.length > 10 && seg.length < 60 &&
         (seg.includes('University') || seg.includes('Hospital') ||
@@ -418,11 +436,11 @@ export function extractInstitutionName(affiliation: string): string {
     }
   }
 
-  // Last resort: return first 50 chars
-  if (affiliation.length > 50) {
-    return affiliation.substring(0, 47) + '...';
+  // Last resort: return cleaned first 50 chars
+  if (cleaned.length > 50) {
+    return cleaned.substring(0, 47) + '...';
   }
-  return affiliation;
+  return cleaned || affiliation.substring(0, 47);
 }
 
 export { extractCountry };

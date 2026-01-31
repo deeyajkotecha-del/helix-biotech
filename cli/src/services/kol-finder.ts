@@ -159,6 +159,9 @@ export async function findKOLs(
   // US-only filter (always applied)
   kols = kols.filter(k => k.country === 'US');
 
+  // Filter out pharma/biotech industry employees
+  kols = kols.filter(k => !isIndustryEmployee(k.institution));
+
   // Apply filters
   if (minPublications > 0) {
     kols = kols.filter(k => k.publicationCount >= minPublications);
@@ -243,6 +246,70 @@ function calculateKOLScore(kol: KOL): number {
   }
 
   return score;
+}
+
+/**
+ * Check if institution indicates pharma/biotech industry employee
+ */
+function isIndustryEmployee(institution: string): boolean {
+  if (!institution) return false;
+
+  const instLower = institution.toLowerCase();
+
+  // Specific pharma/biotech company names
+  const pharmaCompanies = [
+    'daiichi sankyo', 'pfizer', 'novartis', 'roche', 'genentech', 'merck', 'msd',
+    'gsk', 'glaxosmithkline', 'astrazeneca', 'sanofi', 'bristol-myers squibb',
+    'bristol myers squibb', 'bms', 'eli lilly', 'lilly', 'abbvie', 'amgen',
+    'gilead', 'regeneron', 'vertex', 'biogen', 'moderna', 'biontech',
+    'johnson & johnson', 'johnson and johnson', 'janssen', 'takeda', 'astellas',
+    'bayer', 'boehringer ingelheim', 'novo nordisk', 'csl', 'seagen', 'incyte',
+    'jazz pharmaceuticals', 'biomarin', 'alexion', 'alnylam', 'neurocrine',
+    'exact sciences', 'illumina', 'seattle genetics', 'celgene', 'allergan',
+    'mylan', 'teva', 'viatris', 'catalent', 'lonza', 'wuxi', 'samsung biologics',
+    'fujifilm', 'eisai', 'otsuka', 'sumitomo', 'shionogi', 'chugai', 'kyowa kirin',
+    'ucb', 'ipsen', 'servier', 'menarini', 'grünenthal', 'lundbeck', 'leo pharma',
+    'ferring', 'galderma', 'almirall', 'recordati', 'orion', 'gedeon richter',
+    'krka', 'stada', 'hikma', 'dr. reddy', 'sun pharma', 'cipla', 'lupin',
+    'aurobindo', 'zydus', 'torrent', 'cadila', 'biocon', 'glenmark',
+    'blueprint medicines', 'agios', 'ultragenyx', 'sarepta', 'bluebird bio',
+    'crispr therapeutics', 'intellia', 'editas', 'beam therapeutics',
+    'prime medicine', 'verve therapeutics', 'precision biosciences',
+  ];
+
+  // Check for company names
+  for (const company of pharmaCompanies) {
+    if (instLower.includes(company)) {
+      return true;
+    }
+  }
+
+  // Industry indicators in institution name
+  const industryPatterns = [
+    /\binc\b\.?/i,
+    /\bltd\b\.?/i,
+    /\bllc\b/i,
+    /\bcorporation\b/i,
+    /\bcorp\b\.?/i,
+    /\bpharmaceuticals?\b/i,
+    /\btherapeutics?\b/i,
+    /\bbiosciences?\b/i,
+    /\bbiotechnology\b/i,
+    /\bbiotech\b/i,
+    /\bpharma\b/i,
+    /\boncology\s+inc\b/i,
+    /\bmedicines?\s+inc\b/i,
+    /\bdiscovery\s+inc\b/i,
+    /\bsolutions\s+inc\b/i,
+  ];
+
+  for (const pattern of industryPatterns) {
+    if (pattern.test(institution)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 /**
