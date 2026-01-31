@@ -477,6 +477,7 @@ function startServer(port: number): void {
       <nav class="nav-links">
         <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
+        <a href="/kols">KOL Finder</a>
         <a href="/research">Research</a>
         <a href="/about">About</a>
       </nav>
@@ -762,6 +763,7 @@ function startServer(port: number): void {
       <nav class="nav-links">
         <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
+        <a href="/kols">KOL Finder</a>
         <a href="/research" class="active">Research</a>
         <a href="/about">About</a>
       </nav>
@@ -1065,6 +1067,7 @@ function startServer(port: number): void {
       <nav class="nav-links">
         <a href="/targets">Targets</a>
         <a href="/companies" class="active">Companies</a>
+        <a href="/kols">KOL Finder</a>
         <a href="/research">Research</a>
         <a href="/about">About</a>
       </nav>
@@ -1681,6 +1684,7 @@ function startServer(port: number): void {
       <nav class="nav-links">
         <a href="/targets" class="active">Targets</a>
         <a href="/companies">Companies</a>
+        <a href="/kols">KOL Finder</a>
         <a href="/research">Research</a>
         <a href="/about">About</a>
       </nav>
@@ -2700,6 +2704,7 @@ function startServer(port: number): void {
       <nav class="nav-links">
         <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
+        <a href="/kols">KOL Finder</a>
         <a href="/research">Research</a>
         <a href="/about" class="active">About</a>
       </nav>
@@ -2885,6 +2890,7 @@ function startServer(port: number): void {
       <nav class="nav-links">
         <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
+        <a href="/kols">KOL Finder</a>
         <a href="/research" class="active">Research</a>
         <a href="/about">About</a>
       </nav>
@@ -3118,6 +3124,7 @@ function startServer(port: number): void {
       <nav class="nav-links">
         <a href="/targets">Targets</a>
         <a href="/companies">Companies</a>
+        <a href="/kols">KOL Finder</a>
         <a href="/research" class="active">Research</a>
         <a href="/about">About</a>
       </nav>
