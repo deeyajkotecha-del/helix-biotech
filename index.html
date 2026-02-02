@@ -1,1706 +1,593 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SatyaBio — Biotech Competitive Intelligence</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0a0a0b;
-            --bg-secondary: #111113;
-            --bg-tertiary: #18181b;
-            --bg-card: #1a1a1d;
-            --text-primary: #fafafa;
-            --text-secondary: #a1a1aa;
-            --text-muted: #71717a;
-            --accent-primary: #22c55e;
-            --accent-secondary: #4ade80;
-            --accent-glow: rgba(34, 197, 94, 0.12);
-            --accent-blue: #3b82f6;
-            --accent-purple: #a855f7;
-            --accent-red: #ef4444;
-            --accent-yellow: #eab308;
-            --accent-orange: #f97316;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.15);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Outfit', -apple-system, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            padding: 1rem 2rem;
-            background: rgba(10, 10, 11, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 32px; height: 32px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-blue));
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--bg-primary);
-        }
-
-        .logo-text {
-            font-weight: 600;
-            font-size: 1.15rem;
-            color: var(--text-primary);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.875rem;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover { color: var(--text-primary); }
-
-        .btn {
-            padding: 0.6rem 1.15rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.2s;
-            cursor: pointer;
-            border: none;
-            font-family: inherit;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--text-secondary);
-        }
-
-        .btn-ghost:hover { color: var(--text-primary); }
-
-        .btn-primary {
-            background: var(--text-primary);
-            color: var(--bg-primary);
-        }
-
-        .btn-primary:hover { background: #e4e4e7; }
-
-        .btn-accent {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            font-weight: 600;
-        }
-
-        .btn-accent:hover {
-            background: var(--accent-secondary);
-            box-shadow: 0 8px 30px var(--accent-glow);
-        }
-
-        .btn-large {
-            padding: 0.9rem 1.75rem;
-            font-size: 0.95rem;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            padding: 9rem 2rem 5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .hero-eyebrow {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--accent-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .hero-eyebrow::before {
-            content: '';
-            width: 24px;
-            height: 1px;
-            background: var(--accent-primary);
-        }
-
-        .hero-title {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: clamp(2.75rem, 6vw, 4.5rem);
-            font-weight: 400;
-            line-height: 1.08;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.5rem;
-            max-width: 900px;
-        }
-
-        .hero-title .highlight {
-            color: var(--accent-primary);
-            font-style: italic;
-        }
-
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 680px;
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 4rem;
-        }
-
-        /* Question Cards */
-        .hero-questions {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem;
-            max-width: 1000px;
-        }
-
-        .question-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .question-card:hover {
-            border-color: var(--accent-primary);
-            transform: translateY(-2px);
-        }
-
-        .question-icon {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .question-text {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            font-style: italic;
-            line-height: 1.5;
-        }
-
-        .question-text::before { content: '"'; color: var(--accent-primary); }
-        .question-text::after { content: '"'; color: var(--accent-primary); }
-
-        .question-answer {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        /* Disease Landscape Section */
-        .landscape-section {
-            padding: 7rem 2rem;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            margin-bottom: 3.5rem;
-        }
-
-        .section-eyebrow {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--accent-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 400;
-            letter-spacing: -0.02em;
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-        }
-
-        /* Landscape Demo */
-        .landscape-demo {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 1.5rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .landscape-sidebar {
-            background: var(--bg-tertiary);
-            padding: 1.5rem;
-            border-right: 1px solid var(--border-color);
-        }
-
-        .sidebar-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-
-        .indication-list {
-            list-style: none;
-        }
-
-        .indication-item {
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 0.25rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .indication-item:hover { background: var(--bg-primary); color: var(--text-primary); }
-
-        .indication-item.active {
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-        }
-
-        .indication-count {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.75rem;
-            opacity: 0.7;
-        }
-
-        .landscape-main {
-            padding: 1.5rem;
-        }
-
-        .landscape-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .landscape-indication {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.35rem;
-        }
-
-        .landscape-full-name {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .landscape-stats {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .landscape-stat {
-            text-align: right;
-        }
-
-        .landscape-stat-value {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .landscape-stat-value.green { color: var(--accent-primary); }
-        .landscape-stat-value.blue { color: var(--accent-blue); }
-        .landscape-stat-value.orange { color: var(--accent-orange); }
-
-        .landscape-stat-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* Unmet Need Box */
-        .unmet-need {
-            background: rgba(239, 68, 68, 0.08);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 10px;
-            padding: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .unmet-need-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--accent-red);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .unmet-need-text {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* SOC Box */
-        .soc-box {
-            background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .soc-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-
-        .soc-drugs {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .soc-drug {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .soc-drug-info h4 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.15rem;
-        }
-
-        .soc-drug-info span {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .soc-drug-sales {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--accent-primary);
-            margin-left: auto;
-        }
-
-        /* Competitive Pipeline Table */
-        .pipeline-section {
-            margin-top: 1.5rem;
-        }
-
-        .pipeline-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-
-        .pipeline-table {
-            width: 100%;
-            font-size: 0.8rem;
-            border-collapse: collapse;
-        }
-
-        .pipeline-table th {
-            text-align: left;
-            padding: 0.75rem;
-            background: var(--bg-tertiary);
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-family: 'IBM Plex Mono', monospace;
-        }
-
-        .pipeline-table th:first-child { border-radius: 6px 0 0 6px; }
-        .pipeline-table th:last-child { border-radius: 0 6px 6px 0; }
-
-        .pipeline-table td {
-            padding: 0.85rem 0.75rem;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-
-        .pipeline-table tr:last-child td { border-bottom: none; }
-
-        .company-cell {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .company-ticker {
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 600;
-            color: var(--accent-blue);
-            font-size: 0.8rem;
-        }
-
-        .company-name {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .drug-name {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .phase-badge {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            padding: 0.25rem 0.6rem;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-
-        .phase-3 { background: rgba(34, 197, 94, 0.15); color: var(--accent-primary); }
-        .phase-2 { background: rgba(234, 179, 8, 0.15); color: var(--accent-yellow); }
-        .phase-1 { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
-        .approved { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
-
-        .moa-text {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .differentiation {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            max-width: 200px;
-        }
-
-        /* Clinical Data Section */
-        .clinical-section {
-            padding: 7rem 2rem;
-            background: var(--bg-primary);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .clinical-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        .clinical-content h3 {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 2rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-        }
-
-        .clinical-content p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .clinical-features {
-            list-style: none;
-        }
-
-        .clinical-features li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.75rem 0;
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .clinical-features li:last-child { border-bottom: none; }
-
-        .clinical-features li::before {
-            content: '→';
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        /* Efficacy Comparison Table */
-        .efficacy-demo {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .efficacy-header {
-            padding: 1rem 1.25rem;
-            background: var(--bg-tertiary);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .efficacy-title {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .efficacy-indication {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .efficacy-body {
-            padding: 1.25rem;
-        }
-
-        .efficacy-table {
-            width: 100%;
-            font-size: 0.8rem;
-            border-collapse: collapse;
-        }
-
-        .efficacy-table th {
-            text-align: left;
-            padding: 0.6rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-family: 'IBM Plex Mono', monospace;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .efficacy-table td {
-            padding: 0.75rem 0.6rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .efficacy-table tr:last-child td { border-bottom: none; }
-
-        .drug-cell {
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .efficacy-value {
-            font-family: 'IBM Plex Mono', monospace;
-            font-weight: 600;
-        }
-
-        .efficacy-value.high { color: var(--accent-primary); }
-        .efficacy-value.medium { color: var(--accent-yellow); }
-        .efficacy-value.low { color: var(--text-secondary); }
-
-        .safety-cell {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .ae-badge {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.65rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            background: var(--bg-tertiary);
-            color: var(--text-muted);
-        }
-
-        .ae-badge.warning {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--accent-red);
-        }
-
-        /* Features Grid */
-        .features-section {
-            padding: 7rem 2rem;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.75rem;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-3px);
-        }
-
-        .feature-icon {
-            font-size: 1.75rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .feature-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.6rem;
-        }
-
-        .feature-description {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Workflow Section */
-        .workflow-section {
-            padding: 7rem 2rem;
-            background: var(--bg-primary);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .workflow-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .workflow-step {
-            text-align: center;
-            position: relative;
-        }
-
-        .workflow-step::after {
-            content: '→';
-            position: absolute;
-            right: -1rem;
-            top: 2.5rem;
-            color: var(--text-muted);
-            font-size: 1.25rem;
-        }
-
-        .workflow-step:last-child::after { display: none; }
-
-        .workflow-number {
-            width: 56px; height: 56px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.25rem;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--accent-primary);
-        }
-
-        .workflow-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .workflow-desc {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        /* Pricing */
-        .pricing-section {
-            padding: 7rem 2rem;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 1000px;
-            margin: 3rem auto 0;
-        }
-
-        .pricing-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 2rem;
-            position: relative;
-        }
-
-        .pricing-card.featured {
-            border-color: var(--accent-primary);
-        }
-
-        .pricing-card.featured::before {
-            content: 'Most Popular';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 0.3rem 0.9rem;
-            background: var(--accent-primary);
-            color: var(--bg-primary);
-            font-size: 0.65rem;
-            font-weight: 600;
-            border-radius: 100px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .pricing-name {
-            font-weight: 600;
-            font-size: 1.05rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .pricing-for {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
-        }
-
-        .pricing-price {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 2.5rem;
-            margin-bottom: 0.15rem;
-        }
-
-        .pricing-price span {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .pricing-period {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 1.5rem;
-        }
-
-        .pricing-features li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            padding: 0.45rem 0;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .pricing-features li::before {
-            content: '✓';
-            color: var(--accent-primary);
-            font-weight: 600;
-        }
-
-        .pricing-card .btn {
-            width: 100%;
-            text-align: center;
-        }
-
-        /* CTA */
-        .cta-section {
-            padding: 7rem 2rem;
-            background: var(--bg-primary);
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            position: relative;
-        }
-
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 300px;
-            background: radial-gradient(ellipse, var(--accent-glow), transparent 70%);
-            pointer-events: none;
-        }
-
-        .cta-container {
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .cta-title {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-            font-weight: 400;
-            margin-bottom: 1rem;
-        }
-
-        .cta-subtitle {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .cta-form {
-            display: flex;
-            gap: 0.75rem;
-            max-width: 420px;
-            margin: 0 auto;
-        }
-
-        .cta-form input {
-            flex: 1;
-            padding: 0.85rem 1rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.9rem;
-        }
-
-        .cta-form input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-        }
-
-        /* Footer */
-        footer {
-            padding: 2.5rem 2rem;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover { color: var(--text-primary); }
-
-        .footer-copy {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* News Section */
-        .news-section {
-            padding: 7rem 2rem;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .news-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .news-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-3px);
-        }
-
-        .news-card.featured {
-            border-color: var(--accent-primary);
-            background: linear-gradient(180deg, rgba(34, 197, 94, 0.05) 0%, var(--bg-card) 100%);
-        }
-
-        .news-tag {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .news-ticker {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--accent-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .news-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            line-height: 1.4;
-        }
-
-        .news-summary {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .news-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .news-catalyst {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .news-sentiment {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 0.7rem;
-            padding: 0.25rem 0.6rem;
-            border-radius: 4px;
-            width: fit-content;
-        }
-
-        .news-sentiment.positive {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--accent-primary);
-        }
-
-        .news-sentiment.negative {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--accent-red);
-        }
-
-        .news-sentiment.neutral {
-            background: rgba(234, 179, 8, 0.15);
-            color: var(--accent-yellow);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-questions { grid-template-columns: 1fr; }
-            .landscape-demo { grid-template-columns: 1fr; }
-            .landscape-sidebar { border-right: none; border-bottom: 1px solid var(--border-color); }
-            .clinical-grid { grid-template-columns: 1fr; }
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .workflow-grid { grid-template-columns: repeat(2, 1fr); }
-            .workflow-step::after { display: none; }
-            .pricing-grid { grid-template-columns: 1fr; max-width: 380px; }
-            .news-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .features-grid { grid-template-columns: 1fr; }
-            .cta-form { flex-direction: column; }
-            .footer-container { flex-direction: column; gap: 1.5rem; text-align: center; }
-            .news-grid { grid-template-columns: 1fr; }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-eyebrow, .hero-title, .hero-subtitle, .hero-cta, .hero-questions {
-            animation: fadeInUp 0.6s ease-out backwards;
-        }
-
-        .hero-eyebrow { animation-delay: 0s; }
-        .hero-title { animation-delay: 0.1s; }
-        .hero-subtitle { animation-delay: 0.2s; }
-        .hero-cta { animation-delay: 0.3s; }
-        .hero-questions { animation-delay: 0.4s; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Satya Bio | Biotech Intelligence for the Buy Side</title>
+  <meta name="description" content="Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals.">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1a2b3c;
+      --navy-light: #2d4a5e;
+      --accent: #e07a5f;
+      --accent-hover: #d06a4f;
+      --accent-light: #fef5f3;
+      --bg: #fafaf8;
+      --surface: #ffffff;
+      --surface-alt: #f5f5f3;
+      --border: #e5e5e0;
+      --border-light: #eeeeea;
+      --text: #1a1d21;
+      --text-secondary: #5f6368;
+      --text-muted: #9aa0a6;
+      --highlight: #fef3c7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* Mesh gradient overlay */
+    .hero-gradient {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(254,245,243,0.8) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(224,122,95,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 50% 20%, rgba(254,243,199,0.5) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, #f5f0eb 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Floating circles - BOLD and visible */
+    .hero-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(1px);
+    }
+    .circle-1 {
+      width: 500px; height: 500px;
+      background: linear-gradient(135deg, rgba(254,243,199,0.6) 0%, rgba(253,230,138,0.5) 100%);
+      top: -200px; right: -5%;
+      opacity: 0.7;
+      animation: float1 30s ease-in-out infinite;
+    }
+    .circle-2 {
+      width: 350px; height: 350px;
+      background: linear-gradient(135deg, rgba(254,205,193,0.6) 0%, rgba(224,122,95,0.35) 100%);
+      bottom: -10%; left: -5%;
+      opacity: 0.6;
+      animation: float2 25s ease-in-out infinite;
+    }
+    .circle-3 {
+      width: 200px; height: 200px;
+      background: linear-gradient(135deg, rgba(224,242,254,0.7) 0%, rgba(186,230,253,0.5) 100%);
+      top: 30%; right: 15%;
+      opacity: 0.65;
+      animation: float3 20s ease-in-out infinite;
+    }
+    .circle-4 {
+      width: 280px; height: 280px;
+      background: linear-gradient(135deg, rgba(224,122,95,0.25) 0%, rgba(254,205,193,0.4) 100%);
+      top: 60%; left: 20%;
+      opacity: 0.5;
+      animation: float4 35s ease-in-out infinite;
+    }
+    .circle-5 {
+      width: 150px; height: 150px;
+      background: linear-gradient(135deg, rgba(254,243,199,0.7) 0%, rgba(253,230,138,0.4) 100%);
+      top: 10%; left: 10%;
+      opacity: 0.55;
+      animation: float5 28s ease-in-out infinite;
+    }
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -20px) scale(1.02); }
+      50% { transform: translate(-20px, 30px) scale(0.98); }
+      75% { transform: translate(20px, 20px) scale(1.01); }
+    }
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(-25px, -30px) scale(1.03); }
+      66% { transform: translate(35px, 15px) scale(0.97); }
+    }
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-40px, 25px); }
+    }
+    @keyframes float4 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      40% { transform: translate(20px, -35px) scale(1.02); }
+      80% { transform: translate(-30px, 20px) scale(0.98); }
+    }
+    @keyframes float5 {
+      0%, 100% { transform: translate(0, 0); }
+      30% { transform: translate(25px, 20px); }
+      70% { transform: translate(-15px, -25px); }
+    }
+
+    /* Floating ticker pills */
+    .floating-tickers {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .ticker-pill {
+      position: absolute;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid rgba(224,122,95,0.3);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--navy);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      backdrop-filter: blur(4px);
+    }
+    .ticker-pill:nth-child(1) { top: 20%; left: 8%; animation: tickerFloat1 40s ease-in-out infinite; }
+    .ticker-pill:nth-child(2) { top: 65%; left: 5%; animation: tickerFloat2 35s ease-in-out infinite; }
+    .ticker-pill:nth-child(3) { top: 25%; right: 6%; animation: tickerFloat3 45s ease-in-out infinite; }
+    .ticker-pill:nth-child(4) { top: 70%; right: 8%; animation: tickerFloat4 38s ease-in-out infinite; }
+    .ticker-pill:nth-child(5) { top: 45%; left: 3%; animation: tickerFloat5 42s ease-in-out infinite; }
+    @keyframes tickerFloat1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(15px, 25px); } }
+    @keyframes tickerFloat2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -20px); } }
+    @keyframes tickerFloat3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-25px, 15px); } }
+    @keyframes tickerFloat4 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-15px, -25px); } }
+    @keyframes tickerFloat5 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(10px, -15px); } }
+
+    /* Header */
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(250,250,248,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); padding: 0 32px; height: 68px; }
+    .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }
+    .logo { font-family: 'DM Sans', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--navy); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta { display: flex; gap: 12px; }
+    .btn-primary { padding: 10px 20px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; font-size: 0.9rem; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+
+    /* Hero - Striking */
+    .hero { background: transparent; padding: 110px 32px 90px; text-align: center; position: relative; overflow: hidden; min-height: 70vh; display: flex; align-items: center; justify-content: center; }
+    .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 4.5rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 24px;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      text-shadow: 0 2px 4px rgba(26,43,60,0.08);
+    }
+    .hero-subtitle { color: var(--text-secondary); font-size: 1.35rem; margin-bottom: 48px; line-height: 1.6; max-width: 650px; margin-left: auto; margin-right: auto; }
+
+    /* Hero Search - Glowing */
+    .hero-search { max-width: 580px; margin: 0 auto 28px; position: relative; }
+    .hero-search input {
+      width: 100%;
+      padding: 20px 28px 20px 56px;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-family: inherit;
+      background: white;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hero-search input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.12), 0 0 0 4px rgba(224,122,95,0.15);
+      transform: translateY(-2px);
+    }
+    .hero-search input::placeholder { color: var(--text-muted); }
+    .hero-search-icon { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; color: var(--text-muted); transition: color 0.2s; }
+    .hero-search:focus-within .hero-search-icon { color: var(--accent); }
+    .hero-updated { font-size: 0.85rem; color: var(--text-muted); margin-top: 20px; }
+    .hero-updated span { background: rgba(224,122,95,0.12); color: var(--accent); padding: 4px 12px; border-radius: 12px; font-weight: 600; }
+
+    /* Live Preview Cards - Striking */
+    .preview-section { padding: 96px 32px; background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); }
+    .preview-inner { max-width: 1180px; margin: 0 auto; }
+    .preview-header { text-align: center; margin-bottom: 56px; }
+    .preview-header h2 { font-family: 'Fraunces', serif; font-size: 2.2rem; color: var(--navy); margin-bottom: 12px; font-weight: 700; }
+    .preview-header p { color: var(--text-muted); font-size: 1.05rem; }
+    .preview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    @media (max-width: 900px) { .preview-grid { grid-template-columns: 1fr; } }
+
+    .preview-card {
+      background: linear-gradient(135deg, #ffffff 0%, #fefdfb 50%, #faf8f6 100%);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 20px;
+      padding: 36px;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+    .preview-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(224,122,95,0.03) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .preview-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.14), 0 8px 24px rgba(224,122,95,0.1);
+      transform: translateY(-8px) scale(1.01);
+    }
+    .preview-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; position: relative; z-index: 1; }
+    .preview-card h3 { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); }
+
+    /* Vibrant badges with pulse */
+    .preview-badge {
+      padding: 6px 14px;
+      background: linear-gradient(135deg, var(--accent) 0%, #d06a4f 100%);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border-radius: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(224,122,95,0.4);
+      animation: badgePulse 3s ease-in-out infinite;
+    }
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 2px 8px rgba(224,122,95,0.4); }
+      50% { box-shadow: 0 4px 16px rgba(224,122,95,0.6); }
+    }
+
+    .preview-stats { margin-bottom: 28px; position: relative; z-index: 1; }
+    .preview-stat { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-light); }
+    .preview-stat:last-child { border-bottom: none; }
+    .preview-stat-label { color: var(--text-secondary); font-size: 0.9rem; }
+    .preview-stat-value {
+      font-family: 'Fraunces', serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+    .preview-stat-value.highlight { color: var(--accent); }
+
+    .preview-items { margin-bottom: 28px; position: relative; z-index: 1; }
+    .preview-item { padding: 14px 0; border-bottom: 1px solid var(--border-light); font-size: 0.9rem; color: var(--text-secondary); }
+    .preview-item:last-child { border-bottom: none; }
+    .preview-item strong { color: var(--navy); font-weight: 700; }
+
+    .preview-link {
+      display: block;
+      text-align: center;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--navy) 0%, #243848 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.25s;
+      box-shadow: 0 6px 20px rgba(26,43,60,0.25);
+      position: relative;
+      z-index: 1;
+    }
+    .preview-link:hover {
+      background: linear-gradient(135deg, var(--navy-light) 0%, #2d4a5e 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(26,43,60,0.3);
+    }
+
+    /* Value Props - Premium */
+    .value-section { padding: 88px 32px; background: var(--bg); }
+    .value-inner { max-width: 920px; margin: 0 auto; }
+    .value-header { text-align: center; margin-bottom: 56px; }
+    .value-header h2 { font-family: 'Fraunces', serif; font-size: 2.2rem; color: var(--navy); margin-bottom: 14px; font-weight: 700; }
+    .value-header p { color: var(--text-secondary); font-size: 1.1rem; }
+    .value-list { display: flex; flex-direction: column; gap: 18px; }
+    .value-item { display: flex; align-items: flex-start; gap: 18px; padding: 24px 28px; background: var(--surface); border: 1px solid var(--border-light); border-radius: 14px; transition: all 0.25s; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .value-item:hover { border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateX(4px); }
+    .value-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 8px; }
+    .value-text { flex: 1; }
+    .value-text h4 { font-size: 1.05rem; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .value-text p { font-size: 0.92rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+    /* At a Glance - Premium Dark Navy */
+    .glance-section { background: linear-gradient(135deg, var(--navy) 0%, #243848 100%); padding: 72px 32px; }
+    .glance-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
+    .glance-title { font-family: 'Fraunces', serif; font-size: 1.3rem; color: rgba(255,255,255,0.7); margin-bottom: 40px; font-weight: 500; letter-spacing: 0.02em; }
+    .glance-stats { display: flex; justify-content: center; gap: 100px; flex-wrap: wrap; }
+    .glance-stat { text-align: center; }
+    .glance-value { font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 800; color: white; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .glance-label { font-size: 0.95rem; color: rgba(255,255,255,0.6); font-weight: 500; }
+    .glance-meta { margin-top: 40px; display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
+    .glance-meta-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+    .glance-meta-item svg { width: 14px; height: 14px; }
+
+    /* CTA Section */
+    .cta-section { padding: 80px 32px; background: var(--surface-alt); }
+    .cta-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+    .cta-inner h2 { font-family: 'Fraunces', serif; font-size: 2rem; color: var(--navy); margin-bottom: 12px; }
+    .cta-inner p { color: var(--text-secondary); font-size: 1rem; margin-bottom: 32px; }
+    .cta-form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto 16px; }
+    .cta-form input { flex: 1; padding: 14px 18px; border: 2px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.2s; }
+    .cta-form input:focus { border-color: var(--accent); }
+    .cta-form button { padding: 14px 28px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .cta-form button:hover { background: var(--accent-hover); }
+    .cta-note { font-size: 0.85rem; color: var(--text-muted); }
+
+    /* Company Logos Section */
+    .logos-section { padding: 48px 32px; background: var(--surface); border-top: 1px solid var(--border-light); }
+    .logos-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
+    .logos-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .logos-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .logo-item {
+      padding: 10px 20px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy);
+      transition: all 0.2s;
+    }
+    .logo-item:hover { border-color: var(--accent); background: var(--accent-light); }
+    .logo-item span { color: var(--text-muted); font-weight: 500; font-size: 0.75rem; margin-left: 8px; }
+
+    /* Footer */
+    .footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 48px 32px; text-align: center; }
+    .footer p { font-size: 0.9rem; }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 80px 20px 60px; min-height: 60vh; }
+      .hero h1 { font-size: 2.6rem; }
+      .hero-subtitle { font-size: 1rem; margin-bottom: 36px; }
+      .hero-search input { padding: 16px 20px 16px 48px; font-size: 0.95rem; }
+      .floating-tickers { display: none; }
+      .preview-section, .value-section, .cta-section { padding: 56px 20px; }
+      .preview-card { padding: 24px; border-left-width: 3px; }
+      .preview-stat-value { font-size: 1.5rem; }
+      .glance-section { padding: 56px 20px; }
+      .glance-stats { gap: 48px; }
+      .glance-value { font-size: 2.5rem; }
+      .cta-form { flex-direction: column; }
+      .value-item { padding: 20px; }
+      .logos-section { padding: 40px 20px; }
+      .logos-row { gap: 16px; }
+      .logo-item { padding: 8px 14px; font-size: 0.8rem; }
+      .logo-item span { display: none; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <a href="/" class="logo">
-                <span class="logo-text">Satya<span style="color: var(--accent-primary)">Bio</span></span>
-            </a>
-            <div class="nav-links">
-                <a href="/targets">Targets</a>
-                <a href="/companies">Companies</a>
-                <a href="/kols">KOL Finder</a>
-                <a href="/research">Research</a>
-                <a href="/about">About</a>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">Satya<span>Bio</span></a>
+      <nav class="nav-links">
+        <a href="/targets">Targets</a>
+        <a href="/companies">Companies</a>
+        <a href="/research">Research</a>
+        <a href="/about">About</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#cta" class="btn-primary">Request Access</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-gradient"></div>
+    <div class="hero-bg">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+      <div class="circle circle-4"></div>
+      <div class="circle circle-5"></div>
+    </div>
+    <div class="floating-tickers">
+      <div class="ticker-pill">ARWR</div>
+      <div class="ticker-pill">VKTX</div>
+      <div class="ticker-pill">ALNY</div>
+      <div class="ticker-pill">RCKT</div>
+      <div class="ticker-pill">IONS</div>
+    </div>
+    <div class="hero-content">
+      <h1>Biotech Intelligence<br>for the Buy Side</h1>
+      <p class="hero-subtitle">Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals</p>
+      <div class="hero-search">
+        <svg class="hero-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        <input type="text" placeholder="Search targets, companies, or therapeutic areas..." onfocus="window.location.href='/companies'">
+      </div>
+      <div class="hero-updated">Data updated <span><script>document.write(new Date().toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"}))</script></span></div>
+    </div>
+  </section>
+
+  <!-- Live Preview Cards -->
+  <section class="preview-section">
+    <div class="preview-inner">
+      <div class="preview-header">
+        <h2>See What We Track</h2>
+        <p>Real data, updated daily</p>
+      </div>
+      <div class="preview-grid">
+        <!-- GLP-1 Landscape -->
+        <div class="preview-card">
+          <div class="preview-card-header">
+            <h3>GLP-1 Landscape</h3>
+            <span class="preview-badge">Hot Target</span>
+          </div>
+          <div class="preview-stats">
+            <div class="preview-stat">
+              <span class="preview-stat-label">Assets in development</span>
+              <span class="preview-stat-value">25</span>
             </div>
-            <div style="display: flex; gap: 0.75rem;">
-                <a href="#cta" class="btn btn-primary">Request Access</a>
+            <div class="preview-stat">
+              <span class="preview-stat-label">Approved</span>
+              <span class="preview-stat-value">6</span>
             </div>
+            <div class="preview-stat">
+              <span class="preview-stat-label">Phase 3</span>
+              <span class="preview-stat-value">7</span>
+            </div>
+            <div class="preview-stat">
+              <span class="preview-stat-label">Disclosed deal value</span>
+              <span class="preview-stat-value highlight">$22.8B</span>
+            </div>
+          </div>
+          <a href="/api/report/target/GLP-1/html" class="preview-link">View Report</a>
         </div>
-    </nav>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-eyebrow">Biotech Competitive Intelligence</div>
-            <h1 class="hero-title">
-                Understand the <span class="highlight">landscape</span><br>
-                before you invest
-            </h1>
-            <p class="hero-subtitle">
-                Disease landscapes, competitive pipelines, clinical benchmarks, and KOL networks — the research platform for biotech investors, VCs, and corporate BD.
-            </p>
-            <div class="hero-cta">
-                <button class="btn btn-large btn-accent">Request Early Access</button>
-                <button class="btn btn-large btn-ghost">See Demo →</button>
-            </div>
-
-            <div class="hero-questions">
-                <div class="question-card">
-                    <div class="question-icon">🔬</div>
-                    <div class="question-text">What's the unmet need in nMIBC? What are patients getting today?</div>
-                    <div class="question-answer">→ Disease landscape</div>
-                </div>
-                <div class="question-card">
-                    <div class="question-icon">⚔️</div>
-                    <div class="question-text">Who else is targeting CD19 in lupus? What phase? What data?</div>
-                    <div class="question-answer">→ Competitive pipeline</div>
-                </div>
-                <div class="question-card">
-                    <div class="question-icon">📊</div>
-                    <div class="question-text">What ORR did Keytruda show in 2L NSCLC? What's the AE profile?</div>
-                    <div class="question-answer">→ Clinical benchmarks</div>
-                </div>
-            </div>
+        <!-- Upcoming Catalysts -->
+        <div class="preview-card">
+          <div class="preview-card-header">
+            <h3>Upcoming Catalysts</h3>
+            <span class="preview-badge">Live</span>
+          </div>
+          <div class="preview-items">
+            <div class="preview-item"><strong>RCKT:</strong> KRESLADI PDUFA — Mar 28, 2026</div>
+            <div class="preview-item"><strong>XENE:</strong> X-TOLE2 Phase 3 data — Q1 2026</div>
+            <div class="preview-item"><strong>VKTX:</strong> Oral VK2735 Phase 2 data — H1 2026</div>
+            <div class="preview-item"><strong>RVMD:</strong> RMC-6236 PDAC Phase 3 — H2 2026</div>
+          </div>
+          <a href="/companies" class="preview-link">View All Catalysts</a>
         </div>
-    </section>
 
-    <!-- Disease Landscape Section -->
-    <section class="landscape-section" id="landscape">
-        <div class="section-container">
-            <div class="section-header">
-                <div class="section-eyebrow">Disease Landscapes</div>
-                <h2 class="section-title">Start with the indication, not the company</h2>
-                <p class="section-subtitle">
-                    Understand what's approved, what's in development, and where the gaps are — before you dive into any single asset.
-                </p>
-            </div>
-
-            <div class="landscape-demo">
-                <div class="landscape-sidebar">
-                    <div class="sidebar-title">Therapeutic Areas</div>
-                    <ul class="indication-list">
-                        <li class="indication-item">
-                            <span>Oncology</span>
-                            <span class="indication-count">847</span>
-                        </li>
-                        <li class="indication-item active">
-                            <span>Bladder Cancer</span>
-                            <span class="indication-count">42</span>
-                        </li>
-                        <li class="indication-item" style="padding-left: 2rem;">
-                            <span>nMIBC</span>
-                            <span class="indication-count">12</span>
-                        </li>
-                        <li class="indication-item" style="padding-left: 2rem;">
-                            <span>mUC</span>
-                            <span class="indication-count">28</span>
-                        </li>
-                        <li class="indication-item">
-                            <span>Immunology</span>
-                            <span class="indication-count">312</span>
-                        </li>
-                        <li class="indication-item">
-                            <span>Neurology</span>
-                            <span class="indication-count">289</span>
-                        </li>
-                        <li class="indication-item">
-                            <span>Metabolic</span>
-                            <span class="indication-count">156</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="landscape-main">
-                    <div class="landscape-header">
-                        <div>
-                            <div class="landscape-indication">nMIBC</div>
-                            <div class="landscape-full-name">Non-Muscle Invasive Bladder Cancer (BCG-Unresponsive)</div>
-                        </div>
-                        <div class="landscape-stats">
-                            <div class="landscape-stat">
-                                <div class="landscape-stat-value green">2</div>
-                                <div class="landscape-stat-label">Approved</div>
-                            </div>
-                            <div class="landscape-stat">
-                                <div class="landscape-stat-value blue">8</div>
-                                <div class="landscape-stat-label">Phase 2/3</div>
-                            </div>
-                            <div class="landscape-stat">
-                                <div class="landscape-stat-value orange">~80K</div>
-                                <div class="landscape-stat-label">US Patients/yr</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="unmet-need">
-                        <div class="unmet-need-title">
-                            <span>⚠️</span> Unmet Need
-                        </div>
-                        <div class="unmet-need-text">
-                            BCG-unresponsive patients face radical cystectomy (bladder removal) as SOC. Only 2 drugs approved — pembrolizumab (38% CR) and nadofaragene (24% CR). High unmet need for bladder-sparing options with durable responses.
-                        </div>
-                    </div>
-
-                    <div class="soc-box">
-                        <div class="soc-title">Current Standard of Care</div>
-                        <div class="soc-drugs">
-                            <div class="soc-drug">
-                                <div class="soc-drug-info">
-                                    <h4>Keytruda</h4>
-                                    <span>Pembrolizumab • Merck</span>
-                                </div>
-                                <div class="soc-drug-sales">$25B/yr</div>
-                            </div>
-                            <div class="soc-drug">
-                                <div class="soc-drug-info">
-                                    <h4>Adstiladrin</h4>
-                                    <span>Nadofaragene • Ferring</span>
-                                </div>
-                                <div class="soc-drug-sales">$180M/yr</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pipeline-section">
-                        <div class="pipeline-title">Competitive Pipeline</div>
-                        <table class="pipeline-table">
-                            <thead>
-                                <tr>
-                                    <th>Company</th>
-                                    <th>Drug</th>
-                                    <th>Phase</th>
-                                    <th>MOA</th>
-                                    <th>Differentiation</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="company-cell">
-                                            <span class="company-ticker">CGON</span>
-                                            <span class="company-name">CG Oncology</span>
-                                        </div>
-                                    </td>
-                                    <td class="drug-name">Cretostimogene</td>
-                                    <td><span class="phase-badge phase-3">Phase 3</span></td>
-                                    <td class="moa-text">Oncolytic virus (GM-CSF)</td>
-                                    <td class="differentiation">75% CR in Ph2; intravesical</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="company-cell">
-                                            <span class="company-ticker">QURE</span>
-                                            <span class="company-name">uniQure</span>
-                                        </div>
-                                    </td>
-                                    <td class="drug-name">TAR-210</td>
-                                    <td><span class="phase-badge phase-2">Phase 2</span></td>
-                                    <td class="moa-text">Erdafitinib intravesical</td>
-                                    <td class="differentiation">FGFR-targeted; local delivery</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="company-cell">
-                                            <span class="company-ticker">IOVA</span>
-                                            <span class="company-name">Iovance</span>
-                                        </div>
-                                    </td>
-                                    <td class="drug-name">IOV-4001</td>
-                                    <td><span class="phase-badge phase-1">Phase 1</span></td>
-                                    <td class="moa-text">TIL therapy</td>
-                                    <td class="differentiation">Cell therapy approach</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <!-- Recent Deals -->
+        <div class="preview-card">
+          <div class="preview-card-header">
+            <h3>Recent Deal Activity</h3>
+            <span class="preview-badge">2024-25</span>
+          </div>
+          <div class="preview-items">
+            <div class="preview-item"><strong>AZ / CSPC:</strong> $4.7B — GLP-1 portfolio</div>
+            <div class="preview-item"><strong>Roche / Zealand:</strong> $5.3B — Petrelintide</div>
+            <div class="preview-item"><strong>Pfizer / Metsera:</strong> $4.9B — Obesity portfolio</div>
+            <div class="preview-item"><strong>Novo / Akero:</strong> $620M — MASH (EFX)</div>
+          </div>
+          <a href="/api/report/target/GLP-1/html" class="preview-link">View Deal Tracker</a>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Clinical Data Section -->
-    <section class="clinical-section" id="clinical">
-        <div class="section-container">
-            <div class="clinical-grid">
-                <div class="clinical-content">
-                    <div class="section-eyebrow">Clinical Benchmarks</div>
-                    <h3>Know what bar you need to clear</h3>
-                    <p>
-                        Before you get excited about Phase 2 data, understand what's already been shown. We normalize endpoints across trials so you can actually compare.
-                    </p>
-                    <p>
-                        See ORR, CR rates, PFS, OS — and the safety signals that matter. GI toxicity in oncology? Cytokine release in cell therapy? We track the AEs that move stocks.
-                    </p>
-                    <ul class="clinical-features">
-                        <li>Efficacy endpoints normalized across trials (ORR, CR, PFS, OS)</li>
-                        <li>Safety profiles with grade 3+ AE rates and discontinuation</li>
-                        <li>Head-to-head comparisons where available</li>
-                        <li>Historical approval benchmarks by indication</li>
-                        <li>Conference data (ASCO, AACR, ASH, AAN) within 24 hours</li>
-                    </ul>
-                </div>
-                <div class="efficacy-demo">
-                    <div class="efficacy-header">
-                        <span class="efficacy-title">Efficacy Comparison</span>
-                        <span class="efficacy-indication">Ulcerative Colitis • Phase 3</span>
-                    </div>
-                    <div class="efficacy-body">
-                        <table class="efficacy-table">
-                            <thead>
-                                <tr>
-                                    <th>Drug</th>
-                                    <th>Clinical Remission</th>
-                                    <th>Endoscopic</th>
-                                    <th>Key AEs</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="drug-cell">Obefazimod (ABVX)</td>
-                                    <td><span class="efficacy-value high">45.2%</span></td>
-                                    <td><span class="efficacy-value high">35.1%</span></td>
-                                    <td class="safety-cell">
-                                        <span class="ae-badge">Nasopharyngitis 8%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="drug-cell">Rinvoq (AbbVie)</td>
-                                    <td><span class="efficacy-value high">42%</span></td>
-                                    <td><span class="efficacy-value high">36%</span></td>
-                                    <td class="safety-cell">
-                                        <span class="ae-badge warning">Herpes zoster 4%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="drug-cell">Skyrizi (AbbVie)</td>
-                                    <td><span class="efficacy-value medium">38%</span></td>
-                                    <td><span class="efficacy-value medium">29%</span></td>
-                                    <td class="safety-cell">
-                                        <span class="ae-badge">URI 12%</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="drug-cell">Entyvio (Takeda)</td>
-                                    <td><span class="efficacy-value low">31%</span></td>
-                                    <td><span class="efficacy-value low">26%</span></td>
-                                    <td class="safety-cell">
-                                        <span class="ae-badge">Headache 10%</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+  <!-- Value Props -->
+  <section class="value-section">
+    <div class="value-inner">
+      <div class="value-header">
+        <h2>What takes hours, done in minutes</h2>
+        <p>Stop piecing together data from SEC filings, clinicaltrials.gov, and company IR pages</p>
+      </div>
+      <div class="value-list">
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <h4>Track every asset targeting GLP-1 across all clinical stages</h4>
+            <p>Complete competitive landscapes with deal terms, trial data, and regulatory milestones</p>
+          </div>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features-section" id="features">
-        <div class="section-container">
-            <div class="section-header">
-                <div class="section-eyebrow">Platform</div>
-                <h2 class="section-title">Everything you need, structured</h2>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🗺️</div>
-                    <div class="feature-title">Disease Landscapes</div>
-                    <div class="feature-description">
-                        Understand unmet need, SOC, and competitive dynamics for any indication. Start with the market, not the ticker.
-                    </div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚔️</div>
-                    <div class="feature-title">Competitive Pipelines</div>
-                    <div class="feature-description">
-                        See every drug targeting your indication — phase, MOA, differentiators, and expected catalysts.
-                    </div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <div class="feature-title">Clinical Benchmarks</div>
-                    <div class="feature-description">
-                        Efficacy and safety data normalized for comparison. Know what bar new entrants need to clear.
-                    </div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👤</div>
-                    <div class="feature-title">KOL Discovery</div>
-                    <div class="feature-description">
-                        Find the top researchers for any drug or indication. Publication history, institution, and email for outreach.
-                    </div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <div class="feature-title">Smart Money Signals</div>
-                    <div class="feature-description">
-                        Track specialist fund positioning from 13F filings. See who's accumulating before data readouts.
-                    </div>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📑</div>
-                    <div class="feature-title">Excel Exports</div>
-                    <div class="feature-description">
-                        Download comprehensive workbooks — pipeline, comps, clinical data, KOLs — formatted for IC presentations.
-                    </div>
-                </div>
-            </div>
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <h4>Monitor 60+ biotech pipelines with real-time catalyst updates</h4>
+            <p>PDUFA dates, Phase 3 readouts, and key events automatically tracked</p>
+          </div>
         </div>
-    </section>
-
-    <!-- Workflow Section -->
-    <section class="workflow-section">
-        <div class="section-container">
-            <div class="section-header" style="text-align: center;">
-                <div class="section-eyebrow">Workflow</div>
-                <h2 class="section-title">From landscape to conviction</h2>
-            </div>
-            <div class="workflow-grid">
-                <div class="workflow-step">
-                    <div class="workflow-number">01</div>
-                    <div class="workflow-title">Pick an Indication</div>
-                    <div class="workflow-desc">Start with the disease. Understand unmet need, SOC, and market size.</div>
-                </div>
-                <div class="workflow-step">
-                    <div class="workflow-number">02</div>
-                    <div class="workflow-title">Map the Competition</div>
-                    <div class="workflow-desc">See every drug in development. Phase, MOA, timeline, differentiation.</div>
-                </div>
-                <div class="workflow-step">
-                    <div class="workflow-number">03</div>
-                    <div class="workflow-title">Benchmark the Data</div>
-                    <div class="workflow-desc">Compare efficacy and safety vs. SOC and competitors. Know the bar.</div>
-                </div>
-                <div class="workflow-step">
-                    <div class="workflow-number">04</div>
-                    <div class="workflow-title">Export & Present</div>
-                    <div class="workflow-desc">Download Excel workbooks ready for IC. Call a KOL if you need more.</div>
-                </div>
-            </div>
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <h4>Compare competitive landscapes across therapeutic areas</h4>
+            <p>Side-by-side analysis of clinical data, deal valuations, and market positioning</p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- Hot Topics Section -->
-    <section class="news-section" id="news">
-        <div class="section-container">
-            <div class="section-header">
-                <div class="section-eyebrow">What's Moving</div>
-                <h2 class="section-title">Hot topics the street is watching</h2>
-                <p class="section-subtitle">
-                    The stories and catalysts driving biotech sentiment right now.
-                </p>
-            </div>
-            <div class="news-grid">
-                <div class="news-card featured">
-                    <div class="news-tag">PDUFA Watch</div>
-                    <div class="news-ticker">INSM</div>
-                    <h3 class="news-title">Brensocatib: First bronchiectasis drug ever?</h3>
-                    <p class="news-summary">PDUFA Aug 12, 2025. First-in-class DPP1 inhibitor. Phase 3 ASPEN showed 21% reduction in exacerbations. $2B+ peak sales potential.</p>
-                    <div class="news-meta">
-                        <span class="news-catalyst">🎯 US Approval Decision</span>
-                        <span class="news-sentiment positive">Specialist funds accumulating</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-tag">Gene Therapy</div>
-                    <div class="news-ticker">RGNX</div>
-                    <h3 class="news-title">Can RGX-202 beat Elevidys in DMD?</h3>
-                    <p class="news-summary">Sarepta's Elevidys has boxed warning for liver deaths. RGNX's RGX-202 showing cleaner safety. Pivotal data Q2 2026.</p>
-                    <div class="news-meta">
-                        <span class="news-catalyst">📊 Pivotal Readout Q2 2026</span>
-                        <span class="news-sentiment neutral">Street skeptical</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-tag">Rare Disease</div>
-                    <div class="news-ticker">RGNX</div>
-                    <h3 class="news-title">Hunter syndrome: First CNS gene therapy?</h3>
-                    <p class="news-summary">RGX-121 PDUFA Feb 8, 2026. Would be first treatment to address neurological decline in MPS II. Priority Review Voucher at stake.</p>
-                    <div class="news-meta">
-                        <span class="news-catalyst">🎯 FDA Decision Feb 2026</span>
-                        <span class="news-sentiment positive">PRV upside</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-tag">Obesity</div>
-                    <div class="news-ticker">VKTX</div>
-                    <h3 class="news-title">Viking's oral GLP-1: Enough differentiation?</h3>
-                    <p class="news-summary">Phase 2 hit primary but discontinuation rates concerned investors. Oral convenience vs. Lilly/Novo injectables.</p>
-                    <div class="news-meta">
-                        <span class="news-catalyst">📊 Ph3 Design Coming</span>
-                        <span class="news-sentiment negative">Stock down on data</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-tag">Autoimmune</div>
-                    <div class="news-ticker">ABVX</div>
-                    <h3 class="news-title">Obefazimod NDA filed for UC</h3>
-                    <p class="news-summary">Novel oral MOA for ulcerative colitis. Phase 3 showed 45% remission. Competing with AbbVie's Rinvoq, but cleaner safety.</p>
-                    <div class="news-meta">
-                        <span class="news-catalyst">🎯 PDUFA Q2 2025</span>
-                        <span class="news-sentiment positive">Baker Bros position</span>
-                    </div>
-                </div>
-                <div class="news-card">
-                    <div class="news-tag">Oncology</div>
-                    <div class="news-ticker">CGON</div>
-                    <h3 class="news-title">Cretostimogene: Bladder cancer breakthrough?</h3>
-                    <p class="news-summary">Oncolytic virus for BCG-unresponsive nMIBC. 75% CR in Phase 2 vs. 38% for Keytruda. Pivotal data coming.</p>
-                    <div class="news-meta">
-                        <span class="news-catalyst">📊 Ph3 Data 2025</span>
-                        <span class="news-sentiment positive">High conviction</span>
-                    </div>
-                </div>
-            </div>
+  <!-- Satya Bio At A Glance -->
+  <section class="glance-section">
+    <div class="glance-inner">
+      <div class="glance-title">Satya Bio At A Glance</div>
+      <div class="glance-stats">
+        <div class="glance-stat">
+          <div class="glance-value">60+</div>
+          <div class="glance-label">public biotechs</div>
         </div>
-    </section>
-
-    <!-- Pricing -->
-    <section class="pricing-section" id="pricing">
-        <div class="section-container">
-            <div class="section-header" style="text-align: center;">
-                <div class="section-eyebrow">Pricing</div>
-                <h2 class="section-title">Simple pricing. No enterprise sales call.</h2>
-            </div>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-name">Starter</div>
-                    <div class="pricing-for">For individual investors</div>
-                    <div class="pricing-price">$0</div>
-                    <div class="pricing-period">Free forever</div>
-                    <ul class="pricing-features">
-                        <li>3 disease landscapes / month</li>
-                        <li>Basic competitive pipeline view</li>
-                        <li>Catalyst calendar</li>
-                    </ul>
-                    <button class="btn btn-ghost">Get Started</button>
-                </div>
-                <div class="pricing-card featured">
-                    <div class="pricing-name">Pro</div>
-                    <div class="pricing-for">For analysts & PMs</div>
-                    <div class="pricing-price">$249<span>/mo</span></div>
-                    <div class="pricing-period">Billed annually</div>
-                    <ul class="pricing-features">
-                        <li>Unlimited landscapes & companies</li>
-                        <li>Clinical data comparisons</li>
-                        <li>KOL discovery with emails</li>
-                        <li>13F ownership tracking</li>
-                        <li>Excel workbook exports</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <button class="btn btn-accent">Start 14-Day Trial</button>
-                </div>
-                <div class="pricing-card">
-                    <div class="pricing-name">Team</div>
-                    <div class="pricing-for">For funds & BD teams</div>
-                    <div class="pricing-price">Custom</div>
-                    <div class="pricing-period">Contact us</div>
-                    <ul class="pricing-features">
-                        <li>Everything in Pro</li>
-                        <li>Unlimited seats</li>
-                        <li>API access</li>
-                        <li>Custom integrations</li>
-                        <li>Dedicated support</li>
-                    </ul>
-                    <button class="btn btn-ghost">Contact Us</button>
-                </div>
-            </div>
+        <div class="glance-stat">
+          <div class="glance-value">200+</div>
+          <div class="glance-label">pipeline assets</div>
         </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-section">
-        <div class="cta-container">
-            <h2 class="cta-title">Ready to understand the landscape?</h2>
-            <p class="cta-subtitle">
-                Join the waitlist. We're onboarding biotech investors and BD teams every week.
-            </p>
-            <form class="cta-form">
-                <input type="email" placeholder="work@fund.com">
-                <button class="btn btn-accent" type="submit">Join Waitlist</button>
-            </form>
+        <div class="glance-stat">
+          <div class="glance-value">$30B+</div>
+          <div class="glance-label">deal value tracked</div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <a href="/" class="logo">
-                <span class="logo-text">Satya<span style="color: var(--accent-primary)">Bio</span></span>
-            </a>
-            <div class="footer-links">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Twitter</a>
-                <a href="#">LinkedIn</a>
-            </div>
-            <div class="footer-copy">© 2025 SatyaBio</div>
+      </div>
+      <div class="glance-meta">
+        <div class="glance-meta-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          Updated <script>document.write(new Date().toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"}))</script>
         </div>
-    </footer>
+        <div class="glance-meta-item">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          Primary source verified
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
+  <!-- Company Logos -->
+  <section class="logos-section">
+    <div class="logos-inner">
+      <div class="logos-title">Companies We Track</div>
+      <div class="logos-row">
+        <div class="logo-item">ARWR<span>RNAi</span></div>
+        <div class="logo-item">ALNY<span>RNAi</span></div>
+        <div class="logo-item">VKTX<span>GLP-1</span></div>
+        <div class="logo-item">IONS<span>ASO</span></div>
+        <div class="logo-item">RCKT<span>Gene Therapy</span></div>
+        <div class="logo-item">NTLA<span>CRISPR</span></div>
+        <div class="logo-item">RVMD<span>KRAS</span></div>
+        <div class="logo-item">MRNA<span>mRNA</span></div>
+      </div>
+    </div>
+  </section>
 
-        window.addEventListener('scroll', () => {
-            document.querySelector('nav').style.background =
-                window.scrollY > 50 ? 'rgba(10, 10, 11, 0.95)' : 'rgba(10, 10, 11, 0.85)';
-        });
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <div class="cta-inner">
+      <h2>Request Access</h2>
+      <p>Currently in private beta with select funds</p>
+      <form class="cta-form" onsubmit="event.preventDefault(); const email = this.querySelector('input').value; if(email) { window.location.href = 'mailto:hello@satyabio.com?subject=Beta%20Access%20Request&body=Email:%20' + encodeURIComponent(email); }">
+        <input type="email" placeholder="work@fund.com" required>
+        <button type="submit">Request Access</button>
+      </form>
+      <p class="cta-note">We'll be in touch within 24 hours</p>
+    </div>
+  </section>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.feature-card, .workflow-step, .pricing-card').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            observer.observe(el);
-        });
-    </script>
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+  </footer>
 </body>
 </html>
