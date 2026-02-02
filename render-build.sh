@@ -28,24 +28,26 @@ for i in {1..30}; do
   sleep 1
 done
 
-# Create static pages directory
+# Create static pages directories
 mkdir -p ../static/pages
+mkdir -p ../static/pages/company
 
-# Fetch and save dynamic pages
-echo "Fetching /companies..."
+# Fetch main pages
+echo "Fetching main pages..."
 curl -s http://localhost:3099/companies > ../static/pages/companies.html || echo "Failed to fetch /companies"
-
-echo "Fetching /targets..."
 curl -s http://localhost:3099/targets > ../static/pages/targets.html || echo "Failed to fetch /targets"
-
-echo "Fetching /kols..."
 curl -s http://localhost:3099/kols > ../static/pages/kols.html || echo "Failed to fetch /kols"
-
-echo "Fetching /about..."
 curl -s http://localhost:3099/about > ../static/pages/about.html || echo "Failed to fetch /about"
-
-echo "Fetching /research..."
 curl -s http://localhost:3099/research > ../static/pages/research.html || echo "Failed to fetch /research"
+
+# Extract all company tickers from companies page and generate detail pages
+echo "Generating company detail pages..."
+TICKERS=$(curl -s http://localhost:3099/companies | grep -o '/api/company/[A-Z]*/html' | sed 's|/api/company/||g' | sed 's|/html||g' | sort -u)
+
+for TICKER in $TICKERS; do
+  echo "  Fetching $TICKER..."
+  curl -s "http://localhost:3099/api/company/${TICKER}/html" > "../static/pages/company/${TICKER}.html" 2>/dev/null || echo "    Failed: $TICKER"
+done
 
 # Kill CLI server
 kill $CLI_PID 2>/dev/null || true
@@ -53,6 +55,9 @@ kill $CLI_PID 2>/dev/null || true
 cd ..
 
 echo "=== Verifying generated pages ==="
-ls -la static/pages/
+echo "Main pages:"
+ls -la static/pages/*.html 2>/dev/null || echo "No main pages"
+echo ""
+echo "Company pages: $(ls static/pages/company/*.html 2>/dev/null | wc -l) generated"
 
 echo "=== Build complete ==="

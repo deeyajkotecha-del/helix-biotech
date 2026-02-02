@@ -164,6 +164,18 @@ async def serve_report():
     """Serve report pages (fallback to homepage)."""
     return FileResponse(BASE_DIR / "index.html")
 
+@app.get("/api/company/{ticker}/html", response_class=HTMLResponse)
+async def serve_company_detail(ticker: str):
+    """Serve company detail page (pre-generated from CLI)."""
+    page = STATIC_PAGES / "company" / f"{ticker.upper()}.html"
+    if page.exists():
+        return FileResponse(page)
+    # Fallback to companies list if specific company not found
+    companies_page = STATIC_PAGES / "companies.html"
+    if companies_page.exists():
+        return FileResponse(companies_page)
+    return FileResponse(BASE_DIR / "index.html")
+
 # =============================================================================
 # Health Check
 # =============================================================================
