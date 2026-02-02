@@ -1,0 +1,83 @@
+{
+  "ticker": "ARWR",
+  "started_at": "2026-02-02T20:22:21.710609Z",
+  "completed_at": "2026-02-02T20:23:04.289956Z",
+  "status": "completed",
+  "steps": {
+    "ir_discovery": {
+      "status": "completed_unverified",
+      "data": {
+        "ticker": "ARWR",
+        "company_name": null,
+        "domain": "arrowheadpharma.com",
+        "ir_base_url": "https://ir.arrowheadpharma.com",
+        "download_library_url": "https://ir.arrowheadpharma.com/download-library",
+        "presentations_url": "https://ir.arrowheadpharma.com/events-presentations",
+        "sec_filings_url": null,
+        "discovery_method": "known_ir_url_unverified",
+        "verified": false
+      }
+    },
+    "presentation_scraping": {
+      "status": "completed",
+      "count": 0
+    },
+    "vision_analysis": {
+      "status": "skipped",
+      "reason": "No presentations to analyze"
+    },
+    "data_normalization": {
+      "status": "completed",
+      "pipeline_count": 0,
+      "trials_count": 0,
+      "catalysts_count": 0
+    },
+    "fda_verification": {
+      "status": "skipped"
+    },
+    "trials_verification": {
+      "status": "skipped"
+    }
+  },
+  "data_sources": {
+    "ir_page": "https://ir.arrowheadpharma.com/download-library",
+    "presentations_found": 0,
+    "presentations_analyzed": 0,
+    "fda_verified": false,
+    "trials_verified": false
+  },
+  "output_files": [
+    "/Users/deeyakotecha/helix/backend/data/companies/arwr/ir_info.json",
+    "/Users/deeyakotecha/helix/backend/data/companies/arwr/presentations_list.json",
+    "/Users/deeyakotecha/helix/backend/data/companies/arwr/normalized.json"
+  ],
+  "errors": [],
+  "logs": [
+    "[2026-02-02T20:22:21.710637Z] [INFO] Starting refresh for ARWR",
+    "[2026-02-02T20:22:21.710640Z] [INFO] ============================================================",
+    "[2026-02-02T20:22:21.710642Z] [INFO] Step 1: Discovering IR page...",
+    "[2026-02-02T20:22:33.209596Z] [INFO]   Found IR page: https://ir.arrowheadpharma.com/download-library",
+    "[2026-02-02T20:22:33.209675Z] [INFO]   Discovery method: known_ir_url_unverified",
+    "[2026-02-02T20:22:33.209686Z] [INFO]   Note: URL not verified (network may be restricted)",
+    "[2026-02-02T20:22:33.210725Z] [INFO] ",
+    "[2026-02-02T20:22:33.210743Z] [INFO] Step 2: Scraping presentations...",
+    "[2026-02-02T20:23:04.208510Z] [INFO]   Found 0 presentations",
+    "[2026-02-02T20:23:04.208901Z] [INFO] ",
+    "[2026-02-02T20:23:04.208908Z] [INFO] Step 3: Analyzing presentations with Vision API...",
+    "[2026-02-02T20:23:04.208912Z] [INFO]   SKIPPED: No presentations found",
+    "[2026-02-02T20:23:04.208914Z] [INFO] ",
+    "[2026-02-02T20:23:04.208917Z] [INFO] Step 4: Normalizing data...",
+    "[2026-02-02T20:23:04.289883Z] [INFO]   Pipeline assets: 0",
+    "[2026-02-02T20:23:04.289908Z] [INFO]   Clinical trials: 0",
+    "[2026-02-02T20:23:04.289911Z] [INFO]   Catalysts: 0",
+    "[2026-02-02T20:23:04.289930Z] [INFO] ",
+    "[2026-02-02T20:23:04.289933Z] [INFO] Step 5: FDA verification status...",
+    "[2026-02-02T20:23:04.289937Z] [INFO]   No FDA verifications performed",
+    "[2026-02-02T20:23:04.289940Z] [INFO] ",
+    "[2026-02-02T20:23:04.289943Z] [INFO] Step 6: ClinicalTrials.gov verification status...",
+    "[2026-02-02T20:23:04.289952Z] [INFO]   No ClinicalTrials.gov verifications performed",
+    "[2026-02-02T20:23:04.289959Z] [INFO] ",
+    "[2026-02-02T20:23:04.289962Z] [INFO] ============================================================",
+    "[2026-02-02T20:23:04.289965Z] [INFO] Refresh complete. Status: completed"
+  ]
+}
