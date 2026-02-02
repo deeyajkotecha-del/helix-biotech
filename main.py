@@ -114,17 +114,54 @@ async def serve_admin(request: Request):
     return templates.TemplateResponse("admin.html", {"request": request})
 
 
-# SPA routes - serve main index.html for all frontend routes
-@app.get("/targets", response_class=HTMLResponse)
-@app.get("/targets/{path:path}", response_class=HTMLResponse)
+# Pre-generated pages from CLI (built at deploy time)
+STATIC_PAGES = BASE_DIR / "static" / "pages"
+
 @app.get("/companies", response_class=HTMLResponse)
 @app.get("/companies/{path:path}", response_class=HTMLResponse)
+async def serve_companies():
+    """Serve companies page (pre-generated from CLI)."""
+    page = STATIC_PAGES / "companies.html"
+    if page.exists():
+        return FileResponse(page)
+    return FileResponse(BASE_DIR / "index.html")
+
+@app.get("/targets", response_class=HTMLResponse)
+@app.get("/targets/{path:path}", response_class=HTMLResponse)
+async def serve_targets():
+    """Serve targets page (pre-generated from CLI)."""
+    page = STATIC_PAGES / "targets.html"
+    if page.exists():
+        return FileResponse(page)
+    return FileResponse(BASE_DIR / "index.html")
+
 @app.get("/kols", response_class=HTMLResponse)
+async def serve_kols():
+    """Serve KOL Finder page (pre-generated from CLI)."""
+    page = STATIC_PAGES / "kols.html"
+    if page.exists():
+        return FileResponse(page)
+    return FileResponse(BASE_DIR / "index.html")
+
 @app.get("/research", response_class=HTMLResponse)
+async def serve_research():
+    """Serve research page (pre-generated from CLI)."""
+    page = STATIC_PAGES / "research.html"
+    if page.exists():
+        return FileResponse(page)
+    return FileResponse(BASE_DIR / "index.html")
+
 @app.get("/about", response_class=HTMLResponse)
+async def serve_about():
+    """Serve about page (pre-generated from CLI)."""
+    page = STATIC_PAGES / "about.html"
+    if page.exists():
+        return FileResponse(page)
+    return FileResponse(BASE_DIR / "index.html")
+
 @app.get("/report/{path:path}", response_class=HTMLResponse)
-async def serve_spa_routes():
-    """Serve main SatyaBio SPA for all frontend routes."""
+async def serve_report():
+    """Serve report pages (fallback to homepage)."""
     return FileResponse(BASE_DIR / "index.html")
 
 # =============================================================================

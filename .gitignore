@@ -38,6 +38,9 @@ dist/
 build/
 *.egg-info/
 
+# Generated pages (built from CLI at deploy time)
+static/pages/
+
 # Cache
 cache/
 
