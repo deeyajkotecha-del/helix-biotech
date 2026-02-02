@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: helix-biotech
+    env: python
+    buildCommand: chmod +x render-build.sh && ./render-build.sh
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11

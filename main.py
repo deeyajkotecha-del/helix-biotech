@@ -66,6 +66,11 @@ app.add_middleware(
 BASE_DIR = Path(__file__).resolve().parent
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
+# Mount React app assets (if built)
+REACT_DIST = BASE_DIR / "app" / "dist"
+if REACT_DIST.exists():
+    app.mount("/assets", StaticFiles(directory=REACT_DIST / "assets"), name="react-assets")
+
 # Templates
 templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
@@ -110,6 +115,26 @@ async def serve_dashboard(request: Request):
 async def serve_admin(request: Request):
     """Serve the admin panel."""
     return templates.TemplateResponse("admin.html", {"request": request})
+
+
+# React SPA routes - serve React app for these paths
+REACT_ROUTES = ["/targets", "/companies", "/kols", "/research", "/about", "/report"]
+
+@app.get("/targets", response_class=HTMLResponse)
+@app.get("/targets/{path:path}", response_class=HTMLResponse)
+@app.get("/companies", response_class=HTMLResponse)
+@app.get("/companies/{path:path}", response_class=HTMLResponse)
+@app.get("/kols", response_class=HTMLResponse)
+@app.get("/research", response_class=HTMLResponse)
+@app.get("/about", response_class=HTMLResponse)
+@app.get("/report/{path:path}", response_class=HTMLResponse)
+async def serve_react_app():
+    """Serve React app for SPA routes."""
+    react_index = BASE_DIR / "app" / "dist" / "index.html"
+    if react_index.exists():
+        return FileResponse(react_index)
+    # Fallback to landing page if React not built
+    return FileResponse(BASE_DIR / "index.html")
 
 # =============================================================================
 # Health Check
