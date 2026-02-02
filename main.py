@@ -78,12 +78,14 @@ async def startup_event():
 
 # Include API routers
 from app.routers import auth_router, documents_router, admin_router, sources_router, citations_router
+from app.routers.company import router as company_router
 
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(documents_router, prefix="/api/documents", tags=["Documents"])
 app.include_router(admin_router, prefix="/api/admin", tags=["Admin"])
 app.include_router(sources_router, prefix="/api/sources", tags=["Sources"])
 app.include_router(citations_router, prefix="/api/citations", tags=["Citations"])
+app.include_router(company_router, prefix="/api/company", tags=["Company"])
 
 # =============================================================================
 # Frontend Routes

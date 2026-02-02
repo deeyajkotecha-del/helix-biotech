@@ -5,8 +5,12 @@ sqlalchemy==2.0.23
 # HTTP & Scraping
 requests==2.31.0
 httpx==0.25.2
+aiohttp>=3.9.0
 beautifulsoup4==4.12.2
 lxml==4.9.3
+
+# PDF Processing
+pymupdf>=1.23.0
 
 # Data processing
 pandas==2.1.3
