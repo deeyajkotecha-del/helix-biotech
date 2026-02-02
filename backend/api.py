@@ -7,6 +7,7 @@ FastAPI server exposing biotech intelligence endpoints.
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime, timedelta
@@ -25,6 +26,16 @@ app = FastAPI(
 
 # Tracked biotech companies
 TRACKED_COMPANIES = {
+    "ARWR": {
+        "ticker": "ARWR",
+        "name": "Arrowhead Pharmaceuticals",
+        "description": "Clinical-stage biopharmaceutical company developing RNAi therapeutics using its proprietary TRiM platform",
+        "sector": "Biotechnology",
+        "lead_asset": "Plozasiran (ARO-APOC3)",
+        "indication": "FCS, Severe Hypertriglyceridemia",
+        "stage": "Approved (FCS) / Phase 3 (sHTG)",
+        "website": "https://arrowheadpharma.com"
+    },
     "ABVX": {
         "ticker": "ABVX",
         "name": "Abivax SA",
@@ -77,6 +88,57 @@ TRACKED_COMPANIES = {
     }
 }
 
+
+def load_pipeline_data(ticker: str) -> dict | None:
+    """Load enriched pipeline data from JSON file if available, merging in figures."""
+    pipeline_path = Path(__file__).parent / "data" / "pipeline_data" / f"{ticker.lower()}.json"
+    if not pipeline_path.exists():
+        return None
+
+    try:
+        with open(pipeline_path) as f:
+            data = json.load(f)
+
+        # Also load figures and merge them into programs
+        figures_path = Path(__file__).parent / "data" / "figures" / f"{ticker.lower()}.json"
+        if figures_path.exists():
+            with open(figures_path) as f:
+                figures_data = json.load(f)
+
+            # Build a mapping of asset name -> figures (from all trials)
+            asset_figures = {}
+            for asset_name, asset_data in figures_data.get("assets", {}).items():
+                all_figures = []
+                for trial_name, trial_data in asset_data.get("trials", {}).items():
+                    for fig in trial_data.get("figures", []):
+                        fig["trial"] = trial_name
+                        all_figures.append(fig)
+                if all_figures:
+                    asset_figures[asset_name] = all_figures
+
+            # Attach figures to matching programs
+            for program in data.get("programs", []):
+                program_name = program.get("name", "")
+                # Check direct name match
+                if program_name in asset_figures:
+                    program["figures"] = asset_figures[program_name]
+                    continue
+                # Check aliases
+                for alias in program.get("aliases", []):
+                    if alias in asset_figures:
+                        program["figures"] = asset_figures[alias]
+                        break
+                else:
+                    # Check if program name starts with or contains asset name
+                    for asset_name, figures in asset_figures.items():
+                        if program_name.startswith(asset_name) or asset_name in program_name:
+                            program["figures"] = figures
+                            break
+
+        return data
+    except Exception:
+        return None
+
 # CORS for frontend
 app.add_middleware(
     CORSMiddleware,
@@ -90,6 +152,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount static files for clinical figures
+# Figures are stored in the frontend public folder during development
+FIGURES_DIR = Path(__file__).parent.parent / "app" / "public" / "figures"
+if FIGURES_DIR.exists():
+    app.mount("/figures", StaticFiles(directory=str(FIGURES_DIR)), name="figures")
 
 
 class KOLSearchRequest(BaseModel):
@@ -301,6 +369,9 @@ async def get_report(ticker: str):
             "website": None
         }
 
+    # Load enriched pipeline data if available
+    pipeline_data = load_pipeline_data(ticker)
+
     # Build report with available intelligence
     lead_asset = company.get("lead_asset") or "Pipeline programs"
     indication = company.get("indication") or "various indications"
@@ -315,6 +386,36 @@ async def get_report(ticker: str):
     for t in db_trials:
         phase = t.get("phase", "Unknown")
         phases_summary[phase] = phases_summary.get(phase, 0) + 1
+
+    # Build pipeline section - use enriched data if available
+    if pipeline_data:
+        pipeline_section = {
+            "lead_asset": pipeline_data.get("lead_asset"),
+            "lead_asset_stage": pipeline_data.get("lead_asset_stage"),
+            "lead_asset_indication": pipeline_data.get("lead_asset_indication"),
+            "programs": pipeline_data.get("programs", []),
+            "total_programs": len(pipeline_data.get("programs", [])),
+            "partnerships": pipeline_data.get("partnerships", [])
+        }
+        # Use enriched company description if available
+        if pipeline_data.get("description"):
+            company["description"] = pipeline_data["description"]
+    else:
+        pipeline_section = {
+            "lead_asset": lead_asset if company.get("lead_asset") else None,
+            "lead_asset_stage": stage if company.get("stage") else None,
+            "lead_asset_indication": indication if company.get("indication") else None,
+            "programs": [
+                {
+                    "name": lead_asset,
+                    "indication": indication,
+                    "stage": stage,
+                    "description": f"Lead program for {company['name']}"
+                }
+            ] if company.get("lead_asset") else [],
+            "total_programs": 1 if company.get("lead_asset") else len(db_trials),
+            "partnerships": []
+        }
 
     report = {
         "ticker": ticker,
@@ -340,20 +441,7 @@ async def get_report(ticker: str):
                 ],
                 "recommendation": "Monitor for catalyst updates"
             },
-            "pipeline": {
-                "lead_asset": lead_asset if company.get("lead_asset") else None,
-                "lead_asset_stage": stage if company.get("stage") else None,
-                "lead_asset_indication": indication if company.get("indication") else None,
-                "programs": [
-                    {
-                        "name": lead_asset,
-                        "indication": indication,
-                        "stage": stage,
-                        "description": f"Lead program for {company['name']}"
-                    }
-                ] if company.get("lead_asset") else [],
-                "total_programs": 1 if company.get("lead_asset") else len(db_trials)
-            },
+            "pipeline": pipeline_section,
             "clinical_trials": {
                 "active_trials": [
                     {
@@ -705,6 +793,294 @@ async def get_stats():
         "trial_phases": phases,
         "database": "helix.db"
     }
+
+
+@app.post("/api/pipeline/{ticker}/generate-satya-views")
+async def generate_satya_views(ticker: str):
+    """
+    Generate Satya Views (bull/bear thesis + key question) for all pipeline programs
+    using Claude API. Requires ANTHROPIC_API_KEY environment variable.
+    """
+    import os
+
+    if not os.getenv("ANTHROPIC_API_KEY"):
+        raise HTTPException(
+            status_code=503,
+            detail="ANTHROPIC_API_KEY not configured. Set environment variable to enable Satya View generation."
+        )
+
+    try:
+        from services.satya_generator import generate_satya_views_for_company
+        data = generate_satya_views_for_company(ticker.upper())
+        return {
+            "ticker": ticker.upper(),
+            "programs_updated": len(data.get("programs", [])),
+            "message": "Satya Views generated successfully"
+        }
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"No pipeline data found for {ticker}")
+    except ImportError:
+        raise HTTPException(status_code=503, detail="Satya generator service not available")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/pipeline/{ticker}")
+async def get_pipeline_data(ticker: str):
+    """Get enriched pipeline data for a company (if available)"""
+    data = load_pipeline_data(ticker.upper())
+
+    if not data:
+        raise HTTPException(status_code=404, detail=f"No pipeline data found for {ticker}")
+
+    return data
+
+
+@app.get("/api/pipeline/{ticker}/sources")
+async def get_pipeline_sources(ticker: str):
+    """Get source citations for a company's pipeline data"""
+    data = load_pipeline_data(ticker.upper())
+
+    if not data:
+        raise HTTPException(status_code=404, detail=f"No pipeline data found for {ticker}")
+
+    return {
+        "ticker": ticker.upper(),
+        "sources": data.get("sources", []),
+        "count": len(data.get("sources", []))
+    }
+
+
+@app.get("/api/figures/{ticker}")
+async def get_figures(ticker: str, asset: Optional[str] = None):
+    """Get clinical figures for a company"""
+    figures_path = Path(__file__).parent / "data" / "figures" / f"{ticker.lower()}.json"
+
+    if not figures_path.exists():
+        return {"ticker": ticker.upper(), "assets": {}, "figures": []}
+
+    with open(figures_path) as f:
+        data = json.load(f)
+
+    if asset:
+        # Return figures for specific asset
+        asset_data = data.get("assets", {}).get(asset, {})
+        all_figures = []
+        for trial_name, trial_data in asset_data.get("trials", {}).items():
+            for fig in trial_data.get("figures", []):
+                fig["trial"] = trial_name
+                all_figures.append(fig)
+        return {"ticker": ticker.upper(), "asset": asset, "figures": all_figures}
+
+    return {"ticker": ticker.upper(), **data}
+
+
+@app.post("/api/figures/{ticker}/extract")
+async def extract_figures(
+    ticker: str,
+    pdf_url: str,
+    presentation_name: str,
+    asset_name: Optional[str] = None,
+    trial_name: Optional[str] = None,
+    indication: Optional[str] = None
+):
+    """
+    Extract and optionally annotate figures from a PDF presentation.
+    Requires poppler or PyMuPDF for extraction, ANTHROPIC_API_KEY for annotation.
+    """
+    try:
+        from services.figure_extractor import extract_figures_from_pdf, get_extraction_status
+
+        status = get_extraction_status()
+        if not status["ready"]:
+            raise HTTPException(
+                status_code=503,
+                detail="PDF extraction not available. Install pdf2image or PyMuPDF."
+            )
+
+        result = extract_figures_from_pdf(
+            pdf_url=pdf_url,
+            ticker=ticker.upper(),
+            presentation_name=presentation_name
+        )
+
+        if "error" in result:
+            raise HTTPException(status_code=500, detail=result["error"])
+
+        # Optionally annotate with Claude Vision
+        if asset_name and os.getenv("ANTHROPIC_API_KEY"):
+            from services.figure_annotator import annotate_presentation_figures, save_annotations
+
+            annotations = annotate_presentation_figures(
+                extraction_result=result,
+                asset_name=asset_name,
+                trial_name=trial_name or presentation_name,
+                indication=indication or "Unknown"
+            )
+
+            save_annotations(ticker.upper(), annotations)
+            result["annotations"] = annotations
+
+        return result
+
+    except ImportError as e:
+        raise HTTPException(status_code=503, detail=f"Service not available: {e}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/company/{ticker}/thesis/html")
+async def get_investment_thesis_html(ticker: str):
+    """
+    Generate comprehensive investment thesis HTML page.
+    Uses verified data from FDA, ClinicalTrials.gov, and company sources.
+    """
+    from fastapi.responses import HTMLResponse
+    try:
+        from services.thesis_generator import generate_thesis
+        html_content = generate_thesis(ticker.upper())
+        return HTMLResponse(content=html_content, status_code=200)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/company/{ticker}/refresh")
+async def refresh_company_data(ticker: str):
+    """
+    Refresh company data from all authoritative sources:
+    - FDA approval status (OpenFDA API)
+    - Clinical trial status (ClinicalTrials.gov API)
+    - IR news (company press releases)
+    """
+    try:
+        from services.company_refresher import CompanyRefresher
+        refresher = CompanyRefresher(verbose=False)
+        result = refresher.refresh(ticker.upper())
+        return result
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"No pipeline data found for {ticker}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class FullRefreshRequest(BaseModel):
+    months_back: int = 12
+    max_presentations: int = 10
+    skip_vision: bool = False
+
+
+@app.post("/api/company/{ticker}/full-refresh")
+async def full_refresh_company(ticker: str, request: FullRefreshRequest = None):
+    """
+    Full automated refresh: Discover IR page, scrape presentations, analyze with Vision API,
+    normalize data, and verify with FDA/ClinicalTrials.gov.
+
+    This works for ANY biotech company - no manual data entry required.
+
+    Parameters:
+    - months_back: How many months of presentations to fetch (default: 12)
+    - max_presentations: Maximum presentations to analyze with Vision API (default: 10)
+    - skip_vision: Skip Vision API analysis and use cached data (default: false)
+    """
+    request = request or FullRefreshRequest()
+
+    try:
+        from services.master_refresh import refresh_company
+        result = await refresh_company(
+            ticker.upper(),
+            months_back=request.months_back,
+            max_presentations=request.max_presentations,
+            skip_vision=request.skip_vision,
+            verbose=False
+        )
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/company/{ticker}/data-sources")
+async def get_company_data_sources(ticker: str):
+    """
+    Get information about all data sources used for a company.
+    Returns IR page info, presentations found, analysis status, and verification status.
+    """
+    ticker = ticker.upper()
+    company_dir = Path(__file__).parent / "data" / "companies" / ticker.lower()
+
+    result = {
+        "ticker": ticker,
+        "ir_info": None,
+        "presentations": [],
+        "normalized_data": None,
+        "has_vision_analysis": False,
+        "fda_verified": False,
+        "trials_verified": False
+    }
+
+    # Check IR info
+    ir_path = company_dir / "ir_info.json"
+    if ir_path.exists():
+        with open(ir_path) as f:
+            result["ir_info"] = json.load(f)
+
+    # Check presentations list
+    pres_path = company_dir / "presentations_list.json"
+    if pres_path.exists():
+        with open(pres_path) as f:
+            result["presentations"] = json.load(f)
+
+    # Check analyzed presentations
+    analysis_path = company_dir / "analyzed_presentations.json"
+    result["has_vision_analysis"] = analysis_path.exists()
+
+    # Check normalized data
+    norm_path = company_dir / "normalized.json"
+    if norm_path.exists():
+        with open(norm_path) as f:
+            norm_data = json.load(f)
+            result["normalized_data"] = {
+                "normalized_at": norm_data.get("normalized_at"),
+                "pipeline_count": len(norm_data.get("pipeline", [])),
+                "trials_count": len(norm_data.get("clinical_trials", [])),
+                "catalysts_count": len(norm_data.get("catalysts", [])),
+                "sources": norm_data.get("sources", {})
+            }
+            result["fda_verified"] = norm_data.get("sources", {}).get("fda_api", False)
+            result["trials_verified"] = norm_data.get("sources", {}).get("clinicaltrials_api", False)
+
+    # Also check legacy pipeline_data location
+    if not result["normalized_data"]:
+        legacy_path = Path(__file__).parent / "data" / "pipeline_data" / f"{ticker.lower()}.json"
+        if legacy_path.exists():
+            with open(legacy_path) as f:
+                legacy_data = json.load(f)
+                result["normalized_data"] = {
+                    "normalized_at": legacy_data.get("last_updated"),
+                    "pipeline_count": len(legacy_data.get("programs", [])),
+                    "sources": legacy_data.get("sources", [])
+                }
+
+    return result
+
+
+@app.get("/api/company/{ticker}/normalized")
+async def get_normalized_data(ticker: str):
+    """
+    Get normalized company data from automated IR ingestion.
+    This is the merged, deduplicated data from all analyzed presentations.
+    """
+    ticker = ticker.upper()
+    company_dir = Path(__file__).parent / "data" / "companies" / ticker.lower()
+    norm_path = company_dir / "normalized.json"
+
+    if not norm_path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail=f"No normalized data for {ticker}. Run POST /api/company/{ticker}/full-refresh first."
+        )
+
+    with open(norm_path) as f:
+        return json.load(f)
 
 
 if __name__ == "__main__":

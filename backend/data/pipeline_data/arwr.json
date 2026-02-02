@@ -1,0 +1,857 @@
+{
+  "ticker": "ARWR",
+  "name": "Arrowhead Pharmaceuticals",
+  "description": "Clinical-stage biopharmaceutical company developing RNAi therapeutics using its proprietary TRiM platform",
+  "sector": "Biotechnology",
+  "website": "https://arrowheadpharma.com",
+  "lead_asset": "Plozasiran",
+  "lead_asset_stage": "Approved (FCS) / Phase 3 (sHTG)",
+  "lead_asset_indication": "Familial Chylomicronemia Syndrome, Severe Hypertriglyceridemia",
+  "programs": [
+    {
+      "name": "Plozasiran (ARO-APOC3)",
+      "aliases": [
+        "ARO-APOC3",
+        "REDEMPLO"
+      ],
+      "target": "APOC3",
+      "stage": "Approved (FCS) / Phase 3 (sHTG)",
+      "indication": "FCS, Severe Hypertriglyceridemia, Mixed Hyperlipidemia",
+      "partner": "Amgen",
+      "key_data": "80% TG reduction (PALISADE), 83% pancreatitis risk reduction",
+      "next_catalyst": "sHTG approval (PDUFA)",
+      "fda_verification": {
+        "is_approved": true,
+        "verified_at": "2026-02-02T19:48:06.401973Z",
+        "approval_date": "2025-11-18",
+        "brand_name": "REDEMPLO",
+        "sponsor": "ARROWHEAD",
+        "application_number": "NDA219947",
+        "indication_summary": "1 INDICATIONS AND USAGE REDEMPLO is indicated as an adjunct to diet to reduce triglycerides in adults with familial chylomicronemia syndrome (FCS). REDEMPLO is an apolipoprotein C-III ( apoC-III )-directed small interfering ribonucleic acid (siRNA) indicated as an adjunct to diet to reduce triglycer"
+      },
+      "satya_view": {
+        "bull_thesis": "First-in-class RNAi therapeutic for APOC3 with best-in-class 80% triglyceride reduction and durable quarterly dosing. FCS approval validates mechanism. sHTG represents 10x larger market (~500K US patients). SHASTA-3/4/5 trials ongoing for broader indications. Amgen partnership provides experienced CV sales force.",
+        "bear_thesis": "FCS is tiny orphan market (~3,000 US patients). sHTG faces competition from Ionis olezarsen. Amgen controls commercialization meaning majority economics flow to partner. No CV outcomes data yet.",
+        "key_question": "Will Phase 3 sHTG trials (SHASTA-3/4/5) succeed and enable broad commercial launch in the much larger sHTG population?"
+      },
+      "mechanism": {
+        "modality": "RNAi (siRNA)",
+        "delivery": "GalNAc conjugate (TRiM platform) - hepatocyte-targeted",
+        "description": "Silences APOC3 mRNA in hepatocytes. APOC3 inhibits lipoprotein lipase. By reducing APOC3, plozasiran increases LPL activity, accelerating clearance of triglyceride-rich lipoproteins.",
+        "dosing": "Subcutaneous injection every 12 weeks (quarterly)"
+      },
+      "clinical_data": [
+        {
+          "trial_name": "PALISADE",
+          "nct_id": "NCT05089084",
+          "phase": "Phase 3",
+          "indication": "Familial Chylomicronemia Syndrome (FCS)",
+          "status": "ACTIVE_NOT_RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT05089084",
+          "design": {
+            "n_enrolled": 75,
+            "arms": [
+              "Plozasiran 50mg Q12W",
+              "Placebo"
+            ],
+            "duration": "10 weeks (primary), 1-year OLE",
+            "primary_endpoint": "Percent change in fasting TG at Week 10",
+            "enrollment_verified": true
+          },
+          "results": {
+            "primary": {
+              "endpoint": "TG reduction at Week 10",
+              "result": "-80%",
+              "comparator": "Placebo: -18%",
+              "p_value": "<0.001"
+            },
+            "key_secondary": [
+              {
+                "endpoint": "Pancreatitis risk reduction",
+                "result": "83%"
+              },
+              {
+                "endpoint": "Patients achieving TG <750 mg/dL",
+                "result": "88%",
+                "comparator": "Placebo: 8%"
+              }
+            ]
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:08.911644Z",
+            "official_title": "A Phase 3 Study to Evaluate the Efficacy and Safety of ARO-APOC3 in Adults With Familial Chylomicronemia Syndrome",
+            "overall_status": "ACTIVE_NOT_RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 75,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2024-04-29",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT05089084"
+          }
+        },
+        {
+          "trial_name": "SHASTA-2",
+          "nct_id": "NCT04720534",
+          "phase": "Phase 2",
+          "indication": "Severe Hypertriglyceridemia (sHTG)",
+          "status": "COMPLETED",
+          "source_url": "https://clinicaltrials.gov/study/NCT04720534",
+          "design": {
+            "n_enrolled": 229,
+            "arms": [
+              "Plozasiran 50mg Q24W",
+              "Plozasiran 50mg Q12W",
+              "Placebo"
+            ],
+            "duration": "24 weeks",
+            "primary_endpoint": "Percent change in fasting TG at Week 24"
+          },
+          "results": {
+            "primary": {
+              "endpoint": "TG reduction at Week 24",
+              "result": "-77% (Q12W)",
+              "comparator": "Placebo: +4%",
+              "p_value": "<0.001"
+            }
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:08.944032Z",
+            "official_title": "A Double-Blind, Placebo-Controlled Phase 2b Study to Evaluate the Efficacy and Safety of ARO-APOC3 in Adults With Severe Hypertriglyceridemia",
+            "overall_status": "COMPLETED",
+            "phase": "Phase 2",
+            "enrollment": 229,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2023-03-09",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT04720534"
+          }
+        },
+        {
+          "trial_name": "SHASTA-3",
+          "nct_id": "NCT06347003",
+          "phase": "Phase 3",
+          "indication": "Severe Hypertriglyceridemia (sHTG)",
+          "status": "ACTIVE_NOT_RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT06347003",
+          "design": {
+            "primary_endpoint": "Percent change in fasting TG",
+            "n_enrolled": 446,
+            "enrollment_verified": true
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:08.977062Z",
+            "official_title": "Double-blind, Placebo-controlled, Phase 3 Study to Evaluate the Efficacy and Safety of Plozasiran in Adults With Severe Hypertriglyceridemia",
+            "overall_status": "ACTIVE_NOT_RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 446,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2026-06",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT06347003"
+          }
+        },
+        {
+          "trial_name": "SHASTA-4",
+          "nct_id": "NCT06347016",
+          "phase": "Phase 3",
+          "indication": "Severe Hypertriglyceridemia (sHTG)",
+          "status": "ACTIVE_NOT_RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT06347016",
+          "design": {
+            "primary_endpoint": "Percent change in fasting TG",
+            "n_enrolled": 311,
+            "enrollment_verified": true
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.008746Z",
+            "official_title": "Double-blind, Placebo-controlled, Phase 3 Study to Evaluate the Efficacy and Safety of Plozsiran in Adults With Severe Hypertriglyceridemia",
+            "overall_status": "ACTIVE_NOT_RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 311,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2026-06",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT06347016"
+          }
+        },
+        {
+          "trial_name": "SHASTA-5",
+          "nct_id": "NCT06880770",
+          "phase": "Phase 3",
+          "indication": "Severe Hypertriglyceridemia at Risk of Acute Pancreatitis",
+          "status": "RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT06880770",
+          "design": {
+            "primary_endpoint": "Acute pancreatitis events",
+            "n_enrolled": 288,
+            "enrollment_verified": true
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.042431Z",
+            "official_title": "Double-Blind, Placebo-Controlled, Phase 3 Study to Evaluate the Efficacy and Safety of Plozasiran in Adults With Severe Hypertriglyceridemia at High Risk of Acute Pancreatitis (SHASTA-5 Study)",
+            "overall_status": "RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 288,
+            "enrollment_type": "estimated",
+            "primary_completion_date": "2029-03",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT06880770"
+          }
+        },
+        {
+          "trial_name": "SHASTA-10",
+          "nct_id": "NCT06822790",
+          "phase": "Phase 3",
+          "indication": "Long-term safety/efficacy in Hypertriglyceridemia",
+          "status": "RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT06822790",
+          "design": {
+            "primary_endpoint": "Long-term safety",
+            "n_enrolled": 869,
+            "enrollment_verified": true
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.075768Z",
+            "official_title": "A Phase 3 Open-Label Extension Study to Evaluate the Long-Term Safety and Efficacy of Plozasiran in Adults With Hypertriglyceridemia (SHASTA-10 Study)",
+            "overall_status": "RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 869,
+            "enrollment_type": "estimated",
+            "primary_completion_date": "2028-07",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT06822790"
+          }
+        },
+        {
+          "trial_name": "MUIR",
+          "nct_id": "NCT04998201",
+          "phase": "Phase 2",
+          "indication": "Mixed Hyperlipidemia",
+          "status": "COMPLETED",
+          "source_url": "https://clinicaltrials.gov/study/NCT04998201",
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.109873Z",
+            "official_title": "A Double-Blind, Placebo-Controlled Phase 2b Study to Evaluate the Efficacy and Safety of ARO-APOC3 in Adults With Mixed Dyslipidemia",
+            "overall_status": "COMPLETED",
+            "phase": "Phase 2",
+            "enrollment": 353,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2023-02-10",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT04998201"
+          }
+        },
+        {
+          "trial_name": "MUIR-3",
+          "nct_id": "NCT06347133",
+          "phase": "Phase 3",
+          "indication": "Hypertriglyceridemia",
+          "status": "ACTIVE_NOT_RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT06347133",
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.141546Z",
+            "official_title": "Double-blind, Placebo-controlled, Phase 3 Study to Evaluate the Efficacy and Safety of Plozasiran in Adults With Hypertriglyceridemia",
+            "overall_status": "ACTIVE_NOT_RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 1456,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2026-05",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT06347133"
+          }
+        }
+      ],
+      "competitors": [
+        {
+          "drug_name": "Volanesorsen (Waylivra)",
+          "company": "Ionis/Sobi",
+          "mechanism": "ASO targeting APOC3",
+          "stage": "Approved (EU only)",
+          "efficacy": "77% TG reduction",
+          "differentiation": "Plozasiran has better safety (no platelet issues), less frequent dosing (quarterly vs weekly)"
+        },
+        {
+          "drug_name": "Olezarsen",
+          "company": "Ionis",
+          "mechanism": "GalNAc-ASO targeting APOC3",
+          "stage": "Approved (US, Dec 2024)",
+          "efficacy": "~60% TG reduction",
+          "differentiation": "Both quarterly. Plozasiran shows higher TG reduction. Commercial race ongoing."
+        }
+      ],
+      "catalysts": [
+        {
+          "event": "FCS approval (FDA)",
+          "expected_date": "2025-11-18",
+          "actual_date": "2025-11-18",
+          "status": "completed",
+          "outcome": "Approved as REDEMPLO",
+          "fda_verified": true
+        },
+        {
+          "event": "sHTG approval decision (PDUFA)",
+          "expected_date": "H1 2026",
+          "status": "upcoming",
+          "significance": "10x larger market than FCS"
+        },
+        {
+          "event": "SHASTA-3 topline data",
+          "status": "upcoming"
+        },
+        {
+          "event": "SHASTA-4 topline data",
+          "status": "upcoming"
+        }
+      ],
+      "partnership": {
+        "partner": "Amgen",
+        "established": "2016",
+        "programs_covered": [
+          "Plozasiran",
+          "Zodasiran"
+        ],
+        "financial_terms": {
+          "upfront": 35000000,
+          "milestones_potential": 617000000,
+          "royalties": "Tiered, low double-digit",
+          "received_to_date": 120000000
+        }
+      }
+    },
+    {
+      "name": "Zodasiran (ARO-ANG3)",
+      "aliases": [
+        "ARO-ANG3"
+      ],
+      "target": "ANGPTL3",
+      "stage": "Phase 2/3",
+      "indication": "Mixed Dyslipidemia, HoFH, ASCVD Risk Reduction",
+      "partner": "Amgen",
+      "key_data": "65% LDL-C reduction, 70% TG reduction",
+      "next_catalyst": "Phase 3 HoFH data",
+      "fda_verification": {
+        "is_approved": false,
+        "verified_at": "2026-02-02T19:48:06.993700Z",
+        "raw_results_count": 0
+      },
+      "satya_view": {
+        "bull_thesis": "ANGPTL3 is genetically validated - LOF mutations show low LDL, low TGs, reduced CV events. Zodasiran achieves dual LDL-C (65%) and TG (70%) reduction with quarterly dosing. Phase 3 HoFH trial recruiting.",
+        "bear_thesis": "Crowded lipid market with statins and PCSK9i. Evinacumab (Regeneron) already approved for HoFH. Quarterly injection vs daily statin limits adoption.",
+        "key_question": "Can zodasiran demonstrate CV outcomes benefit to justify premium pricing?"
+      },
+      "mechanism": {
+        "modality": "RNAi (siRNA)",
+        "delivery": "GalNAc conjugate (TRiM platform)",
+        "description": "Silences ANGPTL3 which inhibits both LPL and endothelial lipase. Lowers both TG and LDL-C.",
+        "dosing": "Subcutaneous Q12W (quarterly)"
+      },
+      "clinical_data": [
+        {
+          "trial_name": "ARCHES-2",
+          "nct_id": "NCT04832971",
+          "phase": "Phase 2",
+          "indication": "Mixed Dyslipidemia",
+          "status": "COMPLETED",
+          "source_url": "https://clinicaltrials.gov/study/NCT04832971",
+          "design": {
+            "n_enrolled": 204
+          },
+          "results": {
+            "primary": {
+              "endpoint": "Non-HDL-C reduction",
+              "result": "-55%",
+              "p_value": "<0.001"
+            },
+            "key_secondary": [
+              {
+                "endpoint": "LDL-C reduction",
+                "result": "-65%"
+              },
+              {
+                "endpoint": "TG reduction",
+                "result": "-70%"
+              }
+            ]
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.181249Z",
+            "official_title": "A Double-blind, Placebo-controlled Phase 2b Study to Evaluate the Efficacy and Safety of ARO-ANG3 in Adults With Mixed Dyslipidemia",
+            "overall_status": "COMPLETED",
+            "phase": "Phase 2",
+            "enrollment": 204,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2022-08-30",
+            "has_results": true,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT04832971"
+          }
+        },
+        {
+          "trial_name": "Gateway",
+          "nct_id": "NCT05217667",
+          "phase": "Phase 2",
+          "indication": "Homozygous Familial Hypercholesterolemia (HoFH)",
+          "status": "ACTIVE_NOT_RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT05217667",
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.206883Z",
+            "official_title": "Phase 2 Study to Evaluate the Safety and Efficacy of ARO-ANG3 in Subjects With Homozygous Familial Hypercholesterolemia (HOFH)",
+            "overall_status": "ACTIVE_NOT_RECRUITING",
+            "phase": "Phase 2",
+            "enrollment": 18,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2023-05-02",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT05217667"
+          }
+        },
+        {
+          "trial_name": "Zodasiran Phase 3 HoFH",
+          "nct_id": "NCT07037771",
+          "phase": "Phase 3",
+          "indication": "Homozygous Familial Hypercholesterolemia",
+          "status": "RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT07037771",
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.240055Z",
+            "official_title": "Phase 3 Study to Evaluate the Efficacy and Safety of Zodasiran in Adolescent and Adult Subjects With Homozygous Familial Hypercholesterolemia (YOSEMITE)",
+            "overall_status": "RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 60,
+            "enrollment_type": "estimated",
+            "primary_completion_date": "2027-08-20",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT07037771"
+          }
+        }
+      ],
+      "competitors": [
+        {
+          "drug_name": "Evinacumab (Evkeeza)",
+          "company": "Regeneron",
+          "mechanism": "ANGPTL3 antibody",
+          "stage": "Approved (HoFH)",
+          "efficacy": "47% LDL-C reduction",
+          "differentiation": "Zodasiran shows higher efficacy (65% vs 47%), quarterly SC vs monthly IV"
+        }
+      ],
+      "catalysts": [
+        {
+          "event": "Phase 3 HoFH initiated",
+          "actual_date": "2024",
+          "status": "completed"
+        },
+        {
+          "event": "Phase 3 HoFH data",
+          "expected_date": "2026-2027",
+          "status": "upcoming"
+        }
+      ]
+    },
+    {
+      "name": "Fazirsiran (ARO-AAT)",
+      "aliases": [
+        "ARO-AAT",
+        "TAK-999"
+      ],
+      "target": "AAT (Alpha-1 Antitrypsin)",
+      "stage": "Phase 3",
+      "indication": "Alpha-1 Antitrypsin Deficiency Liver Disease (AATD-LD)",
+      "partner": "Takeda",
+      "key_data": "96% Z-AAT reduction, liver fibrosis improvement",
+      "next_catalyst": "Phase 3 data 2026+",
+      "fda_verification": {
+        "is_approved": false,
+        "verified_at": "2026-02-02T19:48:07.574100Z",
+        "raw_results_count": 0
+      },
+      "satya_view": {
+        "bull_thesis": "Fazirsiran addresses root cause of AATD liver disease by silencing mutant Z-AAT that aggregates in hepatocytes. Phase 2 showed 96% reduction with histological fibrosis improvement. No approved therapy exists. Takeda partnership provides $1B+ potential milestones.",
+        "bear_thesis": "AATD liver disease is rare (~10-15% of AATD patients). Regulatory path unclear - may require clinical outcomes not just Z-AAT reduction. Takeda controls development.",
+        "key_question": "Will Phase 3 SEQUOIA show sufficient fibrosis improvement for FDA approval?"
+      },
+      "mechanism": {
+        "modality": "RNAi (siRNA)",
+        "delivery": "GalNAc conjugate (TRiM platform)",
+        "description": "Silences AAT mRNA, reducing both normal and mutant Z-AAT. Prevents accumulation of toxic aggregates in hepatocytes.",
+        "dosing": "Subcutaneous Q12W (quarterly)"
+      },
+      "clinical_data": [
+        {
+          "trial_name": "AROAAT-2002",
+          "nct_id": "NCT03946449",
+          "phase": "Phase 2",
+          "indication": "AATD Liver Disease",
+          "status": "COMPLETED",
+          "source_url": "https://clinicaltrials.gov/study/NCT03946449",
+          "design": {
+            "n_enrolled": 16
+          },
+          "results": {
+            "primary": {
+              "endpoint": "Hepatic Z-AAT reduction",
+              "result": "-96%",
+              "p_value": "<0.001"
+            },
+            "key_secondary": [
+              {
+                "endpoint": "Liver fibrosis improvement",
+                "result": "7/8 patients improved"
+              }
+            ]
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.272507Z",
+            "official_title": "A Pilot Open Label, Multi-dose, Phase 2 Study to Assess the Safety and Efficacy of Fazirsiran (TAK-999, ARO-AAT) in Patients With Alpha-1 Antitrypsin Deficiency Associated Liver Disease (AATD)",
+            "overall_status": "COMPLETED",
+            "phase": "Phase 2",
+            "enrollment": 16,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2022-04-28",
+            "has_results": true,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT03946449"
+          }
+        },
+        {
+          "trial_name": "SEQUOIA Phase 2",
+          "nct_id": "NCT03945292",
+          "phase": "Phase 2",
+          "indication": "AATD Liver Disease",
+          "status": "COMPLETED",
+          "source_url": "https://clinicaltrials.gov/study/NCT03945292",
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.312866Z",
+            "official_title": "A Placebo-Controlled, Multi-dose, Phase 2 Study to Determine the Safety, Tolerability and Pharmacodynamic Effect of Fazirsiran (TAK-999, ARO-AAT) in Patients With Alpha-1 Antitrypsin Deficiency (AATD) [SEQUOIA]",
+            "overall_status": "COMPLETED",
+            "phase": "Phase 2",
+            "enrollment": 40,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2021-11-08",
+            "has_results": true,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT03945292"
+          }
+        },
+        {
+          "trial_name": "SEQUOIA Phase 3",
+          "nct_id": "NCT05677971",
+          "phase": "Phase 3",
+          "indication": "AATD Liver Disease with Fibrosis",
+          "status": "RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT05677971",
+          "sponsor": "Takeda",
+          "design": {
+            "n_enrolled": 160,
+            "primary_endpoint": "Fibrosis improvement without worsening",
+            "primary_completion_date": "2028-02"
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.340419Z",
+            "official_title": "A Randomized, Double-blind, Placebo-Controlled, Phase 3 Study to Evaluate the Efficacy and Safety of Fazirsiran in the Treatment of Alpha-1 Antitrypsin Deficiency-Associated Liver Disease With METAVIR Stage F2 to F4 Fibrosis",
+            "overall_status": "RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 160,
+            "enrollment_type": "estimated",
+            "primary_completion_date": "2028-02-17",
+            "has_results": false,
+            "sponsor": "Takeda",
+            "url": "https://clinicaltrials.gov/study/NCT05677971"
+          }
+        },
+        {
+          "trial_name": "SEQUOIA Extension",
+          "nct_id": "NCT05899673",
+          "phase": "Phase 3",
+          "indication": "Long-term safety",
+          "status": "ACTIVE_NOT_RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT05899673",
+          "sponsor": "Takeda",
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.377518Z",
+            "official_title": "A Phase 3, Open-Label Extension Study to Evaluate the Long-Term Safety and Efficacy of Fazirsiran in Participants With Alpha-1 Antitrypsin Deficiency-Associated Liver Disease",
+            "overall_status": "ACTIVE_NOT_RECRUITING",
+            "phase": "Phase 3",
+            "enrollment": 31,
+            "enrollment_type": "actual",
+            "primary_completion_date": "2033-05-02",
+            "has_results": false,
+            "sponsor": "Takeda",
+            "url": "https://clinicaltrials.gov/study/NCT05899673"
+          }
+        }
+      ],
+      "partnership": {
+        "partner": "Takeda",
+        "established": "2020",
+        "financial_terms": {
+          "upfront": 300000000,
+          "milestones_potential": 1040000000,
+          "royalties": "Tiered on net sales",
+          "received_to_date": 340000000
+        }
+      }
+    },
+    {
+      "name": "ARO-INHBE",
+      "aliases": [],
+      "target": "INHBE (Inhibin beta E)",
+      "stage": "Phase 1/2",
+      "indication": "Obesity, Metabolic Dysfunction",
+      "partner": null,
+      "key_data": "6-9% weight loss (Phase 1)",
+      "next_catalyst": "Phase 1/2 data 2025-2026",
+      "fda_verification": {
+        "is_approved": false,
+        "verified_at": "2026-02-02T19:48:08.224821Z",
+        "raw_results_count": 0
+      },
+      "satya_view": {
+        "bull_thesis": "Novel genetically-validated obesity target. INHBE LOF mutations associated with lower BMI. Early data shows 6-9% weight loss with quarterly dosing and no GI side effects (unlike GLP-1s). ARWR retains full rights.",
+        "bear_thesis": "GLP-1s achieving 15-25% weight loss are becoming standard of care. 6-9% may not be competitive. Mechanism less understood than GLP-1.",
+        "key_question": "Can ARO-INHBE achieve >15% weight loss to compete with GLP-1 agonists?"
+      },
+      "mechanism": {
+        "modality": "RNAi (siRNA)",
+        "delivery": "GalNAc conjugate (TRiM platform)",
+        "description": "Silences INHBE which forms activin E. Activin E signals through ALK7 to promote fat accumulation. Blocking this shifts energy balance toward fat oxidation.",
+        "dosing": "Subcutaneous Q12W (quarterly)"
+      },
+      "clinical_data": [
+        {
+          "trial_name": "ARO-INHBE Phase 1/2",
+          "nct_id": "NCT06700538",
+          "phase": "Phase 1/2",
+          "indication": "Obesity with and without Type 2 Diabetes",
+          "status": "RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT06700538",
+          "design": {
+            "primary_endpoint": "Safety, percent change in body weight",
+            "n_enrolled": 120,
+            "enrollment_verified": true
+          },
+          "results": {
+            "primary": {
+              "endpoint": "Body weight reduction (preliminary)",
+              "result": "-6 to -9%",
+              "comparator": "Placebo: -1%"
+            }
+          },
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.405182Z",
+            "official_title": "A Phase 1/2a Study to Evaluate the Safety, Tolerability, Pharmacokinetics, and Pharmacodynamics of ARO-INHBE in Adult Volunteers With Obesity With and Without Diabetes Mellitus",
+            "overall_status": "RECRUITING",
+            "phase": "Phase 1",
+            "enrollment": 120,
+            "enrollment_type": "estimated",
+            "primary_completion_date": "2026-05",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT06700538"
+          }
+        }
+      ],
+      "competitors": [
+        {
+          "drug_name": "Semaglutide (Wegovy)",
+          "company": "Novo Nordisk",
+          "mechanism": "GLP-1 agonist",
+          "stage": "Approved",
+          "efficacy": "15-17% weight loss",
+          "differentiation": "ARO-INHBE is quarterly vs weekly, no GI side effects"
+        },
+        {
+          "drug_name": "Tirzepatide (Zepbound)",
+          "company": "Eli Lilly",
+          "mechanism": "GLP-1/GIP dual agonist",
+          "stage": "Approved",
+          "efficacy": "20-25% weight loss",
+          "differentiation": "Tirzepatide best-in-class efficacy"
+        }
+      ]
+    },
+    {
+      "name": "ARO-ALK7",
+      "aliases": [],
+      "target": "ALK7 (ACVR1C)",
+      "stage": "Phase 1/2",
+      "indication": "Obesity, Metabolic Dysfunction",
+      "partner": null,
+      "key_data": "Preclinical: significant weight loss in NHPs",
+      "next_catalyst": "Phase 1/2 data",
+      "fda_verification": {
+        "is_approved": false,
+        "verified_at": "2026-02-02T19:48:08.844373Z",
+        "raw_results_count": 0
+      },
+      "satya_view": {
+        "bull_thesis": "ALK7 is receptor for INHBE/activin E - orthogonal approach to same pathway. Dual program gives optionality. Earlier stage means less dilution if successful.",
+        "bear_thesis": "Even earlier stage than ARO-INHBE. Same GLP-1 competition. May be redundant with ARO-INHBE.",
+        "key_question": "Will ALK7 inhibition show differentiated profile vs ARO-INHBE?"
+      },
+      "mechanism": {
+        "modality": "RNAi (siRNA)",
+        "delivery": "GalNAc conjugate (TRiM platform)",
+        "description": "Silences ALK7 receptor in adipose tissue. ALK7 mediates activin E signaling that promotes fat accumulation.",
+        "dosing": "Subcutaneous (interval TBD)"
+      },
+      "clinical_data": [
+        {
+          "trial_name": "ARO-ALK7 Phase 1/2",
+          "nct_id": "NCT06937203",
+          "phase": "Phase 1/2",
+          "indication": "Obesity with and without Type 2 Diabetes",
+          "status": "RECRUITING",
+          "source_url": "https://clinicaltrials.gov/study/NCT06937203",
+          "ctgov_verification": {
+            "verified_at": "2026-02-02T19:48:09.437289Z",
+            "official_title": "A Phase 1/2A Dose-Escalating Study to Evaluate the Safety, Tolerability, Pharmacokinetics and Pharmacodynamics of ARO-ALK7 in Adult Volunteers With Obesity With and Without Type 2 Diabetes Mellitus",
+            "overall_status": "RECRUITING",
+            "phase": "Phase 1",
+            "enrollment": 126,
+            "enrollment_type": "estimated",
+            "primary_completion_date": "2026-07",
+            "has_results": false,
+            "sponsor": "Arrowhead Pharmaceuticals",
+            "url": "https://clinicaltrials.gov/study/NCT06937203"
+          }
+        }
+      ]
+    }
+  ],
+  "partnerships": [
+    {
+      "partner": "Amgen",
+      "established": "2016",
+      "status": "Active",
+      "programs": [
+        "Plozasiran",
+        "Zodasiran"
+      ],
+      "financial_terms": {
+        "upfront": 35000000,
+        "milestones_potential": 617000000,
+        "royalties": "Tiered, low double-digit",
+        "received_to_date": 120000000
+      }
+    },
+    {
+      "partner": "Takeda",
+      "established": "2020",
+      "status": "Active",
+      "programs": [
+        "Fazirsiran"
+      ],
+      "financial_terms": {
+        "upfront": 300000000,
+        "milestones_potential": 1040000000,
+        "royalties": "Tiered on net sales",
+        "received_to_date": 340000000
+      }
+    },
+    {
+      "partner": "Johnson & Johnson (Janssen)",
+      "established": "2018",
+      "status": "Active",
+      "programs": [
+        "JNJ-3989 (ARO-HBV)",
+        "JNJ-75220795 (ARO-HBV2)"
+      ],
+      "financial_terms": {
+        "upfront": 250000000,
+        "milestones_potential": 1600000000,
+        "royalties": "Mid-single to low-double digit",
+        "received_to_date": 375000000
+      }
+    }
+  ],
+  "company_catalysts": [
+    {
+      "event": "Plozasiran FCS approval",
+      "actual_date": "2025-11-18",
+      "status": "completed",
+      "outcome": "Approved as REDEMPLO",
+      "fda_verified": true
+    },
+    {
+      "event": "Plozasiran sHTG PDUFA",
+      "expected_date": "H1 2026",
+      "status": "upcoming",
+      "significance": "10x larger market opportunity"
+    },
+    {
+      "event": "SHASTA-3/4/5 Phase 3 data",
+      "expected_date": "2026",
+      "status": "upcoming"
+    },
+    {
+      "event": "Zodasiran Phase 3 HoFH data",
+      "expected_date": "2026-2027",
+      "status": "upcoming"
+    },
+    {
+      "event": "SEQUOIA Phase 3 data",
+      "expected_date": "2028",
+      "status": "upcoming"
+    }
+  ],
+  "_data_verification": {
+    "last_verified": "2026-02-02T19:30:00Z",
+    "sources": {
+      "fda_approvals": "OpenFDA API (https://api.fda.gov/drug/drugsfda.json)",
+      "clinical_trials": "ClinicalTrials.gov API v2 (https://clinicaltrials.gov/api/v2/studies)",
+      "company_info": "Company website, SEC filings"
+    },
+    "nct_ids_verified": [
+      "NCT05089084",
+      "NCT04720534",
+      "NCT06347003",
+      "NCT06347016",
+      "NCT06880770",
+      "NCT06822790",
+      "NCT04998201",
+      "NCT06347133",
+      "NCT04832971",
+      "NCT05217667",
+      "NCT07037771",
+      "NCT03946449",
+      "NCT03945292",
+      "NCT05677971",
+      "NCT05899673",
+      "NCT06700538",
+      "NCT06937203"
+    ]
+  },
+  "ir_news": {
+    "scraped_at": "2026-02-02T19:48:09.437314Z",
+    "errors": [
+      "Request error: HTTPSConnectionPool(host='ir.arrowheadpharma.com', port=443): Read timed out. (read timeout=30)"
+    ],
+    "items": []
+  },
+  "_refresh": {
+    "last_refreshed": "2026-02-02T19:48:39.694968Z",
+    "sources_checked": [
+      "OpenFDA",
+      "ClinicalTrials.gov",
+      "IR News"
+    ],
+    "changes_made": 0,
+    "change_summary": {
+      "fda_updates": 0,
+      "trial_status_changes": 0,
+      "enrollment_updates": 0,
+      "news_catalysts_found": 0
+    }
+  }
+}

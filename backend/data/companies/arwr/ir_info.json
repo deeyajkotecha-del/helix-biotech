@@ -1,0 +1,11 @@
+{
+  "ticker": "ARWR",
+  "company_name": null,
+  "domain": "arrowheadpharma.com",
+  "ir_base_url": "https://ir.arrowheadpharma.com",
+  "download_library_url": "https://ir.arrowheadpharma.com/download-library",
+  "presentations_url": "https://ir.arrowheadpharma.com/events-presentations",
+  "sec_filings_url": null,
+  "discovery_method": "known_ir_url_unverified",
+  "verified": false
+}

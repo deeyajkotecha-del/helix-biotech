@@ -1,0 +1,69 @@
+{
+  "ticker": "ARWR",
+  "started_at": "2026-02-02T20:09:02.346891Z",
+  "completed_at": "2026-02-02T20:09:34.303208Z",
+  "status": "completed",
+  "steps": {
+    "ir_discovery": {
+      "status": "failed",
+      "error": "Could not discover IR page"
+    },
+    "presentation_scraping": {
+      "status": "skipped",
+      "reason": "No IR page found"
+    },
+    "vision_analysis": {
+      "status": "skipped",
+      "reason": "Skip flag set"
+    },
+    "data_normalization": {
+      "status": "completed",
+      "pipeline_count": 0,
+      "trials_count": 0,
+      "catalysts_count": 0
+    },
+    "fda_verification": {
+      "status": "skipped"
+    },
+    "trials_verification": {
+      "status": "skipped"
+    }
+  },
+  "data_sources": {
+    "ir_page": null,
+    "presentations_found": 0,
+    "presentations_analyzed": 0,
+    "fda_verified": false,
+    "trials_verified": false
+  },
+  "output_files": [
+    "/Users/deeyakotecha/helix/backend/data/companies/arwr/normalized.json"
+  ],
+  "errors": [],
+  "logs": [
+    "[2026-02-02T20:09:02.346961Z] [INFO] Starting refresh for ARWR",
+    "[2026-02-02T20:09:02.346965Z] [INFO] ============================================================",
+    "[2026-02-02T20:09:02.346968Z] [INFO] Step 1: Discovering IR page...",
+    "[2026-02-02T20:09:34.212332Z] [ERROR]   FAILED: Could not discover IR page",
+    "[2026-02-02T20:09:34.212383Z] [INFO] ",
+    "[2026-02-02T20:09:34.212393Z] [INFO] Step 2: Scraping presentations...",
+    "[2026-02-02T20:09:34.212410Z] [INFO]   SKIPPED: No IR page found",
+    "[2026-02-02T20:09:34.212417Z] [INFO] ",
+    "[2026-02-02T20:09:34.212425Z] [INFO] Step 3: Analyzing presentations with Vision API...",
+    "[2026-02-02T20:09:34.212434Z] [INFO]   SKIPPED: Vision analysis disabled",
+    "[2026-02-02T20:09:34.212657Z] [INFO] ",
+    "[2026-02-02T20:09:34.212670Z] [INFO] Step 4: Normalizing data...",
+    "[2026-02-02T20:09:34.303180Z] [INFO]   Pipeline assets: 0",
+    "[2026-02-02T20:09:34.303188Z] [INFO]   Clinical trials: 0",
+    "[2026-02-02T20:09:34.303190Z] [INFO]   Catalysts: 0",
+    "[2026-02-02T20:09:34.303198Z] [INFO] ",
+    "[2026-02-02T20:09:34.303200Z] [INFO] Step 5: FDA verification status...",
+    "[2026-02-02T20:09:34.303202Z] [INFO]   No FDA verifications performed",
+    "[2026-02-02T20:09:34.303203Z] [INFO] ",
+    "[2026-02-02T20:09:34.303205Z] [INFO] Step 6: ClinicalTrials.gov verification status...",
+    "[2026-02-02T20:09:34.303206Z] [INFO]   No ClinicalTrials.gov verifications performed",
+    "[2026-02-02T20:09:34.303209Z] [INFO] ",
+    "[2026-02-02T20:09:34.303211Z] [INFO] ============================================================",
+    "[2026-02-02T20:09:34.303212Z] [INFO] Refresh complete. Status: completed"
+  ]
+}

@@ -53,3 +53,203 @@ body {
 .loading-spinner {
   @apply animate-spin h-8 w-8 border-4 border-biotech-200 border-t-biotech-600 rounded-full;
 }
+
+/* Citation styles */
+.citation-link {
+  @apply text-biotech-600 hover:text-biotech-800 font-medium text-sm cursor-pointer;
+  @apply hover:underline transition-colors duration-150;
+  vertical-align: super;
+  font-size: 0.75em;
+  margin-left: 1px;
+}
+
+/* Source Sidebar */
+.source-sidebar-backdrop {
+  @apply fixed inset-0 bg-black z-40;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.source-sidebar-backdrop.open {
+  opacity: 0.5;
+  visibility: visible;
+}
+
+.source-sidebar {
+  @apply fixed top-0 right-0 h-full bg-white shadow-2xl z-50;
+  @apply flex flex-col;
+  width: 600px;
+  max-width: 90vw;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.source-sidebar.open {
+  transform: translateX(0);
+}
+
+.source-sidebar-header {
+  @apply flex items-start gap-4 p-6 border-b border-gray-200;
+  @apply bg-gray-50;
+}
+
+.source-type-badge {
+  @apply inline-block px-2 py-0.5 rounded text-xs font-medium mb-2;
+  @apply bg-biotech-100 text-biotech-700;
+}
+
+.source-title {
+  @apply text-lg font-semibold text-gray-900 leading-tight;
+}
+
+.source-authors {
+  @apply text-sm text-gray-600 mt-1;
+}
+
+.source-date {
+  @apply text-gray-500;
+}
+
+.source-close-btn {
+  @apply p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full;
+  @apply transition-colors duration-150 flex-shrink-0;
+}
+
+.source-metadata {
+  @apply p-4 border-b border-gray-100 space-y-1;
+}
+
+.source-abstract {
+  @apply p-4 border-b border-gray-100 max-h-48 overflow-y-auto;
+}
+
+.source-pdf-container {
+  @apply flex-1 min-h-0;
+}
+
+.source-pdf-viewer {
+  @apply w-full h-full;
+  min-height: 400px;
+}
+
+.source-pdf-fallback {
+  @apply flex flex-col items-center justify-center h-full p-8 text-center;
+}
+
+.source-no-pdf {
+  @apply flex-1 flex flex-col items-center justify-center p-8 text-center bg-gray-50;
+}
+
+/* Pipeline Table Styles */
+.pipeline-table {
+  @apply border border-gray-200 rounded-lg overflow-hidden;
+}
+
+.pipeline-row {
+  @apply transition-all duration-200;
+}
+
+.pipeline-row:not(:last-child) {
+  @apply border-b-0;
+}
+
+.pipeline-row:first-child {
+  @apply rounded-t-none;
+}
+
+.pipeline-row-header {
+  @apply select-none;
+}
+
+.pipeline-row-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+  opacity: 0;
+}
+
+.pipeline-row-content.expanded {
+  max-height: 2000px;
+  opacity: 1;
+  transition: max-height 0.4s ease-in, opacity 0.3s ease-in;
+}
+
+/* Mobile responsive pipeline rows */
+@media (max-width: 768px) {
+  .pipeline-row-header .grid {
+    @apply grid-cols-1 gap-2;
+  }
+
+  .pipeline-row-header .grid > div {
+    @apply col-span-1;
+  }
+
+  .pipeline-row-header .grid > div:first-child {
+    @apply hidden;
+  }
+
+  .pipeline-row-header .grid > div:nth-child(2) {
+    @apply text-lg font-bold;
+  }
+
+  .pipeline-row-header .grid > div:nth-child(2)::before {
+    content: none;
+  }
+
+  .pipeline-row-header .grid > div:nth-child(3)::before {
+    content: 'Target: ';
+    @apply font-medium text-gray-500;
+  }
+
+  .pipeline-row-header .grid > div:nth-child(5)::before {
+    content: 'Indication: ';
+    @apply font-medium text-gray-500;
+  }
+
+  .pipeline-row-header .grid > div:nth-child(6)::before {
+    content: 'Partner: ';
+    @apply font-medium text-gray-500;
+  }
+
+  .pipeline-row-header .grid > div:nth-child(7)::before {
+    content: 'Key Data: ';
+    @apply font-medium text-gray-500;
+  }
+
+  .pipeline-row-header .grid > div:nth-child(8)::before {
+    content: 'Next: ';
+    @apply font-medium text-gray-500;
+  }
+
+  .pipeline-table-header {
+    @apply hidden;
+  }
+
+  .pipeline-row {
+    @apply mb-2 rounded-lg;
+  }
+}
+
+/* Satya View section animations */
+.satya-view-section > div {
+  @apply transition-transform duration-200;
+}
+
+.satya-view-section > div:hover {
+  @apply scale-[1.01];
+}
+
+/* Clinical data table hover */
+.clinical-data-section table tbody tr {
+  @apply transition-colors duration-150;
+}
+
+/* Catalyst timeline */
+.catalysts-section .border-l-4 {
+  @apply transition-all duration-200;
+}
+
+.catalysts-section .border-l-4:hover {
+  @apply translate-x-1;
+}

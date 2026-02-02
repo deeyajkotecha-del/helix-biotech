@@ -10,6 +10,19 @@ from app.schemas.document import (
     DocumentResponse,
     DocumentUpdate,
 )
+from app.schemas.source import (
+    SourceCreate,
+    SourceResponse,
+    SourceUpdate,
+    SourceListResponse,
+)
+from app.schemas.citation import (
+    CitationCreate,
+    CitationResponse,
+    CitationWithSource,
+    CitationUpdate,
+    ReportCitationsResponse,
+)
 
 __all__ = [
     "UserCreate",
@@ -19,4 +32,13 @@ __all__ = [
     "DocumentCreate",
     "DocumentResponse",
     "DocumentUpdate",
+    "SourceCreate",
+    "SourceResponse",
+    "SourceUpdate",
+    "SourceListResponse",
+    "CitationCreate",
+    "CitationResponse",
+    "CitationWithSource",
+    "CitationUpdate",
+    "ReportCitationsResponse",
 ]

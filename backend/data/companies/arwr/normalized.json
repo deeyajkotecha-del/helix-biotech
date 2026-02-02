@@ -1,0 +1,16 @@
+{
+  "ticker": "ARWR",
+  "name": null,
+  "normalized_at": "2026-02-02T20:12:00.212807Z",
+  "sources": {
+    "presentations": [],
+    "fda_api": false,
+    "clinicaltrials_api": false
+  },
+  "pipeline": [],
+  "clinical_trials": [],
+  "catalysts": [],
+  "financials": {},
+  "partnerships": [],
+  "key_metrics": []
+}

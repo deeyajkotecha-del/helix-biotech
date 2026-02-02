@@ -5,8 +5,12 @@ sqlalchemy
 # HTTP & Scraping
 requests
 httpx
+aiohttp
 beautifulsoup4
 lxml
+
+# PDF Processing
+pymupdf
 
 # Data processing
 pandas

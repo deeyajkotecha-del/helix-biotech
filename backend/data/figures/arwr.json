@@ -1,0 +1,182 @@
+{
+  "updated_at": "2026-02-02T14:00:00Z",
+  "assets": {
+    "Plozasiran": {
+      "trials": {
+        "PALISADE": {
+          "asset": "Plozasiran",
+          "trial": "PALISADE",
+          "indication": "Familial Chylomicronemia Syndrome (FCS)",
+          "presentation": "ESC 2024 Investor Webinar - PALISADE Phase 3 Results",
+          "source_url": "https://ir.arrowheadpharma.com/events/event-details/investor-conference-call-plozasiran-palisade-results-esc-2024",
+          "annotated_at": "2026-02-02T14:00:00Z",
+          "figures": [
+            {
+              "id": "arwr-palisade-slide-30",
+              "source": "ESC 2024 Investor Webinar - PALISADE Results",
+              "source_url": "https://ir.arrowheadpharma.com/events/event-details/investor-conference-call-plozasiran-palisade-results-esc-2024",
+              "slide_number": 30,
+              "image_path": "/figures/arwr/palisade/slide-30.png",
+              "figure_type": "bar_chart",
+              "title": "Primary Endpoint: TG and APOC3 Reduction at Month 10",
+              "description": "Bar chart showing median percent change from baseline in triglycerides and APOC3 protein levels at Month 10 (primary) and Month 10/12 average",
+              "extracted_data": {
+                "primary_endpoint": "Fasting TG change at Month 10",
+                "treatment_25mg_result": "-80%",
+                "treatment_50mg_result": "-78%",
+                "placebo_result": "-17%",
+                "p_value_25mg": "<0.0001",
+                "p_value_50mg": "0.0002",
+                "apoc3_reduction_25mg": "-93%",
+                "apoc3_reduction_50mg": "-96%",
+                "n_placebo": 19,
+                "n_25mg": 26,
+                "n_50mg": 24
+              },
+              "analysis": [
+                "80% TG reduction significantly exceeds standard of care fibrates (30-50% reduction)",
+                "Consistent robust effect across both 25mg and 50mg dose groups with similar efficacy",
+                "Near-complete APOC3 knockdown (-93% to -96%) validates RNAi mechanism of action",
+                "Highly significant p-values (<0.0001) demonstrate statistical robustness despite small sample size"
+              ],
+              "limitations": [
+                "Small sample size (n=75 total)",
+                "12-month primary endpoint duration"
+              ],
+              "competitive_context": "TG reduction superior to Ionis volanesorsen (~77%) and olezarsen (~60%). APOC3 knockdown comparable to ASO approaches but with better dosing convenience.",
+              "citation_number": 1
+            },
+            {
+              "id": "arwr-palisade-slide-31",
+              "source": "ESC 2024 Investor Webinar - PALISADE Results",
+              "source_url": "https://ir.arrowheadpharma.com/events/event-details/investor-conference-call-plozasiran-palisade-results-esc-2024",
+              "slide_number": 31,
+              "image_path": "/figures/arwr/palisade/slide-31.png",
+              "figure_type": "line_chart",
+              "title": "Durability of Response: TG and APOC3 Reduction Over 12 Months",
+              "description": "Time course line charts showing sustained triglyceride and APOC3 reductions from baseline over 12 months of quarterly dosing",
+              "extracted_data": {
+                "primary_endpoint": "TG and APOC3 change over time",
+                "tg_month1_result": "-70%",
+                "tg_month10_result": "-80%",
+                "tg_month12_result": "-75%",
+                "apoc3_sustained": "-90% throughout",
+                "placebo_tg": "Near 0% change",
+                "dosing_interval": "Q3M (every 3 months)"
+              },
+              "analysis": [
+                "Rapid onset of action with ~70% TG reduction by Month 1 after first dose",
+                "Durable effect maintained through Month 12 with quarterly dosing (Q3M)",
+                "Sustained APOC3 knockdown throughout treatment period validates mechanism durability",
+                "Time course supports convenient quarterly dosing interval for chronic treatment"
+              ],
+              "limitations": [
+                "12-month data only",
+                "Variability increases in later timepoints (wider error bars)"
+              ],
+              "competitive_context": "Quarterly dosing superior to volanesorsen (weekly) and potentially olezarsen (monthly). Sustained effect differentiates from fibrates requiring daily dosing.",
+              "citation_number": 1
+            },
+            {
+              "id": "arwr-palisade-slide-34",
+              "source": "ESC 2024 Investor Webinar - PALISADE Results",
+              "source_url": "https://ir.arrowheadpharma.com/events/event-details/investor-conference-call-plozasiran-palisade-results-esc-2024",
+              "slide_number": 34,
+              "image_path": "/figures/arwr/palisade/slide-34.png",
+              "figure_type": "waterfall_plot",
+              "title": "Individual Patient TG Response and Clinically Meaningful Thresholds",
+              "description": "Waterfall plot showing percent change in TG at Month 10 for each patient, with responder analysis table showing proportion achieving clinical thresholds",
+              "extracted_data": {
+                "primary_endpoint": "Individual TG change at Month 10",
+                "responders_below_500": "50% (25mg), 46% (50mg) vs 5% placebo",
+                "responders_below_880": "75% (25mg), 55% (50mg) vs 21% placebo",
+                "responders_below_1000": "83% (25mg), 68% (50mg) vs 32% placebo",
+                "all_treated_responded": "Nearly all plozasiran patients achieved >50% reduction",
+                "placebo_variability": "High variability, some increased"
+              },
+              "analysis": [
+                "Consistent individual responses - nearly all plozasiran patients achieved meaningful TG reductions",
+                "75% of 25mg patients achieved TG <880 mg/dL threshold associated with reduced pancreatitis risk",
+                "Clear separation between treatment and placebo groups across all thresholds",
+                "Individual patient data demonstrates mechanism reliability and low non-responder rate"
+              ],
+              "limitations": [
+                "Small sample sizes per group",
+                "Threshold definitions vary in clinical significance"
+              ],
+              "competitive_context": "Responder rates comparable to or better than volanesorsen Phase 3 data. Consistent individual responses suggest predictable clinical benefit.",
+              "citation_number": 1
+            },
+            {
+              "id": "arwr-palisade-slide-35",
+              "source": "ESC 2024 Investor Webinar - PALISADE Results",
+              "source_url": "https://ir.arrowheadpharma.com/events/event-details/investor-conference-call-plozasiran-palisade-results-esc-2024",
+              "slide_number": 35,
+              "image_path": "/figures/arwr/palisade/slide-35.png",
+              "figure_type": "kaplan_meier",
+              "title": "Reduction in Acute Pancreatitis Events",
+              "description": "Kaplan-Meier curve showing time to first acute pancreatitis event over 52 weeks, demonstrating 83% reduction in pancreatitis risk",
+              "extracted_data": {
+                "primary_endpoint": "Time to first acute pancreatitis event",
+                "placebo_events": "5 events in 25 patients (20%)",
+                "plozasiran_events": "2 events in 50 patients (4%)",
+                "odds_ratio": "0.17",
+                "odds_ratio_ci": "0.03-0.94",
+                "p_value": "0.029",
+                "relative_risk_reduction": "83%"
+              },
+              "analysis": [
+                "83% relative risk reduction in acute pancreatitis - the most feared complication of FCS",
+                "Statistically significant (p=0.029) despite small event numbers due to magnitude of effect",
+                "Clinical outcome endpoint strengthens regulatory and commercial positioning",
+                "Pancreatitis reduction directly addresses primary unmet need in FCS patient population"
+              ],
+              "limitations": [
+                "Low absolute event numbers (7 total events)",
+                "Wide confidence interval due to small sample",
+                "52-week follow-up only"
+              ],
+              "competitive_context": "First APOC3-targeting therapy to demonstrate pancreatitis reduction in randomized trial. Volanesorsen showed similar trends but with safety concerns.",
+              "citation_number": 1
+            },
+            {
+              "id": "arwr-palisade-slide-36",
+              "source": "ESC 2024 Investor Webinar - PALISADE Results",
+              "source_url": "https://ir.arrowheadpharma.com/events/event-details/investor-conference-call-plozasiran-palisade-results-esc-2024",
+              "slide_number": 36,
+              "image_path": "/figures/arwr/palisade/slide-36.png",
+              "figure_type": "table",
+              "title": "Summary of Adverse Events",
+              "description": "Safety summary table showing treatment-emergent adverse events (TEAEs) across placebo and plozasiran groups",
+              "extracted_data": {
+                "any_teae_placebo": "20 patients (80%)",
+                "any_teae_25mg": "23 patients (88%)",
+                "any_teae_50mg": "20 patients (83%)",
+                "serious_teae_placebo": "7 (28%)",
+                "serious_teae_25mg": "5 (19%)",
+                "serious_teae_50mg": "2 (8%)",
+                "discontinuations_placebo": "6 (24%)",
+                "discontinuations_25mg": "3 (12%)",
+                "discontinuations_50mg": "2 (8%)",
+                "deaths": "0 in all groups",
+                "platelet_effect": "No reductions in platelet counts"
+              },
+              "analysis": [
+                "Favorable safety profile with lower serious TEAEs in plozasiran vs placebo (likely due to pancreatitis reduction)",
+                "No platelet reductions - key differentiator vs volanesorsen which has boxed warning for thrombocytopenia",
+                "Fewer premature discontinuations with plozasiran (8-12%) vs placebo (24%)",
+                "No deaths in any treatment group; no hepatotoxicity signals observed"
+              ],
+              "limitations": [
+                "Small sample size limits detection of rare events",
+                "12-month exposure data only"
+              ],
+              "competitive_context": "Clean safety profile differentiates from volanesorsen (thrombocytopenia boxed warning, platelet monitoring required). Supports broader use in clinical practice.",
+              "citation_number": 1
+            }
+          ]
+        }
+      }
+    }
+  }
+}
