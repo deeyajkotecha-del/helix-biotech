@@ -1,13 +1,10 @@
 import type { PipelineSection as PipelineData } from '../../types';
-import PipelineProgramRow from '../PipelineProgramRow';
-import PartnershipEconomics from '../PartnershipEconomics';
 
 interface Props {
   data: PipelineData;
-  sectionName?: string;
 }
 
-export default function PipelineSection({ data, sectionName = 'pipeline' }: Props) {
+export default function PipelineSection({ data }: Props) {
   const getStageColor = (stage: string) => {
     const lower = stage.toLowerCase();
     if (lower.includes('approved')) return 'bg-green-100 text-green-800';
@@ -16,12 +13,6 @@ export default function PipelineSection({ data, sectionName = 'pipeline' }: Prop
     if (lower.includes('phase 1') || lower.includes('phase1')) return 'bg-orange-100 text-orange-800';
     return 'bg-gray-100 text-gray-800';
   };
-
-  // Check if any program has expanded data
-  const hasExpandedData = data.programs.some(p =>
-    p.satya_view || p.mechanism || p.clinical_data?.length ||
-    p.competitors?.length || p.catalysts?.length || p.figures?.length
-  );
 
   return (
     <div>
@@ -54,66 +45,27 @@ export default function PipelineSection({ data, sectionName = 'pipeline' }: Prop
         </h4>
 
         {data.programs.length > 0 ? (
-          hasExpandedData ? (
-            // Enhanced Expandable Table View
-            <div className="pipeline-table">
-              {/* Table Header */}
-              <div className="pipeline-table-header hidden md:grid grid-cols-12 gap-4 px-4 py-3 bg-gray-100 rounded-t-lg text-xs font-medium text-gray-500 uppercase tracking-wider">
-                <div className="col-span-1"></div>
-                <div className="col-span-2">Drug</div>
-                <div className="col-span-1">Target</div>
-                <div className="col-span-1">Phase</div>
-                <div className="col-span-2">Indication</div>
-                <div className="col-span-1">Partner</div>
-                <div className="col-span-2">Key Data</div>
-                <div className="col-span-2">Next Catalyst</div>
-              </div>
-
-              {/* Table Rows */}
-              <div className="space-y-2 md:space-y-0">
-                {data.programs.map((program, index) => (
-                  <PipelineProgramRow
-                    key={index}
-                    program={program}
-                    sectionName={sectionName}
-                  />
-                ))}
-              </div>
-            </div>
-          ) : (
-            // Simple Card View (fallback for data without expanded content)
-            <div className="space-y-3">
-              {data.programs.map((program, index) => (
-                <div
-                  key={index}
-                  className="border border-gray-200 rounded-lg p-4 hover:border-biotech-300 transition-colors"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <h5 className="font-medium text-gray-800">{program.name}</h5>
-                    <span className={`badge ${getStageColor(program.stage)}`}>
-                      {program.stage}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 text-sm mb-1">
-                    <span className="font-medium">Indication:</span> {program.indication}
-                  </p>
-                  {program.target && (
-                    <p className="text-gray-600 text-sm mb-1">
-                      <span className="font-medium">Target:</span> {program.target}
-                    </p>
-                  )}
-                  {program.partner && (
-                    <p className="text-gray-600 text-sm mb-1">
-                      <span className="font-medium">Partner:</span> {program.partner}
-                    </p>
-                  )}
-                  {program.description && (
-                    <p className="text-gray-500 text-sm">{program.description}</p>
-                  )}
+          <div className="space-y-3">
+            {data.programs.map((program, index) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-4 hover:border-biotech-300 transition-colors"
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <h5 className="font-medium text-gray-800">{program.name}</h5>
+                  <span className={`badge ${getStageColor(program.stage)}`}>
+                    {program.stage}
+                  </span>
                 </div>
-              ))}
-            </div>
-          )
+                <p className="text-gray-600 text-sm mb-1">
+                  <span className="font-medium">Indication:</span> {program.indication}
+                </p>
+                {program.description && (
+                  <p className="text-gray-500 text-sm">{program.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
         ) : (
           <p className="text-gray-400 italic">No pipeline data available</p>
         )}
@@ -150,11 +102,6 @@ export default function PipelineSection({ data, sectionName = 'pipeline' }: Prop
             })}
           </div>
         </div>
-      )}
-
-      {/* Partnership Economics */}
-      {data.partnerships && data.partnerships.length > 0 && (
-        <PartnershipEconomics partnerships={data.partnerships} sectionName={sectionName} />
       )}
     </div>
   );

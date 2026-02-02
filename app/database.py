@@ -30,6 +30,6 @@ def get_db():
 
 def init_db():
     """Initialize database tables."""
-    from app.models import user, document, source, citation  # noqa: F401
+    from app.models import user, document  # noqa: F401
     Base.metadata.create_all(bind=engine)
     print("Database tables created successfully.")
