@@ -45,6 +45,8 @@ async def get_investment_thesis_html(ticker: str):
     Uses verified data from FDA, ClinicalTrials.gov, and company sources.
     """
     try:
+        if str(BACKEND_DIR) not in sys.path:
+            sys.path.insert(0, str(BACKEND_DIR))
         from services.thesis_generator import generate_thesis
         html_content = generate_thesis(ticker.upper())
         return HTMLResponse(content=html_content, status_code=200)
@@ -63,6 +65,8 @@ async def refresh_company_data(ticker: str):
     - IR news (company press releases)
     """
     try:
+        if str(BACKEND_DIR) not in sys.path:
+            sys.path.insert(0, str(BACKEND_DIR))
         from services.company_refresher import CompanyRefresher
         refresher = CompanyRefresher(verbose=False)
         result = refresher.refresh(ticker.upper())
@@ -89,6 +93,8 @@ async def full_refresh_company(ticker: str, request: FullRefreshRequest = None):
     request = request or FullRefreshRequest()
 
     try:
+        if str(BACKEND_DIR) not in sys.path:
+            sys.path.insert(0, str(BACKEND_DIR))
         from services.master_refresh import refresh_company
         result = await refresh_company(
             ticker.upper(),
