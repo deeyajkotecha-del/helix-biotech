@@ -5,6 +5,7 @@ Endpoints for company data, pipeline info, thesis generation, and automated refr
 """
 
 import sys
+import importlib.util
 from pathlib import Path
 from typing import Optional
 from fastapi import APIRouter, HTTPException
@@ -12,9 +13,18 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import json
 
-# Add backend to path for imports
+# Backend directory for imports
 BACKEND_DIR = Path(__file__).resolve().parent.parent.parent / "backend"
-sys.path.insert(0, str(BACKEND_DIR))
+
+
+def import_backend_module(module_name: str):
+    """Import a module from backend/services/ by file path."""
+    module_path = BACKEND_DIR / "services" / f"{module_name}.py"
+    spec = importlib.util.spec_from_file_location(module_name, module_path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
 
 router = APIRouter()
 
@@ -45,10 +55,8 @@ async def get_investment_thesis_html(ticker: str):
     Uses verified data from FDA, ClinicalTrials.gov, and company sources.
     """
     try:
-        if str(BACKEND_DIR) not in sys.path:
-            sys.path.insert(0, str(BACKEND_DIR))
-        from services.thesis_generator import generate_thesis
-        html_content = generate_thesis(ticker.upper())
+        thesis_module = import_backend_module("thesis_generator")
+        html_content = thesis_module.generate_thesis(ticker.upper())
         return HTMLResponse(content=html_content, status_code=200)
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail=f"No pipeline data found for {ticker}")
@@ -65,10 +73,8 @@ async def refresh_company_data(ticker: str):
     - IR news (company press releases)
     """
     try:
-        if str(BACKEND_DIR) not in sys.path:
-            sys.path.insert(0, str(BACKEND_DIR))
-        from services.company_refresher import CompanyRefresher
-        refresher = CompanyRefresher(verbose=False)
+        refresher_module = import_backend_module("company_refresher")
+        refresher = refresher_module.CompanyRefresher(verbose=False)
         result = refresher.refresh(ticker.upper())
         return result
     except FileNotFoundError:
@@ -93,10 +99,8 @@ async def full_refresh_company(ticker: str, request: FullRefreshRequest = None):
     request = request or FullRefreshRequest()
 
     try:
-        if str(BACKEND_DIR) not in sys.path:
-            sys.path.insert(0, str(BACKEND_DIR))
-        from services.master_refresh import refresh_company
-        result = await refresh_company(
+        master_module = import_backend_module("master_refresh")
+        result = await master_module.refresh_company(
             ticker.upper(),
             months_back=request.months_back,
             max_presentations=request.max_presentations,
