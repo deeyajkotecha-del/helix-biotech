@@ -429,7 +429,7 @@
           const targetTerms = ['glp', 'tl1a', 'kras', 'b7', 'tigit', 'pd-1', 'fcr', 'dmd', 'nav1', 'aldosterone'];
           const isTargetSearch = targetTerms.some(t => q.includes(t));
           if (isTargetSearch) {
-            window.location.href = '/targets';
+            window.location.href = '/targets#search=' + encodeURIComponent(q);
           } else {
             window.location.href = '/companies#search=' + encodeURIComponent(q);
           }

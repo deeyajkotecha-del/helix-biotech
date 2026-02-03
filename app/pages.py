@@ -740,6 +740,14 @@ def generate_targets_page():
         }});
 
         document.getElementById('target-search').addEventListener('input', applyFilters);
+
+        // Check for search query in URL hash
+        const hash = window.location.hash;
+        if (hash.includes('search=')) {{
+            const query = decodeURIComponent(hash.split('search=')[1]);
+            document.getElementById('target-search').value = query;
+            applyFilters();
+        }}
     </script>
 </body>
 </html>'''
