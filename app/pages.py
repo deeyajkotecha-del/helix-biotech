@@ -1914,6 +1914,17 @@ def generate_company_detail(ticker: str):
 
     tags_html = ''.join([f'<span class="tag">{tag}</span>' for tag in company.get("tags", [])])
 
+    # ARWR thesis section (only shown for ARWR)
+    arwr_thesis_section = ""
+    if company["ticker"] == "ARWR":
+        arwr_thesis_section = '''
+        <div class="detail-section" style="background: linear-gradient(135deg, #fef5f3 0%, #fff 100%); border-color: var(--accent);">
+            <h2>Investment Analysis</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">Deep-dive thesis with pipeline analysis, competitive positioning, and catalyst timeline.</p>
+            <a href="/api/company/ARWR/thesis/html" style="display: inline-block; padding: 12px 24px; background: var(--accent); color: white; border-radius: 8px; font-weight: 600; text-decoration: none;">View Full Thesis &rarr;</a>
+        </div>
+        '''
+
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1967,13 +1978,7 @@ def generate_company_detail(ticker: str):
             <div class="tags-row" style="gap: 10px;">{tags_html}</div>
         </div>
 
-        {"" if company["ticker"] != "ARWR" else '''
-        <div class="detail-section" style="background: linear-gradient(135deg, #fef5f3 0%, #fff 100%); border-color: var(--accent);">
-            <h2>Investment Analysis</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 16px;">Deep-dive thesis with pipeline analysis, competitive positioning, and catalyst timeline.</p>
-            <a href="/api/company/ARWR/thesis/html" style="display: inline-block; padding: 12px 24px; background: var(--accent); color: white; border-radius: 8px; font-weight: 600; text-decoration: none;">View Full Thesis &rarr;</a>
-        </div>
-        '''}
+        {arwr_thesis_section}
 
         <a href="/companies" style="display: inline-block; margin-top: 24px; color: var(--accent);">← Back to Companies</a>
     </main>
