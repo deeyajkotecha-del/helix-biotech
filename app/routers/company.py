@@ -19,6 +19,11 @@ BACKEND_DIR = Path(__file__).resolve().parent.parent.parent / "backend"
 
 def import_backend_module(module_name: str):
     """Import a module from backend/services/ by file path."""
+    # Ensure backend is in path for the module's own imports
+    backend_str = str(BACKEND_DIR)
+    if backend_str not in sys.path:
+        sys.path.insert(0, backend_str)
+
     module_path = BACKEND_DIR / "services" / f"{module_name}.py"
     spec = importlib.util.spec_from_file_location(module_name, module_path)
     module = importlib.util.module_from_spec(spec)
