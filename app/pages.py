@@ -389,32 +389,37 @@ def generate_companies_page():
 
 def generate_targets_page():
     targets = [
-        {"name": "GLP-1 / Incretin", "assets": 25, "approved": 6, "phase3": 7, "deals": "$22.8B", "hot": True},
-        {"name": "TL1A / TNFSF15", "assets": 11, "approved": 0, "phase3": 3, "deals": "$2.1B", "hot": True},
-        {"name": "PCSK9", "assets": 8, "approved": 2, "phase3": 2, "deals": "$3.5B", "hot": False},
-        {"name": "CD20", "assets": 15, "approved": 5, "phase3": 4, "deals": "$5.0B", "hot": False},
-        {"name": "PD-1 / PD-L1", "assets": 30, "approved": 8, "phase3": 10, "deals": "$15B+", "hot": False},
-        {"name": "KRAS G12C", "assets": 12, "approved": 2, "phase3": 5, "deals": "$4.2B", "hot": True},
-        {"name": "B7-H3", "assets": 8, "approved": 0, "phase3": 2, "deals": "$1.5B", "hot": True},
-        {"name": "Claudin 18.2", "assets": 10, "approved": 0, "phase3": 4, "deals": "$2.8B", "hot": True},
+        {"name": "GLP-1 / Incretin", "slug": "glp1-obesity", "assets": 25, "approved": 6, "phase3": 7, "deals": "$22.8B", "hot": True, "desc": "Obesity & diabetes market leader"},
+        {"name": "TL1A / TNFSF15", "slug": "tl1a-ibd", "assets": 11, "approved": 0, "phase3": 3, "deals": "$22B+", "hot": True, "desc": "Next blockbuster IBD target"},
+        {"name": "B7-H3 / CD276", "slug": "b7h3-adc", "assets": 23, "approved": 0, "phase3": 2, "deals": "$28B+", "hot": True, "desc": "Premier ADC target in oncology"},
+        {"name": "KRAS G12C", "slug": None, "assets": 12, "approved": 2, "phase3": 5, "deals": "$4.2B", "hot": True, "desc": "From undruggable to approved"},
+        {"name": "PCSK9", "slug": None, "assets": 8, "approved": 2, "phase3": 2, "deals": "$3.5B", "hot": False, "desc": "Lipid lowering therapies"},
+        {"name": "CD20", "slug": None, "assets": 15, "approved": 5, "phase3": 4, "deals": "$5.0B", "hot": False, "desc": "B-cell depletion therapies"},
+        {"name": "PD-1 / PD-L1", "slug": None, "assets": 30, "approved": 8, "phase3": 10, "deals": "$15B+", "hot": False, "desc": "Checkpoint inhibitor leaders"},
+        {"name": "Claudin 18.2", "slug": None, "assets": 10, "approved": 0, "phase3": 4, "deals": "$2.8B", "hot": True, "desc": "GI cancer target"},
     ]
 
     cards_html = ""
     for t in targets:
         hot_badge = '<span class="hot-badge">Hot Target</span>' if t["hot"] else ""
+        link_start = f'<a href="/targets/{t["slug"]}" class="target-card">' if t["slug"] else '<div class="target-card coming-soon">'
+        link_end = '</a>' if t["slug"] else '</div>'
+        view_btn = f'<div class="view-report">View Full Report →</div>' if t["slug"] else '<div class="view-report coming">Coming Soon</div>'
         cards_html += f'''
-        <div class="target-card">
+        {link_start}
             <div class="target-header">
                 <h3>{t["name"]}</h3>
                 {hot_badge}
             </div>
+            <p class="target-desc">{t["desc"]}</p>
             <div class="target-stats">
                 <div class="target-stat"><span class="stat-value">{t["assets"]}</span><span class="stat-label">Assets</span></div>
                 <div class="target-stat"><span class="stat-value">{t["approved"]}</span><span class="stat-label">Approved</span></div>
                 <div class="target-stat"><span class="stat-value">{t["phase3"]}</span><span class="stat-label">Phase 3</span></div>
                 <div class="target-stat"><span class="stat-value">{t["deals"]}</span><span class="stat-label">Deal Value</span></div>
             </div>
-        </div>
+            {view_btn}
+        {link_end}
         '''
 
     return f'''<!DOCTYPE html>
@@ -426,16 +431,21 @@ def generate_targets_page():
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     {get_base_styles()}
     <style>
-        .targets-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }}
-        .target-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }}
-        .target-card:hover {{ border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }}
-        .target-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }}
+        .targets-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }}
+        .target-card {{ display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.2s; }}
+        .target-card:hover {{ border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }}
+        .target-card.coming-soon {{ opacity: 0.7; }}
+        .target-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }}
         .target-header h3 {{ font-size: 1.2rem; color: var(--navy); }}
+        .target-desc {{ color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px; }}
         .hot-badge {{ background: linear-gradient(135deg, var(--accent), #d06a4f); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }}
-        .target-stats {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }}
+        .target-stats {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }}
         .target-stat {{ text-align: center; padding: 12px; background: var(--bg); border-radius: 8px; }}
-        .target-stat .stat-value {{ font-size: 1.5rem; font-weight: 700; color: var(--navy); }}
-        .target-stat .stat-label {{ font-size: 0.75rem; color: var(--text-muted); }}
+        .target-stat .stat-value {{ font-size: 1.4rem; font-weight: 700; color: var(--navy); }}
+        .target-stat .stat-label {{ font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }}
+        .view-report {{ text-align: center; padding: 12px; background: var(--navy); color: white; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }}
+        .view-report.coming {{ background: var(--border); color: var(--text-muted); }}
+        a.target-card:hover .view-report {{ background: var(--accent); }}
     </style>
 </head>
 <body>
@@ -560,6 +570,789 @@ def generate_about_page():
     </footer>
 </body>
 </html>'''
+
+def generate_glp1_report():
+    """Generate the GLP-1 / Obesity competitive landscape report."""
+
+    # Approved drugs data
+    approved_drugs = [
+        {"name": "Wegovy", "generic": "semaglutide", "company": "Novo Nordisk", "mechanism": "GLP-1 agonist", "route": "SC weekly", "approval": "2021", "indication": "Obesity", "weight_loss": "~15%", "revenue_2024": "$6.2B"},
+        {"name": "Zepbound", "generic": "tirzepatide", "company": "Eli Lilly", "mechanism": "GLP-1/GIP dual", "route": "SC weekly", "approval": "2023", "indication": "Obesity", "weight_loss": "~21%", "revenue_2024": "$1.2B"},
+        {"name": "Ozempic", "generic": "semaglutide", "company": "Novo Nordisk", "mechanism": "GLP-1 agonist", "route": "SC weekly", "approval": "2017", "indication": "T2D (off-label obesity)", "weight_loss": "~12%", "revenue_2024": "$18.4B"},
+        {"name": "Mounjaro", "generic": "tirzepatide", "company": "Eli Lilly", "mechanism": "GLP-1/GIP dual", "route": "SC weekly", "approval": "2022", "indication": "T2D", "weight_loss": "~18%", "revenue_2024": "$7.4B"},
+        {"name": "Saxenda", "generic": "liraglutide", "company": "Novo Nordisk", "mechanism": "GLP-1 agonist", "route": "SC daily", "approval": "2014", "indication": "Obesity", "weight_loss": "~8%", "revenue_2024": "$0.8B"},
+        {"name": "Rybelsus", "generic": "semaglutide", "company": "Novo Nordisk", "mechanism": "GLP-1 agonist", "route": "Oral daily", "approval": "2019", "indication": "T2D", "weight_loss": "~10%", "revenue_2024": "$2.8B"},
+    ]
+
+    # Pipeline drugs data
+    pipeline_drugs = [
+        {"asset": "VK2735 (SC)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "14.7% (13 wks)", "catalyst": "Ph3 initiation Q1 2025", "differentiation": "Potentially best-in-class efficacy"},
+        {"asset": "VK2735 (Oral)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual", "phase": "Phase 2", "route": "Oral daily", "weight_loss": "8.2% (28 days)", "catalyst": "Ph2 data H1 2025", "differentiation": "Oral convenience + dual agonism"},
+        {"asset": "MariTide (AMG 133)", "company": "Amgen", "ticker": "AMGN", "mechanism": "GLP-1 agonist / GIPR antagonist", "phase": "Phase 2", "route": "SC monthly", "weight_loss": "14.5% (12 wks)", "catalyst": "Ph3 initiation 2025", "differentiation": "Monthly dosing, sustained effect after discontinuation"},
+        {"asset": "Orforglipron", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1 agonist (small molecule)", "phase": "Phase 3", "route": "Oral daily", "weight_loss": "14.7% (36 wks)", "catalyst": "Ph3 ATTAIN data 2025-2026", "differentiation": "Oral small molecule, easier manufacturing"},
+        {"asset": "Retatrutide", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1/GIP/Glucagon triple", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "24.2% (48 wks)", "catalyst": "Ph3 TRIUMPH data 2025", "differentiation": "Best-in-class weight loss, triple agonism"},
+        {"asset": "CagriSema", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Semaglutide + Amylin", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~25% (est)", "catalyst": "Ph3 REDEFINE data 2025", "differentiation": "Best-in-class efficacy, amylin synergy"},
+        {"asset": "Survodutide", "company": "Boehringer / Zealand", "ticker": "Private", "mechanism": "GLP-1/Glucagon dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "18.7% (46 wks)", "catalyst": "Ph3 SYNCHRONIZE 2025", "differentiation": "Glucagon component may improve MASH"},
+        {"asset": "Pemvidutide", "company": "Altimmune", "ticker": "ALT", "mechanism": "GLP-1/Glucagon dual", "phase": "Phase 2b", "route": "SC weekly", "weight_loss": "15.6% (48 wks)", "catalyst": "Ph2b MOMENTUM data 2024", "differentiation": "MASH + obesity dual indication"},
+        {"asset": "Ecnoglutide", "company": "Sciwind Biosciences", "ticker": "Private", "mechanism": "GLP-1 agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~15%", "catalyst": "Ph3 data 2025", "differentiation": "China-focused development"},
+        {"asset": "HRS9531", "company": "Jiangsu Hengrui", "ticker": "600276.SS", "mechanism": "GLP-1/GIP dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "16.8% (24 wks)", "catalyst": "Ph3 data 2025", "differentiation": "Leading Chinese GLP-1"},
+        {"asset": "ARO-INHBE", "company": "Arrowhead Pharma", "ticker": "ARWR", "mechanism": "RNAi (INHBE silencing)", "phase": "Phase 1", "route": "SC quarterly", "weight_loss": "TBD", "catalyst": "Ph1 data 2025", "differentiation": "RNAi approach, infrequent dosing"},
+        {"asset": "Petrelintide", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Long-acting amylin analog", "phase": "Phase 2", "route": "SC weekly", "weight_loss": "~10%", "catalyst": "Ph2 data 2025", "differentiation": "Potential combo with semaglutide"},
+    ]
+
+    # Build approved drugs table
+    approved_rows = ""
+    for drug in approved_drugs:
+        approved_rows += f'''
+        <tr>
+            <td><strong>{drug["name"]}</strong><br><span style="color: var(--text-muted); font-size: 0.8rem;">{drug["generic"]}</span></td>
+            <td>{drug["company"]}</td>
+            <td>{drug["mechanism"]}</td>
+            <td>{drug["route"]}</td>
+            <td><strong style="color: var(--accent);">{drug["weight_loss"]}</strong></td>
+            <td>{drug["revenue_2024"]}</td>
+        </tr>
+        '''
+
+    # Build pipeline drugs table
+    pipeline_rows = ""
+    for drug in pipeline_drugs:
+        phase_color = "#22c55e" if "Phase 3" in drug["phase"] else "#f59e0b" if "Phase 2" in drug["phase"] else "#6b7280"
+        pipeline_rows += f'''
+        <tr>
+            <td><strong>{drug["asset"]}</strong></td>
+            <td>{drug["company"]}<br><span style="color: var(--accent); font-size: 0.8rem;">{drug["ticker"]}</span></td>
+            <td>{drug["mechanism"]}</td>
+            <td><span style="background: {phase_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">{drug["phase"]}</span></td>
+            <td><strong>{drug["weight_loss"]}</strong></td>
+            <td>{drug["catalyst"]}</td>
+        </tr>
+        '''
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLP-1 / Obesity Competitive Landscape | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+
+        .market-stats {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 24px 0; }}
+        .market-stat {{ background: var(--bg); padding: 24px; border-radius: 12px; text-align: center; }}
+        .market-stat .value {{ font-size: 2rem; font-weight: 700; color: var(--accent); }}
+        .market-stat .label {{ color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px; }}
+
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.9rem; }}
+        th {{ background: var(--navy); color: white; padding: 14px 12px; text-align: left; font-weight: 600; }}
+        td {{ padding: 14px 12px; border-bottom: 1px solid var(--border); }}
+        tr:hover {{ background: var(--bg); }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
+        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
+        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
+        .bull-box h3 {{ color: #059669; }}
+        .bear-box h3 {{ color: #dc2626; }}
+        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+        .thesis-list li::before {{ content: "→"; font-weight: bold; }}
+
+        .catalyst-timeline {{ margin-top: 20px; }}
+        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
+        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+        .catalyst-content strong {{ color: var(--navy); }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
+        .back-link:hover {{ text-decoration: underline; }}
+    </style>
+</head>
+<body>
+    {get_nav_html("targets")}
+    <main class="main">
+        <div class="report-header">
+            <h1>GLP-1 / Obesity Competitive Landscape</h1>
+            <p>Comprehensive analysis of the incretin-based therapeutics market for obesity and type 2 diabetes. The GLP-1 class represents the largest commercial opportunity in pharma history.</p>
+            <div class="report-meta">
+                <div class="meta-item"><div class="label">Market Size (2030E)</div><div class="value">$150B+</div></div>
+                <div class="meta-item"><div class="label">Patient Population</div><div class="value">800M+ globally</div></div>
+                <div class="meta-item"><div class="label">Assets in Development</div><div class="value">25+</div></div>
+                <div class="meta-item"><div class="label">Approved Drugs</div><div class="value">6</div></div>
+            </div>
+        </div>
+
+        <!-- Market Overview -->
+        <div class="section">
+            <h2>Market Overview</h2>
+            <div class="market-stats">
+                <div class="market-stat"><div class="value">$50B</div><div class="label">2024 GLP-1 Market</div></div>
+                <div class="market-stat"><div class="value">42%</div><div class="label">Adult Obesity Rate (US)</div></div>
+                <div class="market-stat"><div class="value">537M</div><div class="label">Global Diabetics</div></div>
+                <div class="market-stat"><div class="value">~15-25%</div><div class="label">Weight Loss Range</div></div>
+            </div>
+            <p style="color: var(--text-secondary); line-height: 1.7;">
+                The GLP-1 receptor agonist class has transformed obesity treatment, achieving weight loss previously only possible with bariatric surgery.
+                The market is dominated by <strong>Novo Nordisk</strong> (Wegovy, Ozempic) and <strong>Eli Lilly</strong> (Zepbound, Mounjaro), with combined 2024 revenues exceeding $35B.
+                Supply constraints persist, driving urgency for next-generation therapies. Key differentiators include: oral vs. injectable, dosing frequency,
+                weight loss efficacy, GI tolerability, and cardiometabolic benefits beyond weight.
+            </p>
+
+            <h3>Key Market Dynamics</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.9; padding-left: 20px;">
+                <li><strong>Supply shortage:</strong> Demand far exceeds manufacturing capacity; Novo and Lilly investing $10B+ in capacity expansion</li>
+                <li><strong>Payer coverage:</strong> Medicare currently excludes obesity drugs; legislation pending to change this (Treat & Reduce Obesity Act)</li>
+                <li><strong>Beyond obesity:</strong> CV outcomes (SELECT trial), MASH, CKD, sleep apnea indications expanding addressable market</li>
+                <li><strong>Oral competition:</strong> First oral small molecule GLP-1s (orforglipron, oral semaglutide) could expand market 2-3x</li>
+            </ul>
+        </div>
+
+        <!-- Approved Drugs -->
+        <div class="section">
+            <h2>Approved Drugs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Drug</th>
+                        <th>Company</th>
+                        <th>Mechanism</th>
+                        <th>Route</th>
+                        <th>Weight Loss</th>
+                        <th>2024 Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {approved_rows}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pipeline -->
+        <div class="section">
+            <h2>Pipeline Assets</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Company</th>
+                        <th>Mechanism</th>
+                        <th>Phase</th>
+                        <th>Weight Loss</th>
+                        <th>Next Catalyst</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {pipeline_rows}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bull/Bear Thesis -->
+        <div class="section">
+            <h2>Investment Thesis</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">
+                        <li>Market size could reach $150B+ by 2030, larger than any therapeutic class in history</li>
+                        <li>Medicare coverage (Treat & Reduce Obesity Act) would add 30M+ addressable patients</li>
+                        <li>Beyond obesity: MASH, CKD, heart failure, sleep apnea expand TAM 2-3x</li>
+                        <li>Oral formulations remove injection barrier, massively expanding uptake</li>
+                        <li>Monthly dosing (Amgen's MariTide) improves compliance vs. weekly</li>
+                        <li>Weight maintenance after stopping less concerning with newer agents</li>
+                        <li>Chronic therapy model = multi-decade revenue streams</li>
+                    </ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case</h3>
+                    <ul class="thesis-list">
+                        <li>GI side effects (nausea, vomiting) limit tolerability; 10-15% discontinuation</li>
+                        <li>Muscle loss concerns may require combination with exercise/protein</li>
+                        <li>Insurance coverage gaps; $1,000+/month cash pay limits adoption</li>
+                        <li>Compounding pharmacies eroding brand pricing power</li>
+                        <li>Long-term safety unknowns (thyroid cancer signals in rodents)</li>
+                        <li>Lilly and Novo duopoly may squeeze out smaller players</li>
+                        <li>Weight regain after discontinuation (15-20% regain at 1 year)</li>
+                        <li>Manufacturing complexity limits rapid capacity expansion</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catalysts -->
+        <div class="section">
+            <h2>Upcoming Catalysts (2025-2026)</h2>
+            <div class="catalyst-timeline">
+                <div class="catalyst-item">
+                    <div class="catalyst-date">Q1 2025</div>
+                    <div class="catalyst-content"><strong>Viking (VKTX):</strong> VK2735 Phase 3 VENTURE initiation for obesity</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H1 2025</div>
+                    <div class="catalyst-content"><strong>Viking (VKTX):</strong> Oral VK2735 Phase 2 full data readout</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H1 2025</div>
+                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Retatrutide (triple agonist) Phase 3 TRIUMPH-1 data</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H1 2025</div>
+                    <div class="catalyst-content"><strong>Novo Nordisk (NVO):</strong> CagriSema Phase 3 REDEFINE-1 data (obesity)</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">Mid 2025</div>
+                    <div class="catalyst-content"><strong>Amgen (AMGN):</strong> MariTide Phase 3 initiation; monthly dosing differentiation</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H2 2025</div>
+                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Orforglipron Phase 3 ATTAIN data (oral small molecule)</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H2 2025</div>
+                    <div class="catalyst-content"><strong>Boehringer/Zealand:</strong> Survodutide Phase 3 SYNCHRONIZE data (GLP-1/glucagon)</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2025</div>
+                    <div class="catalyst-content"><strong>Arrowhead (ARWR):</strong> ARO-INHBE Phase 1 proof-of-concept data (RNAi for obesity)</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2026</div>
+                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Retatrutide FDA submission expected</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2026</div>
+                    <div class="catalyst-content"><strong>Novo Nordisk (NVO):</strong> CagriSema FDA submission expected</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2026</div>
+                    <div class="catalyst-content"><strong>Regulatory:</strong> Medicare Part D obesity drug coverage decision (pending legislation)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Companies -->
+        <div class="section">
+            <h2>Key Companies to Watch</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 20px;">
+                <a href="/api/company/VKTX/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong style="color: var(--navy);">Viking Therapeutics</strong>
+                        <span style="color: var(--accent);">VKTX</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Best-in-class Ph2 data; oral + SC in development</p>
+                </a>
+                <a href="/api/company/AMGN/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong style="color: var(--navy);">Amgen</strong>
+                        <span style="color: var(--accent);">AMGN</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">MariTide monthly dosing; weight maintenance</p>
+                </a>
+                <a href="/api/company/ALT/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong style="color: var(--navy);">Altimmune</strong>
+                        <span style="color: var(--accent);">ALT</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Pemvidutide for obesity + MASH dual play</p>
+                </a>
+                <a href="/api/company/ARWR/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong style="color: var(--navy);">Arrowhead Pharma</strong>
+                        <span style="color: var(--accent);">ARWR</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">RNAi approach (ARO-INHBE); quarterly dosing</p>
+                </a>
+            </div>
+        </div>
+
+        <a href="/targets" class="back-link">← Back to Target Landscapes</a>
+    </main>
+    <footer class="footer">
+        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+</body>
+</html>'''
+
+
+def generate_tl1a_report():
+    """Generate the TL1A / IBD competitive landscape report."""
+
+    # TL1A Assets data
+    assets = [
+        {"asset": "Tulisokibart (PRA023)", "company": "Merck (via Prometheus)", "ticker": "MRK", "phase": "Phase 3", "indication": "UC, CD", "deal": "$10.8B acquisition", "efficacy": "26% remission (TL1A-high)", "catalyst": "ARTEMIS-CD Ph3 H2 2025"},
+        {"asset": "Duvakitug (TEV-48574)", "company": "Sanofi / Teva", "ticker": "SNY", "phase": "Phase 3", "indication": "UC, CD", "deal": "$1B+ partnership", "efficacy": "47.8% remission (1000mg)", "catalyst": "Ph3 UC initiation Q1 2025"},
+        {"asset": "Afimkibart (RVT-3101)", "company": "Roche (via Telavant)", "ticker": "RHHBY", "phase": "Phase 3", "indication": "UC, CD", "deal": "$7.25B acquisition", "efficacy": "35% remission", "catalyst": "Ph3 UC data 2026"},
+        {"asset": "SAR443765", "company": "Sanofi", "ticker": "SNY", "phase": "Phase 2", "indication": "UC, CD", "deal": "Internal", "efficacy": "Bispecific (TL1A + IL-23)", "catalyst": "Ph2 data 2025"},
+        {"asset": "PF-07258669", "company": "Pfizer", "ticker": "PFE", "phase": "Phase 1", "indication": "IBD", "deal": "Internal", "efficacy": "Early stage", "catalyst": "Ph1 data 2025"},
+        {"asset": "ABBV-261", "company": "AbbVie", "ticker": "ABBV", "phase": "Phase 1", "indication": "IBD", "deal": "Internal", "efficacy": "Early stage", "catalyst": "Ph1 data 2025"},
+    ]
+
+    # Efficacy comparison data
+    efficacy_data = [
+        {"drug": "Duvakitug 1000mg", "trial": "RELIEVE UCCD", "endpoint": "Clinical Remission", "result": "47.8%", "placebo": "20.4%", "delta": "+27.4%", "population": "All comers"},
+        {"drug": "Duvakitug 500mg", "trial": "RELIEVE UCCD", "endpoint": "Clinical Remission", "result": "32.6%", "placebo": "20.4%", "delta": "+12.2%", "population": "All comers"},
+        {"drug": "Tulisokibart", "trial": "ARTEMIS-UC", "endpoint": "Clinical Remission", "result": "26%", "placebo": "1%", "delta": "+25%", "population": "TL1A-high only"},
+        {"drug": "Tulisokibart", "trial": "ARTEMIS-UC", "endpoint": "Endoscopic Improvement", "result": "49%", "placebo": "13%", "delta": "+36%", "population": "TL1A-high only"},
+        {"drug": "Afimkibart", "trial": "Phase 2", "endpoint": "Clinical Remission", "result": "35%", "placebo": "12%", "delta": "+23%", "population": "All comers"},
+    ]
+
+    # Build assets table
+    assets_rows = ""
+    for a in assets:
+        phase_color = "#22c55e" if "Phase 3" in a["phase"] else "#f59e0b" if "Phase 2" in a["phase"] else "#6b7280"
+        assets_rows += f'''
+        <tr>
+            <td><strong>{a["asset"]}</strong></td>
+            <td>{a["company"]}<br><span style="color: var(--accent); font-size: 0.8rem;">{a["ticker"]}</span></td>
+            <td><span style="background: {phase_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">{a["phase"]}</span></td>
+            <td>{a["indication"]}</td>
+            <td style="color: var(--accent); font-weight: 600;">{a["deal"]}</td>
+            <td>{a["catalyst"]}</td>
+        </tr>
+        '''
+
+    # Build efficacy table
+    efficacy_rows = ""
+    for e in efficacy_data:
+        efficacy_rows += f'''
+        <tr>
+            <td><strong>{e["drug"]}</strong></td>
+            <td>{e["trial"]}</td>
+            <td>{e["endpoint"]}</td>
+            <td>{e["result"]}</td>
+            <td>{e["placebo"]}</td>
+            <td style="color: #22c55e; font-weight: 700;">{e["delta"]}</td>
+            <td>{e["population"]}</td>
+        </tr>
+        '''
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TL1A / IBD Competitive Landscape | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
+        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
+        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
+        tr:hover {{ background: var(--bg); }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
+        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
+        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
+        .bull-box h3 {{ color: #059669; }}
+        .bear-box h3 {{ color: #dc2626; }}
+        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+        .thesis-list li::before {{ content: "→"; font-weight: bold; }}
+
+        .mechanism-box {{ background: var(--bg); padding: 20px; border-radius: 12px; margin-top: 16px; }}
+        .mechanism-box h4 {{ color: var(--navy); margin-bottom: 8px; }}
+        .mechanism-box p {{ color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }}
+
+        .catalyst-timeline {{ margin-top: 20px; }}
+        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
+        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
+        .back-link:hover {{ text-decoration: underline; }}
+    </style>
+</head>
+<body>
+    {get_nav_html("targets")}
+    <main class="main">
+        <div class="report-header">
+            <h1>TL1A / IBD Competitive Landscape</h1>
+            <p>TL1A (TNFSF15) is the hottest target in inflammatory bowel disease with $22B+ in M&A activity. Unique dual mechanism addresses both inflammation AND fibrosis.</p>
+            <div class="report-meta">
+                <div class="meta-item"><div class="label">Total Deal Value</div><div class="value">$22B+</div></div>
+                <div class="meta-item"><div class="label">Assets in Development</div><div class="value">9+</div></div>
+                <div class="meta-item"><div class="label">Phase 3 Programs</div><div class="value">3</div></div>
+                <div class="meta-item"><div class="label">Patient Population</div><div class="value">3.5M (US/EU)</div></div>
+            </div>
+        </div>
+
+        <!-- Investment Thesis -->
+        <div class="section">
+            <h2>Investment Thesis</h2>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+                <strong style="color: var(--navy);">TL1A is the most significant new target in IBD since anti-TNF biologics.</strong>
+                The target is genetically validated through GWAS studies showing TNFSF15 variants are associated with Crohn's disease risk.
+                Unlike existing therapies that only address inflammation, TL1A inhibition blocks BOTH inflammatory cytokine production AND intestinal fibrosis —
+                addressing the key unmet need of stricturing/fistulizing disease that affects 30-50% of Crohn's patients.
+            </p>
+
+            <div class="mechanism-box">
+                <h4>Why TL1A is Unique</h4>
+                <p>TL1A binds DR3 (death receptor 3), promoting Th1/Th17 differentiation and activating fibroblasts. Blocking TL1A interrupts both the inflammatory cascade AND the fibrotic pathway. Existing therapies (anti-TNF, anti-IL-23, JAKi) only target inflammation, leaving fibrosis/strictures unaddressed.</p>
+            </div>
+        </div>
+
+        <!-- Competitive Landscape -->
+        <div class="section">
+            <h2>Competitive Landscape</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">
+                The investment landscape is unprecedented: Merck acquired Prometheus for <strong>$10.8B</strong>, and Roche acquired Telavant for <strong>$7.25B</strong>.
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Company</th>
+                        <th>Phase</th>
+                        <th>Indication</th>
+                        <th>Deal</th>
+                        <th>Next Catalyst</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {assets_rows}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Efficacy Comparison -->
+        <div class="section">
+            <h2>Efficacy Comparison (Phase 2 Data)</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">Cross-trial comparison is challenging but directionally informative. Duvakitug shows highest absolute numbers; Tulisokibart uses biomarker selection.</p>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Drug</th>
+                            <th>Trial</th>
+                            <th>Endpoint</th>
+                            <th>Result</th>
+                            <th>Placebo</th>
+                            <th>Delta</th>
+                            <th>Population</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {efficacy_rows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bull/Bear -->
+        <div class="section">
+            <h2>Bull vs Bear</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">
+                        <li>Genetic validation: TNFSF15 variants in GWAS = high probability of success</li>
+                        <li>Dual mechanism (inflammation + fibrosis) is unique vs. all other IBD drugs</li>
+                        <li>$22B+ already committed = pharma conviction in the target</li>
+                        <li>Best-in-class efficacy: 27% placebo-adjusted remission (duvakitug)</li>
+                        <li>$25B IBD market growing to $35B by 2030; 40% inadequate response to current therapies</li>
+                    </ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case</h3>
+                    <ul class="thesis-list">
+                        <li>Crowded landscape: 3+ Phase 3 assets racing; differentiation unclear</li>
+                        <li>Cross-trial comparison challenges: different endpoints, populations</li>
+                        <li>Payer resistance if not clearly better than existing biologics</li>
+                        <li>Long development timelines: Phase 3 readouts 2025-2026</li>
+                        <li>Fibrosis benefit still theoretical; not proven in humans yet</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catalysts -->
+        <div class="section">
+            <h2>Upcoming Catalysts</h2>
+            <div class="catalyst-timeline">
+                <div class="catalyst-item">
+                    <div class="catalyst-date">Q1 2025</div>
+                    <div><strong>Sanofi/Teva:</strong> Duvakitug Phase 3 initiation in UC</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H2 2025</div>
+                    <div><strong>Merck:</strong> Tulisokibart ARTEMIS-CD Phase 3 readout (Crohn's Disease)</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H2 2025</div>
+                    <div><strong>Sanofi/Teva:</strong> Duvakitug Phase 2 data in Crohn's Disease</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H1 2026</div>
+                    <div><strong>Merck:</strong> Tulisokibart ARTEMIS-UC Phase 3 readout (Ulcerative Colitis)</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2026</div>
+                    <div><strong>Roche:</strong> Afimkibart Phase 3 readout in UC</div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/targets" class="back-link">← Back to Target Landscapes</a>
+    </main>
+    <footer class="footer">
+        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+</body>
+</html>'''
+
+
+def generate_b7h3_report():
+    """Generate the B7-H3 / ADC competitive landscape report."""
+
+    # B7-H3 Assets data
+    assets = [
+        {"asset": "Ifinatamab deruxtecan (DS-7300)", "company": "Daiichi Sankyo / Merck", "ticker": "DSNKY/MRK", "phase": "Phase 3", "modality": "ADC (DXd)", "indication": "SCLC, NSCLC, Solid tumors", "deal": "$22B partnership", "orr": "52% (ES-SCLC)", "catalyst": "TROPION-Lung08 H2 2025"},
+        {"asset": "HS-20093", "company": "GSK (via Hansoh)", "ticker": "GSK", "phase": "Phase 2", "modality": "ADC", "indication": "SCLC", "deal": "$1.7B", "orr": "75% (ES-SCLC 2L+)", "catalyst": "Ph2 expansion 2025"},
+        {"asset": "AZD8205", "company": "AstraZeneca", "ticker": "AZN", "phase": "Phase 2", "modality": "ADC (Topo I)", "indication": "Solid tumors", "deal": "Internal", "orr": "Early data", "catalyst": "Ph2 data 2025"},
+        {"asset": "BNT324", "company": "BioNTech", "ticker": "BNTX", "phase": "Phase 1/2", "modality": "ADC", "indication": "Solid tumors", "deal": "Internal", "orr": "Early stage", "catalyst": "Ph1 data 2025"},
+        {"asset": "Omburtamab", "company": "Y-mAbs", "ticker": "YMAB", "phase": "Approved", "modality": "Radioconjugate", "indication": "CNS tumors", "deal": "Internal", "orr": "N/A", "catalyst": "Label expansion"},
+        {"asset": "MGC018", "company": "MacroGenics", "ticker": "MGNX", "phase": "Phase 2", "modality": "ADC (vcMMAE)", "indication": "Solid tumors", "deal": "Internal", "orr": "Early data", "catalyst": "Ph2 data 2025"},
+    ]
+
+    # Build assets table
+    assets_rows = ""
+    for a in assets:
+        phase_color = "#22c55e" if "Phase 3" in a["phase"] or "Approved" in a["phase"] else "#f59e0b" if "Phase 2" in a["phase"] else "#6b7280"
+        assets_rows += f'''
+        <tr>
+            <td><strong>{a["asset"]}</strong></td>
+            <td>{a["company"]}<br><span style="color: var(--accent); font-size: 0.8rem;">{a["ticker"]}</span></td>
+            <td><span style="background: {phase_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">{a["phase"]}</span></td>
+            <td>{a["modality"]}</td>
+            <td>{a["indication"]}</td>
+            <td style="font-weight: 600;">{a["orr"]}</td>
+            <td>{a["catalyst"]}</td>
+        </tr>
+        '''
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B7-H3 / ADC Competitive Landscape | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
+        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
+        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
+        tr:hover {{ background: var(--bg); }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
+        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
+        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
+        .bull-box h3 {{ color: #059669; }}
+        .bear-box h3 {{ color: #dc2626; }}
+        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+        .thesis-list li::before {{ content: "→"; font-weight: bold; }}
+
+        .highlight-box {{ background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; margin: 20px 0; }}
+        .highlight-box h4 {{ color: #92400e; margin-bottom: 8px; }}
+        .highlight-box p {{ color: #78350f; font-size: 0.9rem; }}
+
+        .catalyst-timeline {{ margin-top: 20px; }}
+        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
+        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
+        .back-link:hover {{ text-decoration: underline; }}
+    </style>
+</head>
+<body>
+    {get_nav_html("targets")}
+    <main class="main">
+        <div class="report-header">
+            <h1>B7-H3 / ADC Competitive Landscape</h1>
+            <p>B7-H3 (CD276) is the premier next-generation ADC target with the largest partnership deal in history. High tumor expression + minimal normal tissue = ideal therapeutic window.</p>
+            <div class="report-meta">
+                <div class="meta-item"><div class="label">Largest Deal</div><div class="value">$22B (MRK/DSK)</div></div>
+                <div class="meta-item"><div class="label">Assets in Development</div><div class="value">23+</div></div>
+                <div class="meta-item"><div class="label">Best ORR</div><div class="value">75% (ES-SCLC)</div></div>
+                <div class="meta-item"><div class="label">Modalities</div><div class="value">ADC, CAR-T, RIT</div></div>
+            </div>
+        </div>
+
+        <!-- Mega Deal Highlight -->
+        <div class="highlight-box">
+            <h4>Merck-Daiichi Sankyo Partnership (Oct 2023)</h4>
+            <p>The <strong>$22 billion</strong> collaboration is the largest ADC deal in history, validating B7-H3 as a high-conviction oncology target. Merck paid $4B upfront + $18B in milestones for global co-development and commercialization rights to ifinatamab deruxtecan (DS-7300).</p>
+        </div>
+
+        <!-- Why B7-H3 -->
+        <div class="section">
+            <h2>Why B7-H3 is the Premier ADC Target</h2>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+                B7-H3 is an immune checkpoint protein that is <strong>overexpressed in >70% of solid tumors</strong> while showing
+                minimal expression on normal tissues. This creates an ideal therapeutic window for cytotoxic payloads like the DXd topoisomerase I inhibitor used in Enhertu.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                <div style="background: var(--bg); padding: 16px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">70%+</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Tumor expression rate</div>
+                </div>
+                <div style="background: var(--bg); padding: 16px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">Low</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Normal tissue expression</div>
+                </div>
+                <div style="background: var(--bg); padding: 16px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">Pan-tumor</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Broad applicability</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competitive Landscape -->
+        <div class="section">
+            <h2>Competitive Landscape</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Company</th>
+                            <th>Phase</th>
+                            <th>Modality</th>
+                            <th>Indication</th>
+                            <th>Best ORR</th>
+                            <th>Next Catalyst</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {assets_rows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bull/Bear -->
+        <div class="section">
+            <h2>Bull vs Bear</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">
+                        <li>$22B Merck deal = largest ADC partnership ever; major pharma conviction</li>
+                        <li>52% ORR in ES-SCLC is best-in-class for a tumor with no targeted therapy</li>
+                        <li>Ideal target biology: high tumor, low normal tissue expression</li>
+                        <li>Multiple modalities (ADC, CAR-T, radioconjugate) = diversified bet on target</li>
+                        <li>Enhertu-style DXd payload has proven safety and efficacy track record</li>
+                        <li>Pan-solid tumor applicability = massive market opportunity ($80B+ oncology)</li>
+                    </ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case</h3>
+                    <ul class="thesis-list">
+                        <li>Merck/Daiichi dominance may crowd out smaller players</li>
+                        <li>Competition from other ADC targets (TROP2, HER3, Nectin-4)</li>
+                        <li>ADC class toxicities (ILD, cytopenias) may limit use</li>
+                        <li>Registration trials still ongoing; approval not guaranteed</li>
+                        <li>High price of ADCs may face payer pushback</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catalysts -->
+        <div class="section">
+            <h2>Upcoming Catalysts</h2>
+            <div class="catalyst-timeline">
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H2 2025</div>
+                    <div><strong>Daiichi/Merck:</strong> TROPION-Lung08 Phase 3 readout (NSCLC 1L)</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2025</div>
+                    <div><strong>Daiichi/Merck:</strong> Potential accelerated approval in ES-SCLC</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2025</div>
+                    <div><strong>GSK:</strong> HS-20093 Phase 2 expansion data</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2025</div>
+                    <div><strong>AstraZeneca:</strong> AZD8205 Phase 2 monotherapy and combo data</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2026</div>
+                    <div><strong>Daiichi/Merck:</strong> Additional Phase 3 readouts in prostate, breast</div>
+                </div>
+            </div>
+        </div>
+
+        <a href="/targets" class="back-link">← Back to Target Landscapes</a>
+    </main>
+    <footer class="footer">
+        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+</body>
+</html>'''
+
 
 def generate_company_detail(ticker: str):
     company = None

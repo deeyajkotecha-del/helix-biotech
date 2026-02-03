@@ -121,6 +121,9 @@ from app.pages import (
     generate_kols_page,
     generate_about_page,
     generate_company_detail,
+    generate_glp1_report,
+    generate_tl1a_report,
+    generate_b7h3_report,
 )
 
 @app.get("/companies", response_class=HTMLResponse)
@@ -128,6 +131,21 @@ from app.pages import (
 async def serve_companies():
     """Serve companies page with 145 biotech companies."""
     return HTMLResponse(generate_companies_page())
+
+@app.get("/targets/glp1-obesity", response_class=HTMLResponse)
+async def serve_glp1_report():
+    """Serve GLP-1 / Obesity competitive landscape report."""
+    return HTMLResponse(generate_glp1_report())
+
+@app.get("/targets/tl1a-ibd", response_class=HTMLResponse)
+async def serve_tl1a_report():
+    """Serve TL1A / IBD competitive landscape report."""
+    return HTMLResponse(generate_tl1a_report())
+
+@app.get("/targets/b7h3-adc", response_class=HTMLResponse)
+async def serve_b7h3_report():
+    """Serve B7-H3 / ADC competitive landscape report."""
+    return HTMLResponse(generate_b7h3_report())
 
 @app.get("/targets", response_class=HTMLResponse)
 @app.get("/targets/{path:path}", response_class=HTMLResponse)
