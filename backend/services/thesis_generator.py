@@ -182,8 +182,21 @@ class ThesisGenerator:
         name = html.escape(self.data.get("name", self.ticker))
         desc = html.escape(self.data.get("description", ""))
 
+        # Financials
+        financials = self.data.get("financials", {})
+        market_cap = html.escape(financials.get("market_cap", "N/A"))
+        cash = html.escape(financials.get("cash_position", "N/A"))
+        cash_pro_forma = html.escape(financials.get("cash_pro_forma", ""))
+
+        # Key catalyst
+        key_catalyst = self.data.get("key_catalyst", {})
+        catalyst_event = html.escape(key_catalyst.get("event", ""))
+        catalyst_date = html.escape(key_catalyst.get("expected_date", ""))
+        catalyst_significance = html.escape(key_catalyst.get("significance", ""))
+
         # Count programs by stage
         programs = self.data.get("programs", [])
+        total_programs = len(programs)
         approved = sum(1 for p in programs if "Approved" in p.get("stage", ""))
         phase3 = sum(1 for p in programs if "Phase 3" in p.get("stage", "") or "Phase 2/3" in p.get("stage", ""))
         phase2 = sum(1 for p in programs if "Phase 2" in p.get("stage", "") and "Phase 2/3" not in p.get("stage", ""))
@@ -203,6 +216,22 @@ class ThesisGenerator:
                     key_debates.append(html.escape(sv["key_question"]))
                 break
 
+        # Key catalyst section
+        catalyst_html = ""
+        if catalyst_event:
+            catalyst_html = f"""
+            <div class="section-divider">Key Upcoming Catalyst</div>
+            <div class="card" style="border-left: 4px solid #f59e0b; background: #fffbeb;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div class="card-title" style="color: #92400e;">{catalyst_event}</div>
+                        <div style="color: #64748b; margin-top: 0.25rem;">{catalyst_significance}</div>
+                    </div>
+                    <div class="badge badge-phase3" style="font-size: 1rem; padding: 0.5rem 1rem;">{catalyst_date}</div>
+                </div>
+            </div>
+            """
+
         return f"""
         <div class="section">
             <h2 class="section-title">Executive Summary</h2>
@@ -211,23 +240,38 @@ class ThesisGenerator:
 
             <div class="grid-3" style="margin-bottom: 2rem;">
                 <div class="card">
-                    <div class="card-label">Approved Products</div>
-                    <div class="card-value">{approved}</div>
+                    <div class="card-label">Market Cap</div>
+                    <div class="card-value">{market_cap}</div>
                 </div>
                 <div class="card">
-                    <div class="card-label">Phase 3 Programs</div>
-                    <div class="card-value">{phase3}</div>
+                    <div class="card-label">Cash Position</div>
+                    <div class="card-value">{cash}</div>
+                    <div class="card-label" style="margin-top: 0.25rem;">{cash_pro_forma}</div>
                 </div>
                 <div class="card">
-                    <div class="card-label">Partnership Milestones</div>
-                    <div class="card-value">${total_milestones/1e9:.1f}B</div>
-                    <div class="card-label" style="margin-top: 0.25rem;">Received: ${total_received/1e6:.0f}M</div>
+                    <div class="card-label">Total Pipeline</div>
+                    <div class="card-value">{total_programs}</div>
+                    <div class="card-label" style="margin-top: 0.25rem;">{approved} Approved, {phase3} Ph3</div>
                 </div>
             </div>
 
-            <div class="section-divider">Pipeline Summary</div>
+            {catalyst_html}
+
+            <div class="section-divider">Partnership Economics</div>
+            <div class="grid-2" style="margin-bottom: 1.5rem;">
+                <div class="card">
+                    <div class="card-label">Potential Milestones</div>
+                    <div class="card-value">${total_milestones/1e9:.1f}B</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Received to Date</div>
+                    <div class="card-value">${total_received/1e6:.0f}M</div>
+                </div>
+            </div>
+
+            <div class="section-divider">Lead Programs</div>
             <div class="grid-2">
-                {self._program_summary_cards(programs[:4])}
+                {self._program_summary_cards(programs[:6])}
             </div>
 
             {"<div class='section-divider'>Key Investment Debates</div><ul style='margin-left: 1.5rem;'>" + "".join(f"<li style='margin-bottom: 0.5rem;'>{d}</li>" for d in key_debates) + "</ul>" if key_debates else ""}

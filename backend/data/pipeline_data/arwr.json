@@ -1,12 +1,26 @@
 {
   "ticker": "ARWR",
   "name": "Arrowhead Pharmaceuticals",
-  "description": "Clinical-stage biopharmaceutical company developing RNAi therapeutics using its proprietary TRiM platform",
+  "description": "Clinical-stage biopharmaceutical company developing RNAi therapeutics using its proprietary TRiM platform. First approved RNAi therapeutic (REDEMPLO) in Nov 2025. 19 programs across cardiometabolic, pulmonary, hepatic, CNS, and oncology.",
   "sector": "Biotechnology",
   "website": "https://arrowheadpharma.com",
   "lead_asset": "Plozasiran",
   "lead_asset_stage": "Approved (FCS) / Phase 3 (sHTG)",
   "lead_asset_indication": "Familial Chylomicronemia Syndrome, Severe Hypertriglyceridemia",
+  "financials": {
+    "market_cap": "$7.65B",
+    "market_cap_value": 7650000000,
+    "cash_position": "$920M+",
+    "cash_pro_forma": "$1.32B (pro forma)",
+    "enterprise_value": "$6.3B",
+    "shares_outstanding": "121.2M",
+    "as_of": "2026-02-03"
+  },
+  "key_catalyst": {
+    "event": "Plozasiran sHTG Phase 3 PDUFA",
+    "expected_date": "Q3 2026",
+    "significance": "10x larger market than approved FCS indication (~500K US patients)"
+  },
   "programs": [
     {
       "name": "Plozasiran (ARO-APOC3)",
