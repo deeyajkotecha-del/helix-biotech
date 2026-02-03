@@ -392,7 +392,7 @@ def generate_targets_page():
         {"name": "GLP-1 / Incretin", "slug": "glp1-obesity", "assets": 25, "approved": 6, "phase3": 7, "deals": "$22.8B", "hot": True, "desc": "Obesity & diabetes market leader"},
         {"name": "TL1A / TNFSF15", "slug": "tl1a-ibd", "assets": 11, "approved": 0, "phase3": 3, "deals": "$22B+", "hot": True, "desc": "Next blockbuster IBD target"},
         {"name": "B7-H3 / CD276", "slug": "b7h3-adc", "assets": 23, "approved": 0, "phase3": 2, "deals": "$28B+", "hot": True, "desc": "Premier ADC target in oncology"},
-        {"name": "KRAS G12C", "slug": None, "assets": 12, "approved": 2, "phase3": 5, "deals": "$4.2B", "hot": True, "desc": "From undruggable to approved"},
+        {"name": "KRAS G12C", "slug": "kras", "assets": 12, "approved": 2, "phase3": 5, "deals": "$4.2B", "hot": True, "desc": "From undruggable to approved"},
         {"name": "PCSK9", "slug": None, "assets": 8, "approved": 2, "phase3": 2, "deals": "$3.5B", "hot": False, "desc": "Lipid lowering therapies"},
         {"name": "CD20", "slug": None, "assets": 15, "approved": 5, "phase3": 4, "deals": "$5.0B", "hot": False, "desc": "B-cell depletion therapies"},
         {"name": "PD-1 / PD-L1", "slug": None, "assets": 30, "approved": 8, "phase3": 10, "deals": "$15B+", "hot": False, "desc": "Checkpoint inhibitor leaders"},
@@ -1342,6 +1342,274 @@ def generate_b7h3_report():
                     <div class="catalyst-date">2026</div>
                     <div><strong>Daiichi/Merck:</strong> Additional Phase 3 readouts in prostate, breast</div>
                 </div>
+            </div>
+        </div>
+
+        <a href="/targets" class="back-link">← Back to Target Landscapes</a>
+    </main>
+    <footer class="footer">
+        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+</body>
+</html>'''
+
+
+def generate_kras_report():
+    """Generate the KRAS competitive landscape report."""
+
+    # KRAS Assets data
+    assets = [
+        {"asset": "Sotorasib (Lumakras)", "company": "Amgen", "ticker": "AMGN", "phase": "Approved", "mutation": "G12C", "indication": "NSCLC", "approval": "May 2021", "orr": "37%", "notes": "First KRAS inhibitor approved"},
+        {"asset": "Adagrasib (Krazati)", "company": "Mirati (BMS)", "ticker": "BMY", "phase": "Approved", "mutation": "G12C", "indication": "NSCLC", "approval": "Dec 2022", "orr": "43%", "notes": "Longer half-life, CNS penetration"},
+        {"asset": "Divarasib (GDC-6036)", "company": "Roche/Genentech", "ticker": "RHHBY", "phase": "Phase 3", "mutation": "G12C", "indication": "NSCLC, CRC", "approval": "-", "orr": "53%", "notes": "Best ORR in NSCLC; CRC combo"},
+        {"asset": "Glecirasib (JAB-21822)", "company": "Jacobio", "ticker": "Private", "phase": "Phase 3", "mutation": "G12C", "indication": "NSCLC, CRC", "approval": "-", "orr": "50%+", "notes": "China leader; AZ partnership"},
+        {"asset": "Opnurasib (RMC-6291)", "company": "Revolution Medicines", "ticker": "RVMD", "phase": "Phase 2", "mutation": "G12C (ON)", "indication": "Solid tumors", "approval": "-", "orr": "48%", "notes": "Active-state (ON) inhibitor"},
+        {"asset": "RMC-6236", "company": "Revolution Medicines", "ticker": "RVMD", "phase": "Phase 3", "mutation": "Multi-KRAS", "indication": "PDAC", "approval": "-", "orr": "20%+ PDAC", "notes": "Pan-RAS inhibitor; PDAC focus"},
+        {"asset": "MRTX1133", "company": "Mirati (BMS)", "ticker": "BMY", "phase": "Phase 1/2", "mutation": "G12D", "indication": "PDAC", "approval": "-", "orr": "Early", "notes": "First G12D inhibitor in clinic"},
+        {"asset": "RMC-9805", "company": "Revolution Medicines", "ticker": "RVMD", "phase": "Phase 1", "mutation": "G12D (ON)", "indication": "PDAC", "approval": "-", "orr": "Early", "notes": "Active-state G12D inhibitor"},
+    ]
+
+    # Build assets table
+    assets_rows = ""
+    for a in assets:
+        phase_color = "#22c55e" if "Approved" in a["phase"] else "#3b82f6" if "Phase 3" in a["phase"] else "#f59e0b" if "Phase 2" in a["phase"] else "#6b7280"
+        assets_rows += f'''
+        <tr>
+            <td><strong>{a["asset"]}</strong></td>
+            <td>{a["company"]}<br><span style="color: var(--accent); font-size: 0.8rem;">{a["ticker"]}</span></td>
+            <td><span style="background: {phase_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">{a["phase"]}</span></td>
+            <td><strong>{a["mutation"]}</strong></td>
+            <td>{a["indication"]}</td>
+            <td style="font-weight: 600;">{a["orr"]}</td>
+            <td style="font-size: 0.8rem; color: var(--text-secondary);">{a["notes"]}</td>
+        </tr>
+        '''
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRAS Inhibitor Landscape | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
+        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
+        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
+        tr:hover {{ background: var(--bg); }}
+
+        .mutation-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 24px 0; }}
+        .mutation-card {{ background: var(--bg); padding: 20px; border-radius: 12px; border-left: 4px solid var(--accent); }}
+        .mutation-card h4 {{ color: var(--navy); margin-bottom: 8px; }}
+        .mutation-card .pct {{ font-size: 1.5rem; font-weight: 700; color: var(--accent); }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
+        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
+        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
+        .bull-box h3 {{ color: #059669; }}
+        .bear-box h3 {{ color: #dc2626; }}
+        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+        .thesis-list li::before {{ content: "→"; font-weight: bold; }}
+
+        .catalyst-timeline {{ margin-top: 20px; }}
+        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
+        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
+        .back-link:hover {{ text-decoration: underline; }}
+    </style>
+</head>
+<body>
+    {get_nav_html("targets")}
+    <main class="main">
+        <div class="report-header">
+            <h1>KRAS Inhibitor Landscape</h1>
+            <p>From "undruggable" to FDA-approved in under a decade. KRAS mutations drive ~25% of all cancers. G12C is cracked; G12D and pan-KRAS are next.</p>
+            <div class="report-meta">
+                <div class="meta-item"><div class="label">Approved Drugs</div><div class="value">2</div></div>
+                <div class="meta-item"><div class="label">Phase 3 Assets</div><div class="value">5+</div></div>
+                <div class="meta-item"><div class="label">Target Mutations</div><div class="value">G12C, G12D, Multi</div></div>
+                <div class="meta-item"><div class="label">Key Company</div><div class="value">RVMD</div></div>
+            </div>
+        </div>
+
+        <!-- KRAS Mutation Overview -->
+        <div class="section">
+            <h2>KRAS Mutations in Cancer</h2>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+                KRAS is mutated in approximately <strong>25% of all human cancers</strong>, making it one of the most important oncology targets.
+                For decades it was considered "undruggable" due to the protein's smooth surface and high affinity for GTP. The breakthrough came with covalent inhibitors targeting the G12C mutation's unique cysteine.
+            </p>
+            <div class="mutation-grid">
+                <div class="mutation-card">
+                    <h4>KRAS G12C</h4>
+                    <div class="pct">~13%</div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">of NSCLC; targetable with approved drugs (sotorasib, adagrasib)</p>
+                </div>
+                <div class="mutation-card">
+                    <h4>KRAS G12D</h4>
+                    <div class="pct">~40%</div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">of PDAC; next frontier (MRTX1133, RMC-9805 in Phase 1)</p>
+                </div>
+                <div class="mutation-card">
+                    <h4>KRAS G12V</h4>
+                    <div class="pct">~20%</div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">of PDAC/CRC; targeted by pan-RAS inhibitors</p>
+                </div>
+                <div class="mutation-card">
+                    <h4>Pan-KRAS/RAS</h4>
+                    <div class="pct">All</div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Multi-mutation approaches (RMC-6236) for broad coverage</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Competitive Landscape -->
+        <div class="section">
+            <h2>Competitive Landscape</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Company</th>
+                            <th>Phase</th>
+                            <th>Mutation</th>
+                            <th>Indication</th>
+                            <th>ORR</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {assets_rows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Next-Gen Approaches -->
+        <div class="section">
+            <h2>Next-Generation Approaches</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px;">
+                    <h4 style="color: var(--navy); margin-bottom: 8px;">Active-State (ON) Inhibitors</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">Revolution Medicines' approach targets KRAS in its active GTP-bound state, potentially overcoming resistance to GDP-state (OFF) inhibitors like sotorasib.</p>
+                </div>
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px;">
+                    <h4 style="color: var(--navy); margin-bottom: 8px;">Pan-RAS Inhibitors</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">RMC-6236 targets multiple KRAS mutations plus NRAS/HRAS, enabling treatment regardless of specific mutation.</p>
+                </div>
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px;">
+                    <h4 style="color: var(--navy); margin-bottom: 8px;">G12D Inhibitors</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">MRTX1133 and RMC-9805 target the most common mutation in pancreatic cancer, a $5B+ market opportunity.</p>
+                </div>
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px;">
+                    <h4 style="color: var(--navy); margin-bottom: 8px;">Combinations</h4>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary);">KRAS + SHP2, KRAS + SOS1, KRAS + checkpoint inhibitors to address resistance and improve durability.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bull/Bear -->
+        <div class="section">
+            <h2>Bull vs Bear</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">
+                        <li>KRAS is mutated in 25% of all cancers = massive TAM</li>
+                        <li>G12C approved drugs prove the target is druggable</li>
+                        <li>G12D opportunity (PDAC) could be larger than G12C</li>
+                        <li>Next-gen inhibitors (ON-state, pan-RAS) address resistance</li>
+                        <li>Revolution Medicines (RVMD) has multiple shots on goal</li>
+                        <li>Combinations with SHP2/SOS1 could improve durability</li>
+                    </ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case</h3>
+                    <ul class="thesis-list">
+                        <li>Rapid resistance development limits durability (~6mo PFS)</li>
+                        <li>Approved drugs have modest ORR (37-43%) vs. targeted therapies in other settings</li>
+                        <li>G12D is more challenging than G12C (no cysteine handle)</li>
+                        <li>PDAC is notoriously hard; microenvironment challenges</li>
+                        <li>Competition intensifying with many players</li>
+                        <li>Mirati acquisition by BMS = fewer pure-play options</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catalysts -->
+        <div class="section">
+            <h2>Upcoming Catalysts</h2>
+            <div class="catalyst-timeline">
+                <div class="catalyst-item">
+                    <div class="catalyst-date">H1 2025</div>
+                    <div><strong>Roche:</strong> Divarasib Phase 3 data in NSCLC</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2025</div>
+                    <div><strong>Revolution (RVMD):</strong> RMC-6236 Phase 3 readout in PDAC</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2025</div>
+                    <div><strong>Revolution (RVMD):</strong> Opnurasib (RMC-6291) Phase 2 expansion data</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2025</div>
+                    <div><strong>BMS/Mirati:</strong> MRTX1133 (G12D) Phase 1/2 dose expansion</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2025-26</div>
+                    <div><strong>Jacobio/AZ:</strong> Glecirasib Phase 3 readout; potential China approval</div>
+                </div>
+                <div class="catalyst-item">
+                    <div class="catalyst-date">2026</div>
+                    <div><strong>Revolution (RVMD):</strong> RMC-9805 (G12D ON) Phase 1 data</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Companies -->
+        <div class="section">
+            <h2>Key Companies</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                <a href="/api/company/RVMD/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong style="color: var(--navy);">Revolution Medicines</strong>
+                        <span style="color: var(--accent);">RVMD</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Multi-RAS leader with G12C (ON), G12D, and pan-RAS programs</p>
+                </a>
+                <a href="/api/company/AMGN/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong style="color: var(--navy);">Amgen</strong>
+                        <span style="color: var(--accent);">AMGN</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">First-to-market with Lumakras (sotorasib)</p>
+                </a>
             </div>
         </div>
 

@@ -124,6 +124,7 @@ from app.pages import (
     generate_glp1_report,
     generate_tl1a_report,
     generate_b7h3_report,
+    generate_kras_report,
 )
 
 @app.get("/companies", response_class=HTMLResponse)
@@ -146,6 +147,11 @@ async def serve_tl1a_report():
 async def serve_b7h3_report():
     """Serve B7-H3 / ADC competitive landscape report."""
     return HTMLResponse(generate_b7h3_report())
+
+@app.get("/targets/kras", response_class=HTMLResponse)
+async def serve_kras_report():
+    """Serve KRAS inhibitor competitive landscape report."""
+    return HTMLResponse(generate_kras_report())
 
 @app.get("/targets", response_class=HTMLResponse)
 @app.get("/targets/{path:path}", response_class=HTMLResponse)
