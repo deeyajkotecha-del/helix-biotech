@@ -368,6 +368,12 @@ def generate_companies_page():
     <meta name="description" content="Browse {len(ALL_COMPANIES)} biotech companies with pipeline data and catalyst tracking.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     {get_base_styles()}
+    <style>
+        .search-box {{ margin-bottom: 16px; }}
+        .search-input {{ width: 100%; max-width: 500px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }}
+        .search-input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }}
+        .results-count {{ color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }}
+    </style>
 </head>
 <body>
     {get_nav_html("companies")}
@@ -376,6 +382,10 @@ def generate_companies_page():
             <h1 class="page-title">Companies</h1>
             <p class="page-subtitle">{len(ALL_COMPANIES)} biotech companies with real-time catalyst tracking</p>
         </div>
+        <div class="search-box">
+            <input type="text" id="company-search" class="search-input" placeholder="Search by ticker, company name, or therapeutic area...">
+        </div>
+        <p class="results-count" id="results-count">Showing {len(ALL_COMPANIES)} companies</p>
         <nav class="category-nav">
             <div class="category-pills">{pills_html}</div>
         </nav>
@@ -384,42 +394,200 @@ def generate_companies_page():
     <footer class="footer">
         <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
     </footer>
+
+    <script>
+        let activeCategory = 'all';
+
+        function filterCompanies() {{
+            const q = document.getElementById('company-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.company-card');
+            const sections = document.querySelectorAll('.section');
+            let total = 0;
+
+            sections.forEach(section => {{
+                const sectionId = section.id;
+                const matchCategory = activeCategory === 'all' || sectionId === activeCategory;
+                let sectionCount = 0;
+
+                section.querySelectorAll('.company-card').forEach(card => {{
+                    const text = card.textContent.toLowerCase();
+                    const matchSearch = !q || text.includes(q);
+                    if (matchCategory && matchSearch) {{
+                        card.style.display = '';
+                        sectionCount++;
+                        total++;
+                    }} else {{
+                        card.style.display = 'none';
+                    }}
+                }});
+
+                section.style.display = sectionCount > 0 ? '' : 'none';
+                const countBadge = section.querySelector('.section-count');
+                if (countBadge) countBadge.textContent = sectionCount;
+            }});
+
+            document.getElementById('results-count').textContent = 'Showing ' + total + ' companies';
+        }}
+
+        document.querySelectorAll('.category-pill').forEach(pill => {{
+            pill.addEventListener('click', (e) => {{
+                e.preventDefault();
+                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                const href = pill.getAttribute('href');
+                activeCategory = href === '#all' ? 'all' : href.replace('#', '');
+                filterCompanies();
+            }});
+        }});
+
+        document.getElementById('company-search').addEventListener('input', filterCompanies);
+
+        // Check for search query in URL hash
+        const hash = window.location.hash;
+        if (hash.includes('search=')) {{
+            const query = decodeURIComponent(hash.split('search=')[1]);
+            document.getElementById('company-search').value = query;
+            filterCompanies();
+        }}
+    </script>
 </body>
 </html>'''
 
 def generate_targets_page():
+    """Generate the targets page with category filters and search."""
+
+    # All targets with full data from CLI
     targets = [
-        {"name": "GLP-1 / Incretin", "slug": "glp1-obesity", "assets": 25, "approved": 6, "phase3": 7, "deals": "$22.8B", "hot": True, "desc": "Obesity & diabetes market leader"},
-        {"name": "TL1A / TNFSF15", "slug": "tl1a-ibd", "assets": 11, "approved": 0, "phase3": 3, "deals": "$22B+", "hot": True, "desc": "Next blockbuster IBD target"},
-        {"name": "B7-H3 / CD276", "slug": "b7h3-adc", "assets": 23, "approved": 0, "phase3": 2, "deals": "$28B+", "hot": True, "desc": "Premier ADC target in oncology"},
-        {"name": "KRAS G12C", "slug": "kras", "assets": 12, "approved": 2, "phase3": 5, "deals": "$4.2B", "hot": True, "desc": "From undruggable to approved"},
-        {"name": "PCSK9", "slug": None, "assets": 8, "approved": 2, "phase3": 2, "deals": "$3.5B", "hot": False, "desc": "Lipid lowering therapies"},
-        {"name": "CD20", "slug": None, "assets": 15, "approved": 5, "phase3": 4, "deals": "$5.0B", "hot": False, "desc": "B-cell depletion therapies"},
-        {"name": "PD-1 / PD-L1", "slug": None, "assets": 30, "approved": 8, "phase3": 10, "deals": "$15B+", "hot": False, "desc": "Checkpoint inhibitor leaders"},
-        {"name": "Claudin 18.2", "slug": None, "assets": 10, "approved": 0, "phase3": 4, "deals": "$2.8B", "hot": True, "desc": "GI cancer target"},
+        # Oncology
+        {"name": "KRAS G12C", "category": "oncology", "slug": "kras", "status": "Approved Drug Exists",
+         "leader": {"company": "Amgen", "ticker": "AMGN", "drug": "Lumakras", "phase": "Approved"},
+         "challenger": {"company": "Revolution", "ticker": "RVMD", "drug": "RMC-6236", "phase": "Phase 3"},
+         "count": "8+", "desc": "Amgen, Mirati approved. Next-gen focus on combos."},
+        {"name": "RAS(ON) Multi", "category": "oncology", "slug": "kras", "status": "Race to First",
+         "leader": {"company": "Revolution", "ticker": "RVMD", "drug": "Daraxonrasib", "phase": "Phase 3"},
+         "challenger": {"company": "Mirati/BMS", "ticker": "BMY", "drug": "MRTX1133", "phase": "Phase 1"},
+         "count": "4", "desc": "First multi-RAS inhibitor; BTD granted."},
+        {"name": "Menin-MLL", "category": "oncology", "slug": None, "status": "Approved Drug Exists",
+         "leader": {"company": "Syndax", "ticker": "SNDX", "drug": "Revuforj", "phase": "Approved"},
+         "challenger": {"company": "Kura", "ticker": "KURA", "drug": "Ziftomenib", "phase": "Phase 3"},
+         "count": "3", "desc": "First-in-class for KMT2A AML."},
+        {"name": "TIGIT", "category": "oncology", "slug": None, "status": "Race to First",
+         "leader": {"company": "Arcus/Gilead", "ticker": "RCUS", "drug": "Domvanalimab", "phase": "Phase 3"},
+         "challenger": {"company": "Merck", "ticker": "MRK", "drug": "Vibostolimab", "phase": "Phase 3"},
+         "count": "10+", "desc": "Crowded checkpoint. Fc design matters."},
+        {"name": "B7-H3", "category": "oncology", "slug": "b7h3-adc", "status": "Race to First",
+         "leader": {"company": "Daiichi/Merck", "ticker": "DSNKY", "drug": "I-DXd", "phase": "Phase 3"},
+         "challenger": {"company": "GSK", "ticker": "GSK", "drug": "HS-20093", "phase": "Phase 2"},
+         "count": "23", "desc": "Highly expressed in solid tumors with limited normal tissue."},
+
+        # Immunology
+        {"name": "TL1A", "category": "immunology", "slug": "tl1a-ibd", "status": "Race to First",
+         "leader": {"company": "Merck", "ticker": "MRK", "drug": "Tulisokibart", "phase": "Phase 3"},
+         "challenger": {"company": "Sanofi", "ticker": "SNY", "drug": "Duvakitug", "phase": "Phase 3"},
+         "count": "9", "desc": "Hot IBD target with anti-fibrotic potential."},
+        {"name": "FcRn", "category": "immunology", "slug": None, "status": "Approved Drug Exists",
+         "leader": {"company": "argenx", "ticker": "ARGX", "drug": "VYVGART", "phase": "Approved"},
+         "challenger": {"company": "Immunovant", "ticker": "IMVT", "drug": "IMVT-1402", "phase": "Phase 3"},
+         "count": "5", "desc": "$4B+ market. MG, CIDP, ITP."},
+        {"name": "IL-4Ra / IL-13", "category": "immunology", "slug": None, "status": "Approved Drug Exists",
+         "leader": {"company": "Regeneron", "ticker": "REGN", "drug": "Dupixent", "phase": "Approved"},
+         "challenger": {"company": "Apogee", "ticker": "APGE", "drug": "APG777", "phase": "Phase 2"},
+         "count": "4", "desc": "$13B+ blockbuster. Q12W dosing goal."},
+        {"name": "KIT (mast cell)", "category": "immunology", "slug": None, "status": "Race to First",
+         "leader": {"company": "Celldex", "ticker": "CLDX", "drug": "Barzolvolimab", "phase": "Phase 3"},
+         "challenger": {"company": "Allakos", "ticker": "ALLK", "drug": "Various", "phase": "Phase 2"},
+         "count": "3", "desc": "Mast cell depletion for urticaria."},
+
+        # Metabolic
+        {"name": "GLP-1/GIP dual", "category": "metabolic", "slug": "glp1-obesity", "status": "Approved Drug Exists",
+         "leader": {"company": "Eli Lilly", "ticker": "LLY", "drug": "Mounjaro", "phase": "Approved"},
+         "challenger": {"company": "Viking", "ticker": "VKTX", "drug": "VK2735", "phase": "Phase 3"},
+         "count": "10+", "desc": "$50B+ market. Oral formulation key."},
+
+        # Cardiovascular
+        {"name": "Aldosterone synth", "category": "cardiovascular", "slug": None, "status": "Race to First",
+         "leader": {"company": "Mineralys", "ticker": "MLYS", "drug": "Lorundrostat", "phase": "Phase 3"},
+         "challenger": {"company": "Alnylam", "ticker": "ALNY", "drug": "Zilebesiran", "phase": "Phase 3"},
+         "count": "3", "desc": "CYP11B2 for resistant HTN."},
+
+        # Rare Disease
+        {"name": "DMD gene therapy", "category": "rare", "slug": None, "status": "Approved Drug Exists",
+         "leader": {"company": "Sarepta", "ticker": "SRPT", "drug": "Elevidys", "phase": "Approved"},
+         "challenger": {"company": "Solid Bio", "ticker": "SLDB", "drug": "SGT-003", "phase": "Phase 1/2"},
+         "count": "4", "desc": "First DMD gene therapy approved."},
+        {"name": "Hepcidin mimetic", "category": "rare", "slug": None, "status": "Race to First",
+         "leader": {"company": "Protagonist", "ticker": "PTGX", "drug": "Rusfertide", "phase": "NDA Filed"},
+         "challenger": {"company": "Disc Med", "ticker": "IRON", "drug": "Various", "phase": "Phase 2"},
+         "count": "2", "desc": "First-in-class for PV. Takeda partner."},
+
+        # Neuropsychiatry
+        {"name": "Nav1.6 / SCN8A", "category": "neuro", "slug": None, "status": "Early Stage",
+         "leader": {"company": "Praxis", "ticker": "PRAX", "drug": "Relutrigine", "phase": "Phase 2/3"},
+         "challenger": {"company": "None", "ticker": "-", "drug": "-", "phase": "-"},
+         "count": "1", "desc": "BTD for SCN8A epilepsy. Low competition."},
+        {"name": "T-type Ca2+ channel", "category": "neuro", "slug": None, "status": "Race to First",
+         "leader": {"company": "Xenon", "ticker": "XENE", "drug": "Azetukalner", "phase": "Phase 3"},
+         "challenger": {"company": "Idorsia", "ticker": "IDIA", "drug": "Various", "phase": "Phase 2"},
+         "count": "2", "desc": "Kv7 mechanism for epilepsy."},
     ]
 
+    # Category colors and labels
+    category_styles = {
+        "oncology": {"bg": "#fef2f2", "color": "#dc2626", "label": "Oncology"},
+        "immunology": {"bg": "#f0fdf4", "color": "#16a34a", "label": "I&I"},
+        "metabolic": {"bg": "#fef9c3", "color": "#ca8a04", "label": "Metabolic"},
+        "cardiovascular": {"bg": "#eff6ff", "color": "#2563eb", "label": "Cardiovascular"},
+        "rare": {"bg": "#faf5ff", "color": "#7c3aed", "label": "Rare Disease"},
+        "neuro": {"bg": "#fef3c7", "color": "#92400e", "label": "Neuro"},
+    }
+
+    # Status colors
+    status_styles = {
+        "Approved Drug Exists": {"bg": "#dcfce7", "color": "#166534"},
+        "Race to First": {"bg": "#fef9c3", "color": "#854d0e"},
+        "Early Stage": {"bg": "#f3f4f6", "color": "#4b5563"},
+    }
+
+    # Build target cards
     cards_html = ""
     for t in targets:
-        hot_badge = '<span class="hot-badge">Hot Target</span>' if t["hot"] else ""
-        link_start = f'<a href="/targets/{t["slug"]}" class="target-card">' if t["slug"] else '<div class="target-card coming-soon">'
-        link_end = '</a>' if t["slug"] else '</div>'
-        view_btn = f'<div class="view-report">View Full Report →</div>' if t["slug"] else '<div class="view-report coming">Coming Soon</div>'
+        cat = category_styles.get(t["category"], {"bg": "#f3f4f6", "color": "#4b5563", "label": "Other"})
+        status = status_styles.get(t["status"], {"bg": "#f3f4f6", "color": "#4b5563"})
+        phase_colors = {"Approved": "#22c55e", "Phase 3": "#3b82f6", "Phase 2": "#f59e0b", "Phase 2/3": "#f59e0b", "Phase 1": "#6b7280", "Phase 1/2": "#6b7280", "NDA Filed": "#22c55e"}
+        leader_phase_color = phase_colors.get(t["leader"]["phase"], "#6b7280")
+        challenger_phase_color = phase_colors.get(t["challenger"]["phase"], "#6b7280")
+
+        view_btn = f'<a href="/targets/{t["slug"]}" class="view-btn">View Full Landscape →</a>' if t["slug"] else ""
+
         cards_html += f'''
-        {link_start}
+        <div class="target-card" data-category="{t["category"]}">
             <div class="target-header">
-                <h3>{t["name"]}</h3>
-                {hot_badge}
+                <div class="target-name">{t["name"]}</div>
+                <span class="area-badge" style="background:{cat["bg"]};color:{cat["color"]};">{cat["label"]}</span>
             </div>
-            <p class="target-desc">{t["desc"]}</p>
-            <div class="target-stats">
-                <div class="target-stat"><span class="stat-value">{t["assets"]}</span><span class="stat-label">Assets</span></div>
-                <div class="target-stat"><span class="stat-value">{t["approved"]}</span><span class="stat-label">Approved</span></div>
-                <div class="target-stat"><span class="stat-value">{t["phase3"]}</span><span class="stat-label">Phase 3</span></div>
-                <div class="target-stat"><span class="stat-value">{t["deals"]}</span><span class="stat-label">Deal Value</span></div>
+            <div class="market-status" style="background:{status["bg"]};color:{status["color"]};">{t["status"]}</div>
+            <div class="competitor-section">
+                <div class="competitor-row">
+                    <span class="competitor-label">{"Market Leader" if "Approved" in t["status"] else "Frontrunner"}</span>
+                    <span class="competitor-info">
+                        <span class="competitor-text"><span class="company">{t["leader"]["company"]}</span> (<span class="ticker">{t["leader"]["ticker"]}</span>) - {t["leader"]["drug"]}</span>
+                        <span class="stage-pill" style="background:{leader_phase_color};">{t["leader"]["phase"]}</span>
+                    </span>
+                </div>
+                <div class="competitor-row">
+                    <span class="competitor-label">{"Challenger" if "Approved" in t["status"] else "Fast Follower"}</span>
+                    <span class="competitor-info">
+                        <span class="competitor-text"><span class="company">{t["challenger"]["company"]}</span> {f'(<span class="ticker">{t["challenger"]["ticker"]}</span>)' if t["challenger"]["ticker"] != "-" else ""} {f'- {t["challenger"]["drug"]}' if t["challenger"]["drug"] != "-" else ""}</span>
+                        {f'<span class="stage-pill" style="background:{challenger_phase_color};">{t["challenger"]["phase"]}</span>' if t["challenger"]["phase"] != "-" else ""}
+                    </span>
+                </div>
             </div>
-            {view_btn}
-        {link_end}
+            <div class="target-footer">
+                <div class="companies-count"><strong>{t["count"]}</strong> companies pursuing</div>
+                <p class="target-desc">{t["desc"]}</p>
+                {view_btn}
+            </div>
+        </div>
         '''
 
     return f'''<!DOCTYPE html>
@@ -427,39 +595,152 @@ def generate_targets_page():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Targets | Satya Bio</title>
+    <title>Explore Drug Targets | Satya Bio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     {get_base_styles()}
     <style>
-        .targets-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }}
-        .target-card {{ display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; transition: all 0.2s; }}
-        .target-card:hover {{ border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }}
-        .target-card.coming-soon {{ opacity: 0.7; }}
-        .target-header {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }}
-        .target-header h3 {{ font-size: 1.2rem; color: var(--navy); }}
-        .target-desc {{ color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 16px; }}
-        .hot-badge {{ background: linear-gradient(135deg, var(--accent), #d06a4f); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }}
-        .target-stats {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }}
-        .target-stat {{ text-align: center; padding: 12px; background: var(--bg); border-radius: 8px; }}
-        .target-stat .stat-value {{ font-size: 1.4rem; font-weight: 700; color: var(--navy); }}
-        .target-stat .stat-label {{ font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }}
-        .view-report {{ text-align: center; padding: 12px; background: var(--navy); color: white; border-radius: 8px; font-weight: 600; font-size: 0.9rem; }}
-        .view-report.coming {{ background: var(--border); color: var(--text-muted); }}
-        a.target-card:hover .view-report {{ background: var(--accent); }}
+        .targets-layout {{ display: grid; grid-template-columns: 240px 1fr; gap: 32px; }}
+        @media (max-width: 900px) {{ .targets-layout {{ grid-template-columns: 1fr; }} }}
+
+        /* Sidebar */
+        .filters-sidebar {{ position: sticky; top: 80px; height: fit-content; }}
+        .filter-section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }}
+        .filter-section h4 {{ font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }}
+        .filter-option {{ display: flex; align-items: center; gap: 8px; padding: 8px 0; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary); }}
+        .filter-option:hover {{ color: var(--navy); }}
+        .filter-option input {{ display: none; }}
+        .filter-dot {{ width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--border); }}
+        .filter-option.active .filter-dot {{ background: var(--accent); border-color: var(--accent); }}
+        .filter-option.active {{ color: var(--navy); font-weight: 500; }}
+
+        /* Search */
+        .search-box {{ margin-bottom: 24px; }}
+        .search-input {{ width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }}
+        .search-input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }}
+
+        /* Targets grid */
+        .targets-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }}
+        .targets-meta {{ color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }}
+
+        /* Target card */
+        .target-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: all 0.2s; }}
+        .target-card:hover {{ border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }}
+        .target-header {{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }}
+        .target-name {{ font-size: 1.1rem; font-weight: 700; color: var(--navy); }}
+        .area-badge {{ padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }}
+        .market-status {{ display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; }}
+
+        .competitor-section {{ margin-bottom: 12px; }}
+        .competitor-row {{ display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }}
+        .competitor-row:last-child {{ border-bottom: none; }}
+        .competitor-label {{ color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; min-width: 90px; }}
+        .competitor-info {{ display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; text-align: right; }}
+        .competitor-text {{ color: var(--text-secondary); }}
+        .competitor-text .company {{ color: var(--navy); font-weight: 500; }}
+        .competitor-text .ticker {{ color: var(--accent); }}
+        .stage-pill {{ padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; color: white; }}
+
+        .target-footer {{ padding-top: 12px; }}
+        .companies-count {{ font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }}
+        .target-desc {{ font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }}
+        .view-btn {{ display: inline-block; color: var(--accent); font-weight: 600; font-size: 0.85rem; text-decoration: none; }}
+        .view-btn:hover {{ text-decoration: underline; }}
     </style>
 </head>
 <body>
     {get_nav_html("targets")}
     <main class="main">
         <div class="page-header">
-            <h1 class="page-title">Target Landscapes</h1>
-            <p class="page-subtitle">Competitive intelligence for the hottest therapeutic targets</p>
+            <h1 class="page-title">Explore Drug Targets</h1>
+            <p class="page-subtitle">Deep-dive research on validated and emerging therapeutic targets with competitive landscapes, clinical data, and deal activity.</p>
         </div>
-        <div class="targets-grid">{cards_html}</div>
+
+        <div class="search-box">
+            <input type="text" id="target-search" class="search-input" placeholder="Search by target name, gene, or therapeutic area...">
+        </div>
+
+        <div class="targets-layout">
+            <aside class="filters-sidebar">
+                <div class="filter-section">
+                    <h4>Therapeutic Area</h4>
+                    <label class="filter-option active" data-filter="all">
+                        <span class="filter-dot"></span>
+                        All Targets
+                    </label>
+                    <label class="filter-option" data-filter="oncology">
+                        <span class="filter-dot" style="border-color:#dc2626;"></span>
+                        Oncology
+                    </label>
+                    <label class="filter-option" data-filter="immunology">
+                        <span class="filter-dot" style="border-color:#16a34a;"></span>
+                        Immunology
+                    </label>
+                    <label class="filter-option" data-filter="metabolic">
+                        <span class="filter-dot" style="border-color:#ca8a04;"></span>
+                        Metabolic
+                    </label>
+                    <label class="filter-option" data-filter="cardiovascular">
+                        <span class="filter-dot" style="border-color:#2563eb;"></span>
+                        Cardiovascular
+                    </label>
+                    <label class="filter-option" data-filter="rare">
+                        <span class="filter-dot" style="border-color:#7c3aed;"></span>
+                        Rare Disease
+                    </label>
+                    <label class="filter-option" data-filter="neuro">
+                        <span class="filter-dot" style="border-color:#92400e;"></span>
+                        Neuropsychiatry
+                    </label>
+                </div>
+            </aside>
+
+            <section class="targets-section">
+                <p class="targets-meta" id="targets-count">Showing {len(targets)} targets</p>
+                <div class="targets-grid" id="targets-grid">
+                    {cards_html}
+                </div>
+            </section>
+        </div>
     </main>
+
     <footer class="footer">
         <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
     </footer>
+
+    <script>
+        let activeFilter = 'all';
+
+        function applyFilters() {{
+            const cards = document.querySelectorAll('.target-card');
+            const q = document.getElementById('target-search').value.toLowerCase();
+            let count = 0;
+            cards.forEach(card => {{
+                const cat = card.dataset.category || '';
+                const text = card.textContent.toLowerCase();
+                const matchCategory = activeFilter === 'all' || cat === activeFilter;
+                const matchSearch = !q || text.includes(q);
+                if (matchCategory && matchSearch) {{
+                    card.style.display = '';
+                    count++;
+                }} else {{
+                    card.style.display = 'none';
+                }}
+            }});
+            document.getElementById('targets-count').textContent = 'Showing ' + count + ' targets';
+        }}
+
+        document.querySelectorAll('.filter-option').forEach(option => {{
+            option.addEventListener('click', (e) => {{
+                e.preventDefault();
+                document.querySelectorAll('.filter-option').forEach(o => o.classList.remove('active'));
+                option.classList.add('active');
+                activeFilter = option.dataset.filter;
+                applyFilters();
+            }});
+        }});
+
+        document.getElementById('target-search').addEventListener('input', applyFilters);
+    </script>
 </body>
 </html>'''
 
@@ -1690,7 +1971,161 @@ def generate_company_detail(ticker: str):
             <div class="tags-row" style="gap: 10px;">{tags_html}</div>
         </div>
 
+        {"" if company["ticker"] != "ARWR" else '''
+        <div class="detail-section" style="background: linear-gradient(135deg, #fef5f3 0%, #fff 100%); border-color: var(--accent);">
+            <h2>Investment Analysis</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">Deep-dive thesis with pipeline analysis, competitive positioning, and catalyst timeline.</p>
+            <a href="/api/company/ARWR/thesis/html" style="display: inline-block; padding: 12px 24px; background: var(--accent); color: white; border-radius: 8px; font-weight: 600; text-decoration: none;">View Full Thesis →</a>
+        </div>
+        '''}
+
         <a href="/companies" style="display: inline-block; margin-top: 24px; color: var(--accent);">← Back to Companies</a>
+    </main>
+    <footer class="footer">
+        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+</body>
+</html>'''
+
+
+def generate_arwr_thesis():
+    """Generate the ARWR investment thesis page."""
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARWR Investment Thesis | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+
+        .thesis-headline {{ font-size: 1.2rem; font-weight: 600; color: var(--navy); margin-bottom: 16px; padding: 16px; background: linear-gradient(135deg, #fef5f3 0%, #fff 100%); border-radius: 8px; border-left: 4px solid var(--accent); }}
+
+        .pipeline-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
+        .pipeline-table th {{ background: var(--navy); color: white; padding: 12px; text-align: left; }}
+        .pipeline-table td {{ padding: 12px; border-bottom: 1px solid var(--border); }}
+        .pipeline-table tr:hover {{ background: var(--bg); }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
+        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
+        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
+        .bull-box h3 {{ color: #059669; }}
+        .bear-box h3 {{ color: #dc2626; }}
+        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+
+        .catalyst-timeline {{ margin-top: 20px; }}
+        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
+        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
+    </style>
+</head>
+<body>
+    {get_nav_html()}
+    <main class="main">
+        <div class="report-header">
+            <h1>Arrowhead Pharmaceuticals (ARWR)</h1>
+            <p>RNAi platform company with deep pipeline across liver, cardio, and pulmonary diseases. Key asset Plozasiran (Ionis partnership) approaching commercialization.</p>
+            <div class="report-meta">
+                <div class="meta-item"><div class="label">Market Cap</div><div class="value">$4.2B</div></div>
+                <div class="meta-item"><div class="label">Pipeline Assets</div><div class="value">15+</div></div>
+                <div class="meta-item"><div class="label">Phase 3</div><div class="value">3</div></div>
+                <div class="meta-item"><div class="label">Platform</div><div class="value">RNAi (TRiM)</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Investment Thesis</h2>
+            <div class="thesis-headline">
+                Arrowhead's TRiM platform enables extra-hepatic RNAi delivery, differentiating from Alnylam's liver-focused approach. Near-term catalysts in obesity (ARO-INHBE) and approved Plozasiran provide multiple shots on goal.
+            </div>
+            <ul style="color: var(--text-secondary); line-height: 1.8; padding-left: 20px;">
+                <li><strong>Platform differentiation:</strong> TRiM enables delivery to lung, muscle, and adipose tissue — not just liver</li>
+                <li><strong>Obesity play:</strong> ARO-INHBE targets INHBE gene, a validated obesity pathway; Phase 1 data showed meaningful weight loss</li>
+                <li><strong>Plozasiran near approval:</strong> Best-in-class triglyceride reduction; partnership with Ionis for commercialization</li>
+                <li><strong>Pulmonary expansion:</strong> ARO-MUC5AC for COPD/asthma; lung delivery is significant technical achievement</li>
+                <li><strong>Amgen partnership:</strong> Cardiovascular programs with strong pharma partner</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Key Pipeline Assets</h2>
+            <table class="pipeline-table">
+                <thead>
+                    <tr><th>Asset</th><th>Target</th><th>Indication</th><th>Phase</th><th>Partner</th><th>Next Catalyst</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Plozasiran</strong></td><td>APOC3</td><td>Severe hypertriglyceridemia</td><td style="color:#22c55e;font-weight:600;">NDA Filed</td><td>Ionis</td><td>FDA decision 2025</td></tr>
+                    <tr><td><strong>ARO-INHBE</strong></td><td>INHBE</td><td>Obesity</td><td style="color:#f59e0b;font-weight:600;">Phase 1</td><td>Internal</td><td>Ph1 data H2 2025</td></tr>
+                    <tr><td><strong>ARO-ANG3</strong></td><td>ANGPTL3</td><td>Dyslipidemia</td><td style="color:#3b82f6;font-weight:600;">Phase 3</td><td>Amgen</td><td>Ph3 data 2026</td></tr>
+                    <tr><td><strong>ARO-APOC3</strong></td><td>APOC3</td><td>Cardiovascular</td><td style="color:#3b82f6;font-weight:600;">Phase 3</td><td>Amgen</td><td>Ph3 data 2026</td></tr>
+                    <tr><td><strong>ARO-MUC5AC</strong></td><td>MUC5AC</td><td>COPD/Asthma</td><td style="color:#f59e0b;font-weight:600;">Phase 1/2</td><td>Internal</td><td>Ph1/2 data 2025</td></tr>
+                    <tr><td><strong>ARO-DUX4</strong></td><td>DUX4</td><td>FSHD</td><td style="color:#f59e0b;font-weight:600;">Phase 1/2</td><td>Internal</td><td>Ph1/2 data 2025</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Bull vs Bear</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">
+                        <li>TRiM platform enables extra-hepatic delivery — differentiated from Alnylam</li>
+                        <li>ARO-INHBE is novel obesity approach; RNAi could disrupt GLP-1 market</li>
+                        <li>Plozasiran best-in-class triglyceride reduction; approval imminent</li>
+                        <li>Amgen partnership validates cardiovascular programs</li>
+                        <li>Deep pipeline provides multiple chances for success</li>
+                        <li>Pulmonary delivery opens large COPD/asthma market</li>
+                    </ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case</h3>
+                    <ul class="thesis-list">
+                        <li>Alnylam dominates RNAi space with established commercial infrastructure</li>
+                        <li>ARO-INHBE obesity data still early; unclear if competitive with GLP-1s</li>
+                        <li>Cash burn remains elevated with multiple Phase 3 trials</li>
+                        <li>Execution risk on extra-hepatic delivery claims</li>
+                        <li>Partner concentration (Amgen, Ionis) creates dependency</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Upcoming Catalysts</h2>
+            <div class="catalyst-timeline">
+                <div class="catalyst-item"><div class="catalyst-date">H1 2025</div><div><strong>Plozasiran:</strong> FDA decision for severe hypertriglyceridemia</div></div>
+                <div class="catalyst-item"><div class="catalyst-date">H2 2025</div><div><strong>ARO-INHBE:</strong> Phase 1 obesity data readout</div></div>
+                <div class="catalyst-item"><div class="catalyst-date">2025</div><div><strong>ARO-MUC5AC:</strong> Phase 1/2 pulmonary data</div></div>
+                <div class="catalyst-item"><div class="catalyst-date">2026</div><div><strong>ARO-ANG3:</strong> Phase 3 cardiovascular data (Amgen)</div></div>
+                <div class="catalyst-item"><div class="catalyst-date">2026</div><div><strong>ARO-APOC3:</strong> Phase 3 cardiovascular data (Amgen)</div></div>
+            </div>
+        </div>
+
+        <a href="/api/company/ARWR/html" class="back-link">← Back to ARWR Profile</a>
     </main>
     <footer class="footer">
         <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>

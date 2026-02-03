@@ -125,6 +125,7 @@ from app.pages import (
     generate_tl1a_report,
     generate_b7h3_report,
     generate_kras_report,
+    generate_arwr_thesis,
 )
 
 @app.get("/companies", response_class=HTMLResponse)
@@ -178,6 +179,11 @@ async def serve_about():
 async def serve_report():
     """Redirect to homepage."""
     return FileResponse(BASE_DIR / "index.html")
+
+@app.get("/api/company/ARWR/thesis/html", response_class=HTMLResponse)
+async def serve_arwr_thesis():
+    """Serve ARWR investment thesis page."""
+    return HTMLResponse(generate_arwr_thesis())
 
 @app.get("/api/company/{ticker}/html", response_class=HTMLResponse)
 async def serve_company_detail(ticker: str):

@@ -416,10 +416,28 @@
     <div class="hero-content">
       <h1>Biotech Intelligence<br>for the Buy Side</h1>
       <p class="hero-subtitle">Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals</p>
-      <div class="hero-search">
+      <form class="hero-search" onsubmit="handleSearch(event)">
         <svg class="hero-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-        <input type="text" placeholder="Search targets, companies, or therapeutic areas..." onfocus="window.location.href='/companies'">
-      </div>
+        <input type="text" id="hero-search-input" placeholder="Search targets, companies, or therapeutic areas...">
+      </form>
+      <script>
+        function handleSearch(e) {
+          e.preventDefault();
+          const q = document.getElementById('hero-search-input').value.trim().toLowerCase();
+          if (!q) { window.location.href = '/companies'; return; }
+          // Route based on search term
+          const targetTerms = ['glp', 'tl1a', 'kras', 'b7', 'tigit', 'pd-1', 'fcr', 'dmd', 'nav1', 'aldosterone'];
+          const isTargetSearch = targetTerms.some(t => q.includes(t));
+          if (isTargetSearch) {
+            window.location.href = '/targets';
+          } else {
+            window.location.href = '/companies#search=' + encodeURIComponent(q);
+          }
+        }
+        document.getElementById('hero-search-input').addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') handleSearch(e);
+        });
+      </script>
       <div class="hero-updated">Data updated <span><script>document.write(new Date().toLocaleDateString("en-US", {month: "short", day: "numeric", year: "numeric"}))</script></span></div>
     </div>
   </section>
