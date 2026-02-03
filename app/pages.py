@@ -557,7 +557,7 @@ def generate_targets_page():
         leader_phase_color = phase_colors.get(t["leader"]["phase"], "#6b7280")
         challenger_phase_color = phase_colors.get(t["challenger"]["phase"], "#6b7280")
 
-        view_btn = f'<a href="/targets/{t["slug"]}" class="view-btn">View Full Landscape →</a>' if t["slug"] else ""
+        view_btn = f'<a href="/targets/{t["slug"]}" class="view-btn">View Full Landscape &rarr;</a>' if t["slug"] else ""
 
         cards_html += f'''
         <div class="target-card" data-category="{t["category"]}">
@@ -867,18 +867,18 @@ def generate_glp1_report():
 
     # Pipeline drugs data
     pipeline_drugs = [
-        {"asset": "VK2735 (SC)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "14.7% (13 wks)", "catalyst": "Ph3 initiation Q1 2025", "differentiation": "Potentially best-in-class efficacy"},
-        {"asset": "VK2735 (Oral)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual", "phase": "Phase 2", "route": "Oral daily", "weight_loss": "8.2% (28 days)", "catalyst": "Ph2 data H1 2025", "differentiation": "Oral convenience + dual agonism"},
-        {"asset": "MariTide (AMG 133)", "company": "Amgen", "ticker": "AMGN", "mechanism": "GLP-1 agonist / GIPR antagonist", "phase": "Phase 2", "route": "SC monthly", "weight_loss": "14.5% (12 wks)", "catalyst": "Ph3 initiation 2025", "differentiation": "Monthly dosing, sustained effect after discontinuation"},
-        {"asset": "Orforglipron", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1 agonist (small molecule)", "phase": "Phase 3", "route": "Oral daily", "weight_loss": "14.7% (36 wks)", "catalyst": "Ph3 ATTAIN data 2025-2026", "differentiation": "Oral small molecule, easier manufacturing"},
-        {"asset": "Retatrutide", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1/GIP/Glucagon triple", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "24.2% (48 wks)", "catalyst": "Ph3 TRIUMPH data 2025", "differentiation": "Best-in-class weight loss, triple agonism"},
-        {"asset": "CagriSema", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Semaglutide + Amylin", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~25% (est)", "catalyst": "Ph3 REDEFINE data 2025", "differentiation": "Best-in-class efficacy, amylin synergy"},
-        {"asset": "Survodutide", "company": "Boehringer / Zealand", "ticker": "Private", "mechanism": "GLP-1/Glucagon dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "18.7% (46 wks)", "catalyst": "Ph3 SYNCHRONIZE 2025", "differentiation": "Glucagon component may improve MASH"},
-        {"asset": "Pemvidutide", "company": "Altimmune", "ticker": "ALT", "mechanism": "GLP-1/Glucagon dual", "phase": "Phase 2b", "route": "SC weekly", "weight_loss": "15.6% (48 wks)", "catalyst": "Ph2b MOMENTUM data 2024", "differentiation": "MASH + obesity dual indication"},
-        {"asset": "Ecnoglutide", "company": "Sciwind Biosciences", "ticker": "Private", "mechanism": "GLP-1 agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~15%", "catalyst": "Ph3 data 2025", "differentiation": "China-focused development"},
-        {"asset": "HRS9531", "company": "Jiangsu Hengrui", "ticker": "600276.SS", "mechanism": "GLP-1/GIP dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "16.8% (24 wks)", "catalyst": "Ph3 data 2025", "differentiation": "Leading Chinese GLP-1"},
-        {"asset": "ARO-INHBE", "company": "Arrowhead Pharma", "ticker": "ARWR", "mechanism": "RNAi (INHBE silencing)", "phase": "Phase 1", "route": "SC quarterly", "weight_loss": "TBD", "catalyst": "Ph1 data 2025", "differentiation": "RNAi approach, infrequent dosing"},
-        {"asset": "Petrelintide", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Long-acting amylin analog", "phase": "Phase 2", "route": "SC weekly", "weight_loss": "~10%", "catalyst": "Ph2 data 2025", "differentiation": "Potential combo with semaglutide"},
+        {"asset": "VK2735 (SC)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "14.7% (13 wks)", "catalyst": "Ph3 VENTURE interim Q1 2026", "differentiation": "Potentially best-in-class efficacy"},
+        {"asset": "VK2735 (Oral)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual", "phase": "Phase 2b", "route": "Oral daily", "weight_loss": "8.2% (28 days)", "catalyst": "Ph2b data H1 2026", "differentiation": "Oral convenience + dual agonism"},
+        {"asset": "MariTide (AMG 133)", "company": "Amgen", "ticker": "AMGN", "mechanism": "GLP-1 agonist / GIPR antagonist", "phase": "Phase 3", "route": "SC monthly", "weight_loss": "14.5% (12 wks)", "catalyst": "Ph3 data H1 2026", "differentiation": "Monthly dosing, sustained effect after discontinuation"},
+        {"asset": "Orforglipron", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1 agonist (small molecule)", "phase": "Phase 3", "route": "Oral daily", "weight_loss": "14.7% (36 wks)", "catalyst": "Ph3 ATTAIN-3 Q2 2026", "differentiation": "Oral small molecule, easier manufacturing"},
+        {"asset": "Retatrutide", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1/GIP/Glucagon triple", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "24.2% (48 wks)", "catalyst": "FDA submission Q1 2026", "differentiation": "Best-in-class weight loss, triple agonism"},
+        {"asset": "CagriSema", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Semaglutide + Amylin", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~25% (est)", "catalyst": "FDA submission Q2 2026", "differentiation": "Best-in-class efficacy, amylin synergy"},
+        {"asset": "Survodutide", "company": "Boehringer / Zealand", "ticker": "Private", "mechanism": "GLP-1/Glucagon dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "18.7% (46 wks)", "catalyst": "Ph3 SYNCHRONIZE-2 H2 2026", "differentiation": "Glucagon component may improve MASH"},
+        {"asset": "Pemvidutide", "company": "Altimmune", "ticker": "ALT", "mechanism": "GLP-1/Glucagon dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "15.6% (48 wks)", "catalyst": "Ph3 data 2026", "differentiation": "MASH + obesity dual indication"},
+        {"asset": "Ecnoglutide", "company": "Sciwind Biosciences", "ticker": "Private", "mechanism": "GLP-1 agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~15%", "catalyst": "China NDA 2026", "differentiation": "China-focused development"},
+        {"asset": "HRS9531", "company": "Jiangsu Hengrui", "ticker": "600276.SS", "mechanism": "GLP-1/GIP dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "16.8% (24 wks)", "catalyst": "China NDA H2 2026", "differentiation": "Leading Chinese GLP-1"},
+        {"asset": "ARO-INHBE", "company": "Arrowhead Pharma", "ticker": "ARWR", "mechanism": "RNAi (INHBE silencing)", "phase": "Phase 2", "route": "SC quarterly", "weight_loss": "TBD", "catalyst": "Ph2 initiation H2 2026", "differentiation": "RNAi approach, infrequent dosing"},
+        {"asset": "Petrelintide", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Long-acting amylin analog", "phase": "Phase 2", "route": "SC weekly", "weight_loss": "~10%", "catalyst": "Ph2 combo data 2026", "differentiation": "Potential combo with semaglutide"},
     ]
 
     # Build approved drugs table
@@ -957,7 +957,7 @@ def generate_glp1_report():
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "→"; font-weight: bold; }}
+        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
 
         .catalyst-timeline {{ margin-top: 20px; }}
         .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
@@ -1081,51 +1081,47 @@ def generate_glp1_report():
 
         <!-- Catalysts -->
         <div class="section">
-            <h2>Upcoming Catalysts (2025-2026)</h2>
+            <h2>Upcoming Catalysts (2026)</h2>
             <div class="catalyst-timeline">
                 <div class="catalyst-item">
-                    <div class="catalyst-date">Q1 2025</div>
-                    <div class="catalyst-content"><strong>Viking (VKTX):</strong> VK2735 Phase 3 VENTURE initiation for obesity</div>
+                    <div class="catalyst-date">Q1 2026</div>
+                    <div class="catalyst-content"><strong>Viking (VKTX):</strong> VK2735 Phase 3 VENTURE interim efficacy data (obesity)</div>
                 </div>
                 <div class="catalyst-item">
-                    <div class="catalyst-date">H1 2025</div>
-                    <div class="catalyst-content"><strong>Viking (VKTX):</strong> Oral VK2735 Phase 2 full data readout</div>
+                    <div class="catalyst-date">Q1 2026</div>
+                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Retatrutide FDA submission for obesity (triple agonist)</div>
                 </div>
                 <div class="catalyst-item">
-                    <div class="catalyst-date">H1 2025</div>
-                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Retatrutide (triple agonist) Phase 3 TRIUMPH-1 data</div>
+                    <div class="catalyst-date">Q2 2026</div>
+                    <div class="catalyst-content"><strong>Novo Nordisk (NVO):</strong> CagriSema FDA submission expected (semaglutide + amylin)</div>
                 </div>
                 <div class="catalyst-item">
-                    <div class="catalyst-date">H1 2025</div>
-                    <div class="catalyst-content"><strong>Novo Nordisk (NVO):</strong> CagriSema Phase 3 REDEFINE-1 data (obesity)</div>
+                    <div class="catalyst-date">Q2 2026</div>
+                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Orforglipron Phase 3 ATTAIN-3 data (oral small molecule GLP-1)</div>
                 </div>
                 <div class="catalyst-item">
-                    <div class="catalyst-date">Mid 2025</div>
-                    <div class="catalyst-content"><strong>Amgen (AMGN):</strong> MariTide Phase 3 initiation; monthly dosing differentiation</div>
+                    <div class="catalyst-date">H1 2026</div>
+                    <div class="catalyst-content"><strong>Amgen (AMGN):</strong> MariTide Phase 3 data readout; monthly dosing differentiation</div>
                 </div>
                 <div class="catalyst-item">
-                    <div class="catalyst-date">H2 2025</div>
-                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Orforglipron Phase 3 ATTAIN data (oral small molecule)</div>
+                    <div class="catalyst-date">H1 2026</div>
+                    <div class="catalyst-content"><strong>Viking (VKTX):</strong> Oral VK2735 Phase 2b full data readout</div>
                 </div>
                 <div class="catalyst-item">
-                    <div class="catalyst-date">H2 2025</div>
-                    <div class="catalyst-content"><strong>Boehringer/Zealand:</strong> Survodutide Phase 3 SYNCHRONIZE data (GLP-1/glucagon)</div>
+                    <div class="catalyst-date">H2 2026</div>
+                    <div class="catalyst-content"><strong>Boehringer/Zealand:</strong> Survodutide Phase 3 SYNCHRONIZE-2 topline (GLP-1/glucagon)</div>
                 </div>
                 <div class="catalyst-item">
-                    <div class="catalyst-date">2025</div>
-                    <div class="catalyst-content"><strong>Arrowhead (ARWR):</strong> ARO-INHBE Phase 1 proof-of-concept data (RNAi for obesity)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">2026</div>
-                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Retatrutide FDA submission expected</div>
+                    <div class="catalyst-date">H2 2026</div>
+                    <div class="catalyst-content"><strong>Arrowhead (ARWR):</strong> ARO-INHBE Phase 2 initiation (RNAi approach for obesity)</div>
                 </div>
                 <div class="catalyst-item">
                     <div class="catalyst-date">2026</div>
-                    <div class="catalyst-content"><strong>Novo Nordisk (NVO):</strong> CagriSema FDA submission expected</div>
+                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Retatrutide potential FDA approval (best-in-class 24% weight loss)</div>
                 </div>
                 <div class="catalyst-item">
                     <div class="catalyst-date">2026</div>
-                    <div class="catalyst-content"><strong>Regulatory:</strong> Medicare Part D obesity drug coverage decision (pending legislation)</div>
+                    <div class="catalyst-content"><strong>Regulatory:</strong> Medicare Part D obesity drug coverage decision (Treat & Reduce Obesity Act)</div>
                 </div>
             </div>
         </div>
@@ -1267,7 +1263,7 @@ def generate_tl1a_report():
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "→"; font-weight: bold; }}
+        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
 
         .mechanism-box {{ background: var(--bg); padding: 20px; border-radius: 12px; margin-top: 16px; }}
         .mechanism-box h4 {{ color: var(--navy); margin-bottom: 8px; }}
@@ -1491,7 +1487,7 @@ def generate_b7h3_report():
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "→"; font-weight: bold; }}
+        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
 
         .highlight-box {{ background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; margin: 20px 0; }}
         .highlight-box h4 {{ color: #92400e; margin-bottom: 8px; }}
@@ -1712,7 +1708,7 @@ def generate_kras_report():
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "→"; font-weight: bold; }}
+        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
 
         .catalyst-timeline {{ margin-top: 20px; }}
         .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
@@ -1975,7 +1971,7 @@ def generate_company_detail(ticker: str):
         <div class="detail-section" style="background: linear-gradient(135deg, #fef5f3 0%, #fff 100%); border-color: var(--accent);">
             <h2>Investment Analysis</h2>
             <p style="color: var(--text-secondary); margin-bottom: 16px;">Deep-dive thesis with pipeline analysis, competitive positioning, and catalyst timeline.</p>
-            <a href="/api/company/ARWR/thesis/html" style="display: inline-block; padding: 12px 24px; background: var(--accent); color: white; border-radius: 8px; font-weight: 600; text-decoration: none;">View Full Thesis →</a>
+            <a href="/api/company/ARWR/thesis/html" style="display: inline-block; padding: 12px 24px; background: var(--accent); color: white; border-radius: 8px; font-weight: 600; text-decoration: none;">View Full Thesis &rarr;</a>
         </div>
         '''}
 
