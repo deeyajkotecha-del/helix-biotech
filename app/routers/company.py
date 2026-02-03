@@ -13,7 +13,7 @@ from pydantic import BaseModel
 import json
 
 # Add backend to path for imports
-BACKEND_DIR = Path(__file__).parent.parent.parent / "backend"
+BACKEND_DIR = Path(__file__).resolve().parent.parent.parent / "backend"
 sys.path.insert(0, str(BACKEND_DIR))
 
 router = APIRouter()
