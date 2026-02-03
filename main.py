@@ -114,95 +114,41 @@ async def serve_admin(request: Request):
     return templates.TemplateResponse("admin.html", {"request": request})
 
 
-# Coming soon page template
-COMING_SOON_TEMPLATE = """<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} | Satya Bio</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {{ --navy: #1a2b3c; --accent: #e07a5f; --bg: #fafaf8; }}
-    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{ font-family: 'DM Sans', sans-serif; background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; }}
-    .header {{ background: white; border-bottom: 1px solid #e5e5e0; padding: 0 32px; height: 68px; display: flex; align-items: center; }}
-    .header-inner {{ max-width: 1200px; margin: 0 auto; width: 100%; display: flex; justify-content: space-between; align-items: center; }}
-    .logo {{ font-size: 1.4rem; font-weight: 800; color: var(--navy); text-decoration: none; }}
-    .logo span {{ color: var(--accent); }}
-    .nav-links {{ display: flex; gap: 32px; }}
-    .nav-links a {{ color: #5f6368; text-decoration: none; font-size: 0.9rem; font-weight: 500; }}
-    .nav-links a:hover {{ color: var(--navy); }}
-    .main {{ flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; padding: 48px; }}
-    .content h1 {{ font-size: 2.5rem; color: var(--navy); margin-bottom: 16px; }}
-    .content p {{ color: #5f6368; font-size: 1.1rem; margin-bottom: 32px; }}
-    .btn {{ display: inline-block; padding: 12px 24px; background: var(--accent); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; }}
-    .btn:hover {{ background: #d06a4f; }}
-  </style>
-</head>
-<body>
-  <header class="header">
-    <div class="header-inner">
-      <a href="/" class="logo">Satya<span>Bio</span></a>
-      <nav class="nav-links">
-        <a href="/targets">Targets</a>
-        <a href="/companies">Companies</a>
-        <a href="/kols">KOL Finder</a>
-        <a href="/about">About</a>
-      </nav>
-    </div>
-  </header>
-  <main class="main">
-    <div class="content">
-      <h1>{title}</h1>
-      <p>{message}</p>
-      <a href="/" class="btn">Back to Home</a>
-    </div>
-  </main>
-</body>
-</html>"""
+# Import page generators
+from app.pages import (
+    generate_companies_page,
+    generate_targets_page,
+    generate_kols_page,
+    generate_about_page,
+    generate_company_detail,
+)
 
 @app.get("/companies", response_class=HTMLResponse)
 @app.get("/companies/{path:path}", response_class=HTMLResponse)
 async def serve_companies():
-    """Coming soon - Companies page."""
-    return HTMLResponse(COMING_SOON_TEMPLATE.format(
-        title="Companies",
-        message="145 biotech companies with pipeline data, catalysts, and research. Coming soon."
-    ))
+    """Serve companies page with 145 biotech companies."""
+    return HTMLResponse(generate_companies_page())
 
 @app.get("/targets", response_class=HTMLResponse)
 @app.get("/targets/{path:path}", response_class=HTMLResponse)
 async def serve_targets():
-    """Coming soon - Targets page."""
-    return HTMLResponse(COMING_SOON_TEMPLATE.format(
-        title="Targets",
-        message="Competitive landscapes for GLP-1, TL1A, and other hot targets. Coming soon."
-    ))
+    """Serve targets/competitive landscapes page."""
+    return HTMLResponse(generate_targets_page())
 
 @app.get("/kols", response_class=HTMLResponse)
 async def serve_kols():
-    """Coming soon - KOL Finder page."""
-    return HTMLResponse(COMING_SOON_TEMPLATE.format(
-        title="KOL Finder",
-        message="Find Key Opinion Leaders by target, disease, or therapeutic area. Coming soon."
-    ))
+    """Serve KOL Finder page."""
+    return HTMLResponse(generate_kols_page())
 
 @app.get("/research", response_class=HTMLResponse)
 async def serve_research():
-    """Coming soon - Research page."""
-    return HTMLResponse(COMING_SOON_TEMPLATE.format(
-        title="Research",
-        message="Deep-dive research reports and analysis. Coming soon."
-    ))
+    """Redirect to companies for now."""
+    return HTMLResponse(generate_companies_page())
 
 @app.get("/about", response_class=HTMLResponse)
 async def serve_about():
-    """Coming soon - About page."""
-    return HTMLResponse(COMING_SOON_TEMPLATE.format(
-        title="About Satya Bio",
-        message="Biotech intelligence for the buy side. More information coming soon."
-    ))
+    """Serve about page."""
+    return HTMLResponse(generate_about_page())
 
 @app.get("/report/{path:path}", response_class=HTMLResponse)
 async def serve_report():
@@ -211,11 +157,8 @@ async def serve_report():
 
 @app.get("/api/company/{ticker}/html", response_class=HTMLResponse)
 async def serve_company_detail(ticker: str):
-    """Coming soon - Company detail page."""
-    return HTMLResponse(COMING_SOON_TEMPLATE.format(
-        title=f"{ticker.upper()} Analysis",
-        message=f"Detailed pipeline, catalysts, and research for {ticker.upper()}. Coming soon."
-    ))
+    """Serve individual company detail page."""
+    return HTMLResponse(generate_company_detail(ticker))
 
 # =============================================================================
 # Health Check
