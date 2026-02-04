@@ -2147,7 +2147,16 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         # Probability of Success Table
         pos_html = ""
         if pos:
-            pos_html = f'''
+            if isinstance(pos, str):
+                # Simple string value
+                pos_html = f'''
+            <div class="pos-section">
+                <h4>Probability of Success</h4>
+                <p class="pos-simple">{pos}</p>
+            </div>'''
+            elif isinstance(pos, dict):
+                # Detailed dict with phase breakdowns
+                pos_html = f'''
             <div class="pos-section">
                 <h4>Probability of Success</h4>
                 <table class="research-table pos-table">
