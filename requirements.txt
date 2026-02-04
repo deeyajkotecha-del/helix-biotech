@@ -9,8 +9,8 @@ aiohttp>=3.9.0
 beautifulsoup4==4.12.2
 lxml==4.9.3
 
-# PDF Processing (optional - install manually if needed)
-# pymupdf>=1.23.0  # Commented out - has Rust dependencies that fail on some Python versions
+# PDF Processing
+pymupdf>=1.23.0
 
 # Data processing
 pandas>=2.0.0,<3.0.0
