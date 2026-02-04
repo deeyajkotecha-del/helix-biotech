@@ -264,6 +264,23 @@ async def clear_data_cache():
     return {"status": "ok", "message": "Cache cleared"}
 
 
+@router.get("/companies/{ticker}/html", response_class=HTMLResponse)
+async def get_company_html(ticker: str):
+    """
+    Get full company analysis as formatted HTML with:
+    - Bull/Bear case tabs
+    - Collapsible trial sections
+    - Endpoint definitions as tooltips
+    - Source citations
+    """
+    result = get_company_full(ticker)
+    if not result:
+        raise HTTPException(status_code=404, detail=f"Company {ticker} not found")
+
+    html = _generate_company_html_v2(result)
+    return HTMLResponse(content=html)
+
+
 # =============================================================================
 # HTML GENERATION
 # =============================================================================
@@ -604,3 +621,559 @@ def _get_benchmark_info(definition: dict) -> str:
         parts = [f"{drug}: {val}" for drug, val in benchmarks.items()]
         return " | ".join(parts[:2])
     return ""
+
+
+def _generate_company_html_v2(data: dict) -> str:
+    """Generate PhD-level company analysis HTML with v2 schema."""
+    ticker = data.get("ticker", "")
+    name = data.get("name", data.get("company_details", {}).get("name", ticker))
+    company = data.get("company_details", {})
+    classification = data.get("classification", {})
+    thesis = data.get("investment_thesis", {})
+    assets = data.get("assets", [])
+    catalysts = data.get("catalysts", [])
+    partnerships = data.get("partnerships", [])
+
+    # Build bull/bear case HTML
+    bull_case = thesis.get("bull_case", []) if isinstance(thesis, dict) else thesis
+    bear_case = thesis.get("bear_case", []) if isinstance(thesis, dict) else []
+    key_debates = thesis.get("key_debates", []) if isinstance(thesis, dict) else []
+
+    bull_html = ""
+    for item in bull_case:
+        if isinstance(item, dict):
+            bull_html += f'''
+            <div class="thesis-item bull">
+                <div class="thesis-point">{item.get('point', '')}</div>
+                <div class="thesis-evidence"><strong>Evidence:</strong> {item.get('evidence', '')}</div>
+                <div class="thesis-meta">
+                    <span class="confidence {item.get('confidence', 'medium')}">{item.get('confidence', 'medium').title()} confidence</span>
+                    <span class="source">Page {item.get('source_page', 'N/A')}</span>
+                </div>
+            </div>'''
+        else:
+            bull_html += f'<div class="thesis-item bull"><div class="thesis-point">{item}</div></div>'
+
+    bear_html = ""
+    for item in bear_case:
+        if isinstance(item, dict):
+            counter = f'<div class="thesis-counter"><strong>Counter:</strong> {item.get("counter", "")}</div>' if item.get("counter") else ""
+            bear_html += f'''
+            <div class="thesis-item bear">
+                <div class="thesis-point">{item.get('point', '')}</div>
+                <div class="thesis-evidence"><strong>Evidence:</strong> {item.get('evidence', '')}</div>
+                {counter}
+                <div class="thesis-meta">
+                    <span class="confidence {item.get('confidence', 'medium')}">{item.get('confidence', 'medium').title()} confidence</span>
+                    <span class="source">Page {item.get('source_page', 'N/A')}</span>
+                </div>
+            </div>'''
+
+    debates_html = ""
+    for debate in key_debates:
+        debates_html += f'''
+        <div class="debate-item">
+            <div class="debate-question">{debate.get('question', '')}</div>
+            <div class="debate-views">
+                <div class="bull-view"><strong>Bull:</strong> {debate.get('bull_view', '')}</div>
+                <div class="bear-view"><strong>Bear:</strong> {debate.get('bear_view', '')}</div>
+            </div>
+            <div class="data-to-watch"><strong>Data to watch:</strong> {debate.get('data_to_watch', '')}</div>
+        </div>'''
+
+    # Build assets HTML with full clinical data
+    assets_html = ""
+    for asset in assets:
+        asset_name = asset.get("name", "Unknown")
+        target = asset.get("target", "")
+        stage = asset.get("stage", "")
+        clinical_data = asset.get("clinical_data", {})
+        trials = clinical_data.get("trials", [])
+
+        # Build trials HTML
+        trials_html = ""
+        for trial in trials:
+            trial_name = trial.get("trial_name", "Trial")
+            phase = trial.get("phase", "")
+            status = trial.get("status", "")
+
+            # Design info
+            design = trial.get("design", {})
+            design_str = design.get("description", design) if isinstance(design, dict) else design
+            limitations = design.get("limitations", "") if isinstance(design, dict) else ""
+
+            # Population info
+            pop = trial.get("population", {})
+            pop_str = pop.get("description", pop) if isinstance(pop, dict) else pop
+
+            # Efficacy endpoints
+            efficacy_html = ""
+            for e in trial.get("efficacy_endpoints", []):
+                defn = e.get("definition", {})
+                vs_comp = e.get("vs_comparator", {})
+                comp_str = ""
+                if isinstance(vs_comp, dict) and vs_comp.get("comparator"):
+                    comp_str = f'<div class="comparator">vs {vs_comp.get("comparator")}: {vs_comp.get("comparator_result", "")} <span class="interp">({vs_comp.get("interpretation", "")})</span></div>'
+
+                caveats = f'<div class="caveats">{e.get("caveats", "")}</div>' if e.get("caveats") else ""
+
+                efficacy_html += f'''
+                <tr>
+                    <td>
+                        <span class="endpoint-name" title="{defn.get('what_it_measures', '')}">{e.get('name', '')}</span>
+                        <div class="endpoint-def">{defn.get('full_name', '')}</div>
+                    </td>
+                    <td class="category">{e.get('category', '')}</td>
+                    <td>{e.get('timepoint', '')} / {e.get('dose_group', '')}</td>
+                    <td class="result">
+                        <strong>{e.get('result', 'Pending')}</strong>
+                        {comp_str}
+                        {caveats}
+                    </td>
+                    <td class="source">p.{e.get('source_page', 'N/A')}</td>
+                </tr>'''
+
+            # Biomarker endpoints
+            biomarker_html = ""
+            for b in trial.get("biomarker_endpoints", []):
+                vs_comp = f'<div class="comparator">{b.get("vs_comparator", "")}</div>' if b.get("vs_comparator") else ""
+                biomarker_html += f'''
+                <tr>
+                    <td>
+                        <span class="biomarker-name">{b.get('name', '')}</span>
+                        <div class="method">{b.get('method', '')} ({b.get('tissue', '')})</div>
+                    </td>
+                    <td class="result"><strong>{b.get('result', '')}</strong></td>
+                    <td class="interpretation">{b.get('interpretation', '')}</td>
+                    <td class="significance">{b.get('clinical_significance', '')}{vs_comp}</td>
+                    <td class="source">p.{b.get('source_page', 'N/A')}</td>
+                </tr>'''
+
+            # Safety
+            safety = trial.get("safety", {})
+            safety_html = ""
+            if isinstance(safety, dict):
+                aes = safety.get("aes_of_interest", {})
+                ae_items = "".join(f'<span class="ae-item">{k}: {v}</span>' for k, v in aes.items()) if aes else ""
+                safety_html = f'''
+                <div class="safety-section">
+                    <div class="safety-summary">{safety.get('summary', '')}</div>
+                    <div class="safety-stats">SAEs: {safety.get('saes', 'N/A')} | Discontinuations: {safety.get('discontinuations', 'N/A')}</div>
+                    <div class="aes-of-interest">{ae_items}</div>
+                    <div class="safety-diff">{safety.get('differentiation', '')}</div>
+                </div>'''
+            elif safety:
+                safety_html = f'<div class="safety-section">{safety}</div>'
+
+            # Limitations
+            limitations_list = trial.get("limitations", [])
+            limitations_html = ""
+            if limitations_list:
+                lim_items = "".join(f'<li>{l}</li>' for l in limitations_list)
+                limitations_html = f'<div class="limitations"><strong>Limitations:</strong><ul>{lim_items}</ul></div>'
+
+            status_class = "ongoing" if status == "Ongoing" else "completed" if status == "Completed" else ""
+
+            trials_html += f'''
+            <div class="trial-card">
+                <button class="collapsible trial-header">
+                    <span class="trial-name">{trial_name}</span>
+                    <span class="badge phase">{phase}</span>
+                    <span class="badge status {status_class}">{status}</span>
+                    <span class="n-enrolled">n={trial.get('n_enrolled', '?')}</span>
+                </button>
+                <div class="trial-content">
+                    <div class="trial-meta">
+                        <p><strong>Design:</strong> {design_str}</p>
+                        {f'<p class="design-limitation"><strong>Limitation:</strong> {limitations}</p>' if limitations else ''}
+                        <p><strong>Population:</strong> {pop_str}</p>
+                    </div>
+
+                    {f'<h4>Efficacy Endpoints</h4><table class="endpoints-table"><thead><tr><th>Endpoint</th><th>Category</th><th>Timepoint</th><th>Result</th><th>Source</th></tr></thead><tbody>{efficacy_html}</tbody></table>' if efficacy_html else ''}
+
+                    {f'<h4>Biomarker Endpoints</h4><table class="biomarkers-table"><thead><tr><th>Biomarker</th><th>Result</th><th>Interpretation</th><th>Clinical Significance</th><th>Source</th></tr></thead><tbody>{biomarker_html}</tbody></table>' if biomarker_html else ''}
+
+                    {safety_html}
+                    {limitations_html}
+                </div>
+            </div>'''
+
+        # Asset catalysts
+        asset_catalysts = [c for c in catalysts if c.get("asset", "").lower() == asset_name.lower()]
+        catalyst_html = ""
+        for c in asset_catalysts:
+            what_to_watch = "".join(f'<li>{w}</li>' for w in c.get("what_to_watch", []))
+            bull_scenario = c.get("bull_scenario", {})
+            bear_scenario = c.get("bear_scenario", {})
+
+            catalyst_html += f'''
+            <div class="catalyst-card">
+                <div class="catalyst-header">
+                    <span class="catalyst-event">{c.get('event', '')}</span>
+                    <span class="catalyst-timing badge">{c.get('timing', '')}</span>
+                    <span class="catalyst-importance badge {c.get('importance', '').lower()}">{c.get('importance', '')}</span>
+                </div>
+                {f'<div class="what-to-watch"><strong>What to watch:</strong><ul>{what_to_watch}</ul></div>' if what_to_watch else ''}
+                <div class="scenarios">
+                    <div class="bull-scenario">
+                        <strong>Bull:</strong> {bull_scenario.get('outcome', '')}
+                        <div class="rationale">{bull_scenario.get('rationale', '')}</div>
+                    </div>
+                    <div class="bear-scenario">
+                        <strong>Bear:</strong> {bear_scenario.get('outcome', '')}
+                        <div class="rationale">{bear_scenario.get('rationale', '')}</div>
+                    </div>
+                </div>
+            </div>'''
+
+        assets_html += f'''
+        <div class="asset-section">
+            <button class="collapsible asset-header">
+                <span class="asset-name">{asset_name}</span>
+                <span class="badge target">{target}</span>
+                <span class="badge stage">{stage}</span>
+            </button>
+            <div class="asset-content">
+                {trials_html}
+                {f'<h4>Upcoming Catalysts</h4>{catalyst_html}' if catalyst_html else ''}
+            </div>
+        </div>'''
+
+    # Build partnerships HTML
+    partnerships_html = ""
+    for p in partnerships:
+        if isinstance(p, dict):
+            partnerships_html += f'''
+            <div class="partnership-card">
+                <div class="partner-name">{p.get('partner', '')} - {p.get('asset', '')}</div>
+                <div class="deal-terms">
+                    {f'<span>Upfront: {p.get("upfront")}</span>' if p.get("upfront") else ''}
+                    {f'<span>Milestones: {p.get("milestones")}</span>' if p.get("milestones") else ''}
+                </div>
+                <div class="strategic-value">{p.get('strategic_value', '')}</div>
+            </div>'''
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{ticker} - {name} | PhD Analysis</title>
+    <style>
+        :root {{
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #3182ce;
+            --bull: #38a169;
+            --bear: #e53e3e;
+            --warning: #d69e2e;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #2d3748;
+            --text-muted: #718096;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }}
+        .container {{ max-width: 1200px; margin: 0 auto; padding: 20px; }}
+
+        /* Header */
+        .header {{
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }}
+        .header h1 {{ font-size: 2rem; margin-bottom: 8px; }}
+        .header .one-liner {{ opacity: 0.9; font-size: 1.1rem; margin-bottom: 16px; }}
+        .header .tags {{ display: flex; gap: 8px; flex-wrap: wrap; }}
+
+        /* Badges */
+        .badge {{
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.2);
+        }}
+        .badge.stage {{ background: var(--accent); color: white; }}
+        .badge.target {{ background: var(--primary); color: white; }}
+        .badge.phase {{ background: #4a5568; color: white; }}
+        .badge.status {{ background: #718096; }}
+        .badge.status.ongoing {{ background: var(--bull); color: white; }}
+        .badge.status.completed {{ background: var(--accent); color: white; }}
+        .badge.Critical, .badge.critical {{ background: var(--bear); color: white; }}
+        .badge.High, .badge.high {{ background: var(--warning); color: black; }}
+
+        /* Cards */
+        .card {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }}
+        .card-header {{
+            padding: 16px 20px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+
+        /* Tabs */
+        .tabs {{
+            display: flex;
+            border-bottom: 2px solid var(--border);
+        }}
+        .tab {{
+            padding: 12px 24px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }}
+        .tab:hover {{ color: var(--text); }}
+        .tab.active {{ color: var(--primary); border-bottom-color: var(--primary); }}
+        .tab.bull.active {{ color: var(--bull); border-bottom-color: var(--bull); }}
+        .tab.bear.active {{ color: var(--bear); border-bottom-color: var(--bear); }}
+        .tab-content {{ display: none; padding: 20px; }}
+        .tab-content.active {{ display: block; }}
+
+        /* Thesis items */
+        .thesis-item {{
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }}
+        .thesis-item.bull {{ background: #f0fff4; border-color: var(--bull); }}
+        .thesis-item.bear {{ background: #fff5f5; border-color: var(--bear); }}
+        .thesis-point {{ font-weight: 600; margin-bottom: 8px; }}
+        .thesis-evidence {{ color: var(--text-muted); margin-bottom: 8px; }}
+        .thesis-counter {{ color: var(--bull); margin-bottom: 8px; font-style: italic; }}
+        .thesis-meta {{ display: flex; gap: 16px; font-size: 0.85rem; }}
+        .confidence {{ padding: 2px 8px; border-radius: 4px; }}
+        .confidence.high {{ background: #c6f6d5; color: var(--bull); }}
+        .confidence.medium {{ background: #fefcbf; color: var(--warning); }}
+        .confidence.low {{ background: #fed7d7; color: var(--bear); }}
+        .source {{ color: var(--text-muted); }}
+
+        /* Debates */
+        .debate-item {{
+            background: #ebf8ff;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }}
+        .debate-question {{ font-weight: 600; margin-bottom: 12px; color: var(--primary); }}
+        .debate-views {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px; }}
+        .bull-view {{ color: var(--bull); }}
+        .bear-view {{ color: var(--bear); }}
+        .data-to-watch {{ background: white; padding: 8px 12px; border-radius: 4px; }}
+
+        /* Collapsible */
+        .collapsible {{
+            width: 100%;
+            background: var(--card-bg);
+            border: none;
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.2s;
+        }}
+        .collapsible:hover {{ background: var(--bg); }}
+        .collapsible::after {{
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }}
+        .collapsible.active::after {{ content: '−'; }}
+        .asset-content, .trial-content {{
+            display: none;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }}
+        .asset-content.show, .trial-content.show {{ display: block; }}
+
+        /* Tables */
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }}
+        th, td {{
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }}
+        th {{
+            background: var(--bg);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }}
+        .endpoint-name {{ font-weight: 600; cursor: help; border-bottom: 1px dotted var(--text-muted); }}
+        .endpoint-def {{ font-size: 0.8rem; color: var(--text-muted); }}
+        .category {{ text-transform: capitalize; }}
+        .result strong {{ color: var(--primary); font-size: 1.1rem; }}
+        .comparator {{ font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }}
+        .interp {{ font-style: italic; }}
+        .caveats {{ font-size: 0.8rem; color: var(--bear); margin-top: 4px; font-style: italic; }}
+
+        /* Safety */
+        .safety-section {{
+            background: #f0fff4;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }}
+        .safety-summary {{ margin-bottom: 8px; }}
+        .safety-stats {{ font-size: 0.9rem; color: var(--text-muted); }}
+        .aes-of-interest {{ display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; }}
+        .ae-item {{ background: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; }}
+        .safety-diff {{ color: var(--bull); font-style: italic; }}
+
+        /* Limitations */
+        .limitations {{
+            background: #fff5f5;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }}
+        .limitations ul {{ margin-left: 20px; }}
+        .design-limitation {{ color: var(--bear); font-style: italic; }}
+
+        /* Catalysts */
+        .catalyst-card {{
+            background: #fffff0;
+            border-left: 4px solid var(--warning);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 0 8px 8px 0;
+        }}
+        .catalyst-header {{ display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }}
+        .catalyst-event {{ font-weight: 600; }}
+        .what-to-watch ul {{ margin-left: 20px; }}
+        .scenarios {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }}
+        .bull-scenario {{ background: #f0fff4; padding: 12px; border-radius: 8px; }}
+        .bear-scenario {{ background: #fff5f5; padding: 12px; border-radius: 8px; }}
+        .rationale {{ font-size: 0.9rem; color: var(--text-muted); margin-top: 4px; }}
+
+        /* Partnerships */
+        .partnership-card {{
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }}
+        .partner-name {{ font-weight: 600; margin-bottom: 8px; }}
+        .deal-terms {{ display: flex; gap: 16px; margin-bottom: 8px; font-size: 0.9rem; }}
+        .strategic-value {{ color: var(--text-muted); font-style: italic; }}
+
+        /* Asset sections */
+        .asset-section {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }}
+        .asset-header {{ border-radius: 12px 12px 0 0; }}
+        .trial-card {{
+            background: var(--bg);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }}
+        .trial-header {{ border-radius: 8px 8px 0 0; }}
+        .trial-meta {{
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }}
+        .trial-meta p {{ margin-bottom: 8px; }}
+        .n-enrolled {{ color: var(--text-muted); font-size: 0.9rem; }}
+
+        h2 {{ color: var(--primary); margin: 24px 0 16px; }}
+        h4 {{ color: var(--primary); margin: 16px 0 8px; }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{ticker} - {name}</h1>
+            <p class="one-liner">{company.get('description', '')}</p>
+            <div class="tags">
+                <span class="badge">{classification.get('development_stage', '')}</span>
+                <span class="badge">{classification.get('modality', '')}</span>
+                <span class="badge">{classification.get('therapeutic_area', '')}</span>
+                <span class="badge">{classification.get('thesis_type', '')}</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="tab bull active" onclick="showTab('bull')">Bull Case</button>
+                <button class="tab bear" onclick="showTab('bear')">Bear Case</button>
+                <button class="tab" onclick="showTab('debates')">Key Debates</button>
+            </div>
+            <div id="bull" class="tab-content active">{bull_html if bull_html else '<p>No bull case data</p>'}</div>
+            <div id="bear" class="tab-content">{bear_html if bear_html else '<p>No bear case data</p>'}</div>
+            <div id="debates" class="tab-content">{debates_html if debates_html else '<p>No debates data</p>'}</div>
+        </div>
+
+        <h2>Pipeline Assets</h2>
+        {assets_html if assets_html else '<p>No asset data available</p>'}
+
+        <h2>Partnerships</h2>
+        <div class="card">
+            {partnerships_html if partnerships_html else '<p>No partnership data</p>'}
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tabId) {{
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab[onclick="showTab('${{tabId}}')"]`).classList.add('active');
+        }}
+
+        // Collapsible sections
+        document.querySelectorAll('.collapsible').forEach(btn => {{
+            btn.addEventListener('click', function() {{
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                content.classList.toggle('show');
+            }});
+        }});
+
+        // Auto-expand first asset
+        const firstAsset = document.querySelector('.asset-header');
+        if (firstAsset) {{
+            firstAsset.click();
+            const firstTrial = document.querySelector('.trial-header');
+            if (firstTrial) firstTrial.click();
+        }}
+    </script>
+</body>
+</html>'''
