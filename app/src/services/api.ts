@@ -39,12 +39,12 @@ export const companiesApi = {
   },
 
   get: async (ticker: string): Promise<Company> => {
-    const response = await api.get<Company>(`/companies/${ticker}`);
+    const response = await api.get<Company>(`/clinical/companies/${ticker}`);
     return response.data;
   },
 
   refresh: async (ticker: string): Promise<{ status: string; message: string }> => {
-    const response = await api.post(`/companies/${ticker}/refresh`);
+    const response = await api.post(`/clinical/companies/${ticker}/refresh`);
     return response.data;
   },
 };

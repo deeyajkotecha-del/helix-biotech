@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import type { Company } from '../types';
 
 interface Props {
@@ -27,9 +26,12 @@ export default function CompanyCard({ company }: Props) {
   const stageLabel = company.development_stage ? stageLabels[company.development_stage] || company.development_stage : null;
   const modalityLabel = company.modality ? modalityLabels[company.modality] || company.modality : null;
 
+  // Link to server-rendered HTML page with full clinical data
+  const companyUrl = `/api/clinical/companies/${company.ticker}/html`;
+
   return (
-    <Link
-      to={`/report/${company.ticker}`}
+    <a
+      href={companyUrl}
       className="block bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden"
     >
       <div className="p-6">
@@ -82,7 +84,7 @@ export default function CompanyCard({ company }: Props) {
         )}
 
         <div className="mt-4 flex items-center text-biotech-600 text-sm font-medium">
-          View Full Report
+          View Clinical Data
           <svg
             className="w-4 h-4 ml-1"
             fill="none"
@@ -98,6 +100,6 @@ export default function CompanyCard({ company }: Props) {
           </svg>
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
