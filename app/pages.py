@@ -108,7 +108,7 @@ COMPANIES = [
     {"ticker": "RVMD", "name": "Revolution Medicines", "platform": "Small Molecule", "description": "Oncology - RAS inhibitors. Lead: RMC-6236.", "market_cap": "$8.0B", "pipeline": "4", "phase3": "2", "approved": "", "catalyst": "RMC-6236 PDAC (2026)", "tags": ["Oncology", "KRAS", "Precision"], "category": "commercial"},
     {"ticker": "SMMT", "name": "Summit Therapeutics", "platform": "Antibody", "description": "Oncology - PD-1. Lead: ivonescimab.", "market_cap": "$15B", "pipeline": "2", "phase3": "3", "approved": "", "catalyst": "Ivonescimab NSCLC (2026)", "tags": ["Oncology", "PD-1", "Bispecific"], "category": "commercial"},
     {"ticker": "DNLI", "name": "Denali Therapeutics", "platform": "Biologics", "description": "Neurodegeneration. Lead: DNL310.", "market_cap": "$4.0B", "pipeline": "8", "phase3": "1", "approved": "", "catalyst": "DNL310 Hunter (2026)", "tags": ["Neuro", "Lysosomal", "BBB"], "category": "commercial"},
-    {"ticker": "MRUS", "name": "Merus", "platform": "Bispecific", "description": "Oncology - bispecific antibodies. Lead: zenocutuzumab.", "market_cap": "$4.0B", "pipeline": "5", "phase3": "2", "approved": "", "catalyst": "Zeno NRG1 (2026)", "tags": ["Oncology", "Bispecific", "NRG1"], "category": "commercial"},
+    {"ticker": "MRUS", "name": "Merus", "platform": "Bispecific", "description": "Oncology - bispecific antibodies. Lead: zenocutuzumab.", "market_cap": "$8.0B", "pipeline": "5", "phase3": "2", "approved": "", "catalyst": "Acquired by Genmab", "tags": ["Oncology", "Bispecific", "NRG1"], "category": "commercial", "acquired": True, "acquisition": "Acquired by Genmab for $97/share ($8B) - Dec 2025"},
     {"ticker": "ROIV", "name": "Roivant Sciences", "platform": "Diversified", "description": "Diversified biotech. Multiple Vants.", "market_cap": "$8.0B", "pipeline": "20+", "phase3": "5", "approved": "2", "catalyst": "Vant spinoffs (2026)", "tags": ["Diversified", "Platform", "Vants"], "category": "commercial"},
     {"ticker": "LEGN", "name": "Legend Biotech", "platform": "Cell Therapy", "description": "Oncology - CAR-T. Key product: Carvykti.", "market_cap": "$10B", "pipeline": "6", "phase3": "3", "approved": "1", "catalyst": "Carvykti expansion (2026)", "tags": ["Oncology", "CAR-T", "Myeloma"], "category": "commercial"},
     {"ticker": "VRTX", "name": "Vertex Pharmaceuticals", "platform": "Small Molecule", "description": "Rare Disease (CF), Pain, Gene Therapy. Key products: Trikafta, JOURNAVX, Casgevy.", "market_cap": "$120B+", "pipeline": "20+", "phase3": "5", "approved": "5", "catalyst": "VX-548 pain Ph3 (2026)", "tags": ["Rare Disease", "Pain", "Gene Therapy"], "category": "commercial"},
@@ -117,6 +117,7 @@ COMPANIES = [
 
 # Additional companies to reach 145
 ADDITIONAL_COMPANIES = [
+    {"ticker": "KYMR", "name": "Kymera Therapeutics", "platform": "Targeted Protein Degradation", "description": "I&I - oral targeted protein degraders. Lead: KT-621 (STAT6 degrader).", "market_cap": "$3.5B", "pipeline": "5", "phase3": "1", "approved": "", "catalyst": "KT-621 Ph2b atopic (2026)", "tags": ["Immunology", "Protein Degrader", "STAT6"], "category": "ii", "cash": "$1.6B"},
     {"ticker": "ALEC", "name": "Alector", "platform": "Antibody", "description": "Neurodegeneration - immuno-neurology.", "market_cap": "$0.8B", "pipeline": "4", "phase3": "1", "approved": "", "catalyst": "AL002 Alzheimer (2026)", "tags": ["Neuro", "Alzheimer", "TREM2"], "category": "neuro"},
     {"ticker": "ANNX", "name": "Annexon Biosciences", "platform": "Antibody", "description": "Neuro - complement C1q.", "market_cap": "$0.5B", "pipeline": "3", "phase3": "1", "approved": "", "catalyst": "ANX005 GBS (2026)", "tags": ["Neuro", "Complement", "Autoimmune"], "category": "neuro"},
     {"ticker": "APGE", "name": "Apogee Therapeutics", "platform": "Antibody", "description": "I&I - next-gen biologics.", "market_cap": "$2.5B", "pipeline": "3", "phase3": "1", "approved": "", "catalyst": "APG777 AD (2026)", "tags": ["I&I", "Dermatology", "Atopic"], "category": "ii"},
@@ -147,7 +148,6 @@ ADDITIONAL_COMPANIES = [
     {"ticker": "ITCI", "name": "Intra-Cellular Therapies", "platform": "Small Molecule", "description": "Neuropsychiatry. Key product: Caplyta.", "market_cap": "$8.0B", "pipeline": "4", "phase3": "2", "approved": "1", "catalyst": "Caplyta MDD (2026)", "tags": ["Neuropsychiatry", "Schizophrenia", "Depression"], "category": "neuro"},
     {"ticker": "KALA", "name": "Kala Pharmaceuticals", "platform": "Small Molecule", "description": "Ophthalmology. Key product: Eysuvis.", "market_cap": "$0.1B", "pipeline": "2", "phase3": "1", "approved": "1", "catalyst": "KPI-012 cornea (2026)", "tags": ["Ophthalmology", "Dry Eye", "Inflammation"], "category": "ii"},
     {"ticker": "KALV", "name": "KalVista Pharmaceuticals", "platform": "Small Molecule", "description": "Rare - HAE. Lead: sebetralstat.", "market_cap": "$2.5B", "pipeline": "2", "phase3": "1", "approved": "", "catalyst": "Sebetralstat HAE (2026)", "tags": ["Rare Disease", "HAE", "Oral"], "category": "rare"},
-    {"ticker": "KYMR", "name": "Kymera Therapeutics", "platform": "PROTAC", "description": "I&I - protein degraders.", "market_cap": "$2.5B", "pipeline": "4", "phase3": "1", "approved": "", "catalyst": "KT-474 AD (2026)", "tags": ["I&I", "PROTAC", "IRAK4"], "category": "ii"},
     {"ticker": "LNTH", "name": "Lantheus Holdings", "platform": "Radiopharmaceutical", "description": "Diagnostics - radiopharmaceuticals.", "market_cap": "$6.0B", "pipeline": "5", "phase3": "2", "approved": "3", "catalyst": "Pylarify growth (2026)", "tags": ["Diagnostics", "Radiopharmaceutical", "Oncology"], "category": "tools"},
     {"ticker": "LYEL", "name": "Lyell Immunopharma", "platform": "Cell Therapy", "description": "Oncology - next-gen T cell.", "market_cap": "$0.5B", "pipeline": "3", "phase3": "1", "approved": "", "catalyst": "LYL797 solid tumors (2026)", "tags": ["Oncology", "Cell Therapy", "T Cell"], "category": "oncology"},
     {"ticker": "MDXH", "name": "MDxHealth", "platform": "Diagnostics", "description": "Dx - Urology.", "market_cap": "$0.3B", "pipeline": "3", "phase3": "N/A", "approved": "2", "catalyst": "SelectMDx growth (2026)", "tags": ["Diagnostics", "Urology", "Prostate"], "category": "tools"},
@@ -264,6 +264,10 @@ def get_base_styles():
 
         .company-card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.2s; }
         .company-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+        .company-card.acquired { opacity: 0.7; background: #f9fafb; }
+        .company-card.acquired:hover { opacity: 0.85; }
+        .acquired-badge { display: inline-block; padding: 3px 8px; background: #6b7280; color: white; font-size: 0.65rem; font-weight: 600; border-radius: 10px; text-transform: uppercase; margin-left: 8px; }
+        .acquisition-details { font-size: 0.75rem; color: #6b7280; margin-top: 4px; font-style: italic; }
 
         .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         .card-ticker-row { display: flex; align-items: center; gap: 8px; }
@@ -300,14 +304,22 @@ def generate_company_card(company):
     tags_html = ''.join([f'<span class="tag">{tag}</span>' for tag in company.get("tags", [])[:3]])
     approved_stat = f'<div class="stat"><span class="stat-value">{company["approved"]}</span><span class="stat-label">Approved</span></div>' if company.get("approved") else ""
 
+    # Handle acquired companies
+    is_acquired = company.get("acquired", False)
+    card_class = "company-card acquired" if is_acquired else "company-card"
+    acquired_badge = '<span class="acquired-badge">Acquired</span>' if is_acquired else ""
+    acquisition_details = f'<div class="acquisition-details">{company.get("acquisition", "")}</div>' if is_acquired and company.get("acquisition") else ""
+
     return f'''
-    <a href="/api/company/{company["ticker"]}/html" class="company-card">
+    <a href="/api/company/{company["ticker"]}/html" class="{card_class}">
         <div class="card-header">
             <div>
                 <div class="card-ticker-row">
                     <span class="card-ticker">{company["ticker"]}</span>
                     <span class="card-name">{company["name"]}</span>
+                    {acquired_badge}
                 </div>
+                {acquisition_details}
             </div>
             <span class="platform-badge">{company["platform"]}</span>
         </div>
