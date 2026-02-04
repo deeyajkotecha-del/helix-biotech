@@ -1,80 +1,75 @@
 {
-  "_template_version": "1.0",
-  "_instructions": "Copy this directory to data/companies/{TICKER}/ and fill in the data",
-
-  "name": "Company Name",
-  "ticker": "TICK",
-  "headquarters": "City, State",
-  "website": "https://www.company.com",
-  "ir_page": "https://ir.company.com",
-
-  "description": "Brief company description (2-3 sentences)",
-
-  "classification": {
-    "development_stage": "mid_clinical",
-    "modality": "small_molecule",
-    "modality_subtype": "",
-    "therapeutic_area": "oncology_precision",
-    "therapeutic_subtype": ""
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "TEMPLATE",
+    "company_name": "Template Company",
+    "data_source": "Template for new extractions",
+    "extraction_date": "2026-01-01"
   },
-
+  "company": {
+    "name": "Template Company",
+    "ticker": "TEMPLATE",
+    "exchange": "NASDAQ",
+    "headquarters": "City, State",
+    "website": "https://example.com",
+    "one_liner": "One sentence company description - REQUIRED for header display"
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "2-3 sentence investment thesis paragraph explaining the core value proposition.",
+    "key_value_drivers": [
+      "Value driver 1",
+      "Value driver 2",
+      "Value driver 3"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Bull point 1 - keep as simple string",
+      "Bull point 2",
+      "Bull point 3"
+    ],
+    "bear_case": [
+      "Bear point 1 - keep as simple string",
+      "Bear point 2",
+      "Bear point 3"
+    ],
+    "key_debates": [
+      {
+        "question": "Key debate question?",
+        "bull_view": "Positive perspective",
+        "bear_view": "Negative perspective",
+        "what_resolves_it": "What data/event resolves this"
+      }
+    ]
+  },
+  "pipeline_summary": {
+    "total_programs": 2,
+    "clinical_stage": 1,
+    "programs": [
+      {
+        "asset": "Lead Asset",
+        "target": "Target Name",
+        "stage": "Phase 2",
+        "indications": "Indication 1, Indication 2",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 data - Q2 2026"
+      }
+    ]
+  },
+  "platform": {
+    "name": "Platform Name",
+    "description": "Brief platform description"
+  },
   "financials": {
-    "market_cap_mm": 0,
-    "cash_mm": 0,
-    "debt_mm": 0,
-    "cash_runway": "Into 2027",
-    "last_updated": "2026-01-01"
+    "cash_position": "$500 million",
+    "cash_runway": "Into 2028"
   },
-
-  "fund_position": {
-    "ownership_pct": 0,
-    "cost_basis": 0,
-    "priority": "high",
-    "thesis_type": "binary_event"
-  },
-
-  "investment_thesis": [
-    "Thesis point 1",
-    "Thesis point 2",
-    "Thesis point 3"
-  ],
-
-  "key_risks": [
-    "Risk 1",
-    "Risk 2",
-    "Risk 3"
-  ],
-
-  "partnerships": [
+  "catalysts": [
     {
-      "partner": "Partner Name",
-      "asset": "Asset Name",
-      "value": "$XXM upfront + milestones",
-      "status": "Active",
-      "notes": ""
+      "asset": "Lead Asset",
+      "event": "Phase 2 data readout",
+      "timing": "Q2 2026",
+      "importance": "critical"
     }
-  ],
-
-  "management": {
-    "ceo": "CEO Name",
-    "cmo": "CMO Name",
-    "cfo": "CFO Name"
-  },
-
-  "targets": {
-    "TARGET_NAME": {
-      "name": "TARGET_NAME",
-      "full_name": "Full Target Name",
-      "type": "Kinase",
-      "pathway": "Signaling pathway",
-      "validation": {
-        "genetic": "Genetic validation evidence",
-        "clinical": "Clinical validation evidence"
-      },
-      "why_undrugged": "Why this target was previously difficult",
-      "companies_developing": [
-        {"company": "Company Name", "asset": "Asset Name", "stage": "Phase X", "mechanism": "Mechanism"}
-      ]
-    }
-  }
+  ]
 }

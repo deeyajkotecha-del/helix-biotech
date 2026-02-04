@@ -222,6 +222,46 @@ data/companies/{TICKER}/
 
 ---
 
+## Validated Templates
+
+Copy from `data/companies/TEMPLATE/` as starting point:
+- `company.json` - minimal working company file
+- `asset.json` - minimal working asset file
+
+Both templates render with HTTP 200 on all endpoints.
+
+---
+
+## Field → Template Code Mapping
+
+| Field | Template Line (clinical.py) | Notes |
+|-------|----------------------------|-------|
+| `company.one_liner` | L1518 | Displays in company header |
+| `asset.name` | L1588, L1157 | REQUIRED - used for slugs and display |
+| `asset.stage` | L1591, L1161 | REQUIRED - pipeline table badge |
+| `asset.modality` | L1592 | Asset header badge |
+| `asset.ownership` | L2928 | Optional badge |
+| `target.name` | L1617 | REQUIRED - falls back to `primary_target` |
+| `target.full_name` | L1618 | Falls back to `target_class` |
+| `target.pathway` | L1619 | Target section |
+| `target.biology.simple_explanation` | L1625 | REQUIRED - falls back to `function`, `pathway_detail` |
+| `target.why_good_target.clinical_validation` | L1633 | Target validation section |
+| `target.why_good_target.genetic_validation` | L1636 | GoF/LoF display |
+| `clinical_data.trial_name` | L2034 | Flat structure trial header |
+| `clinical_data.trial_design.phase` | L2035 | Stage badge for flat structure |
+| `clinical_data.efficacy_results.*` | L2051 | Simple key-value rendering |
+| `clinical_data.safety.*` | L2073 | Safety section |
+| `investment_analysis.bull_case[]` | L2105 | MUST be array of strings |
+| `investment_analysis.bear_case[]` | L2106 | MUST be array of strings |
+| `investment_analysis.probability_of_success` | L2108 | String or dict accepted |
+| `catalysts[].event` | L3357 | Catalyst display |
+| `catalysts[].timing` | L3358 | Catalyst timing badge |
+| `catalysts[].importance` | L3359 | critical/high/medium badge |
+| `market_opportunity.tam` | L2975, L3191 | Total addressable market |
+| `market_opportunity.unmet_need` | L3194 | Unmet need highlight |
+
+---
+
 ## Best Practices
 
 1. **Keep result values simple**: Use `"orr": "44%"` not `"orr": {"value": "44%", "n": 117, ...}`
@@ -229,3 +269,4 @@ data/companies/{TICKER}/
 3. **Include `stage` in asset object**: Required for pipeline table display
 4. **List bull/bear as arrays**: Simpler to render than nested objects
 5. **Provide `one_liner`**: Shows in company header and asset cards
+6. **Copy from TEMPLATE/**: Use validated templates as starting point

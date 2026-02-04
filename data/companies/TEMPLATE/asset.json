@@ -1,0 +1,106 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "TEMPLATE",
+    "asset_name": "asset"
+  },
+  "asset": {
+    "name": "Lead Asset",
+    "ticker": "TEMPLATE",
+    "modality": "Small molecule",
+    "stage": "Phase 2",
+    "one_liner": "One sentence asset description",
+    "ownership": "Wholly-owned"
+  },
+  "target": {
+    "name": "TARGET",
+    "full_name": "Full Target Name",
+    "class": "Receptor / Kinase / etc",
+    "pathway": "Pathway description",
+    "biology": {
+      "simple_explanation": "Plain English explanation of target biology - REQUIRED",
+      "downstream_effects": ["Effect 1", "Effect 2"]
+    },
+    "why_good_target": {
+      "clinical_validation": "Evidence from approved drugs or clinical data",
+      "genetic_validation": {
+        "gain_of_function": "GoF phenotype",
+        "loss_of_function": "LoF protective effect"
+      }
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Lead Indication",
+      "stage": "Phase 2",
+      "rationale": "Why this indication"
+    },
+    "expansion": [
+      {
+        "name": "Expansion Indication",
+        "stage": "Planned",
+        "rationale": "Why pursue"
+      }
+    ]
+  },
+  "clinical_data": {
+    "trial_name": "TRIAL-1 (NCT00000000)",
+    "trial_design": {
+      "phase": "Phase 1/2",
+      "design": "Open-label, multi-center study",
+      "enrollment": "100 patients"
+    },
+    "populations": {
+      "efficacy_population": {
+        "n": 80,
+        "description": "Evaluable patients"
+      }
+    },
+    "efficacy_results": {
+      "orr": "45%",
+      "cr_rate": "10%",
+      "dor_median": "18 months",
+      "pfs_median": "12 months"
+    },
+    "safety": {
+      "discontinuation_rate": "5%",
+      "dose_reduction_rate": "15%",
+      "common_ae_1": "20%",
+      "common_ae_2": "15%"
+    }
+  },
+  "catalysts": [
+    {
+      "event": "Phase 2 data readout",
+      "timing": "Q2 2026",
+      "importance": "critical",
+      "what_to_watch": "ORR and safety profile"
+    }
+  ],
+  "competitive_landscape": {
+    "competitors": [
+      {
+        "drug": "Competitor Drug",
+        "company": "Company Name",
+        "limitation": "Why our asset is better"
+      }
+    ],
+    "our_advantages": [
+      "Advantage 1",
+      "Advantage 2"
+    ]
+  },
+  "investment_analysis": {
+    "probability_of_success": "35%",
+    "peak_sales_estimate": "$1-2B",
+    "key_risks": [
+      "Risk 1",
+      "Risk 2"
+    ]
+  },
+  "market_opportunity": {
+    "tam": "$5B",
+    "patient_population": "50,000 patients annually",
+    "unmet_need": "Description of unmet medical need"
+  }
+}
