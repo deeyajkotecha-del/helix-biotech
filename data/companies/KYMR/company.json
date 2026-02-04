@@ -2,145 +2,53 @@
   "name": "Kymera Therapeutics",
   "ticker": "KYMR",
   "headquarters": "Watertown, MA",
-  "website": "https://www.kymeratx.com",
+  "website": "www.kymeratx.com",
+  "description": "Industry leader in developing oral degrader medicines with a focus on immunology. Building an industry leading pipeline of oral medicines with biologics-like activity to transform treatments for patients with immunological diseases.",
   "modalities": [
-    "Targeted Protein Degradation",
-    "Degrader",
-    "Molecular Glue"
+    "Oral small molecule degraders"
   ],
   "therapeutic_focus": [
     "Immunology",
     "Oncology"
   ],
-  "description": "Kymera Therapeutics is pioneering targeted protein degradation (TPD) \nto address diseases driven by high-value, previously undruggable targets. Their platform \nuses small molecules (degraders) that can eliminate disease-causing proteins rather than \njust inhibiting them, potentially offering biologics-like efficacy in an oral pill.\n\nKey differentiators:\n- Industry leader in developing oral degrader medicines\n- Focus on historically undrugged transcription factors (STAT6, IRF5)\n- Deep expertise in target-drug interplay across tissues and cell types\n- Building a fully integrated global immunology company",
   "cash_runway": "Into 2029",
   "partnerships": [
     {
       "partner": "Sanofi",
-      "asset": "KT-485/SAR447971 (IRAK4 degrader)",
+      "asset": "KT-485 (IRAK4 degrader)",
+      "deal_value": null,
       "status": "Active",
-      "notes": "Sanofi to advance KT-485 into Phase 1 in 2026"
+      "source_page": 51
     },
     {
       "partner": "Gilead",
-      "asset": "CDK2 Molecular Glue Degrader",
-      "value": "Up to $750M total payments ($85M upfront + option)",
+      "asset": "CDK2 molecular glue degraders",
+      "deal_value": "Up to $750 million in total payments, including $85 million in upfront and potential option exercise payments",
       "status": "Active",
-      "notes": "Kymera leads research; Gilead has option for development/commercialization"
+      "source_page": 52
     }
   ],
-  "targets": {
-    "STAT6": {
-      "name": "STAT6",
-      "full_name": "Signal Transducer and Activator of Transcription 6",
-      "aliases": [
-        "STAT-6"
-      ],
-      "type": "Transcription Factor",
-      "pathway": "IL-4/IL-13 signaling \u2192 Type 2 inflammation",
-      "therapeutic_areas": [
-        "Immunology",
-        "Dermatology",
-        "Respiratory",
-        "GI"
-      ],
-      "validation": {
-        "genetic": "STAT6 GoF and heterozygous LoF alleles validate role in Type 2 inflammation",
-        "clinical": "IL-4/IL-13 pathway validated by Dupixent across AD, asthma, COPD, EoE, CRSwNP, CSU, PN, BP"
-      },
-      "why_undrugged": "Transcription factors historically undruggable by traditional small molecules; no oral drugs selectively target this pathway",
-      "companies_developing": [
-        {
-          "company": "Kymera Therapeutics",
-          "asset": "KT-621",
-          "stage": "Phase 2b",
-          "mechanism": "Degrader"
-        }
-      ],
-      "approved_pathway_drugs": [
-        {
-          "name": "Dupixent (dupilumab)",
-          "company": "Regeneron/Sanofi",
-          "mechanism": "IL-4R\u03b1 antibody",
-          "sales": "$13B+"
-        }
-      ]
-    },
-    "IRF5": {
-      "name": "IRF5",
-      "full_name": "Interferon Regulatory Factor 5",
-      "aliases": [
-        "IRF-5"
-      ],
-      "type": "Transcription Factor",
-      "pathway": "TLR/MyD88 \u2192 Type I IFN + pro-inflammatory cytokines",
-      "therapeutic_areas": [
-        "Immunology",
-        "Rheumatology",
-        "GI",
-        "Autoimmune"
-      ],
-      "validation": {
-        "genetic": "GWAS identifies IRF5 as autoimmune susceptibility gene for SLE, Sj\u00f6gren's, RA, IBD, SSc",
-        "clinical": "IRF5-regulated pathways validated by anti-IFN, anti-TNF, IL-6, IL-12/23 antibodies"
-      },
-      "why_undrugged": "Multiple activation steps and IRF family member homology make selective inhibition impossible; degradation is only approach",
-      "companies_developing": [
-        {
-          "company": "Kymera Therapeutics",
-          "asset": "KT-579",
-          "stage": "Phase 1",
-          "mechanism": "Degrader",
-          "first_in_class": true
-        }
-      ],
-      "approved_pathway_drugs": [
-        {
-          "name": "Anifrolumab (Saphnelo)",
-          "company": "AstraZeneca",
-          "mechanism": "Anti-IFNAR",
-          "indication": "SLE"
-        },
-        {
-          "name": "Various anti-TNF/IL-6/IL-12/23",
-          "mechanism": "Cytokine antibodies",
-          "indication": "RA, IBD, Psoriasis"
-        }
-      ]
-    },
-    "IRAK4": {
-      "name": "IRAK4",
-      "full_name": "Interleukin-1 Receptor Associated Kinase 4",
-      "aliases": [
-        "IRAK-4"
-      ],
-      "type": "Scaffolding Kinase",
-      "pathway": "IL-1R/TLR/MyD88 \u2192 Myddosome \u2192 NF-\u03baB \u2192 inflammation",
-      "therapeutic_areas": [
-        "Immunology",
-        "Dermatology",
-        "Rheumatology",
-        "Respiratory"
-      ],
-      "validation": {
-        "genetic": "IRAK4 null humans are healthy - validates safety of complete inhibition",
-        "clinical": "IL-1/IL-18/IL-33/IL-36 pathways validated across RA, HS, AD, asthma, COPD, GPP"
-      },
-      "why_degrader_better": "Kinase inhibitors only block catalytic function; degraders eliminate scaffolding function too for complete pathway blockade",
-      "companies_developing": [
-        {
-          "company": "Kymera/Sanofi",
-          "asset": "KT-485",
-          "stage": "Phase 1 (2026)",
-          "mechanism": "Degrader"
-        },
-        {
-          "company": "Kymera/Sanofi",
-          "asset": "KT-474",
-          "stage": "Phase 2 (discontinued)",
-          "mechanism": "Degrader"
-        }
-      ]
-    }
-  }
+  "investment_thesis": [
+    "Unrivaled science and expertise: Innovative, experienced team and capabilities to develop revolutionary oral therapies to transform the treatment of immunological diseases",
+    "Patient-first mentality, with urgency: Rapidly advancing first-in-industry oral degraders with biologics-like activity",
+    "Defining and surpassing clinical benchmarks: Demonstrated compelling clinical translation of degraders' impact on clinical endpoints",
+    "Scaling for the future: Building a fully integrated global company to deliver a new class of immunology medicines",
+    "Oral degraders that combine the activity of injectable biologics with the convenience of oral drugs have the potential to transform current treatment paradigms",
+    "Over 140M patients diagnosed with immunological diseases with only ~5M (3%) having access to advanced therapies, representing >$100B in annual sales opportunity"
+  ],
+  "key_risks": [
+    "Risk that the results of prior preclinical studies and clinical trials may not be predictive of future results in connection with current or future preclinical studies and clinical trials",
+    "Risk that cross-trial comparisons may not be reliable as no head-to-head trials have been conducted comparing KT-621 to dupilumab",
+    "Risk that strategic partnerships with Sanofi and Gilead may not be able to successfully accelerate the development and commercialization of programs",
+    "Timing and outcome of any interactions with regulatory authorities",
+    "Availability of funding sufficient for the Company's operating expenses and capital expenditure requirements"
+  ],
+  "_source_pages": [
+    1,
+    3,
+    4,
+    54
+  ],
+  "_extracted_at": "2026-02-04T13:13:42.032646",
+  "_last_extracted": "2026-02-04T13:13:42.033260"
 }

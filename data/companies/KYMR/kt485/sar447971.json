@@ -1,0 +1,31 @@
+{
+  "asset": {
+    "name": "KT-485/SAR447971",
+    "company": "Kymera Therapeutics",
+    "ticker": "KYMR",
+    "target": "IRAK4",
+    "mechanism": "Second generation IRAK4 degrader",
+    "modality": "Oral small molecule degrader",
+    "partner": "Sanofi"
+  },
+  "clinical_development": {
+    "current_stage": "Phase 1 (planned)",
+    "indications_in_development": [
+      "Hidradenitis Suppurativa",
+      "AD",
+      "RA",
+      "Asthma",
+      "IBD"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [],
+  "key_risks": [],
+  "upcoming_catalysts": [],
+  "_source_pages": [
+    11,
+    51,
+    64
+  ],
+  "_last_extracted": "2026-02-04T13:13:42.035980"
+}
