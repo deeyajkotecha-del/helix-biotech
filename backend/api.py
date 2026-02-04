@@ -5,13 +5,18 @@ FastAPI server exposing biotech intelligence endpoints.
 """
 
 import os
+import sys
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime, timedelta
 import sqlite3
+
+# Add parent directory to path for app imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.scrapers.sec_13f_scraper import SECEdgarScraper, BIOTECH_SPECIALIST_FUNDS
 from src.scrapers.pubmed_kol_extractor import PubMedKOLExtractor
@@ -23,6 +28,13 @@ app = FastAPI(
     description="Biotech investment research platform",
     version="1.0.0"
 )
+
+# Include clinical router from main app
+try:
+    from app.routers import clinical_router
+    app.include_router(clinical_router, prefix="/api/clinical", tags=["Clinical"])
+except ImportError as e:
+    print(f"Warning: Could not import clinical_router: {e}")
 
 # Tracked biotech companies
 TRACKED_COMPANIES = {
@@ -1081,6 +1093,21 @@ async def get_normalized_data(ticker: str):
 
     with open(norm_path) as f:
         return json.load(f)
+
+
+# ===========================================================================
+# HTML Page Routes (from main app)
+# ===========================================================================
+
+@app.get("/companies", response_class=HTMLResponse)
+@app.get("/companies/{path:path}", response_class=HTMLResponse)
+async def serve_companies():
+    """Serve companies page with 181 biotech companies."""
+    try:
+        from app.pages import generate_companies_page
+        return HTMLResponse(generate_companies_page())
+    except ImportError as e:
+        return HTMLResponse(f"<html><body><h1>Error loading companies page</h1><p>{e}</p></body></html>")
 
 
 if __name__ == "__main__":
