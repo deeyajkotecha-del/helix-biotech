@@ -85,6 +85,40 @@ async def list_all_companies(
     }
 
 
+@router.get("/companies/html", response_class=HTMLResponse)
+async def get_companies_list_html(
+    development_stage: Optional[str] = Query(None),
+    modality: Optional[str] = Query(None),
+    therapeutic_area: Optional[str] = Query(None),
+    thesis_type: Optional[str] = Query(None),
+    priority: Optional[str] = Query(None),
+    has_data: Optional[bool] = Query(None)
+):
+    """
+    Companies list page with filters.
+    Shows all companies from index.json with clickable navigation.
+    """
+    companies = get_all_companies(
+        development_stage=development_stage,
+        modality=modality,
+        therapeutic_area=therapeutic_area,
+        thesis_type=thesis_type,
+        priority=priority,
+        has_data=has_data
+    )
+    taxonomy = get_taxonomy()
+
+    html = _generate_companies_list_html(companies, taxonomy, {
+        "development_stage": development_stage,
+        "modality": modality,
+        "therapeutic_area": therapeutic_area,
+        "thesis_type": thesis_type,
+        "priority": priority,
+        "has_data": has_data
+    })
+    return HTMLResponse(content=html)
+
+
 @router.get("/companies/{ticker}")
 async def get_company(ticker: str):
     """
@@ -264,20 +298,69 @@ async def clear_data_cache():
     return {"status": "ok", "message": "Cache cleared"}
 
 
+# =============================================================================
+# HTML PAGES
+# =============================================================================
+
 @router.get("/companies/{ticker}/html", response_class=HTMLResponse)
 async def get_company_html(ticker: str):
     """
-    Get full company analysis as formatted HTML with:
-    - Bull/Bear case tabs
-    - Collapsible trial sections
-    - Endpoint definitions as tooltips
-    - Source citations
+    Company overview page with:
+    - Snapshot (market cap, cash, stage)
+    - Investment thesis (bull/bear)
+    - Pipeline summary table
+    - Partnerships
     """
     result = get_company_full(ticker)
     if not result:
         raise HTTPException(status_code=404, detail=f"Company {ticker} not found")
 
-    html = _generate_company_html_v2(result)
+    html = _generate_company_overview_html(result)
+    return HTMLResponse(content=html)
+
+
+@router.get("/companies/{ticker}/assets/{asset_name}/html", response_class=HTMLResponse)
+async def get_asset_page_html(ticker: str, asset_name: str):
+    """
+    Individual asset page with:
+    - Sticky breadcrumb header
+    - Sidebar navigation
+    - Full asset details in sections
+    """
+    from app.services.clinical.extractor import load_asset_data
+
+    result = get_company_full(ticker)
+    if not result:
+        raise HTTPException(status_code=404, detail=f"Company {ticker} not found")
+
+    # Find the asset
+    assets = result.get("assets", [])
+    asset_names = [a.get("name", "") for a in assets]
+
+    # Normalize asset name for matching
+    asset_name_normalized = asset_name.lower().replace("-", "").replace("_", "")
+    matched_asset = None
+    matched_index = -1
+
+    for i, a in enumerate(assets):
+        a_name = a.get("name", "")
+        a_normalized = a_name.lower().replace("-", "").replace("_", "")
+        if a_normalized == asset_name_normalized or asset_name_normalized in a_normalized:
+            matched_asset = a
+            matched_index = i
+            break
+
+    if not matched_asset:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Asset {asset_name} not found. Available: {', '.join(asset_names)}"
+        )
+
+    # Get prev/next assets
+    prev_asset = assets[matched_index - 1] if matched_index > 0 else None
+    next_asset = assets[matched_index + 1] if matched_index < len(assets) - 1 else None
+
+    html = _generate_asset_page_html(result, matched_asset, prev_asset, next_asset)
     return HTMLResponse(content=html)
 
 
@@ -621,6 +704,1592 @@ def _get_benchmark_info(definition: dict) -> str:
         parts = [f"{drug}: {val}" for drug, val in benchmarks.items()]
         return " | ".join(parts[:2])
     return ""
+
+
+def _generate_companies_list_html(companies: list, taxonomy: dict, filters: dict) -> str:
+    """Generate companies list page HTML with filters."""
+    active_filters = {k: v for k, v in filters.items() if v is not None}
+
+    # Build filter options
+    stages = taxonomy.get("development_stage", {})
+    modalities = taxonomy.get("modality", {})
+    areas = taxonomy.get("therapeutic_area", {})
+    thesis_types = taxonomy.get("thesis_type", {})
+
+    def make_filter_options(options: dict, param: str, current: str) -> str:
+        html = f'<option value="">All</option>'
+        for key, label in options.items():
+            selected = 'selected' if current == key else ''
+            html += f'<option value="{key}" {selected}>{label}</option>'
+        return html
+
+    stage_options = make_filter_options(stages, "development_stage", filters.get("development_stage", ""))
+    modality_options = make_filter_options(modalities, "modality", filters.get("modality", ""))
+    area_options = make_filter_options(areas, "therapeutic_area", filters.get("therapeutic_area", ""))
+    thesis_options = make_filter_options(thesis_types, "thesis_type", filters.get("thesis_type", ""))
+
+    # Build company cards
+    company_cards = ""
+    for c in companies:
+        ticker = c.get("ticker", "")
+        name = c.get("name", ticker)
+        has_data = c.get("has_data", False)
+        priority = c.get("priority", "medium")
+        notes = c.get("notes", "")
+
+        data_badge = '<span class="badge has-data">Has Data</span>' if has_data else '<span class="badge no-data">No Data</span>'
+        priority_class = f"priority-{priority}"
+
+        company_cards += f'''
+        <a href="/api/clinical/companies/{ticker}/html" class="company-card {priority_class}">
+            <div class="company-header">
+                <div class="ticker">{ticker}</div>
+                <div class="badges">
+                    <span class="badge stage">{c.get('development_stage', '').replace('_', ' ').title()}</span>
+                    {data_badge}
+                </div>
+            </div>
+            <div class="company-name">{name}</div>
+            <div class="company-meta">
+                <span class="modality">{c.get('modality', '').replace('_', ' ').title()}</span>
+                <span class="separator">·</span>
+                <span class="area">{c.get('therapeutic_area', '').replace('_', ' ').title()}</span>
+            </div>
+            <div class="company-notes">{notes}</div>
+            <div class="company-footer">
+                <span class="market-cap">${c.get('market_cap_mm', 'N/A')}M</span>
+                <span class="priority badge {priority}">{priority.title()}</span>
+            </div>
+        </a>'''
+
+    # Stats
+    total = len(companies)
+    with_data = sum(1 for c in companies if c.get("has_data"))
+    high_priority = sum(1 for c in companies if c.get("priority") == "high")
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companies | Clinical Data Platform</title>
+    <style>
+        :root {{
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #3182ce;
+            --bull: #38a169;
+            --bear: #e53e3e;
+            --warning: #d69e2e;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #2d3748;
+            --text-muted: #718096;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }}
+
+        .header {{
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 32px 24px;
+        }}
+        .header-content {{
+            max-width: 1400px;
+            margin: 0 auto;
+        }}
+        .header h1 {{
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }}
+        .header p {{
+            opacity: 0.9;
+        }}
+
+        .stats {{
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+        }}
+        .stat-item {{
+            background: rgba(255,255,255,0.15);
+            padding: 12px 20px;
+            border-radius: 8px;
+        }}
+        .stat-item .value {{
+            font-size: 1.5rem;
+            font-weight: 600;
+        }}
+        .stat-item .label {{
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }}
+
+        .container {{
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }}
+
+        .filters {{
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+        }}
+        .filter-group {{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }}
+        .filter-group label {{
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }}
+        .filter-group select {{
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            min-width: 160px;
+            background: white;
+        }}
+        .filter-group select:focus {{
+            outline: none;
+            border-color: var(--accent);
+        }}
+        .filter-btn {{
+            padding: 8px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }}
+        .filter-btn:hover {{
+            background: var(--primary-light);
+        }}
+        .clear-btn {{
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }}
+        .clear-btn:hover {{
+            background: var(--bg);
+            color: var(--text);
+        }}
+
+        .active-filters {{
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }}
+        .active-filter {{
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }}
+        .active-filter .remove {{
+            cursor: pointer;
+            opacity: 0.8;
+        }}
+        .active-filter .remove:hover {{
+            opacity: 1;
+        }}
+
+        .companies-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }}
+
+        .company-card {{
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.2s;
+            display: block;
+            border: 2px solid transparent;
+        }}
+        .company-card:hover {{
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }}
+        .company-card.priority-high {{
+            border-left: 4px solid var(--bull);
+        }}
+        .company-card.priority-medium {{
+            border-left: 4px solid var(--warning);
+        }}
+        .company-card.priority-low {{
+            border-left: 4px solid var(--border);
+        }}
+
+        .company-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }}
+        .ticker {{
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }}
+        .badges {{
+            display: flex;
+            gap: 6px;
+        }}
+        .badge {{
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }}
+        .badge.stage {{
+            background: var(--bg);
+            color: var(--text-muted);
+        }}
+        .badge.has-data {{
+            background: #c6f6d5;
+            color: var(--bull);
+        }}
+        .badge.no-data {{
+            background: var(--bg);
+            color: var(--text-muted);
+        }}
+        .badge.high {{
+            background: #c6f6d5;
+            color: var(--bull);
+        }}
+        .badge.medium {{
+            background: #fefcbf;
+            color: #975a16;
+        }}
+        .badge.low {{
+            background: var(--bg);
+            color: var(--text-muted);
+        }}
+
+        .company-name {{
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }}
+        .company-meta {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }}
+        .separator {{
+            margin: 0 4px;
+        }}
+        .company-notes {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }}
+        .company-footer {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }}
+        .market-cap {{
+            font-weight: 600;
+            color: var(--primary);
+        }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>Companies</h1>
+            <p>Biotech and pharma companies with clinical data analysis</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="value">{total}</div>
+                    <div class="label">Companies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value">{with_data}</div>
+                    <div class="label">With Data</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value">{high_priority}</div>
+                    <div class="label">High Priority</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <form class="filters" method="GET" action="/api/clinical/companies/html">
+            <div class="filter-group">
+                <label>Stage</label>
+                <select name="development_stage">
+                    {stage_options}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Modality</label>
+                <select name="modality">
+                    {modality_options}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Therapeutic Area</label>
+                <select name="therapeutic_area">
+                    {area_options}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Thesis Type</label>
+                <select name="thesis_type">
+                    {thesis_options}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Priority</label>
+                <select name="priority">
+                    <option value="">All</option>
+                    <option value="high" {'selected' if filters.get('priority') == 'high' else ''}>High</option>
+                    <option value="medium" {'selected' if filters.get('priority') == 'medium' else ''}>Medium</option>
+                    <option value="low" {'selected' if filters.get('priority') == 'low' else ''}>Low</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Data Status</label>
+                <select name="has_data">
+                    <option value="">All</option>
+                    <option value="true" {'selected' if filters.get('has_data') == True else ''}>Has Data</option>
+                    <option value="false" {'selected' if filters.get('has_data') == False else ''}>No Data</option>
+                </select>
+            </div>
+            <button type="submit" class="filter-btn">Apply Filters</button>
+            <a href="/api/clinical/companies/html" class="filter-btn clear-btn">Clear</a>
+        </form>
+
+        <div class="companies-grid">
+            {company_cards if company_cards else '<p>No companies match the selected filters.</p>'}
+        </div>
+    </div>
+</body>
+</html>'''
+
+
+def _generate_company_overview_html(data: dict) -> str:
+    """Generate company overview page HTML."""
+    ticker = data.get("ticker", "")
+    name = data.get("name", data.get("company_details", {}).get("name", ticker))
+    company = data.get("company_details", {})
+    classification = data.get("classification", {})
+    thesis = data.get("investment_thesis", {})
+    assets = data.get("assets", [])
+    catalysts = data.get("catalysts", [])
+    partnerships = data.get("partnerships", [])
+
+    # Build pipeline table rows
+    pipeline_rows = ""
+    for asset in assets:
+        asset_name = asset.get("name", "Unknown")
+        asset_slug = asset_name.lower().replace("-", "").replace(" ", "_")
+        target = asset.get("target", {})
+        target_name = target.get("name", target) if isinstance(target, dict) else target
+        stage = asset.get("stage", "")
+        lead_ind = asset.get("lead_indication") or (asset.get("indications", [""])[0] if asset.get("indications") else "")
+
+        # Find next catalyst for this asset
+        next_catalyst = ""
+        for c in catalysts:
+            if c.get("asset", "").lower() == asset_name.lower():
+                next_catalyst = f"{c.get('event', '')} ({c.get('timing', '')})"
+                break
+
+        pipeline_rows += f'''
+        <tr>
+            <td><a href="/api/clinical/companies/{ticker}/assets/{asset_slug}/html" class="asset-link">{asset_name}</a></td>
+            <td>{target_name}</td>
+            <td><span class="badge stage">{stage}</span></td>
+            <td>{lead_ind}</td>
+            <td class="catalyst-cell">{next_catalyst or '<span class="no-data">—</span>'}</td>
+        </tr>'''
+
+    # Build bull/bear HTML
+    bull_case = thesis.get("bull_case", []) if isinstance(thesis, dict) else thesis
+    bear_case = thesis.get("bear_case", []) if isinstance(thesis, dict) else []
+
+    bull_items = ""
+    for item in bull_case[:3]:
+        if isinstance(item, dict):
+            bull_items += f'<li><strong>{item.get("point", "")}</strong><span class="evidence">{item.get("evidence", "")}</span></li>'
+        else:
+            bull_items += f'<li>{item}</li>'
+
+    bear_items = ""
+    for item in bear_case[:3]:
+        if isinstance(item, dict):
+            bear_items += f'<li><strong>{item.get("point", "")}</strong><span class="evidence">{item.get("evidence", "")}</span></li>'
+        else:
+            bear_items += f'<li>{item}</li>'
+
+    # Build partnerships HTML
+    partnerships_html = ""
+    for p in partnerships:
+        if isinstance(p, dict):
+            partnerships_html += f'''
+            <div class="partnership-row">
+                <div class="partner">{p.get('partner', '')}</div>
+                <div class="asset">{p.get('asset', '')}</div>
+                <div class="terms">{p.get('upfront', '')} {f"/ {p.get('milestones', '')}" if p.get('milestones') else ''}</div>
+                <div class="status">{p.get('status', '')}</div>
+            </div>'''
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{ticker} - {name} | Company Overview</title>
+    <style>
+        :root {{
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #3182ce;
+            --bull: #38a169;
+            --bear: #e53e3e;
+            --warning: #d69e2e;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #2d3748;
+            --text-muted: #718096;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }}
+
+        /* Breadcrumb */
+        .breadcrumb {{
+            background: white;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }}
+        .breadcrumb a {{
+            color: var(--accent);
+            text-decoration: none;
+        }}
+        .breadcrumb a:hover {{
+            text-decoration: underline;
+        }}
+        .breadcrumb span {{
+            color: var(--text-muted);
+            margin: 0 8px;
+        }}
+
+        .container {{
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }}
+
+        /* Header */
+        .header {{
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }}
+        .header-top {{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }}
+        .header h1 {{
+            font-size: 2rem;
+            margin-bottom: 4px;
+        }}
+        .header .ticker {{
+            font-size: 1rem;
+            opacity: 0.8;
+        }}
+        .header .description {{
+            opacity: 0.9;
+            max-width: 700px;
+            line-height: 1.5;
+        }}
+        .snapshot {{
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }}
+        .snapshot-item {{
+            background: rgba(255,255,255,0.15);
+            padding: 12px 20px;
+            border-radius: 8px;
+        }}
+        .snapshot-item .label {{
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }}
+        .snapshot-item .value {{
+            font-size: 1.25rem;
+            font-weight: 600;
+        }}
+
+        /* Tags */
+        .tags {{
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }}
+        .badge {{
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.2);
+        }}
+        .badge.stage {{
+            background: var(--accent);
+            color: white;
+        }}
+
+        /* Cards */
+        .card {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }}
+        .card-header {{
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }}
+        .card-content {{
+            padding: 24px;
+        }}
+
+        /* Thesis */
+        .thesis-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }}
+        @media (max-width: 768px) {{
+            .thesis-grid {{ grid-template-columns: 1fr; }}
+        }}
+        .thesis-column {{
+            padding: 20px;
+            border-radius: 8px;
+        }}
+        .thesis-column.bull {{
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+        }}
+        .thesis-column.bear {{
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+        }}
+        .thesis-column h3 {{
+            font-size: 1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }}
+        .thesis-column.bull h3 {{ color: var(--bull); }}
+        .thesis-column.bear h3 {{ color: var(--bear); }}
+        .thesis-column ul {{
+            list-style: none;
+        }}
+        .thesis-column li {{
+            margin-bottom: 12px;
+            padding-left: 16px;
+            position: relative;
+        }}
+        .thesis-column li::before {{
+            content: '•';
+            position: absolute;
+            left: 0;
+        }}
+        .thesis-column.bull li::before {{ color: var(--bull); }}
+        .thesis-column.bear li::before {{ color: var(--bear); }}
+        .thesis-column li strong {{
+            display: block;
+            margin-bottom: 4px;
+        }}
+        .thesis-column .evidence {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }}
+
+        /* Pipeline Table */
+        .pipeline-table {{
+            width: 100%;
+            border-collapse: collapse;
+        }}
+        .pipeline-table th, .pipeline-table td {{
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }}
+        .pipeline-table th {{
+            background: var(--bg);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }}
+        .pipeline-table tr:hover {{
+            background: #fafafa;
+        }}
+        .asset-link {{
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }}
+        .asset-link:hover {{
+            text-decoration: underline;
+        }}
+        .catalyst-cell {{
+            font-size: 0.9rem;
+        }}
+        .no-data {{
+            color: var(--text-muted);
+        }}
+
+        /* Partnerships */
+        .partnership-row {{
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr auto;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }}
+        .partnership-row:last-child {{
+            border-bottom: none;
+        }}
+        .partner {{
+            font-weight: 600;
+        }}
+        .terms {{
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }}
+        .status {{
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            background: var(--bg);
+            border-radius: 20px;
+        }}
+
+        h2 {{
+            color: var(--primary);
+            margin-bottom: 16px;
+        }}
+    </style>
+</head>
+<body>
+    <div class="breadcrumb">
+        <a href="/api/clinical/companies">Companies</a>
+        <span>›</span>
+        <strong>{ticker}</strong>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <div>
+                    <h1>{name}</h1>
+                    <div class="ticker">{ticker} · {classification.get('exchange', 'NASDAQ')}</div>
+                </div>
+                <div class="tags">
+                    <span class="badge">{classification.get('development_stage', '')}</span>
+                    <span class="badge">{classification.get('modality', '')}</span>
+                    <span class="badge">{classification.get('therapeutic_area', '')}</span>
+                </div>
+            </div>
+            <p class="description">{company.get('description', '')}</p>
+            <div class="snapshot">
+                <div class="snapshot-item">
+                    <div class="label">Market Cap</div>
+                    <div class="value">${data.get('market_cap_mm', 'N/A')}M</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">Cash Runway</div>
+                    <div class="value">{company.get('cash_runway', 'N/A')}</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">Pipeline</div>
+                    <div class="value">{len(assets)} Assets</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">Priority</div>
+                    <div class="value">{classification.get('priority', '').title()}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Investment Thesis</div>
+            <div class="card-content">
+                <div class="thesis-grid">
+                    <div class="thesis-column bull">
+                        <h3>🐂 Bull Case</h3>
+                        <ul>{bull_items if bull_items else '<li>No bull case data</li>'}</ul>
+                    </div>
+                    <div class="thesis-column bear">
+                        <h3>🐻 Bear Case</h3>
+                        <ul>{bear_items if bear_items else '<li>No bear case data</li>'}</ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Pipeline</h2>
+        <div class="card">
+            <table class="pipeline-table">
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Target</th>
+                        <th>Stage</th>
+                        <th>Lead Indication</th>
+                        <th>Next Catalyst</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {pipeline_rows if pipeline_rows else '<tr><td colspan="5" class="no-data">No pipeline data</td></tr>'}
+                </tbody>
+            </table>
+        </div>
+
+        {f"""<h2>Partnerships</h2>
+        <div class="card">
+            <div class="card-content">
+                {partnerships_html}
+            </div>
+        </div>""" if partnerships_html else ""}
+    </div>
+</body>
+</html>'''
+
+
+def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict, next_asset: dict) -> str:
+    """Generate individual asset page HTML with sidebar navigation."""
+    ticker = company_data.get("ticker", "")
+    company_name = company_data.get("name", "")
+    asset_name = asset.get("name", "Unknown")
+    target_data = asset.get("target", {})
+    mechanism_data = asset.get("mechanism", {})
+    stage = asset.get("stage", "")
+    modality = asset.get("modality", "")
+    indications = asset.get("indications", [])
+    market = asset.get("market_opportunity", {})
+    clinical_data = asset.get("clinical_data", {})
+    trials = clinical_data.get("trials", [])
+    catalysts = company_data.get("catalysts", [])
+    asset_catalysts = [c for c in catalysts if c.get("asset", "").lower() == asset_name.lower()]
+
+    # Parse target
+    if isinstance(target_data, dict):
+        target_name = target_data.get("name", "")
+        target_full = target_data.get("full_name", "")
+        target_pathway = target_data.get("pathway", "")
+        target_biology = target_data.get("biology", "")
+        target_genetic = target_data.get("genetic_validation", "")
+        target_why = target_data.get("why_undruggable_before", "") or target_data.get("degrader_advantage", "")
+    else:
+        target_name = target_data
+        target_full = target_pathway = target_biology = target_genetic = target_why = ""
+
+    # Parse mechanism
+    if isinstance(mechanism_data, dict):
+        mech_type = mechanism_data.get("type", "")
+        mech_desc = mechanism_data.get("description", "")
+        mech_diff = mechanism_data.get("differentiation", "")
+    else:
+        mech_type = ""
+        mech_desc = mechanism_data
+        mech_diff = ""
+
+    # Build trials HTML
+    trials_html = ""
+    for trial in trials:
+        trial_name = trial.get("trial_name", "Trial")
+        phase = trial.get("phase", "")
+        status = trial.get("status", "")
+        n = trial.get("n_enrolled", "?")
+
+        design = trial.get("design", {})
+        design_str = design.get("description", design) if isinstance(design, dict) else design
+        limitations = design.get("limitations", "") if isinstance(design, dict) else ""
+
+        pop = trial.get("population", {})
+        pop_str = pop.get("description", pop) if isinstance(pop, dict) else pop
+
+        # Efficacy endpoints
+        efficacy_rows = ""
+        for e in trial.get("efficacy_endpoints", []):
+            defn = e.get("definition", {})
+            vs = e.get("vs_comparator", {})
+            vs_str = f"vs {vs.get('comparator', '')}: {vs.get('comparator_result', '')}" if isinstance(vs, dict) and vs.get("comparator") else ""
+            efficacy_rows += f'''
+            <tr>
+                <td>
+                    <div class="endpoint-name">{e.get('name', '')}</div>
+                    <div class="endpoint-def">{defn.get('what_it_measures', '') if isinstance(defn, dict) else ''}</div>
+                </td>
+                <td class="result"><strong>{e.get('result', 'Pending')}</strong></td>
+                <td>{e.get('timepoint', '')}</td>
+                <td class="comparator">{vs_str}</td>
+                <td class="source">p.{e.get('source_page', 'N/A')}</td>
+            </tr>'''
+
+        # Biomarker endpoints
+        biomarker_rows = ""
+        for b in trial.get("biomarker_endpoints", []):
+            biomarker_rows += f'''
+            <tr>
+                <td>
+                    <div class="biomarker-name">{b.get('name', '')}</div>
+                    <div class="method">{b.get('method', '')} ({b.get('tissue', '')})</div>
+                </td>
+                <td class="result"><strong>{b.get('result', '')}</strong></td>
+                <td>{b.get('interpretation', '')}</td>
+                <td class="source">p.{b.get('source_page', 'N/A')}</td>
+            </tr>'''
+
+        # Safety
+        safety = trial.get("safety", {})
+        safety_html = ""
+        if isinstance(safety, dict) and safety.get("summary"):
+            aes = safety.get("aes_of_interest", {})
+            ae_badges = "".join(f'<span class="ae-badge">{k}: {v}</span>' for k, v in aes.items())
+            safety_html = f'''
+            <div class="safety-box">
+                <h5>Safety</h5>
+                <p>{safety.get('summary', '')}</p>
+                <div class="ae-badges">{ae_badges}</div>
+                {f'<p class="safety-diff">{safety.get("differentiation", "")}</p>' if safety.get("differentiation") else ''}
+            </div>'''
+
+        # Limitations
+        lims = trial.get("limitations", [])
+        lims_html = f'<div class="limitations-box"><strong>Limitations:</strong> {", ".join(lims)}</div>' if lims else ""
+
+        status_class = "ongoing" if status == "Ongoing" else "completed" if status == "Completed" else ""
+
+        trials_html += f'''
+        <div class="trial-card">
+            <div class="trial-header">
+                <h4>{trial_name}</h4>
+                <span class="badge {status_class}">{phase}</span>
+                <span class="badge {status_class}">{status}</span>
+                <span class="n-enrolled">n={n}</span>
+            </div>
+            <div class="trial-meta">
+                <p><strong>Design:</strong> {design_str}</p>
+                {f'<p class="limitation-text"><strong>Limitation:</strong> {limitations}</p>' if limitations else ''}
+                <p><strong>Population:</strong> {pop_str}</p>
+            </div>
+            {f'<div class="endpoints-section"><h5>Efficacy Endpoints</h5><table class="data-table"><thead><tr><th>Endpoint</th><th>Result</th><th>Timepoint</th><th>vs Comparator</th><th>Source</th></tr></thead><tbody>{efficacy_rows}</tbody></table></div>' if efficacy_rows else ''}
+            {f'<div class="biomarkers-section"><h5>Biomarker Endpoints</h5><table class="data-table"><thead><tr><th>Biomarker</th><th>Result</th><th>Interpretation</th><th>Source</th></tr></thead><tbody>{biomarker_rows}</tbody></table></div>' if biomarker_rows else ''}
+            {safety_html}
+            {lims_html}
+        </div>'''
+
+    # Build catalysts HTML
+    catalysts_html = ""
+    for c in asset_catalysts:
+        what_to_watch = c.get("what_to_watch", [])
+        watch_items = "".join(f'<li>{w}</li>' for w in what_to_watch)
+        bull = c.get("bull_scenario", {})
+        bear = c.get("bear_scenario", {})
+
+        catalysts_html += f'''
+        <div class="catalyst-card">
+            <div class="catalyst-header">
+                <h4>{c.get('event', '')}</h4>
+                <span class="badge timing">{c.get('timing', '')}</span>
+                <span class="badge importance {c.get('importance', '').lower()}">{c.get('importance', '')}</span>
+            </div>
+            {f'<div class="watch-list"><strong>What to watch:</strong><ul>{watch_items}</ul></div>' if watch_items else ''}
+            <div class="scenarios-grid">
+                <div class="scenario bull">
+                    <strong>Bull Scenario</strong>
+                    <p>{bull.get('outcome', '') if isinstance(bull, dict) else ''}</p>
+                    <span class="rationale">{bull.get('rationale', '') if isinstance(bull, dict) else ''}</span>
+                </div>
+                <div class="scenario bear">
+                    <strong>Bear Scenario</strong>
+                    <p>{bear.get('outcome', '') if isinstance(bear, dict) else ''}</p>
+                    <span class="rationale">{bear.get('rationale', '') if isinstance(bear, dict) else ''}</span>
+                </div>
+            </div>
+        </div>'''
+
+    # Indications badges
+    ind_badges = "".join(f'<span class="indication-badge">{ind}</span>' for ind in indications if ind)
+
+    # Prev/Next navigation
+    prev_slug = prev_asset.get("name", "").lower().replace("-", "").replace(" ", "_") if prev_asset else ""
+    next_slug = next_asset.get("name", "").lower().replace("-", "").replace(" ", "_") if next_asset else ""
+    prev_name = prev_asset.get("name", "") if prev_asset else ""
+    next_name = next_asset.get("name", "") if next_asset else ""
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{asset_name} - {ticker} | Asset Analysis</title>
+    <style>
+        :root {{
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #3182ce;
+            --bull: #38a169;
+            --bear: #e53e3e;
+            --warning: #d69e2e;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #2d3748;
+            --text-muted: #718096;
+            --sidebar-width: 220px;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }}
+
+        /* Sticky Header */
+        .sticky-header {{
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }}
+        .breadcrumb {{
+            font-size: 0.9rem;
+        }}
+        .breadcrumb a {{
+            color: var(--accent);
+            text-decoration: none;
+        }}
+        .breadcrumb a:hover {{
+            text-decoration: underline;
+        }}
+        .breadcrumb span {{
+            color: var(--text-muted);
+            margin: 0 8px;
+        }}
+        .breadcrumb strong {{
+            color: var(--primary);
+        }}
+        .header-badges {{
+            display: flex;
+            gap: 8px;
+        }}
+        .badge {{
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+        }}
+        .badge.ongoing {{ background: #c6f6d5; color: var(--bull); border-color: #9ae6b4; }}
+        .badge.completed {{ background: #bee3f8; color: var(--accent); border-color: #90cdf4; }}
+        .badge.timing {{ background: #fefcbf; color: #975a16; border-color: #f6e05e; }}
+        .badge.importance.critical {{ background: #fed7d7; color: var(--bear); }}
+        .badge.importance.high {{ background: #fefcbf; color: #975a16; }}
+
+        /* Layout */
+        .layout {{
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+        }}
+
+        /* Sidebar */
+        .sidebar {{
+            width: var(--sidebar-width);
+            padding: 24px 16px;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+            background: white;
+        }}
+        .sidebar h3 {{
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            padding-left: 12px;
+        }}
+        .sidebar-nav {{
+            list-style: none;
+        }}
+        .sidebar-nav a {{
+            display: block;
+            padding: 8px 12px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }}
+        .sidebar-nav a:hover {{
+            background: var(--bg);
+        }}
+        .sidebar-nav a.active {{
+            background: var(--accent);
+            color: white;
+        }}
+
+        /* Main Content */
+        .main {{
+            flex: 1;
+            padding: 24px 32px;
+            max-width: calc(100% - var(--sidebar-width));
+        }}
+
+        /* Sections */
+        .section {{
+            margin-bottom: 48px;
+            scroll-margin-top: 80px;
+        }}
+        .section-header {{
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }}
+
+        /* Asset Header */
+        .asset-header {{
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }}
+        .asset-header h1 {{
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }}
+        .asset-header .subtitle {{
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }}
+        .asset-header .tags {{
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }}
+        .asset-header .badge {{
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+        }}
+
+        /* Cards */
+        .card {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }}
+        .card-content {{
+            padding: 24px;
+        }}
+
+        /* Target/Mechanism Grid */
+        .overview-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }}
+        @media (max-width: 900px) {{
+            .overview-grid {{ grid-template-columns: 1fr; }}
+        }}
+        .overview-card {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }}
+        .overview-card.target {{
+            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
+            border-color: #bee3f8;
+        }}
+        .overview-card.mechanism {{
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+            border-color: #e9d8fd;
+        }}
+        .overview-card h3 {{
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }}
+        .overview-card.target h3 {{ color: var(--accent); }}
+        .overview-card.mechanism h3 {{ color: #6b46c1; }}
+        .detail-row {{
+            margin-bottom: 12px;
+        }}
+        .detail-row strong {{
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }}
+        .genetic-highlight {{
+            background: #f0fff4;
+            border-left: 3px solid var(--bull);
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 16px;
+        }}
+
+        /* Market */
+        .market-grid {{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }}
+        .market-item {{
+            background: var(--bg);
+            padding: 16px;
+            border-radius: 8px;
+        }}
+        .market-item.full {{ grid-column: 1 / -1; }}
+        .market-item.highlight {{
+            background: #f0fff4;
+            border-left: 3px solid var(--bull);
+        }}
+        .market-item .label {{
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }}
+        .market-item .value {{
+            font-weight: 500;
+        }}
+
+        /* Indications */
+        .indications {{
+            margin-bottom: 24px;
+        }}
+        .indication-badge {{
+            display: inline-block;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 4px 4px 4px 0;
+        }}
+
+        /* Trials */
+        .trial-card {{
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }}
+        .trial-header {{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }}
+        .trial-header h4 {{
+            margin: 0;
+            color: var(--primary);
+        }}
+        .n-enrolled {{
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }}
+        .trial-meta {{
+            background: var(--bg);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }}
+        .trial-meta p {{
+            margin-bottom: 8px;
+        }}
+        .trial-meta p:last-child {{
+            margin-bottom: 0;
+        }}
+        .limitation-text {{
+            color: var(--bear);
+            font-style: italic;
+        }}
+
+        /* Data Tables */
+        .data-table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }}
+        .data-table th, .data-table td {{
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }}
+        .data-table th {{
+            background: var(--bg);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }}
+        .endpoint-name, .biomarker-name {{
+            font-weight: 600;
+        }}
+        .endpoint-def, .method {{
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }}
+        .result strong {{
+            color: var(--primary);
+            font-size: 1.1rem;
+        }}
+        .comparator {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }}
+        .source {{
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }}
+
+        /* Safety */
+        .safety-box {{
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }}
+        .safety-box h5 {{
+            color: var(--bull);
+            margin-bottom: 8px;
+        }}
+        .ae-badges {{
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }}
+        .ae-badge {{
+            background: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }}
+        .safety-diff {{
+            margin-top: 12px;
+            font-style: italic;
+            color: var(--bull);
+        }}
+
+        /* Limitations */
+        .limitations-box {{
+            background: #fff5f5;
+            border-left: 3px solid var(--bear);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: var(--bear);
+        }}
+
+        /* Catalysts */
+        .catalyst-card {{
+            background: #fffbeb;
+            border: 1px solid #f6e05e;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }}
+        .catalyst-header {{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }}
+        .catalyst-header h4 {{
+            margin: 0;
+            color: #975a16;
+        }}
+        .watch-list {{
+            margin-bottom: 16px;
+        }}
+        .watch-list ul {{
+            margin: 8px 0 0 20px;
+        }}
+        .scenarios-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }}
+        .scenario {{
+            padding: 16px;
+            border-radius: 8px;
+        }}
+        .scenario.bull {{
+            background: #f0fff4;
+        }}
+        .scenario.bear {{
+            background: #fff5f5;
+        }}
+        .scenario strong {{
+            display: block;
+            margin-bottom: 8px;
+        }}
+        .scenario.bull strong {{ color: var(--bull); }}
+        .scenario.bear strong {{ color: var(--bear); }}
+        .scenario .rationale {{
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }}
+
+        /* Navigation */
+        .asset-nav {{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }}
+        .nav-link {{
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+        }}
+        .nav-link:hover {{
+            border-color: var(--accent);
+            color: var(--accent);
+        }}
+        .nav-link.disabled {{
+            opacity: 0.5;
+            pointer-events: none;
+        }}
+
+        h5 {{
+            color: var(--primary);
+            margin-bottom: 12px;
+        }}
+    </style>
+</head>
+<body>
+    <div class="sticky-header">
+        <div class="breadcrumb">
+            <a href="/api/clinical/companies">Companies</a>
+            <span>›</span>
+            <a href="/api/clinical/companies/{ticker}/html">{ticker}</a>
+            <span>›</span>
+            <strong>{asset_name}</strong>
+        </div>
+        <div class="header-badges">
+            <span class="badge">{stage}</span>
+            <span class="badge">{target_name} Degrader</span>
+        </div>
+    </div>
+
+    <div class="layout">
+        <nav class="sidebar">
+            <h3>Navigation</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#target">Target Biology</a></li>
+                <li><a href="#clinical">Clinical Data</a></li>
+                <li><a href="#market">Market Opportunity</a></li>
+                <li><a href="#catalysts">Catalysts</a></li>
+            </ul>
+            <h3 style="margin-top: 24px;">Other Assets</h3>
+            <ul class="sidebar-nav">
+                {f'<li><a href="/api/clinical/companies/{ticker}/assets/{prev_slug}/html">← {prev_name}</a></li>' if prev_asset else ''}
+                {f'<li><a href="/api/clinical/companies/{ticker}/assets/{next_slug}/html">{next_name} →</a></li>' if next_asset else ''}
+            </ul>
+        </nav>
+
+        <main class="main">
+            <section id="overview" class="section">
+                <div class="asset-header">
+                    <h1>{asset_name}</h1>
+                    <div class="subtitle">{target_name} Degrader · {modality}</div>
+                    <div class="tags">
+                        <span class="badge">{stage}</span>
+                        {f'<span class="badge">{asset.get("ownership", "")}</span>' if asset.get("ownership") else ''}
+                    </div>
+                </div>
+
+                <div class="overview-grid">
+                    <div class="overview-card target">
+                        <h3>Target: {target_name}</h3>
+                        {f'<div class="detail-row"><strong>Full Name</strong>{target_full}</div>' if target_full else ''}
+                        {f'<div class="detail-row"><strong>Pathway</strong>{target_pathway}</div>' if target_pathway else ''}
+                        {f'<div class="detail-row"><strong>Biology</strong>{target_biology}</div>' if target_biology else ''}
+                        {f'<div class="genetic-highlight"><strong>Genetic Validation</strong><br>{target_genetic}</div>' if target_genetic else ''}
+                    </div>
+                    <div class="overview-card mechanism">
+                        <h3>Mechanism of Action</h3>
+                        {f'<div class="detail-row"><strong>Type</strong>{mech_type}</div>' if mech_type else ''}
+                        {f'<div class="detail-row"><strong>Description</strong>{mech_desc}</div>' if mech_desc else ''}
+                        {f'<div class="detail-row"><strong>Why Degrader</strong>{target_why}</div>' if target_why else ''}
+                        {f'<div class="detail-row"><strong>Differentiation</strong>{mech_diff}</div>' if mech_diff else ''}
+                    </div>
+                </div>
+
+                {f'<div class="indications"><strong>Indications:</strong> {ind_badges}</div>' if ind_badges else ''}
+            </section>
+
+            <section id="target" class="section">
+                <h2 class="section-header">Target Biology</h2>
+                <div class="card">
+                    <div class="card-content">
+                        {f'<p style="margin-bottom: 16px;">{target_biology}</p>' if target_biology else '<p>No target biology data available.</p>'}
+                        {f'<div class="genetic-highlight"><strong>Human Genetic Evidence:</strong> {target_genetic}</div>' if target_genetic else ''}
+                        {f'<div class="detail-row" style="margin-top: 16px;"><strong>Why Previous Approaches Failed</strong>{target_why}</div>' if target_why else ''}
+                    </div>
+                </div>
+            </section>
+
+            <section id="clinical" class="section">
+                <h2 class="section-header">Clinical Data</h2>
+                {trials_html if trials_html else '<p class="no-data">No clinical trial data available.</p>'}
+            </section>
+
+            <section id="market" class="section">
+                <h2 class="section-header">Market Opportunity</h2>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="market-grid">
+                            {f'<div class="market-item"><div class="label">Total Addressable Market</div><div class="value">{market.get("tam", "N/A")}</div></div>' if market.get("tam") else ''}
+                            {f'<div class="market-item"><div class="label">Patient Population</div><div class="value">{market.get("patient_population", "N/A")}</div></div>' if market.get("patient_population") else ''}
+                            {f'<div class="market-item full"><div class="label">Current Treatment</div><div class="value">{market.get("current_treatment", "N/A")}</div></div>' if market.get("current_treatment") else ''}
+                            {f'<div class="market-item full highlight"><div class="label">Unmet Need</div><div class="value">{market.get("unmet_need", "N/A")}</div></div>' if market.get("unmet_need") else ''}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="catalysts" class="section">
+                <h2 class="section-header">Upcoming Catalysts</h2>
+                {catalysts_html if catalysts_html else '<p class="no-data">No catalyst data available.</p>'}
+            </section>
+
+            <nav class="asset-nav">
+                <a href="/api/clinical/companies/{ticker}/assets/{prev_slug}/html" class="nav-link {'disabled' if not prev_asset else ''}">
+                    ← {prev_name if prev_asset else 'Previous'}
+                </a>
+                <a href="/api/clinical/companies/{ticker}/html" class="nav-link">
+                    Back to {ticker} Overview
+                </a>
+                <a href="/api/clinical/companies/{ticker}/assets/{next_slug}/html" class="nav-link {'disabled' if not next_asset else ''}">
+                    {next_name if next_asset else 'Next'} →
+                </a>
+            </nav>
+        </main>
+    </div>
+
+    <script>
+        // Highlight active section in sidebar
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+        window.addEventListener('scroll', () => {{
+            let current = '';
+            sections.forEach(section => {{
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {{
+                    current = section.getAttribute('id');
+                }}
+            }});
+
+            navLinks.forEach(link => {{
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {{
+                    link.classList.add('active');
+                }}
+            }});
+        }});
+    </script>
+</body>
+</html>'''
 
 
 def _generate_company_html_v2(data: dict) -> str:
