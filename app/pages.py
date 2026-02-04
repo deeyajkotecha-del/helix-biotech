@@ -298,18 +298,21 @@ def generate_companies_page():
         if count > 0:
             pills_html += f'<a href="#{stage_id}" class="category-pill">{stage_name} ({count})</a>'
 
+    # Calculate total before building sections (companies gets reassigned in loop)
+    total_count = len(companies)
+
     # Build sections by stage
     sections_html = ""
     for stage_id, stage_name in stage_categories.items():
-        companies = by_stage.get(stage_id, [])
-        if not companies:
+        stage_companies = by_stage.get(stage_id, [])
+        if not stage_companies:
             continue
-        cards_html = ''.join([generate_company_card(c) for c in companies])
+        cards_html = ''.join([generate_company_card(c) for c in stage_companies])
         sections_html += f'''
         <section class="section" id="{stage_id}">
             <div class="section-header">
                 <h2 class="section-title">{stage_name}</h2>
-                <span class="section-count">{len(companies)}</span>
+                <span class="section-count">{len(stage_companies)}</span>
             </div>
             <div class="cards-grid">{cards_html}</div>
         </section>
@@ -328,8 +331,6 @@ def generate_companies_page():
             <div class="cards-grid">{cards_html}</div>
         </section>
         '''
-
-    total_count = len(companies)
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -1898,9 +1899,11 @@ def generate_kras_report():
 
 
 def generate_company_detail(ticker: str):
+    # Load companies from index.json
+    companies = load_companies_from_index()
     company = None
-    for c in ALL_COMPANIES:
-        if c["ticker"].upper() == ticker.upper():
+    for c in companies:
+        if c.get("ticker", "").upper() == ticker.upper():
             company = c
             break
 
