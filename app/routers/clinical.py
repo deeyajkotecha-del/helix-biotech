@@ -3013,7 +3013,17 @@ def _generate_company_html_v2(data: dict) -> str:
         mechanism_data = asset.get("mechanism", {})
         stage = asset.get("stage", "")
         modality = asset.get("modality", "")
-        indications = asset.get("indications", [])
+        # Handle indications - can be dict (v2.0) or list (v1.0)
+        indications_raw = asset.get("indications", [])
+        if isinstance(indications_raw, dict):
+            lead = indications_raw.get("lead", {})
+            lead_name = lead.get("name", "") if isinstance(lead, dict) else lead if lead else ""
+            expansion = indications_raw.get("expansion", [])
+            indications = [lead_name] + [e.get("name", "") if isinstance(e, dict) else e for e in expansion]
+        elif isinstance(indications_raw, list):
+            indications = [i.get("name", "") if isinstance(i, dict) else i for i in indications_raw]
+        else:
+            indications = []
         clinical_data = asset.get("clinical_data", {})
         trials = clinical_data.get("trials", [])
 
