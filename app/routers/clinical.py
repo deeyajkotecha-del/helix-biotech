@@ -1159,7 +1159,17 @@ def _generate_company_overview_html(data: dict) -> str:
         target = asset.get("target", {})
         target_name = target.get("name", target) if isinstance(target, dict) else target
         stage = asset.get("stage", "")
-        lead_ind = asset.get("lead_indication") or (asset.get("indications", [""])[0] if asset.get("indications") else "")
+        # Handle indications - can be dict (v2.0) or list (v1.0)
+        indications = asset.get("indications")
+        if asset.get("lead_indication"):
+            lead_ind = asset.get("lead_indication")
+        elif isinstance(indications, dict):
+            lead = indications.get("lead", {})
+            lead_ind = lead.get("name", "") if isinstance(lead, dict) else lead if lead else ""
+        elif isinstance(indications, list) and indications:
+            lead_ind = indications[0] if isinstance(indications[0], str) else indications[0].get("name", "")
+        else:
+            lead_ind = ""
 
         # Find next catalyst for this asset
         next_catalyst = ""
