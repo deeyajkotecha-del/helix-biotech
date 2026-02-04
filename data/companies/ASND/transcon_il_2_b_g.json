@@ -1,0 +1,33 @@
+{
+  "asset": {
+    "name": "TransCon IL-2 \u03b2/\u03b3",
+    "company": "Ascendis Pharma A/S",
+    "ticker": "ASND",
+    "target": "Interleukin-2",
+    "mechanism": "TransCon prodrug releasing IL-2",
+    "modality": "TransCon prodrug",
+    "partner": null
+  },
+  "clinical_development": {
+    "current_stage": "Phase 2",
+    "indications_in_development": [
+      "Various tumor types",
+      "Platinum-resistant ovarian cancer"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [],
+  "key_risks": [],
+  "upcoming_catalysts": [
+    {
+      "event": "TransCon IL-2 \u03b2/\u03b3 IL-Believe program update (PROC OS)",
+      "timing": "Q4 2026"
+    }
+  ],
+  "_source_pages": [
+    6,
+    7,
+    29
+  ],
+  "_last_extracted": "2026-02-04T13:33:12.101312"
+}

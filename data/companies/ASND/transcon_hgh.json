@@ -1,0 +1,30 @@
+{
+  "asset": {
+    "name": "TransCon hGH",
+    "company": "Ascendis Pharma",
+    "ticker": "ASND",
+    "target": "Growth hormone pathway",
+    "mechanism": "Growth hormone therapy that presses the accelerator by recruiting stem cells and increasing chondrocyte numbers",
+    "modality": "TransCon prodrug technology",
+    "partner": null
+  },
+  "clinical_development": {
+    "current_stage": "Phase 2",
+    "indications_in_development": [
+      "Achondroplasia (combination therapy)",
+      "Additional growth disorders"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [
+    "Well-positioned to be the leader in growth disorders with once-weekly TransCon CNP and TransCon hGH"
+  ],
+  "key_risks": [],
+  "upcoming_catalysts": [],
+  "_source_pages": [
+    3,
+    5,
+    17
+  ],
+  "_last_extracted": "2026-02-04T13:31:56.900163"
+}

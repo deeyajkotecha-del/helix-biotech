@@ -1,0 +1,32 @@
+{
+  "asset": {
+    "name": "TransCon CNP",
+    "company": "Ascendis Pharma",
+    "ticker": "ASND",
+    "target": "C-type natriuretic peptide pathway",
+    "mechanism": "CNP therapy that releases the FGFR3-induced brake, enabling complementary effect of growth hormone",
+    "modality": "TransCon prodrug technology",
+    "partner": null
+  },
+  "clinical_development": {
+    "current_stage": "Phase 3",
+    "indications_in_development": [
+      "Achondroplasia",
+      "Hypochondroplasia"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [
+    "Combination therapy exceeds historical benchmarks for growth with tripling of efficacy compared to TransCon CNP monotherapy",
+    "Well-positioned to be the leader in growth disorders with once-weekly TransCon CNP and TransCon hGH",
+    "Complementary mechanisms: TransCon CNP releases the brake enabling GH to accelerate outcomes"
+  ],
+  "key_risks": [],
+  "upcoming_catalysts": [],
+  "_source_pages": [
+    3,
+    5,
+    17
+  ],
+  "_last_extracted": "2026-02-04T13:31:56.899521"
+}

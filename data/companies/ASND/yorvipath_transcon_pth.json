@@ -1,0 +1,28 @@
+{
+  "asset": {
+    "name": "YORVIPATH (TransCon PTH)",
+    "company": "Ascendis Pharma A/S",
+    "ticker": "ASND",
+    "target": "Parathyroid hormone",
+    "mechanism": "Once-daily TransCon prodrug releasing PTH",
+    "modality": "TransCon prodrug",
+    "partner": null
+  },
+  "clinical_development": {
+    "current_stage": "Approved",
+    "indications_in_development": [
+      "Hypoparathyroidism in adults",
+      "Hypoparathyroidism in adolescents"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [],
+  "key_risks": [],
+  "upcoming_catalysts": [],
+  "_source_pages": [
+    3,
+    8,
+    12
+  ],
+  "_last_extracted": "2026-02-04T13:33:12.099746"
+}

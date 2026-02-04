@@ -1,0 +1,33 @@
+{
+  "asset": {
+    "name": "SKYTROFA (TransCon hGH)",
+    "company": "Ascendis Pharma A/S",
+    "ticker": "ASND",
+    "target": "Human growth hormone",
+    "mechanism": "Once-weekly TransCon prodrug releasing hGH",
+    "modality": "TransCon prodrug",
+    "partner": null
+  },
+  "clinical_development": {
+    "current_stage": "Approved",
+    "indications_in_development": [
+      "Pediatric and adult growth hormone deficiency",
+      "Turner syndrome",
+      "Small for gestational age",
+      "Idiopathic short stature",
+      "SHOX deficiency",
+      "Achondroplasia",
+      "Hypochondroplasia"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [],
+  "key_risks": [],
+  "upcoming_catalysts": [],
+  "_source_pages": [
+    3,
+    13,
+    14
+  ],
+  "_last_extracted": "2026-02-04T13:33:12.100493"
+}

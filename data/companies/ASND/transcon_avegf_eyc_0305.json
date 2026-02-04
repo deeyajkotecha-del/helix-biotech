@@ -1,0 +1,29 @@
+{
+  "asset": {
+    "name": "TransCon aVEGF (EYC-0305)",
+    "company": "Ascendis Pharma A/S",
+    "ticker": "ASND",
+    "target": "VEGF",
+    "mechanism": "TransCon anti-VEGF",
+    "modality": "TransCon prodrug",
+    "partner": "Eyconis"
+  },
+  "clinical_development": {
+    "current_stage": "Preclinical",
+    "indications_in_development": [
+      "Wet age-related macular degeneration",
+      "Diabetic macular edema",
+      "Retinal vein occlusion",
+      "Geographic atrophy"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [],
+  "key_risks": [],
+  "upcoming_catalysts": [],
+  "_source_pages": [
+    7,
+    26
+  ],
+  "_last_extracted": "2026-02-04T13:33:12.106288"
+}

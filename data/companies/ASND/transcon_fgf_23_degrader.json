@@ -1,0 +1,25 @@
+{
+  "asset": {
+    "name": "TransCon FGF-23 degrader",
+    "company": "Ascendis Pharma A/S",
+    "ticker": "ASND",
+    "target": "Fibroblast growth factor 23",
+    "mechanism": "TransCon protein degrader",
+    "modality": "TransCon protein degrader",
+    "partner": null
+  },
+  "clinical_development": {
+    "current_stage": "Preclinical",
+    "indications_in_development": [
+      "X-linked hypophosphatemia"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [],
+  "key_risks": [],
+  "upcoming_catalysts": [],
+  "_source_pages": [
+    7
+  ],
+  "_last_extracted": "2026-02-04T13:33:12.105202"
+}

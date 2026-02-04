@@ -1,0 +1,31 @@
+{
+  "asset": {
+    "name": "TransCon CNP (navepegritide)",
+    "company": "Ascendis Pharma A/S",
+    "ticker": "ASND",
+    "target": "C-type natriuretic peptide",
+    "mechanism": "Once-weekly TransCon prodrug releasing CNP for continuous exposure",
+    "modality": "TransCon prodrug",
+    "partner": null
+  },
+  "clinical_development": {
+    "current_stage": "NDA and MAA Accepted",
+    "indications_in_development": [
+      "Achondroplasia in children aged 2-11",
+      "Achondroplasia in infants",
+      "Achondroplasia in adolescents",
+      "Hypochondroplasia"
+    ]
+  },
+  "trials": [],
+  "investment_thesis": [],
+  "key_risks": [],
+  "upcoming_catalysts": [],
+  "_source_pages": [
+    3,
+    6,
+    16,
+    18
+  ],
+  "_last_extracted": "2026-02-04T13:33:12.100972"
+}
