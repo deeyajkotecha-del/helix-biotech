@@ -1,0 +1,132 @@
+{
+  "EASI": {
+    "name": "EASI",
+    "full_name": "Eczema Area and Severity Index",
+    "category": "Clinical Efficacy",
+    "description": "Physician-assessed measure of atopic dermatitis severity combining extent (body surface area) and intensity (erythema, induration, excoriation, lichenification) across 4 body regions.",
+    "scoring": "0-72 scale; higher = more severe. Mild: 1-7, Moderate: 7-21, Severe: 21-50, Very Severe: >50",
+    "interpretation": {
+      "EASI-50": "\u226550% reduction from baseline - clinically meaningful improvement",
+      "EASI-75": "\u226575% reduction from baseline - significant improvement, often used as primary endpoint",
+      "EASI-90": "\u226590% reduction from baseline - near-complete clearance"
+    },
+    "regulatory_status": "FDA-accepted primary endpoint for AD trials",
+    "comparator_benchmarks": {
+      "Dupixent": "~70-75% EASI reduction at Week 16",
+      "Placebo": "~15-25% EASI reduction at Week 16"
+    }
+  },
+  "SCORAD": {
+    "name": "SCORAD",
+    "full_name": "SCORing Atopic Dermatitis",
+    "category": "Clinical Efficacy",
+    "description": "Composite score combining objective physician assessment (extent, intensity) with subjective patient symptoms (itch, sleep loss).",
+    "scoring": "0-103 scale. Mild: <25, Moderate: 25-50, Severe: >50",
+    "components": {
+      "A": "Extent (0-100) - % body surface area affected",
+      "B": "Intensity (0-18) - 6 items scored 0-3 each",
+      "C": "Subjective (0-20) - itch + sleep loss VAS"
+    },
+    "formula": "SCORAD = A/5 + 7B/2 + C",
+    "interpretation": "Captures both objective disease AND patient experience; more holistic than EASI alone"
+  },
+  "vIGA-AD": {
+    "name": "vIGA-AD",
+    "full_name": "Validated Investigator Global Assessment for Atopic Dermatitis",
+    "category": "Clinical Efficacy",
+    "description": "Physician's overall assessment of AD severity on a 5-point scale.",
+    "scoring": {
+      "0": "Clear - no inflammatory signs",
+      "1": "Almost Clear - just perceptible erythema/induration",
+      "2": "Mild - slight but definite erythema/induration",
+      "3": "Moderate - clearly perceptible erythema/induration",
+      "4": "Severe - marked erythema/induration"
+    },
+    "success_definition": "vIGA-AD 0 or 1 (Clear or Almost Clear)",
+    "regulatory_status": "FDA co-primary endpoint for AD (with EASI-75)"
+  },
+  "PPNRS": {
+    "name": "PP-NRS",
+    "full_name": "Peak Pruritus Numerical Rating Scale",
+    "category": "Patient-Reported Outcome",
+    "description": "Patient-reported measure of worst itch intensity in the past 24 hours.",
+    "scoring": "0-10 scale; 0 = no itch, 10 = worst imaginable itch",
+    "interpretation": {
+      "\u22654-point improvement": "Clinically meaningful itch reduction",
+      "\u22653-point improvement": "Moderate itch improvement"
+    },
+    "clinical_relevance": "Itch is the most bothersome symptom for AD patients; strongly impacts quality of life and sleep"
+  },
+  "POEM": {
+    "name": "POEM",
+    "full_name": "Patient-Oriented Eczema Measure",
+    "category": "Patient-Reported Outcome",
+    "description": "7-item questionnaire measuring AD symptoms and their frequency over the past week.",
+    "scoring": "0-28; higher = more severe. Mild: 3-7, Moderate: 8-16, Severe: 17-24, Very Severe: 25-28",
+    "mcid": "\u22654-point improvement is Minimum Clinically Important Difference",
+    "clinical_relevance": "Captures patient's experience of disease impact on daily life"
+  },
+  "DLQI": {
+    "name": "DLQI",
+    "full_name": "Dermatology Life Quality Index",
+    "category": "Quality of Life",
+    "description": "10-question validated questionnaire measuring impact of skin disease on quality of life.",
+    "scoring": "0-30; higher = greater impairment. 0-1: no effect, 2-5: small, 6-10: moderate, 11-20: large, 21-30: extremely large",
+    "mcid": "\u22654-point improvement is Minimum Clinically Important Difference",
+    "clinical_relevance": "Measures impact on work, relationships, daily activities, treatment burden"
+  },
+  "FEV1": {
+    "name": "FEV1",
+    "full_name": "Forced Expiratory Volume in 1 Second",
+    "category": "Pulmonary Function",
+    "description": "Volume of air that can be forcibly exhaled in one second. Gold standard measure of airway obstruction.",
+    "measurement": "Spirometry; expressed as absolute (L) or % predicted for age/height/sex",
+    "interpretation": {
+      "normal": "\u226580% predicted",
+      "mild obstruction": "70-79% predicted",
+      "moderate obstruction": "60-69% predicted",
+      "severe obstruction": "<60% predicted"
+    },
+    "pre_vs_post_bronchodilator": "Pre-BD measures baseline obstruction; Post-BD shows reversibility",
+    "regulatory_status": "FDA-accepted primary endpoint for asthma trials"
+  },
+  "ACQ-5": {
+    "name": "ACQ-5",
+    "full_name": "Asthma Control Questionnaire (5-item)",
+    "category": "Patient-Reported Outcome",
+    "description": "5-item questionnaire assessing asthma symptom control over past week.",
+    "scoring": "0-6 scale; lower = better control. <0.75: well-controlled, 0.75-1.5: partly controlled, >1.5: uncontrolled",
+    "mcid": "\u22650.5-point improvement is clinically meaningful",
+    "clinical_relevance": "Captures real-world symptom burden and control"
+  },
+  "FeNO": {
+    "name": "FeNO",
+    "full_name": "Fractional Exhaled Nitric Oxide",
+    "category": "Biomarker",
+    "description": "Measures nitric oxide in exhaled breath, a marker of eosinophilic airway inflammation.",
+    "measurement": "Parts per billion (ppb) via exhaled breath analyzer",
+    "interpretation": {
+      "<25 ppb": "Normal/low inflammation",
+      "25-50 ppb": "Intermediate",
+      ">50 ppb": "High Type 2 inflammation"
+    },
+    "clinical_relevance": "Predicts response to IL-4/IL-13 pathway therapies; marker of Type 2 inflammation in airways"
+  },
+  "anti-dsDNA": {
+    "name": "Anti-dsDNA",
+    "full_name": "Anti-double-stranded DNA Antibodies",
+    "category": "Biomarker/Autoantibody",
+    "description": "Autoantibodies targeting double-stranded DNA; highly specific for systemic lupus erythematosus (SLE).",
+    "measurement": "ELISA, Farr assay, or immunofluorescence; reported as titer or units",
+    "clinical_relevance": "Elevated in 70-80% of SLE patients; correlates with disease activity and lupus nephritis risk",
+    "interpretation": "Reduction indicates decreased autoimmune activity and potential disease modification"
+  },
+  "joint_swelling": {
+    "name": "Joint Swelling",
+    "full_name": "Swollen Joint Count",
+    "category": "Clinical Efficacy",
+    "description": "Number of joints with clinically detectable swelling (synovitis).",
+    "measurement": "Physical examination of 66 joints (SJC66) or 28 joints (SJC28)",
+    "clinical_relevance": "Direct measure of active inflammation; reduction indicates therapeutic benefit"
+  }
+}

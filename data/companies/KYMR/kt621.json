@@ -1,0 +1,330 @@
+{
+  "asset": {
+    "name": "KT-621",
+    "company": "Kymera Therapeutics",
+    "ticker": "KYMR",
+    "target": "STAT6",
+    "target_full_name": "Signal Transducer and Activator of Transcription 6",
+    "mechanism": "STAT6 degrader (targeted protein degradation)",
+    "modality": "Oral small molecule degrader",
+    "pathway": "IL-4/IL-13 signaling",
+    "competitor_reference": "Dupilumab (Dupixent) - $13B+ annual sales"
+  },
+  "clinical_development": {
+    "current_stage": "Phase 2b",
+    "indications_in_development": [
+      "Atopic Dermatitis",
+      "Asthma",
+      "COPD",
+      "Eosinophilic Esophagitis (EoE)",
+      "Chronic Rhinosinusitis with Nasal Polyps (CRSwNP)",
+      "Chronic Spontaneous Urticaria (CSU)",
+      "Prurigo Nodularis (PN)",
+      "Bullous Pemphigoid (BP)"
+    ],
+    "market_opportunity": ">140M patients; only ~1% on advanced systemic therapies; >$20B market projected by 2030"
+  },
+  "trials": [
+    {
+      "name": "KT-621 Phase 1 Healthy Volunteer Study (SAD/MAD)",
+      "phase": "Phase 1",
+      "status": "Completed",
+      "indication": "Healthy Volunteers",
+      "design": "Single and multiple ascending dose, randomized, placebo-controlled",
+      "arms": [
+        {
+          "name": "Placebo",
+          "n": 18,
+          "duration": "14 days"
+        },
+        {
+          "name": "KT-621 1.5mg QD",
+          "dose": "1.5mg",
+          "frequency": "QD",
+          "n": 9
+        },
+        {
+          "name": "KT-621 12.5mg QD",
+          "dose": "12.5mg",
+          "frequency": "QD",
+          "n": 7
+        },
+        {
+          "name": "KT-621 25mg QD",
+          "dose": "25mg",
+          "frequency": "QD",
+          "n": 9
+        },
+        {
+          "name": "KT-621 50mg QD",
+          "dose": "50mg",
+          "frequency": "QD",
+          "n": 9
+        },
+        {
+          "name": "KT-621 100mg QD",
+          "dose": "100mg",
+          "frequency": "QD",
+          "n": 9
+        },
+        {
+          "name": "KT-621 200mg QD",
+          "dose": "200mg",
+          "frequency": "QD",
+          "n": 9
+        }
+      ],
+      "endpoints": [
+        {
+          "name": "STAT6 degradation - Blood",
+          "category": "biomarker",
+          "result": ">90% at doses \u226525mg QD",
+          "timepoint": "Day 14"
+        },
+        {
+          "name": "STAT6 degradation - Skin",
+          "category": "biomarker",
+          "result": ">90% at doses \u226525mg QD",
+          "timepoint": "Day 14"
+        },
+        {
+          "name": "Serum TARC reduction",
+          "category": "biomarker",
+          "result": "-20 to -40%",
+          "dose_group": "50-200mg QD",
+          "timepoint": "Day 14"
+        },
+        {
+          "name": "Serum Eotaxin-3 reduction",
+          "category": "biomarker",
+          "result": "-40 to -70%",
+          "dose_group": "100-200mg QD",
+          "timepoint": "Day 14"
+        }
+      ],
+      "safety": "Well-tolerated; safety profile undifferentiated from placebo; no SAEs; no dose-dependent TEAEs"
+    },
+    {
+      "name": "BroADen Phase 1b in Atopic Dermatitis",
+      "phase": "Phase 1b",
+      "status": "Completed",
+      "indication": "Moderate-to-severe Atopic Dermatitis",
+      "design": "Single arm, open label",
+      "population": "Adult moderate-to-severe AD patients (EASI\u226516, vIGA-AD\u22653, PPNRS\u22654, BSA\u226510%)",
+      "arms": [
+        {
+          "name": "KT-621 100mg QD",
+          "dose": "100mg",
+          "frequency": "QD",
+          "n": 10,
+          "duration": "28 days"
+        },
+        {
+          "name": "KT-621 200mg QD",
+          "dose": "200mg",
+          "frequency": "QD",
+          "n": 12,
+          "duration": "28 days"
+        }
+      ],
+      "endpoints": [
+        {
+          "name": "STAT6 degradation - Blood",
+          "category": "biomarker",
+          "result": "98% median",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "STAT6 degradation - Skin",
+          "category": "biomarker",
+          "result": "94%",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "EASI % Change",
+          "category": "primary",
+          "result": "-63%",
+          "dose_group": "Overall (n=22)",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "EASI-50",
+          "category": "secondary",
+          "result": "76% achieved",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "EASI-75",
+          "category": "secondary",
+          "result": "29% achieved",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "vIGA-AD 0/1",
+          "category": "secondary",
+          "result": "19% achieved",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "SCORAD % Change",
+          "category": "secondary",
+          "result": "-48%",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "Peak Pruritus NRS % Change",
+          "category": "secondary",
+          "result": "-40%",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "TARC reduction",
+          "category": "biomarker",
+          "result": "-74%",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "Eotaxin-3 reduction",
+          "category": "biomarker",
+          "result": "-73%",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "IL-31 reduction",
+          "category": "biomarker",
+          "result": "-54%",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "FeNO reduction (comorbid asthma, n=4)",
+          "category": "biomarker",
+          "result": "-56%",
+          "timepoint": "Day 29"
+        },
+        {
+          "name": "ACQ-5 responders (comorbid asthma)",
+          "category": "secondary",
+          "result": "100% (4/4)",
+          "timepoint": "Day 29"
+        }
+      ],
+      "safety": "Well-tolerated; no SAEs; no severe AEs; no dose-dependent TEAEs; no conjunctivitis",
+      "vs_dupilumab": "Results in line with or numerically exceeded published Dupilumab data at Week 4"
+    },
+    {
+      "name": "BROADEN2 Phase 2b in Atopic Dermatitis",
+      "phase": "Phase 2b",
+      "status": "Ongoing",
+      "indication": "Moderate-to-severe Atopic Dermatitis",
+      "design": "Randomized, double-blind, placebo-controlled, dose-ranging",
+      "population": "Adult & adolescent (12-75) moderate-to-severe AD",
+      "n_target": 200,
+      "arms": [
+        {
+          "name": "Placebo"
+        },
+        {
+          "name": "KT-621 Dose 1"
+        },
+        {
+          "name": "KT-621 Dose 2"
+        },
+        {
+          "name": "KT-621 Dose 3"
+        }
+      ],
+      "primary_endpoint": "Percent change from baseline in EASI score at Week 16",
+      "secondary_endpoints": [
+        "EASI-50",
+        "EASI-75",
+        "vIGA-AD 0/1",
+        "Peak Pruritus NRS \u22654-point improvement"
+      ],
+      "duration": "16 weeks + 52-week open label extension",
+      "data_expected": "Mid-2027"
+    },
+    {
+      "name": "BREADTH Phase 2b in Asthma",
+      "phase": "Phase 2b",
+      "status": "Initiated January 2026",
+      "indication": "Moderate-to-severe Eosinophilic Asthma",
+      "design": "Randomized, double-blind, placebo-controlled, dose-ranging",
+      "population": "Adult moderate-to-severe eosinophilic asthma (EOS\u2265300, FeNO\u226525ppb, FEV1 40-80%)",
+      "n_target": 264,
+      "arms": [
+        {
+          "name": "Placebo"
+        },
+        {
+          "name": "KT-621 Dose 1"
+        },
+        {
+          "name": "KT-621 Dose 2"
+        },
+        {
+          "name": "KT-621 Dose 3"
+        }
+      ],
+      "primary_endpoint": "Percent change from baseline in pre-bronchodilator FEV1 at Week 12",
+      "secondary_endpoints": [
+        "ACQ-5 change",
+        "AQLQ change"
+      ],
+      "duration": "12 weeks",
+      "data_expected": "Late-2027"
+    }
+  ],
+  "graph_analyses": {
+    "phase1_biomarker": {
+      "title": "STAT6 Degradation in Blood and Skin",
+      "key_findings": [
+        "Clear sigmoid dose-response: minimal at 1.5mg, steep 12.5-25mg, plateau \u226525mg",
+        ">90% STAT6 degradation in both blood AND skin at doses \u226525mg",
+        "Skin penetration confirmed - critical for dermatological indications",
+        "TARC/Eotaxin-3 reductions suggest on-target Type 2 pathway blockade"
+      ],
+      "clinical_significance": "Deep target tissue engagement at well-tolerated oral doses supports Dupixent-like potential"
+    },
+    "phase1b_efficacy": {
+      "title": "EASI and SCORAD Response Over Time",
+      "key_findings": [
+        "Rapid onset: significant EASI improvement by Day 8",
+        "Progressive improvement without plateau at Day 29",
+        "63% EASI reduction comparable to Dupixent at similar timepoint",
+        "100mg and 200mg show similar efficacy - 100mg likely optimal dose",
+        "Strong itch reduction (PPNRS -40%) indicates symptomatic relief"
+      ],
+      "clinical_significance": "Open-label data directionally supports Dupixent-like efficacy; Phase 2b will confirm with placebo control"
+    }
+  },
+  "investment_thesis": [
+    "First oral STAT6 degrader - potential to replace/complement Dupixent ($13B+ blockbuster)",
+    "Phase 1b AD: 63% EASI reduction at Day 29 matches/exceeds Dupixent at Week 4",
+    "Oral convenience advantage over Dupixent (injection every 2 weeks)",
+    "Broad indication potential: AD, asthma, COPD, EoE, CRSwNP, CSU, PN, BP",
+    "Market opportunity: >140M patients, <1% on advanced therapy, >$20B by 2030",
+    "Deep target engagement: >90% STAT6 degradation in blood AND skin",
+    "Favorable safety: no conjunctivitis (common Dupixent AE), no SAEs"
+  ],
+  "key_risks": [
+    "Phase 1b was open-label - need placebo-controlled Phase 2b to confirm efficacy",
+    "Only 29 days treatment - need 16-week data for proper Dupixent comparison",
+    "Small sample sizes (n=22 in Phase 1b)",
+    "Competitive landscape: Dupixent entrenched, other IL-4/IL-13 drugs in development",
+    "Degrader class relatively new - long-term safety profile still being established"
+  ],
+  "upcoming_catalysts": [
+    {
+      "event": "BROADEN2 Phase 2b AD data",
+      "timing": "Mid-2027"
+    },
+    {
+      "event": "BREADTH Phase 2b Asthma data",
+      "timing": "Late-2027"
+    },
+    {
+      "event": "Phase 3 dose selection",
+      "timing": "2027"
+    }
+  ]
+}

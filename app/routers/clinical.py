@@ -1,18 +1,128 @@
-"""Clinical data API router."""
-from fastapi import APIRouter, HTTPException
+"""Clinical data API router - data-driven from JSON files."""
+from typing import Optional
+from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import HTMLResponse
 
 from app.services.clinical.extractor import (
     generate_clinical_summary_for_asset,
-    get_kymera_pipeline,
-    get_target_landscape_with_context,
+    get_company_pipeline,
+    get_target_landscape,
     get_endpoint_definitions,
     get_biomarker_definitions,
-    KYMERA_ASSETS,
-    SUPPORTED_TARGETS,
+    list_companies,
+    list_company_assets,
+    clear_cache,
+    get_taxonomy,
+    get_all_companies,
+    get_company_full,
 )
 
 router = APIRouter()
+
+
+# =============================================================================
+# TAXONOMY ENDPOINT
+# =============================================================================
+
+@router.get("/taxonomy")
+async def get_taxonomy_endpoint():
+    """
+    Get the full taxonomy structure for company classification.
+
+    Returns tiers for:
+    - development_stage: Large Cap Diversified, Commercial Stage, Late Clinical, etc.
+    - modality: Small Molecule, Antibody/Biologics, RNA Therapeutics, etc.
+    - therapeutic_area: Oncology-Precision, Rare-Genetic, I&I/Autoimmune, etc.
+    - thesis_type: Platform/Royalty, Binary Event, Commercial Compounder, etc.
+    """
+    return get_taxonomy()
+
+
+# =============================================================================
+# COMPANY INDEX ENDPOINTS
+# =============================================================================
+
+@router.get("/companies")
+async def list_all_companies(
+    development_stage: Optional[str] = Query(None, description="Filter by stage (e.g., mid_clinical)"),
+    modality: Optional[str] = Query(None, description="Filter by modality (e.g., small_molecule)"),
+    therapeutic_area: Optional[str] = Query(None, description="Filter by area (e.g., oncology_precision)"),
+    thesis_type: Optional[str] = Query(None, description="Filter by thesis (e.g., binary_event)"),
+    priority: Optional[str] = Query(None, description="Filter by priority (high, medium, low)"),
+    has_data: Optional[bool] = Query(None, description="Filter by whether company has data files")
+):
+    """
+    List all companies with optional filters.
+
+    Examples:
+    - GET /api/clinical/companies - All companies
+    - GET /api/clinical/companies?priority=high - High priority only
+    - GET /api/clinical/companies?modality=small_molecule&therapeutic_area=oncology_precision
+    - GET /api/clinical/companies?has_data=true - Only companies with data
+    """
+    companies = get_all_companies(
+        development_stage=development_stage,
+        modality=modality,
+        therapeutic_area=therapeutic_area,
+        thesis_type=thesis_type,
+        priority=priority,
+        has_data=has_data
+    )
+
+    return {
+        "companies": companies,
+        "count": len(companies),
+        "filters_applied": {
+            k: v for k, v in {
+                "development_stage": development_stage,
+                "modality": modality,
+                "therapeutic_area": therapeutic_area,
+                "thesis_type": thesis_type,
+                "priority": priority,
+                "has_data": has_data
+            }.items() if v is not None
+        }
+    }
+
+
+@router.get("/companies/{ticker}")
+async def get_company(ticker: str):
+    """
+    Get full company data including classification, thesis, and pipeline.
+
+    Example: GET /api/clinical/companies/KYMR
+
+    Returns:
+    - Classification metadata (stage, modality, area, thesis type)
+    - Company details (if data exists)
+    - Investment thesis and risks
+    - Asset list
+    """
+    result = get_company_full(ticker)
+    if not result:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Company {ticker} not found in index or data files"
+        )
+    return result
+
+
+@router.get("/companies/{ticker}/assets")
+async def get_company_assets(ticker: str):
+    """
+    List all assets for a company.
+
+    Example: GET /api/clinical/companies/KYMR/assets
+    """
+    assets = list_company_assets(ticker)
+    if not assets:
+        raise HTTPException(status_code=404, detail=f"Company {ticker} not found or has no assets")
+
+    return {
+        "ticker": ticker.upper(),
+        "assets": assets,
+        "count": len(assets)
+    }
 
 
 # =============================================================================
@@ -26,26 +136,27 @@ async def get_asset_clinical_data(ticker: str, asset_name: str):
 
     Example: GET /api/clinical/assets/KYMR/KT-621/clinical
 
-    Supported assets: KT-621, KT-579, KT-485
+    Data is loaded from data/companies/{ticker}/{asset}.json
     """
-    if ticker.upper() == "KYMR" and asset_name.upper() in KYMERA_ASSETS:
-        return generate_clinical_summary_for_asset(asset_name.upper())
-
-    raise HTTPException(
-        status_code=404,
-        detail=f"Asset {asset_name} not found for {ticker}. Supported: {', '.join(KYMERA_ASSETS)}"
-    )
+    try:
+        return generate_clinical_summary_for_asset(asset_name, ticker)
+    except ValueError as e:
+        available = list_company_assets(ticker)
+        raise HTTPException(
+            status_code=404,
+            detail=f"{str(e)}. Available assets: {', '.join(available) if available else 'none'}"
+        )
 
 
 @router.get("/assets/{ticker}/{asset_name}/clinical/html", response_class=HTMLResponse)
 async def get_asset_clinical_html(ticker: str, asset_name: str):
     """Get clinical data as formatted HTML with collapsible sections and tooltips."""
-    if ticker.upper() != "KYMR" or asset_name.upper() not in KYMERA_ASSETS:
-        raise HTTPException(status_code=404, detail=f"Asset {asset_name} not found")
-
-    data = generate_clinical_summary_for_asset(asset_name.upper())
-    html = _generate_clinical_html(data)
-    return HTMLResponse(content=html)
+    try:
+        data = generate_clinical_summary_for_asset(asset_name, ticker)
+        html = _generate_clinical_html(data)
+        return HTMLResponse(content=html)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 # =============================================================================
@@ -53,16 +164,22 @@ async def get_asset_clinical_html(ticker: str, asset_name: str):
 # =============================================================================
 
 @router.get("/companies/{ticker}/pipeline")
-async def get_company_pipeline(ticker: str):
+async def get_pipeline(ticker: str):
     """
     Get full pipeline for a company.
 
     Example: GET /api/clinical/companies/KYMR/pipeline
-    """
-    if ticker.upper() == "KYMR":
-        return get_kymera_pipeline()
 
-    raise HTTPException(status_code=404, detail=f"Company {ticker} not found")
+    Reads from data/companies/{ticker}/company.json and all asset files.
+    """
+    try:
+        return get_company_pipeline(ticker)
+    except ValueError as e:
+        available = list_companies()
+        raise HTTPException(
+            status_code=404,
+            detail=f"{str(e)}. Available companies: {', '.join(available) if available else 'none'}"
+        )
 
 
 # =============================================================================
@@ -70,28 +187,28 @@ async def get_company_pipeline(ticker: str):
 # =============================================================================
 
 @router.get("/targets/{target_name}/landscape")
-async def get_target_landscape(target_name: str):
+async def get_target_landscape_endpoint(target_name: str):
     """
     Get target landscape with biomarker definitions and measurement methods.
 
     Example: GET /api/clinical/targets/STAT6/landscape
 
-    Supported targets: STAT6, IRF5, IRAK4
+    Searches all companies for target data.
     """
-    result = get_target_landscape_with_context(target_name)
+    result = get_target_landscape(target_name)
     if result:
         return result
 
     raise HTTPException(
         status_code=404,
-        detail=f"Target {target_name} not found. Supported: {', '.join(SUPPORTED_TARGETS)}"
+        detail=f"Target {target_name} not found in any company data or definitions"
     )
 
 
 @router.get("/targets/{target_name}/clinical-landscape")
 async def get_target_clinical_landscape_legacy(target_name: str):
     """Legacy endpoint - redirects to /targets/{target}/landscape."""
-    return await get_target_landscape(target_name)
+    return await get_target_landscape_endpoint(target_name)
 
 
 # =============================================================================
@@ -103,7 +220,7 @@ async def get_all_endpoint_definitions():
     """
     Get all endpoint definitions for UI tooltips.
 
-    Returns definitions for: EASI, SCORAD, vIGA-AD, PPNRS, FEV1, ACQ-5, etc.
+    Loads from data/definitions/endpoints.json
     """
     return get_endpoint_definitions()
 
@@ -113,7 +230,7 @@ async def get_all_biomarker_definitions():
     """
     Get all biomarker definitions for UI tooltips.
 
-    Returns definitions for: STAT6, TARC, Eotaxin-3, IRF5, IRAK4, etc.
+    Loads from data/definitions/biomarkers.json
     """
     return get_biomarker_definitions()
 
@@ -137,6 +254,17 @@ async def get_biomarker_definition(biomarker_name: str):
 
 
 # =============================================================================
+# ADMIN ENDPOINTS
+# =============================================================================
+
+@router.post("/cache/clear")
+async def clear_data_cache():
+    """Clear the JSON file cache (useful after adding new data files)."""
+    clear_cache()
+    return {"status": "ok", "message": "Cache cleared"}
+
+
+# =============================================================================
 # HTML GENERATION
 # =============================================================================
 
@@ -145,7 +273,6 @@ def _generate_clinical_html(data: dict) -> str:
     asset = data.get("asset", {})
     trials = data.get("trials", [])
     definitions = data.get("definitions", {})
-    endpoints_with_context = data.get("endpoints_with_context", {})
 
     # Build trials HTML with collapsible sections
     trials_html = ""
@@ -220,6 +347,8 @@ def _generate_clinical_html(data: dict) -> str:
     if biomarker_defs:
         biomarker_cards = ""
         for name, defn in biomarker_defs.items():
+            if not defn:
+                continue
             methods = defn.get("measurement_methods", {})
             methods_html = ""
             for method_name, method_info in methods.items():
@@ -246,37 +375,6 @@ def _generate_clinical_html(data: dict) -> str:
             <button class="collapsible">Biomarker Definitions</button>
             <div class="content">
                 <div class="definitions-grid">{biomarker_cards}</div>
-            </div>
-        </div>
-        """
-
-    # Build endpoint definitions section
-    endpoint_defs = definitions.get("endpoints", {})
-    endpoints_section = ""
-    if endpoint_defs:
-        endpoint_cards = ""
-        for name, defn in endpoint_defs.items():
-            benchmarks = defn.get("comparator_benchmarks", {})
-            benchmarks_html = ""
-            if benchmarks:
-                for drug, value in benchmarks.items():
-                    benchmarks_html += f'<div class="benchmark-item"><strong>{drug}:</strong> {value}</div>'
-
-            endpoint_cards += f"""
-            <div class="definition-card">
-                <h4>{name}</h4>
-                <p class="full-name">{defn.get('full_name', '')}</p>
-                <p class="description">{defn.get('description', '')}</p>
-                <p class="scoring"><strong>Scoring:</strong> {defn.get('scoring', 'N/A') if isinstance(defn.get('scoring'), str) else 'See details'}</p>
-                {f'<div class="benchmarks"><strong>Comparator Benchmarks:</strong>{benchmarks_html}</div>' if benchmarks_html else ''}
-            </div>
-            """
-
-        endpoints_section = f"""
-        <div class="card">
-            <button class="collapsible">Endpoint Definitions</button>
-            <div class="content">
-                <div class="definitions-grid">{endpoint_cards}</div>
             </div>
         </div>
         """
@@ -318,7 +416,6 @@ def _generate_clinical_html(data: dict) -> str:
         }}
         .container {{ max-width: 1100px; margin: 0 auto; }}
 
-        /* Header */
         .header {{
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
@@ -339,7 +436,6 @@ def _generate_clinical_html(data: dict) -> str:
         }}
         .badge-active {{ background: var(--success); }}
 
-        /* Cards */
         .card {{
             background: var(--card-bg);
             border-radius: 12px;
@@ -367,7 +463,6 @@ def _generate_clinical_html(data: dict) -> str:
             margin-left: auto;
             font-size: 1.2rem;
             color: var(--text-muted);
-            transition: transform 0.2s;
         }}
         .collapsible.active::after {{ content: '-'; }}
         .content {{
@@ -377,13 +472,11 @@ def _generate_clinical_html(data: dict) -> str:
         }}
         .content.show {{ display: block; }}
 
-        /* Trial info */
         .trial-meta {{ background: var(--bg); padding: 12px; border-radius: 8px; margin-bottom: 12px; }}
         .trial-meta p {{ margin: 4px 0; }}
         .safety-note {{ background: #f0fff4; border-left: 3px solid var(--success); padding: 10px 12px; margin: 12px 0; border-radius: 0 8px 8px 0; }}
         .comparison-note {{ background: #ebf8ff; border-left: 3px solid var(--accent); padding: 10px 12px; margin: 12px 0; border-radius: 0 8px 8px 0; }}
 
-        /* Tables */
         .endpoints-table {{ width: 100%; border-collapse: collapse; margin-top: 12px; }}
         .endpoints-table th, .endpoints-table td {{ padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }}
         .endpoints-table th {{ background: var(--bg); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); }}
@@ -391,12 +484,7 @@ def _generate_clinical_html(data: dict) -> str:
         .result-cell strong {{ color: var(--primary); }}
         .benchmark {{ font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }}
 
-        /* Tooltips */
-        .endpoint-name {{
-            border-bottom: 1px dotted var(--text-muted);
-            cursor: help;
-            position: relative;
-        }}
+        .endpoint-name {{ border-bottom: 1px dotted var(--text-muted); cursor: help; }}
         .method-badge {{
             display: inline-block;
             font-size: 0.7rem;
@@ -407,37 +495,12 @@ def _generate_clinical_html(data: dict) -> str:
             margin-left: 6px;
         }}
 
-        /* Thesis/Risks */
-        .thesis-item {{
-            background: #ebf8ff;
-            border-left: 4px solid var(--accent);
-            padding: 12px 16px;
-            margin: 8px 0;
-            border-radius: 0 8px 8px 0;
-        }}
-        .risk-item {{
-            background: #fff5f5;
-            border-left: 4px solid var(--danger);
-            padding: 12px 16px;
-            margin: 8px 0;
-            border-radius: 0 8px 8px 0;
-        }}
-        .catalyst-item {{
-            background: #fffff0;
-            border-left: 4px solid var(--warning);
-            padding: 12px 16px;
-            margin: 8px 0;
-            border-radius: 0 8px 8px 0;
-        }}
+        .thesis-item {{ background: #ebf8ff; border-left: 4px solid var(--accent); padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }}
+        .risk-item {{ background: #fff5f5; border-left: 4px solid var(--danger); padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }}
+        .catalyst-item {{ background: #fffff0; border-left: 4px solid var(--warning); padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }}
 
-        /* Definitions */
         .definitions-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }}
-        .definition-card {{
-            background: var(--bg);
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }}
+        .definition-card {{ background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--border); }}
         .definition-card h4 {{ margin: 0 0 8px 0; color: var(--primary); }}
         .definition-card .full-name {{ font-style: italic; color: var(--text-muted); margin: 0 0 8px 0; }}
         .definition-card .pathway {{ font-size: 0.9rem; margin: 4px 0; }}
@@ -446,10 +509,7 @@ def _generate_clinical_html(data: dict) -> str:
         .methods {{ margin-top: 12px; }}
         .method-item {{ background: white; padding: 8px; margin: 4px 0; border-radius: 4px; font-size: 0.9rem; }}
         .method-detail {{ display: block; color: var(--text-muted); font-size: 0.8rem; }}
-        .benchmarks {{ margin-top: 12px; }}
-        .benchmark-item {{ font-size: 0.9rem; margin: 4px 0; }}
 
-        /* Indications */
         .indication-badge {{
             display: inline-block;
             background: var(--bg);
@@ -498,7 +558,6 @@ def _generate_clinical_html(data: dict) -> str:
 
         <h2 style="margin-top: 30px; color: var(--primary);">Reference Definitions</h2>
         {biomarkers_section}
-        {endpoints_section}
     </div>
 
     <script>
@@ -523,7 +582,8 @@ def _build_tooltip_content(endpoint_name: str, definition: dict) -> str:
     if definition.get("full_name"):
         parts.append(definition["full_name"])
     if definition.get("description"):
-        parts.append(definition["description"][:100] + "..." if len(definition.get("description", "")) > 100 else definition["description"])
+        desc = definition["description"]
+        parts.append(desc[:100] + "..." if len(desc) > 100 else desc)
     return " | ".join(parts).replace('"', "'")
 
 

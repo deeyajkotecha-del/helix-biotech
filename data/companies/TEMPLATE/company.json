@@ -1,0 +1,80 @@
+{
+  "_template_version": "1.0",
+  "_instructions": "Copy this directory to data/companies/{TICKER}/ and fill in the data",
+
+  "name": "Company Name",
+  "ticker": "TICK",
+  "headquarters": "City, State",
+  "website": "https://www.company.com",
+  "ir_page": "https://ir.company.com",
+
+  "description": "Brief company description (2-3 sentences)",
+
+  "classification": {
+    "development_stage": "mid_clinical",
+    "modality": "small_molecule",
+    "modality_subtype": "",
+    "therapeutic_area": "oncology_precision",
+    "therapeutic_subtype": ""
+  },
+
+  "financials": {
+    "market_cap_mm": 0,
+    "cash_mm": 0,
+    "debt_mm": 0,
+    "cash_runway": "Into 2027",
+    "last_updated": "2026-01-01"
+  },
+
+  "fund_position": {
+    "ownership_pct": 0,
+    "cost_basis": 0,
+    "priority": "high",
+    "thesis_type": "binary_event"
+  },
+
+  "investment_thesis": [
+    "Thesis point 1",
+    "Thesis point 2",
+    "Thesis point 3"
+  ],
+
+  "key_risks": [
+    "Risk 1",
+    "Risk 2",
+    "Risk 3"
+  ],
+
+  "partnerships": [
+    {
+      "partner": "Partner Name",
+      "asset": "Asset Name",
+      "value": "$XXM upfront + milestones",
+      "status": "Active",
+      "notes": ""
+    }
+  ],
+
+  "management": {
+    "ceo": "CEO Name",
+    "cmo": "CMO Name",
+    "cfo": "CFO Name"
+  },
+
+  "targets": {
+    "TARGET_NAME": {
+      "name": "TARGET_NAME",
+      "full_name": "Full Target Name",
+      "type": "Kinase",
+      "pathway": "Signaling pathway",
+      "validation": {
+        "genetic": "Genetic validation evidence",
+        "clinical": "Clinical validation evidence"
+      },
+      "why_undrugged": "Why this target was previously difficult",
+      "companies_developing": [
+        {"company": "Company Name", "asset": "Asset Name", "stage": "Phase X", "mechanism": "Mechanism"}
+      ]
+    }
+  }
+}

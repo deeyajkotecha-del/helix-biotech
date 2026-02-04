@@ -1,0 +1,156 @@
+{
+  "STAT6": {
+    "name": "STAT6",
+    "full_name": "Signal Transducer and Activator of Transcription 6",
+    "type": "Transcription Factor",
+    "pathway": "IL-4/IL-13 signaling",
+    "biology": "STAT6 is phosphorylated and activated when IL-4 or IL-13 binds to their receptors. Activated STAT6 translocates to the nucleus and drives transcription of genes involved in Type 2 inflammation, including those for IgE class switching, mucus production, and Th2 differentiation.",
+    "role_in_disease": {
+      "AD": "Drives skin barrier dysfunction, itch, and inflammation",
+      "Asthma": "Promotes mucus hypersecretion, airway hyperreactivity, eosinophilia",
+      "EoE": "Drives eosinophil recruitment to esophagus"
+    },
+    "measurement_methods": {
+      "flow_cytometry": {
+        "description": "Intracellular staining of STAT6 protein in blood cells",
+        "sample": "Whole blood or PBMCs",
+        "readout": "% STAT6+ cells or Mean Fluorescence Intensity",
+        "used_for": "Blood STAT6 levels"
+      },
+      "targeted_mass_spectrometry": {
+        "description": "Quantitative measurement of STAT6 protein in tissue",
+        "sample": "Skin biopsy",
+        "readout": "Absolute protein quantification",
+        "used_for": "Skin STAT6 levels (target tissue)"
+      },
+      "immunohistochemistry": {
+        "description": "Visualization of STAT6 protein in tissue sections",
+        "sample": "Skin biopsy",
+        "readout": "Staining intensity and distribution",
+        "used_for": "Localization and semi-quantification"
+      }
+    },
+    "clinical_significance": "STAT6 degradation >90% indicates complete pathway blockade, equivalent to biologic-level inhibition",
+    "reference_drug": "Dupixent blocks IL-4R\u03b1 upstream of STAT6; STAT6 degradation achieves same pathway blockade"
+  },
+  "TARC": {
+    "name": "TARC",
+    "full_name": "Thymus and Activation-Regulated Chemokine (CCL17)",
+    "type": "Chemokine",
+    "pathway": "IL-4/IL-13 \u2192 STAT6 \u2192 TARC transcription",
+    "biology": "TARC is produced by dendritic cells and keratinocytes in response to STAT6 activation. It recruits CCR4+ T cells (Th2 cells) to sites of inflammation.",
+    "role_in_disease": {
+      "AD": "Elevated in AD patients; correlates with disease severity; recruits inflammatory T cells to skin"
+    },
+    "measurement_methods": {
+      "serum_elisa": {
+        "description": "ELISA or MSD VPLEX assay",
+        "sample": "Serum",
+        "readout": "pg/mL concentration",
+        "normal_range": "<450 pg/mL in healthy adults"
+      }
+    },
+    "clinical_significance": "Serum TARC is a validated biomarker of Type 2 inflammation in AD; reduction indicates on-target activity",
+    "reference_drug": "Dupixent reduces TARC ~50-70% in AD patients"
+  },
+  "Eotaxin-3": {
+    "name": "Eotaxin-3",
+    "full_name": "CCL26",
+    "type": "Chemokine",
+    "pathway": "IL-4/IL-13 \u2192 STAT6 \u2192 Eotaxin-3 transcription",
+    "biology": "Eotaxin-3 is a potent eosinophil chemoattractant produced by epithelial cells in response to IL-4/IL-13. It recruits eosinophils to inflamed tissues.",
+    "role_in_disease": {
+      "AD": "Drives eosinophil infiltration into skin lesions",
+      "Asthma": "Recruits eosinophils to airways",
+      "EoE": "Key driver of esophageal eosinophilia"
+    },
+    "measurement_methods": {
+      "serum_elisa": {
+        "description": "MSD VPLEX or ELISA",
+        "sample": "Serum",
+        "readout": "pg/mL concentration"
+      }
+    },
+    "clinical_significance": "Reduction indicates decreased eosinophil recruitment; predicts efficacy in eosinophilic diseases"
+  },
+  "IgE": {
+    "name": "IgE",
+    "full_name": "Immunoglobulin E",
+    "type": "Antibody",
+    "pathway": "IL-4 \u2192 STAT6 \u2192 B cell class switching to IgE",
+    "biology": "IgE is produced by B cells after IL-4-driven class switching. It binds to mast cells and basophils, triggering allergic responses upon allergen exposure.",
+    "role_in_disease": {
+      "AD": "Elevated total IgE in ~80% of AD patients; allergen-specific IgE drives flares",
+      "Asthma": "Mediates allergic asthma; target of omalizumab"
+    },
+    "measurement_methods": {
+      "serum_immunoassay": {
+        "description": "Chemiluminescent immunoassay",
+        "sample": "Serum",
+        "readout": "IU/mL",
+        "normal_range": "<100 IU/mL in adults"
+      }
+    },
+    "clinical_significance": "IgE reduction indicates suppression of allergic arm of Type 2 response; slower to change than TARC/Eotaxin"
+  },
+  "IL-31": {
+    "name": "IL-31",
+    "full_name": "Interleukin-31",
+    "type": "Cytokine",
+    "pathway": "Produced by activated Th2 cells",
+    "biology": "IL-31 signals through IL-31RA/OSMR receptor complex on sensory neurons, keratinocytes, and immune cells. It is a key pruritogenic (itch-causing) cytokine.",
+    "role_in_disease": {
+      "AD": "Major driver of itch; correlates with pruritus severity; elevated in lesional skin"
+    },
+    "measurement_methods": {
+      "serum_elisa": {
+        "description": "High-sensitivity ELISA",
+        "sample": "Serum",
+        "readout": "pg/mL"
+      }
+    },
+    "clinical_significance": "IL-31 reduction correlates with itch improvement; nemolizumab (anti-IL-31RA) validates this target"
+  },
+  "IRF5": {
+    "name": "IRF5",
+    "full_name": "Interferon Regulatory Factor 5",
+    "type": "Transcription Factor",
+    "pathway": "TLR/MyD88 \u2192 IRF5 activation \u2192 Type I IFN + pro-inflammatory cytokines",
+    "biology": "IRF5 is a master regulator of innate immunity. Upon TLR stimulation, it is phosphorylated and translocates to the nucleus to drive transcription of Type I interferons (IFN\u03b1/\u03b2), TNF\u03b1, IL-6, IL-12, IL-23, and other pro-inflammatory mediators.",
+    "role_in_disease": {
+      "SLE": "IRF5 risk variants increase susceptibility; drives IFN signature and autoantibody production",
+      "RA": "Drives TNF\u03b1 and IL-6 in synovium",
+      "Sj\u00f6gren's": "IRF5 variants associated; drives glandular inflammation"
+    },
+    "measurement_methods": {
+      "flow_cytometry": {
+        "description": "Intracellular staining in PBMCs",
+        "sample": "Whole blood",
+        "readout": "% IRF5+ cells or MFI"
+      }
+    },
+    "clinical_significance": "IRF5 degradation blocks multiple pathogenic pathways simultaneously - broader than single-cytokine approaches",
+    "genetic_validation": "GWAS identifies IRF5 as autoimmune susceptibility gene"
+  },
+  "IRAK4": {
+    "name": "IRAK4",
+    "full_name": "Interleukin-1 Receptor Associated Kinase 4",
+    "type": "Scaffolding Kinase",
+    "pathway": "IL-1R/TLR \u2192 MyD88 \u2192 IRAK4 \u2192 TRAF6 \u2192 NF-\u03baB \u2192 inflammation",
+    "biology": "IRAK4 is an obligate signaling node downstream of IL-1R and most TLRs. It has both kinase activity AND scaffolding function in the Myddosome complex. Both functions contribute to inflammatory signaling.",
+    "role_in_disease": {
+      "HS": "IL-1 signaling drives neutrophilic inflammation in hair follicles",
+      "AD": "IL-33 signaling contributes to Type 2 inflammation",
+      "RA": "IL-1 drives synovial inflammation and joint destruction"
+    },
+    "measurement_methods": {
+      "flow_cytometry": {
+        "description": "Intracellular staining",
+        "sample": "PBMCs",
+        "readout": "% IRAK4+ cells"
+      }
+    },
+    "clinical_significance": "IRAK4 degradation blocks BOTH kinase and scaffolding functions - more complete than kinase inhibitors",
+    "genetic_validation": "IRAK4-null humans are healthy \u2192 validates safety of complete inhibition"
+  }
+}

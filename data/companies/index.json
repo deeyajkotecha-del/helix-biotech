@@ -1,0 +1,128 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-02-04",
+  "description": "Master index of biopharma companies with classification metadata",
+
+  "companies": [
+    {
+      "ticker": "KYMR",
+      "name": "Kymera Therapeutics",
+      "development_stage": "mid_clinical",
+      "modality": "small_molecule",
+      "modality_subtype": "Degrader/PROTAC",
+      "therapeutic_area": "i_and_i_autoimmune",
+      "therapeutic_subtype": "Dermatology",
+      "thesis_type": "sum_of_parts",
+      "market_cap_mm": 2100,
+      "fund_ownership_pct": 4.2,
+      "priority": "high",
+      "has_data": true,
+      "notes": "Lead degrader company; KT-621 (STAT6) in Phase 2b AD"
+    },
+    {
+      "ticker": "ASND",
+      "name": "Ascendis Pharma",
+      "development_stage": "commercial_stage",
+      "modality": "antibody_biologics",
+      "modality_subtype": "Fc-Fusion",
+      "therapeutic_area": "rare_metabolic",
+      "therapeutic_subtype": "Endocrine",
+      "thesis_type": "commercial_compounder",
+      "market_cap_mm": 8500,
+      "fund_ownership_pct": 3.1,
+      "priority": "high",
+      "has_data": false,
+      "notes": "TransCon platform; Skytrofa approved, YORVIPATH launch"
+    },
+    {
+      "ticker": "ARGX",
+      "name": "argenx SE",
+      "development_stage": "commercial_stage",
+      "modality": "antibody_biologics",
+      "modality_subtype": "mAb",
+      "therapeutic_area": "rare_genetic",
+      "therapeutic_subtype": "Neurologic",
+      "thesis_type": "commercial_compounder",
+      "market_cap_mm": 35000,
+      "fund_ownership_pct": 2.8,
+      "priority": "high",
+      "has_data": false,
+      "notes": "Vyvgart blockbuster; FcRn leader; multiple indications"
+    },
+    {
+      "ticker": "NUVL",
+      "name": "Nuvalent",
+      "development_stage": "late_clinical",
+      "modality": "small_molecule",
+      "modality_subtype": "Kinase Inhibitor",
+      "therapeutic_area": "oncology_precision",
+      "therapeutic_subtype": "Solid Tumor",
+      "thesis_type": "binary_event",
+      "market_cap_mm": 6200,
+      "fund_ownership_pct": 5.1,
+      "priority": "high",
+      "has_data": false,
+      "notes": "NVL-520 (ROS1) and NVL-655 (ALK) in lung cancer"
+    },
+    {
+      "ticker": "CNTA",
+      "name": "Centessa Pharmaceuticals",
+      "development_stage": "mid_clinical",
+      "modality": "small_molecule",
+      "modality_subtype": "Enzyme Inhibitor",
+      "therapeutic_area": "cardiometabolic",
+      "therapeutic_subtype": "CV",
+      "thesis_type": "sum_of_parts",
+      "market_cap_mm": 1800,
+      "fund_ownership_pct": 3.5,
+      "priority": "high",
+      "has_data": false,
+      "notes": "Lixisenatide in PH; ORX750 in narcolepsy"
+    },
+    {
+      "ticker": "SLNO",
+      "name": "Soleno Therapeutics",
+      "development_stage": "late_clinical",
+      "modality": "small_molecule",
+      "modality_subtype": "GPCR Modulator",
+      "therapeutic_area": "rare_genetic",
+      "therapeutic_subtype": "Metabolic",
+      "thesis_type": "ma_target",
+      "market_cap_mm": 1400,
+      "fund_ownership_pct": 2.2,
+      "priority": "high",
+      "has_data": false,
+      "notes": "Diazoxide choline (DCCR) for Prader-Willi syndrome"
+    },
+    {
+      "ticker": "EWTX",
+      "name": "Edgewise Therapeutics",
+      "development_stage": "mid_clinical",
+      "modality": "small_molecule",
+      "modality_subtype": "Enzyme Inhibitor",
+      "therapeutic_area": "rare_genetic",
+      "therapeutic_subtype": "Muscular",
+      "thesis_type": "binary_event",
+      "market_cap_mm": 2400,
+      "fund_ownership_pct": 4.8,
+      "priority": "high",
+      "has_data": false,
+      "notes": "Sevasemten (EDG-5506) for DMD; muscle-selective myosin inhibitor"
+    }
+  ],
+
+  "stats": {
+    "total_companies": 7,
+    "with_data": 1,
+    "by_priority": {
+      "high": 7,
+      "medium": 0,
+      "low": 0
+    },
+    "by_stage": {
+      "commercial_stage": 2,
+      "late_clinical": 2,
+      "mid_clinical": 3
+    }
+  }
+}

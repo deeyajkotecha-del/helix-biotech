@@ -1,0 +1,51 @@
+{
+  "_template_version": "1.0",
+  "_instructions": "Track upcoming catalysts with dates and expected impact",
+
+  "catalysts": [
+    {
+      "date": "2027-Q1",
+      "date_precision": "quarter",
+      "event": "Phase 2 data readout",
+      "asset": "ASSET-001",
+      "indication": "Primary indication",
+      "expected_impact": "high",
+      "notes": "Pivotal readout; success criteria: >50% response rate",
+      "base_case": "Positive data leads to Phase 3 initiation",
+      "bull_case": "Strong data supports accelerated approval path",
+      "bear_case": "Missed primary endpoint; program discontinued"
+    },
+    {
+      "date": "2027-03-15",
+      "date_precision": "exact",
+      "event": "PDUFA date",
+      "asset": "ASSET-002",
+      "indication": "Lead indication",
+      "expected_impact": "high",
+      "notes": "Binary approval event",
+      "probability_success": 0.85
+    },
+    {
+      "date": "2027-H1",
+      "date_precision": "half",
+      "event": "Conference presentation",
+      "conference": "ASCO 2027",
+      "asset": "ASSET-001",
+      "expected_impact": "medium",
+      "notes": "Updated survival data"
+    }
+  ],
+
+  "catalyst_impact_legend": {
+    "high": "Stock moving event; >20% expected move",
+    "medium": "Meaningful update; 5-20% expected move",
+    "low": "Incremental update; <5% expected move"
+  },
+
+  "date_precision_legend": {
+    "exact": "Specific date known",
+    "quarter": "Expected within quarter",
+    "half": "Expected within half-year",
+    "year": "Expected sometime this year"
+  }
+}

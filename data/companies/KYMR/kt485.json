@@ -1,0 +1,92 @@
+{
+  "asset": {
+    "name": "KT-485",
+    "alternate_names": [
+      "SAR447971"
+    ],
+    "company": "Kymera Therapeutics",
+    "partner": "Sanofi",
+    "ticker": "KYMR",
+    "target": "IRAK4",
+    "target_full_name": "Interleukin-1 Receptor Associated Kinase 4",
+    "mechanism": "IRAK4 degrader (targeted protein degradation)",
+    "modality": "Oral small molecule degrader",
+    "pathway": "IL-1R/TLR/MyD88 signaling",
+    "generation": "Second-generation (improved over KT-474)"
+  },
+  "clinical_development": {
+    "current_stage": "IND-Enabling (Phase 1 expected 2026)",
+    "indications_in_development": [
+      "Hidradenitis Suppurativa (HS)",
+      "Atopic Dermatitis (AD)",
+      "Rheumatoid Arthritis (RA)",
+      "Asthma",
+      "Inflammatory Bowel Disease (IBD)"
+    ],
+    "market_opportunity": ">140M patients; systemic advanced therapies reach only 3%; >$55B market opportunity"
+  },
+  "target_biology": {
+    "description": "IRAK4 is a master regulator of innate immunity with both scaffolding and kinase functions.\nIt is an obligate node in IL-1R/TLR signaling. IRAK4 degradation is the only approach to fully block the pathway.",
+    "genetic_validation": "Adult humans with IRAK4 null mutation are healthy",
+    "pathway_validation": [
+      "IL-1\u03b1/IL-1\u03b2 validated in RA, CAPS, HS, AD, RP, Gout",
+      "IL-18 validated in AD, Macrophage Activation Syndrome",
+      "IL-36 validated in Generalized Pustular Psoriasis",
+      "IL-33 validated in Asthma, COPD",
+      "IRAK4 SMI showed activity in RA"
+    ],
+    "degrader_advantage": "Degradation eliminates both scaffolding AND kinase functions - more complete pathway blockade than kinase inhibitors"
+  },
+  "differentiation_vs_kt474": {
+    "description": "KT-485 is a second-generation IRAK4 degrader with improvements over KT-474",
+    "improvements": [
+      "Increased selectivity",
+      "Increased potency",
+      "Absence of any QTc signal (cardiac safety improvement)",
+      "Prioritized by Sanofi for clinical development over KT-474"
+    ]
+  },
+  "partnership": {
+    "partner": "Sanofi",
+    "structure": "Sanofi to advance KT-485 into Phase 1 and subsequent development",
+    "economics": "Kymera receives milestones and royalties",
+    "status": "Sanofi expected to initiate Phase 1 in 2026",
+    "learnings": "Clinical learnings from KT-474 studies will accelerate KT-485 development"
+  },
+  "trials": [
+    {
+      "name": "KT-485 Phase 1 Study",
+      "phase": "Phase 1",
+      "status": "Expected to initiate 2026",
+      "sponsor": "Sanofi",
+      "indication": "TBD (likely HS or AD based on KT-474 experience)",
+      "notes": "Sanofi leading development; Kymera provides support"
+    }
+  ],
+  "investment_thesis": [
+    "Second-generation IRAK4 degrader with improved profile over KT-474",
+    "Partnered with Sanofi - validates platform and provides development capital",
+    "Potential combined activity of multiple upstream biologics (anti-IL-1/18/33/36) in oral pill",
+    "KT-474 clinical learnings de-risk KT-485 development",
+    "No QTc signal - addresses key safety concern for IRAK4 inhibitors",
+    "Large market: >140M patients across HS, AD, RA, asthma, IBD",
+    "IRAK4 null humans are healthy - genetic validation for safety"
+  ],
+  "key_risks": [
+    "Dependent on Sanofi for clinical development execution",
+    "KT-474 development discontinued in favor of KT-485 - limited human data",
+    "IRAK4 degradation is novel mechanism - clinical validation needed",
+    "Competitive landscape includes JAK inhibitors, IL-1/IL-36 antibodies",
+    "HS is a difficult indication with high placebo response"
+  ],
+  "upcoming_catalysts": [
+    {
+      "event": "Sanofi Phase 1 initiation",
+      "timing": "2026"
+    },
+    {
+      "event": "Phase 1 safety/PK data",
+      "timing": "2027"
+    }
+  ]
+}

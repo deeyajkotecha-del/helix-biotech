@@ -1,0 +1,73 @@
+{
+  "_template_version": "1.0",
+  "_instructions": "Each asset gets its own file: {asset_name_lowercase}.json (e.g., kt621.json)",
+
+  "assets": [
+    {
+      "name": "ASSET-001",
+      "target": "TARGET",
+      "mechanism": "Mechanism description",
+      "modality": "Small molecule",
+      "stage": "Phase 2",
+      "lead_indication": "Primary indication",
+      "partner": null,
+
+      "clinical_development": {
+        "current_stage": "Phase 2",
+        "indications_in_development": [
+          "Indication 1",
+          "Indication 2"
+        ],
+        "market_opportunity": "$XB market"
+      },
+
+      "trials": [
+        {
+          "name": "Trial Name",
+          "nct_id": "NCT00000000",
+          "phase": "Phase 2",
+          "status": "Ongoing",
+          "indication": "Indication",
+          "design": "Randomized, double-blind, placebo-controlled",
+          "population": "Patient population description",
+          "n_target": 100,
+          "arms": [
+            {"name": "Placebo", "n": 33},
+            {"name": "Asset Low Dose", "dose": "Xmg", "frequency": "QD", "n": 33},
+            {"name": "Asset High Dose", "dose": "Ymg", "frequency": "QD", "n": 33}
+          ],
+          "primary_endpoint": "Primary endpoint description",
+          "secondary_endpoints": ["Secondary 1", "Secondary 2"],
+          "duration": "X weeks",
+          "endpoints": [
+            {
+              "name": "Endpoint Name",
+              "category": "primary",
+              "result": "Result value",
+              "dose_group": "Dose group",
+              "timepoint": "Week X",
+              "p_value": 0.01,
+              "notes": "Additional context"
+            }
+          ],
+          "safety": "Safety summary",
+          "data_expected": "Q1 2027"
+        }
+      ],
+
+      "investment_thesis": [
+        "Asset-specific thesis point 1",
+        "Asset-specific thesis point 2"
+      ],
+
+      "key_risks": [
+        "Asset-specific risk 1",
+        "Asset-specific risk 2"
+      ],
+
+      "upcoming_catalysts": [
+        {"event": "Catalyst description", "timing": "Q1 2027"}
+      ]
+    }
+  ]
+}

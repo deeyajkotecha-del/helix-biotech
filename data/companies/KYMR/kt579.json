@@ -1,0 +1,123 @@
+{
+  "asset": {
+    "name": "KT-579",
+    "company": "Kymera Therapeutics",
+    "ticker": "KYMR",
+    "target": "IRF5",
+    "target_full_name": "Interferon Regulatory Factor 5",
+    "mechanism": "IRF5 degrader (targeted protein degradation)",
+    "modality": "Oral small molecule degrader",
+    "pathway": "Toll-like receptor / MyD88 signaling",
+    "first_in_class": true
+  },
+  "clinical_development": {
+    "current_stage": "Phase 1",
+    "indications_in_development": [
+      "Systemic Lupus Erythematosus (SLE)",
+      "Sj\u00f6gren's Syndrome",
+      "Rheumatoid Arthritis (RA)",
+      "Inflammatory Bowel Disease (IBD)",
+      "Systemic Sclerosis (SSc)",
+      "Dermatomyositis (DM)"
+    ],
+    "market_opportunity": ">10M patients; systemic advanced therapies reach only 7%; >$45B market (SLE, LN, RA, IBD alone)"
+  },
+  "target_biology": {
+    "description": "IRF5 is a genetically validated transcription factor and master regulator of immunity. \nIt regulates pro-inflammatory cytokines, Type I IFN production, and autoantibody production in a \ncell and activation-specific manner.",
+    "genetic_validation": [
+      "IRF5 functional risk variants associate with increased susceptibility to SLE, Sj\u00f6gren's, RA, IBD, SSc",
+      "IRF5 risk haplotypes in SLE patients associated with high serum IFN\u03b1, anti-dsDNA antibodies",
+      "IRF5 KO mice are viable, fertile, with normal B cell development",
+      "IRF5 KO protects against disease in models of SLE, SSc, RA, IBD"
+    ],
+    "pathway_validation": "IRF5-regulated pathways clinically validated by anti-IFN, anti-TNF, IL-6, IL-12, IL-23 antibodies, B cell targeting agents",
+    "degrader_advantage": "Conventional approaches failed due to multiple activation steps and IRF family homology; TPD allows single binding event to deplete protein"
+  },
+  "preclinical_data": {
+    "potency": {
+      "description": "Exquisitely selective, picomolar IRF5 degrader",
+      "dc50_pbmc": "0.8 nM",
+      "dc50_b_cells": "1.0 nM",
+      "dc50_monocytes": "0.6 nM",
+      "dc50_pDCs": "0.9 nM",
+      "dc50_mDCs": "0.9 nM",
+      "selectivity": "No binding to IRF3, 4, 6, 7, 8 (Kd >10,000 nM); no degradation of IRF3/IRF7"
+    },
+    "functional_activity": {
+      "type1_ifn_inhibition": "DC50 0.3-0.8 nM (IFN\u03b2 production via TLR7/8/9)",
+      "proinflammatory_cytokines": "DC50 0.15-1.8 nM (TNF\u03b1, IL-12p40, IL-1\u03b2, IL-23)",
+      "igg_reduction": "Reduces TLR9-induced IgG production in SLE-derived B cells"
+    },
+    "in_vivo_efficacy": {
+      "mrl_lpr_lupus": {
+        "description": "MRL/lpr spontaneous lupus mouse model - 63 days dosing",
+        "survival": "100% (15/15) vs 67% vehicle - superior to all comparators",
+        "anti_dsDNA": "Sustained reduction in serum anti-dsDNA antibodies",
+        "plasmablasts": "Significant reduction in splenic plasmablasts",
+        "kidney": "Reduced IgG/C3 glomerular staining; reduced total kidney lesion score",
+        "vs_comparators": "Superior to Afimetoran, Deucravacitinib, Cyclophosphamide, anti-IFNAR"
+      },
+      "nzbw_lupus": {
+        "description": "NZB.W1 spontaneous lupus mouse model - 107 days dosing",
+        "proteinuria": "Decreased proteinuria",
+        "anti_dsDNA": "Near complete reduction in anti-dsDNA antibodies - superior to SOC",
+        "ifn_genes": "Significantly reduced OAS1, IFIT1, IF44 (interferon signature genes)"
+      },
+      "aia_ra": {
+        "description": "Antigen-Induced Arthritis (AIA) mouse model of RA",
+        "joint_swelling": "Significant reduction comparable to Tofacitinib",
+        "il12p40": "Reduced circulating IL-12p40",
+        "th1_cells": "Reduced synovial infiltrating IFN\u03b3+ Th1 cells"
+      }
+    },
+    "safety": {
+      "nhp_degradation": "82-97% IRF5 degradation in NHP blood after 7 days oral QD dosing (1-30 mg/kg)",
+      "toxicology": "No adverse effects at up to 200-fold predicted human efficacious exposure in NHP and rodent studies"
+    }
+  },
+  "trials": [
+    {
+      "name": "KT-579 Phase 1 Healthy Volunteer Study",
+      "phase": "Phase 1",
+      "status": "Starting Q1 2026",
+      "indication": "Healthy Volunteers",
+      "design": "SAD/MAD, randomized, placebo-controlled",
+      "primary_endpoint": "Safety, tolerability, PK",
+      "secondary_endpoints": [
+        "IRF5 degradation in blood",
+        "Cytokine inhibition"
+      ],
+      "data_expected": "2H 2026"
+    }
+  ],
+  "investment_thesis": [
+    "First-in-class oral IRF5 degrader - no existing drugs target this validated transcription factor",
+    "Strong genetic validation: IRF5 risk variants linked to SLE, Sj\u00f6gren's, RA, IBD, SSc",
+    "Preclinical efficacy superior to approved/clinical-stage drugs in lupus and RA models",
+    "Broad mechanism: blocks Type I IFN, pro-inflammatory cytokines, AND autoantibodies",
+    "Potential for disease modification vs symptom control",
+    "Large market opportunity: >$45B across SLE, RA, IBD",
+    "Excellent preclinical safety at 200x human efficacious exposure"
+  ],
+  "key_risks": [
+    "No human clinical data yet - Phase 1 starting Q1 2026",
+    "IRF5 biology complex - effects may differ in humans vs preclinical models",
+    "Autoimmune diseases notoriously difficult - many failures in SLE",
+    "Will need to show differentiation vs existing JAK inhibitors, anti-IFN antibodies",
+    "Long development timelines in autoimmune indications"
+  ],
+  "upcoming_catalysts": [
+    {
+      "event": "Phase 1 HV study initiation",
+      "timing": "Q1 2026"
+    },
+    {
+      "event": "Phase 1 HV data (safety, PK, IRF5 degradation)",
+      "timing": "2H 2026"
+    },
+    {
+      "event": "Patient study initiation (likely SLE)",
+      "timing": "2027"
+    }
+  ]
+}

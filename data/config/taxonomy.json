@@ -1,0 +1,192 @@
+{
+  "version": "1.0",
+  "description": "Biopharma company classification taxonomy for investment analysis",
+
+  "development_stage": {
+    "description": "Company maturity based on pipeline and revenue stage",
+    "tiers": [
+      {
+        "id": "large_cap_diversified",
+        "name": "Large Cap Diversified",
+        "description": "Multiple approved products, diversified pipeline, typically >$10B market cap",
+        "examples": ["ABBV", "BMY", "GILD"]
+      },
+      {
+        "id": "commercial_stage",
+        "name": "Commercial Stage",
+        "description": "1-3 approved products generating revenue, active pipeline",
+        "examples": ["ARGX", "BMRN", "ALNY"]
+      },
+      {
+        "id": "late_clinical",
+        "name": "Late Clinical",
+        "description": "Lead asset in Phase 3 or NDA/BLA filed, pre-revenue or minimal revenue",
+        "examples": ["NUVL", "ASND", "KRYS"]
+      },
+      {
+        "id": "mid_clinical",
+        "name": "Mid Clinical",
+        "description": "Lead asset in Phase 2, proof-of-concept data available or pending",
+        "examples": ["KYMR", "EWTX", "CNTA"]
+      },
+      {
+        "id": "early_clinical",
+        "name": "Early Clinical",
+        "description": "Lead asset in Phase 1 or IND-enabling, high-risk/high-reward",
+        "examples": ["SLNO", "ADMA"]
+      }
+    ]
+  },
+
+  "modality": {
+    "description": "Primary therapeutic modality/platform technology",
+    "tiers": [
+      {
+        "id": "small_molecule",
+        "name": "Small Molecule",
+        "description": "Traditional oral/injectable small molecule drugs",
+        "subtypes": ["Kinase Inhibitor", "Degrader/PROTAC", "Molecular Glue", "Enzyme Inhibitor", "GPCR Modulator"]
+      },
+      {
+        "id": "antibody_biologics",
+        "name": "Antibody/Biologics",
+        "description": "Monoclonal antibodies, bispecifics, ADCs, fusion proteins",
+        "subtypes": ["mAb", "Bispecific", "ADC", "Fc-Fusion", "Nanobody"]
+      },
+      {
+        "id": "rna_therapeutics",
+        "name": "RNA Therapeutics",
+        "description": "mRNA, siRNA, ASO-based therapeutics",
+        "subtypes": ["mRNA", "siRNA", "ASO", "saRNA"]
+      },
+      {
+        "id": "gene_therapy",
+        "name": "Gene Therapy",
+        "description": "AAV, lentiviral, and other gene delivery platforms",
+        "subtypes": ["AAV", "Lentiviral", "Non-Viral", "Gene Editing"]
+      },
+      {
+        "id": "cell_therapy",
+        "name": "Cell Therapy",
+        "description": "CAR-T, CAR-NK, TIL, and other cell-based therapies",
+        "subtypes": ["CAR-T", "CAR-NK", "TIL", "Stem Cell", "iPSC-derived"]
+      },
+      {
+        "id": "oligonucleotide",
+        "name": "Oligonucleotide",
+        "description": "Antisense, splice-switching, and other oligo-based approaches",
+        "subtypes": ["Splice Modulator", "Exon Skipping", "Gene Silencing"]
+      }
+    ]
+  },
+
+  "therapeutic_area": {
+    "description": "Primary therapeutic focus area",
+    "tiers": [
+      {
+        "id": "oncology_precision",
+        "name": "Oncology-Precision",
+        "description": "Targeted oncology with biomarker-driven patient selection",
+        "subtypes": ["Solid Tumor", "Hematologic", "Rare Cancer"]
+      },
+      {
+        "id": "oncology_io",
+        "name": "Oncology-IO",
+        "description": "Immuno-oncology approaches (checkpoint, cell therapy, etc.)",
+        "subtypes": ["Checkpoint", "Cell Therapy", "Bispecific", "ADC"]
+      },
+      {
+        "id": "rare_genetic",
+        "name": "Rare-Genetic",
+        "description": "Rare diseases with clear genetic etiology",
+        "subtypes": ["Neurologic", "Metabolic", "Hematologic", "Muscular"]
+      },
+      {
+        "id": "rare_metabolic",
+        "name": "Rare-Metabolic",
+        "description": "Rare metabolic disorders and enzyme deficiencies",
+        "subtypes": ["Lysosomal Storage", "Amino Acid", "Lipid"]
+      },
+      {
+        "id": "neuropsychiatry",
+        "name": "Neuropsychiatry",
+        "description": "CNS disorders including neuro and psychiatric conditions",
+        "subtypes": ["Neurodegenerative", "Psychiatric", "Pain", "Movement Disorder"]
+      },
+      {
+        "id": "i_and_i_autoimmune",
+        "name": "I&I/Autoimmune",
+        "description": "Immunology and autoimmune/inflammatory diseases",
+        "subtypes": ["Dermatology", "Rheumatology", "GI", "Respiratory"]
+      },
+      {
+        "id": "cardiometabolic",
+        "name": "Cardiometabolic",
+        "description": "Cardiovascular and metabolic diseases",
+        "subtypes": ["CV", "Obesity", "Diabetes", "NASH/MASH"]
+      },
+      {
+        "id": "ophthalmology",
+        "name": "Ophthalmology",
+        "description": "Eye diseases and vision disorders",
+        "subtypes": ["Retinal", "Glaucoma", "Corneal", "Dry Eye"]
+      },
+      {
+        "id": "infectious_disease",
+        "name": "Infectious Disease",
+        "description": "Vaccines, antivirals, antibiotics",
+        "subtypes": ["Viral", "Bacterial", "Vaccines"]
+      }
+    ]
+  },
+
+  "thesis_type": {
+    "description": "Investment thesis archetype for position sizing and risk management",
+    "tiers": [
+      {
+        "id": "platform_royalty",
+        "name": "Platform/Royalty",
+        "description": "Value driven by platform partnerships, royalties, or multiple pipeline shots on goal",
+        "characteristics": ["Diversified risk", "Recurring revenue potential", "Partner validation"],
+        "examples": ["ROIV", "ALNY"]
+      },
+      {
+        "id": "binary_event",
+        "name": "Binary Event",
+        "description": "Near-term catalyst (data readout, approval) that will significantly move stock",
+        "characteristics": ["High conviction required", "Position sizing critical", "Defined timeline"],
+        "examples": ["ASND", "NUVL"]
+      },
+      {
+        "id": "commercial_compounder",
+        "name": "Commercial Compounder",
+        "description": "Growing commercial franchise with predictable revenue trajectory",
+        "characteristics": ["Revenue visibility", "Execution focus", "Multiple expansion potential"],
+        "examples": ["ARGX", "INSM"]
+      },
+      {
+        "id": "sum_of_parts",
+        "name": "Sum-of-Parts",
+        "description": "Multiple undervalued assets where total value > current market cap",
+        "characteristics": ["Catalyst-rich", "Option value", "Potential for re-rating"],
+        "examples": ["KYMR", "ARDX"]
+      },
+      {
+        "id": "ma_target",
+        "name": "M&A Target",
+        "description": "Strategic asset likely to be acquired, floor valuation from takeout",
+        "characteristics": ["Strategic fit", "Scarcity value", "Clean structure"],
+        "examples": ["SLNO", "HALO"]
+      }
+    ]
+  },
+
+  "priority_levels": {
+    "description": "Research priority for position sizing and coverage depth",
+    "tiers": [
+      {"id": "high", "name": "High", "description": "Core position, deep coverage required"},
+      {"id": "medium", "name": "Medium", "description": "Watchlist/smaller position, moderate coverage"},
+      {"id": "low", "name": "Low", "description": "Monitoring only, light coverage"}
+    ]
+  }
+}

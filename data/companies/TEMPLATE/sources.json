@@ -1,0 +1,77 @@
+{
+  "_template_version": "1.0",
+  "_instructions": "Track source documents for data extraction and verification",
+
+  "ir_resources": {
+    "corporate_presentation": {
+      "url": "https://ir.company.com/presentations",
+      "last_updated": "2026-01-15",
+      "filename": "Company_Corporate_Presentation_Jan2026.pdf"
+    },
+    "investor_day": {
+      "url": "",
+      "date": "",
+      "notes": ""
+    },
+    "sec_filings": {
+      "10k_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=XXXXXXXXXX&type=10-K",
+      "10q_url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=XXXXXXXXXX&type=10-Q"
+    }
+  },
+
+  "clinical_sources": [
+    {
+      "asset": "ASSET-001",
+      "trial": "Phase 2 Trial Name",
+      "source_type": "conference_presentation",
+      "conference": "Conference Name 2026",
+      "date": "2026-06-01",
+      "url": "",
+      "filename": "",
+      "data_extracted": true,
+      "notes": "Primary efficacy and safety data"
+    },
+    {
+      "asset": "ASSET-001",
+      "trial": "Phase 2 Trial Name",
+      "source_type": "publication",
+      "journal": "NEJM",
+      "date": "2026-07-15",
+      "doi": "10.1056/NEJMoa2600000",
+      "pubmed_id": "",
+      "data_extracted": false,
+      "notes": "Full trial publication"
+    },
+    {
+      "asset": "ASSET-001",
+      "source_type": "clinicaltrials_gov",
+      "nct_id": "NCT00000000",
+      "url": "https://clinicaltrials.gov/study/NCT00000000",
+      "last_checked": "2026-01-01"
+    }
+  ],
+
+  "regulatory_sources": [
+    {
+      "asset": "ASSET-001",
+      "document_type": "FDA_label",
+      "url": "",
+      "approval_date": ""
+    },
+    {
+      "asset": "ASSET-001",
+      "document_type": "EMA_EPAR",
+      "url": "",
+      "approval_date": ""
+    }
+  ],
+
+  "extraction_log": [
+    {
+      "date": "2026-02-01",
+      "source": "Corporate Presentation Jan 2026",
+      "data_extracted": ["KT-621 Phase 1b results", "Pipeline overview"],
+      "extracted_by": "analyst_initials"
+    }
+  ]
+}
