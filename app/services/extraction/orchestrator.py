@@ -238,6 +238,9 @@ class ExtractionOrchestrator:
         for filename, data in files.items():
             file_path = company_dir / filename
 
+            # Ensure parent directory exists (handles nested paths like kt485/sar447971.json)
+            Path(file_path).parent.mkdir(parents=True, exist_ok=True)
+
             # Add extraction metadata
             data["_last_extracted"] = datetime.now().isoformat()
 
