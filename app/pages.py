@@ -4,6 +4,39 @@ Generated from cli/src/commands/serve.ts data
 """
 
 from datetime import datetime
+from pathlib import Path
+import json
+
+# Load companies from index.json
+def load_companies_from_index():
+    """Load companies from data/companies/index.json"""
+    index_path = Path(__file__).parent.parent / "data" / "companies" / "index.json"
+    if index_path.exists():
+        with open(index_path) as f:
+            data = json.load(f)
+            return data.get("companies", [])
+    return []
+
+# Stage display labels
+STAGE_LABELS = {
+    "large_cap_diversified": "Large Cap",
+    "commercial_stage": "Commercial",
+    "late_clinical": "Late Clinical",
+    "mid_clinical": "Mid Clinical",
+    "early_clinical": "Early Clinical",
+    "preclinical": "Preclinical",
+}
+
+# Modality display labels
+MODALITY_LABELS = {
+    "small_molecule": "Small Molecule",
+    "antibody_biologics": "Antibody/Biologics",
+    "rna_therapeutics": "RNA Therapeutics",
+    "cell_gene_therapy": "Cell/Gene Therapy",
+    "radiopharmaceutical": "Radiopharm",
+    "platform_diversified": "Platform",
+    "mixed": "Multi-modality",
+}
 
 # Company data - 145 XBI companies in 11 categories
 COMPANIES = [
@@ -301,75 +334,193 @@ def get_base_styles():
     '''
 
 def generate_company_card(company):
-    tags_html = ''.join([f'<span class="tag">{tag}</span>' for tag in company.get("tags", [])[:3]])
-    approved_stat = f'<div class="stat"><span class="stat-value">{company["approved"]}</span><span class="stat-label">Approved</span></div>' if company.get("approved") else ""
+    """Generate a company card - supports both legacy format and index.json format."""
+    ticker = company.get("ticker", "")
+    name = company.get("name", ticker)
 
-    # Handle acquired companies
-    is_acquired = company.get("acquired", False)
-    card_class = "company-card acquired" if is_acquired else "company-card"
-    acquired_badge = '<span class="acquired-badge">Acquired</span>' if is_acquired else ""
-    acquisition_details = f'<div class="acquisition-details">{company.get("acquisition", "")}</div>' if is_acquired and company.get("acquisition") else ""
+    # Check for legacy format (has platform/description/tags)
+    if company.get("platform"):
+        # Legacy format with rich data
+        tags_html = ''.join([f'<span class="tag">{tag}</span>' for tag in company.get("tags", [])[:3]])
+        approved_stat = f'<div class="stat"><span class="stat-value">{company["approved"]}</span><span class="stat-label">Approved</span></div>' if company.get("approved") else ""
 
-    return f'''
-    <a href="/api/company/{company["ticker"]}/html" class="{card_class}">
-        <div class="card-header">
-            <div>
-                <div class="card-ticker-row">
-                    <span class="card-ticker">{company["ticker"]}</span>
-                    <span class="card-name">{company["name"]}</span>
-                    {acquired_badge}
+        is_acquired = company.get("acquired", False)
+        card_class = "company-card acquired" if is_acquired else "company-card"
+        acquired_badge = '<span class="acquired-badge">Acquired</span>' if is_acquired else ""
+        acquisition_details = f'<div class="acquisition-details">{company.get("acquisition", "")}</div>' if is_acquired and company.get("acquisition") else ""
+
+        return f'''
+        <a href="/api/clinical/companies/{ticker}/html" class="{card_class}">
+            <div class="card-header">
+                <div>
+                    <div class="card-ticker-row">
+                        <span class="card-ticker">{ticker}</span>
+                        <span class="card-name">{name}</span>
+                        {acquired_badge}
+                    </div>
+                    {acquisition_details}
                 </div>
-                {acquisition_details}
+                <span class="platform-badge">{company["platform"]}</span>
             </div>
-            <span class="platform-badge">{company["platform"]}</span>
-        </div>
-        <p class="card-description">{company["description"]}</p>
-        <div class="stats-row">
-            <div class="stat"><span class="stat-value">{company["market_cap"]}</span><span class="stat-label">Market Cap</span></div>
-            <div class="stat"><span class="stat-value">{company["pipeline"]}</span><span class="stat-label">Pipeline</span></div>
-            <div class="stat"><span class="stat-value">{company["phase3"]}</span><span class="stat-label">Phase 3</span></div>
-            {approved_stat}
-        </div>
-        <div class="catalyst-box">
-            <div class="catalyst-label">Next Catalyst</div>
-            <div class="catalyst-text">{company["catalyst"]}</div>
-        </div>
-        <div class="tags-row">{tags_html}</div>
-    </a>
-    '''
+            <p class="card-description">{company["description"]}</p>
+            <div class="stats-row">
+                <div class="stat"><span class="stat-value">{company["market_cap"]}</span><span class="stat-label">Market Cap</span></div>
+                <div class="stat"><span class="stat-value">{company["pipeline"]}</span><span class="stat-label">Pipeline</span></div>
+                <div class="stat"><span class="stat-value">{company["phase3"]}</span><span class="stat-label">Phase 3</span></div>
+                {approved_stat}
+            </div>
+            <div class="catalyst-box">
+                <div class="catalyst-label">Next Catalyst</div>
+                <div class="catalyst-text">{company["catalyst"]}</div>
+            </div>
+            <div class="tags-row">{tags_html}</div>
+        </a>
+        '''
+    else:
+        # index.json format - simpler card
+        stage = company.get("development_stage", "")
+        stage_label = STAGE_LABELS.get(stage, stage.replace("_", " ").title() if stage else "")
+        modality = company.get("modality", "")
+        modality_label = MODALITY_LABELS.get(modality, modality.replace("_", " ").title() if modality else "")
+        therapeutic = company.get("therapeutic_area", "")
+        therapeutic_label = therapeutic.replace("_", " ").title() if therapeutic else ""
+
+        has_data = company.get("has_data", False)
+        priority = company.get("priority", "").lower()
+        market_cap = company.get("market_cap_mm", "")
+        notes = company.get("notes", "")
+
+        # Priority badge
+        priority_class = f"priority-{priority}" if priority else ""
+        priority_badge = f'<span class="priority-badge {priority_class}">{priority.upper()}</span>' if priority else ""
+
+        # Data badge
+        data_badge = '<span class="data-badge">Has Data</span>' if has_data else ""
+
+        # Tags
+        tags = []
+        if modality_label:
+            tags.append(modality_label)
+        if therapeutic_label:
+            tags.append(therapeutic_label)
+        tags_html = ''.join([f'<span class="tag">{tag}</span>' for tag in tags[:3]])
+
+        return f'''
+        <a href="/api/clinical/companies/{ticker}/html" class="company-card">
+            <div class="card-header">
+                <div>
+                    <div class="card-ticker-row">
+                        <span class="card-ticker">{ticker}</span>
+                        <span class="card-name">{name}</span>
+                        {data_badge}
+                    </div>
+                </div>
+                {f'<span class="platform-badge">{stage_label}</span>' if stage_label else ''}
+            </div>
+            {f'<p class="card-description">{notes}</p>' if notes else '<p class="card-description" style="color: #999;">No description available</p>'}
+            <div class="stats-row">
+                {f'<div class="stat"><span class="stat-value">{market_cap}</span><span class="stat-label">Market Cap</span></div>' if market_cap else ''}
+                {priority_badge}
+            </div>
+            <div class="tags-row">{tags_html}</div>
+        </a>
+        '''
 
 def generate_companies_page():
-    # Group by category
-    by_category = {}
-    for company in ALL_COMPANIES:
-        cat = company.get("category", "other")
-        if cat not in by_category:
-            by_category[cat] = []
-        by_category[cat].append(company)
+    # Load companies from index.json
+    index_companies = load_companies_from_index()
 
-    # Category pills
+    # Merge: use index.json as base, overlay legacy data if available
+    legacy_by_ticker = {c["ticker"]: c for c in ALL_COMPANIES}
+    merged_companies = []
+
+    for company in index_companies:
+        ticker = company.get("ticker", "")
+        # If legacy data exists, prefer it (has richer descriptions)
+        if ticker in legacy_by_ticker:
+            legacy = legacy_by_ticker[ticker].copy()
+            # Add index.json fields that legacy doesn't have
+            legacy["has_data"] = company.get("has_data", False)
+            legacy["priority"] = company.get("priority", "")
+            legacy["development_stage"] = company.get("development_stage", "")
+            merged_companies.append(legacy)
+        else:
+            merged_companies.append(company)
+
+    # Sort by priority (high > medium > low) then by ticker
+    priority_order = {"high": 0, "medium": 1, "low": 2, "": 3}
+    merged_companies.sort(key=lambda c: (priority_order.get(c.get("priority", "").lower(), 3), c.get("ticker", "")))
+
+    # Group by development stage
+    stage_categories = {
+        "large_cap_diversified": "Large Cap",
+        "commercial_stage": "Commercial Stage",
+        "late_clinical": "Late Clinical (Phase 3)",
+        "mid_clinical": "Mid Clinical (Phase 2)",
+        "early_clinical": "Early Clinical (Phase 1)",
+        "preclinical": "Preclinical",
+    }
+
+    # Also group by legacy categories if present
+    by_stage = {}
+    by_legacy_cat = {}
+
+    for company in merged_companies:
+        # Index.json grouping by stage
+        stage = company.get("development_stage", "other")
+        if stage not in by_stage:
+            by_stage[stage] = []
+        by_stage[stage].append(company)
+
+        # Legacy grouping by category
+        cat = company.get("category", "")
+        if cat:
+            if cat not in by_legacy_cat:
+                by_legacy_cat[cat] = []
+            by_legacy_cat[cat].append(company)
+
+    # Build pills - use stage categories first, then legacy
     pills_html = '<a href="#all" class="category-pill active">All</a>'
-    for cat_id, cat_name in CATEGORIES.items():
-        count = len(by_category.get(cat_id, []))
-        if count > 0:
-            pills_html += f'<a href="#{cat_id}" class="category-pill">{cat_name} ({count})</a>'
+    pills_html += '<a href="#has-data" class="category-pill">Has Data</a>'
+    pills_html += '<a href="#high-priority" class="category-pill">High Priority</a>'
 
-    # Sections
+    for stage_id, stage_name in stage_categories.items():
+        count = len(by_stage.get(stage_id, []))
+        if count > 0:
+            pills_html += f'<a href="#{stage_id}" class="category-pill">{stage_name} ({count})</a>'
+
+    # Build sections by stage
     sections_html = ""
-    for cat_id, cat_name in CATEGORIES.items():
-        companies = by_category.get(cat_id, [])
+    for stage_id, stage_name in stage_categories.items():
+        companies = by_stage.get(stage_id, [])
         if not companies:
             continue
         cards_html = ''.join([generate_company_card(c) for c in companies])
         sections_html += f'''
-        <section class="section" id="{cat_id}">
+        <section class="section" id="{stage_id}">
             <div class="section-header">
-                <h2 class="section-title">{cat_name}</h2>
+                <h2 class="section-title">{stage_name}</h2>
                 <span class="section-count">{len(companies)}</span>
             </div>
             <div class="cards-grid">{cards_html}</div>
         </section>
         '''
+
+    # Add "other" section for companies without a stage
+    other_companies = by_stage.get("other", []) + by_stage.get("", [])
+    if other_companies:
+        cards_html = ''.join([generate_company_card(c) for c in other_companies])
+        sections_html += f'''
+        <section class="section" id="other">
+            <div class="section-header">
+                <h2 class="section-title">Other</h2>
+                <span class="section-count">{len(other_companies)}</span>
+            </div>
+            <div class="cards-grid">{cards_html}</div>
+        </section>
+        '''
+
+    total_count = len(merged_companies)
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -377,7 +528,7 @@ def generate_companies_page():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Companies | Satya Bio</title>
-    <meta name="description" content="Browse {len(ALL_COMPANIES)} biotech companies with pipeline data and catalyst tracking.">
+    <meta name="description" content="Browse {total_count} biotech companies with pipeline data and catalyst tracking.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     {get_base_styles()}
     <style>
@@ -385,6 +536,12 @@ def generate_companies_page():
         .search-input {{ width: 100%; max-width: 500px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }}
         .search-input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }}
         .results-count {{ color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }}
+        /* New badges for index.json data */
+        .data-badge {{ background: #c6f6d5; color: #22543d; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-left: 8px; }}
+        .priority-badge {{ padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }}
+        .priority-badge.priority-high {{ background: #fed7d7; color: #c53030; }}
+        .priority-badge.priority-medium {{ background: #fefcbf; color: #975a16; }}
+        .priority-badge.priority-low {{ background: #e2e8f0; color: #4a5568; }}
     </style>
 </head>
 <body>
@@ -392,12 +549,12 @@ def generate_companies_page():
     <main class="main">
         <div class="page-header">
             <h1 class="page-title">Companies</h1>
-            <p class="page-subtitle">{len(ALL_COMPANIES)} biotech companies with real-time catalyst tracking</p>
+            <p class="page-subtitle">{total_count} biotech companies with clinical data</p>
         </div>
         <div class="search-box">
             <input type="text" id="company-search" class="search-input" placeholder="Search by ticker, company name, or therapeutic area...">
         </div>
-        <p class="results-count" id="results-count">Showing {len(ALL_COMPANIES)} companies</p>
+        <p class="results-count" id="results-count">Showing {total_count} companies</p>
         <nav class="category-nav">
             <div class="category-pills">{pills_html}</div>
         </nav>
@@ -418,12 +575,24 @@ def generate_companies_page():
 
             sections.forEach(section => {{
                 const sectionId = section.id;
-                const matchCategory = activeCategory === 'all' || sectionId === activeCategory;
                 let sectionCount = 0;
 
                 section.querySelectorAll('.company-card').forEach(card => {{
                     const text = card.textContent.toLowerCase();
                     const matchSearch = !q || text.includes(q);
+
+                    // Handle special filters
+                    let matchCategory = true;
+                    if (activeCategory === 'all') {{
+                        matchCategory = true;
+                    }} else if (activeCategory === 'has-data') {{
+                        matchCategory = card.querySelector('.data-badge') !== null;
+                    }} else if (activeCategory === 'high-priority') {{
+                        matchCategory = card.querySelector('.priority-badge.priority-high') !== null;
+                    }} else {{
+                        matchCategory = sectionId === activeCategory;
+                    }}
+
                     if (matchCategory && matchSearch) {{
                         card.style.display = '';
                         sectionCount++;
