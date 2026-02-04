@@ -1613,14 +1613,16 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
     # Parse target - handle both v1.0 (flat) and v2.0 (nested) schemas
     if isinstance(target_data, dict):
-        target_name = target_data.get("name", "")
-        target_full = target_data.get("full_name", "")
+        # Handle both KYMR-style (name) and NUVL-style (primary_target) schemas
+        target_name = target_data.get("name", "") or target_data.get("primary_target", "")
+        target_full = target_data.get("full_name", "") or target_data.get("target_class", "")
         target_pathway = target_data.get("pathway", "")
 
         # v2.0 has nested biology object
         biology_data = target_data.get("biology", "")
         if isinstance(biology_data, dict):
-            target_biology = biology_data.get("simple_explanation", "") or biology_data.get("pathway_detail", "")
+            # Handle KYMR-style (simple_explanation) and NUVL-style (function) schemas
+            target_biology = biology_data.get("simple_explanation", "") or biology_data.get("pathway_detail", "") or biology_data.get("function", "")
             downstream = biology_data.get("downstream_effects", [])
         else:
             target_biology = biology_data
@@ -2022,6 +2024,76 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <p><strong>Population:</strong> {pop_str}</p>
             </div>
             {f'<div class="endpoints-section"><h5>Efficacy</h5><table class="data-table"><thead><tr><th>Endpoint</th><th>Result</th><th>Timepoint</th><th>vs Comparator</th></tr></thead><tbody>{efficacy_rows}</tbody></table></div>' if efficacy_rows else ''}
+            {safety_html}
+        </div>'''
+
+    # =======================================================================
+    # NUVL-STYLE FLAT CLINICAL DATA (trial_name at root, results as separate objects)
+    # =======================================================================
+    if not trials_html and clinical_data.get("trial_name"):
+        trial_name = clinical_data.get("trial_name", "")
+        trial_design = clinical_data.get("trial_design", {})
+        populations = clinical_data.get("populations", {})
+
+        design_phase = trial_design.get("phase", "") if isinstance(trial_design, dict) else ""
+        design_desc = trial_design.get("design", "") if isinstance(trial_design, dict) else ""
+
+        # Build populations section
+        pop_html = ""
+        if isinstance(populations, dict):
+            for pop_key, pop_data in populations.items():
+                if isinstance(pop_data, dict):
+                    pop_html += f'<div class="pop-item"><strong>{pop_key.replace("_", " ").title()}:</strong> n={pop_data.get("n", "?")} - {pop_data.get("description", "")}</div>'
+
+        # Build results sections (TKI pre-treated, TKI naïve, etc.)
+        results_html = ""
+        for result_key in ["tki_pretreated_results", "tki_naive_results", "tki_pretreated_efficacy", "tki_naive_results_alkove1_exploratory"]:
+            result_data = clinical_data.get(result_key, {})
+            if isinstance(result_data, dict) and result_data:
+                result_title = result_key.replace("_", " ").replace("results", "").title().strip()
+                rows = ""
+                for endpoint, value in result_data.items():
+                    if isinstance(value, dict):
+                        val_str = value.get("value", value.get("result", str(value)))
+                        ci = value.get("ci", value.get("confidence_interval", ""))
+                        rows += f'<tr><td>{endpoint.replace("_", " ").title()}</td><td><strong>{val_str}</strong></td><td>{ci}</td></tr>'
+                    else:
+                        rows += f'<tr><td>{endpoint.replace("_", " ").title()}</td><td><strong>{value}</strong></td><td></td></tr>'
+                if rows:
+                    results_html += f'''
+                    <div class="results-section">
+                        <h5>{result_title} Results</h5>
+                        <table class="data-table">
+                            <thead><tr><th>Endpoint</th><th>Result</th><th>CI</th></tr></thead>
+                            <tbody>{rows}</tbody>
+                        </table>
+                    </div>'''
+
+        # Build safety section
+        safety_data = clinical_data.get("safety", {})
+        safety_html = ""
+        if isinstance(safety_data, dict):
+            safety_items = []
+            for skey, sval in safety_data.items():
+                if isinstance(sval, str):
+                    safety_items.append(f"<li><strong>{skey.replace('_', ' ').title()}:</strong> {sval}</li>")
+                elif isinstance(sval, dict):
+                    for sub_k, sub_v in sval.items():
+                        safety_items.append(f"<li><strong>{sub_k.replace('_', ' ').title()}:</strong> {sub_v}</li>")
+            if safety_items:
+                safety_html = f'<div class="safety-box"><h5>Safety</h5><ul>{"".join(safety_items[:6])}</ul></div>'
+
+        trials_html = f'''
+        <div class="trial-card">
+            <div class="trial-header">
+                <h4>{trial_name}</h4>
+                <span class="badge ongoing">{design_phase}</span>
+            </div>
+            <div class="trial-meta">
+                <p><strong>Design:</strong> {design_desc}</p>
+                {f'<div class="populations">{pop_html}</div>' if pop_html else ''}
+            </div>
+            {results_html}
             {safety_html}
         </div>'''
 

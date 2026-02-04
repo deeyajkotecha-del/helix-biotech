@@ -236,6 +236,19 @@ def get_company_full(ticker: str) -> Optional[dict]:
                     [clinical_dev.get("lead_indication")] + clinical_dev.get("expansion_indications", [])
                 )
 
+            # Get stage from multiple possible locations
+            stage = (
+                asset_info.get("stage") or
+                clinical_dev.get("current_stage") or
+                clinical_data_raw.get("trial_design", {}).get("phase", "") if isinstance(clinical_data_raw, dict) else ""
+            )
+
+            # Get lead indication from multiple possible locations
+            lead_indication = (
+                clinical_dev.get("lead_indication") or
+                clinical_data_raw.get("trial_design", {}).get("registration_intent", "") if isinstance(clinical_data_raw, dict) else ""
+            )
+
             # Build full asset object with PhD-level detail
             full_asset = {
                 "name": asset_info.get("name", asset_name),
@@ -245,8 +258,8 @@ def get_company_full(ticker: str) -> Optional[dict]:
                 "modality": asset_info.get("modality"),
                 "partner": asset_info.get("partner"),
                 "ownership": asset_info.get("ownership"),
-                "stage": asset_info.get("stage") or clinical_dev.get("current_stage"),
-                "lead_indication": clinical_dev.get("lead_indication"),
+                "stage": stage,
+                "lead_indication": lead_indication,
                 "indications": indications_raw if isinstance(indications_raw, dict) else indications_list,
                 "market_opportunity": asset_data.get("market_opportunity", {}),
                 # Pass through full clinical_data from v2.0 schema
