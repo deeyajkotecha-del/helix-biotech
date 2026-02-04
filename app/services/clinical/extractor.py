@@ -3,11 +3,37 @@ Clinical Data Extractor - PhD-level analysis of clinical trial data.
 
 Extracts structured data from clinical presentations and generates
 analysis for the Satya Bio platform.
+
+Integrates data from:
+- kymera_full_extraction.py: Full pipeline data for KT-621, KT-579, KT-485
+- endpoint_definitions.py: Contextual definitions for endpoints and biomarkers
 """
 
-from dataclasses import dataclass, field
 from typing import Optional
+from dataclasses import dataclass, field
 from enum import Enum
+
+from .kymera_full_extraction import (
+    KYMERA_COMPANY,
+    KT621_DATA,
+    KT579_DATA,
+    KT485_DATA,
+    STAT6_TARGET,
+    IRF5_TARGET,
+    IRAK4_TARGET,
+    get_kymera_full_pipeline,
+    get_asset_clinical_data,
+    get_target_landscape,
+)
+from .endpoint_definitions import (
+    ENDPOINT_DEFINITIONS,
+    BIOMARKER_DEFINITIONS,
+    get_endpoint_with_context,
+    get_biomarker_with_context,
+    get_all_endpoint_definitions,
+    get_all_biomarker_definitions,
+    get_kt621_data_with_context,
+)
 
 
 class TrialPhase(Enum):
@@ -19,313 +45,246 @@ class TrialPhase(Enum):
     PHASE_3 = "Phase 3"
 
 
-@dataclass
-class Endpoint:
-    """Clinical trial endpoint with results."""
-    name: str
-    category: str
-    result: str
-    p_value: Optional[float] = None
-    confidence_interval: Optional[str] = None
-    timepoint: Optional[str] = None
-    dose_group: Optional[str] = None
-    n: Optional[int] = None
-    baseline: Optional[str] = None
-    change_from_baseline: Optional[str] = None
-    notes: Optional[str] = None
+# =============================================================================
+# MAIN EXTRACTION FUNCTIONS
+# =============================================================================
+
+def generate_clinical_summary_for_asset(asset_name: str) -> dict:
+    """
+    Generate complete clinical data package for an asset with contextual definitions.
+
+    Supports: KT-621, KT-579, KT-485
+    """
+    asset_upper = asset_name.upper()
+
+    if asset_upper == "KT-621":
+        return _generate_kt621_summary_with_context()
+    elif asset_upper == "KT-579":
+        return _generate_kt579_summary_with_context()
+    elif asset_upper == "KT-485":
+        return _generate_kt485_summary_with_context()
+    else:
+        raise ValueError(f"Unknown asset: {asset_name}. Supported: KT-621, KT-579, KT-485")
 
 
-@dataclass
-class SafetyData:
-    """Adverse event and safety data."""
-    event_type: str
-    incidence_drug: Optional[float] = None
-    incidence_placebo: Optional[float] = None
-    grade: Optional[str] = None
-    serious: bool = False
-    leading_to_discontinuation: bool = False
-    notes: Optional[str] = None
+def _generate_kt621_summary_with_context() -> dict:
+    """Generate KT-621 summary with embedded contextual definitions."""
+    base_data = KT621_DATA.copy()
+    context_data = get_kt621_data_with_context()
 
+    # Enrich trials with endpoint definitions
+    enriched_trials = []
+    for trial in base_data.get("trials", []):
+        enriched_trial = trial.copy()
+        enriched_endpoints = []
 
-@dataclass
-class TrialArm:
-    """A treatment arm in a clinical trial."""
-    name: str
-    dose: Optional[str] = None
-    frequency: Optional[str] = None
-    n: Optional[int] = None
-    duration: Optional[str] = None
+        for endpoint in trial.get("endpoints", []):
+            endpoint_name = endpoint.get("name", "").split(" ")[0]  # Get base name
+            definition = ENDPOINT_DEFINITIONS.get(endpoint_name) or BIOMARKER_DEFINITIONS.get(endpoint_name)
 
+            enriched_endpoint = endpoint.copy()
+            if definition:
+                enriched_endpoint["definition"] = {
+                    "full_name": definition.get("full_name"),
+                    "description": definition.get("description"),
+                    "category": definition.get("category"),
+                    "measurement_method": definition.get("measurement_methods") or definition.get("measurement"),
+                    "clinical_significance": definition.get("clinical_significance") or definition.get("clinical_relevance"),
+                    "comparator_benchmarks": definition.get("comparator_benchmarks"),
+                    "interpretation": definition.get("interpretation"),
+                }
+            enriched_endpoints.append(enriched_endpoint)
 
-@dataclass
-class ClinicalTrial:
-    """Complete clinical trial data structure."""
-    nct_id: Optional[str] = None
-    name: str = ""
-    phase: Optional[TrialPhase] = None
-    indication: str = ""
-    population: str = ""
-    design: str = ""
-    arms: list[TrialArm] = field(default_factory=list)
-    primary_endpoint: str = ""
-    duration: str = ""
-    endpoints: list[Endpoint] = field(default_factory=list)
-    safety_data: list[SafetyData] = field(default_factory=list)
-    data_cutoff: Optional[str] = None
-    presentation_source: Optional[str] = None
-
-    def to_dict(self) -> dict:
-        return {
-            "nct_id": self.nct_id,
-            "name": self.name,
-            "phase": self.phase.value if self.phase else None,
-            "indication": self.indication,
-            "population": self.population,
-            "design": self.design,
-            "arms": [{"name": a.name, "dose": a.dose, "frequency": a.frequency,
-                      "n": a.n, "duration": a.duration} for a in self.arms],
-            "primary_endpoint": self.primary_endpoint,
-            "duration": self.duration,
-            "endpoints": [vars(e) for e in self.endpoints],
-            "safety_data": [vars(s) for s in self.safety_data],
-            "data_cutoff": self.data_cutoff,
-            "presentation_source": self.presentation_source
-        }
-
-
-@dataclass
-class GraphAnalysis:
-    """PhD-level analysis of a clinical data graph."""
-    graph_title: str
-    graph_type: str
-    x_axis: str
-    y_axis: str
-    key_findings: list[str] = field(default_factory=list)
-    dose_response: Optional[str] = None
-    time_to_response: Optional[str] = None
-    durability: Optional[str] = None
-    plateau_observed: Optional[str] = None
-    vs_placebo: Optional[str] = None
-    vs_competitor: Optional[str] = None
-    clinical_significance: Optional[str] = None
-    limitations: list[str] = field(default_factory=list)
-
-    def to_dict(self) -> dict:
-        return vars(self)
-
-
-class ClinicalDataExtractor:
-    """Extract and analyze clinical trial data from presentations."""
-
-    def extract_kt621_phase1(self) -> ClinicalTrial:
-        """Extract Phase 1 HV data for KT-621."""
-        trial = ClinicalTrial(
-            name="KT-621 Phase 1 Healthy Volunteer Study",
-            phase=TrialPhase.PHASE_1,
-            indication="Healthy Volunteers (HV)",
-            population="Healthy adult volunteers",
-            design="Single ascending dose and multiple ascending dose, randomized, placebo-controlled",
-            primary_endpoint="Safety, tolerability, PK",
-            duration="14 days dosing + follow-up",
-            presentation_source="Kymera Corporate Presentation Jan 2026, Slide 22"
-        )
-
-        trial.arms = [
-            TrialArm(name="Placebo", n=18, duration="14 days"),
-            TrialArm(name="KT-621 25mg QD", dose="25mg", frequency="QD", n=9, duration="14 days"),
-            TrialArm(name="KT-621 50mg QD", dose="50mg", frequency="QD", n=9, duration="14 days"),
-            TrialArm(name="KT-621 100mg QD", dose="100mg", frequency="QD", n=9, duration="14 days"),
-            TrialArm(name="KT-621 200mg QD", dose="200mg", frequency="QD", n=9, duration="14 days"),
-        ]
-
-        trial.endpoints = [
-            Endpoint(
-                name="STAT6 % Change from Baseline - Blood",
-                category="biomarker",
-                result=">90% degradation",
-                dose_group="25-200mg QD",
-                timepoint="Day 14",
-                notes="Plateau at maximal degradation"
-            ),
-            Endpoint(
-                name="STAT6 % Change from Baseline - Skin",
-                category="biomarker",
-                result=">90% degradation",
-                dose_group="25-200mg QD",
-                timepoint="Day 14",
-                notes="Target tissue engagement confirmed"
-            ),
-            Endpoint(
-                name="Serum TARC % Change from Baseline",
-                category="biomarker",
-                result="-20 to -40% reduction",
-                dose_group="50-200mg QD",
-                timepoint="Day 14",
-                notes="Dose-dependent reduction in Type 2 inflammation marker"
-            ),
-        ]
-
-        trial.safety_data = [
-            SafetyData(
-                event_type="Overall AE profile",
-                notes="Well-tolerated; safety undifferentiated from placebo"
-            ),
-            SafetyData(
-                event_type="Serious Adverse Events",
-                incidence_drug=0.0,
-                incidence_placebo=0.0,
-                serious=True,
-                notes="No SAEs reported"
-            ),
-        ]
-
-        return trial
-
-    def extract_kt621_phase2(self) -> ClinicalTrial:
-        """Extract Phase 2 AD data for KT-621."""
-        trial = ClinicalTrial(
-            name="KT-621 Phase 2 in Moderate-to-Severe Atopic Dermatitis",
-            phase=TrialPhase.PHASE_2,
-            indication="Atopic Dermatitis",
-            population="Moderate-to-severe atopic dermatitis (AD)",
-            design="Open-label, dose-ranging",
-            primary_endpoint="EASI (Eczema Area and Severity Index) change from baseline",
-            duration="29 days on treatment + 14 days follow-up",
-            presentation_source="Kymera Corporate Presentation Jan 2026, Slide 28"
-        )
-
-        trial.arms = [
-            TrialArm(name="KT-621 100mg QD", dose="100mg", frequency="QD", n=10, duration="29 days"),
-            TrialArm(name="KT-621 200mg QD", dose="200mg", frequency="QD", n=12, duration="29 days"),
-        ]
-
-        trial.endpoints = [
-            Endpoint(
-                name="EASI % Change from Baseline",
-                category="primary",
-                result="-63%",
-                dose_group="Overall (n=22)",
-                n=22,
-                timepoint="Day 29"
-            ),
-            Endpoint(
-                name="EASI-50 (>=50% improvement)",
-                category="secondary",
-                result="76% achieved",
-                dose_group="Overall",
-                n=22,
-                timepoint="Day 29"
-            ),
-            Endpoint(
-                name="EASI-75 (>=75% improvement)",
-                category="secondary",
-                result="29% achieved",
-                dose_group="Overall",
-                n=22,
-                timepoint="Day 29",
-                notes="Higher rates expected with longer treatment"
-            ),
-        ]
-
-        return trial
-
-    def analyze_phase1_graphs(self) -> list[GraphAnalysis]:
-        """PhD-level analysis of Phase 1 graphs."""
-        return [
-            GraphAnalysis(
-                graph_title="STAT6 Degradation in Blood and Skin",
-                graph_type="bar",
-                x_axis="Dose Group",
-                y_axis="STAT6 % Change from Baseline",
-                key_findings=[
-                    "Clear dose-response relationship for STAT6 degradation",
-                    "Blood STAT6 degradation reaches plateau (~90%) at doses >=25mg",
-                    "Skin penetration confirmed - critical for dermatological indications"
-                ],
-                dose_response="Sigmoid dose-response: plateau at >=25mg",
-                clinical_significance="90%+ STAT6 degradation suggests potential Dupixent-like efficacy",
-                limitations=[
-                    "Healthy volunteers - may not reflect diseased skin",
-                    "Small sample sizes (n=7-9 per arm)"
-                ]
-            )
-        ]
-
-    def analyze_phase2_graphs(self) -> list[GraphAnalysis]:
-        """PhD-level analysis of Phase 2 graphs."""
-        return [
-            GraphAnalysis(
-                graph_title="Mean % Change from Baseline in EASI",
-                graph_type="line",
-                x_axis="Time (Day)",
-                y_axis="Mean Percent Change from Baseline in EASI",
-                key_findings=[
-                    "Rapid and progressive EASI improvement: -63% at Day 29",
-                    "NO apparent plateau - efficacy may still be increasing",
-                    "100mg and 200mg show similar efficacy"
-                ],
-                dose_response="Flat between 100-200mg - 100mg may be optimal",
-                time_to_response="Significant improvement by Day 8",
-                plateau_observed="No plateau at Day 29",
-                vs_competitor="Dupixent: ~70-75% at Week 16. KT-621 at 63% Day 29 is encouraging",
-                clinical_significance="EASI-50 of 76% suggests potential for Dupixent-like efficacy",
-                limitations=[
-                    "Open-label design - placebo effect possible",
-                    "Small sample size (n=22)",
-                    "Only 29 days - need 12-16 week data"
-                ]
-            )
-        ]
-
-
-def generate_clinical_summary_for_asset(asset_name: str = "KT-621") -> dict:
-    """Generate complete clinical data package for an asset."""
-    extractor = ClinicalDataExtractor()
-
-    phase1 = extractor.extract_kt621_phase1()
-    phase2 = extractor.extract_kt621_phase2()
-    phase1_analysis = extractor.analyze_phase1_graphs()
-    phase2_analysis = extractor.analyze_phase2_graphs()
+        enriched_trial["endpoints"] = enriched_endpoints
+        enriched_trials.append(enriched_trial)
 
     return {
-        "asset": {
-            "name": asset_name,
-            "company": "Kymera Therapeutics",
-            "ticker": "KYMR",
-            "target": "STAT6",
-            "mechanism": "STAT6 degrader (targeted protein degradation)",
-            "modality": "Oral small molecule degrader"
+        **base_data,
+        "trials": enriched_trials,
+        "endpoints_with_context": context_data,
+        "definitions": {
+            "endpoints": {k: v for k, v in ENDPOINT_DEFINITIONS.items()
+                        if k in ["EASI", "SCORAD", "vIGA-AD", "PPNRS", "POEM", "DLQI", "FEV1", "ACQ-5", "FeNO"]},
+            "biomarkers": {k: v for k, v in BIOMARKER_DEFINITIONS.items()
+                         if k in ["STAT6", "TARC", "Eotaxin-3", "IgE", "IL-31"]}
         },
-        "clinical_development": {
-            "current_stage": "Phase 2b",
-            "indications_in_development": [
-                "Atopic Dermatitis",
-                "Asthma",
-                "Chronic Rhinosinusitis with Nasal Polyps (CRSwNP)",
-                "Prurigo Nodularis"
-            ]
-        },
-        "trials": [phase1.to_dict(), phase2.to_dict()],
-        "graph_analyses": {
-            "phase1_biomarker_data": [a.to_dict() for a in phase1_analysis],
-            "phase2_efficacy_data": [a.to_dict() for a in phase2_analysis]
-        },
-        "investment_thesis_points": [
-            "First oral STAT6 degrader - potential to replace/complement Dupixent ($13B+ sales)",
-            "Phase 1 HV: >90% STAT6 degradation in blood AND skin at well-tolerated doses",
-            "Phase 2 AD: 63% EASI reduction at Day 29 without plateau",
-            "Oral convenience advantage over Dupixent (injection every 2 weeks)",
-            "Broad indication potential across Type 2 inflammatory diseases"
-        ],
-        "key_risks": [
-            "Open-label Phase 2 - need placebo-controlled data",
-            "Only 29 days treatment - need 12-16 week data",
-            "Small sample sizes (n=22 in Phase 2)",
-            "Competitive landscape: multiple IL-4/IL-13 pathway drugs"
-        ],
-        "upcoming_catalysts": [
-            "Phase 2b randomized, placebo-controlled trial readout (2026)",
-            "Asthma Phase 2 initiation"
-        ],
         "source": "Kymera Therapeutics Corporate Presentation, January 2026"
     }
+
+
+def _generate_kt579_summary_with_context() -> dict:
+    """Generate KT-579 summary with embedded contextual definitions."""
+    base_data = KT579_DATA.copy()
+
+    # Add IRF5 biomarker definition
+    irf5_def = BIOMARKER_DEFINITIONS.get("IRF5", {})
+
+    return {
+        **base_data,
+        "definitions": {
+            "biomarkers": {
+                "IRF5": irf5_def
+            },
+            "endpoints": {
+                "anti-dsDNA": ENDPOINT_DEFINITIONS.get("anti-dsDNA", {}),
+                "joint_swelling": ENDPOINT_DEFINITIONS.get("joint_swelling", {})
+            }
+        },
+        "source": "Kymera Therapeutics Corporate Presentation, January 2026"
+    }
+
+
+def _generate_kt485_summary_with_context() -> dict:
+    """Generate KT-485 summary with embedded contextual definitions."""
+    base_data = KT485_DATA.copy()
+
+    # Add IRAK4 biomarker definition
+    irak4_def = BIOMARKER_DEFINITIONS.get("IRAK4", {})
+
+    return {
+        **base_data,
+        "definitions": {
+            "biomarkers": {
+                "IRAK4": irak4_def
+            }
+        },
+        "source": "Kymera Therapeutics Corporate Presentation, January 2026"
+    }
+
+
+# =============================================================================
+# COMPANY & PIPELINE FUNCTIONS
+# =============================================================================
+
+def get_kymera_pipeline() -> dict:
+    """Get full Kymera pipeline with all assets."""
+    return {
+        "company": KYMERA_COMPANY,
+        "assets": [
+            {
+                "name": "KT-621",
+                "target": "STAT6",
+                "stage": KT621_DATA["clinical_development"]["current_stage"],
+                "mechanism": "STAT6 degrader",
+                "lead_indication": "Atopic Dermatitis",
+                "key_data": "Phase 1b: 63% EASI reduction at Day 29"
+            },
+            {
+                "name": "KT-579",
+                "target": "IRF5",
+                "stage": KT579_DATA["clinical_development"]["current_stage"],
+                "mechanism": "IRF5 degrader",
+                "lead_indication": "Systemic Lupus Erythematosus",
+                "key_data": "Phase 1 starting Q1 2026; preclinical superiority in lupus models"
+            },
+            {
+                "name": "KT-485",
+                "target": "IRAK4",
+                "stage": KT485_DATA["clinical_development"]["current_stage"],
+                "mechanism": "IRAK4 degrader",
+                "lead_indication": "Hidradenitis Suppurativa",
+                "key_data": "Partnered with Sanofi; Phase 1 expected 2026",
+                "partner": "Sanofi"
+            }
+        ],
+        "partnerships": KYMERA_COMPANY.get("partnerships", []),
+        "cash_runway": KYMERA_COMPANY.get("cash_runway")
+    }
+
+
+# =============================================================================
+# TARGET LANDSCAPE FUNCTIONS
+# =============================================================================
+
+def get_target_landscape_with_context(target_name: str) -> dict:
+    """Get target landscape with biomarker definitions."""
+    target_upper = target_name.upper()
+
+    targets = {
+        "STAT6": STAT6_TARGET,
+        "IRF5": IRF5_TARGET,
+        "IRAK4": IRAK4_TARGET
+    }
+
+    target_data = targets.get(target_upper)
+    if not target_data:
+        return None
+
+    # Add biomarker definition if available
+    biomarker_def = BIOMARKER_DEFINITIONS.get(target_upper, {})
+
+    return {
+        **target_data,
+        "biomarker_definition": biomarker_def,
+        "measurement_methods": biomarker_def.get("measurement_methods", {}),
+    }
+
+
+# =============================================================================
+# DEFINITIONS ACCESS FUNCTIONS
+# =============================================================================
+
+def get_endpoint_definitions() -> dict:
+    """Return all endpoint definitions for API/UI."""
+    return get_all_endpoint_definitions()
+
+
+def get_biomarker_definitions() -> dict:
+    """Return all biomarker definitions for API/UI."""
+    return get_all_biomarker_definitions()
+
+
+def get_definition_for_endpoint(endpoint_name: str) -> dict:
+    """Get definition for a specific endpoint."""
+    return ENDPOINT_DEFINITIONS.get(endpoint_name, {})
+
+
+def get_definition_for_biomarker(biomarker_name: str) -> dict:
+    """Get definition for a specific biomarker."""
+    return BIOMARKER_DEFINITIONS.get(biomarker_name, {})
+
+
+# =============================================================================
+# HELPER FUNCTIONS FOR CONTEXTUAL DATA
+# =============================================================================
+
+def enrich_endpoint_result(endpoint_name: str, result: str,
+                           timepoint: str = None, dose_group: str = None) -> dict:
+    """
+    Enrich an endpoint result with its full definition and context.
+
+    Example:
+        enrich_endpoint_result("EASI", "-63%", timepoint="Day 29")
+    """
+    return get_endpoint_with_context(endpoint_name, result, timepoint=timepoint)
+
+
+def enrich_biomarker_result(biomarker_name: str, result: str,
+                            method: str = None, tissue: str = None,
+                            timepoint: str = None) -> dict:
+    """
+    Enrich a biomarker result with its full definition and context.
+
+    Example:
+        enrich_biomarker_result("STAT6", ">90% degradation",
+                                method="flow_cytometry", tissue="blood")
+    """
+    return get_biomarker_with_context(biomarker_name, result, method, tissue, timepoint)
+
+
+# =============================================================================
+# SUPPORTED ASSETS
+# =============================================================================
+
+KYMERA_ASSETS = {"KT-621", "KT-579", "KT-485"}
+SUPPORTED_TARGETS = {"STAT6", "IRF5", "IRAK4"}
+
+
+def get_supported_assets() -> list:
+    """Return list of supported Kymera assets."""
+    return list(KYMERA_ASSETS)
+
+
+def get_supported_targets() -> list:
+    """Return list of supported targets."""
+    return list(SUPPORTED_TARGETS)
