@@ -3390,37 +3390,51 @@ def _generate_company_html_v2(data: dict) -> str:
         .tab-content {{ display: none; padding: 20px; }}
         .tab-content.active {{ display: block; }}
 
-        /* Thesis items */
-        .thesis-item {{
-            padding: 16px;
-            margin-bottom: 12px;
-            border-radius: 8px;
-            border-left: 4px solid;
+        /* Wall Street Research Style Tables */
+        .research-table {{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: white;
         }}
-        .thesis-item.bull {{ background: #f0fff4; border-color: var(--bull); }}
-        .thesis-item.bear {{ background: #fff5f5; border-color: var(--bear); }}
-        .thesis-point {{ font-weight: 600; margin-bottom: 8px; }}
-        .thesis-evidence {{ color: var(--text-muted); margin-bottom: 8px; }}
-        .thesis-counter {{ color: var(--bull); margin-bottom: 8px; font-style: italic; }}
-        .thesis-meta {{ display: flex; gap: 16px; font-size: 0.85rem; }}
-        .confidence {{ padding: 2px 8px; border-radius: 4px; }}
-        .confidence.high {{ background: #c6f6d5; color: var(--bull); }}
-        .confidence.medium {{ background: #fefcbf; color: var(--warning); }}
-        .confidence.low {{ background: #fed7d7; color: var(--bear); }}
-        .source {{ color: var(--text-muted); }}
-
-        /* Debates */
-        .debate-item {{
-            background: #ebf8ff;
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 12px;
+        .research-table th {{
+            background: #f8f9fa;
+            font-weight: 700;
+            text-align: left;
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #1a1a1a;
         }}
-        .debate-question {{ font-weight: 600; margin-bottom: 12px; color: var(--primary); }}
-        .debate-views {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 12px; }}
-        .bull-view {{ color: var(--bull); }}
-        .bear-view {{ color: var(--bear); }}
-        .data-to-watch {{ background: white; padding: 8px 12px; border-radius: 4px; }}
+        .research-table td {{
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            vertical-align: top;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }}
+        .research-table tbody tr:nth-child(even) {{
+            background: #fafafa;
+        }}
+        .research-table .point-cell {{
+            font-weight: 600;
+            width: 25%;
+        }}
+        .research-table .conf-cell {{
+            width: 100px;
+            text-align: center;
+            font-weight: 500;
+        }}
+        .research-table .debate-q {{
+            font-weight: 600;
+            width: 20%;
+        }}
+        .debates-table th:nth-child(2),
+        .debates-table th:nth-child(3) {{
+            width: 25%;
+        }}
 
         /* Collapsible */
         .collapsible {{
