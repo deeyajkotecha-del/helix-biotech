@@ -1561,7 +1561,7 @@ def _generate_company_overview_html(data: dict) -> str:
 
 
 def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict, next_asset: dict) -> str:
-    """Generate individual asset page HTML with sidebar navigation."""
+    """Generate individual asset page HTML with sidebar navigation - supports v2.0 schema."""
     ticker = company_data.get("ticker", "")
     company_name = company_data.get("name", "")
     asset_name = asset.get("name", "Unknown")
@@ -1569,12 +1569,26 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     mechanism_data = asset.get("mechanism", {})
     stage = asset.get("stage", "")
     modality = asset.get("modality", "")
-    indications = asset.get("indications", [])
+    indications_data = asset.get("indications", {})
     market = asset.get("market_opportunity", {})
     clinical_data = asset.get("clinical_data", {})
-    trials = clinical_data.get("trials", [])
-    catalysts = company_data.get("catalysts", [])
-    asset_catalysts = [c for c in catalysts if c.get("asset", "").lower() == asset_name.lower()]
+    investment_analysis = asset.get("investment_analysis", {})
+
+    # Get catalysts from both company and asset level
+    company_catalysts = company_data.get("catalysts", [])
+    asset_catalysts_list = asset.get("catalysts", [])
+    asset_catalysts = asset_catalysts_list + [c for c in company_catalysts if c.get("asset", "").lower() == asset_name.lower()]
+
+    # Parse indications - handle both list and v2.0 nested format
+    if isinstance(indications_data, dict):
+        lead = indications_data.get("lead", {})
+        lead_name = lead.get("name", "") if isinstance(lead, dict) else ""
+        expansion = indications_data.get("expansion", [])
+        indications = [lead_name] + [e.get("name", "") if isinstance(e, dict) else e for e in expansion]
+    elif isinstance(indications_data, list):
+        indications = indications_data
+    else:
+        indications = []
 
     # Parse target - handle both v1.0 (flat) and v2.0 (nested) schemas
     if isinstance(target_data, dict):
@@ -1586,15 +1600,21 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         biology_data = target_data.get("biology", "")
         if isinstance(biology_data, dict):
             target_biology = biology_data.get("simple_explanation", "") or biology_data.get("pathway_detail", "")
+            downstream = biology_data.get("downstream_effects", [])
         else:
             target_biology = biology_data
+            downstream = []
 
-        # v2.0 has nested genetic_validation object
-        genetic_data = target_data.get("genetic_validation", "")
+        # v2.0 has nested why_good_target object
+        why_good = target_data.get("why_good_target", {})
+        clinical_validation = why_good.get("clinical_validation", "") if isinstance(why_good, dict) else ""
+
+        # v2.0 has nested genetic_validation object (inside why_good_target or at target level)
+        genetic_data = why_good.get("genetic_validation", {}) if isinstance(why_good, dict) else target_data.get("genetic_validation", "")
         if isinstance(genetic_data, dict):
             gof = genetic_data.get("gain_of_function", "")
             lof = genetic_data.get("loss_of_function", "")
-            target_genetic = f"GoF: {gof} LoF: {lof}" if gof and lof else (gof or lof)
+            target_genetic = f"<strong>GoF:</strong> {gof}<br><strong>LoF:</strong> {lof}" if gof and lof else (gof or lof)
         else:
             target_genetic = genetic_data
 
@@ -1604,29 +1624,336 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             target_why = why_data.get("degrader_solution", "") or why_data.get("challenge", "")
         else:
             target_why = why_data
+
+        # v2.0 dupilumab_comparison
+        dupilumab_comp = target_data.get("dupilumab_comparison", {})
     else:
         target_name = target_data
-        target_full = target_pathway = target_biology = target_genetic = target_why = ""
+        target_full = target_pathway = target_biology = target_genetic = target_why = clinical_validation = ""
+        downstream = []
+        dupilumab_comp = {}
 
     # Parse mechanism - handle both v1.0 and v2.0 schemas
     if isinstance(mechanism_data, dict):
         mech_type = mechanism_data.get("type", "")
-        mech_desc = mechanism_data.get("description", "")
-        mech_diff = mechanism_data.get("differentiation", "")
-        # v2.0 may have nested how_it_works
-        how_works = mechanism_data.get("how_it_works", {})
-        if isinstance(how_works, dict) and how_works:
-            steps = how_works.get("steps", [])
-            if steps:
-                mech_desc = mech_desc or " → ".join(steps[:3])
+        mech_desc = mechanism_data.get("how_it_works", "") or mechanism_data.get("description", "")
+        mech_diff = mechanism_data.get("differentiation", "") or mechanism_data.get("catalytic_advantage", "")
+        mech_selectivity = mechanism_data.get("selectivity", "")
+        potency = mechanism_data.get("potency", {})
+        if isinstance(potency, dict):
+            dc90 = potency.get("dc90", "")
+            potency_str = f"{dc90} - {potency.get('interpretation', '')}" if dc90 else ""
+        else:
+            potency_str = ""
     else:
         mech_type = ""
         mech_desc = mechanism_data
-        mech_diff = ""
+        mech_diff = mech_selectivity = potency_str = ""
 
-    # Build trials HTML
+    # =======================================================================
+    # BUILD CLINICAL DATA HTML - Handle v2.0 schema with phase-specific data
+    # =======================================================================
     trials_html = ""
-    for trial in trials:
+    head_to_head_html = ""
+
+    # Check for v2.0 schema: phase1_healthy_volunteer, phase1b_ad, ongoing_trials
+    phase1_hv = clinical_data.get("phase1_healthy_volunteer", {})
+    phase1b_ad = clinical_data.get("phase1b_ad", {})
+    ongoing_trials = clinical_data.get("ongoing_trials", [])
+
+    # Also check for v1.0 schema: trials array
+    trials_v1 = clinical_data.get("trials", [])
+
+    def build_efficacy_table_from_dict(efficacy_endpoints: dict, trial_name: str) -> str:
+        """Build efficacy table from v2.0 dict format (EASI, PPNRS, etc.)"""
+        if not efficacy_endpoints:
+            return ""
+        rows = ""
+        for endpoint_key, endpoint_data in efficacy_endpoints.items():
+            if not isinstance(endpoint_data, dict):
+                continue
+            name = endpoint_data.get("full_name", endpoint_key.upper())
+            what_measures = endpoint_data.get("what_it_measures", "")
+            results = endpoint_data.get("results", {})
+            source = endpoint_data.get("source_slide", "N/A")
+
+            # Get main result
+            main_result = results.get("mean_change_overall_day29", "") or results.get("mean_change_overall", "") or results.get("responders_overall", "")
+            vs_dup = results.get("vs_dupilumab", "") or results.get("vs_dupilumab_day28_ph3", "") or results.get("vs_dupilumab_week16", "")
+
+            rows += f'''
+            <tr>
+                <td>
+                    <div class="endpoint-name">{name}</div>
+                    <div class="endpoint-def">{what_measures}</div>
+                </td>
+                <td class="result"><strong>{main_result}</strong></td>
+                <td class="comparator">{"vs Dupilumab: " + vs_dup if vs_dup else ""}</td>
+                <td class="source">Slide {source}</td>
+            </tr>'''
+
+        if rows:
+            return f'''
+            <div class="endpoints-section">
+                <h5>Efficacy Endpoints</h5>
+                <table class="data-table">
+                    <thead><tr><th>Endpoint</th><th>Result</th><th>vs Comparator</th><th>Source</th></tr></thead>
+                    <tbody>{rows}</tbody>
+                </table>
+            </div>'''
+        return ""
+
+    def build_biomarker_table(biomarker_results: dict) -> str:
+        """Build biomarker table from v2.0 format"""
+        if not biomarker_results:
+            return ""
+
+        summary_table = biomarker_results.get("summary_table", {})
+        data = summary_table.get("data", [])
+        if not data:
+            return ""
+
+        rows = ""
+        for item in data:
+            name = item.get("biomarker", "")
+            what_measures = item.get("what_it_measures", "")
+            kt621_result = item.get("kt621_result", "")
+            dup_result = item.get("dupilumab_result", "")
+            interpretation = item.get("interpretation", "")
+
+            rows += f'''
+            <tr>
+                <td>
+                    <div class="biomarker-name">{name}</div>
+                    <div class="method">{what_measures}</div>
+                </td>
+                <td class="result"><strong>{kt621_result}</strong></td>
+                <td class="comparator">Dupilumab: {dup_result}</td>
+                <td>{interpretation}</td>
+            </tr>'''
+
+        return f'''
+        <div class="biomarkers-section">
+            <h5>Biomarker Results</h5>
+            <table class="data-table">
+                <thead><tr><th>Biomarker</th><th>Result</th><th>vs Dupilumab</th><th>Interpretation</th></tr></thead>
+                <tbody>{rows}</tbody>
+            </table>
+        </div>'''
+
+    def build_safety_html(safety: dict) -> str:
+        """Build safety section from v2.0 format"""
+        if not isinstance(safety, dict):
+            return ""
+        summary = safety.get("summary", "")
+        key_findings = safety.get("key_findings", [])
+        conj_comp = safety.get("conjunctivitis_comparison", {})
+
+        findings_html = ""
+        if key_findings:
+            findings_html = '<ul class="findings-list">' + "".join(f'<li>{f}</li>' for f in key_findings) + '</ul>'
+
+        conj_html = ""
+        if conj_comp and isinstance(conj_comp, dict):
+            kt621_rate = conj_comp.get("kt621", "")
+            dup_rate = conj_comp.get("dupilumab", "")
+            interp = conj_comp.get("interpretation", "")
+            conj_html = f'''
+            <div class="safety-diff">
+                <strong>Conjunctivitis:</strong> KT-621 {kt621_rate} vs Dupilumab {dup_rate}<br>
+                <em>{interp}</em>
+            </div>'''
+
+        if summary or findings_html:
+            return f'''
+            <div class="safety-box">
+                <h5>Safety Profile</h5>
+                <p>{summary}</p>
+                {findings_html}
+                {conj_html}
+            </div>'''
+        return ""
+
+    # Build Phase 1 Healthy Volunteer section
+    if phase1_hv:
+        trial_name = phase1_hv.get("trial_name", "Phase 1 SAD/MAD")
+        design = phase1_hv.get("design", {})
+        design_type = design.get("type", "") if isinstance(design, dict) else design
+        population = design.get("population", "") if isinstance(design, dict) else ""
+        sad_n = design.get("sad_n", "") if isinstance(design, dict) else ""
+        mad_n = design.get("mad_n", "") if isinstance(design, dict) else ""
+
+        # STAT6 degradation data
+        stat6_deg = phase1_hv.get("stat6_degradation", {})
+        deg_results = stat6_deg.get("results_by_dose", [])
+        key_findings = stat6_deg.get("key_findings", [])
+
+        deg_rows = ""
+        for r in deg_results:
+            deg_rows += f'''
+            <tr>
+                <td>{r.get('dose', '')}</td>
+                <td class="result"><strong>{r.get('blood_change', '')}</strong></td>
+                <td class="result"><strong>{r.get('skin_change', '')}</strong></td>
+                <td>{r.get('n_blood', '')}</td>
+            </tr>'''
+
+        findings_html = ""
+        if key_findings:
+            findings_html = '<div class="key-findings"><strong>Key Findings:</strong><ul>' + "".join(f'<li>{f}</li>' for f in key_findings) + '</ul></div>'
+
+        safety_html = build_safety_html(phase1_hv.get("safety", {}))
+
+        trials_html += f'''
+        <div class="trial-card">
+            <div class="trial-header">
+                <h4>{trial_name}</h4>
+                <span class="badge completed">Phase 1</span>
+                <span class="badge completed">Completed</span>
+                <span class="n-enrolled">n={sad_n} SAD + {mad_n} MAD</span>
+            </div>
+            <div class="trial-meta">
+                <p><strong>Design:</strong> {design_type}</p>
+                <p><strong>Population:</strong> {population}</p>
+            </div>
+            <div class="endpoints-section">
+                <h5>STAT6 Degradation by Dose</h5>
+                <table class="data-table">
+                    <thead><tr><th>Dose</th><th>Blood Change</th><th>Skin Change</th><th>N</th></tr></thead>
+                    <tbody>{deg_rows}</tbody>
+                </table>
+            </div>
+            {findings_html}
+            {safety_html}
+        </div>'''
+
+    # Build Phase 1b AD section
+    if phase1b_ad:
+        trial_name = phase1b_ad.get("trial_name", "Phase 1b AD")
+        design = phase1b_ad.get("design", {})
+        design_type = design.get("type", "") if isinstance(design, dict) else design
+        population = design.get("population", "") if isinstance(design, dict) else ""
+        n_enrolled = design.get("n_enrolled", "") if isinstance(design, dict) else ""
+        cohorts = design.get("cohorts", []) if isinstance(design, dict) else []
+
+        limitations = phase1b_ad.get("design_limitations", [])
+        lims_html = ""
+        if limitations:
+            lims_items = "".join(f'<li>{l}</li>' for l in limitations)
+            lims_html = f'<div class="limitations-box"><strong>Study Limitations:</strong><ul>{lims_items}</ul></div>'
+
+        # Efficacy endpoints (v2.0 dict format)
+        efficacy_endpoints = phase1b_ad.get("efficacy_endpoints", {})
+        efficacy_html = build_efficacy_table_from_dict(efficacy_endpoints, trial_name)
+
+        # Biomarker results
+        biomarker_results = phase1b_ad.get("biomarker_results", {})
+        biomarkers_html = build_biomarker_table(biomarker_results)
+
+        # Safety
+        safety_html = build_safety_html(phase1b_ad.get("safety", {}))
+
+        # Head-to-head comparison table
+        h2h_data = phase1b_ad.get("head_to_head_comparison_table", {})
+        h2h_rows = ""
+        if isinstance(h2h_data, dict):
+            h2h_list = h2h_data.get("data", [])
+            caveat = h2h_data.get("caveat", "")
+            for row in h2h_list:
+                endpoint = row.get("endpoint", "")
+                kt621 = row.get("kt621_day29", "")
+                dup = row.get("dupilumab_day28", "")
+                winner = row.get("winner", "")
+                winner_class = "winner-kt621" if winner == "KT-621" else "winner-tie" if winner == "Tie" else ""
+                h2h_rows += f'''
+                <tr class="{winner_class}">
+                    <td>{endpoint}</td>
+                    <td class="result"><strong>{kt621}</strong></td>
+                    <td>{dup}</td>
+                    <td class="winner">{winner}</td>
+                </tr>'''
+
+            if h2h_rows:
+                head_to_head_html = f'''
+                <div class="h2h-section">
+                    <h5>Head-to-Head Comparison: KT-621 vs Dupilumab</h5>
+                    <p class="caveat">{caveat}</p>
+                    <table class="data-table h2h-table">
+                        <thead><tr><th>Endpoint</th><th>KT-621 Day 29</th><th>Dupilumab Day 28</th><th>Winner</th></tr></thead>
+                        <tbody>{h2h_rows}</tbody>
+                    </table>
+                </div>'''
+
+        trials_html += f'''
+        <div class="trial-card featured">
+            <div class="trial-header">
+                <h4>{trial_name}</h4>
+                <span class="badge completed">Phase 1b</span>
+                <span class="badge completed">Completed</span>
+                <span class="n-enrolled">n={n_enrolled}</span>
+            </div>
+            <div class="trial-meta">
+                <p><strong>Design:</strong> {design_type}</p>
+                <p><strong>Population:</strong> {population}</p>
+            </div>
+            {lims_html}
+            {efficacy_html}
+            {head_to_head_html}
+            {biomarkers_html}
+            {safety_html}
+        </div>'''
+
+    # Build ongoing trials section
+    for trial in ongoing_trials:
+        trial_name = trial.get("trial_name", "Trial")
+        phase = trial.get("phase", "")
+        indication = trial.get("indication", "")
+        status = trial.get("status", "Ongoing")
+        data_expected = trial.get("data_expected", "")
+
+        design = trial.get("design", {})
+        design_type = design.get("type", "") if isinstance(design, dict) else design
+        n_target = design.get("n_target", "") if isinstance(design, dict) else ""
+        population = design.get("population", "") if isinstance(design, dict) else ""
+
+        endpoints = trial.get("endpoints", {})
+        primary = endpoints.get("primary", "") if isinstance(endpoints, dict) else ""
+        secondary = endpoints.get("secondary", []) if isinstance(endpoints, dict) else []
+
+        success = trial.get("what_success_looks_like", {})
+        failure = trial.get("what_failure_looks_like", {})
+
+        success_html = ""
+        if success:
+            items = "".join(f'<li>{k}: {v}</li>' for k, v in success.items() if k != "source_slide")
+            success_html = f'<div class="success-criteria"><strong>Success Criteria:</strong><ul>{items}</ul></div>'
+
+        failure_html = ""
+        if failure:
+            items = "".join(f'<li>{k}: {v}</li>' for k, v in failure.items() if k != "source_slide")
+            failure_html = f'<div class="failure-criteria"><strong>Failure Criteria:</strong><ul>{items}</ul></div>'
+
+        trials_html += f'''
+        <div class="trial-card ongoing">
+            <div class="trial-header">
+                <h4>{trial_name}</h4>
+                <span class="badge ongoing">{phase}</span>
+                <span class="badge ongoing">{status}</span>
+                <span class="n-enrolled">Target n={n_target}</span>
+            </div>
+            <div class="trial-meta">
+                <p><strong>Indication:</strong> {indication}</p>
+                <p><strong>Design:</strong> {design_type}</p>
+                <p><strong>Population:</strong> {population}</p>
+                <p><strong>Primary Endpoint:</strong> {primary}</p>
+                <p><strong>Data Expected:</strong> {data_expected}</p>
+            </div>
+            {success_html}
+            {failure_html}
+        </div>'''
+
+    # Fallback to v1.0 trials format
+    for trial in trials_v1:
         trial_name = trial.get("trial_name", "Trial")
         phase = trial.get("phase", "")
         status = trial.get("status", "")
@@ -1639,7 +1966,6 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         pop = trial.get("population", {})
         pop_str = pop.get("description", pop) if isinstance(pop, dict) else pop
 
-        # Efficacy endpoints
         efficacy_rows = ""
         for e in trial.get("efficacy_endpoints", []):
             defn = e.get("definition", {})
@@ -1647,50 +1973,18 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             vs_str = f"vs {vs.get('comparator', '')}: {vs.get('comparator_result', '')}" if isinstance(vs, dict) and vs.get("comparator") else ""
             efficacy_rows += f'''
             <tr>
-                <td>
-                    <div class="endpoint-name">{e.get('name', '')}</div>
-                    <div class="endpoint-def">{defn.get('what_it_measures', '') if isinstance(defn, dict) else ''}</div>
-                </td>
+                <td><div class="endpoint-name">{e.get('name', '')}</div></td>
                 <td class="result"><strong>{e.get('result', 'Pending')}</strong></td>
                 <td>{e.get('timepoint', '')}</td>
                 <td class="comparator">{vs_str}</td>
-                <td class="source">p.{e.get('source_page', 'N/A')}</td>
             </tr>'''
 
-        # Biomarker endpoints
-        biomarker_rows = ""
-        for b in trial.get("biomarker_endpoints", []):
-            biomarker_rows += f'''
-            <tr>
-                <td>
-                    <div class="biomarker-name">{b.get('name', '')}</div>
-                    <div class="method">{b.get('method', '')} ({b.get('tissue', '')})</div>
-                </td>
-                <td class="result"><strong>{b.get('result', '')}</strong></td>
-                <td>{b.get('interpretation', '')}</td>
-                <td class="source">p.{b.get('source_page', 'N/A')}</td>
-            </tr>'''
-
-        # Safety
         safety = trial.get("safety", {})
         safety_html = ""
         if isinstance(safety, dict) and safety.get("summary"):
-            aes = safety.get("aes_of_interest", {})
-            ae_badges = "".join(f'<span class="ae-badge">{k}: {v}</span>' for k, v in aes.items())
-            safety_html = f'''
-            <div class="safety-box">
-                <h5>Safety</h5>
-                <p>{safety.get('summary', '')}</p>
-                <div class="ae-badges">{ae_badges}</div>
-                {f'<p class="safety-diff">{safety.get("differentiation", "")}</p>' if safety.get("differentiation") else ''}
-            </div>'''
-
-        # Limitations
-        lims = trial.get("limitations", [])
-        lims_html = f'<div class="limitations-box"><strong>Limitations:</strong> {", ".join(lims)}</div>' if lims else ""
+            safety_html = f'<div class="safety-box"><h5>Safety</h5><p>{safety.get("summary", "")}</p></div>'
 
         status_class = "ongoing" if status == "Ongoing" else "completed" if status == "Completed" else ""
-
         trials_html += f'''
         <div class="trial-card">
             <div class="trial-header">
@@ -1701,22 +1995,109 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             </div>
             <div class="trial-meta">
                 <p><strong>Design:</strong> {design_str}</p>
-                {f'<p class="limitation-text"><strong>Limitation:</strong> {limitations}</p>' if limitations else ''}
                 <p><strong>Population:</strong> {pop_str}</p>
             </div>
-            {f'<div class="endpoints-section"><h5>Efficacy Endpoints</h5><table class="data-table"><thead><tr><th>Endpoint</th><th>Result</th><th>Timepoint</th><th>vs Comparator</th><th>Source</th></tr></thead><tbody>{efficacy_rows}</tbody></table></div>' if efficacy_rows else ''}
-            {f'<div class="biomarkers-section"><h5>Biomarker Endpoints</h5><table class="data-table"><thead><tr><th>Biomarker</th><th>Result</th><th>Interpretation</th><th>Source</th></tr></thead><tbody>{biomarker_rows}</tbody></table></div>' if biomarker_rows else ''}
+            {f'<div class="endpoints-section"><h5>Efficacy</h5><table class="data-table"><thead><tr><th>Endpoint</th><th>Result</th><th>Timepoint</th><th>vs Comparator</th></tr></thead><tbody>{efficacy_rows}</tbody></table></div>' if efficacy_rows else ''}
             {safety_html}
-            {lims_html}
         </div>'''
 
-    # Build catalysts HTML
+    # =======================================================================
+    # BUILD INVESTMENT ANALYSIS HTML
+    # =======================================================================
+    investment_html = ""
+    if investment_analysis:
+        bull_case = investment_analysis.get("bull_case", [])
+        bear_case = investment_analysis.get("bear_case", [])
+        key_debates = investment_analysis.get("key_debates", [])
+        pos = investment_analysis.get("probability_of_success", {})
+
+        bull_html = ""
+        for item in bull_case:
+            if isinstance(item, dict):
+                conf = item.get("confidence", "medium").lower()
+                bull_html += f'''
+                <div class="thesis-item bull">
+                    <div class="thesis-point">{item.get('point', '')}</div>
+                    <div class="thesis-evidence"><strong>Evidence:</strong> {item.get('evidence', '')}</div>
+                    <div class="thesis-meta">
+                        <span class="confidence {conf}">{conf.title()} confidence</span>
+                        <span class="source">Slide {item.get('source_slide', 'N/A')}</span>
+                    </div>
+                </div>'''
+            else:
+                bull_html += f'<div class="thesis-item bull">{item}</div>'
+
+        bear_html = ""
+        for item in bear_case:
+            if isinstance(item, dict):
+                counter = item.get("counter_argument", "")
+                prob = item.get("probability", "")
+                bear_html += f'''
+                <div class="thesis-item bear">
+                    <div class="thesis-point">{item.get('point', '')}</div>
+                    <div class="thesis-evidence"><strong>Evidence:</strong> {item.get('evidence', '')}</div>
+                    {f'<div class="thesis-counter"><strong>Counter:</strong> {counter}</div>' if counter else ''}
+                    {f'<div class="probability">Probability: {prob}</div>' if prob else ''}
+                </div>'''
+            else:
+                bear_html += f'<div class="thesis-item bear">{item}</div>'
+
+        debates_html = ""
+        for debate in key_debates:
+            if isinstance(debate, dict):
+                debates_html += f'''
+                <div class="debate-item">
+                    <div class="debate-question">{debate.get('question', '')}</div>
+                    <div class="debate-views">
+                        <div class="bull-view"><strong>Bull:</strong> {debate.get('bull_view', '')}</div>
+                        <div class="bear-view"><strong>Bear:</strong> {debate.get('bear_view', '')}</div>
+                    </div>
+                    <div class="data-to-watch"><strong>What resolves it:</strong> {debate.get('what_resolves_it', '')}</div>
+                </div>'''
+
+        pos_html = ""
+        if pos:
+            pos_html = f'''
+            <div class="pos-box">
+                <h5>Probability of Success</h5>
+                <div class="pos-grid">
+                    <div class="pos-item"><span class="label">Phase 2b→3:</span> <strong>{pos.get('phase2b_to_phase3', 'N/A')}</strong></div>
+                    <div class="pos-item"><span class="label">Phase 3→Approval:</span> <strong>{pos.get('phase3_to_approval', 'N/A')}</strong></div>
+                    <div class="pos-item highlight"><span class="label">Cumulative PoS:</span> <strong>{pos.get('cumulative_pos', 'N/A')}</strong></div>
+                </div>
+                <p class="methodology">{pos.get('methodology', '')}</p>
+            </div>'''
+
+        investment_html = f'''
+        <section id="investment" class="section">
+            <h2 class="section-header">Investment Analysis</h2>
+            <div class="investment-grid">
+                <div class="bull-section">
+                    <h4 class="bull-header">Bull Case</h4>
+                    {bull_html}
+                </div>
+                <div class="bear-section">
+                    <h4 class="bear-header">Bear Case</h4>
+                    {bear_html}
+                </div>
+            </div>
+            {f'<div class="debates-section"><h4>Key Debates</h4>{debates_html}</div>' if debates_html else ''}
+            {pos_html}
+        </section>'''
+
+    # =======================================================================
+    # BUILD CATALYSTS HTML
+    # =======================================================================
     catalysts_html = ""
     for c in asset_catalysts:
         what_to_watch = c.get("what_to_watch", [])
-        watch_items = "".join(f'<li>{w}</li>' for w in what_to_watch)
+        if isinstance(what_to_watch, list):
+            watch_items = "".join(f'<li>{w}</li>' for w in what_to_watch)
+        else:
+            watch_items = f'<li>{what_to_watch}</li>'
         bull = c.get("bull_scenario", {})
         bear = c.get("bear_scenario", {})
+        consensus = c.get("consensus_expectation", "")
 
         catalysts_html += f'''
         <div class="catalyst-card">
@@ -1730,14 +2111,17 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <div class="scenario bull">
                     <strong>Bull Scenario</strong>
                     <p>{bull.get('outcome', '') if isinstance(bull, dict) else ''}</p>
+                    <span class="impact">Stock impact: {bull.get('stock_impact', '') if isinstance(bull, dict) else ''}</span>
                     <span class="rationale">{bull.get('rationale', '') if isinstance(bull, dict) else ''}</span>
                 </div>
                 <div class="scenario bear">
                     <strong>Bear Scenario</strong>
                     <p>{bear.get('outcome', '') if isinstance(bear, dict) else ''}</p>
+                    <span class="impact">Stock impact: {bear.get('stock_impact', '') if isinstance(bear, dict) else ''}</span>
                     <span class="rationale">{bear.get('rationale', '') if isinstance(bear, dict) else ''}</span>
                 </div>
             </div>
+            {f'<div class="consensus"><strong>Consensus:</strong> {consensus}</div>' if consensus else ''}
         </div>'''
 
     # Indications badges
@@ -2229,6 +2613,238 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             color: var(--primary);
             margin-bottom: 12px;
         }}
+
+        /* v2.0 Schema: Head-to-Head Comparison Table */
+        .h2h-section {{
+            margin: 24px 0;
+            padding: 20px;
+            background: #f0fff4;
+            border-radius: 12px;
+            border: 1px solid #9ae6b4;
+        }}
+        .h2h-section h5 {{
+            color: var(--bull);
+            margin-bottom: 8px;
+        }}
+        .h2h-section .caveat {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 16px;
+        }}
+        .h2h-table .winner-kt621 {{
+            background: #f0fff4;
+        }}
+        .h2h-table .winner {{
+            font-weight: 600;
+            color: var(--bull);
+        }}
+        .h2h-table .winner-tie .winner {{
+            color: var(--text-muted);
+        }}
+
+        /* v2.0 Schema: Investment Analysis */
+        .investment-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }}
+        @media (max-width: 900px) {{
+            .investment-grid {{ grid-template-columns: 1fr; }}
+        }}
+        .bull-section, .bear-section {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+        }}
+        .bull-section {{
+            border-left: 4px solid var(--bull);
+        }}
+        .bear-section {{
+            border-left: 4px solid var(--bear);
+        }}
+        .bull-header {{ color: var(--bull); margin-bottom: 16px; }}
+        .bear-header {{ color: var(--bear); margin-bottom: 16px; }}
+        .thesis-item {{
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }}
+        .thesis-item.bull {{
+            background: #f0fff4;
+        }}
+        .thesis-item.bear {{
+            background: #fff5f5;
+        }}
+        .thesis-point {{
+            font-weight: 600;
+            margin-bottom: 8px;
+        }}
+        .thesis-evidence {{
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }}
+        .thesis-counter {{
+            font-size: 0.9rem;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }}
+        .thesis-meta {{
+            display: flex;
+            gap: 12px;
+            font-size: 0.8rem;
+        }}
+        .confidence {{
+            padding: 2px 8px;
+            border-radius: 4px;
+        }}
+        .confidence.high {{ background: #c6f6d5; color: var(--bull); }}
+        .confidence.medium {{ background: #fefcbf; color: #975a16; }}
+        .confidence.low {{ background: #fed7d7; color: var(--bear); }}
+        .probability {{
+            font-size: 0.85rem;
+            color: var(--bear);
+            font-weight: 600;
+        }}
+        .debates-section {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }}
+        .debates-section h4 {{
+            color: var(--primary);
+            margin-bottom: 16px;
+        }}
+        .debate-item {{
+            background: var(--bg);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }}
+        .debate-question {{
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }}
+        .debate-views {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 12px;
+        }}
+        .bull-view {{
+            background: #f0fff4;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }}
+        .bear-view {{
+            background: #fff5f5;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }}
+        .data-to-watch {{
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+        }}
+        .pos-box {{
+            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
+            border: 1px solid #bee3f8;
+            border-radius: 12px;
+            padding: 24px;
+        }}
+        .pos-box h5 {{
+            color: var(--accent);
+            margin-bottom: 16px;
+        }}
+        .pos-grid {{
+            display: flex;
+            gap: 24px;
+            margin-bottom: 12px;
+        }}
+        .pos-item {{
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }}
+        .pos-item.highlight {{
+            background: #c6f6d5;
+        }}
+        .pos-item .label {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }}
+        .methodology {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }}
+
+        /* v2.0 Schema: Trial Cards */
+        .trial-card.featured {{
+            border: 2px solid var(--accent);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.15);
+        }}
+        .trial-card.ongoing {{
+            border-left: 4px solid var(--warning);
+        }}
+        .key-findings {{
+            background: #ebf8ff;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }}
+        .key-findings ul {{
+            margin: 8px 0 0 20px;
+        }}
+        .findings-list {{
+            margin: 12px 0 0 20px;
+        }}
+        .success-criteria, .failure-criteria {{
+            padding: 16px;
+            border-radius: 8px;
+            margin: 12px 0;
+        }}
+        .success-criteria {{
+            background: #f0fff4;
+            border-left: 3px solid var(--bull);
+        }}
+        .failure-criteria {{
+            background: #fff5f5;
+            border-left: 3px solid var(--bear);
+        }}
+        .success-criteria ul, .failure-criteria ul {{
+            margin: 8px 0 0 20px;
+        }}
+
+        /* Catalyst enhancements */
+        .consensus {{
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }}
+        .impact {{
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }}
+        .scenario.bull .impact {{ color: var(--bull); }}
+        .scenario.bear .impact {{ color: var(--bear); }}
     </style>
 </head>
 <body>
@@ -2253,6 +2869,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#target">Target Biology</a></li>
                 <li><a href="#clinical">Clinical Data</a></li>
+                <li><a href="#investment">Investment Analysis</a></li>
                 <li><a href="#market">Market Opportunity</a></li>
                 <li><a href="#catalysts">Catalysts</a></li>
             </ul>
@@ -2314,15 +2931,19 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 {trials_html if trials_html else '<p class="no-data">No clinical trial data available.</p>'}
             </section>
 
+            {investment_html}
+
             <section id="market" class="section">
                 <h2 class="section-header">Market Opportunity</h2>
                 <div class="card">
                     <div class="card-content">
                         <div class="market-grid">
-                            {f'<div class="market-item"><div class="label">Total Addressable Market</div><div class="value">{market.get("tam", "N/A")}</div></div>' if market.get("tam") else ''}
-                            {f'<div class="market-item"><div class="label">Patient Population</div><div class="value">{market.get("patient_population", "N/A")}</div></div>' if market.get("patient_population") else ''}
-                            {f'<div class="market-item full"><div class="label">Current Treatment</div><div class="value">{market.get("current_treatment", "N/A")}</div></div>' if market.get("current_treatment") else ''}
-                            {f'<div class="market-item full highlight"><div class="label">Unmet Need</div><div class="value">{market.get("unmet_need", "N/A")}</div></div>' if market.get("unmet_need") else ''}
+                            {f'<div class="market-item"><div class="label">Total Addressable Market</div><div class="value">{market.get("total_addressable_market", "") or market.get("tam", "N/A")}</div></div>' if market.get("total_addressable_market") or market.get("tam") else ''}
+                            {f'<div class="market-item"><div class="label">Current Penetration</div><div class="value">{market.get("current_penetration", "")}</div></div>' if market.get("current_penetration") else ''}
+                            {f'<div class="market-item"><div class="label">Oral Preference</div><div class="value">{market.get("oral_preference", "")}</div></div>' if market.get("oral_preference") else ''}
+                            {f'<div class="market-item full highlight"><div class="label">Competitive Advantage</div><div class="value">{market.get("competitive_advantage", "")}</div></div>' if market.get("competitive_advantage") else ''}
+                            {f'<div class="market-item"><div class="label">Peak Sales (Bull)</div><div class="value">{market.get("peak_sales_estimate", {{}}).get("bull_case", "")}</div></div>' if isinstance(market.get("peak_sales_estimate"), dict) else ''}
+                            {f'<div class="market-item"><div class="label">Peak Sales (Base)</div><div class="value">{market.get("peak_sales_estimate", {{}}).get("base_case", "")}</div></div>' if isinstance(market.get("peak_sales_estimate"), dict) else ''}
                         </div>
                     </div>
                 </div>

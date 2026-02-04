@@ -213,8 +213,28 @@ def get_company_full(ticker: str) -> Optional[dict]:
             # Handle mechanism - can be string or dict
             mechanism_data = asset_info.get("mechanism") or asset_data.get("mechanism")
 
-            # Get trials - v2.0 uses "clinical_trials", v1.0 uses "trials"
-            trials = asset_data.get("clinical_trials", asset_data.get("trials", []))
+            # Get clinical_data - v2.0 has rich nested structure
+            clinical_data_raw = asset_data.get("clinical_data", {})
+            # v1.0 fallback - check for trials at root level
+            if not clinical_data_raw:
+                trials = asset_data.get("clinical_trials", asset_data.get("trials", []))
+                clinical_data_raw = {"trials": trials}
+
+            # Get indications - v2.0 has rich indications object
+            indications_raw = asset_data.get("indications", {})
+            if isinstance(indications_raw, dict):
+                indications_list = []
+                if indications_raw.get("lead"):
+                    lead = indications_raw.get("lead", {})
+                    indications_list.append(lead.get("name", "") if isinstance(lead, dict) else lead)
+                for exp in indications_raw.get("expansion", []):
+                    indications_list.append(exp.get("name", "") if isinstance(exp, dict) else exp)
+            elif isinstance(indications_raw, list):
+                indications_list = indications_raw
+            else:
+                indications_list = clinical_dev.get("indications_in_development", []) or (
+                    [clinical_dev.get("lead_indication")] + clinical_dev.get("expansion_indications", [])
+                )
 
             # Build full asset object with PhD-level detail
             full_asset = {
@@ -227,26 +247,29 @@ def get_company_full(ticker: str) -> Optional[dict]:
                 "ownership": asset_info.get("ownership"),
                 "stage": asset_info.get("stage") or clinical_dev.get("current_stage"),
                 "lead_indication": clinical_dev.get("lead_indication"),
-                "indications": clinical_dev.get("indications_in_development", []) or (
-                    [clinical_dev.get("lead_indication")] + clinical_dev.get("expansion_indications", [])
-                ),
+                "indications": indications_raw if isinstance(indications_raw, dict) else indications_list,
                 "market_opportunity": asset_data.get("market_opportunity", {}),
-                "clinical_data": {
-                    "trials": trials,
-                },
+                # Pass through full clinical_data from v2.0 schema
+                "clinical_data": clinical_data_raw,
+                # v2.0 investment_analysis replaces investment_thesis/key_risks
+                "investment_analysis": asset_data.get("investment_analysis", {}),
                 "investment_thesis": asset_data.get("investment_thesis", []),
                 "key_risks": asset_data.get("key_risks", []),
                 "probability_of_success": asset_data.get("probability_of_success", {}),
+                # v2.0 catalysts at asset level
+                "catalysts": asset_data.get("catalysts", []),
                 "_source_pages": asset_data.get("_source_pages", []),
                 "_metadata": asset_data.get("_metadata", {})
             }
             assets_full.append(full_asset)
 
-            # Collect catalysts from all assets
-            for catalyst in asset_data.get("upcoming_catalysts", []):
+            # Collect catalysts from all assets - v2.0 uses "catalysts", v1.0 uses "upcoming_catalysts"
+            asset_catalysts = asset_data.get("catalysts", asset_data.get("upcoming_catalysts", []))
+            for catalyst in asset_catalysts:
                 if isinstance(catalyst, dict):
-                    catalyst["asset"] = asset_info.get("name", asset_name)
-                    all_catalysts.append(catalyst)
+                    catalyst_copy = catalyst.copy()
+                    catalyst_copy["asset"] = asset_info.get("name", asset_name)
+                    all_catalysts.append(catalyst_copy)
 
     # Build full response
     result = {
