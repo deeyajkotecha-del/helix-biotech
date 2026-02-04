@@ -557,15 +557,44 @@ def get_all_targets() -> dict:
                 # Normalize target name for grouping (but preserve display name)
                 target_key = target_name.upper().replace(" ", "_")
 
+                # Extract biology - handle v2.0 nested structure
+                def extract_biology(data):
+                    if not isinstance(data, dict):
+                        return ""
+                    bio = data.get("biology", "")
+                    if isinstance(bio, dict):
+                        return bio.get("simple_explanation", "") or bio.get("pathway_detail", "")
+                    return bio
+
+                # Extract genetic validation - handle v2.0 nested structure
+                def extract_genetic(data):
+                    if not isinstance(data, dict):
+                        return ""
+                    gen = data.get("genetic_validation", "")
+                    if isinstance(gen, dict):
+                        gof = gen.get("gain_of_function", "")
+                        lof = gen.get("loss_of_function", "")
+                        return f"GoF: {gof} LoF: {lof}" if gof and lof else (gof or lof)
+                    return gen
+
+                # Extract why undruggable - handle v2.0 nested structure
+                def extract_why(data):
+                    if not isinstance(data, dict):
+                        return ""
+                    why = data.get("why_undruggable_before", "")
+                    if isinstance(why, dict):
+                        return why.get("degrader_solution", "") or why.get("challenge", "")
+                    return why
+
                 # Initialize target entry if new
                 if target_key not in targets:
                     targets[target_key] = {
                         "name": target_name,
                         "full_name": target_data.get("full_name", "") if isinstance(target_data, dict) else "",
                         "pathway": target_data.get("pathway", "") if isinstance(target_data, dict) else "",
-                        "biology": target_data.get("biology", "") if isinstance(target_data, dict) else "",
-                        "genetic_validation": target_data.get("genetic_validation", "") if isinstance(target_data, dict) else "",
-                        "why_undruggable": target_data.get("why_undruggable_before", "") if isinstance(target_data, dict) else "",
+                        "biology": extract_biology(target_data),
+                        "genetic_validation": extract_genetic(target_data),
+                        "why_undruggable": extract_why(target_data),
                         "assets": []
                     }
                 else:

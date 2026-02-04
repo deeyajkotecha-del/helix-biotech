@@ -1576,23 +1576,49 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     catalysts = company_data.get("catalysts", [])
     asset_catalysts = [c for c in catalysts if c.get("asset", "").lower() == asset_name.lower()]
 
-    # Parse target
+    # Parse target - handle both v1.0 (flat) and v2.0 (nested) schemas
     if isinstance(target_data, dict):
         target_name = target_data.get("name", "")
         target_full = target_data.get("full_name", "")
         target_pathway = target_data.get("pathway", "")
-        target_biology = target_data.get("biology", "")
-        target_genetic = target_data.get("genetic_validation", "")
-        target_why = target_data.get("why_undruggable_before", "") or target_data.get("degrader_advantage", "")
+
+        # v2.0 has nested biology object
+        biology_data = target_data.get("biology", "")
+        if isinstance(biology_data, dict):
+            target_biology = biology_data.get("simple_explanation", "") or biology_data.get("pathway_detail", "")
+        else:
+            target_biology = biology_data
+
+        # v2.0 has nested genetic_validation object
+        genetic_data = target_data.get("genetic_validation", "")
+        if isinstance(genetic_data, dict):
+            gof = genetic_data.get("gain_of_function", "")
+            lof = genetic_data.get("loss_of_function", "")
+            target_genetic = f"GoF: {gof} LoF: {lof}" if gof and lof else (gof or lof)
+        else:
+            target_genetic = genetic_data
+
+        # v2.0 has nested why_undruggable_before object
+        why_data = target_data.get("why_undruggable_before", "") or target_data.get("degrader_advantage", "")
+        if isinstance(why_data, dict):
+            target_why = why_data.get("degrader_solution", "") or why_data.get("challenge", "")
+        else:
+            target_why = why_data
     else:
         target_name = target_data
         target_full = target_pathway = target_biology = target_genetic = target_why = ""
 
-    # Parse mechanism
+    # Parse mechanism - handle both v1.0 and v2.0 schemas
     if isinstance(mechanism_data, dict):
         mech_type = mechanism_data.get("type", "")
         mech_desc = mechanism_data.get("description", "")
         mech_diff = mechanism_data.get("differentiation", "")
+        # v2.0 may have nested how_it_works
+        how_works = mechanism_data.get("how_it_works", {})
+        if isinstance(how_works, dict) and how_works:
+            steps = how_works.get("steps", [])
+            if steps:
+                mech_desc = mech_desc or " → ".join(steps[:3])
     else:
         mech_type = ""
         mech_desc = mechanism_data
