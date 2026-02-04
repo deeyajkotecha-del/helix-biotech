@@ -1,0 +1,166 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "ARGX",
+    "asset_id": "pipeline_assets",
+    "data_source": "argenx 2026 JPM Corporate Presentation",
+    "extraction_date": "2026-02-04",
+    "last_updated": "2026-02-04"
+  },
+  "pipeline_assets": {
+    "adimanebart": {
+      "internal_id": "ARGX-119",
+      "name": "adimanebart",
+      "target": "MuSK (muscle-specific kinase)",
+      "modality": "MuSK agonist antibody",
+      "mechanism": "First-in-class agonist antibody that activates MuSK signaling to enhance neuromuscular junction function and stability",
+      "stage": "Registrational (CMS)",
+      "indications": {
+        "cms": {
+          "name": "Congenital Myasthenic Syndromes",
+          "stage": "Registrational",
+          "status": "Lead indication"
+        },
+        "als": {
+          "name": "Amyotrophic Lateral Sclerosis",
+          "stage": "PoC"
+        },
+        "sma": {
+          "name": "Spinal Muscular Atrophy",
+          "stage": "PoC"
+        }
+      },
+      "differentiation": "First-in-class MuSK agonist; novel mechanism for neuromuscular diseases",
+      "potential_indications": "3+ indications"
+    },
+    "argx_213": {
+      "internal_id": "ARGX-213",
+      "name": "ARGX-213",
+      "target": "FcRn (sustained IgG reduction)",
+      "modality": "Fc-ABDEG + anti-albumin VHH bispecific",
+      "mechanism": "Next-generation FcRn inhibitor with albumin binding for extended half-life, enabling monthly dosing with sustained IgG reduction",
+      "stage": "Phase 3 ready",
+      "key_data": {
+        "phase_1_results": "Convenient monthly dose achieved",
+        "igg_reduction": "Sustained ~70-80% IgG reduction over 140+ days",
+        "comparison": "More sustained IgG reduction vs efgartigimod (which shows cyclic IgG levels)"
+      },
+      "differentiation": [
+        "Monthly dosing (vs weekly for efgartigimod SC)",
+        "Sustained IgG reduction without cycling",
+        "Improved patient convenience"
+      ],
+      "potential_indications": "15+ potential indications (same as efgartigimod platform)",
+      "registrational_indication": "TBD - Phase 3 ready"
+    },
+    "argx_121": {
+      "internal_id": "ARGX-121",
+      "name": "ARGX-121",
+      "target": "IgA",
+      "modality": "IgA sweeping antibody (IgA-targeting Fab + Fc-ABDEG)",
+      "mechanism": "Binds IgA and accelerates its degradation through FcRn-mediated clearance, leading to rapid and total IgA depletion",
+      "stage": "Phase 1/PoC",
+      "key_data": {
+        "phase_1_results": "Rapid and total IgA depletion demonstrated",
+        "igg_kinetics": "Near-complete IgA depletion within 7 days of single SC dose",
+        "selectivity": "IgA-specific; does not affect IgG levels"
+      },
+      "lead_indication": "IgA Nephropathy",
+      "potential_indications": "3+ potential indications (IgA-mediated diseases)",
+      "differentiation": "First IgA-specific sweeping antibody"
+    },
+    "argx_109": {
+      "internal_id": "ARGX-109",
+      "name": "ARGX-109",
+      "target": "IL-6",
+      "modality": "Antibody",
+      "stage": "PoC",
+      "indications": "Multiple autoimmune/inflammatory diseases",
+      "note": "Expanding beyond FcRn and complement mechanisms"
+    },
+    "argx_124": {
+      "internal_id": "ARGX-124",
+      "name": "ARGX-124",
+      "target": "FcRn",
+      "modality": "Next-generation FcRn inhibitor",
+      "stage": "Phase 1",
+      "description": "Part of FcRn franchise expansion",
+      "differentiation": "Additional FcRn molecule for portfolio diversification"
+    },
+    "argx_118": {
+      "internal_id": "ARGX-118",
+      "name": "ARGX-118",
+      "target": "Galectin-10",
+      "modality": "Antibody",
+      "stage": "Phase 1 (entering 2026)",
+      "description": "Novel target entering clinic in 2026",
+      "therapeutic_area": "TBD"
+    },
+    "argx_125": {
+      "internal_id": "ARGX-125",
+      "name": "ARGX-125",
+      "target": "Not disclosed",
+      "modality": "TBD",
+      "stage": "Preclinical/Phase 1 (entering 2026)",
+      "description": "Pipeline expansion"
+    },
+    "tsp_101": {
+      "internal_id": "TSP-101",
+      "name": "TSP-101 (Tensegrity)",
+      "target": "Fn14",
+      "modality": "Antibody",
+      "stage": "Phase 1 (entering 2026)",
+      "source": "In-licensed from Tensegrity",
+      "description": "Expanding ecosystem of novel biology sourcing"
+    }
+  },
+  "fcrn_franchise_strategy": {
+    "current": {
+      "vyvgart_efgartigimod": "Approved, first-in-class",
+      "formulations": ["IV infusion", "SC Hytrulo (Halozyme)", "Prefilled syringe"]
+    },
+    "near_term": {
+      "argx_213": "Phase 3 ready - monthly dosing",
+      "autoinjector": "Est. 2027 (Ypsomed partnership)"
+    },
+    "future": {
+      "argx_124": "Phase 1 - additional FcRn molecule",
+      "small_volume_delivery": "Elektrofi partnership",
+      "oral_peptides": "Unnatural Products partnership"
+    },
+    "combination_approaches": {
+      "adapt_forward": "Efgartigimod + empasiprubart combination"
+    }
+  },
+  "proof_of_concept_programs": {
+    "amr": "Antibody-Mediated Rejection",
+    "scleroderma": "Systemic sclerosis",
+    "aie": "Autoimmune Encephalitis",
+    "dgf": "Delayed Graft Function",
+    "als": "Amyotrophic Lateral Sclerosis (adimanebart)",
+    "sma": "Spinal Muscular Atrophy (adimanebart)",
+    "iga_nephropathy": "ARGX-121"
+  },
+  "iip_programs": {
+    "count": 25,
+    "therapeutic_areas": ["Neurology", "Rheumatology", "Renal", "Dermatology"],
+    "target": "1 IND per year",
+    "new_phase_1_in_2026": ["ARGX-118 (Galectin-10)", "ARGX-125", "TSP-101 (Fn14)"]
+  },
+  "investment_summary": {
+    "key_pipeline_value_drivers": [
+      "ARGX-213: Next-gen FcRn with monthly dosing - Phase 3 ready",
+      "ARGX-121: First IgA sweeper - opens IgA nephropathy market",
+      "Adimanebart: First MuSK agonist - CMS registrational",
+      "3 new Phase 1 programs in 2026 expanding pipeline"
+    ],
+    "platform_optionality": [
+      "FcRn franchise (efgartigimod, ARGX-213, ARGX-124)",
+      "Complement (empasiprubart C2)",
+      "MuSK (adimanebart)",
+      "IgA (ARGX-121)",
+      "IL-6 (ARGX-109)",
+      "Novel targets (Galectin-10, Fn14, others)"
+    ]
+  }
+}

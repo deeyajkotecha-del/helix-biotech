@@ -4,7 +4,7 @@
   "description": "181 biotech companies - 48 with curated IR data from presentations",
   "stats": {
     "total": 181,
-    "with_data": 3,
+    "with_data": 4,
     "by_priority": {
       "high": 17,
       "medium": 29,
@@ -20,7 +20,7 @@
       "therapeutic_area": "mixed",
       "priority": "high",
       "ir_priority": "HIGH",
-      "has_data": false,
+      "has_data": true,
       "market_cap_mm": 0,
       "ir_url": "",
       "notes": ""

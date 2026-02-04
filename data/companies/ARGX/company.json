@@ -1,0 +1,385 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "ARGX",
+    "company_name": "argenx",
+    "data_source": "argenx 2026 JPM Corporate Presentation",
+    "extraction_date": "2026-02-04",
+    "last_updated": "2026-02-04"
+  },
+  "company": {
+    "name": "argenx SE",
+    "ticker": "ARGX",
+    "exchange": "NASDAQ / Euronext Brussels",
+    "headquarters": "Breda, Netherlands (global operations)",
+    "website": "www.argenx.com",
+    "mission": "Connecting Science and Patients to Unlock Infinite Opportunity",
+    "tagline": "Leading a new era of innovation in immunology"
+  },
+  "investment_thesis_summary": {
+    "one_liner": "Commercial-stage immunology leader with $4.2B VYVGART franchise, first-in-class FcRn inhibitor platform, and deep pipeline of 10 clinical-stage molecules across 10+ registrational programs",
+    "key_differentiators": [
+      "First-in-class FcRn inhibitor (efgartigimod/VYVGART) with validated mechanism across multiple autoimmune diseases",
+      "Dominant commercial position: #1 prescribed biologic in MG, blockbuster status in CIDP",
+      "Vision 2030: 50K patients on treatment, 10 labeled indications, 5 new molecules in Phase 3",
+      "First year of operating profitability in 2025",
+      "Deep pipeline: 4 Phase 3 molecules, 10 clinical-stage molecules, 25 active IIP programs",
+      "Multiple formulations improving patient experience (IV, SC with Halozyme, PFS, autoinjector est. 2027)"
+    ],
+    "stage": "Commercial-stage with multiple approved indications and extensive late-stage pipeline",
+    "near_term_value_drivers": [
+      "Seronegative MG label expansion (decision by end of 2026)",
+      "Ocular MG Phase 3 readout (1Q 2026)",
+      "Myositis (AIM) Phase 3 readout (3Q 2026)",
+      "ITP Phase 3 readout (4Q 2026)",
+      "Empasiprubart MMN Phase 3 readout (4Q 2026)",
+      "Continued VYVGART commercial growth (90% YoY in 2025)"
+    ]
+  },
+  "platform": {
+    "core_technology": "Antibody engineering platform with proprietary Fc modifications",
+    "key_platforms": {
+      "fc_abdeg": "Fc modification enabling enhanced FcRn binding for IgG reduction",
+      "simple_antibody": "Llama-derived single domain antibodies (VHH/nanobodies)"
+    },
+    "innovation_engine": {
+      "description": "Continuous innovation model generating world-class pipeline",
+      "components": [
+        "Pioneering novel biology",
+        "Best-in-field antibody engineering",
+        "Pipeline in a product approach"
+      ],
+      "target": "1 IND per year",
+      "active_iip_programs": 25,
+      "therapeutic_areas": ["Neurology", "Rheumatology", "Renal", "Dermatology"]
+    },
+    "delivery_partnerships": {
+      "halozyme": "ENHANZE technology for SC formulation (VYVGART Hytrulo)",
+      "ypsomed": "Autoinjector development (est. 2027)",
+      "elektrofi": "Small volume delivery technology",
+      "unnatural_products": "Oral peptide FcRn development"
+    }
+  },
+  "pipeline_summary": {
+    "approved_products": 2,
+    "clinical_stage_molecules": 10,
+    "phase_3_molecules": 4,
+    "registrational_studies": 10,
+    "iip_preclinical": 25,
+    "programs": [
+      {
+        "asset": "Efgartigimod (VYVGART/VYVGART Hytrulo)",
+        "target": "FcRn",
+        "modality": "Fc fragment",
+        "indications": "gMG (approved), CIDP (approved), Ocular MG, ITP, Myositis, Sjögren's, Graves'",
+        "stage": "Approved + multiple Phase 3",
+        "status": "Lead commercial product"
+      },
+      {
+        "asset": "Empasiprubart (ARGX-117)",
+        "target": "C2 (Complement)",
+        "modality": "Sweeping antibody",
+        "indications": "MMN, CIDP, MG combination",
+        "stage": "Phase 3 (MMN), Phase 2/3 (CIDP)",
+        "status": "Second pillar"
+      },
+      {
+        "asset": "Adimanebart (ARGX-119)",
+        "target": "MuSK",
+        "modality": "Agonist antibody",
+        "indications": "CMS, ALS, SMA",
+        "stage": "Registrational (CMS)",
+        "status": "First-in-class MuSK agonist"
+      },
+      {
+        "asset": "ARGX-213",
+        "target": "FcRn (sustained)",
+        "modality": "Fc-ABDEG + albumin VHH",
+        "indications": "15+ potential indications",
+        "stage": "Phase 3 ready",
+        "status": "Next-gen FcRn with monthly dosing"
+      },
+      {
+        "asset": "ARGX-121",
+        "target": "IgA",
+        "modality": "IgA sweeping antibody",
+        "indications": "IgA Nephropathy, 3+ potential",
+        "stage": "Phase 1/PoC",
+        "status": "Rapid and total IgA depletion"
+      },
+      {
+        "asset": "ARGX-109",
+        "target": "IL-6",
+        "modality": "Antibody",
+        "indications": "Multiple",
+        "stage": "PoC",
+        "status": "Pipeline expansion"
+      },
+      {
+        "asset": "ARGX-124",
+        "target": "FcRn",
+        "modality": "Next-gen",
+        "indications": "Multiple",
+        "stage": "Phase 1",
+        "status": "FcRn franchise expansion"
+      },
+      {
+        "asset": "ARGX-118",
+        "target": "Galectin-10",
+        "modality": "Antibody",
+        "indications": "TBD",
+        "stage": "Phase 1 (2026)",
+        "status": "New mechanism"
+      },
+      {
+        "asset": "ARGX-125",
+        "target": "Undisclosed",
+        "modality": "TBD",
+        "indications": "TBD",
+        "stage": "Preclinical/Phase 1 (2026)",
+        "status": "Pipeline expansion"
+      },
+      {
+        "asset": "TSP-101 (Tensegrity)",
+        "target": "Fn14",
+        "modality": "Antibody",
+        "indications": "TBD",
+        "stage": "Phase 1 (2026)",
+        "status": "In-licensed"
+      }
+    ]
+  },
+  "financials": {
+    "fy_2025": {
+      "product_net_sales": "$4,151M",
+      "yoy_growth": "+90% (ex-FX)",
+      "profitability": "First year of operating profitability"
+    },
+    "q4_2025": {
+      "product_net_sales": "$1,286M",
+      "qoq_growth": "+14%",
+      "yoy_growth": "+74%"
+    },
+    "quarterly_trajectory": {
+      "Q1_2022": "$21M",
+      "Q4_2022": "$173M",
+      "Q4_2023": "$374M",
+      "Q4_2024": "$737M",
+      "Q4_2025": "$1,286M"
+    },
+    "note": "Preliminary, unaudited figures subject to adjustment"
+  },
+  "commercial_performance": {
+    "vyvgart_global": {
+      "patients_on_treatment": "~19,000 globally",
+      "us_prescribers": ">4,700",
+      "prescriber_growth": "20% YoY increase in new prescribers"
+    },
+    "mg_franchise": {
+      "position": "#1 prescribed biologic",
+      "market_share_growth": "VYVGART drove 60% growth in overall MG biologics share",
+      "patient_mix": "70% of MG expansion patients directly from orals (earlier line)",
+      "addressable_market_at_launch": "17K US patients",
+      "total_addressable_market_2030": "60K US patients"
+    },
+    "cidp_franchise": {
+      "status": "Achieved blockbuster status as of 3Q 2025",
+      "addressable_market_at_launch": "12K US patients",
+      "total_treated_patients": "24K",
+      "total_diagnosed_patients": "42K"
+    }
+  },
+  "market_opportunity": {
+    "myasthenia_gravis": {
+      "us_addressable_at_launch": "17K patients",
+      "expansion_seronegative": "+11K patients",
+      "expansion_ocular": "+7K patients",
+      "expansion_biologics_share_growth": "+25K patients",
+      "total_addressable_2030": "60K patients"
+    },
+    "cidp": {
+      "us_addressable_at_launch": "12K patients",
+      "total_treated": "24K patients",
+      "total_diagnosed": "42K patients"
+    },
+    "autoimmune_myositis": {
+      "us_prevalence_total": "70K patients",
+      "dermatomyositis": "40K",
+      "imnm": "20K",
+      "polymyositis": "10K",
+      "unmet_need": "No targeted therapies currently approved"
+    },
+    "sjogrens_disease": {
+      "us_prevalence_total": "330K patients",
+      "moderate_to_severe": "100K patients",
+      "unmet_need": "No targeted therapies currently approved"
+    },
+    "mmn": {
+      "global_patients": "12K across key markets",
+      "current_market": "$750-800M",
+      "projected_market_2030": ">$1B",
+      "unmet_need": {
+        "misdiagnosis_rate": "40% initially misdiagnosed",
+        "targeted_treatments": "0 approved",
+        "progression_despite_treatment": "60%",
+        "severe_disability": "20% of patients"
+      }
+    },
+    "itp": {
+      "indication": "Immune thrombocytopenia",
+      "stage": "Phase 3 ADVANCE-NEXT"
+    }
+  },
+  "competitive_positioning": {
+    "fcrn_landscape": {
+      "argenx_position": "First-in-class, market leader",
+      "vyvgart_advantages": [
+        "First FcRn approved (gMG 2021, CIDP 2024)",
+        "Multiple formulations (IV, SC Hytrulo, PFS)",
+        "Broadest clinical program across indications",
+        "Real-world evidence generation"
+      ],
+      "fcrn_franchise_strategy": [
+        "VYVGART (efgartigimod) - current",
+        "ARGX-213 - Phase 3 ready, monthly dosing",
+        "ARGX-124 - Phase 1",
+        "Autoinjector (est. 2027)",
+        "Oral peptides (Unnatural Products partnership)"
+      ]
+    },
+    "complement_landscape": {
+      "empasiprubart_position": "First-in-class C2 sweeping antibody",
+      "differentiation": "Upstream complement inhibition vs C5 inhibitors"
+    },
+    "musk_landscape": {
+      "adimanebart_position": "First-in-class MuSK agonist antibody",
+      "differentiation": "Novel mechanism for neuromuscular junction diseases"
+    }
+  },
+  "catalysts": {
+    "2026": [
+      {
+        "event": "Ocular MG Phase 3 readout (ADAPT-Oculus)",
+        "timing": "1Q 2026",
+        "significance": "First and only development in Ocular MG; +7K addressable patients"
+      },
+      {
+        "event": "Myositis (AIM) Phase 3 readout (ALKIVIA)",
+        "timing": "3Q 2026",
+        "significance": "Entry into rheumatology; 70K US prevalence"
+      },
+      {
+        "event": "ITP Phase 3 readout (ADVANCE-NEXT)",
+        "timing": "4Q 2026",
+        "significance": "Large hematology market expansion"
+      },
+      {
+        "event": "Empasiprubart MMN Phase 3 readout (EMPASSION)",
+        "timing": "4Q 2026",
+        "significance": "First Phase 3 for second molecule; >$1B market by 2030"
+      },
+      {
+        "event": "Seronegative MG approval decision",
+        "timing": "By end of 2026",
+        "significance": "Broadest MG label; +11K addressable patients"
+      },
+      {
+        "event": "3 new Phase 1 programs",
+        "timing": "2026",
+        "significance": "ARGX-118 (Galectin-10), ARGX-125, TSP-101 (Fn14)"
+      }
+    ],
+    "2027": [
+      {
+        "event": "Sjögren's Disease Phase 3 readout (UNITY)",
+        "timing": "2H 2027",
+        "significance": "330K US prevalence; no approved targeted therapies"
+      },
+      {
+        "event": "Empasiprubart CIDP Phase 3 readout",
+        "timing": "2H 2027",
+        "significance": "Second molecule in CIDP; combination potential with VYVGART"
+      },
+      {
+        "event": "Autoinjector launch",
+        "timing": "Est. 2027",
+        "significance": "Further patient convenience improvement"
+      }
+    ],
+    "vision_2030": {
+      "patients_on_treatment": "50,000",
+      "labeled_indications": "10",
+      "new_molecules_in_phase_3": "5"
+    }
+  },
+  "investment_analysis": {
+    "bull_case": {
+      "thesis": "FcRn platform creates durable multi-indication franchise with best-in-class competitive position",
+      "key_points": [
+        "VYVGART already $4.2B in FY2025 with 90% growth; trajectory toward $10B+ peak",
+        "First mover advantage in FcRn with broadest label and real-world evidence",
+        "6 Phase 3 readouts over next 24 months de-risk pipeline",
+        "Multiple mechanisms (FcRn, C2, MuSK, IgA) diversify beyond single target",
+        "Operating profitability achieved; self-funding growth",
+        "60K addressable MG patients by 2030 (3.5x current)",
+        "Empasiprubart creates second commercial pillar in complement"
+      ],
+      "upside_scenarios": [
+        "All 6 Phase 3 readouts positive in 2026-2027",
+        "Combination approaches (efgartigimod + empasiprubart) show synergy",
+        "ARGX-213 monthly dosing captures share from weekly competitors",
+        "IgA nephropathy indication opens large renal market",
+        "Autoinjector/oral formulations further expand market"
+      ]
+    },
+    "bear_case": {
+      "thesis": "FcRn competition intensifies and pipeline diversification faces execution risk",
+      "key_points": [
+        "UCB rozanolixizumab (RYSTIGGO) and other FcRn competitors gaining approvals",
+        "High valuation requires continued execution on multiple fronts",
+        "Phase 3 trials in heterogeneous diseases (Myositis, Sjögren's) are risky",
+        "Complement space has established players (Alexion/AstraZeneca)",
+        "Large commercial organization requires continued investment"
+      ],
+      "downside_scenarios": [
+        "Ocular MG or Myositis Phase 3 miss",
+        "FcRn competition erodes pricing/share",
+        "Empasiprubart MMN Phase 3 fails",
+        "Slower ex-US expansion"
+      ]
+    },
+    "key_metrics_to_watch": [
+      "Quarterly VYVGART sales trajectory",
+      "New prescriber growth rate",
+      "Phase 3 readout outcomes (6 over 24 months)",
+      "Share of MG biologics market",
+      "CIDP market penetration",
+      "Operating margin expansion"
+    ]
+  },
+  "strategic_priorities_2026": {
+    "priority_1": {
+      "name": "Impact More Patients with VYVGART",
+      "goals": [
+        "Deliver broadest MG label (seronegative approval)",
+        "AIM and ITP Phase 3 readouts",
+        "Expand into rheumatology"
+      ]
+    },
+    "priority_2": {
+      "name": "Shape Long-Term Future of FcRn",
+      "goals": [
+        "Advance combination approaches (ADAPT Forward)",
+        "Progress 3 clinical-stage FcRn molecules"
+      ]
+    },
+    "priority_3": {
+      "name": "Deliver Next Wave of Innovation",
+      "goals": [
+        "First empasiprubart Phase 3 readout (MMN)",
+        "4 Phase 3 molecules advancing",
+        "10 clinical-stage molecules"
+      ]
+    }
+  }
+}

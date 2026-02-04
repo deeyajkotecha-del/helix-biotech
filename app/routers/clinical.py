@@ -1189,8 +1189,19 @@ def _generate_company_overview_html(data: dict) -> str:
         </tr>'''
 
     # Build bull/bear HTML
-    bull_case = thesis.get("bull_case", []) if isinstance(thesis, dict) else thesis
-    bear_case = thesis.get("bear_case", []) if isinstance(thesis, dict) else []
+    bull_case_raw = thesis.get("bull_case", []) if isinstance(thesis, dict) else thesis
+    bear_case_raw = thesis.get("bear_case", []) if isinstance(thesis, dict) else []
+
+    # Handle v2.0 schema where bull_case/bear_case are dicts with key_points
+    if isinstance(bull_case_raw, dict):
+        bull_case = bull_case_raw.get("key_points", [])
+    else:
+        bull_case = bull_case_raw if isinstance(bull_case_raw, list) else []
+
+    if isinstance(bear_case_raw, dict):
+        bear_case = bear_case_raw.get("key_points", [])
+    else:
+        bear_case = bear_case_raw if isinstance(bear_case_raw, list) else []
 
     bull_items = ""
     for item in bull_case[:3]:
@@ -1962,8 +1973,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             {failure_html}
         </div>'''
 
-    # Fallback to v1.0 trials format
-    for trial in trials_v1:
+    # Fallback to v1.0 trials format - handle both list and dict formats
+    trials_list = trials_v1.values() if isinstance(trials_v1, dict) else trials_v1
+    for trial in trials_list:
+        if not isinstance(trial, dict):
+            continue
         trial_name = trial.get("trial_name", "Trial")
         phase = trial.get("phase", "")
         status = trial.get("status", "")
