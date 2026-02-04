@@ -31,7 +31,7 @@
       "market_cap_mm": 8500,
       "fund_ownership_pct": 3.1,
       "priority": "high",
-      "has_data": false,
+      "has_data": true,
       "notes": "TransCon platform; Skytrofa approved, YORVIPATH launch"
     },
     {
@@ -113,7 +113,7 @@
 
   "stats": {
     "total_companies": 7,
-    "with_data": 1,
+    "with_data": 2,
     "by_priority": {
       "high": 7,
       "medium": 0,
