@@ -1,0 +1,90 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "EWTX",
+    "company_name": "Edgewise Therapeutics",
+    "data_source": "CIRRUS-HCM Phase 2 Poster, CVCT Forum Dec 2025",
+    "extraction_date": "2026-02-04"
+  },
+  "company": {
+    "name": "Edgewise Therapeutics",
+    "ticker": "EWTX",
+    "exchange": "NASDAQ",
+    "headquarters": "Boulder, CO",
+    "website": "https://edgewisetx.com",
+    "one_liner": "Developing novel cardiac sarcomere modulators for HCM with potential best-in-class safety profile - no meaningful LVEF reductions observed unlike competing myosin inhibitors"
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Edgewise is developing EDG-7500, a novel cardiac sarcomere modulator for hypertrophic cardiomyopathy (HCM) that slows acto-myosin engagement without inactivating the myosin motor head. Unlike approved myosin inhibitors that cause systolic dysfunction requiring frequent LVEF monitoring, EDG-7500 has shown no meaningful LVEF reductions across its development program, potentially eliminating the need for safety echocardiograms.",
+    "key_value_drivers": [
+      "Differentiated mechanism: slows acto-myosin engagement without inactivating myosin motor head",
+      "No meaningful LVEF reductions observed - potential best-in-class safety vs mavacamten/aficamten",
+      "Positive Phase 2 CIRRUS-HCM data in both obstructive and nonobstructive HCM",
+      "88-89% of patients showed clinical improvements across both HCM subtypes"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "No LVEF reductions eliminates need for frequent safety echos - major convenience advantage vs mavacamten",
+      "Active in both oHCM AND nHCM - competitors only approved for oHCM",
+      "89% achieved LVOT-G <30 mmHg at rest with 100mg dose in oHCM",
+      "Rapid improvements in NT-proBNP, e', KCCQ, and NYHA class",
+      "56% at 100mg achieved NT-proBNP <150 pg/mL (near normalization)",
+      "78% had ≥1 NYHA class improvement at 100mg dose"
+    ],
+    "bear_case": [
+      "Mavacamten (CAMZYOS) and aficamten already approved/launching with established data",
+      "Small Phase 2 study (N=29) - larger trials needed to confirm safety advantage",
+      "Atrial fibrillation observed in 13.8% (4/29) - 2 were SAEs",
+      "nHCM is unvalidated market with no approved therapies",
+      "Dizziness in 27.6% though mostly mild and transient"
+    ],
+    "key_debates": [
+      {
+        "question": "Is the LVEF safety advantage clinically meaningful enough to drive market share?",
+        "bull_view": "Frequent echos are major burden for patients and healthcare system; clean safety transforms adoption",
+        "bear_view": "Mavacamten LVEF issues manageable with monitoring; efficacy matters more",
+        "what_resolves_it": "Phase 3 data and real-world adoption patterns"
+      },
+      {
+        "question": "Can EDG-7500 succeed in nonobstructive HCM?",
+        "bull_view": "nHCM has zero approved treatments; clear unmet need with 88% showing improvements",
+        "bear_view": "nHCM biology less understood; regulatory path unclear",
+        "what_resolves_it": "Phase 3 nHCM trial design and FDA feedback"
+      }
+    ]
+  },
+  "pipeline_summary": {
+    "total_programs": 1,
+    "clinical_stage": 1,
+    "programs": [
+      {
+        "asset": "EDG-7500",
+        "target": "Cardiac sarcomere (acto-myosin)",
+        "stage": "Phase 2",
+        "indications": "Obstructive HCM, Nonobstructive HCM",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 initiation; longer-term CIRRUS-HCM data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "Sarcomere Modulation Platform",
+    "description": "Edgewise develops novel cardiac sarcomere modulators designed to slow the rate of acto-myosin engagement and speed disengagement without inactivating the myosin motor head, providing therapeutic benefit while avoiding the systolic dysfunction seen with myosin inhibitors."
+  },
+  "financials": {
+    "cash_position": "TBD - check latest 10-Q",
+    "cash_runway": "TBD"
+  },
+  "market_opportunity": {
+    "hcm_overview": {
+      "us_prevalence": "~600,000 patients with HCM in US",
+      "obstructive_hcm": "~200,000 patients (1/3 of HCM)",
+      "nonobstructive_hcm": "~400,000 patients (2/3 of HCM) - NO approved treatments"
+    },
+    "competitive_context": {
+      "mavacamten": "Approved for oHCM; requires REMS with frequent echos due to LVEF risk",
+      "aficamten": "Approved/launching for oHCM; also myosin inhibitor with LVEF concerns"
+    }
+  }
+}

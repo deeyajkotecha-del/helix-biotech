@@ -1,0 +1,228 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "EWTX",
+    "asset_name": "edg7500"
+  },
+  "asset": {
+    "name": "EDG-7500",
+    "ticker": "EWTX",
+    "modality": "Small molecule cardiac sarcomere modulator",
+    "stage": "Phase 2",
+    "one_liner": "Novel cardiac sarcomere modulator for HCM that improves cardiac function without the LVEF reductions seen with myosin inhibitors",
+    "ownership": "Wholly-owned"
+  },
+  "target": {
+    "name": "Cardiac Sarcomere (Acto-Myosin)",
+    "full_name": "Cardiac sarcomere acto-myosin complex",
+    "class": "Sarcomere modulator",
+    "pathway": "Acto-myosin engagement → cardiac contraction → LVOT obstruction in HCM",
+    "biology": {
+      "simple_explanation": "EDG-7500 slows the rate of acto-myosin engagement and speeds disengagement WITHOUT inactivating the myosin motor head. This is fundamentally different from myosin inhibitors (mavacamten, aficamten) which inactivate myosin and can cause systolic dysfunction requiring frequent LVEF monitoring.",
+      "mechanism_differentiation": "Slows engagement and speeds disengagement vs inactivating myosin motor head",
+      "key_advantage": "No meaningful LVEF reductions observed - potentially eliminates need for safety echocardiograms"
+    },
+    "why_good_target": {
+      "clinical_validation": "Mavacamten and aficamten validate sarcomere modulation in HCM",
+      "unmet_need": [
+        "Myosin inhibitors cause systolic dysfunction requiring REMS and frequent echos",
+        "Nonobstructive HCM (2/3 of patients) has NO approved treatments",
+        "Current therapies have significant monitoring burden"
+      ]
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Obstructive HCM (oHCM)",
+      "stage": "Phase 2 CIRRUS-HCM",
+      "rationale": "Validated market with approved competitors; opportunity to differentiate on safety"
+    },
+    "expansion": [
+      {
+        "name": "Nonobstructive HCM (nHCM)",
+        "stage": "Phase 2 CIRRUS-HCM",
+        "rationale": "2/3 of HCM patients; zero approved treatments; clear unmet need"
+      }
+    ]
+  },
+  "clinical_data": {
+    "trial_name": "CIRRUS-HCM (Phase 2)",
+    "trial_design": {
+      "phase": "Phase 2",
+      "design": "Multiple-dose study of safety, tolerability, and effects on hemodynamics and functional capacity",
+      "doses": "50 mg and 100 mg",
+      "data_cutoff": "May 2025 (preliminary)"
+    },
+    "populations": {
+      "obstructive_hcm": {
+        "n": 17,
+        "description": "Patients with obstructive HCM"
+      },
+      "nonobstructive_hcm": {
+        "n": 12,
+        "description": "Patients with nonobstructive HCM"
+      },
+      "total": {
+        "n": 29,
+        "description": "Combined oHCM and nHCM cohorts"
+      }
+    },
+    "baseline_characteristics": {
+      "ohcm": {
+        "age_mean": "61 years (SD 13)",
+        "female": "71%",
+        "bmi_mean": "28 kg/m2",
+        "pathogenic_sarcomere_variant": "24%",
+        "nyha_class_ii": "59%",
+        "nyha_class_iii": "35%",
+        "lvef_mean": "65% (SD 4)",
+        "lvot_g_resting": "59 mmHg (SD 30)",
+        "lvot_g_valsalva": "93 mmHg (SD 32)",
+        "nt_probnp_median": "710 pg/mL (IQR 381-1074)",
+        "kccq_oss_mean": "63 (SD 16)",
+        "kccq_css_mean": "69 (SD 15)"
+      },
+      "nhcm": {
+        "age_mean": "54 years (SD 19)",
+        "female": "58%",
+        "bmi_mean": "27 kg/m2",
+        "pathogenic_sarcomere_variant": "33%",
+        "icd": "50%",
+        "nyha_class_ii": "50%",
+        "nyha_class_iii": "50%",
+        "lvef_mean": "61% (SD 6)",
+        "lvot_g_resting": "9 mmHg (SD 6)",
+        "nt_probnp_median": "715 pg/mL (IQR 546-1231)",
+        "kccq_oss_mean": "57 (SD 22)",
+        "kccq_css_mean": "63 (SD 23)"
+      }
+    },
+    "ohcm_efficacy_results": {
+      "lvot_g_response": {
+        "resting_lt30_50mg_wk4": "43%",
+        "resting_lt30_100mg_wk4": "89%",
+        "valsalva_lt50_50mg_wk4": "57%",
+        "valsalva_lt50_100mg_wk4": "89%"
+      },
+      "nt_probnp": {
+        "reduction_at_100mg": "~82% reduction from baseline",
+        "normalization": "56% (5/9) at 100mg achieved NT-proBNP <150 pg/mL",
+        "correlation": "Strong correlation between NT-proBNP improvements and pVO2 improvements"
+      },
+      "diastolic_function_e_prime": {
+        "baseline_mean": "6.0 cm/s (SD 1.3)",
+        "change_50mg_wk2": "+27% (p=NS)",
+        "change_100mg_wk2": "+27% (p≤0.05)",
+        "change_50mg_wk4": "Improvement (p≤0.05)",
+        "timing": "Rapid improvements observed as early as 1 week"
+      },
+      "kccq": {
+        "oss_median_improvement_50mg": "7 points",
+        "oss_median_improvement_100mg": "2 points",
+        "css_median_improvement_50mg": "2 points",
+        "css_median_improvement_100mg": "2 points"
+      },
+      "nyha_improvement": {
+        "50mg_gte1_class": "43%",
+        "100mg_gte1_class": "78%",
+        "overall_clinical_improvement": "89%"
+      }
+    },
+    "nhcm_efficacy_results": {
+      "nt_probnp": {
+        "reduction_50mg": "~48% reduction from baseline",
+        "reduction_100mg": "~64% reduction from baseline",
+        "timing": "Rapid and robust reductions observed"
+      },
+      "diastolic_function_e_prime": {
+        "change_50mg_wk2": "Improvement observed",
+        "change_100mg_wk2": "Improvement observed",
+        "timing": "Changes as early as 1 week following initiation"
+      },
+      "kccq_css": {
+        "very_large_improvement_gte20": "25.9%",
+        "large_improvement_15_to_20": "17.3%",
+        "moderate_improvement_10_to_15": "13.0%",
+        "small_improvement_5_to_10": "9.9%",
+        "minimal_worsening_or_stable": "33.9%",
+        "overall_clinical_improvement": "88%"
+      }
+    },
+    "safety": {
+      "lvef_key_finding": "No meaningful reductions in LVEF or LVEF <50% across broad exposure range",
+      "lvef_nhcm_detail": "4/12 (33%) nHCM had baseline LVEF <60%; all 4 remained stable; mean change +2.5%",
+      "discontinuation": "1 patient (oHCM) due to moderate dizziness",
+      "teaes_gt1_patient": {
+        "dizziness": "27.6% (8/29) - mostly mild and transient",
+        "upper_respiratory_infection": "17.2% (5/29)",
+        "atrial_fibrillation": "13.8% (4/29) - 3 oHCM + 1 nHCM; 2 were SAEs",
+        "influenza_like_illness": "10.3% (3/29)",
+        "palpitations": "10.3% (3/29)",
+        "constipation": "6.9% (2/29)",
+        "diarrhea": "6.9% (2/29)",
+        "headache": "6.9% (2/29)"
+      },
+      "afib_note": "None of the patients with atrial fibrillation experienced LVEF <50% at any time"
+    }
+  },
+  "key_differentiator": {
+    "vs_myosin_inhibitors": {
+      "mavacamten_camzyos": "Requires REMS program with frequent echocardiograms due to LVEF reduction risk",
+      "aficamten": "Also myosin inhibitor with similar LVEF concerns",
+      "edg7500_advantage": "No meaningful LVEF reductions - potentially eliminates need for safety echocardiograms"
+    },
+    "mechanism_difference": "EDG-7500 slows acto-myosin engagement/speeds disengagement WITHOUT inactivating myosin motor head"
+  },
+  "catalysts": [
+    {
+      "event": "Longer-term CIRRUS-HCM data with intra-patient dose optimization",
+      "timing": "2026",
+      "importance": "high",
+      "what_to_watch": "Durability of efficacy; continued LVEF safety; dose optimization results"
+    },
+    {
+      "event": "Phase 3 trial initiation",
+      "timing": "TBD",
+      "importance": "critical",
+      "what_to_watch": "Trial design; endpoints; oHCM vs nHCM strategy"
+    }
+  ],
+  "competitive_landscape": {
+    "approved_therapies": [
+      {
+        "drug": "mavacamten (CAMZYOS)",
+        "company": "Bristol Myers Squibb",
+        "indication": "Obstructive HCM",
+        "limitation": "REMS required; frequent echocardiograms due to LVEF reduction risk"
+      },
+      {
+        "drug": "aficamten",
+        "company": "Cytokinetics",
+        "indication": "Obstructive HCM",
+        "limitation": "Myosin inhibitor mechanism with LVEF concerns"
+      }
+    ],
+    "edg7500_advantages": [
+      "No meaningful LVEF reductions - may not need REMS or frequent echos",
+      "Active in BOTH obstructive AND nonobstructive HCM",
+      "nHCM has NO approved treatments (2/3 of HCM patients)",
+      "Different mechanism: sarcomere modulator vs myosin inhibitor"
+    ]
+  },
+  "investment_analysis": {
+    "probability_of_success": "De-risked by Phase 2 but larger trials needed",
+    "peak_sales_estimate": "TBD - depends on label (oHCM only vs oHCM + nHCM)",
+    "key_risks": [
+      "Small Phase 2 (N=29) - safety advantage needs confirmation in larger trials",
+      "Mavacamten and aficamten have head start in oHCM market",
+      "Atrial fibrillation signal (13.8%) needs monitoring",
+      "nHCM regulatory path unclear"
+    ]
+  },
+  "market_opportunity": {
+    "ohcm_us": "~200,000 patients",
+    "nhcm_us": "~400,000 patients (NO approved treatments)",
+    "total_hcm_us": "~600,000 patients",
+    "key_insight": "If EDG-7500 succeeds in nHCM, it addresses 2x the market of current competitors"
+  }
+}
