@@ -464,6 +464,129 @@ def get_target_landscape(target_name: str, ticker: str = None) -> Optional[dict]
     return None
 
 
+def get_all_targets() -> dict:
+    """
+    Scan all asset files and extract all unique targets.
+
+    Returns dict mapping target name to target info:
+    {
+        "STAT6": {
+            "name": "STAT6",
+            "full_name": "Signal Transducer and Activator of Transcription 6",
+            "pathway": "...",
+            "biology": "...",
+            "genetic_validation": "...",
+            "assets": [
+                {"ticker": "KYMR", "asset_name": "KT-621", "stage": "Phase 2b", ...}
+            ]
+        }
+    }
+    """
+    targets = {}
+
+    for company_dir in COMPANIES_DIR.iterdir():
+        if not company_dir.is_dir():
+            continue
+        ticker = company_dir.name
+
+        for asset_file in company_dir.glob("*.json"):
+            if asset_file.name == "company.json":
+                continue
+
+            try:
+                data = load_json_file(str(asset_file))
+                asset_info = data.get("asset", {})
+                asset_name = asset_info.get("name", asset_file.stem)
+                target_data = asset_info.get("target", {})
+                mechanism_data = asset_info.get("mechanism", {})
+                clinical_dev = data.get("clinical_development", {})
+
+                # Extract target name
+                if isinstance(target_data, dict):
+                    target_name = target_data.get("name", "")
+                else:
+                    target_name = str(target_data) if target_data else ""
+
+                if not target_name:
+                    continue
+
+                # Normalize target name for grouping (but preserve display name)
+                target_key = target_name.upper().replace(" ", "_")
+
+                # Initialize target entry if new
+                if target_key not in targets:
+                    targets[target_key] = {
+                        "name": target_name,
+                        "full_name": target_data.get("full_name", "") if isinstance(target_data, dict) else "",
+                        "pathway": target_data.get("pathway", "") if isinstance(target_data, dict) else "",
+                        "biology": target_data.get("biology", "") if isinstance(target_data, dict) else "",
+                        "genetic_validation": target_data.get("genetic_validation", "") if isinstance(target_data, dict) else "",
+                        "why_undruggable": target_data.get("why_undruggable_before", "") if isinstance(target_data, dict) else "",
+                        "assets": []
+                    }
+                else:
+                    # Update target info if we have more complete data
+                    if isinstance(target_data, dict):
+                        if target_data.get("full_name") and not targets[target_key]["full_name"]:
+                            targets[target_key]["full_name"] = target_data["full_name"]
+                        if target_data.get("pathway") and not targets[target_key]["pathway"]:
+                            targets[target_key]["pathway"] = target_data["pathway"]
+                        if target_data.get("biology") and not targets[target_key]["biology"]:
+                            targets[target_key]["biology"] = target_data["biology"]
+                        if target_data.get("genetic_validation") and not targets[target_key]["genetic_validation"]:
+                            targets[target_key]["genetic_validation"] = target_data["genetic_validation"]
+
+                # Add asset to target
+                mechanism_type = mechanism_data.get("type", "") if isinstance(mechanism_data, dict) else str(mechanism_data)
+                mechanism_diff = mechanism_data.get("differentiation", "") if isinstance(mechanism_data, dict) else ""
+
+                targets[target_key]["assets"].append({
+                    "ticker": ticker,
+                    "asset_name": asset_name,
+                    "asset_slug": asset_name.lower().replace("-", "").replace(" ", "_"),
+                    "stage": clinical_dev.get("current_stage", ""),
+                    "mechanism_type": mechanism_type,
+                    "mechanism_differentiation": mechanism_diff,
+                    "modality": asset_info.get("modality", ""),
+                    "lead_indication": clinical_dev.get("lead_indication", ""),
+                    "ownership": asset_info.get("ownership", "")
+                })
+            except Exception:
+                continue
+
+    return targets
+
+
+def get_target_full(target_name: str) -> Optional[dict]:
+    """
+    Get full target details including all assets targeting it.
+
+    Returns target info with competitive landscape.
+    """
+    all_targets = get_all_targets()
+
+    # Normalize search key
+    target_key = target_name.upper().replace(" ", "_").replace("-", "_")
+
+    # Try exact match first
+    if target_key in all_targets:
+        return all_targets[target_key]
+
+    # Try partial match
+    for key, target in all_targets.items():
+        if target_key in key or key in target_key:
+            return target
+        if target_name.lower() in target["name"].lower():
+            return target
+
+    return None
+
+
+def list_all_targets() -> list:
+    """Return list of all target names."""
+    return sorted(get_all_targets().keys())
+
+
 # =============================================================================
 # DEFINITIONS ACCESS
 # =============================================================================
