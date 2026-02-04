@@ -1,54 +1,113 @@
 {
   "name": "Kymera Therapeutics",
   "ticker": "KYMR",
+  "one_liner": "Developing oral degrader drugs that combine the convenience of pills with the efficacy of injectable biologics to transform immunology treatment paradigms.",
   "headquarters": "Watertown, MA",
   "website": "www.kymeratx.com",
-  "description": "Industry leader in developing oral degrader medicines with a focus on immunology. Building an industry leading pipeline of oral medicines with biologics-like activity to transform treatments for patients with immunological diseases.",
-  "modalities": [
-    "Oral small molecule degraders"
-  ],
+  "description": "Kymera is developing first-in-class oral protein degrader medicines targeting historically undrugged proteins in immunology. The company focuses on transcription factors and scaffolding kinases to create oral drugs with biologics-like activity.",
+  "modality": "Small molecule protein degraders",
   "therapeutic_focus": [
     "Immunology",
-    "Oncology"
+    "Inflammation"
   ],
-  "cash_runway": "Into 2029",
+  "financials": {
+    "cash_position": null,
+    "cash_runway": "Into 2029",
+    "burn_rate_quarterly": null
+  },
+  "investment_thesis": {
+    "bull_case": [
+      {
+        "point": "KT-621 Phase 1b data shows dupilumab-like efficacy in oral form",
+        "evidence": "-63% EASI reduction vs -52% for dupilumab at similar timepoint, 76% EASI-50 responder rate vs 57% dupilumab",
+        "source_page": 33,
+        "confidence": "high"
+      },
+      {
+        "point": "Massive underserved market opportunity with oral convenience advantage",
+        "evidence": ">90% of patients on biologics would switch to oral option, only 1-7% of diagnosed patients access advanced systemic therapies",
+        "source_page": 6,
+        "confidence": "high"
+      },
+      {
+        "point": "Multiple shots on goal across validated immunology targets",
+        "evidence": "Three first-in-class degraders (STAT6, IRF5, IRAK4) targeting genetically validated pathways with >290M combined patient opportunity",
+        "source_page": 9,
+        "confidence": "medium"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Phase 1b data limitations may not predict Phase 2b success",
+        "evidence": "Open-label design with only n=22 patients, cross-trial comparisons to dupilumab may not be reliable due to different trial protocols and patient populations",
+        "counter": "Company acknowledges limitations but emphasizes consistency across multiple biomarkers and clinical endpoints",
+        "source_page": 2,
+        "confidence": "high"
+      },
+      {
+        "point": "Protein degrader modality still relatively unproven in immunology",
+        "evidence": "First-in-class approaches carry higher risk, no oral degraders approved in immunology yet",
+        "counter": "Strong preclinical validation and human genetic data support approach",
+        "source_page": 7,
+        "confidence": "medium"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Will KT-621 maintain dupilumab-like efficacy in randomized Phase 2b trials?",
+        "bull_view": "Phase 1b data across multiple endpoints and biomarkers supports sustained efficacy",
+        "bear_view": "Open-label Phase 1b may overestimate effect size, placebo response could be significant",
+        "data_to_watch": "BROADEN2 Phase 2b AD results by mid-2027"
+      }
+    ]
+  },
   "partnerships": [
     {
       "partner": "Sanofi",
       "asset": "KT-485 (IRAK4 degrader)",
-      "deal_value": null,
+      "deal_type": "Collaboration",
+      "upfront": null,
+      "milestones": null,
+      "royalties": null,
       "status": "Active",
-      "source_page": 51
+      "strategic_value": "Sanofi to advance KT-485 into Phase 1 clinical trial in 2026, leverages Sanofi's immunology expertise and resources",
+      "source_page": 2
     },
     {
       "partner": "Gilead",
       "asset": "CDK2 molecular glue degraders",
-      "deal_value": "Up to $750 million in total payments, including $85 million in upfront and potential option exercise payments",
+      "deal_type": "Collaboration with option",
+      "upfront": "$85M in upfront and potential option exercise payments",
+      "milestones": "Up to $750M in total payments",
+      "royalties": null,
       "status": "Active",
+      "strategic_value": "Accelerates CDK2 program development and commercialization in oncology, provides significant funding",
       "source_page": 52
     }
   ],
-  "investment_thesis": [
-    "Unrivaled science and expertise: Innovative, experienced team and capabilities to develop revolutionary oral therapies to transform the treatment of immunological diseases",
-    "Patient-first mentality, with urgency: Rapidly advancing first-in-industry oral degraders with biologics-like activity",
-    "Defining and surpassing clinical benchmarks: Demonstrated compelling clinical translation of degraders' impact on clinical endpoints",
-    "Scaling for the future: Building a fully integrated global company to deliver a new class of immunology medicines",
-    "Oral degraders that combine the activity of injectable biologics with the convenience of oral drugs have the potential to transform current treatment paradigms",
-    "Over 140M patients diagnosed with immunological diseases with only ~5M (3%) having access to advanced therapies, representing >$100B in annual sales opportunity"
-  ],
-  "key_risks": [
-    "Risk that the results of prior preclinical studies and clinical trials may not be predictive of future results in connection with current or future preclinical studies and clinical trials",
-    "Risk that cross-trial comparisons may not be reliable as no head-to-head trials have been conducted comparing KT-621 to dupilumab",
-    "Risk that strategic partnerships with Sanofi and Gilead may not be able to successfully accelerate the development and commercialization of programs",
-    "Timing and outcome of any interactions with regulatory authorities",
-    "Availability of funding sufficient for the Company's operating expenses and capital expenditure requirements"
+  "competitive_landscape": [
+    {
+      "competitor": "Regeneron/Sanofi",
+      "asset": "Dupilumab (Dupixent)",
+      "stage": "Approved",
+      "differentiation": "KT-621 targets downstream transcription factor vs upstream IL-4/13 receptors, oral vs injectable, showed comparable/superior activity in Phase 1b",
+      "threat_level": "High",
+      "source_page": 14
+    },
+    {
+      "competitor": "JAK inhibitors",
+      "asset": "Various (tofacitinib, etc.)",
+      "stage": "Approved",
+      "differentiation": "KT-621 targets specific Type 2 pathway vs broad JAK inhibition, potentially better safety profile without JAK-associated risks",
+      "threat_level": "Medium",
+      "source_page": 16
+    }
   ],
   "_source_pages": [
     1,
     3,
-    4,
-    54
+    4
   ],
-  "_extracted_at": "2026-02-04T13:13:42.032646",
-  "_last_extracted": "2026-02-04T13:13:42.033260"
+  "_extracted_at": "2026-02-04T13:46:43.243046",
+  "_last_extracted": "2026-02-04T13:46:43.243875"
 }

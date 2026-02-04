@@ -5,6 +5,18 @@ export interface Company {
   sector?: string;
   website?: string;
   lead_asset?: string;
+  // Extended fields from index.json
+  development_stage?: string;
+  modality?: string;
+  modality_subtype?: string;
+  therapeutic_area?: string;
+  therapeutic_subtype?: string;
+  thesis_type?: string;
+  market_cap_mm?: number;
+  fund_ownership_pct?: number;
+  priority?: string;
+  has_data?: boolean;
+  notes?: string;
 }
 
 export interface PubMedArticle {

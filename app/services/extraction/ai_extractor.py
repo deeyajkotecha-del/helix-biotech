@@ -92,19 +92,20 @@ class AIExtractor:
         ticker: str,
         company_name: str = None
     ) -> str:
-        """Build the extraction prompt for Claude."""
+        """Build the PhD-level extraction prompt for Claude."""
 
-        return f'''You are a PhD-level biotechnology analyst extracting structured data from an investor presentation.
+        return f'''You are a PhD-level biotechnology analyst at a top healthcare fund (Avoro, RA Capital, OrbiMed level).
+Extract structured data from this investor presentation for institutional investment analysis.
 
 COMPANY: {ticker}{f" ({company_name})" if company_name else ""}
 
-Extract data from the following presentation text. The text includes [PAGE X] markers - ALWAYS cite page numbers in your extractions for traceability.
+The text includes [PAGE X] markers - ALWAYS cite page numbers for traceability.
 
 <presentation_text>
 {pdf_text}
 </presentation_text>
 
-Extract and return a JSON object with this exact structure:
+Extract and return a JSON object with this EXACT structure:
 
 ```json
 {{
@@ -112,30 +113,76 @@ Extract and return a JSON object with this exact structure:
     "name": "Company Name",
     "ticker": "{ticker}",
     "description": "2-3 sentence company description",
+    "one_liner": "Single sentence capturing the key investment angle",
     "headquarters": "City, State if found",
     "website": "URL if found",
-    "modality": "Small molecule / Antibody / Gene therapy / etc.",
+    "modality": "Primary modality (Small molecule degrader / mAb / etc.)",
     "therapeutic_focus": ["Area 1", "Area 2"],
     "source_pages": [1, 2]
   }},
 
   "financials": {{
-    "cash_mm": null,
-    "cash_runway": "Statement like 'Into 2027'",
-    "market_cap": "If mentioned",
+    "cash_position": "$XXM or $X.XB",
+    "cash_runway": "Statement like 'Into 2027' or 'Through 2028'",
+    "burn_rate_quarterly": "$XXM if mentioned",
     "source_pages": []
+  }},
+
+  "investment_thesis": {{
+    "bull_case": [
+      {{
+        "point": "Key bull thesis point",
+        "evidence": "Specific data/fact supporting this point",
+        "source_page": 10,
+        "confidence": "high/medium/low"
+      }}
+    ],
+    "bear_case": [
+      {{
+        "point": "Key bear thesis point or risk",
+        "evidence": "Why this is a concern",
+        "counter": "Management's response or mitigating factor if any",
+        "source_page": 25,
+        "confidence": "high/medium/low"
+      }}
+    ],
+    "key_debates": [
+      {{
+        "question": "Key question the market is debating",
+        "bull_view": "Bull perspective",
+        "bear_view": "Bear perspective",
+        "data_to_watch": "What data will resolve this"
+      }}
+    ]
   }},
 
   "pipeline_assets": [
     {{
       "name": "Asset name (e.g., KT-621)",
-      "target": "Target protein/pathway",
-      "mechanism": "Mechanism of action",
+      "target": {{
+        "name": "Target protein/pathway",
+        "full_name": "Full scientific name",
+        "pathway": "Signaling pathway",
+        "biology": "Brief explanation of target biology and role in disease",
+        "genetic_validation": "Human genetic evidence if mentioned",
+        "why_undruggable_before": "Why traditional approaches failed"
+      }},
+      "mechanism": {{
+        "type": "Mechanism type (degrader, inhibitor, agonist, etc.)",
+        "description": "How the drug works",
+        "differentiation": "What makes this approach unique"
+      }},
       "modality": "Small molecule degrader / mAb / etc.",
       "stage": "Phase 1 / Phase 2 / etc.",
+      "ownership": "Wholly-owned / Partnered with X",
       "lead_indication": "Primary indication",
-      "other_indications": ["Other indication 1"],
-      "partner": "Partner company if any",
+      "expansion_indications": ["Other indication 1", "Other indication 2"],
+      "market_opportunity": {{
+        "tam": "Total addressable market if mentioned",
+        "patient_population": "Number of patients",
+        "current_treatment": "Standard of care",
+        "unmet_need": "Why new therapy is needed"
+      }},
       "source_pages": [5, 6, 7]
     }}
   ],
@@ -143,61 +190,105 @@ Extract and return a JSON object with this exact structure:
   "clinical_trials": [
     {{
       "asset": "Asset name",
-      "trial_name": "Trial name if given",
+      "trial_name": "Trial name (e.g., BroADen, BREADTH)",
       "nct_id": "NCT number if shown",
-      "phase": "Phase 1 / Phase 2 / etc.",
+      "phase": "Phase 1 / Phase 1b / Phase 2 / Phase 2b / Phase 3",
       "indication": "Indication being studied",
-      "status": "Ongoing / Completed / Planned",
-      "design": "Trial design description",
-      "population": "Patient population",
+      "status": "Completed / Ongoing / Planned",
+      "design": {{
+        "type": "Open-label / Randomized, double-blind, placebo-controlled",
+        "description": "Trial design details",
+        "limitations": "Design limitations (e.g., 'open-label - no placebo arm')"
+      }},
+      "population": {{
+        "description": "Patient population description",
+        "inclusion_criteria": "Key inclusion criteria",
+        "baseline_severity": "Baseline disease severity"
+      }},
       "n_enrolled": null,
       "arms": [
-        {{"name": "Arm name", "dose": "Dose", "n": null}}
+        {{"name": "Arm name", "dose": "Dose", "n": null, "duration": "Treatment duration"}}
       ],
-      "primary_endpoint": "Primary endpoint",
-      "key_results": [
+      "efficacy_endpoints": [
         {{
-          "endpoint": "Endpoint name",
-          "result": "Result value",
-          "timepoint": "When measured",
+          "name": "Endpoint name (e.g., EASI % change)",
+          "category": "primary / secondary / exploratory",
+          "definition": {{
+            "full_name": "Full endpoint name",
+            "what_it_measures": "What this endpoint measures",
+            "scoring": "How it's scored (0-72 for EASI, etc.)",
+            "clinical_meaning": "Why this matters clinically"
+          }},
+          "result": "Result value (e.g., -63%)",
+          "timepoint": "When measured (Day 29, Week 16, etc.)",
+          "dose_group": "Which dose/arm",
           "p_value": null,
-          "vs_comparator": "Comparison if given"
+          "vs_comparator": {{
+            "comparator": "Dupixent / Placebo / etc.",
+            "comparator_result": "Comparator's result at similar timepoint",
+            "interpretation": "How this compares"
+          }},
+          "caveats": "Important caveats (e.g., 'open-label, cross-trial comparison')",
+          "source_page": 28
         }}
       ],
-      "safety_summary": "Safety summary if provided",
+      "biomarker_endpoints": [
+        {{
+          "name": "Biomarker name (e.g., STAT6 degradation)",
+          "result": "Result value",
+          "method": "Measurement method (Flow cytometry, ELISA, Mass spec, etc.)",
+          "tissue": "Blood / Skin / etc.",
+          "what_it_measures": "What this biomarker indicates",
+          "interpretation": "What this result means",
+          "clinical_significance": "Why this matters for the drug",
+          "vs_comparator": "How this compares to competitor if mentioned",
+          "source_page": 22
+        }}
+      ],
+      "safety": {{
+        "summary": "Overall safety summary",
+        "saes": null,
+        "discontinuations": null,
+        "aes_of_interest": {{
+          "ae_name": "incidence (e.g., 'conjunctivitis': '0 vs 10-20% Dupixent')"
+        }},
+        "differentiation": "Safety differentiation from competitors"
+      }},
+      "key_takeaways": ["Takeaway 1", "Takeaway 2"],
+      "limitations": ["Limitation 1 (e.g., 'small sample size n=22')", "Limitation 2"],
       "source_pages": [10, 11, 12]
-    }}
-  ],
-
-  "investment_thesis": [
-    {{
-      "point": "Key investment thesis point",
-      "source_page": 3
-    }}
-  ],
-
-  "key_risks": [
-    {{
-      "risk": "Key risk",
-      "source_page": 25
     }}
   ],
 
   "upcoming_catalysts": [
     {{
       "event": "Catalyst description",
-      "timing": "Expected timing (Q1 2027, 2H 2027, etc.)",
       "asset": "Related asset",
+      "timing": "Expected timing (Mid-2027, 2H 2026, etc.)",
+      "importance": "Critical / High / Medium",
+      "what_to_watch": ["Key metric 1 to watch", "Key metric 2"],
+      "bull_scenario": {{
+        "outcome": "What good looks like",
+        "rationale": "Why this would be bullish"
+      }},
+      "bear_scenario": {{
+        "outcome": "What bad looks like",
+        "rationale": "Why this would be bearish"
+      }},
       "source_page": 4
     }}
   ],
 
   "partnerships": [
     {{
-      "partner": "Partner name",
+      "partner": "Partner name (e.g., Sanofi)",
       "asset": "Asset involved",
-      "deal_value": "Deal terms if disclosed",
+      "deal_type": "Co-development / License / Option",
+      "upfront": "$XXM",
+      "milestones": "$X.XB potential",
+      "royalties": "Terms if disclosed",
       "status": "Active / Completed",
+      "strategic_value": "Why this partnership matters",
       "source_page": 20
     }}
   ],
@@ -206,22 +297,49 @@ Extract and return a JSON object with this exact structure:
     {{
       "competitor": "Competitor name",
       "asset": "Their asset",
-      "differentiation": "How company differentiates",
+      "stage": "Competitor's development stage",
+      "differentiation": "How company differentiates vs this competitor",
+      "threat_level": "High / Medium / Low",
       "source_page": 15
     }}
   ]
 }}
 ```
 
-IMPORTANT GUIDELINES:
-1. ALWAYS include source_page or source_pages for EVERY piece of data
-2. Use null for missing numeric values, not "N/A" or empty strings
-3. Extract ALL pipeline assets mentioned, even if limited data
-4. For clinical results, include exact numbers and statistical values when shown
-5. Capture comparator benchmarks (e.g., "vs Dupixent: 70% at Week 16")
-6. If data is ambiguous or unclear, include a "_notes" field with your interpretation
-7. Extract cash/runway information if mentioned (usually in financial slides)
-8. Capture mechanism of action details for each asset
+CRITICAL GUIDELINES FOR PhD-LEVEL EXTRACTION:
+
+1. SOURCE PAGES: ALWAYS include source_page for EVERY data point. This is non-negotiable.
+
+2. CLINICAL DATA PRECISION:
+   - Extract EXACT numbers (percentages, p-values, confidence intervals)
+   - Include measurement METHODS (flow cytometry, ELISA, etc.)
+   - Note the TIMEPOINT for every result
+   - Always capture COMPARATOR benchmarks (e.g., "vs Dupixent: -52% at Day 28")
+
+3. CAVEATS AND LIMITATIONS:
+   - Flag open-label designs (high placebo response risk)
+   - Note small sample sizes
+   - Highlight cross-trial comparison limitations
+   - Include any data the company downplays
+
+4. BIOMARKER DEPTH:
+   - Explain WHAT each biomarker measures and WHY it matters
+   - Include the measurement method
+   - Note tissue/sample type (blood vs skin vs tissue biopsy)
+
+5. INVESTMENT FRAMING:
+   - Bull case: What could go right and the evidence
+   - Bear case: What could go wrong and counter-arguments
+   - Key debates: What the market is arguing about
+
+6. CATALYST ANALYSIS:
+   - What specific metrics to watch
+   - What "good" vs "bad" outcomes look like
+   - Timing confidence (company-guided vs estimated)
+
+7. Use null for missing numeric values, never "N/A" or empty strings.
+
+8. If data is ambiguous, include a "_notes" field with your interpretation.
 
 Return ONLY the JSON object, no additional text.'''
 
@@ -456,11 +574,11 @@ def sanitize_filename(name: str) -> str:
 
 def convert_to_file_format(extracted_data: dict, ticker: str) -> dict:
     """
-    Convert extracted data to our file format for saving.
+    Convert extracted data to our v2 file format for saving.
 
     Returns dict with:
-    - "company.json": company data
-    - "{asset_name}.json": asset data for each asset
+    - "company.json": company data with bull/bear thesis
+    - "{asset_name}.json": asset data with full clinical trials
 
     Filenames are sanitized for filesystem compatibility.
     Original names are preserved inside JSON for display.
@@ -468,29 +586,52 @@ def convert_to_file_format(extracted_data: dict, ticker: str) -> dict:
     ticker = ticker.upper()
     files = {}
 
-    # Build company.json
+    # Build company.json with v2 schema
     company = extracted_data.get("company", {})
+    financials = extracted_data.get("financials", {})
+    thesis = extracted_data.get("investment_thesis", {})
+
+    # Handle both old format (list) and new format (dict with bull_case/bear_case)
+    if isinstance(thesis, list):
+        # Old format - convert to simple list
+        bull_case = thesis
+        bear_case = []
+        key_debates = []
+    else:
+        # New v2 format
+        bull_case = thesis.get("bull_case", [])
+        bear_case = thesis.get("bear_case", [])
+        key_debates = thesis.get("key_debates", [])
+
     company_json = {
         "name": company.get("name"),
         "ticker": ticker,
+        "one_liner": company.get("one_liner"),
         "headquarters": company.get("headquarters"),
         "website": company.get("website"),
         "description": company.get("description"),
-        "modalities": [company.get("modality")] if company.get("modality") else [],
+        "modality": company.get("modality"),
         "therapeutic_focus": company.get("therapeutic_focus", []),
-        "cash_runway": extracted_data.get("financials", {}).get("cash_runway"),
+        "financials": {
+            "cash_position": financials.get("cash_position"),
+            "cash_runway": financials.get("cash_runway"),
+            "burn_rate_quarterly": financials.get("burn_rate_quarterly"),
+        },
+        "investment_thesis": {
+            "bull_case": bull_case,
+            "bear_case": bear_case,
+            "key_debates": key_debates
+        },
         "partnerships": extracted_data.get("partnerships", []),
-        "investment_thesis": [p.get("point") for p in extracted_data.get("investment_thesis", [])],
-        "key_risks": [r.get("risk") for r in extracted_data.get("key_risks", [])],
+        "competitive_landscape": extracted_data.get("competitive_landscape", []),
         "_source_pages": company.get("source_pages", []),
         "_extracted_at": extracted_data.get("_extraction_metadata", {}).get("extracted_at")
     }
     files["company.json"] = company_json
 
-    # Build asset files
+    # Build asset files with full v2 clinical data
     for asset in extracted_data.get("pipeline_assets", []):
         asset_name = asset.get("name", "unknown")
-        # Sanitize filename for filesystem compatibility
         filename = sanitize_filename(asset_name) + ".json"
 
         # Find trials for this asset
@@ -505,48 +646,88 @@ def convert_to_file_format(extracted_data: dict, ticker: str) -> dict:
             if c.get("asset", "").lower() == asset_name.lower()
         ]
 
+        # Handle target - could be string (old) or dict (new v2)
+        target_data = asset.get("target", {})
+        if isinstance(target_data, str):
+            target_obj = {"name": target_data}
+        else:
+            target_obj = target_data
+
+        # Handle mechanism - could be string (old) or dict (new v2)
+        mechanism_data = asset.get("mechanism", {})
+        if isinstance(mechanism_data, str):
+            mechanism_obj = {"description": mechanism_data}
+        else:
+            mechanism_obj = mechanism_data
+
+        # Build full trial objects with v2 schema
+        trials_v2 = []
+        for t in asset_trials:
+            # Handle design - could be string or dict
+            design_data = t.get("design", {})
+            if isinstance(design_data, str):
+                design_obj = {"description": design_data}
+            else:
+                design_obj = design_data
+
+            # Handle population - could be string or dict
+            pop_data = t.get("population", {})
+            if isinstance(pop_data, str):
+                pop_obj = {"description": pop_data}
+            else:
+                pop_obj = pop_data
+
+            trial_obj = {
+                "trial_name": t.get("trial_name"),
+                "nct_id": t.get("nct_id"),
+                "phase": t.get("phase"),
+                "status": t.get("status"),
+                "indication": t.get("indication"),
+                "design": design_obj,
+                "population": pop_obj,
+                "n_enrolled": t.get("n_enrolled"),
+                "arms": t.get("arms", []),
+                "efficacy_endpoints": t.get("efficacy_endpoints", []),
+                "biomarker_endpoints": t.get("biomarker_endpoints", []),
+                "safety": t.get("safety", {}),
+                "key_takeaways": t.get("key_takeaways", []),
+                "limitations": t.get("limitations", []),
+                "_source_pages": t.get("source_pages", [])
+            }
+            trials_v2.append(trial_obj)
+
+        # Build catalyst objects with v2 schema
+        catalysts_v2 = []
+        for c in asset_catalysts:
+            catalyst_obj = {
+                "event": c.get("event"),
+                "timing": c.get("timing"),
+                "importance": c.get("importance"),
+                "what_to_watch": c.get("what_to_watch", []),
+                "bull_scenario": c.get("bull_scenario"),
+                "bear_scenario": c.get("bear_scenario"),
+                "_source_page": c.get("source_page")
+            }
+            catalysts_v2.append(catalyst_obj)
+
         asset_json = {
             "asset": {
                 "name": asset_name,
                 "company": company.get("name"),
                 "ticker": ticker,
-                "target": asset.get("target"),
-                "mechanism": asset.get("mechanism"),
+                "target": target_obj,
+                "mechanism": mechanism_obj,
                 "modality": asset.get("modality"),
-                "partner": asset.get("partner")
+                "ownership": asset.get("ownership"),
             },
             "clinical_development": {
                 "current_stage": asset.get("stage"),
-                "indications_in_development": (
-                    [asset.get("lead_indication")] +
-                    asset.get("other_indications", [])
-                )
+                "lead_indication": asset.get("lead_indication"),
+                "expansion_indications": asset.get("expansion_indications", []),
             },
-            "trials": [
-                {
-                    "name": t.get("trial_name"),
-                    "nct_id": t.get("nct_id"),
-                    "phase": t.get("phase"),
-                    "status": t.get("status"),
-                    "indication": t.get("indication"),
-                    "design": t.get("design"),
-                    "population": t.get("population"),
-                    "arms": t.get("arms", []),
-                    "primary_endpoint": t.get("primary_endpoint"),
-                    "endpoints": t.get("key_results", []),
-                    "safety": t.get("safety_summary"),
-                    "_source_pages": t.get("source_pages", [])
-                }
-                for t in asset_trials
-            ],
-            "investment_thesis": [p.get("point") for p in extracted_data.get("investment_thesis", [])
-                                  if asset_name.lower() in p.get("point", "").lower()],
-            "key_risks": [r.get("risk") for r in extracted_data.get("key_risks", [])
-                         if asset_name.lower() in r.get("risk", "").lower()],
-            "upcoming_catalysts": [
-                {"event": c.get("event"), "timing": c.get("timing")}
-                for c in asset_catalysts
-            ],
+            "market_opportunity": asset.get("market_opportunity", {}),
+            "trials": trials_v2,
+            "upcoming_catalysts": catalysts_v2,
             "_source_pages": asset.get("source_pages", [])
         }
         files[filename] = asset_json

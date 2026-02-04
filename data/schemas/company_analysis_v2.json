@@ -1,0 +1,322 @@
+{
+  "_schema_version": "2.0",
+  "_description": "PhD-level biotech company analysis schema designed for institutional investors (Avoro, RA Capital, Paradigm, OrbiMed)",
+
+  "company": {
+    "identifiers": {
+      "ticker": "KYMR",
+      "name": "Kymera Therapeutics",
+      "exchange": "NASDAQ",
+      "cusip": "string",
+      "isin": "string"
+    },
+
+    "snapshot": {
+      "market_cap": "$3.5B",
+      "enterprise_value": "$2.8B",
+      "cash_position": "$850M",
+      "cash_runway_quarters": 12,
+      "burn_rate_quarterly": "$70M",
+      "fully_diluted_shares": "65M",
+      "insider_ownership_pct": 8.5,
+      "institutional_ownership_pct": 92,
+      "short_interest_pct": 4.2,
+      "last_updated": "2026-02-04"
+    },
+
+    "classification": {
+      "development_stage": "Mid Clinical",
+      "primary_modality": "Small Molecule Degrader",
+      "secondary_modalities": ["Molecular Glue"],
+      "therapeutic_areas": ["I&I / Autoimmune", "Oncology"],
+      "thesis_type": "Platform/Royalty",
+      "risk_profile": "Medium-High"
+    },
+
+    "one_liner": "First-mover in oral targeted protein degradation for immunology, with potential Dupixent-in-a-pill (KT-621) as lead asset",
+
+    "investment_thesis": {
+      "bull_case": [
+        {
+          "point": "string",
+          "evidence": "string",
+          "source": "string",
+          "confidence": "high|medium|low"
+        }
+      ],
+      "bear_case": [
+        {
+          "point": "string",
+          "evidence": "string",
+          "source": "string",
+          "counter": "string",
+          "confidence": "high|medium|low"
+        }
+      ],
+      "key_debates": [
+        {
+          "question": "string",
+          "bull_view": "string",
+          "bear_view": "string",
+          "data_to_watch": "string"
+        }
+      ]
+    },
+
+    "management": {
+      "ceo": {
+        "name": "string",
+        "background": "string",
+        "tenure_years": 0,
+        "shares_owned": "string",
+        "track_record": "string"
+      },
+      "management_quality_score": "A|B|C|D",
+      "notes": "string"
+    },
+
+    "partnerships": [
+      {
+        "partner": "string",
+        "asset": "string",
+        "deal_type": "string",
+        "upfront": "string",
+        "milestones": "string",
+        "royalties": "string",
+        "status": "string",
+        "strategic_value": "string"
+      }
+    ],
+
+    "competitive_position": {
+      "moat_assessment": {
+        "score": "A|B|C|D",
+        "rationale": "string"
+      },
+      "key_competitors": [
+        {
+          "company": "string",
+          "asset": "string",
+          "threat_level": "string",
+          "differentiation": "string"
+        }
+      ]
+    }
+  },
+
+  "pipeline": {
+    "summary": {
+      "total_programs": 0,
+      "clinical_stage": 0,
+      "preclinical": 0,
+      "partnered": 0,
+      "wholly_owned": 0
+    },
+
+    "assets": [
+      {
+        "name": "string",
+        "display_name": "string",
+        "target": {
+          "name": "string",
+          "full_name": "string",
+          "class": "string",
+          "pathway": "string",
+          "biology": "string",
+          "genetic_validation": "string",
+          "why_undruggable_before": "string",
+          "degrader_advantage": "string"
+        },
+
+        "mechanism": {
+          "type": "string",
+          "e3_ligase": "string",
+          "degradation_kinetics": "string",
+          "selectivity": "string",
+          "tissue_distribution": "string"
+        },
+
+        "stage": "string",
+        "ownership": "string",
+        "indication_strategy": {
+          "lead_indication": "string",
+          "expansion_indications": [],
+          "rationale": "string"
+        },
+
+        "market_opportunity": {
+          "tam": "string",
+          "patient_population": "string",
+          "current_penetration": "string",
+          "price_assumption": "string",
+          "peak_sales_estimate": "string",
+          "peak_sales_probability_weighted": "string"
+        },
+
+        "clinical_data": {
+          "trials": [
+            {
+              "trial_name": "string",
+              "nct_id": "string",
+              "phase": "string",
+              "design": "string",
+              "design_limitations": "string",
+              "population": {
+                "description": "string",
+                "inclusion": "string",
+                "baseline_severity": "string"
+              },
+              "n_enrolled": 0,
+              "arms": [
+                {"name": "string", "n": 0, "duration": "string"}
+              ],
+              "efficacy_endpoints": [
+                {
+                  "name": "string",
+                  "endpoint_definition": {
+                    "full_name": "string",
+                    "what_it_measures": "string",
+                    "scoring": "string",
+                    "regulatory_status": "string"
+                  },
+                  "result": "string",
+                  "timepoint": "string",
+                  "dose_group": "string",
+                  "p_value": "string",
+                  "confidence_interval": "string",
+                  "vs_comparator": {
+                    "comparator_name": "string",
+                    "comparator_result": "string",
+                    "interpretation": "string"
+                  },
+                  "caveats": "string",
+                  "source_page": 0
+                }
+              ],
+              "biomarker_endpoints": [
+                {
+                  "name": "string",
+                  "result": "string",
+                  "method": "string",
+                  "what_it_measures": "string",
+                  "interpretation": "string",
+                  "clinical_significance": "string",
+                  "vs_comparator": "string",
+                  "source_page": 0
+                }
+              ],
+              "safety": {
+                "summary": "string",
+                "saes": 0,
+                "discontinuations_due_to_ae": 0,
+                "aes_of_special_interest": {},
+                "comparison_to_comparator": "string"
+              },
+              "key_takeaways": [],
+              "limitations": [],
+              "source": "string"
+            }
+          ],
+          "ongoing_trials": [
+            {
+              "trial_name": "string",
+              "nct_id": "string",
+              "phase": "string",
+              "design": "string",
+              "indication": "string",
+              "n_target": 0,
+              "primary_endpoint": "string",
+              "secondary_endpoints": [],
+              "status": "string",
+              "data_expected": "string",
+              "why_it_matters": "string"
+            }
+          ]
+        },
+
+        "regulatory_path": {
+          "fda_designation": "string",
+          "breakthrough_therapy": "string",
+          "expected_filing": "string",
+          "expected_approval": "string"
+        },
+
+        "probability_of_success": {
+          "phase2_to_phase3": "string",
+          "phase3_to_approval": "string",
+          "cumulative_pos": "string",
+          "methodology": "string",
+          "key_derisking_factors": [],
+          "key_risks": []
+        }
+      }
+    ]
+  },
+
+  "catalysts": {
+    "upcoming": [
+      {
+        "event": "string",
+        "asset": "string",
+        "timing": "string",
+        "timing_confidence": "string",
+        "importance": "Critical|High|Medium|Low",
+        "what_to_watch": [],
+        "bull_scenario": {
+          "outcome": "string",
+          "stock_impact": "string",
+          "rationale": "string"
+        },
+        "bear_scenario": {
+          "outcome": "string",
+          "stock_impact": "string",
+          "rationale": "string"
+        },
+        "consensus_expectation": "string"
+      }
+    ],
+    "past": [
+      {
+        "event": "string",
+        "date": "string",
+        "outcome": "string",
+        "stock_reaction": "string"
+      }
+    ]
+  },
+
+  "valuation": {
+    "current_market_cap": "string",
+    "methodology": "string",
+    "sum_of_parts": {},
+    "scenario_analysis": {
+      "bull_case": {
+        "target_price": "string",
+        "market_cap": "string",
+        "assumptions": "string"
+      },
+      "base_case": {
+        "target_price": "string",
+        "market_cap": "string",
+        "assumptions": "string"
+      },
+      "bear_case": {
+        "target_price": "string",
+        "market_cap": "string",
+        "assumptions": "string"
+      }
+    }
+  },
+
+  "sources": {
+    "primary": [
+      {
+        "title": "string",
+        "type": "string",
+        "date": "string",
+        "pages_referenced": []
+      }
+    ],
+    "last_updated": "string"
+  }
+}

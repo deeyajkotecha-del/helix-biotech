@@ -186,7 +186,7 @@ def get_company_full(ticker: str) -> Optional[dict]:
     Get full company data including:
     - Index metadata (classification, thesis type, etc.)
     - Company data (if exists)
-    - Pipeline summary
+    - Full asset data with clinical trials, endpoints, biomarkers
     """
     ticker = ticker.upper()
 
@@ -196,15 +196,48 @@ def get_company_full(ticker: str) -> Optional[dict]:
     # Get company data if it exists
     company_data = load_company_data(ticker)
 
-    # Get asset list
-    assets = list_company_assets(ticker)
+    # Load ALL asset files with full clinical data
+    asset_names = list_company_assets(ticker)
+    assets_full = []
+    all_catalysts = []
+
+    for asset_name in asset_names:
+        asset_data = load_asset_data(ticker, asset_name)
+        if asset_data:
+            asset_info = asset_data.get("asset", {})
+            clinical_dev = asset_data.get("clinical_development", {})
+
+            # Build full asset object
+            full_asset = {
+                "name": asset_info.get("name", asset_name),
+                "target": asset_info.get("target"),
+                "mechanism": asset_info.get("mechanism"),
+                "modality": asset_info.get("modality"),
+                "partner": asset_info.get("partner"),
+                "stage": clinical_dev.get("current_stage"),
+                "indications": clinical_dev.get("indications_in_development", []),
+                "clinical_data": {
+                    "trials": asset_data.get("trials", []),
+                },
+                "investment_thesis": asset_data.get("investment_thesis", []),
+                "key_risks": asset_data.get("key_risks", []),
+                "_source_pages": asset_data.get("_source_pages", [])
+            }
+            assets_full.append(full_asset)
+
+            # Collect catalysts from all assets
+            for catalyst in asset_data.get("upcoming_catalysts", []):
+                if isinstance(catalyst, dict):
+                    catalyst["asset"] = asset_info.get("name", asset_name)
+                    all_catalysts.append(catalyst)
 
     # Build full response
     result = {
         "ticker": ticker,
         "has_data": company_data is not None,
-        "assets_count": len(assets),
-        "assets": assets
+        "assets_count": len(assets_full),
+        "assets": assets_full,
+        "catalysts": all_catalysts
     }
 
     # Merge index metadata

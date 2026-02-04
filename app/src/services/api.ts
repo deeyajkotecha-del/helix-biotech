@@ -11,8 +11,30 @@ const api = axios.create({
 });
 
 export const companiesApi = {
-  list: async (): Promise<Company[]> => {
-    const response = await api.get<Company[]>('/companies');
+  list: async (filters?: {
+    development_stage?: string;
+    modality?: string;
+    therapeutic_area?: string;
+    thesis_type?: string;
+    priority?: string;
+    has_data?: boolean;
+  }): Promise<Company[]> => {
+    const params = new URLSearchParams();
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== '') {
+          params.append(key, String(value));
+        }
+      });
+    }
+    const queryString = params.toString();
+    const url = `/clinical/companies${queryString ? `?${queryString}` : ''}`;
+    const response = await api.get<{ companies: Company[]; count: number }>(url);
+    return response.data.companies;
+  },
+
+  getTaxonomy: async () => {
+    const response = await api.get('/clinical/taxonomy');
     return response.data;
   },
 

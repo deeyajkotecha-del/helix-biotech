@@ -1,0 +1,436 @@
+{
+  "asset": {
+    "name": "KT-621",
+    "company": "Kymera Therapeutics",
+    "ticker": "KYMR",
+    "target": {
+      "name": "STAT6",
+      "full_name": "Signal Transducer and Activator of Transcription 6",
+      "pathway": "IL-4/IL-13 Type 2 inflammation pathway",
+      "biology": "STAT6 is the specific transcription factor in the IL-4/IL-13 pathway that drives allergic Type 2 inflammation. It regulates downstream cytokines and chemokines including TARC, Eotaxin-3, and IL-31.",
+      "genetic_validation": "STAT6 gain-of-function and heterozygous loss-of-function alleles validate its role in Type 2 diseases",
+      "why_undruggable_before": "Transcription factors lack traditional binding pockets for small molecule inhibitors and require nuclear localization"
+    },
+    "mechanism": {
+      "type": "Protein degrader",
+      "description": "Catalytic degradation of STAT6 protein leading to complete pathway blockade with low/short drug exposures, unlike stoichiometric inhibition",
+      "differentiation": "Achieves biologics-like depth of immune modulation with oral convenience, targeting pathway downstream of IL-4/IL-13 receptors"
+    },
+    "modality": "Small molecule degrader",
+    "ownership": "Wholly-owned"
+  },
+  "clinical_development": {
+    "current_stage": "Phase 2b",
+    "lead_indication": "Atopic Dermatitis",
+    "expansion_indications": [
+      "Asthma",
+      "COPD",
+      "Eosinophilic Esophagitis",
+      "Chronic Rhinosinusitis with Nasal Polyps",
+      "Chronic Spontaneous Urticaria",
+      "Prurigo Nodularis",
+      "Bullous Pemphigoid"
+    ]
+  },
+  "market_opportunity": {
+    "tam": ">$20B market",
+    "patient_population": ">140M patients with Type 2 inflammation",
+    "current_treatment": "Injectable biologics like dupilumab, limited topical treatments, JAK inhibitors with safety concerns",
+    "unmet_need": "Only ~1% of patients have access to advanced systemic therapies, >90% would prefer oral option over injections"
+  },
+  "trials": [
+    {
+      "trial_name": "BroADen Phase 1b",
+      "nct_id": null,
+      "phase": "Phase 1b",
+      "status": "Completed",
+      "indication": "Moderate to Severe Atopic Dermatitis",
+      "design": {
+        "type": "Single arm, open-label",
+        "description": "Two sequential dose cohorts with 28 days of treatment and 14-day follow-up",
+        "limitations": "Open-label design with no placebo control increases risk of bias in subjective endpoints"
+      },
+      "population": {
+        "description": "Adult patients with moderate to severe atopic dermatitis",
+        "inclusion_criteria": "EASI \u226516, vIGA-AD \u22653, PPNRS \u22654, BSA \u226510%, documented TCS failure",
+        "baseline_severity": "Mean EASI 24.9, 45.5% severe (vIGA-AD=4), mean Peak Pruritus NRS 7.5"
+      },
+      "n_enrolled": 22,
+      "arms": [
+        {
+          "name": "KT-621 100mg QD",
+          "dose": "100mg once daily",
+          "n": 10,
+          "duration": "28 days"
+        },
+        {
+          "name": "KT-621 200mg QD",
+          "dose": "200mg once daily",
+          "n": 12,
+          "duration": "28 days"
+        }
+      ],
+      "efficacy_endpoints": [
+        {
+          "name": "EASI % change",
+          "category": "primary",
+          "definition": {
+            "full_name": "Eczema Area and Severity Index",
+            "what_it_measures": "Severity and extent of atopic dermatitis lesions",
+            "scoring": "0-72 scale combining erythema, induration, excoriation, lichenification across body regions",
+            "clinical_meaning": "Primary endpoint used for AD drug approval, measures disease activity"
+          },
+          "result": "-63%",
+          "timepoint": "Day 29",
+          "dose_group": "Overall (n=22)",
+          "p_value": null,
+          "vs_comparator": {
+            "comparator": "Dupilumab 300mg Q2W",
+            "comparator_result": "-52% at Day 28 in Phase 3",
+            "interpretation": "KT-621 numerically exceeded dupilumab"
+          },
+          "caveats": "Open-label design, cross-trial comparison to dupilumab",
+          "source_page": 33
+        },
+        {
+          "name": "EASI-50 responder rate",
+          "category": "secondary",
+          "definition": {
+            "full_name": "\u226550% improvement in EASI from baseline",
+            "what_it_measures": "Proportion of patients achieving clinically meaningful improvement",
+            "scoring": "Binary responder endpoint",
+            "clinical_meaning": "Regulatory endpoint for demonstrating clinical benefit"
+          },
+          "result": "76%",
+          "timepoint": "Day 29",
+          "dose_group": "Overall (n=22)",
+          "p_value": null,
+          "vs_comparator": {
+            "comparator": "Dupilumab",
+            "comparator_result": "57% at Day 28",
+            "interpretation": "Higher responder rate than dupilumab"
+          },
+          "caveats": "Small sample size, open-label",
+          "source_page": 33
+        },
+        {
+          "name": "Peak Pruritus NRS % change",
+          "category": "secondary",
+          "definition": {
+            "full_name": "Peak Pruritus Numerical Rating Scale",
+            "what_it_measures": "Patient-reported worst itch intensity over 24 hours",
+            "scoring": "0-10 scale where 0=no itch, 10=worst itch imaginable",
+            "clinical_meaning": "Key patient-reported outcome, itch is primary symptom in AD"
+          },
+          "result": "-40%",
+          "timepoint": "Day 29",
+          "dose_group": "Overall (n=22)",
+          "p_value": null,
+          "vs_comparator": {
+            "comparator": "Dupilumab",
+            "comparator_result": "-33%",
+            "interpretation": "Numerically better itch control"
+          },
+          "caveats": "Subjective endpoint in open-label trial",
+          "source_page": 33
+        }
+      ],
+      "biomarker_endpoints": [
+        {
+          "name": "STAT6 degradation in blood",
+          "result": "98% median degradation",
+          "method": "Flow cytometry",
+          "tissue": "Blood",
+          "what_it_measures": "Target engagement and mechanism confirmation",
+          "interpretation": "Deep and sustained target degradation throughout treatment",
+          "clinical_significance": "Demonstrates drug is working via intended mechanism with near-complete target elimination",
+          "vs_comparator": "No direct comparator for STAT6 degradation",
+          "source_page": 25
+        },
+        {
+          "name": "STAT6 degradation in skin",
+          "result": "94% degradation in both dose groups",
+          "method": "Targeted mass spectrometry",
+          "tissue": "Skin",
+          "what_it_measures": "Target engagement in disease-relevant tissue",
+          "interpretation": "Drug penetrates skin and achieves target degradation at site of disease",
+          "clinical_significance": "Critical for demonstrating tissue penetration and local activity in AD lesions",
+          "vs_comparator": "No direct comparator available",
+          "source_page": 25
+        },
+        {
+          "name": "TARC reduction",
+          "result": "-74% median inhibition",
+          "method": "Serum measurement",
+          "tissue": "Blood",
+          "what_it_measures": "Validated biomarker of Type 2 inflammation suppression, drives chemotaxis of CCR4-expressed T cells",
+          "interpretation": "Robust blockade of Type 2 inflammatory pathway",
+          "clinical_significance": "TARC is established biomarker for IL-4/13 pathway activity in AD",
+          "vs_comparator": "Dupilumab: -74% (identical)",
+          "source_page": 26
+        },
+        {
+          "name": "Eotaxin-3 reduction",
+          "result": "-73% median inhibition",
+          "method": "Serum measurement",
+          "tissue": "Blood",
+          "what_it_measures": "Highly specific downstream cytokine of IL-4/13 pathway, drives chemotaxis of CCR3-expressed inflammatory cells",
+          "interpretation": "Strong pathway blockade comparable to dupilumab",
+          "clinical_significance": "Specific marker of IL-4/13 pathway suppression",
+          "vs_comparator": "Dupilumab: -51% in asthma studies",
+          "source_page": 26
+        }
+      ],
+      "safety": {
+        "summary": "Well-tolerated with favorable safety profile similar to Phase 1a healthy volunteer study",
+        "saes": 0,
+        "discontinuations": 0,
+        "aes_of_interest": {
+          "conjunctivitis": "0% vs 10-20% typical for dupilumab",
+          "herpes_infections": "0%",
+          "arthralgias": "0%"
+        },
+        "differentiation": "No dose-dependent pattern in adverse events, no treatment-related AEs, absence of conjunctivitis which affects 10-20% of dupilumab patients"
+      },
+      "key_takeaways": [
+        "Clinical activity matched or exceeded dupilumab benchmarks across multiple endpoints",
+        "Deep target degradation in blood and skin confirms mechanism",
+        "Favorable safety profile with absence of dupilumab-associated conjunctivitis"
+      ],
+      "limitations": [
+        "Small sample size (n=22)",
+        "Open-label design without placebo control",
+        "Cross-trial comparison to dupilumab may not be reliable",
+        "Short treatment duration (28 days)"
+      ],
+      "_source_pages": [
+        23,
+        24,
+        25,
+        28,
+        33,
+        34
+      ]
+    },
+    {
+      "trial_name": "BROADEN2",
+      "nct_id": null,
+      "phase": "Phase 2b",
+      "status": "Ongoing",
+      "indication": "Moderate to Severe Atopic Dermatitis",
+      "design": {
+        "type": "Randomized, double-blind, placebo-controlled, parallel-group, multicenter dose-ranging",
+        "description": "Four-arm study with three KT-621 doses plus placebo, 16-week treatment with 52-week open-label extension",
+        "limitations": "None identified for this randomized controlled design"
+      },
+      "population": {
+        "description": "Adult and adolescent patients aged 12-75 with moderate to severe atopic dermatitis",
+        "inclusion_criteria": "EASI \u226516, vIGA-AD \u22653, Peak Pruritus NRS \u22654, BSA \u226510%, documented TCS failure",
+        "baseline_severity": "Moderate to severe AD"
+      },
+      "n_enrolled": 200,
+      "arms": [
+        {
+          "name": "Placebo",
+          "dose": "Placebo",
+          "n": 50,
+          "duration": "16 weeks"
+        },
+        {
+          "name": "KT-621 Low",
+          "dose": "Low dose daily",
+          "n": 50,
+          "duration": "16 weeks"
+        },
+        {
+          "name": "KT-621 Mid",
+          "dose": "Mid dose daily",
+          "n": 50,
+          "duration": "16 weeks"
+        },
+        {
+          "name": "KT-621 High",
+          "dose": "High dose daily",
+          "n": 50,
+          "duration": "16 weeks"
+        }
+      ],
+      "efficacy_endpoints": [
+        {
+          "name": "EASI % change from baseline",
+          "category": "primary",
+          "definition": {
+            "full_name": "Percent change from baseline in EASI score",
+            "what_it_measures": "Primary efficacy measure for AD severity",
+            "scoring": "Continuous measure of lesion severity and extent",
+            "clinical_meaning": "Regulatory primary endpoint for AD drug approval"
+          },
+          "result": null,
+          "timepoint": "Week 16",
+          "dose_group": "All arms",
+          "p_value": null,
+          "vs_comparator": {
+            "comparator": "Placebo",
+            "comparator_result": null,
+            "interpretation": "Will determine dose-response and placebo-adjusted efficacy"
+          },
+          "caveats": "Data expected by mid-2027",
+          "source_page": 19
+        }
+      ],
+      "biomarker_endpoints": [],
+      "safety": {
+        "summary": "Safety will be assessed across all dose levels",
+        "saes": null,
+        "discontinuations": null,
+        "aes_of_interest": {},
+        "differentiation": "Will provide safety database for Phase 3 dose selection"
+      },
+      "key_takeaways": [
+        "Will establish dose-response relationship",
+        "Powered to select Phase 3 dose",
+        "First randomized controlled data for KT-621"
+      ],
+      "limitations": [
+        "Data not yet available"
+      ],
+      "_source_pages": [
+        19
+      ]
+    },
+    {
+      "trial_name": "BREADTH",
+      "nct_id": null,
+      "phase": "Phase 2b",
+      "status": "Initiated",
+      "indication": "Moderate to Severe Eosinophilic Asthma",
+      "design": {
+        "type": "Randomized, double-blind, placebo-controlled, parallel-group, multicenter dose-ranging",
+        "description": "Four-arm study with three KT-621 doses plus placebo for 12 weeks",
+        "limitations": "None identified for this controlled design"
+      },
+      "population": {
+        "description": "Adult patients with moderate to severe eosinophilic asthma",
+        "inclusion_criteria": "Blood eosinophils \u2265300 cells/\u03bcL, FeNO \u226525 ppb, pre-bronchodilator FEV1 40-80% of predicted normal",
+        "baseline_severity": "Moderate to severe with eosinophilic phenotype"
+      },
+      "n_enrolled": 264,
+      "arms": [
+        {
+          "name": "Placebo",
+          "dose": "Placebo daily",
+          "n": 66,
+          "duration": "12 weeks"
+        },
+        {
+          "name": "KT-621 Low",
+          "dose": "Low dose daily",
+          "n": 66,
+          "duration": "12 weeks"
+        },
+        {
+          "name": "KT-621 Mid",
+          "dose": "Mid dose daily",
+          "n": 66,
+          "duration": "12 weeks"
+        },
+        {
+          "name": "KT-621 High",
+          "dose": "High dose daily",
+          "n": 66,
+          "duration": "12 weeks"
+        }
+      ],
+      "efficacy_endpoints": [
+        {
+          "name": "Pre-bronchodilator FEV1 % change",
+          "category": "primary",
+          "definition": {
+            "full_name": "Percent change from baseline in pre-bronchodilator forced expiratory volume in 1 second",
+            "what_it_measures": "Lung function improvement, gold standard for asthma drug efficacy",
+            "scoring": "Continuous measure of airway obstruction",
+            "clinical_meaning": "Primary regulatory endpoint for asthma, measures bronchodilation"
+          },
+          "result": null,
+          "timepoint": "Week 12",
+          "dose_group": "All arms",
+          "p_value": null,
+          "vs_comparator": {
+            "comparator": "Placebo",
+            "comparator_result": null,
+            "interpretation": "Will establish asthma efficacy vs placebo"
+          },
+          "caveats": "Data expected late-2027",
+          "source_page": 20
+        }
+      ],
+      "biomarker_endpoints": [],
+      "safety": {
+        "summary": "Safety assessment across all dose levels in asthma population",
+        "saes": null,
+        "discontinuations": null,
+        "aes_of_interest": {},
+        "differentiation": "Will provide asthma-specific safety data"
+      },
+      "key_takeaways": [
+        "First controlled asthma study",
+        "Will support Phase 3 respiratory indications",
+        "Targets eosinophilic asthma phenotype most responsive to IL-4/13 blockade"
+      ],
+      "limitations": [
+        "Recently initiated, no data available"
+      ],
+      "_source_pages": [
+        20
+      ]
+    }
+  ],
+  "upcoming_catalysts": [
+    {
+      "event": "BROADEN2 Phase 2b AD data",
+      "timing": "By mid-2027",
+      "importance": "Critical",
+      "what_to_watch": [
+        "EASI % change from baseline vs placebo",
+        "Dose-response relationship",
+        "EASI-50/75 responder rates",
+        "Safety profile"
+      ],
+      "bull_scenario": {
+        "outcome": "Statistically significant, dose-dependent EASI improvement >50% with good safety",
+        "rationale": "Would validate Phase 1b results in controlled setting and enable Phase 3 initiation"
+      },
+      "bear_scenario": {
+        "outcome": "Lack of statistical significance or high placebo response",
+        "rationale": "Would question translatability of open-label Phase 1b data and delay development"
+      },
+      "_source_page": 11
+    },
+    {
+      "event": "BREADTH Phase 2b asthma data",
+      "timing": "Late-2027",
+      "importance": "High",
+      "what_to_watch": [
+        "FEV1 improvement vs placebo",
+        "ACQ-5 and AQLQ changes",
+        "FeNO reduction",
+        "Dose-response"
+      ],
+      "bull_scenario": {
+        "outcome": "Significant FEV1 improvement with good symptom control",
+        "rationale": "Would expand addressable market and validate oral Type 2 blockade in respiratory disease"
+      },
+      "bear_scenario": {
+        "outcome": "Marginal efficacy or no statistical significance",
+        "rationale": "Could limit expansion beyond dermatology indications"
+      },
+      "_source_page": 11
+    }
+  ],
+  "_source_pages": [
+    13,
+    14,
+    15
+  ],
+  "_last_extracted": "2026-02-04T13:46:43.245203"
+}
