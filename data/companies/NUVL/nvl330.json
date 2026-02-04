@@ -1,0 +1,194 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "NUVL",
+    "asset_id": "nvl330",
+    "internal_id": "NVL-330",
+    "data_source": "Nuvalent Overview January 12, 2026; Sun Y. et al AACR 2024, AACR-NCI-EORTC 2025",
+    "extraction_date": "2026-02-04",
+    "last_updated": "2026-02-04"
+  },
+  "asset": {
+    "name": "NVL-330",
+    "internal_id": "NVL-330",
+    "modality": "Small molecule tyrosine kinase inhibitor",
+    "route": "Oral",
+    "dose": "TBD (dose escalation ongoing)",
+    "formulation": "Oral"
+  },
+  "target": {
+    "primary_target": "HER2 (ERBB2)",
+    "target_class": "Receptor tyrosine kinase",
+    "biology": {
+      "function": "HER2 is a receptor tyrosine kinase that when mutated (especially exon 20 insertions), amplified, or overexpressed drives tumor growth through oncogenic signaling",
+      "prevalence": {
+        "her2_mutant": "~2-4% of NSCLC",
+        "her2_amplified": "~1-5% of NSCLC"
+      },
+      "cns_involvement": {
+        "at_diagnosis": "~19% present with CNS disease",
+        "at_1L_progression": "~50% have CNS disease"
+      },
+      "mutation_types": {
+        "exon_20_insertions": "Most common (e.g., YVMA insertion, GSP insertion)",
+        "point_mutations": ["S310F", "R678Q", "L755S", "G776V", "V777L", "V777M", "V842I"],
+        "amplification": "Wild-type HER2 gene copy number increase"
+      }
+    },
+    "genetic_validation": {
+      "oncogenic_driver": "Yes - HER2 mutations and amplifications are validated oncogenic drivers in NSCLC",
+      "predictive_biomarker": "HER2 mutation status by NGS; HER2 amplification by FISH/IHC",
+      "therapeutic_precedent": "T-DXd (ADC, accelerated approval); Zongertinib (TKI, accelerated approval); Multiple investigational HER2 TKIs"
+    },
+    "why_good_target": {
+      "rationale": [
+        "Validated oncogenic driver with emerging therapeutic options",
+        "Current TKIs have EGFR-related toxicities (skin rash, diarrhea) or suboptimal CNS activity",
+        "ADC (T-DXd) has chemotherapy-like safety profile (30% serious adverse reactions)",
+        "High rate of CNS progression warrants brain-penetrant therapies"
+      ],
+      "unmet_need": [
+        "No approved HER2 TKI with both strong CNS activity AND EGFR-sparing profile",
+        "Treatment-limiting adverse events with pan-ERBB inhibitors",
+        "Suboptimal CNS activity with some approved/investigational agents",
+        "No clear 3L+ standard of care"
+      ]
+    }
+  },
+  "mechanism": {
+    "mechanism_of_action": "HER2-selective, EGFR-sparing tyrosine kinase inhibitor",
+    "binding_mode": "ATP-competitive kinase inhibitor designed to selectively inhibit HER2 while sparing EGFR",
+    "selectivity_profile": {
+      "her2_vs_egfr": "High selectivity for HER2 and HER2 mutants over wild-type EGFR",
+      "comparison_to_competitors": {
+        "vs_poziotinib": "Greater selectivity for HER2ex20 over EGFR than pan-ERBB inhibitors",
+        "vs_zongertinib": "Similar HER2 activity with potentially improved brain penetration"
+      }
+    },
+    "in_vitro_activity": {
+      "her2_wild_type_amp": "Potent activity in NCI-H2170, BT-474, NCI-N87 (HER2amp) cell lines",
+      "her2_ex20ins": "Potent activity against HER2YVMA, HER2VC, HER2GSP insertions",
+      "her2_point_mutations": "Activity against S310F, R678Q, L755S, G776V, V777L, V777M, V842I"
+    },
+    "brain_penetration": {
+      "kp_uu": "~0.15 (rats) - superior to zongertinib",
+      "comparison": "Similar to preclinical observations for lorlatinib",
+      "preclinical_intracranial_efficacy": {
+        "model": "NCI-N87 intracranial tumor model",
+        "observation": "NVL-330 induced intracranial tumor regression in mice progressing on zongertinib",
+        "zongertinib_exposure": "30 mg/kg BID (estimated above approved human doses of 120-180 mg QD)",
+        "crossover_response": "84% tumor reduction with NVL-330 after 124% increase on zongertinib"
+      }
+    }
+  },
+  "clinical_data": {
+    "trial_name": "HEROEX-1",
+    "clinicaltrials_gov": "NCT06521554",
+    "trial_design": {
+      "phase": "Phase 1a/1b",
+      "design": "First-in-human, BOIN dose-escalation with dose expansion",
+      "phase_1a": {
+        "design": "BOIN dose-escalation",
+        "population": "HER2 mutation or HER2 amplification allowed",
+        "dose_levels": "DL1 through DL7+"
+      },
+      "phase_1b": {
+        "design": "Dose expansion at candidate RP2Ds",
+        "population": "HER2 mutation only"
+      }
+    },
+    "enrollment": {
+      "target": "Up to ~120 patients",
+      "status": "Enrollment ongoing"
+    },
+    "key_eligibility": {
+      "prior_therapy": "≥1 prior systemic therapy including platinum-based chemotherapy +/- immunotherapy",
+      "prior_her2_tkis": "Excluded (prior selective HER2 TKI; note: prior HER2 antibodies and ADCs allowed)",
+      "exclusions": "Concurrent oncogenic drivers (EGFR, BRAF, MET, ROS1, ALK, RET)"
+    },
+    "objectives": {
+      "phase_1a": ["Safety/tolerability", "Select candidate RP2D(s)"],
+      "phase_1b": ["Safety/tolerability", "Confirm RP2D"]
+    },
+    "status": "Early-stage enrollment; no efficacy data disclosed yet"
+  },
+  "competitive_landscape": {
+    "approved_therapies": {
+      "t_dxd_enhertu": {
+        "type": "ADC (HER2-directed antibody-drug conjugate)",
+        "approval": "Accelerated approval for HER2-mutant NSCLC",
+        "efficacy": "58% ORR, 8.7 month mDOR",
+        "limitations": [
+          "Chemotherapy-like safety profile",
+          "30% serious adverse reactions",
+          "Not orally administered"
+        ]
+      },
+      "zongertinib_hernexeos": {
+        "type": "Oral HER2 TKI",
+        "approval": "Accelerated approval (FDA 2025)",
+        "strengths": ["Oral small molecule", "HER2 activity", "HER2ex20 activity"],
+        "limitations": ["May have suboptimal CNS activity based on preclinical comparisons"]
+      }
+    },
+    "investigational_therapies": {
+      "other_her2ex20_tkis": {
+        "examples": ["Pyrotinib", "ORIC-114", "Sevabertinib"],
+        "general_limitations": ["Variable EGFR inhibition (skin rash, diarrhea)", "Variable CNS activity"]
+      }
+    },
+    "standard_of_care": {
+      "1L": "Pemetrexed + Platinum + Pembrolizumab (48% ORR, 11.2 month mDOR, 8.8 month mPFS)",
+      "2L": "T-DXd (accelerated approval)",
+      "3L_plus": "No clear standard of care"
+    }
+  },
+  "nvl330_differentiation": {
+    "design_goals": [
+      "Oral small molecule",
+      "HER2 activity including wild-type (amplified) and mutant",
+      "HER2ex20 insertion activity",
+      "EGFR-sparing to avoid skin rash and diarrhea",
+      "CNS activity for brain metastases"
+    ],
+    "preclinical_advantages": [
+      "Broad HER2 activity covering mutations, insertions, and amplification",
+      "Greater selectivity for HER2 over EGFR than pan-ERBB inhibitors",
+      "Superior brain penetration vs zongertinib in preclinical models",
+      "Intracranial activity in zongertinib-progressing model"
+    ]
+  },
+  "investment_analysis": {
+    "stage_value": "Early Phase 1 - highest risk, highest upside optionality",
+    "differentiation_strength": "Potentially strong if CNS activity and EGFR-sparing confirmed clinically",
+    "competitive_position": "Differentiated design vs approved options; clinical proof-of-concept pending",
+    "data_quality": "Preclinical only; no clinical efficacy data yet",
+    "regulatory_pathway": "Standard IND-to-approval; years from potential approval",
+    "commercial_potential": {
+      "addressable_market": "HER2-mutant (~2-4%) + HER2-amplified (~1-5%) NSCLC",
+      "key_commercial_factors": [
+        "CNS activity differentiation vs zongertinib could be significant",
+        "EGFR-sparing profile may improve tolerability vs pan-ERBB TKIs",
+        "ADC competitor (T-DXd) has different safety/convenience profile"
+      ]
+    },
+    "key_data_to_watch": [
+      "Phase 1a dose-escalation safety and PK",
+      "Early signs of clinical activity",
+      "CNS responses in patients with brain metastases",
+      "EGFR-related AE incidence (skin rash, diarrhea)"
+    ]
+  },
+  "catalysts": [
+    {
+      "event": "HEROEX-1 Phase 1a/1b progress",
+      "timing": "Throughout 2026",
+      "significance": "Third program advancement; dose optimization"
+    },
+    {
+      "event": "Initial clinical data disclosure (if available)",
+      "timing": "TBD (potentially 2026-2027)",
+      "significance": "First clinical proof-of-concept"
+    }
+  ]
+}

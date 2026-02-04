@@ -1,0 +1,331 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "NUVL",
+    "company_name": "Nuvalent",
+    "data_source": "Nuvalent Overview January 12, 2026",
+    "extraction_date": "2026-02-04",
+    "last_updated": "2026-02-04"
+  },
+  "company": {
+    "name": "Nuvalent",
+    "ticker": "NUVL",
+    "exchange": "NASDAQ",
+    "headquarters": "Cambridge, MA",
+    "employees": "200+ FTEs",
+    "operations": "Hybrid operations with offices in Cambridge, MA",
+    "website": "www.nuvalent.com",
+    "contact": "info@nuvalent.com",
+    "leadership": {
+      "ceo": "James Porter, PhD",
+      "cfo": "Alex Balcom, MBA, CPA",
+      "cmo": "Christopher Turner, MD",
+      "cso": "Henry Pelish, PhD",
+      "clo": "Deborah Miller, PhD, JD",
+      "cdo": "Darlene Noci, ALM",
+      "svp_chemistry": "Josh Horan, PhD",
+      "svp_commercial": "Jason Waters",
+      "svp_clinical_ops": "Ruth Adams",
+      "svp_translational": "John Soglia, PhD",
+      "svp_technical_ops": "Benjamin Lane, PhD",
+      "svp_strategy": "Jessie Lin",
+      "svp_hr": "Matthew Metivier"
+    },
+    "board": [
+      "Grant Bogle (Independent)",
+      "Michael Meyers, MD, PhD (CMO, Flare Therapeutics)",
+      "Christy Oliger (Independent)",
+      "Joseph Pearlberg, MD, PhD (Deerfield Management)",
+      "Anna Protopapas (Independent)",
+      "James Porter, PhD (CEO, Nuvalent)",
+      "Ron Squarer (Independent)",
+      "Sapna Srivastava, PhD (Independent)",
+      "Cameron Wheeler, PhD (Deerfield Management)"
+    ],
+    "scientific_advisors": [
+      "Ross Camidge, MD, PhD (University of Colorado)",
+      "Alexander Drilon, MD (Memorial Sloan Kettering)",
+      "Gary Gilliland, MD, PhD (Independent)",
+      "Aaron Hata, MD, PhD (Mass General Cancer Center)",
+      "Pasi Jänne, MD, PhD (Dana Farber Cancer Institute)",
+      "Nancy Kohl, PhD (Independent)",
+      "Alice Shaw, MD, PhD (Dana Farber Cancer Institute)"
+    ],
+    "management_track_record": "12 prior FDA approvals among leadership team"
+  },
+  "investment_thesis_summary": {
+    "one_liner": "Precision oncology company with two parallel lead programs (ROS1 and ALK NSCLC) positioned for first U.S. commercial launch in 2026, designed with best-in-class target product profiles to address key limitations of existing therapies",
+    "key_differentiators": [
+      "First ROS1-selective, TRK-sparing inhibitor (zidesamtinib) - addresses CNS adverse events of competing dual TRK/ROS1 inhibitors",
+      "First ALK-selective, TRK-sparing inhibitor (neladalkib) - addresses CNS adverse events of lorlatinib",
+      "Deep expertise in structure-based drug design - 'thread the needle' between kinase resistance and selectivity",
+      "Target product profiles designed in collaboration with physician-scientists",
+      "Fully integrated commercial-stage biotech with proven discovery capabilities"
+    ],
+    "stage": "Commercial-stage with NDA accepted (PDUFA Sep 2026 for zidesamtinib)",
+    "near_term_value_drivers": [
+      "US commercial launch of zidesamtinib in 2H 2026 (pending FDA approval)",
+      "NDA submission for neladalkib in TKI pre-treated ALK+ NSCLC in 1H 2026",
+      "Zidesamtinib TKI-naïve ROS1+ NSCLC indication expansion data in 2H 2026",
+      "ALKAZAR Phase 3 enrollment progress (neladalkib vs alectinib)",
+      "HEROEX-1 Phase 1 progress for NVL-330 (HER2)",
+      "New development candidate disclosure by year-end 2026"
+    ]
+  },
+  "platform": {
+    "core_competency": "Structure-based drug design for kinase inhibitors",
+    "approach": [
+      "Rationally designed inhibitors that 'thread the needle' between kinase resistance and selectivity",
+      "Target product profiles designed in collaboration with physician-scientists",
+      "Aim to compete in 1st line with best-in-class profiles",
+      "Focus on maximizing patient impact"
+    ],
+    "key_design_principles": [
+      "Activity against wild-type and mutant kinase targets",
+      "CNS penetration for brain metastases",
+      "Selectivity to avoid off-target toxicities (TRK-sparing, EGFR-sparing)",
+      "Durable responses across lines of therapy"
+    ],
+    "therapeutic_focus": "Oncology - initially NSCLC, with expansion potential beyond lung cancer"
+  },
+  "pipeline_summary": {
+    "total_programs": 4,
+    "clinical_stage": 3,
+    "preclinical": 1,
+    "programs": [
+      {
+        "asset": "zidesamtinib (NVL-520)",
+        "target": "ROS1",
+        "indication": "ROS1+ NSCLC",
+        "stage": "NDA filed (PDUFA Sep 18, 2026) for TKI pre-treated; Phase 2 ongoing for TKI-naïve",
+        "status": "Lead program"
+      },
+      {
+        "asset": "neladalkib (NVL-655)",
+        "target": "ALK",
+        "indication": "ALK+ NSCLC",
+        "stage": "Phase 2 (TKI pre-treated); Phase 3 ALKAZAR (TKI-naïve vs alectinib)",
+        "status": "Co-lead program"
+      },
+      {
+        "asset": "NVL-330",
+        "target": "HER2",
+        "indication": "HER2-altered NSCLC",
+        "stage": "Phase 1",
+        "status": "Third program"
+      },
+      {
+        "asset": "Discovery programs",
+        "target": "Undisclosed",
+        "indication": "TBD",
+        "stage": "Research",
+        "status": "New development candidate expected by year-end 2026"
+      }
+    ]
+  },
+  "market_opportunity": {
+    "ros1_nsclc": {
+      "epidemiology": "~1-3% of NSCLC; majority advanced/metastatic at diagnosis",
+      "current_market_size": {
+        "crizotinib_ww_2023": "$374M",
+        "entrectinib_ww_2024": "$152M",
+        "repotrectinib_ww_2024": "$38M"
+      },
+      "peak_sales_benchmark": "$150M (crizotinib US 2019 peak)",
+      "illustrative_opportunity": {
+        "us_peak": "$570M - $855M",
+        "ww_peak": "$1.4B - $2.1B",
+        "assumptions": "2x mPFS improvement + 2026 pricing (~$32,000/month vs $17,000 in 2019)"
+      },
+      "nuvalent_vision": "Transform expectation for patient outcomes; build prevalent population living long-term with ROS1+ NSCLC"
+    },
+    "alk_nsclc": {
+      "epidemiology": "~3-5% of NSCLC; majority advanced/metastatic at diagnosis",
+      "current_market_size": {
+        "alectinib_ww_2024": "$1.8B",
+        "lorlatinib_ww_2024": "$731M",
+        "other_alk_tkis_2024": "<$300M estimated"
+      },
+      "peak_sales_benchmark": "$519M (alectinib US 2023 peak)",
+      "illustrative_opportunity": {
+        "us_peak": "$1.35B - $2.0B",
+        "ww_peak": "$3.4B - $5.0B",
+        "assumptions": "3x mPFS improvement + 2026 pricing (~$22,500/month for lorlatinib)"
+      },
+      "nuvalent_vision": "Realize full potential of ALK+ NSCLC as chronic, long-term managed condition"
+    },
+    "her2_nsclc": {
+      "epidemiology": {
+        "mutant": "~2-4% of NSCLC",
+        "amplified": "~1-5% of NSCLC"
+      },
+      "cns_involvement": "~19% at diagnosis; ~50% at 1L progression",
+      "market_dynamics": "Emerging with T-DXd ($1.6B+ globally) and zongertinib recently approved"
+    }
+  },
+  "competitive_positioning": {
+    "ros1_landscape": {
+      "current_standard_of_care": {
+        "1L": "Crizotinib (also entrectinib; NCCN notes other ROS1 TKIs may be better for brain mets)",
+        "2L": "Evolving - patients may consider other ROS1 TKIs, trials, or chemo/IO",
+        "3L+": "No clear standard of care"
+      },
+      "key_limitations_of_competitors": [
+        "Single ROS1 resistance mutations - G2032R in ~40% progressing on crizotinib",
+        "Brain penetrance - 20-40% present with brain mets at diagnosis; 30-55% at 1L progression",
+        "CNS adverse events - 77% of patients on repotrectinib experience TRK-related CNS AEs",
+        "Dose reductions - 29-38% of patients on repotrectinib or taletrectinib require dose reduction"
+      ],
+      "zidesamtinib_differentiation": [
+        "First ROS1-selective, TRK-sparing inhibitor",
+        "Sub-10nM activity against wild-type and mutant ROS1 (including G2032R)",
+        "670x selectivity for ROS1 over TRKB; 240x for ROS1 G2032R over TRKB",
+        "Brain penetrant (Kp,uu ~0.1, similar to lorlatinib preclinically)",
+        "Low discontinuation rate (2%) and dose reduction rate (10%)"
+      ]
+    },
+    "alk_landscape": {
+      "current_standard_of_care": {
+        "1L": "Alectinib ($1.8B WW 2024)",
+        "2L": "Lorlatinib (3G TKI, $731M WW 2024)",
+        "3L+": "No clear standard of care"
+      },
+      "key_limitations_of_competitors": [
+        "Single ALK resistance mutations - ~50% after 2G TKIs; ~75% after sequential 2G→3G",
+        "Compound mutations - ~25-50% after sequential 2G→3G TKIs",
+        "CNS adverse events - >50% of lorlatinib patients experience TRK-related CNS AEs",
+        "38% of lorlatinib patients no longer on therapy by 24 months in 1L"
+      ],
+      "neladalkib_differentiation": [
+        "First ALK-selective, TRK-sparing inhibitor",
+        "Potent activity (IC50 0.1-30 nM) against ALK single and compound mutants",
+        ">20x selectivity for ALK over TRKB",
+        "Brain penetrant (Kp,uu ~0.4, similar to lorlatinib preclinically)",
+        "No TRK-related neurotoxicities observed"
+      ]
+    },
+    "her2_landscape": {
+      "current_standard_of_care": {
+        "1L": "Pemetrexed + Platinum + Pembrolizumab (48% ORR, 11.2mo mDOR, 8.8mo mPFS)",
+        "2L": "T-DXd (58% ORR, 8.7mo mDOR) - accelerated approval",
+        "3L+": "No standard of care"
+      },
+      "key_limitations": [
+        "T-DXd: ADC with chemotherapy-like safety (30% serious adverse reactions)",
+        "Zongertinib: Accelerated approval, may have suboptimal CNS activity",
+        "Other HER2ex20 TKIs: Vary in EGFR inhibition (skin rash, diarrhea) and CNS activity"
+      ],
+      "nvl330_differentiation": [
+        "HER2-selective, EGFR-sparing design",
+        "Broad HER2 activity including ex20ins, point mutations, and amplification",
+        "Brain penetrant (Kp,uu ~0.15, similar to lorlatinib preclinically)",
+        "Preclinical intracranial regression in zongertinib-progressing model"
+      ]
+    }
+  },
+  "catalysts": {
+    "2026": [
+      {
+        "event": "Zidesamtinib PDUFA target action date",
+        "timing": "September 18, 2026",
+        "significance": "First potential US approval and commercial launch"
+      },
+      {
+        "event": "US commercial launch of zidesamtinib in TKI pre-treated ROS1+ NSCLC",
+        "timing": "2H 2026",
+        "significance": "First revenue-generating product",
+        "dependency": "Pending FDA approval"
+      },
+      {
+        "event": "Zidesamtinib TKI-naïve ROS1+ indication expansion submission",
+        "timing": "2H 2026",
+        "significance": "Potential line-agnostic label expansion"
+      },
+      {
+        "event": "Neladalkib NDA submission for TKI pre-treated ALK+ NSCLC",
+        "timing": "1H 2026",
+        "significance": "Second potential approval pathway"
+      },
+      {
+        "event": "ALKAZAR Phase 3 enrollment progress",
+        "timing": "Throughout 2026",
+        "significance": "Head-to-head vs alectinib for 1L ALK+ NSCLC"
+      },
+      {
+        "event": "HEROEX-1 Phase 1 progress for NVL-330",
+        "timing": "Throughout 2026",
+        "significance": "Third program advancement in HER2-altered NSCLC"
+      },
+      {
+        "event": "New development candidate disclosure",
+        "timing": "By year-end 2026",
+        "significance": "Pipeline expansion from internal discovery"
+      }
+    ],
+    "2027_2030_outlook": [
+      "Launch neladalkib for TKI pre-treated ALK+ NSCLC",
+      "TKI-naïve indication expansions for both zidesamtinib and neladalkib",
+      "Sustainable US commercial business as NSCLC leader",
+      "Ex-US commercial expansion",
+      "Discovery/development opportunities beyond NSCLC"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": {
+      "thesis": "Best-in-class target product profiles enable market leadership in ROS1 and ALK NSCLC",
+      "key_points": [
+        "Zidesamtinib and neladalkib TRK-sparing design addresses major safety limitation of competitors",
+        "Exceptional durability data: 93% DOR ≥18 months for zidesamtinib 1 prior TKI; 60% DOR ≥18 months for neladalkib TKI pre-treated",
+        "Dual programs de-risk company - success in either ROS1 or ALK creates substantial value",
+        "Phase 3 ALKAZAR head-to-head vs alectinib could demonstrate superiority and transform 1L ALK landscape",
+        "Strong cash position (~$1.4B) provides runway into 2029 excluding potential revenues",
+        "Experienced management with 12 prior FDA approvals",
+        "HER2 program (NVL-330) provides additional pipeline optionality"
+      ],
+      "upside_scenarios": [
+        "Faster-than-expected TKI-naïve label expansions",
+        "ALKAZAR Phase 3 shows superiority vs alectinib",
+        "ALK+ solid tumors beyond NSCLC indication expansion",
+        "NVL-330 shows differentiated CNS activity vs zongertinib",
+        "Strategic partnership for ex-US commercialization"
+      ]
+    },
+    "bear_case": {
+      "thesis": "Competitive landscape and execution risks could limit market capture",
+      "key_points": [
+        "Repotrectinib and taletrectinib already approved with established market presence",
+        "Lorlatinib 1L data (mPFS not reached at 60 months) sets high bar for ALK",
+        "Commercial execution risk for a first-time launch organization",
+        "Price competition possible as ROS1 market matures",
+        "Single-arm trials may not fully predict real-world outcomes",
+        "Transaminase elevations with neladalkib require monitoring (47% ALT increased)"
+      ],
+      "downside_scenarios": [
+        "FDA delays or CRL for zidesamtinib",
+        "ALKAZAR fails to show superiority vs alectinib",
+        "Competitor next-gen TKIs emerge with improved profiles",
+        "Commercial uptake slower than expected",
+        "Safety signals emerge in broader patient population"
+      ]
+    },
+    "financial_metrics": {
+      "cash_position": "~$1.4B (unaudited estimate, year-end 2025)",
+      "cash_runway": "Expected into 2029 (excluding potential revenues)",
+      "burn_rate": "Not disclosed (estimated ~$350-400M annually based on runway)",
+      "revenue": "Pre-revenue (first potential revenue 2H 2026)"
+    },
+    "key_risks": [
+      "Regulatory risk: FDA approval timing and label scope",
+      "Commercial risk: First-time commercial organization execution",
+      "Competitive risk: Established TKIs and emerging competitors",
+      "Clinical risk: Phase 3 ALKAZAR outcomes vs alectinib",
+      "Market risk: Price erosion in maturing kinase inhibitor markets"
+    ],
+    "valuation_considerations": [
+      "Sum-of-parts analysis across ROS1, ALK, and HER2 programs",
+      "Peak sales potential: ROS1 $570M-855M US, ALK $1.35-2.0B US",
+      "Risk-adjusted NPV based on probability of success by stage",
+      "Comparables: Recent oncology precision medicine acquisitions and IPOs"
+    ]
+  }
+}

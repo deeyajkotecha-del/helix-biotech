@@ -1,0 +1,322 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "NUVL",
+    "asset_id": "zidesamtinib",
+    "internal_id": "NVL-520",
+    "data_source": "Nuvalent Overview January 12, 2026; Drilon et al WCLC 2025",
+    "extraction_date": "2026-02-04",
+    "last_updated": "2026-02-04"
+  },
+  "asset": {
+    "name": "zidesamtinib",
+    "internal_id": "NVL-520",
+    "modality": "Small molecule tyrosine kinase inhibitor",
+    "route": "Oral, once daily",
+    "dose": "100 mg QD (RP2D)",
+    "formulation": "Oral pill"
+  },
+  "target": {
+    "primary_target": "ROS1",
+    "target_class": "Receptor tyrosine kinase",
+    "biology": {
+      "function": "ROS1 is a receptor tyrosine kinase that when fused to various partner genes (e.g., CD74-ROS1, SLC34A2-ROS1) creates oncogenic fusion proteins that drive tumor growth through constitutive kinase activation",
+      "prevalence": "~1-3% of NSCLC; majority diagnosed at advanced/metastatic stage",
+      "patient_demographics": "Often younger, never-smokers",
+      "cns_involvement": {
+        "at_diagnosis": "20-40% present with brain metastases",
+        "at_1L_progression": "30-55% have brain metastases"
+      },
+      "resistance_mechanisms": {
+        "primary_mutation": "G2032R (observed in ~40% progressing on crizotinib)",
+        "other_mutations": ["G1957A", "L1982V", "S1986F", "F2004C", "F2004V", "G2032K", "D2033N", "L2026M"]
+      }
+    },
+    "genetic_validation": {
+      "oncogenic_driver": "Yes - ROS1 fusions are validated oncogenic drivers in NSCLC",
+      "predictive_biomarker": "ROS1 fusion status by FISH, IHC, or NGS",
+      "therapeutic_precedent": "Multiple approved ROS1 TKIs (crizotinib, entrectinib, repotrectinib, taletrectinib)"
+    },
+    "why_good_target": {
+      "rationale": [
+        "Validated oncogenic driver with proven therapeutic tractability",
+        "Current therapies have significant limitations (resistance, CNS activity, TRK-related toxicity)",
+        "Younger patient population with long life expectancy if disease controlled",
+        "Potential for chronic disease management with improved therapies"
+      ],
+      "unmet_need": [
+        "No approved therapy active after dual TRK/ROS1 inhibitors (repotrectinib, taletrectinib)",
+        "Treatment-limiting CNS adverse events with current TRK/ROS1 inhibitors",
+        "Limited durability - crizotinib mPFS only 19.3 months vs lorlatinib mPFS not reached in ALK"
+      ]
+    }
+  },
+  "mechanism": {
+    "mechanism_of_action": "ROS1-selective, TRK-sparing tyrosine kinase inhibitor",
+    "binding_mode": "ATP-competitive kinase inhibitor designed to fit the ROS1 kinase domain while avoiding the TRK kinase binding pocket",
+    "selectivity_profile": {
+      "ros1_vs_trkb": "670x selectivity for ROS1 over TRKB",
+      "ros1_g2032r_vs_trkb": "240x selectivity for ROS1 G2032R over TRKB",
+      "comparison_to_competitors": {
+        "crizotinib": "7.7x selectivity for ROS1 vs TRKB",
+        "entrectinib": "3.4x selectivity for ROS1 vs TRKB",
+        "repotrectinib": "5.8x selectivity for ROS1 vs TRKB",
+        "taletrectinib": "1.4x selectivity for ROS1 vs TRKB"
+      }
+    },
+    "in_vitro_activity": {
+      "wild_type_ros1": "Sub-10nM IC50",
+      "ros1_mutants": {
+        "G2032R": "Sub-10nM IC50",
+        "S1986F": "Sub-10nM IC50",
+        "F2004C": "Sub-10nM IC50",
+        "F2004V": "Sub-10nM IC50",
+        "L2026M": "Sub-10nM IC50",
+        "D2033N": "Sub-10nM IC50"
+      },
+      "assay_type": "3-day cell viability assays in Ba/F3 expressing WT or mutant CD74-ROS1 fusion"
+    },
+    "brain_penetration": {
+      "kp_uu": "~0.1 (unbound brain:plasma ratio)",
+      "comparison": "Similar to preclinical observations for lorlatinib",
+      "preclinical_intracranial_efficacy": "Durable inhibition of intracranially implanted Ba/F3 CD74-ROS1 G2032R luciferase cells at 3 mg/kg BID; superior to repotrectinib 75 mg/kg BID and taletrectinib 100 mg/kg QD"
+    }
+  },
+  "clinical_data": {
+    "trial_name": "ARROS-1",
+    "clinicaltrials_gov": "NCT05118789",
+    "trial_design": {
+      "phase": "Phase 1/2",
+      "design": "Global first-in-human, open-label, multi-cohort",
+      "phase_1_initiation": "January 2022",
+      "phase_2_initiation": "September 2023 (RP2D: 100 mg QD)",
+      "registration_intent": "Yes, for TKI pre-treated and TKI-naïve ROS1+ NSCLC"
+    },
+    "enrollment": {
+      "phase_1_phase_2_total": {
+        "as_of_june_16_2025": 539,
+        "phase_1": 104,
+        "phase_2": 435
+      },
+      "enrollment_momentum": "Strong enrollment demonstrates enthusiasm and clear medical need"
+    },
+    "data_cutoff": "March 21, 2025",
+    "populations": {
+      "pivotal_safety": {
+        "n": 432,
+        "description": "ROS1+ NSCLC treated at RP2D as of March 21, 2025",
+        "median_duration_exposure": "5 months (range 0-32)"
+      },
+      "tki_pretreated_efficacy": {
+        "n": 117,
+        "description": "Treated at RP2D by May 31, 2024 to allow ≥6 months DOR follow-up"
+      },
+      "tki_naive_preliminary": {
+        "n": 35,
+        "description": "Treated by August 31, 2024"
+      }
+    },
+    "tki_pretreated_results": {
+      "population_characteristics": {
+        "n": 117,
+        "median_age": "57 (range 31-83)",
+        "female": "66 (56%)",
+        "never_smoker": "80 (68%)",
+        "geographic_region": {
+          "asia_pacific": "30 (26%)",
+          "europe": "38 (32%)",
+          "north_america": "49 (42%)"
+        },
+        "ecog_ps": {
+          "0": "45 (38%)",
+          "1": "72 (62%)"
+        },
+        "active_cns_disease": "57 (49%)",
+        "ros1_g2032r_mutation": "26 (22%)",
+        "any_secondary_ros1_mutation": "42 (36%)",
+        "median_prior_lines": "2 (range 1-11)",
+        "prior_chemotherapy": "62 (53%)",
+        "prior_tkis": {
+          "1_prior_crizotinib_or_entrectinib": "55 (47%)",
+          "1_prior_repotrectinib_or_taletrectinib": "4 (3%)",
+          "2_or_more_prior": "58 (50%)"
+        }
+      },
+      "efficacy": {
+        "any_prior_tki": {
+          "n": 117,
+          "orr": "44% (51/117)",
+          "orr_95ci": "[34, 53]",
+          "cr": "1% (1/117)",
+          "dor_6_months": "84% [95% CI: 71, 92]",
+          "dor_12_months": "78% [95% CI: 62, 88]",
+          "dor_18_months": "62% [95% CI: 28, 84]",
+          "median_dor": "22 months [95% CI: 17, NE] - emerging, continues to mature",
+          "median_pfs": "9.7 months [95% CI: 5.5, NE]",
+          "median_followup": "11.1 months (range 0.2-25.6)"
+        },
+        "1_prior_tki_crizotinib_or_entrectinib": {
+          "n": 55,
+          "orr": "51% (28/55) [95% CI: 37, 65]",
+          "cr": "2% (1/55)",
+          "dor_6_months": "93% [95% CI: 74, 98]",
+          "dor_12_months": "93% [95% CI: 74, 98]",
+          "dor_18_months": "93% [95% CI: 74, 98]",
+          "median_dor": "22 months [95% CI: 22, NE] - continues to mature",
+          "median_pfs": "23.8 months [95% CI: 23.8, NE]",
+          "median_followup": "11.8 months (range 1.2-25.6)",
+          "subgroup_prior_crizotinib_only": {
+            "n": 28,
+            "orr": "68% (19/28)",
+            "progression_events_among_responders": 0,
+            "dor_range": "7.3+ to 23.2+ months",
+            "pfs_6_12_18_months": "89% [95% CI: 70, 96]"
+          },
+          "subgroup_prior_entrectinib_only": {
+            "n": 27,
+            "orr": "33% (9/27)"
+          }
+        },
+        "2_or_more_prior_tkis": {
+          "n": 58,
+          "orr": "38% (22/58) [95% CI: 26, 52]",
+          "dor_6_months": "71% [95% CI: 46, 86]",
+          "dor_12_months": "56% [95% CI: 29, 76]"
+        },
+        "prior_repotrectinib": {
+          "n": 17,
+          "orr": "47% (8/17)",
+          "dor_range": "3.5 to 17.2 months"
+        },
+        "prior_taletrectinib": {
+          "n": 7,
+          "orr": "43% (3/7)",
+          "dor_range": "5.2 to 7.0+ months"
+        },
+        "ros1_g2032r_mutation": {
+          "any_prior_tki": {
+            "n": 26,
+            "orr": "54% (14/26)",
+            "dor_6_months": "79% [95% CI: 47, 93]",
+            "dor_12_months": "60% [95% CI: 28, 81]",
+            "median_dor": "17.2 months [95% CI: 3.7, NE] - emerging, continues to mature"
+          },
+          "prior_crizotinib_or_entrectinib_only": {
+            "n": 6,
+            "orr": "83% (5/6)",
+            "dor_6_months": "80% [95% CI: 20, 97]",
+            "dor_12_months": "80% [95% CI: 20, 97]",
+            "progression_events_among_responders": 1
+          }
+        }
+      },
+      "intracranial_activity": {
+        "measurable_cns_lesions_any_prior_tki": {
+          "n": 56,
+          "ic_orr": "48% (27/56, includes 2 unconfirmed)",
+          "ic_cr": "20% (11/56)",
+          "ic_dor_6_months": "79% [95% CI: 56, 91]",
+          "ic_dor_12_months": "71% [95% CI: 46, 87]"
+        },
+        "measurable_cns_lesions_prior_crizotinib_only": {
+          "n": 13,
+          "ic_orr": "85% (11/13)",
+          "ic_cr": "54% (7/13)",
+          "ic_dor_6_months": "91% [95% CI: 51, 99]",
+          "ic_dor_12_months": "91% [95% CI: 51, 99]",
+          "cns_progression_events_among_responders": 1
+        },
+        "prior_brain_penetrant_tki": {
+          "n": 43,
+          "ic_orr": "37% (16/43, includes 4 IC-CRs) [95% CI: 23, 53]"
+        },
+        "no_baseline_brain_mets": "No CNS progression observed among patients who entered without brain metastases at baseline per BICR"
+      }
+    },
+    "tki_naive_results": {
+      "population": {
+        "n": 35,
+        "description": "Response-evaluable TKI-naïve patients"
+      },
+      "efficacy": {
+        "orr": "89% (31/35)",
+        "cr": "9% (3/35, includes 1 unconfirmed CR following confirmed PR)",
+        "dor_6_months": "96% [95% CI: 76, 99]",
+        "dor_12_months": "96% [95% CI: 76, 99]",
+        "dor_range": "1.9+ to 13.9+ months",
+        "progression_events_among_responders": 2
+      },
+      "intracranial_activity": {
+        "n": 6,
+        "ic_orr": "83% (5/6)",
+        "ic_cr": "67% (4/6)",
+        "cns_progression_events": 0,
+        "ic_dor_range": "4.6+ to 11.1+ months"
+      },
+      "note": "Enrollment and follow-up ongoing in registration-directed TKI-naïve cohort of ARROS-1"
+    },
+    "safety": {
+      "population": 432,
+      "dose_reduction_due_to_teae": "10% (43/432)",
+      "most_common_dose_reduction_reasons": ["Peripheral edema (n=8)", "Blood CPK increased (n=4)", "Peripheral sensory neuropathy (n=4)", "Arthralgia (n=3)", "Paresthesia (n=3)"],
+      "discontinuation_due_to_teae": "2% (10/432)",
+      "most_common_discontinuation_reasons": ["Pneumonia (n=3)"],
+      "teaes_15_percent_or_more": [
+        {"term": "Peripheral edema", "any_grade": "36%", "grade_3_plus": "0.7%"},
+        {"term": "Constipation", "any_grade": "17%", "grade_3_plus": "0"},
+        {"term": "Blood CPK increased", "any_grade": "16%", "grade_3_plus": "3.5%"},
+        {"term": "Fatigue", "any_grade": "16%", "grade_3_plus": "0.7%"},
+        {"term": "Dyspnea", "any_grade": "15%", "grade_3_plus": "3.0%"}
+      ],
+      "treatment_related_ae_15_percent_or_more": [
+        {"term": "Peripheral edema", "any_grade": "29%"}
+      ],
+      "key_safety_message": "Generally safe, well-tolerated, consistent with ROS1-selective, TRK-sparing design"
+    }
+  },
+  "investment_analysis": {
+    "stage_value": "Late-stage with NDA accepted; highest near-term probability of approval",
+    "differentiation_strength": "Strong - only ROS1-selective, TRK-sparing inhibitor",
+    "competitive_position": "Potentially best-in-class for durability + tolerability across lines",
+    "data_quality": "High - pivotal data from global Phase 1/2 with BICR",
+    "regulatory_pathway": "Standard NDA accepted; PDUFA September 18, 2026",
+    "commercial_potential": {
+      "addressable_market": "~1-3% of NSCLC; US peak sales opportunity $570M-855M",
+      "pricing_assumptions": "~$32,000/month (2026 pricing based on repotrectinib)",
+      "key_commercial_factors": [
+        "First ROS1-selective option differentiates vs TRK/ROS1 inhibitors",
+        "Tolerability advantage enables long-term therapy",
+        "Durability data supports building prevalent treated population"
+      ]
+    },
+    "key_data_to_watch": [
+      "PDUFA outcome (September 18, 2026)",
+      "TKI-naïve label expansion data and submission (2H 2026)",
+      "Long-term durability follow-up",
+      "Real-world commercial uptake post-launch"
+    ]
+  },
+  "catalysts": [
+    {
+      "event": "PDUFA target action date",
+      "timing": "September 18, 2026",
+      "significance": "First US approval decision"
+    },
+    {
+      "event": "US commercial launch in TKI pre-treated ROS1+ NSCLC",
+      "timing": "2H 2026",
+      "significance": "First revenue generation",
+      "dependency": "Pending FDA approval"
+    },
+    {
+      "event": "TKI-naïve ROS1+ NSCLC data submission to FDA",
+      "timing": "2H 2026",
+      "significance": "Potential for line-agnostic label"
+    },
+    {
+      "event": "Ongoing enrollment in ROS1+ solid tumors (adult and pediatric)",
+      "timing": "Ongoing",
+      "significance": "Potential indication expansion"
+    }
+  ]
+}
