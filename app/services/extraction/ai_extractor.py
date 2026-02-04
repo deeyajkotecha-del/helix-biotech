@@ -8,10 +8,16 @@ Outputs JSON matching our data/companies/{TICKER}/ schema.
 import os
 import json
 import logging
+import re
+import unicodedata
 from typing import Optional
 from datetime import datetime
 
+from dotenv import load_dotenv
 import anthropic
+
+# Load .env file for local development (Render uses environment variables directly)
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -23,9 +29,9 @@ class AIExtractor:
     """Extract structured clinical data from text using Claude."""
 
     def __init__(self, api_key: str = None, model: str = DEFAULT_MODEL):
-        self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")
+        self.api_key = api_key or os.getenv("ANTHROPIC_API_KEY")
         if not self.api_key:
-            raise ValueError("ANTHROPIC_API_KEY environment variable required")
+            raise ValueError("ANTHROPIC_API_KEY not set. Add it to .env file or environment variables.")
 
         self.client = anthropic.Anthropic(api_key=self.api_key)
         self.model = model
@@ -401,6 +407,53 @@ def extract_asset_details(
     return extractor.extract_asset_details(pdf_text, ticker, asset_name)
 
 
+def sanitize_filename(name: str) -> str:
+    """
+    Convert asset name to a clean, filesystem-safe filename.
+
+    Examples:
+        "KT-485/SAR447971" -> "kt485_sar447971"
+        "TransCon IL-2β/γ" -> "transcon_il2b_g"
+        "SKYTROFA (TransCon hGH)" -> "skytrofa_transcon_hgh"
+    """
+    # Greek letter replacements
+    greek_map = {
+        'α': 'a', 'β': 'b', 'γ': 'g', 'δ': 'd', 'ε': 'e',
+        'ζ': 'z', 'η': 'e', 'θ': 'th', 'ι': 'i', 'κ': 'k',
+        'λ': 'l', 'μ': 'm', 'ν': 'n', 'ξ': 'x', 'ο': 'o',
+        'π': 'p', 'ρ': 'r', 'σ': 's', 'τ': 't', 'υ': 'u',
+        'φ': 'ph', 'χ': 'ch', 'ψ': 'ps', 'ω': 'o',
+        'Α': 'A', 'Β': 'B', 'Γ': 'G', 'Δ': 'D', 'Ε': 'E',
+    }
+
+    result = name.lower()
+
+    # Replace Greek letters
+    for greek, ascii_char in greek_map.items():
+        result = result.replace(greek, ascii_char)
+
+    # Normalize unicode (handle accents, etc.)
+    result = unicodedata.normalize('NFKD', result)
+    result = result.encode('ascii', 'ignore').decode('ascii')
+
+    # Replace common separators with underscore
+    result = re.sub(r'[/\\()\[\]{}]', '_', result)
+
+    # Replace dashes and spaces with underscore
+    result = re.sub(r'[-\s]+', '_', result)
+
+    # Remove any remaining non-alphanumeric chars (except underscore)
+    result = re.sub(r'[^a-z0-9_]', '', result)
+
+    # Collapse multiple underscores
+    result = re.sub(r'_+', '_', result)
+
+    # Strip leading/trailing underscores
+    result = result.strip('_')
+
+    return result
+
+
 def convert_to_file_format(extracted_data: dict, ticker: str) -> dict:
     """
     Convert extracted data to our file format for saving.
@@ -408,6 +461,9 @@ def convert_to_file_format(extracted_data: dict, ticker: str) -> dict:
     Returns dict with:
     - "company.json": company data
     - "{asset_name}.json": asset data for each asset
+
+    Filenames are sanitized for filesystem compatibility.
+    Original names are preserved inside JSON for display.
     """
     ticker = ticker.upper()
     files = {}
@@ -434,8 +490,8 @@ def convert_to_file_format(extracted_data: dict, ticker: str) -> dict:
     # Build asset files
     for asset in extracted_data.get("pipeline_assets", []):
         asset_name = asset.get("name", "unknown")
-        # Normalize filename: KT-621 -> kt621.json
-        filename = asset_name.lower().replace("-", "").replace(" ", "") + ".json"
+        # Sanitize filename for filesystem compatibility
+        filename = sanitize_filename(asset_name) + ".json"
 
         # Find trials for this asset
         asset_trials = [
