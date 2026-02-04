@@ -1,0 +1,575 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "Kymera Therapeutics Corporate Presentation January 2026",
+    "extraction_date": "2026-02-04",
+    "analyst_reviewed": true
+  },
+
+  "asset": {
+    "name": "KT-579",
+    "company": "Kymera Therapeutics",
+    "ticker": "KYMR",
+    "stage": "Phase 1",
+    "modality": "Heterobifunctional degrader",
+    "ownership": "Wholly-owned",
+    "one_liner": "First-in-class oral IRF5 degrader - targeting the master regulator of autoimmune inflammation"
+  },
+
+  "target": {
+    "name": "IRF5",
+    "full_name": "Interferon Regulatory Factor 5",
+    "class": "Transcription Factor",
+    "pathway": "Pattern Recognition Receptor signaling → Type I IFN and pro-inflammatory cytokines",
+    
+    "biology": {
+      "simple_explanation": "IRF5 is a master regulator transcription factor that controls the production of pro-inflammatory cytokines (TNFα, IL-6, IL-12, IL-23), Type I interferons, and autoantibodies. It gets activated in a cell-specific and stimulus-specific manner, meaning it only causes inflammation when and where it's needed.",
+      
+      "pathway_detail": {
+        "activation_signals": [
+          "TLR2, TLR4, TLR5 (bacterial recognition)",
+          "TLR7, TLR8, TLR9 (nucleic acid recognition)",
+          "Dectin-1, Dectin-2 (fungal recognition)",
+          "NOD1, NOD2 (intracellular bacterial recognition)",
+          "RIG-I (viral RNA recognition)",
+          "BCR (B cell receptor)"
+        ],
+        "signaling_cascade": "Pattern Recognition Receptor → MyD88/IRAK4 → IRF5 phosphorylation → Nuclear translocation → Gene transcription",
+        "outputs": [
+          "Pro-inflammatory cytokines: TNFα, IL-1β, IL-6, IL-12p40, IL-23",
+          "Type I interferons: IFNα, IFNβ",
+          "Autoantibodies (via B cell effects)"
+        ]
+      },
+      
+      "cell_types_where_active": [
+        {
+          "cell": "Dendritic Cells",
+          "receptors": "TLR2, -4, -5, -7, -8, -9, Dectin 1, -2",
+          "output": "Pro-inflammatory cytokines"
+        },
+        {
+          "cell": "Monocytes",
+          "receptors": "TLR2, -4, -5, -7, -8, -9, Dectin 1, -2",
+          "output": "Pro-inflammatory cytokines"
+        },
+        {
+          "cell": "M1 Macrophages",
+          "receptors": "TLR2, -4, -5, -7, -8, -9, Dectin 1, -2",
+          "output": "Pro-inflammatory cytokines"
+        },
+        {
+          "cell": "B cells",
+          "receptors": "TLR7, -8, -9 + BCR",
+          "output": "Type I IFNs + Autoantibodies"
+        }
+      ],
+      
+      "key_insight": "IRF5 targets cell-specific immune dysregulation while sparing normal cell function - unlike broad immunosuppression"
+    },
+    
+    "why_good_target": {
+      "genetic_validation": {
+        "gwas_findings": "Multiple GWAS studies identify IRF5 as autoimmune susceptibility gene",
+        "risk_haplotypes": "IRF5 functional risk variants associate with increased susceptibility to SLE, Sjögren's, RA, IBD, SSc, MS",
+        "sle_specifics": "IRF5 risk haplotypes in SLE patients associated with high serum IFNα levels, anti-dsDNA antibodies, and anti-RNA binding protein antibodies",
+        "source_slide": 40
+      },
+      
+      "mouse_knockout_data": {
+        "viability": "IRF5 KO mice are viable and fertile",
+        "b_cell_development": "Normal B cell development - no obvious immune deficiency",
+        "disease_protection": "IRF5 KO protects against lupus, SSc, RA, and IBD models",
+        "key_paper": "In FcγRIIB-/- Yaa mouse lupus model, IRF5 plays essential role that is INDEPENDENT of Type I IFN pathways",
+        "implication": "KO mice being healthy = safety de-risked; disease protection = efficacy potential"
+      },
+      
+      "clinical_pathway_validation": {
+        "description": "The pathways downstream of IRF5 have been validated by APPROVED drugs",
+        "validated_pathways": [
+          {"pathway": "Type I IFN", "drug": "Anifrolumab (anti-IFNAR)", "indication": "SLE"},
+          {"pathway": "TNFα", "drugs": "Humira, Remicade, Enbrel", "indications": "RA, IBD, etc."},
+          {"pathway": "IL-6", "drug": "Actemra (tocilizumab)", "indications": "RA"},
+          {"pathway": "IL-12/IL-23", "drug": "Stelara (ustekinumab)", "indications": "Psoriasis, IBD"},
+          {"pathway": "B cells", "drugs": "Rituximab, Benlysta", "indications": "RA, SLE"}
+        ],
+        "key_insight": "IRF5 sits UPSTREAM of all these validated pathways. Degrading IRF5 could achieve the combined effect of multiple biologics in one oral pill"
+      }
+    },
+    
+    "why_undruggable_before": {
+      "challenge_1": "Multiple activation steps make kinetic inhibition difficult",
+      "challenge_2": "IRF family member homology - IRF3, 4, 6, 7, 8 are structurally similar",
+      "previous_attempts": "Conventional approaches failed to effectively and selectively block IRF5",
+      "degrader_solution": "TPD allows single binding event to drive complete protein depletion, disrupting ALL IRF5 signaling regardless of activation state"
+    }
+  },
+
+  "mechanism": {
+    "type": "Heterobifunctional degrader (PROTAC)",
+    "e3_ligase": "Not specified in presentation",
+    "how_it_works": "KT-579 binds IRF5 and recruits an E3 ligase, leading to ubiquitination and proteasomal degradation of IRF5 protein",
+    "differentiation": "First approach to effectively target this genetically validated transcription factor with potential for broad anti-inflammatory activity"
+  },
+
+  "indications": {
+    "lead": {
+      "name": "Systemic Lupus Erythematosus (SLE)",
+      "patient_population": "1.2M",
+      "rationale": "Strongest genetic validation; multiple validated pathways; high unmet need"
+    },
+    "expansion": [
+      {
+        "name": "Rheumatoid Arthritis (RA)",
+        "patient_population": "4.7M",
+        "rationale": "Genetic association; preclinical efficacy in AIA model"
+      },
+      {
+        "name": "Ulcerative Colitis (UC)",
+        "patient_population": "1.9M",
+        "rationale": "Genetic association"
+      },
+      {
+        "name": "Crohn's Disease (CD)",
+        "patient_population": "1.5M",
+        "rationale": "Genetic association"
+      },
+      {
+        "name": "Sjögren's Syndrome",
+        "patient_population": "765K",
+        "rationale": "Genetic association"
+      },
+      {
+        "name": "Systemic Sclerosis (SSc)",
+        "patient_population": "200K",
+        "rationale": "Genetic association; mouse KO protection"
+      },
+      {
+        "name": "Dermatomyositis (DM)",
+        "patient_population": ">100K",
+        "rationale": "Type I IFN driven"
+      }
+    ],
+    "total_addressable_patients": ">10M",
+    "current_penetration": "7% on advanced systemic therapies",
+    "source_slide": 41
+  },
+
+  "market_opportunity": {
+    "total_addressable_market": ">$45B in 2023 → >$55B by 2029",
+    "markets_included": "SLE, LN, RA, IBD combined",
+    "current_penetration": "7% on advanced systemic therapy",
+    "competitive_advantage": "Could achieve 'combined biologic' effect (anti-TNF + anti-IL-6 + anti-IFN + anti-B cell) in one oral pill",
+    "source_slide": 37
+  },
+
+  "preclinical_data": {
+    "selectivity": {
+      "description": "Exquisite selectivity for IRF5 over other IRF family members",
+      "data": [
+        {"target": "IRF3", "assay": "SPR binding Kd (nM)", "result": ">10,000", "interpretation": "No binding"},
+        {"target": "IRF4", "assay": "SPR binding Kd (nM)", "result": ">10,000", "interpretation": "No binding"},
+        {"target": "IRF6", "assay": "SPR binding Kd (nM)", "result": ">10,000", "interpretation": "No binding"},
+        {"target": "IRF7", "assay": "SPR binding Kd (nM)", "result": ">10,000", "interpretation": "No binding"},
+        {"target": "IRF8", "assay": "SPR binding Kd (nM)", "result": ">10,000", "interpretation": "No binding"},
+        {"target": "IRF3", "assay": "Degradation DC50 (nM)", "result": ">10,000", "interpretation": "No degradation"},
+        {"target": "IRF7", "assay": "Degradation DC50 (nM)", "result": ">10,000", "interpretation": "No degradation"}
+      ],
+      "key_finding": ">10,000x selectivity is exceptional - addresses key challenge of IRF family homology",
+      "source_slide": 42
+    },
+    
+    "potency_in_human_cells": {
+      "description": "Equipotent degradation across ALL relevant immune cell types",
+      "data": [
+        {"cell_type": "Total PBMC", "dc50_nM": 0.8},
+        {"cell_type": "CD19+ B cells", "dc50_nM": 1.0},
+        {"cell_type": "CD14+ Monocytes", "dc50_nM": 0.6},
+        {"cell_type": "HLA-DR+CD123+ pDCs (plasmacytoid DCs)", "dc50_nM": 0.9},
+        {"cell_type": "HLA-DR+CD11c+ mDCs (myeloid DCs)", "dc50_nM": 0.9}
+      ],
+      "key_finding": "~1 nM potency across all cell types - highly potent",
+      "source_slide": 42
+    },
+    
+    "cytokine_inhibition": {
+      "description": "KT-579 potently inhibits both Type I IFN and pro-inflammatory cytokines",
+      "type1_ifn_data": [
+        {"receptor": "TLR8", "stimulus": "ssRNA40", "cell": "Monocytes", "cytokine": "IFNβ", "dc50_nM": 0.3},
+        {"receptor": "TLR7/8", "stimulus": "R848", "cell": "Monocytes", "cytokine": "IFNβ", "dc50_nM": 0.4},
+        {"receptor": "TLR9", "stimulus": "ODN2006", "cell": "PBMC", "cytokine": "IFNβ", "dc50_nM": 0.8}
+      ],
+      "proinflammatory_data": [
+        {"receptor": "TLR7/8", "stimulus": "R848", "cell": "PBMC", "cytokine": "TNFα", "dc50_nM": 1.5},
+        {"receptor": "TLR7/8", "stimulus": "R848", "cell": "B cells", "cytokine": "TNFα", "dc50_nM": 0.4},
+        {"receptor": "TLR8", "stimulus": "ssRNA40", "cell": "Monocytes", "cytokine": "TNFα", "dc50_nM": 1.3},
+        {"receptor": "TLR7/8", "stimulus": "R848", "cell": "Monocytes", "cytokine": "IL-12p40", "dc50_nM": 0.5},
+        {"receptor": "TLR9", "stimulus": "ODN2006", "cell": "PBMC", "cytokine": "IL-12p40", "dc50_nM": 1.8},
+        {"receptor": "TLR7/8", "stimulus": "R848", "cell": "Monocytes", "cytokine": "IL-1β", "dc50_nM": 0.15},
+        {"receptor": "TLR4", "stimulus": "LPS", "cell": "PBMC", "cytokine": "IL-23", "dc50_nM": 1.1}
+      ],
+      "key_finding": "Sub-nanomolar to low nanomolar potency across ALL readouts. Blocks BOTH Type I IFN AND pro-inflammatory cytokines across TLR4, TLR7, TLR8, TLR9.",
+      "source_slide": 43
+    },
+    
+    "sle_patient_samples": {
+      "description": "Activity confirmed in PBMCs from SLE patients (not just healthy donors)",
+      "findings": [
+        "Inhibits TLR7/8-induced TNFα, IL-6, IFNβ production",
+        "Reduces TLR9 (CpG-B) induced plasmablast differentiation",
+        "Inhibits IgG production in SLE-derived B cells"
+      ],
+      "key_insight": "Showing activity in PATIENT samples is critical - SLE patients have hyperactivated immune systems",
+      "source_slide": 44
+    },
+    
+    "mrl_lpr_lupus_model": {
+      "description": "MRL/lpr is a standard spontaneous lupus mouse model",
+      "study_design": "KT-579 dosed orally once daily for 63 days vs multiple comparators",
+      
+      "survival_data": {
+        "vehicle": {"survival": "10/15", "percent": "67%"},
+        "kt579_50mg": {"survival": "15/15", "percent": "100%"},
+        "kt579_200mg": {"survival": "15/15", "percent": "100%"},
+        "afimetoran_10mg": {"survival": "13/15", "percent": "87%", "note": "TYK2 inhibitor"},
+        "deucravacitinib_30mg": {"survival": "13/15", "percent": "87%", "note": "TYK2 inhibitor (Sotyktu)"},
+        "cyclophosphamide_50mg": {"survival": "14/15", "percent": "93%", "note": "Standard of care"},
+        "anti_ifnar_20mg": {"survival": "9/15", "percent": "60%", "note": "Anifrolumab mechanism"}
+      },
+      "survival_key_finding": "KT-579 achieved 100% survival - SUPERIOR to ALL comparators including approved drugs and clinical-stage compounds",
+      
+      "anti_dsdna_data": {
+        "description": "Serum anti-dsDNA antibodies measured at Weeks 10, 15, 19",
+        "vehicle_week19": "~1500 U/mL (high)",
+        "kt579_50mg_week19": "~400 U/mL (low)",
+        "kt579_200mg_week19": "~300 U/mL (low)",
+        "p_value": "p=0.04 vs vehicle",
+        "key_finding": "Sustained reduction of anti-dsDNA - key lupus biomarker"
+      },
+      
+      "b_cell_data": {
+        "description": "Splenic B cell populations at study end",
+        "findings": [
+          "Plasmablasts: Significantly reduced (p≤0.05)",
+          "Differentiated B cells: Reduced",
+          "Plasma cells: Reduced"
+        ]
+      },
+      
+      "source_slide": 45
+    },
+    
+    "kidney_data": {
+      "description": "Terminal kidney assessment from surviving MRL/lpr mice at Week 19 - critical for lupus nephritis",
+      
+      "igg_staining": {
+        "description": "IgG deposition in kidney glomeruli (% of renal cortex area)",
+        "vehicle": "~12%",
+        "kt579_50mg": "~4%",
+        "kt579_200mg": "~3%",
+        "afimetoran": "~6%",
+        "deucravacitinib": "~5%",
+        "cyclophosphamide": "~8%",
+        "anti_ifnar": "~10%",
+        "p_value": "p≤0.01 for KT-579 vs vehicle",
+        "key_finding": "KT-579 numerically best - lowest IgG deposition"
+      },
+      
+      "c3_staining": {
+        "description": "Complement C3 deposition in kidney glomeruli",
+        "vehicle": "~7%",
+        "kt579_50mg": "~2%",
+        "kt579_200mg": "~2%",
+        "p_value": "p≤0.05 vs vehicle",
+        "key_finding": "KT-579 significantly reduces complement deposition"
+      },
+      
+      "total_kidney_lesion_score": {
+        "vehicle": "~5",
+        "kt579_50mg": "~2",
+        "kt579_200mg": "~1.5",
+        "p_value": "p≤0.05 vs vehicle"
+      },
+      
+      "representative_images": "Clear reduction in IgG and C3 staining in kidney glomeruli with KT-579 vs vehicle",
+      
+      "key_insight": "Lupus nephritis is what kills SLE patients. KT-579 significantly reduces kidney immune deposits - better than all comparators. This is the path to lupus nephritis indication.",
+      "source_slide": 46
+    },
+    
+    "nzbw1_lupus_model": {
+      "description": "Second lupus model (NZB.W1 spontaneous) - showing efficacy in two models de-risks",
+      "study_design": "KT-579 dosed once daily for 107 days, achieving 80% and >90% IRF5 degradation",
+      
+      "proteinuria": {
+        "finding": "Decreased proteinuria early and sustained",
+        "vs_comparators": "Superior to comparators"
+      },
+      
+      "anti_dsdna": {
+        "kt579_150mg_week37": "Near complete reduction",
+        "p_value": "p<0.0001",
+        "vs_comparators": "Superior to all (Afimetoran, Deucravacitinib, anti-IFNAR, Cyclophosphamide)"
+      },
+      
+      "ifn_gene_signature": {
+        "genes": ["OAS1", "IFIT1", "IF44"],
+        "finding": "Significantly reduced at 150mg/kg",
+        "vs_comparators": "Comparable to other agents"
+      },
+      
+      "key_finding": "Early, sustained, and complete reduction in anti-dsDNA antibodies - BEST IN CLASS preclinical",
+      "source_slide": 47
+    },
+    
+    "ra_model": {
+      "description": "Antigen-Induced Arthritis (AIA) model - standard RA model",
+      "study_design": "Daily oral dosing achieving ~90% IRF5 degradation",
+      
+      "joint_swelling": {
+        "finding": "Significant reduction comparable to Tofacitinib",
+        "p_value": "p<0.0001"
+      },
+      
+      "il12p40_serum": {
+        "finding": "Significantly reduced at Day 2",
+        "p_value": "p<0.05"
+      },
+      
+      "synovial_th1_cells": {
+        "finding": "IFNγ+ CD4+ T cells significantly reduced at Day 7",
+        "p_value": "p<0.005"
+      },
+      
+      "key_finding": "KT-579 matches Tofacitinib (approved JAK inhibitor) in RA model - supports RA as expansion indication",
+      "source_slide": 48
+    },
+    
+    "nhp_pkpd_and_safety": {
+      "description": "Cynomolgus monkey pharmacology",
+      
+      "degradation_by_dose": [
+        {"dose": "1 mg/kg QD x 7 days", "irf5_degradation": "82%"},
+        {"dose": "5 mg/kg QD x 7 days", "irf5_degradation": "90%"},
+        {"dose": "10 mg/kg QD x 7 days", "irf5_degradation": "95%"},
+        {"dose": "30 mg/kg QD x 7 days", "irf5_degradation": "97%"}
+      ],
+      "key_finding": "Low oral doses (1-30 mg/kg) achieve 82-97% degradation",
+      
+      "safety": {
+        "studies_completed": "Non-GLP tox in NHP and rodents",
+        "finding": "No adverse effects at up to 200-fold predicted human efficacious exposure",
+        "implication": "200x safety margin is exceptional - predicts clean Phase 1"
+      },
+      
+      "source_slide": 49
+    }
+  },
+
+  "clinical_data": {
+    "status": "No human data yet - Phase 1 starting Q1 2026",
+    "ind_enabling": "Complete"
+  },
+
+  "upcoming_trials": {
+    "phase1_hv": {
+      "description": "Phase 1 Healthy Volunteer SAD/MAD",
+      "start": "Q1 2026",
+      "data_expected": "2H 2026",
+      "key_objectives": [
+        "Safety and tolerability",
+        "PK characterization",
+        "IRF5 degradation in blood",
+        "Potential biomarker changes (IFN signature, cytokines)"
+      ],
+      "what_success_looks_like": [
+        "IRF5 degradation >80% in blood",
+        "Clean safety profile",
+        "PK supporting once-daily dosing",
+        "Reduction in IFN gene signature (exploratory)"
+      ],
+      "source_slide": 37
+    }
+  },
+
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "Best-in-class preclinical efficacy",
+        "evidence": "100% survival in MRL/lpr - superior to ALL comparators including approved drugs",
+        "confidence": "High - multiple models, multiple endpoints"
+      },
+      {
+        "point": "Genetically validated target with clean KO",
+        "evidence": "GWAS associations in SLE, RA, IBD; KO mice healthy and fertile",
+        "confidence": "High - human and mouse genetics align"
+      },
+      {
+        "point": "Exquisite selectivity solves historical challenge",
+        "evidence": ">10,000x selectivity vs other IRF family members",
+        "confidence": "High - biochemical data clear"
+      },
+      {
+        "point": "Superior to anti-IFNAR (Anifrolumab mechanism)",
+        "evidence": "Better survival, better kidney protection in lupus models",
+        "confidence": "High - head-to-head preclinical"
+      },
+      {
+        "point": "'Combined biologic' potential",
+        "evidence": "Blocks Type I IFN + TNF + IL-6 + IL-12 + IL-23 + B cell pathways",
+        "confidence": "Medium - need human data"
+      },
+      {
+        "point": "200x safety margin in NHP",
+        "evidence": "No adverse effects at 200-fold efficacious exposure",
+        "confidence": "High - clean tox package"
+      }
+    ],
+    
+    "bear_case": [
+      {
+        "point": "No human data yet",
+        "evidence": "Phase 1 starts Q1 2026; first data 2H 2026",
+        "counter_argument": "Preclinical package is exceptional; IND-enabling complete",
+        "probability": "Inherent risk until Phase 1 data"
+      },
+      {
+        "point": "First-in-class transcription factor target",
+        "evidence": "No precedent for IRF5 degradation in humans",
+        "counter_argument": "STAT6 (another TF) translated well; KO humans would be informative if they exist",
+        "probability": "Medium - unknown unknowns"
+      },
+      {
+        "point": "SLE is graveyard of drug development",
+        "evidence": "Many Phase 3 failures (Tabalumab, Blisibimod, etc.)",
+        "counter_argument": "IRF5 is more upstream/fundamental than previous targets; Anifrolumab succeeded",
+        "probability": "Medium - execution risk in lupus"
+      },
+      {
+        "point": "Long development timelines in autoimmune",
+        "evidence": "Phase 3 in SLE typically 2-3 years; total development 8-10 years",
+        "counter_argument": "Kymera has capital; multiple shots on goal",
+        "probability": "Certain - this is a long-term investment"
+      }
+    ],
+    
+    "key_debates": [
+      {
+        "question": "Can preclinical superiority translate to human efficacy?",
+        "bull_view": "Yes - target is genetically validated; mechanism is clean",
+        "bear_view": "No - mouse lupus models have failed to predict human outcomes before",
+        "what_resolves_it": "Phase 1 biomarker data; eventually Phase 2 in SLE"
+      },
+      {
+        "question": "Is IRF5 inhibition safe long-term?",
+        "bull_view": "Yes - KO mice are healthy; 200x safety margin in NHP",
+        "bear_view": "Unknown - IRF5 may have protective roles in infection",
+        "what_resolves_it": "Phase 1 safety data; long-term extension studies"
+      },
+      {
+        "question": "Will IRF5 differentiate from existing lupus drugs?",
+        "bull_view": "Yes - broader mechanism; oral; superior preclinical",
+        "bear_view": "No - Anifrolumab and Benlysta already approved; crowded space",
+        "what_resolves_it": "Head-to-head clinical data (unlikely); market differentiation"
+      }
+    ],
+    
+    "probability_of_success": {
+      "phase1_to_phase2": "70%",
+      "phase2_to_phase3": "40%",
+      "phase3_to_approval": "50%",
+      "cumulative_pos": "14%",
+      "methodology": "Historical rates for autoimmune + first-in-class adjustment - but exceptional preclinical may warrant upward revision"
+    }
+  },
+
+  "catalysts": [
+    {
+      "event": "Phase 1 HV trial initiation",
+      "timing": "Q1 2026",
+      "importance": "Medium",
+      "what_to_watch": "IND clearance; trial activation"
+    },
+    {
+      "event": "Phase 1 HV data",
+      "timing": "2H 2026",
+      "importance": "High",
+      "what_to_watch": [
+        "IRF5 degradation in blood (target >80%)",
+        "Safety and tolerability",
+        "PK profile",
+        "IFN gene signature changes (exploratory)"
+      ],
+      "bull_scenario": {
+        "outcome": ">90% IRF5 degradation, clean safety, IFN signature reduction",
+        "stock_impact": "+20-40%",
+        "rationale": "Validates human translation of preclinical; opens path to lupus POC"
+      },
+      "bear_scenario": {
+        "outcome": "Inadequate degradation or safety signal",
+        "stock_impact": "-20-30%",
+        "rationale": "Questions platform translation for difficult targets"
+      }
+    }
+  ],
+
+  "competitive_landscape": [
+    {
+      "competitor": "Anifrolumab (Saphnelo)",
+      "company": "AstraZeneca",
+      "mechanism": "Anti-IFNAR antibody (blocks Type I IFN receptor)",
+      "stage": "Approved for SLE",
+      "differentiation": {
+        "mechanism": "Anifrolumab only blocks IFN; KT-579 blocks IFN + TNF + IL-6 + IL-12/23 + B cells",
+        "preclinical": "KT-579 SUPERIOR in head-to-head lupus models (better survival, better kidney)",
+        "administration": "Anifrolumab is IV infusion; KT-579 is oral"
+      },
+      "threat_level": "Approved but KT-579 has superior preclinical"
+    },
+    {
+      "competitor": "Belimumab (Benlysta)",
+      "company": "GSK",
+      "mechanism": "Anti-BLyS (B cell targeting)",
+      "stage": "Approved for SLE and lupus nephritis",
+      "differentiation": {
+        "mechanism": "Benlysta only targets B cells; KT-579 is broader",
+        "administration": "Benlysta is SC or IV; KT-579 is oral"
+      },
+      "threat_level": "Approved; established standard of care"
+    },
+    {
+      "competitor": "Deucravacitinib (Sotyktu)",
+      "company": "BMS",
+      "mechanism": "TYK2 inhibitor",
+      "stage": "Approved for psoriasis; Phase 3 in SLE",
+      "differentiation": {
+        "mechanism": "TYK2i is more selective than JAKi but still kinase; degrader eliminates protein",
+        "preclinical": "KT-579 superior survival in head-to-head lupus model"
+      },
+      "threat_level": "Medium - different mechanism"
+    }
+  ],
+
+  "sources": [
+    {
+      "title": "Kymera Therapeutics Corporate Presentation January 2026",
+      "type": "Company Presentation",
+      "date": "2026-01-15",
+      "key_slides": {
+        "37": "KT-579 overview",
+        "38": "IRF5 biology",
+        "39": "Pathway detail",
+        "40": "Genetic validation",
+        "41": "Market opportunity",
+        "42": "Selectivity and potency",
+        "43": "Cytokine inhibition",
+        "44": "SLE patient samples",
+        "45": "MRL/lpr survival",
+        "46": "Kidney data",
+        "47": "NZB.W1 model",
+        "48": "RA model",
+        "49": "NHP PK/PD and safety"
+      }
+    }
+  ]
+}

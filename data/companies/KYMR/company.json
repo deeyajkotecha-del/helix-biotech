@@ -1,113 +1,306 @@
 {
-  "name": "Kymera Therapeutics",
-  "ticker": "KYMR",
-  "one_liner": "Developing oral degrader drugs that combine the convenience of pills with the efficacy of injectable biologics to transform immunology treatment paradigms.",
-  "headquarters": "Watertown, MA",
-  "website": "www.kymeratx.com",
-  "description": "Kymera is developing first-in-class oral protein degrader medicines targeting historically undrugged proteins in immunology. The company focuses on transcription factors and scaffolding kinases to create oral drugs with biologics-like activity.",
-  "modality": "Small molecule protein degraders",
-  "therapeutic_focus": [
-    "Immunology",
-    "Inflammation"
-  ],
-  "financials": {
-    "cash_position": null,
-    "cash_runway": "Into 2029",
-    "burn_rate_quarterly": null
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "Kymera Therapeutics Corporate Presentation January 2026",
+    "extraction_date": "2026-02-04",
+    "analyst_reviewed": true
   },
-  "investment_thesis": {
-    "bull_case": [
-      {
-        "point": "KT-621 Phase 1b data shows dupilumab-like efficacy in oral form",
-        "evidence": "-63% EASI reduction vs -52% for dupilumab at similar timepoint, 76% EASI-50 responder rate vs 57% dupilumab",
-        "source_page": 33,
-        "confidence": "high"
-      },
-      {
-        "point": "Massive underserved market opportunity with oral convenience advantage",
-        "evidence": ">90% of patients on biologics would switch to oral option, only 1-7% of diagnosed patients access advanced systemic therapies",
-        "source_page": 6,
-        "confidence": "high"
-      },
-      {
-        "point": "Multiple shots on goal across validated immunology targets",
-        "evidence": "Three first-in-class degraders (STAT6, IRF5, IRAK4) targeting genetically validated pathways with >290M combined patient opportunity",
-        "source_page": 9,
-        "confidence": "medium"
-      }
-    ],
-    "bear_case": [
-      {
-        "point": "Phase 1b data limitations may not predict Phase 2b success",
-        "evidence": "Open-label design with only n=22 patients, cross-trial comparisons to dupilumab may not be reliable due to different trial protocols and patient populations",
-        "counter": "Company acknowledges limitations but emphasizes consistency across multiple biomarkers and clinical endpoints",
-        "source_page": 2,
-        "confidence": "high"
-      },
-      {
-        "point": "Protein degrader modality still relatively unproven in immunology",
-        "evidence": "First-in-class approaches carry higher risk, no oral degraders approved in immunology yet",
-        "counter": "Strong preclinical validation and human genetic data support approach",
-        "source_page": 7,
-        "confidence": "medium"
-      }
-    ],
-    "key_debates": [
-      {
-        "question": "Will KT-621 maintain dupilumab-like efficacy in randomized Phase 2b trials?",
-        "bull_view": "Phase 1b data across multiple endpoints and biomarkers supports sustained efficacy",
-        "bear_view": "Open-label Phase 1b may overestimate effect size, placebo response could be significant",
-        "data_to_watch": "BROADEN2 Phase 2b AD results by mid-2027"
-      }
+
+  "company": {
+    "name": "Kymera Therapeutics",
+    "ticker": "KYMR",
+    "exchange": "NASDAQ",
+    "headquarters": "Watertown, MA",
+    "website": "https://www.kymeratx.com",
+    "ir_contact": "investors@kymeratx.com",
+    
+    "one_liner": "Industry leader in developing oral degrader medicines - revolutionizing immunology with oral drugs that have biologics-like activity",
+    
+    "company_description": "Kymera is pioneering targeted protein degradation (TPD) to develop oral small molecule drugs that can achieve biologics-like efficacy. The company focuses on historically undruggable targets (transcription factors, scaffolding kinases) in immunology and inflammation, with a pipeline of first-in-class degraders targeting STAT6, IRF5, and IRAK4."
+  },
+
+  "investment_thesis_summary": {
+    "core_thesis": "Kymera is the first company to clinically demonstrate that oral protein degraders can match injectable biologic efficacy in immunology, potentially transforming treatment paradigms for >140M patients with Type 2 inflammation and autoimmune diseases.",
+    
+    "key_value_drivers": [
+      "KT-621 (STAT6): Phase 1b data matches Dupixent - 'Dupilumab-in-a-pill' potential",
+      "KT-579 (IRF5): Best-in-class preclinical with 100% survival in lupus models",
+      "Platform validation: Multiple targets (STAT6, IRF5, IRAK4) showing consistent translation",
+      "Strategic partnerships: Sanofi (IRAK4) and Gilead (CDK2) validate platform",
+      "Large markets: >$100B combined TAM in immunology"
     ]
   },
-  "partnerships": [
+
+  "platform": {
+    "name": "Targeted Protein Degradation (TPD)",
+    "description": "Kymera's platform uses heterobifunctional degraders (PROTACs) and molecular glues to eliminate disease-causing proteins rather than just inhibiting them.",
+    
+    "unique_capabilities": [
+      {
+        "capability": "Target Selection",
+        "description": "Pursuing historically undrugged targets (transcription factors, scaffolding proteins) in highly validated pathways"
+      },
+      {
+        "capability": "Chemistry",
+        "description": "Finding ligands to historically undrugged targets; designing degraders with absolute selectivity"
+      },
+      {
+        "capability": "Translation",
+        "description": "Deep expertise in target-drug interplay to optimize degradation across tissues and cell types"
+      },
+      {
+        "capability": "Development",
+        "description": "Leverage learnings from early studies (new biomarkers, endpoints) to derisk mid/late-stage development"
+      }
+    ],
+    
+    "degrader_advantage": {
+      "vs_inhibitors": {
+        "mechanism": "Inhibitors block ~80% of target; degraders eliminate >95%",
+        "kinetics": "Inhibitors require continuous exposure; degraders work catalytically with transient exposure",
+        "targets": "Inhibitors need enzymatic pockets; degraders work on any protein with a binder"
+      },
+      "vs_biologics": {
+        "administration": "Degraders are oral; biologics are injectable",
+        "manufacturing": "Small molecules are cheaper to manufacture; no cold chain needed",
+        "immunogenicity": "No anti-drug antibodies with small molecules"
+      }
+    },
+    "source_slide": "4, 7"
+  },
+
+  "pipeline_summary": {
+    "total_programs": 4,
+    "clinical_stage": 3,
+    "partnered": 2,
+    "wholly_owned": 2,
+    
+    "programs": [
+      {
+        "asset": "KT-621",
+        "target": "STAT6",
+        "stage": "Phase 2b",
+        "ownership": "Wholly-owned",
+        "indications": "AD, Asthma, COPD, EoE, CRSwNP, CSU, PN, BP",
+        "next_catalyst": "BROADEN2 Phase 2b AD data - Mid-2027",
+        "market_opportunity": ">$20B"
+      },
+      {
+        "asset": "KT-579",
+        "target": "IRF5",
+        "stage": "Phase 1 starting Q1 2026",
+        "ownership": "Wholly-owned",
+        "indications": "SLE, Sjögren's, RA, IBD, SSc, DM",
+        "next_catalyst": "Phase 1 HV data - 2H 2026",
+        "market_opportunity": ">$45B"
+      },
+      {
+        "asset": "KT-485",
+        "target": "IRAK4",
+        "stage": "Phase 1 expected 2026",
+        "ownership": "Partnered (Sanofi)",
+        "indications": "HS, AD, Asthma, COPD, RA, SLE, IBD",
+        "next_catalyst": "Phase 1 start - 2026",
+        "market_opportunity": ">$55B"
+      },
+      {
+        "asset": "CDK2 Molecular Glue",
+        "target": "CDK2",
+        "stage": "Preclinical",
+        "ownership": "Partnered (Gilead)",
+        "indications": "Breast cancer, solid tumors",
+        "next_catalyst": "IND filing",
+        "market_opportunity": "~$18B (CDK4/6i market)"
+      }
+    ],
+    "source_slide": 11
+  },
+
+  "financials": {
+    "note": "Specific financials not provided in presentation - refer to SEC filings",
+    "cash_runway": "Into 2029 (per presentation)",
+    "partnerships_value": {
+      "sanofi_irak4": {
+        "upfront": "$150M received",
+        "milestones": "Up to $2B",
+        "royalties": "Tiered double-digit"
+      },
+      "gilead_cdk2": {
+        "upfront": "$85M",
+        "milestones": "Up to $750M"
+      }
+    }
+  },
+
+  "market_opportunity": {
+    "total_immunology_patients": "~160M diagnosed",
+    "on_advanced_therapies": "~5M (3%)",
+    "on_non_advanced_therapies": "~90M (58%)",
+    "untreated": "~62M (39%)",
+    "advanced_therapy_market": ">$100B annual sales",
+    "key_insight": "Vast majority of patients do not have access to advanced systemic therapies - oral degraders could dramatically expand access",
+    "source_slide": 5
+  },
+
+  "competitive_positioning": {
+    "moat": [
+      "First-mover in oral immunology degraders",
+      "Clinical proof-of-concept with KT-621",
+      "Platform validated across multiple targets",
+      "Deep expertise in transcription factor degradation",
+      "Strong IP portfolio"
+    ],
+    "differentiation": [
+      "Only company with clinical STAT6 degrader",
+      "Only company with clinical IRF5 program",
+      "Oral drugs vs injectable biologics",
+      "Degraders vs inhibitors for undruggable targets"
+    ]
+  },
+
+  "management": {
+    "note": "Specific management details not provided in presentation",
+    "ceo": {
+      "name": "Nello Mainolfi, PhD",
+      "background": "Founder; former Novartis/NIBR"
+    }
+  },
+
+  "catalysts_2026": [
     {
-      "partner": "Sanofi",
-      "asset": "KT-485 (IRAK4 degrader)",
-      "deal_type": "Collaboration",
-      "upfront": null,
-      "milestones": null,
-      "royalties": null,
-      "status": "Active",
-      "strategic_value": "Sanofi to advance KT-485 into Phase 1 clinical trial in 2026, leverages Sanofi's immunology expertise and resources",
-      "source_page": 2
+      "event": "BROADEN2 Phase 2b AD enrollment completion",
+      "timing": "2026",
+      "program": "KT-621"
     },
     {
-      "partner": "Gilead",
-      "asset": "CDK2 molecular glue degraders",
-      "deal_type": "Collaboration with option",
-      "upfront": "$85M in upfront and potential option exercise payments",
-      "milestones": "Up to $750M in total payments",
-      "royalties": null,
-      "status": "Active",
-      "strategic_value": "Accelerates CDK2 program development and commercialization in oncology, provides significant funding",
-      "source_page": 52
-    }
-  ],
-  "competitive_landscape": [
-    {
-      "competitor": "Regeneron/Sanofi",
-      "asset": "Dupilumab (Dupixent)",
-      "stage": "Approved",
-      "differentiation": "KT-621 targets downstream transcription factor vs upstream IL-4/13 receptors, oral vs injectable, showed comparable/superior activity in Phase 1b",
-      "threat_level": "High",
-      "source_page": 14
+      "event": "KT-579 Phase 1 HV trial start",
+      "timing": "Q1 2026",
+      "program": "KT-579"
     },
     {
-      "competitor": "JAK inhibitors",
-      "asset": "Various (tofacitinib, etc.)",
-      "stage": "Approved",
-      "differentiation": "KT-621 targets specific Type 2 pathway vs broad JAK inhibition, potentially better safety profile without JAK-associated risks",
-      "threat_level": "Medium",
-      "source_page": 16
+      "event": "KT-579 Phase 1 HV data",
+      "timing": "2H 2026",
+      "program": "KT-579"
+    },
+    {
+      "event": "KT-485 Phase 1 start with Sanofi",
+      "timing": "2026",
+      "program": "KT-485"
+    },
+    {
+      "event": "Advance CDK2 program with Gilead",
+      "timing": "2026",
+      "program": "CDK2"
+    },
+    {
+      "event": "New IND for first-in-class oral immunology program",
+      "timing": "2026",
+      "program": "Research"
     }
   ],
-  "_source_pages": [
-    1,
-    3,
-    4
+
+  "catalysts_2027": [
+    {
+      "event": "BROADEN2 Phase 2b AD data",
+      "timing": "Mid-2027",
+      "program": "KT-621",
+      "importance": "CRITICAL - key value driver"
+    },
+    {
+      "event": "BREADTH Phase 2b Asthma data",
+      "timing": "Late 2027",
+      "program": "KT-621",
+      "importance": "HIGH - validates respiratory"
+    }
   ],
-  "_extracted_at": "2026-02-04T13:46:43.243046",
-  "_last_extracted": "2026-02-04T13:46:43.243875"
+
+  "investment_analysis": {
+    "bull_case": [
+      "KT-621 Phase 1b data matches Dupixent - oral could transform $20B+ market",
+      "KT-579 preclinical is best-in-class - 100% survival vs 67% vehicle in lupus",
+      "Platform validated across STAT6, IRF5, IRAK4 - multiple shots on goal",
+      "Strategic partnerships (Sanofi, Gilead) validate platform and provide funding",
+      "Oral convenience could expand market penetration from 1-3% to 10%+",
+      "Cash runway into 2029 - no near-term financing risk"
+    ],
+    
+    "bear_case": [
+      "KT-621 Phase 1b was open-label - need placebo-controlled data to confirm",
+      "First-in-class transcription factor degraders - unknown unknowns",
+      "KT-474 QTc issue raises questions (though KT-485 designed to address)",
+      "Long development timelines - Phase 2b data not until 2027",
+      "Competitive pressure from Dupixent ($13B franchise) and JAK inhibitors",
+      "SLE (KT-579 target indication) is notoriously difficult"
+    ],
+    
+    "key_debates": [
+      {
+        "question": "Can oral degraders truly match injectable biologics?",
+        "bull_view": "Yes - 90%+ target degradation = complete pathway blockade",
+        "bear_view": "No - tissue distribution and kinetics may differ",
+        "what_resolves_it": "BROADEN2 EASI-75 at Week 16"
+      },
+      {
+        "question": "Will the platform translate across targets?",
+        "bull_view": "Yes - STAT6, IRF5, IRAK4 all showing translation",
+        "bear_view": "Each target is different - past success doesn't guarantee future",
+        "what_resolves_it": "KT-579 Phase 1 data, KT-485 Phase 1 data"
+      }
+    ],
+    
+    "valuation_framework": {
+      "approach": "Sum-of-parts risk-adjusted NPV",
+      "key_assumptions": {
+        "kt621_ad_peak_sales": "$3-5B",
+        "kt621_pos": "36%",
+        "kt579_lupus_peak_sales": "$1-2B",
+        "kt579_pos": "14%",
+        "kt485_milestones_royalties": "$0.5B NPV"
+      },
+      "catalyst_sensitivity": {
+        "broaden2_beat": "+50-100% stock impact",
+        "broaden2_miss": "-40-60% stock impact"
+      }
+    }
+  },
+
+  "risks": [
+    {
+      "risk": "Clinical execution",
+      "description": "Phase 2b trials may not replicate Phase 1b results",
+      "mitigation": "Strong biomarker data supports efficacy; experienced team"
+    },
+    {
+      "risk": "Safety signals",
+      "description": "New target class may have unexpected toxicities",
+      "mitigation": "Clean Phase 1 safety; genetic validation"
+    },
+    {
+      "risk": "Competition",
+      "description": "Dupixent franchise defended; other degrader companies emerging",
+      "mitigation": "First-mover advantage; oral differentiation"
+    },
+    {
+      "risk": "Regulatory",
+      "description": "Novel mechanism may face heightened FDA scrutiny",
+      "mitigation": "Standard development path; clear endpoints"
+    }
+  ],
+
+  "sources": [
+    {
+      "title": "Kymera Therapeutics Corporate Presentation January 2026",
+      "type": "Company Presentation",
+      "date": "2026-01-15",
+      "total_slides": 67,
+      "key_sections": {
+        "company_overview": "Slides 3-11",
+        "kt621_deep_dive": "Slides 12-35",
+        "kt579_deep_dive": "Slides 36-49",
+        "partnered_programs": "Slides 50-52",
+        "catalysts": "Slide 53",
+        "appendix": "Slides 55-67"
+      }
+    }
+  ]
 }

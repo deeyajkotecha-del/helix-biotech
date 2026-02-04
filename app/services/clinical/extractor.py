@@ -185,7 +185,7 @@ def get_company_full(ticker: str) -> Optional[dict]:
     """
     Get full company data including:
     - Index metadata (classification, thesis type, etc.)
-    - Company data (if exists)
+    - Company data (if exists) - supports both v1.0 and v2.0 schemas
     - Full asset data with clinical trials, endpoints, biomarkers
     """
     ticker = ticker.upper()
@@ -207,27 +207,38 @@ def get_company_full(ticker: str) -> Optional[dict]:
             asset_info = asset_data.get("asset", {})
             clinical_dev = asset_data.get("clinical_development", {})
 
+            # Handle target - can be string or dict (v2.0 has rich target object)
+            target_data = asset_info.get("target") or asset_data.get("target")
+
+            # Handle mechanism - can be string or dict
+            mechanism_data = asset_info.get("mechanism") or asset_data.get("mechanism")
+
+            # Get trials - v2.0 uses "clinical_trials", v1.0 uses "trials"
+            trials = asset_data.get("clinical_trials", asset_data.get("trials", []))
+
             # Build full asset object with PhD-level detail
             full_asset = {
                 "name": asset_info.get("name", asset_name),
-                "target": asset_info.get("target"),
-                "mechanism": asset_info.get("mechanism"),
+                "one_liner": asset_info.get("one_liner"),
+                "target": target_data,
+                "mechanism": mechanism_data,
                 "modality": asset_info.get("modality"),
                 "partner": asset_info.get("partner"),
                 "ownership": asset_info.get("ownership"),
-                "stage": clinical_dev.get("current_stage"),
+                "stage": asset_info.get("stage") or clinical_dev.get("current_stage"),
                 "lead_indication": clinical_dev.get("lead_indication"),
                 "indications": clinical_dev.get("indications_in_development", []) or (
                     [clinical_dev.get("lead_indication")] + clinical_dev.get("expansion_indications", [])
                 ),
                 "market_opportunity": asset_data.get("market_opportunity", {}),
                 "clinical_data": {
-                    "trials": asset_data.get("trials", []),
+                    "trials": trials,
                 },
                 "investment_thesis": asset_data.get("investment_thesis", []),
                 "key_risks": asset_data.get("key_risks", []),
                 "probability_of_success": asset_data.get("probability_of_success", {}),
-                "_source_pages": asset_data.get("_source_pages", [])
+                "_source_pages": asset_data.get("_source_pages", []),
+                "_metadata": asset_data.get("_metadata", {})
             }
             assets_full.append(full_asset)
 
@@ -262,19 +273,52 @@ def get_company_full(ticker: str) -> Optional[dict]:
         result["fund_ownership_pct"] = index_data.get("fund_ownership_pct")
         result["notes"] = index_data.get("notes")
 
-    # Merge company data
+    # Merge company data - supports v1.0 and v2.0 schemas
     if company_data:
-        result["company_details"] = {
-            "name": company_data.get("name"),
-            "headquarters": company_data.get("headquarters"),
-            "website": company_data.get("website"),
-            "description": company_data.get("description"),
-            "cash_runway": company_data.get("cash_runway"),
-        }
-        result["investment_thesis"] = company_data.get("investment_thesis", [])
-        result["key_risks"] = company_data.get("key_risks", [])
+        # v2.0 has nested "company" object
+        company_obj = company_data.get("company", {})
+        if company_obj:
+            # v2.0 schema
+            result["company_details"] = {
+                "name": company_obj.get("name"),
+                "headquarters": company_obj.get("headquarters"),
+                "website": company_obj.get("website"),
+                "description": company_obj.get("company_description") or company_data.get("investment_thesis_summary", {}).get("core_thesis"),
+                "one_liner": company_obj.get("one_liner"),
+                "cash_runway": company_data.get("financials", {}).get("cash_runway"),
+                "exchange": company_obj.get("exchange"),
+            }
+            # v2.0 investment analysis
+            inv_analysis = company_data.get("investment_analysis", {})
+            result["investment_thesis"] = {
+                "bull_case": inv_analysis.get("bull_case", []),
+                "bear_case": inv_analysis.get("bear_case", []),
+                "key_debates": inv_analysis.get("key_debates", []),
+                "valuation_framework": inv_analysis.get("valuation_framework", {})
+            }
+            result["investment_thesis_summary"] = company_data.get("investment_thesis_summary", {})
+            result["platform"] = company_data.get("platform", {})
+            result["pipeline_summary"] = company_data.get("pipeline_summary", {})
+            result["financials"] = company_data.get("financials", {})
+            result["market_opportunity_company"] = company_data.get("market_opportunity", {})
+            result["competitive_positioning"] = company_data.get("competitive_positioning", {})
+        else:
+            # v1.0 schema
+            result["company_details"] = {
+                "name": company_data.get("name"),
+                "headquarters": company_data.get("headquarters"),
+                "website": company_data.get("website"),
+                "description": company_data.get("description"),
+                "cash_runway": company_data.get("cash_runway"),
+            }
+            result["investment_thesis"] = company_data.get("investment_thesis", [])
+
+        result["key_risks"] = company_data.get("risks", company_data.get("key_risks", []))
         result["partnerships"] = company_data.get("partnerships", [])
         result["targets"] = company_data.get("targets", {})
+        result["catalysts_2026"] = company_data.get("catalysts_2026", [])
+        result["catalysts_2027"] = company_data.get("catalysts_2027", [])
+        result["_metadata"] = company_data.get("_metadata", {})
 
     return result if (index_data or company_data) else None
 
