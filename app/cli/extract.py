@@ -4,15 +4,23 @@ CLI for extracting company data from IR presentations.
 Usage:
     python -m app.cli.extract --ticker ASND
     python -m app.cli.extract --ticker ASND --pdf /path/to/presentation.pdf
+    python -m app.cli.extract --inbox
     python -m app.cli.extract --priority HIGH
     python -m app.cli.extract --priority HIGH --dry-run
     python -m app.cli.extract --all
     python -m app.cli.extract --list
+
+Inbox workflow:
+    1. Download PDFs to ~/helix/inbox/
+    2. Run: python -m app.cli.extract --inbox
+    3. PDFs are processed and moved to ~/helix/inbox/processed/
 """
 
 import argparse
 import json
 import logging
+import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -63,6 +71,11 @@ Examples:
         action="store_true",
         help="List available companies and exit"
     )
+    group.add_argument(
+        "--inbox", "-i",
+        action="store_true",
+        help="Process all PDFs in ~/helix/inbox/"
+    )
 
     # Options
     parser.add_argument(
@@ -97,6 +110,11 @@ Examples:
         type=str,
         help="Save results to JSON file"
     )
+    parser.add_argument(
+        "--yes", "-y",
+        action="store_true",
+        help="Skip confirmation prompts"
+    )
 
     args = parser.parse_args()
 
@@ -123,6 +141,10 @@ Examples:
         if args.list:
             print_summary()
             return 0
+
+        # Inbox mode
+        if args.inbox:
+            return _process_inbox(args, IR_WEBSITE_MAP)
 
         # Create orchestrator
         orchestrator = ExtractionOrchestrator(
@@ -159,10 +181,11 @@ Examples:
             tickers = get_all_tickers()
             logger.info(f"Processing ALL {len(tickers)} companies")
 
-            confirm = input(f"Process {len(tickers)} companies? [y/N] ")
-            if confirm.lower() != "y":
-                logger.info("Cancelled")
-                return 0
+            if not args.yes:
+                confirm = input(f"Process {len(tickers)} companies? [y/N] ")
+                if confirm.lower() != "y":
+                    logger.info("Cancelled")
+                    return 0
 
             results = orchestrator.process_batch(tickers, keywords=args.keywords)
             _print_batch_summary(results)
@@ -242,6 +265,165 @@ def _print_batch_summary(results: list[dict]):
             if r["status"] == "failed":
                 errors = r.get("errors", ["Unknown error"])
                 print(f"  {r['ticker']}: {errors[0]}")
+
+
+def _process_inbox(args, ir_map: dict) -> int:
+    """Process all PDFs in the inbox folder."""
+    from app.services.extraction.orchestrator import ExtractionOrchestrator
+    from app.services.extraction.pdf_extractor import extract_text_with_markers
+
+    inbox_dir = Path.home() / "helix" / "inbox"
+    processed_dir = inbox_dir / "processed"
+
+    # Ensure directories exist
+    inbox_dir.mkdir(parents=True, exist_ok=True)
+    processed_dir.mkdir(parents=True, exist_ok=True)
+
+    # Find all PDFs in inbox
+    pdfs = list(inbox_dir.glob("*.pdf"))
+
+    if not pdfs:
+        print("No PDFs found in inbox/")
+        print(f"  Drop PDFs here: {inbox_dir}")
+        return 0
+
+    print(f"Found {len(pdfs)} PDF(s) in inbox:\n")
+
+    # Detect tickers for each PDF
+    pdf_tickers = []
+    for pdf_path in pdfs:
+        ticker = _detect_ticker(pdf_path, ir_map)
+        pdf_tickers.append((pdf_path, ticker))
+        status = ticker if ticker else "??? (unknown)"
+        print(f"  {pdf_path.name}")
+        print(f"    -> Ticker: {status}")
+
+    # Check for unknowns
+    unknowns = [(p, t) for p, t in pdf_tickers if not t]
+    if unknowns:
+        print("\nCould not detect ticker for some PDFs.")
+        print("Please rename them with ticker prefix, e.g., 'ASND_presentation.pdf'")
+        print("Or process manually: python -m app.cli.extract --ticker ASND --pdf /path/to.pdf")
+
+        # Filter out unknowns
+        pdf_tickers = [(p, t) for p, t in pdf_tickers if t]
+        if not pdf_tickers:
+            return 1
+
+    # Confirm
+    print(f"\nReady to process {len(pdf_tickers)} PDF(s)")
+    if not args.yes:
+        confirm = input("Continue? [Y/n] ")
+        if confirm.lower() == "n":
+            print("Cancelled")
+            return 0
+
+    # Process each PDF
+    orchestrator = ExtractionOrchestrator(
+        rate_limit_seconds=args.rate_limit,
+        dry_run=args.dry_run
+    )
+
+    results = []
+    for pdf_path, ticker in pdf_tickers:
+        print(f"\n{'='*60}")
+        print(f"Processing: {pdf_path.name} -> {ticker}")
+        print("="*60)
+
+        result = orchestrator.process_company(ticker=ticker, pdf_path=pdf_path)
+        results.append(result)
+        _print_result(result)
+
+        # Move to processed folder on success
+        if result["status"] in ("success", "partial") and not args.dry_run:
+            dest = processed_dir / pdf_path.name
+            # Handle duplicates
+            if dest.exists():
+                stem = pdf_path.stem
+                suffix = pdf_path.suffix
+                counter = 1
+                while dest.exists():
+                    dest = processed_dir / f"{stem}_{counter}{suffix}"
+                    counter += 1
+            shutil.move(str(pdf_path), str(dest))
+            print(f"    Moved to: processed/{dest.name}")
+
+    # Summary
+    _print_batch_summary(results)
+    return 0 if all(r["status"] != "failed" for r in results) else 1
+
+
+def _detect_ticker(pdf_path: Path, ir_map: dict) -> str | None:
+    """
+    Detect company ticker from PDF filename or content.
+
+    Tries in order:
+    1. Ticker prefix in filename (e.g., "ASND_presentation.pdf")
+    2. Known company name in filename (e.g., "Kymera Therapeutics...")
+    3. First page content analysis (fallback)
+    """
+    filename = pdf_path.stem.upper()
+
+    # Build reverse lookup: company name -> ticker
+    name_to_ticker = {}
+    for ticker, config in ir_map.items():
+        name = config.get("name", "").upper()
+        if name:
+            name_to_ticker[name] = ticker
+            # Also add key words from name
+            words = name.split()
+            if words:
+                name_to_ticker[words[0]] = ticker
+
+    # 1. Check if filename starts with a known ticker
+    for ticker in ir_map.keys():
+        if filename.startswith(ticker + "_") or filename.startswith(ticker + " "):
+            return ticker
+        # Exact match
+        if filename == ticker:
+            return ticker
+
+    # 2. Check if filename contains known company name
+    for name, ticker in name_to_ticker.items():
+        if name in filename:
+            return ticker
+
+    # 3. Try common patterns in filename
+    # Pattern: "CompanyName Corporate Presentation" or "CompanyName Investor..."
+    patterns = [
+        r"^([A-Z]{3,5})[\s_-]",  # ASND_... or ASND ...
+        r"^([A-Z]{2,5})\d",  # ASND2024...
+    ]
+    for pattern in patterns:
+        match = re.match(pattern, filename)
+        if match:
+            potential_ticker = match.group(1)
+            if potential_ticker in ir_map:
+                return potential_ticker
+
+    # 4. Try to extract from PDF content (first 2 pages)
+    try:
+        import fitz
+        doc = fitz.open(str(pdf_path))
+        text = ""
+        for i in range(min(2, len(doc))):
+            text += doc[i].get_text()
+        doc.close()
+        text_upper = text.upper()
+
+        # Look for tickers in content
+        for ticker in ir_map.keys():
+            # Look for "TICKER:" or "(TICKER)" or "NASDAQ: TICKER"
+            if f"({ticker})" in text_upper or f": {ticker}" in text_upper:
+                return ticker
+            # Look for company name
+            name = ir_map[ticker].get("name", "").upper()
+            if name and name in text_upper:
+                return ticker
+    except Exception:
+        pass
+
+    return None
 
 
 if __name__ == "__main__":
