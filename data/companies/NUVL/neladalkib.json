@@ -2,339 +2,201 @@
   "_metadata": {
     "version": "2.0",
     "ticker": "NUVL",
-    "asset_id": "neladalkib",
-    "internal_id": "NVL-655",
-    "data_source": "Nuvalent Overview January 12, 2026; Drilon et al ESMO 2024",
-    "extraction_date": "2026-02-04",
-    "last_updated": "2026-02-04"
+    "asset_name": "neladalkib"
   },
   "asset": {
     "name": "neladalkib",
-    "internal_id": "NVL-655",
-    "modality": "Small molecule tyrosine kinase inhibitor",
-    "route": "Oral, once daily",
-    "dose": "150 mg QD (RP2D)",
-    "formulation": "Oral pill"
+    "ticker": "NUVL",
+    "modality": "Small molecule kinase inhibitor",
+    "stage": "Phase 2 (NDA planned 1H 2026)",
+    "one_liner": "Best-in-class ALK inhibitor with TRK-sparing selectivity designed to overcome lorlatinib resistance",
+    "ownership": "Wholly-owned"
   },
   "target": {
-    "primary_target": "ALK",
-    "target_class": "Receptor tyrosine kinase",
+    "name": "ALK",
+    "full_name": "Anaplastic Lymphoma Kinase",
+    "class": "Receptor Tyrosine Kinase",
+    "pathway": "ALK fusion (EML4-ALK) → constitutive kinase activation → tumor growth",
     "biology": {
-      "function": "ALK (anaplastic lymphoma kinase) is a receptor tyrosine kinase that when fused to various partner genes (e.g., EML4-ALK) creates oncogenic fusion proteins driving tumor growth through constitutive kinase activation",
-      "prevalence": "~3-5% of NSCLC; majority diagnosed at advanced/metastatic stage",
+      "simple_explanation": "ALK is a receptor tyrosine kinase that when fused to partner genes like EML4 creates oncogenic fusion proteins driving tumor growth. ALK fusions occur in 3-5% of NSCLC, typically in younger patients with significant impact on quality of life.",
+      "prevalence": "3-5% of NSCLC",
       "patient_demographics": "Often younger patients; significant impact on quality of life",
-      "cns_involvement": {
-        "at_diagnosis": "30-40% present with brain metastases",
-        "overall": "~50% develop brain metastases over disease course"
-      },
-      "resistance_mechanisms": {
-        "single_mutations": {
-          "after_2g_tki": "~50% single resistance mutations (alectinib, brigatinib, ceritinib)",
-          "after_sequential_2g_3g": "~75% single resistance mutations",
-          "common_mutations": ["G1202R", "I1171N", "F1174L", "V1180L", "L1196M", "L1198F"]
-        },
-        "compound_mutations": {
-          "after_sequential_2g_3g": "~25-50% compound mutations",
-          "examples": ["G1202R/T1151M", "G1202R/F1174L", "G1202R/L1196M", "G1202R/L1198F", "G1202R/G1269A", "I1171N/L1198F"]
-        }
-      }
+      "cns_involvement": "30-40% present with brain metastases; ~50% develop brain mets over disease course"
     },
-    "genetic_validation": {
-      "oncogenic_driver": "Yes - ALK fusions are validated oncogenic drivers in NSCLC, ALCL, and IMT",
-      "predictive_biomarker": "ALK fusion status by FISH, IHC, or NGS",
-      "therapeutic_precedent": "Multiple approved ALK TKIs (crizotinib, ceritinib, alectinib, brigatinib, lorlatinib, ensartinib)"
+    "resistance_mutations": {
+      "primary_mutation": "G1202R (most common resistance mutation to 2nd-gen ALK TKIs)",
+      "compound_mutations": "Increasingly common after lorlatinib; single agent often insufficient",
+      "key_mutations": ["G1202R", "L1196M", "G1269A", "I1171T/N/S", "F1174C/L", "L1198F"]
     },
     "why_good_target": {
-      "rationale": [
-        "Validated oncogenic driver with proven therapeutic tractability",
-        "Next-gen TKIs transforming durability expectations (lorlatinib 1L mPFS not reached at 60 months)",
-        "Younger patient population with potential for chronic disease management",
-        "Current best therapies (lorlatinib) have TRK-related CNS toxicities limiting tolerability"
-      ],
+      "clinical_validation": "Multiple approved ALK TKIs with excellent outcomes in 1L (lorlatinib mPFS not reached at 60 months)",
       "unmet_need": [
-        "No approved therapy active after sequential 2G→3G TKIs",
-        "TRK-related CNS adverse events in >50% of lorlatinib patients",
-        "38% of lorlatinib patients no longer on therapy by 24 months in 1L",
-        "Compound mutations present therapeutic challenge"
+        "60% of patients progress on 2L lorlatinib within 24 months",
+        "Compound mutations emerge after lorlatinib with limited treatment options",
+        "TRK-related toxicity with current ALK TKIs"
       ]
     }
   },
-  "mechanism": {
-    "mechanism_of_action": "ALK-selective, TRK-sparing tyrosine kinase inhibitor",
-    "binding_mode": "ATP-competitive kinase inhibitor designed to fit the ALK kinase domain including mutant forms while avoiding TRK binding",
-    "selectivity_profile": {
-      "alk_vs_trkb": ">20x selectivity for ALK over TRKB across single and compound mutants",
-      "comparison_to_lorlatinib": "Lorlatinib is a dual TRK/ALK inhibitor with minimal selectivity"
+  "indications": {
+    "lead": {
+      "name": "ALK+ NSCLC (TKI pre-treated)",
+      "stage": "Phase 2 pivotal (NDA planned 1H 2026)",
+      "rationale": "High unmet need in patients progressing on lorlatinib and other ALK TKIs"
     },
-    "in_vitro_activity": {
-      "range": "IC50 = 0.1-30 nM against ALK-driven cell lines",
-      "coverage": "Potent activity against single and compound ALK mutants including G1202R combinations"
-    },
-    "in_vivo_activity": {
-      "description": "Tumor regression at well-tolerated doses in ALK models including single and compound mutants",
-      "models": ["No resistance mutations", "G1202R/L1196M", "I1171N", "G1202R/T1151M", "G1202R/G1269A"]
-    },
-    "brain_penetration": {
-      "kp_uu": "~0.4 (unbound brain:plasma ratio)",
-      "comparison": "Similar to preclinical observations for lorlatinib"
-    }
+    "expansion": [
+      {
+        "name": "ALK+ NSCLC (TKI-naïve)",
+        "stage": "Phase 3 ALKAZAR enrolling",
+        "rationale": "Potential to compete with lorlatinib in frontline setting"
+      },
+      {
+        "name": "ALK+ solid tumors (non-NSCLC)",
+        "stage": "Phase 2 ongoing",
+        "rationale": "ALK fusions in IMT, neuroblastoma, and other cancers"
+      }
+    ]
   },
   "clinical_data": {
-    "trials": {
-      "alkove_1": {
-        "trial_name": "ALKOVE-1",
-        "clinicaltrials_gov": "NCT05384626",
-        "design": "Global first-in-human Phase 1/2, open-label, multi-cohort",
-        "phase_1_initiation": "June 2022",
-        "phase_2_initiation": "February 2024 (RP2D: 150 mg QD)",
-        "registration_intent": "Yes, for TKI pre-treated ALK+ NSCLC"
-      },
-      "alkazar": {
-        "trial_name": "ALKAZAR",
-        "design": "Phase 3 randomized controlled trial vs alectinib",
-        "population": "TKI-naïve ALK+ NSCLC",
-        "target_enrollment": "~450 patients",
-        "randomization": "1:1 neladalkib vs alectinib",
-        "sites": "~160 sites across North America, Europe, Asia, Latin America",
-        "status": "Enrollment ongoing"
-      }
+    "trial_name": "ALKOVE-1 (NCT05384626)",
+    "trial_design": {
+      "phase": "Phase 1/2",
+      "design": "Global open-label multi-cohort study",
+      "enrollment": "781 patients enrolled"
     },
-    "enrollment_alkove_1": {
-      "as_of_august_29_2025": 781,
-      "phase_1": 133,
-      "phase_2": 648,
-      "enrollment_trajectory": [
-        {"date": "June 2022", "n": 0, "milestone": "Phase 1 initiation"},
-        {"date": "August 2023", "n": 93, "milestone": "Phase 1"},
-        {"date": "February 2024", "n": 133, "milestone": "Transition to Phase 2"},
-        {"date": "September 2024", "n": 362, "milestone": "Phase 1+2"},
-        {"date": "December 2024", "n": 596, "milestone": "Phase 1+2"},
-        {"date": "March 2025", "n": 762, "milestone": "Phase 1+2 (transitioned to EAP for adult TKI pre-treated)"},
-        {"date": "August 29 2025", "n": 781, "milestone": "Phase 1+2"}
-      ]
-    },
-    "data_cutoff": "August 29, 2025",
     "populations": {
-      "pivotal_safety": {
-        "n": 656,
-        "description": "ALK+ NSCLC treated at RP2D as of August 29, 2025",
-        "median_duration_exposure": "6.0 months (range 0.1-28.4)"
-      },
-      "tki_pretreated_efficacy": {
+      "tki_pretreated_pivotal": {
         "n": 253,
-        "description": "Treated at RP2D by September 30, 2024 to allow ≥6 months DOR follow-up",
-        "note": "Includes 25 patients with other oncogenic drivers in addition to ALK"
+        "description": "ALK+ NSCLC with ≥1 prior ALK TKI, data cutoff Aug 29, 2025"
       },
-      "tki_naive_preliminary": {
+      "lorlatinib_naive": {
+        "n": 63,
+        "description": "Subset without prior lorlatinib"
+      },
+      "lorlatinib_experienced": {
+        "n": 190,
+        "description": "Subset with prior lorlatinib"
+      },
+      "tki_naive_exploratory": {
         "n": 44,
-        "description": "Exploratory cohort in ALKOVE-1",
-        "note": "No patients with other oncogenic drivers in addition to ALK"
+        "description": "TKI-naïve patients (exploratory)"
+      },
+      "alk_solid_tumors": {
+        "n": 34,
+        "description": "Non-NSCLC ALK+ solid tumors"
       }
     },
     "tki_pretreated_results": {
-      "population_characteristics": {
-        "overall": {
-          "n": 253,
-          "median_prior_lines": "3 (range 1-11)",
-          "prior_chemotherapy": "51%",
-          "2_or_more_prior_alk_tkis": "78% (of whom 91% received prior lorlatinib)",
-          "secondary_alk_g1202r": "19%",
-          "any_alk_mutation": "36% (91/253)",
-          "compound_mutations": "17% (43/253)",
-          "active_cns_disease": "40%"
-        },
-        "lorlatinib_naive_subgroup": {
-          "n": 63,
-          "percent_of_overall": "25%",
-          "prior_chemotherapy": "25%",
-          "1_or_more_prior_2g_tki": "100%",
-          "prior_alectinib_only": "70% (44/63)",
-          "secondary_alk_g1202r": "19%",
-          "active_cns_disease": "35%"
-        }
-      },
-      "efficacy_overall": {
-        "n": 253,
-        "orr": "31% (79/253, includes 2 unconfirmed PR) [95% CI: 26, 37]",
-        "dor_6_months": "76% [95% CI: 64, 84]",
-        "dor_12_months": "64% [95% CI: 51, 75]",
-        "dor_18_months": "53% [95% CI: 34, 68]",
-        "median_dor": "Not evaluable",
-        "median_followup": "11.3 months"
-      },
-      "efficacy_g1202r_mutation": {
-        "n": 47,
-        "orr": "68% (32/47, includes 1 unconfirmed PR) [95% CI: 53, 81]",
-        "dor_6_months": "84% [95% CI: 65, 93]",
-        "dor_12_months": "80% [95% CI: 61, 91]",
-        "dor_18_months": "70% [95% CI: 42, 86]"
-      },
-      "efficacy_lorlatinib_naive": {
-        "n": 63,
-        "orr": "46% (29/63) [95% CI: 33, 59]",
-        "dor_6_months": "89% [95% CI: 69, 96]",
-        "dor_12_months": "80% [95% CI: 58, 91]",
-        "dor_18_months": "60% [95% CI: 19, 85]",
-        "median_dor": "Not evaluable"
-      },
-      "efficacy_lorlatinib_naive_g1202r": {
-        "n": 12,
-        "orr": "83% (10/12) [95% CI: 52, 98]",
-        "dor_6_months": "90% [95% CI: 47, 99]",
-        "dor_12_months": "77% [95% CI: 34, 94]",
-        "dor_18_months": "77% [95% CI: 34, 94]"
-      },
-      "efficacy_1_prior_2g_only": {
-        "n": 46,
-        "description": "1 prior 2G ALK TKI (alectinib n=44 or brigatinib n=2) ± chemo",
-        "orr": "48% (22/46)",
-        "dor_12_and_18_months": "74% [95% CI: 48, 88]",
-        "median_dor": "Not evaluable"
-      },
-      "efficacy_lorlatinib_experienced": {
-        "n": 190,
-        "orr": "26% (50/190, includes 2 unconfirmed PR)",
-        "median_dor": "17.6 months [95% CI: 6.9, NE]"
-      },
-      "efficacy_compound_mutations": {
-        "n": 43,
-        "description": "≥2 prior ALK TKIs with compound mutations",
-        "orr": "58% (25/43, includes 1 unconfirmed PR)",
-        "dor_12_months": "69% [95% CI: 45, 84]",
-        "median_dor": "Not evaluable"
-      },
-      "intracranial_activity": {
-        "measurable_cns_lesions_any_prior_tki": {
-          "n": 92,
-          "ic_orr": "32% (29/92, includes 2 unconfirmed PR) [95% CI: 22, 42]",
-          "ic_cr": "13% (12/92, includes 1 unconfirmed CR with prior confirmed PR)",
-          "ic_dor_6_months": "81% [95% CI: 59, 91]",
-          "ic_dor_12_months": "71% [95% CI: 48, 85]",
-          "ic_dor_18_months": "71% [95% CI: 48, 85]",
-          "median_ic_dor": "21.6 months - emerging, continues to mature"
-        },
-        "measurable_cns_lesions_lorlatinib_naive": {
-          "n": 24,
-          "ic_orr": "63% (15/24, includes 2 unconfirmed PR) [95% CI: 41, 81]",
-          "ic_cr": "21% (5/24, includes 1 unconfirmed CR with prior confirmed PR)",
-          "ic_dor_6_months": "92% [95% CI: 57, 99]",
-          "ic_dor_12_months": "92% [95% CI: 57, 99]",
-          "ic_dor_18_months": "92% [95% CI: 57, 99]"
-        },
-        "lorlatinib_experienced_measurable_cns": {
-          "n": 68,
-          "ic_orr": "21% (14/68)",
-          "ic_dor_6_months": "71% [95% CI: 41, 88]",
-          "ic_dor_12_and_18_months": "55% [95% CI: 26, 77]",
-          "median_ic_dor": "Not evaluable"
-        }
-      }
+      "data_cutoff": "August 29, 2025",
+      "orr_overall": "31% (n=253)",
+      "orr_g1202r_mutation": "68%",
+      "orr_compound_mutations": "58% (n=43)",
+      "orr_lorlatinib_naive": "46% (n=63)",
+      "orr_lorlatinib_experienced": "26% (n=190)",
+      "dor_overall": "76% ≥6mo, 64% ≥12mo, 53% ≥18mo",
+      "dor_lorlatinib_naive": "89% ≥6mo, 80% ≥12mo",
+      "dor_lorlatinib_experienced": "median 17.6 months",
+      "dor_compound_mutations": "69% ≥12mo",
+      "intracranial_orr_overall": "32%",
+      "intracranial_orr_lorlatinib_naive": "63%"
     },
-    "tki_naive_results_alkove1_exploratory": {
-      "population": {
-        "n": 44,
-        "description": "Exploratory TKI-naïve cohort in ALKOVE-1"
-      },
-      "efficacy": {
-        "orr": "86% (38/44, 4 CRs, includes 2 unconfirmed PR and 1 unconfirmed CR with prior confirmed PR)",
-        "dor_6_and_12_months": "91% [95% CI: 70, 98]",
-        "dor_range": "1.7+ to 14.8+ months",
-        "progression_events_among_responders": 2
-      },
-      "intracranial_activity": {
-        "n": 9,
-        "ic_orr": "78% (7/9, 4 IC-CRs, includes 1 unconfirmed CR with prior confirmed PR)",
-        "cns_progression_events": 0,
-        "ic_dor_range": "3.1+ to 7.0+ months"
-      },
-      "note": "Global enrollment of TKI-naïve patients ongoing in ALKAZAR Phase 3"
+    "tki_naive_results": {
+      "data_cutoff": "August 29, 2025 (exploratory)",
+      "orr": "86% (n=44)",
+      "dor": "91% ≥6 months and ≥12 months",
+      "intracranial_orr": "78%",
+      "intracranial_cr": "4 patients"
+    },
+    "alk_solid_tumor_results": {
+      "orr_tki_naive": "69% (9/13)",
+      "orr_tki_pretreated": "29% (6/21)",
+      "tumor_types": "IMT, neuroblastoma, sarcoma, peritoneal mesothelioma, RCC, CRC"
     },
     "safety": {
-      "population": 656,
-      "dose_reduction_due_to_teae": "17%",
-      "dose_reduction_reasons_1_percent_or_more": ["ALT increased (10%)", "AST increased (8%, not mutually exclusive - 11% for any transaminase)"],
-      "discontinuation_due_to_teae": "5%",
-      "discontinuation_reasons_1_percent_or_more": ["ALT increased (1.8%)", "AST increased (1.2%)"],
-      "teaes_15_percent_or_more": [
-        {"term": "ALT increased", "any_grade": "47%", "grade_3_plus": "20%"},
-        {"term": "AST increased", "any_grade": "44%", "grade_3_plus": "16%"},
-        {"term": "Constipation", "any_grade": "28%", "grade_3_plus": "0.2%"},
-        {"term": "Dysgeusia", "any_grade": "23%", "grade_3_plus": "0%"},
-        {"term": "Peripheral edema", "any_grade": "18%", "grade_3_plus": "0.3%"},
-        {"term": "Cough", "any_grade": "16%", "grade_3_plus": "0.5%"},
-        {"term": "Nausea", "any_grade": "16%", "grade_3_plus": "0.8%"}
-      ],
-      "transaminase_management": {
-        "observation": "Most were asymptomatic lab abnormalities, low-grade, transient, and reversible with dose interruptions or reductions",
-        "preliminary_trend": "Increased incidence in less heavily pre-treated patients",
-        "mitigation": "Enhanced monitoring and prompt dose interventions implemented in ALKAZAR Phase 3 protocol"
-      },
-      "key_safety_message": "Generally well-tolerated, consistent with ALK-selective, TRK-sparing design; no TRK-related neurotoxicities observed"
+      "discontinuation_rate": "5%",
+      "dose_reduction_rate": "17%",
+      "alt_elevation": "47% any grade (20% Gr3+)",
+      "ast_elevation": "44% any grade (16% Gr3+)",
+      "transaminase_note": "Asymptomatic and reversible",
+      "key_differentiator": "TRK-sparing design (>20x selectivity ALK vs TRKB)"
     }
   },
-  "alk_solid_tumors_beyond_nsclc": {
-    "enrollment": "Ongoing in Phase 2 portion of ALKOVE-1",
-    "tumor_types_observed": [
-      "Inflammatory myofibroblastic tumor (IMT) - ~50% ALK+",
-      "Neuroblastoma - ~6-16% ALK altered",
-      "Sarcomas - ~1-2.4% ALK+",
-      "Peritoneal mesothelioma - ~3-13% ALK+",
-      "Renal cell carcinoma",
-      "Colorectal cancer",
-      "Pancreatic adenocarcinoma",
-      "Salivary duct carcinoma",
-      "Others"
-    ],
-    "preliminary_data": {
-      "n": 34,
-      "overall_orr": "44% (15/34) by investigator assessment",
-      "alk_tki_naive": "9/13 responded",
-      "alk_tki_pretreated": "6/21 responded",
-      "note": "Durable responses observed including intracranial CR in patient who received prior alectinib"
+  "ongoing_trials": [
+    {
+      "trial_name": "ALKAZAR",
+      "phase": "Phase 3",
+      "design": "Head-to-head vs alectinib in TKI-naïve ALK+ NSCLC",
+      "enrollment": "~450 patients",
+      "status": "Enrolling"
     }
-  },
-  "investment_analysis": {
-    "stage_value": "Late-stage Phase 2 (pivotal data); Phase 3 ongoing vs alectinib",
-    "differentiation_strength": "Strong - only ALK-selective, TRK-sparing inhibitor",
-    "competitive_position": "Potentially best-in-class for tolerability; durable activity in lorlatinib-experienced patients",
-    "data_quality": "High - pivotal data from global Phase 1/2 with BICR",
-    "regulatory_pathway": "NDA submission planned 1H 2026 for TKI pre-treated",
-    "commercial_potential": {
-      "addressable_market": "~3-5% of NSCLC; US peak sales opportunity $1.35B-2.0B",
-      "pricing_assumptions": "~$22,500/month (lorlatinib 2026 pricing)",
-      "key_commercial_factors": [
-        "Only option active after sequential 2G→3G TKIs",
-        "TRK-sparing design addresses major lorlatinib limitation",
-        "ALKAZAR superiority vs alectinib would transform 1L landscape"
-      ]
+  ],
+  "mechanism_differentiation": {
+    "trk_sparing": {
+      "selectivity_alk_vs_trkb": ">20x",
+      "clinical_relevance": "Avoids CNS toxicity (cognitive effects, mood changes) seen with lorlatinib"
     },
-    "key_data_to_watch": [
-      "NDA submission timing (1H 2026)",
-      "ALKAZAR Phase 3 enrollment and data readout",
-      "Long-term durability follow-up in lorlatinib-experienced",
-      "ALK+ solid tumors beyond NSCLC development"
-    ]
+    "mutation_coverage": {
+      "single_mutations": "IC50 0.1-30 nM across key mutations",
+      "compound_mutations": "Active against compound mutations that confer lorlatinib resistance"
+    },
+    "cns_penetration": {
+      "kpuu": "~0.4 (similar to lorlatinib)",
+      "clinical_evidence": "32-63% intracranial ORR depending on prior therapy"
+    }
   },
   "catalysts": [
     {
-      "event": "NDA submission for TKI pre-treated ALK+ NSCLC",
+      "event": "NDA submission",
       "timing": "1H 2026",
-      "significance": "Regulatory filing for second approval pathway"
+      "importance": "critical",
+      "what_to_watch": "FDA acceptance and review timeline"
     },
     {
-      "event": "Pre-NDA meeting with FDA",
+      "event": "ALKAZAR Phase 3 enrollment completion",
       "timing": "2026",
-      "significance": "Alignment on regulatory path"
-    },
-    {
-      "event": "ALKAZAR Phase 3 enrollment milestones",
-      "timing": "Throughout 2026",
-      "significance": "Progress toward 1L head-to-head vs alectinib readout"
-    },
-    {
-      "event": "Continued enrollment for ALK+ solid tumors and adolescent ALK+ NSCLC",
-      "timing": "Ongoing",
-      "significance": "Potential for broader label"
+      "importance": "high",
+      "what_to_watch": "Enrollment pace for 1L head-to-head vs alectinib"
     }
-  ]
+  ],
+  "competitive_landscape": {
+    "approved_alk_tkis": [
+      {
+        "drug": "lorlatinib",
+        "company": "Pfizer",
+        "position": "Current 1L standard; mPFS not reached at 60 months",
+        "limitation": "Compound mutations emerge; CNS toxicity (cognitive effects 21%)"
+      },
+      {
+        "drug": "alectinib",
+        "company": "Roche",
+        "position": "Prior 1L standard of care",
+        "limitation": "Inferior to lorlatinib in 1L; limited mutation coverage"
+      },
+      {
+        "drug": "brigatinib",
+        "company": "Takeda",
+        "limitation": "Inferior to lorlatinib; limited compound mutation activity"
+      }
+    ],
+    "neladalkib_advantages": [
+      "Active against lorlatinib-resistant compound mutations (58% ORR)",
+      "TRK-sparing selectivity (>20x ALK vs TRKB)",
+      "Strong CNS activity comparable to lorlatinib",
+      "Only option for post-lorlatinib patients with compound mutations"
+    ]
+  },
+  "investment_analysis": {
+    "probability_of_success": "High for accelerated approval in TKI pre-treated",
+    "peak_sales_estimate": "$1.35B-$2.0B US with frontline expansion",
+    "key_risks": [
+      "Lorlatinib's dominant 1L position (mPFS not reached at 60 mo)",
+      "ALKAZAR Phase 3 execution and enrollment",
+      "Transaminase elevations may limit some patients"
+    ]
+  },
+  "market_opportunity": {
+    "us_alk_patients": "~9,000 annually",
+    "global_alk_patients": "30,000-45,000 annually",
+    "us_peak_sales": "$1.35B-$2.0B",
+    "key_insight": "Larger market than ROS1 with higher peak sales potential"
+  }
 }
