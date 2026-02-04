@@ -2,142 +2,126 @@
   "_metadata": {
     "version": "2.0",
     "ticker": "ARGX",
-    "asset_id": "empasiprubart",
-    "internal_id": "ARGX-117",
-    "data_source": "argenx 2026 JPM Corporate Presentation",
-    "extraction_date": "2026-02-04",
-    "last_updated": "2026-02-04"
+    "asset_name": "empasiprubart"
   },
   "asset": {
     "name": "empasiprubart",
+    "ticker": "ARGX",
     "internal_id": "ARGX-117",
     "modality": "C2 sweeping antibody",
-    "route": "IV/SC",
-    "description": "Potent C2 sweeping antibody for complement-mediated diseases"
+    "stage": "Phase 3",
+    "one_liner": "First-in-class C2 complement sweeping antibody targeting MMN and CIDP with potential for combination with VYVGART",
+    "ownership": "Wholly-owned"
   },
   "target": {
-    "primary_target": "Complement C2",
-    "target_class": "Complement pathway component",
+    "name": "C2 (Complement Component 2)",
+    "full_name": "Complement Component 2",
+    "class": "Complement pathway component",
+    "pathway": "Classical/lectin pathway → C2 cleavage → C3 convertase formation → complement activation",
     "biology": {
-      "function": "C2 is a component of the classical and lectin complement pathways. C2 cleavage is required for formation of C3 convertase, which amplifies complement activation",
-      "mechanism": "Empasiprubart is a 'sweeping' antibody that binds C2 and accelerates its clearance from circulation, leading to sustained complement inhibition",
-      "pathway_position": "Upstream inhibition (C2) vs downstream inhibitors (C5)",
-      "differentiation": "Sweeping mechanism provides sustained C2 depletion"
-    },
-    "genetic_validation": {
-      "rationale": "Complement activation implicated in multiple autoimmune and inflammatory diseases; C2 deficiency is the most common complement deficiency in humans, generally well-tolerated"
+      "simple_explanation": "C2 is a key component of the classical and lectin complement pathways. Empasiprubart uses a 'sweeping' mechanism to bind C2 and accelerate its clearance, providing sustained inhibition of complement activation upstream of C5 inhibitors.",
+      "mechanism_differentiation": "Upstream C2 inhibition vs downstream C5 blockade (eculizumab, ravulizumab)",
+      "sweeping_mechanism": "Antibody binds C2 and accelerates degradation for sustained complement suppression"
     },
     "why_good_target": {
-      "rationale": [
-        "Complement activation drives pathology in many neurological and autoimmune diseases",
-        "Upstream inhibition may provide broader effect than C5 inhibitors",
-        "C2 sweeping provides sustained complement suppression",
-        "Differentiated from established C5 inhibitors (eculizumab, ravulizumab)"
-      ],
-      "potential_indications": "MMN, CIDP, MG combination, and other complement-mediated diseases"
-    }
-  },
-  "mechanism": {
-    "mechanism_of_action": "C2 sweeping antibody",
-    "description": "Empasiprubart binds complement C2 and accelerates its degradation through a 'sweeping' mechanism, leading to sustained reduction in C2 levels and inhibition of classical/lectin complement pathway activation",
-    "key_features": [
-      "First-in-class C2 sweeping antibody",
-      "Upstream complement inhibition",
-      "Sustained C2 reduction",
-      "Differentiated from C5 inhibitors"
-    ]
-  },
-  "clinical_data": {
-    "mmn_program": {
-      "trial_name": "EMPASSION",
-      "indication": "Multifocal Motor Neuropathy (MMN)",
-      "phase": "Phase 3",
-      "design": "Head-to-head trial vs IVIg",
-      "readout": "4Q 2026",
-      "de_risking": "Phase 2 EMPASSION proof-of-concept",
-      "phase_2_results": {
-        "endpoint": "Grip strength",
-        "observation": "Sustained improved grip strength in MMN through ARDA Phase 2 and ARDA+ Open Label Extension",
-        "durability": "Improvements maintained through 64+ weeks"
-      }
-    },
-    "cidp_program": {
-      "indication": "Chronic Inflammatory Demyelinating Polyneuropathy (CIDP)",
-      "phase": "Phase 2/3",
-      "readout": "2H 2027",
-      "strategy": "Co-positioning with VYVGART; multiple MOAs"
-    },
-    "mg_combination": {
-      "trial_name": "ADAPT Forward",
-      "description": "Efgartigimod + empasiprubart combination study",
-      "rationale": "Combine FcRn inhibition (IgG reduction) with complement inhibition for enhanced efficacy",
-      "status": "Exploring combination approaches"
-    }
-  },
-  "market_opportunity": {
-    "mmn": {
-      "global_patients": "12,000 across key markets",
-      "current_market": "$750-800M",
-      "projected_market_2030": ">$1B",
-      "unmet_need": {
-        "misdiagnosis_rate": "40% initially misdiagnosed (often as ALS)",
-        "targeted_treatments": "0 approved targeted treatments",
-        "progression_despite_treatment": "60% progress despite IVIg treatment",
-        "severe_disability": "20% of patients develop severe disability"
-      },
-      "disease_burden": "Progressive, often misdiagnosed as ALS; severe disability in 20%"
-    },
-    "cidp": {
-      "us_diagnosed": "42,000 patients",
-      "us_treated": "24,000 patients",
-      "strategy": "Second MOA after VYVGART; potential for combination or sequential use"
-    }
-  },
-  "competitive_landscape": {
-    "complement_inhibitors": {
-      "c5_inhibitors": {
-        "eculizumab_soliris": "Approved for multiple indications (PNH, aHUS, gMG, NMOSD)",
-        "ravulizumab_ultomiris": "Long-acting C5 inhibitor",
-        "position": "Established downstream inhibitors"
-      },
-      "empasiprubart_differentiation": [
-        "First-in-class C2 sweeping mechanism",
-        "Upstream inhibition may provide broader/different efficacy",
-        "Sustained C2 depletion vs intermittent C5 blockade",
-        "Potentially different safety/efficacy profile"
+      "clinical_validation": "Complement activation implicated in MMN, CIDP, and other neurological diseases",
+      "unmet_need": [
+        "MMN has zero approved targeted treatments",
+        "60% of MMN patients progress despite IVIg treatment",
+        "40% of MMN patients initially misdiagnosed (often as ALS)",
+        "C2 deficiency is generally well-tolerated in humans"
       ]
     }
   },
-  "investment_analysis": {
-    "stage_value": "Phase 3 - high value inflection with MMN readout in 4Q 2026",
-    "differentiation_strength": "Strong - first-in-class C2 sweeper",
-    "competitive_position": "Novel mechanism vs established C5 inhibitors",
-    "commercial_potential": {
-      "mmn_alone": ">$1B market by 2030",
-      "cidp_potential": "Second MOA in 42K patient market",
-      "combination_potential": "Synergy with VYVGART in MG and other indications"
+  "indications": {
+    "lead": {
+      "name": "Multifocal Motor Neuropathy (MMN)",
+      "stage": "Phase 3 EMPASSION",
+      "rationale": "Zero approved targeted treatments; 60% progress on IVIg; >$1B market by 2030"
     },
-    "key_risks": [
-      "Phase 3 execution in MMN",
-      "Head-to-head vs IVIg design",
-      "Novel mechanism without approved precedent"
-    ],
-    "key_data_to_watch": [
-      "MMN Phase 3 EMPASSION readout (4Q 2026)",
-      "CIDP Phase 2/3 readout (2H 2027)",
-      "ADAPT Forward combination data"
+    "expansion": [
+      {
+        "name": "CIDP",
+        "stage": "Phase 2/3",
+        "readout": "2H 2027",
+        "rationale": "Second MOA after VYVGART; potential combination or sequential use"
+      },
+      {
+        "name": "MG Combination",
+        "stage": "ADAPT Forward study",
+        "rationale": "Efgartigimod + empasiprubart combination for enhanced efficacy"
+      }
     ]
+  },
+  "clinical_data": {
+    "trial_name": "EMPASSION (Phase 3 MMN)",
+    "trial_design": {
+      "phase": "Phase 3",
+      "design": "Head-to-head trial vs IVIg",
+      "population": "MMN patients"
+    },
+    "phase_2_results": {
+      "trial": "ARDA Phase 2 + ARDA+ Open Label Extension",
+      "endpoint": "Grip strength change from baseline",
+      "key_finding": "Sustained improved grip strength through 64+ weeks",
+      "durability": "Improvements maintained in open-label extension",
+      "cohorts": "EMP-EMP Cohort 1, EMP-EMP Cohort 2, PBO-EMP Cohort 1, PBO-EMP Cohort 2"
+    },
+    "safety": {
+      "profile": "Generally well-tolerated in Phase 2",
+      "note": "Phase 3 safety data pending"
+    }
   },
   "catalysts": [
     {
       "event": "MMN Phase 3 EMPASSION readout",
       "timing": "4Q 2026",
-      "significance": "First Phase 3 for empasiprubart; >$1B market opportunity"
+      "importance": "critical",
+      "what_to_watch": "Head-to-head vs IVIg; first Phase 3 for empasiprubart"
     },
     {
       "event": "CIDP Phase 2/3 readout",
       "timing": "2H 2027",
-      "significance": "Second molecule in CIDP; combination potential"
+      "importance": "high",
+      "what_to_watch": "Second molecule in CIDP; combination potential with VYVGART"
     }
-  ]
+  ],
+  "competitive_landscape": {
+    "complement_inhibitors": [
+      {
+        "drug": "eculizumab (Soliris)",
+        "company": "Alexion/AstraZeneca",
+        "target": "C5",
+        "limitation": "Downstream inhibition; different mechanism"
+      },
+      {
+        "drug": "ravulizumab (Ultomiris)",
+        "company": "Alexion/AstraZeneca",
+        "target": "C5",
+        "limitation": "Long-acting C5 but still downstream"
+      }
+    ],
+    "empasiprubart_advantages": [
+      "First-in-class C2 sweeping mechanism",
+      "Upstream complement inhibition",
+      "Sustained C2 depletion through sweeping",
+      "Combination potential with FcRn inhibition"
+    ]
+  },
+  "investment_analysis": {
+    "probability_of_success": "Phase 2 de-risked; Phase 3 head-to-head vs IVIg",
+    "peak_sales_estimate": ">$1B in MMN alone; additional upside from CIDP",
+    "key_risks": [
+      "Novel mechanism without approved precedent",
+      "Head-to-head trial vs IVIg is challenging design",
+      "Compound mutation market may be smaller than total addressable"
+    ]
+  },
+  "market_opportunity": {
+    "mmn_global": "12,000 patients across key markets",
+    "mmn_market_today": "$750-800M",
+    "mmn_market_2030": ">$1B",
+    "mmn_unmet_need": "40% misdiagnosed, 0 targeted treatments, 60% progress on IVIg, 20% severe disability",
+    "cidp_opportunity": "42K diagnosed US patients; second MOA after VYVGART"
+  }
 }

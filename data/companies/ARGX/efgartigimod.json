@@ -2,235 +2,198 @@
   "_metadata": {
     "version": "2.0",
     "ticker": "ARGX",
-    "asset_id": "efgartigimod",
-    "brand_names": ["VYVGART", "VYVGART Hytrulo"],
-    "data_source": "argenx 2026 JPM Corporate Presentation",
-    "extraction_date": "2026-02-04",
-    "last_updated": "2026-02-04"
+    "asset_name": "efgartigimod"
   },
   "asset": {
-    "name": "efgartigimod",
-    "brand_name": "VYVGART / VYVGART Hytrulo",
-    "modality": "Fc fragment (human IgG1 Fc engineered for enhanced FcRn binding)",
-    "route": {
-      "vyvgart_iv": "Intravenous infusion",
-      "vyvgart_hytrulo": "Subcutaneous injection (with Halozyme ENHANZE)"
-    },
-    "formulations": {
-      "current": ["IV infusion", "SC injection (Hytrulo)", "Prefilled syringe (approved)"],
-      "development": ["Autoinjector (est. 2027)", "Oral peptides (partnership)"]
-    }
+    "name": "efgartigimod (VYVGART)",
+    "ticker": "ARGX",
+    "modality": "Fc fragment (human IgG1 Fc engineered for FcRn binding)",
+    "stage": "Approved + Phase 3 expansion",
+    "one_liner": "First-in-class FcRn inhibitor approved for gMG and CIDP, with 6 additional registrational programs and ~19K patients treated globally",
+    "ownership": "Wholly-owned",
+    "brand_names": "VYVGART (IV), VYVGART Hytrulo (SC)"
   },
   "target": {
-    "primary_target": "FcRn (neonatal Fc receptor)",
-    "target_class": "Receptor/transporter",
+    "name": "FcRn",
+    "full_name": "Neonatal Fc Receptor",
+    "class": "Receptor/Transporter",
+    "pathway": "FcRn recycles IgG → blocking FcRn accelerates IgG degradation → reduces pathogenic autoantibodies",
     "biology": {
-      "function": "FcRn is responsible for recycling IgG antibodies, extending their half-life. Blocking FcRn leads to accelerated degradation of IgG, including pathogenic autoantibodies",
-      "mechanism": "Efgartigimod binds FcRn with high affinity, blocking the IgG recycling pathway and causing rapid reduction in total IgG and pathogenic autoantibodies",
-      "igg_reduction": "Approximately 60-80% reduction in total IgG levels",
-      "selectivity": "Fc fragment design provides targeted FcRn engagement"
-    },
-    "genetic_validation": {
-      "rationale": "FcRn biology validated by success of IVIg and plasmapheresis in autoimmune diseases; genetic evidence from FcRn polymorphisms",
-      "therapeutic_precedent": "First-in-class FcRn inhibitor; now multiple FcRn competitors in development/approved"
+      "simple_explanation": "FcRn is responsible for recycling IgG antibodies, extending their half-life. Blocking FcRn leads to accelerated degradation of IgG, including pathogenic autoantibodies that cause autoimmune diseases. This provides rapid, reversible reduction in disease-causing antibodies.",
+      "igg_reduction": "60-80% reduction in total IgG levels",
+      "selectivity": "Does not affect IgA, IgM, or IgE; does not deplete B cells"
     },
     "why_good_target": {
-      "rationale": [
-        "IgG autoantibodies drive pathology in many autoimmune diseases",
-        "FcRn inhibition provides rapid, reversible IgG reduction",
-        "Mechanism-agnostic approach works across different autoantibody specificities",
-        "Validated by clinical success in MG, CIDP, and multiple Phase 2/3 programs"
-      ],
-      "broad_applicability": "15+ potential indications across neurology, rheumatology, dermatology, and other autoimmune diseases"
+      "clinical_validation": "Validated by success of IVIg and plasmapheresis; efgartigimod approved in gMG and CIDP",
+      "unmet_need": [
+        "IVIg has supply constraints and infusion burden",
+        "Plasmapheresis requires specialized centers",
+        "B cell depletion has slow onset and infection risk",
+        "Many autoimmune diseases lack targeted therapies"
+      ]
     }
   },
-  "mechanism": {
-    "mechanism_of_action": "FcRn antagonist/blocker",
-    "description": "Efgartigimod is an engineered human IgG1 Fc fragment with mutations that increase affinity for FcRn. By blocking FcRn-mediated IgG recycling, efgartigimod accelerates IgG catabolism, leading to rapid reduction in pathogenic autoantibodies",
-    "key_features": [
-      "First-in-class Fc fragment approach",
-      "Rapid onset of IgG reduction",
-      "Reversible effect (IgG recovers after treatment)",
-      "Does not deplete B cells or affect other immunoglobulins (IgA, IgM, IgE)"
-    ]
-  },
-  "approved_indications": {
-    "generalized_myasthenia_gravis": {
-      "approval_date": "December 2021 (US)",
-      "indication": "Adult patients with generalized myasthenia gravis (gMG) who are anti-acetylcholine receptor (AChR) antibody positive",
-      "pivotal_trial": "ADAPT",
-      "global_approvals": "US, EU, Japan, and 40+ countries"
+  "indications": {
+    "lead": {
+      "name": "Generalized Myasthenia Gravis (gMG)",
+      "stage": "Approved (Dec 2021)",
+      "rationale": "First approval; AChR+ gMG patients with clear autoantibody-driven pathology"
     },
-    "cidp": {
-      "approval_date": "2024 (US)",
-      "indication": "Chronic inflammatory demyelinating polyneuropathy (CIDP)",
-      "pivotal_trial": "ADHERE",
-      "status": "Achieved blockbuster status as of 3Q 2025"
-    }
+    "approved": [
+      {
+        "name": "gMG (AChR+)",
+        "approval_date": "December 2021",
+        "markets": "US, EU, Japan, 40+ countries"
+      },
+      {
+        "name": "CIDP",
+        "approval_date": "2024",
+        "status": "Blockbuster as of 3Q 2025"
+      }
+    ],
+    "registrational": [
+      {
+        "name": "Seronegative gMG (MuSK+, LRP4+, triple seronegative)",
+        "stage": "Decision by end of 2026"
+      },
+      {
+        "name": "Ocular MG",
+        "stage": "Phase 3 ADAPT-Oculus",
+        "readout": "1Q 2026"
+      },
+      {
+        "name": "Autoimmune Myositis",
+        "stage": "Phase 3 ALKIVIA",
+        "readout": "3Q 2026"
+      },
+      {
+        "name": "ITP",
+        "stage": "Phase 3 ADVANCE-NEXT",
+        "readout": "4Q 2026"
+      },
+      {
+        "name": "Sjögren's Disease",
+        "stage": "Phase 3 UNITY",
+        "readout": "2H 2027"
+      },
+      {
+        "name": "Graves' Disease",
+        "stage": "Registrational"
+      }
+    ]
   },
   "clinical_data": {
-    "adapt_gmg": {
-      "trial_name": "ADAPT",
-      "design": "Phase 3, randomized, double-blind, placebo-controlled",
-      "population": "AChR+ generalized MG",
-      "primary_endpoint": "MG-ADL responder rate",
-      "key_results": "Statistically significant improvement vs placebo; basis for approval"
+    "trial_name": "Multiple registrational programs",
+    "trial_design": {
+      "phase": "Approved + 6 ongoing Phase 3",
+      "design": "Randomized, double-blind, placebo-controlled pivotal trials",
+      "formulations": "IV infusion, SC Hytrulo, Prefilled syringe (approved)"
     },
-    "adhere_cidp": {
-      "trial_name": "ADHERE",
-      "design": "Phase 3, randomized, double-blind, placebo-controlled",
-      "population": "CIDP patients",
-      "key_results": "Positive; basis for CIDP approval",
-      "ongoing": "ADHERE+ functional benefit evidence generation"
+    "commercial_results": {
+      "global_patients_treated": "~19,000",
+      "us_prescribers": ">4,700",
+      "prescriber_growth": "20% YoY increase",
+      "mg_position": "#1 prescribed biologic",
+      "mg_market_impact": "Drove 60% growth in overall MG biologics share",
+      "cidp_status": "Blockbuster as of 3Q 2025"
     },
-    "registrational_programs": {
-      "seronegative_mg": {
-        "population": "MuSK+, LRP4+, triple seronegative gMG",
-        "status": "Decision on approval expected by end of 2026",
-        "significance": "+11K addressable US patients"
-      },
-      "ocular_mg": {
-        "trial_name": "ADAPT-Oculus",
-        "population": "Ocular MG (non-generalized)",
-        "primary_endpoint": "MG-II (novel primary endpoint)",
-        "readout": "1Q 2026",
-        "significance": "First and only development in Ocular MG; +7K addressable patients",
-        "de_risking": "ADAPT ocular domain data, real-world case reports"
-      },
-      "myositis": {
-        "trial_name": "ALKIVIA",
-        "population": "Autoimmune inflammatory myopathy (DM, IMNM, PM)",
-        "primary_endpoint": "TIS composite (Total Improvement Score)",
-        "readout": "3Q 2026",
-        "us_prevalence": "70K total (DM 40K, IMNM 20K, PM 10K)",
-        "de_risking": "Phase 2 showed significant improvement in muscle strength",
-        "challenge": "Heterogeneous disease"
-      },
-      "itp": {
-        "trial_name": "ADVANCE-NEXT",
-        "population": "Immune thrombocytopenia",
-        "primary_endpoint": "Cumulative platelet count",
-        "readout": "4Q 2026",
-        "de_risking": "ADVANCE Phase 3 IV data, real-world Japan data",
-        "challenge": "Difficult-to-treat patients"
-      },
-      "sjogrens_disease": {
-        "trial_name": "UNITY",
-        "population": "Sjögren's Disease",
-        "primary_endpoint": "TBD (challenging endpoint)",
-        "readout": "2H 2027",
-        "us_prevalence": "330K total, 100K moderate-to-severe",
-        "de_risking": "RHO and DAHLIAS Phase 2 proof-of-concept showed reductions in systemic disease activity",
-        "challenge": "Challenging primary endpoint"
-      },
-      "graves_disease": {
-        "status": "Registrational",
-        "population": "Graves' Disease (hyperthyroidism)"
-      }
+    "upcoming_readouts": {
+      "ocular_mg": "1Q 2026 - MGII novel primary endpoint",
+      "myositis": "3Q 2026 - TIS composite primary endpoint",
+      "itp": "4Q 2026 - Cumulative platelet count endpoint",
+      "sjogrens": "2H 2027 - Challenging primary endpoint"
+    },
+    "safety": {
+      "profile": "Generally well-tolerated across indications",
+      "key_considerations": "IgG reduction may increase infection risk; infusion/injection site reactions; headache"
     }
   },
-  "commercial_performance": {
-    "global_patients": "~19,000 on VYVGART globally",
-    "us_prescribers": ">4,700",
-    "prescriber_growth": "20% YoY increase in new prescribers",
-    "mg_position": "#1 prescribed biologic",
-    "mg_market_impact": "VYVGART drove 60% growth in overall MG biologics share",
-    "patient_mix": "70% of MG expansion patients directly from orals (earlier line treatment)",
-    "cidp_status": "Achieved blockbuster status as of 3Q 2025",
-    "product_net_sales": {
-      "fy_2025": "$4,151M (90% YoY growth ex-FX)",
-      "q4_2025": "$1,286M"
-    }
-  },
-  "market_opportunity": {
-    "mg_us": {
-      "addressable_at_launch": "17K patients",
-      "seronegative_expansion": "+11K patients",
-      "ocular_expansion": "+7K patients",
-      "biologics_share_growth": "+25K patients",
-      "total_addressable_2030": "60K patients"
-    },
-    "cidp_us": {
-      "addressable_at_launch": "12K patients",
-      "total_treated": "24K patients",
-      "total_diagnosed": "42K patients"
-    },
-    "myositis_us": {
-      "total": "70K patients",
-      "by_subtype": {
-        "dermatomyositis": "40K",
-        "imnm": "20K",
-        "polymyositis": "10K"
-      }
-    },
-    "sjogrens_us": {
-      "total": "330K patients",
-      "moderate_to_severe": "100K patients"
-    }
-  },
-  "safety": {
-    "general_profile": "Generally well-tolerated",
-    "key_considerations": [
-      "IgG reduction may increase infection risk (monitoring recommended)",
-      "Infusion/injection site reactions",
-      "Headache"
+  "formulations": {
+    "current": [
+      "VYVGART IV infusion",
+      "VYVGART Hytrulo SC (Halozyme ENHANZE)",
+      "Prefilled syringe (approved)"
     ],
-    "note": "See full prescribing information for complete safety profile"
-  },
-  "competitive_landscape": {
-    "fcrn_inhibitors": {
-      "vyvgart_efgartigimod_argenx": "First-in-class, approved gMG/CIDP, broadest program",
-      "rystiggo_rozanolixizumab_ucb": "Approved gMG, competitor",
-      "nipocalimab_jnj": "Phase 3 gMG and other indications",
-      "batoclimab_immunovant_harbour": "Phase 3 programs"
-    },
-    "argenx_differentiation": [
-      "First mover with most real-world experience",
-      "Multiple formulations (IV, SC, PFS, autoinjector coming)",
-      "Broadest clinical development program (15+ indications)",
-      "Combination approaches being explored",
-      "Next-gen FcRn molecules in pipeline (ARGX-213, ARGX-124)"
-    ]
-  },
-  "investment_analysis": {
-    "stage_value": "Approved blockbuster with significant expansion potential",
-    "differentiation_strength": "Strong - first-in-class with broadest program",
-    "competitive_position": "Market leader with first-mover advantage",
-    "commercial_execution": "Excellent - 90% growth, #1 in MG, blockbuster in CIDP",
-    "peak_sales_potential": "$10B+ across all indications",
-    "key_data_to_watch": [
-      "Ocular MG Phase 3 (1Q 2026)",
-      "Myositis Phase 3 (3Q 2026)",
-      "ITP Phase 3 (4Q 2026)",
-      "Seronegative MG approval (by end 2026)",
-      "Sjögren's Phase 3 (2H 2027)"
+    "development": [
+      "Autoinjector (est. 2027, Ypsomed)",
+      "Small volume delivery (Elektrofi partnership)",
+      "Oral peptides (Unnatural Products partnership)"
     ]
   },
   "catalysts": [
     {
       "event": "Ocular MG Phase 3 readout",
       "timing": "1Q 2026",
-      "significance": "First and only Ocular MG development; +7K patients"
+      "importance": "critical",
+      "what_to_watch": "MGII primary endpoint; first and only Ocular MG development"
     },
     {
       "event": "Myositis Phase 3 readout",
       "timing": "3Q 2026",
-      "significance": "Rheumatology expansion; 70K US patients"
+      "importance": "critical",
+      "what_to_watch": "TIS composite in heterogeneous disease; 70K US patient opportunity"
     },
     {
       "event": "ITP Phase 3 readout",
       "timing": "4Q 2026",
-      "significance": "Hematology market expansion"
+      "importance": "high",
+      "what_to_watch": "Cumulative platelet count in difficult-to-treat patients"
     },
     {
-      "event": "Seronegative MG approval decision",
+      "event": "Seronegative MG approval",
       "timing": "By end of 2026",
-      "significance": "Broadest MG label; +11K patients"
+      "importance": "high",
+      "what_to_watch": "Broadest MG label; +11K addressable patients"
     },
     {
       "event": "Sjögren's Phase 3 readout",
       "timing": "2H 2027",
-      "significance": "Large rheumatology market; 330K patients"
+      "importance": "high",
+      "what_to_watch": "330K US prevalence; challenging endpoint"
     }
-  ]
+  ],
+  "competitive_landscape": {
+    "fcrn_inhibitors": [
+      {
+        "drug": "RYSTIGGO (rozanolixizumab)",
+        "company": "UCB",
+        "status": "Approved gMG",
+        "limitation": "Later entrant; less real-world experience"
+      },
+      {
+        "drug": "nipocalimab",
+        "company": "J&J",
+        "status": "Phase 3 gMG",
+        "limitation": "Not yet approved"
+      },
+      {
+        "drug": "batoclimab",
+        "company": "Immunovant/HarbourBio",
+        "status": "Phase 3",
+        "limitation": "Not yet approved"
+      }
+    ],
+    "vyvgart_advantages": [
+      "First-in-class with most real-world experience (~19K patients)",
+      "Multiple formulations (IV, SC, PFS; autoinjector coming)",
+      "Broadest clinical development (15+ indications)",
+      "Next-gen FcRn molecules in pipeline (ARGX-213, ARGX-124)"
+    ]
+  },
+  "investment_analysis": {
+    "probability_of_success": "Approved product with expansion optionality",
+    "peak_sales_estimate": "$10B+ across all indications",
+    "key_risks": [
+      "FcRn competition from UCB, J&J, Immunovant",
+      "Phase 3 execution in heterogeneous diseases",
+      "Maintaining market share as competitors launch"
+    ]
+  },
+  "market_opportunity": {
+    "mg_us_2030": "60K addressable patients (vs 17K at launch)",
+    "cidp_us": "42K diagnosed patients",
+    "myositis_us": "70K patients",
+    "sjogrens_us": "330K patients (100K moderate-severe)",
+    "total_opportunity": "$10B+ peak sales potential"
+  }
 }
