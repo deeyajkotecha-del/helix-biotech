@@ -685,10 +685,126 @@ def _generate_company_html_v2(data: dict) -> str:
     assets_html = ""
     for asset in assets:
         asset_name = asset.get("name", "Unknown")
-        target = asset.get("target", "")
+        target_data = asset.get("target", {})
+        mechanism_data = asset.get("mechanism", {})
         stage = asset.get("stage", "")
+        modality = asset.get("modality", "")
+        indications = asset.get("indications", [])
         clinical_data = asset.get("clinical_data", {})
         trials = clinical_data.get("trials", [])
+
+        # Parse target - could be string or dict
+        if isinstance(target_data, dict):
+            target_name = target_data.get("name", "")
+            target_full_name = target_data.get("full_name", "")
+            target_pathway = target_data.get("pathway", "")
+            target_biology = target_data.get("biology", "")
+            target_genetic = target_data.get("genetic_validation", "")
+            target_why_degrader = target_data.get("why_undruggable_before", "") or target_data.get("degrader_advantage", "")
+        else:
+            target_name = target_data
+            target_full_name = ""
+            target_pathway = ""
+            target_biology = ""
+            target_genetic = ""
+            target_why_degrader = ""
+
+        # Parse mechanism - could be string or dict
+        if isinstance(mechanism_data, dict):
+            mechanism_type = mechanism_data.get("type", "")
+            mechanism_desc = mechanism_data.get("description", "")
+            mechanism_diff = mechanism_data.get("differentiation", "")
+        else:
+            mechanism_type = ""
+            mechanism_desc = mechanism_data
+            mechanism_diff = ""
+
+        # Build target detail card
+        target_detail_html = ""
+        if target_name:
+            target_detail_html = f'''
+            <div class="target-card">
+                <div class="target-header">
+                    <span class="target-name">{target_name}</span>
+                    {f'<span class="target-full-name">({target_full_name})</span>' if target_full_name else ''}
+                </div>
+                {f'<div class="target-row"><strong>Pathway:</strong> {target_pathway}</div>' if target_pathway else ''}
+                {f'<div class="target-row"><strong>Biology:</strong> {target_biology}</div>' if target_biology else ''}
+                {f'<div class="target-row genetic"><strong>Genetic Validation:</strong> {target_genetic}</div>' if target_genetic else ''}
+                {f'<div class="target-row degrader"><strong>Why Degrader:</strong> {target_why_degrader}</div>' if target_why_degrader else ''}
+            </div>'''
+
+        # Build mechanism detail
+        mechanism_html = ""
+        if mechanism_desc or mechanism_type:
+            mechanism_html = f'''
+            <div class="mechanism-card">
+                <div class="mechanism-header">Mechanism of Action</div>
+                {f'<div class="mechanism-type"><strong>Type:</strong> {mechanism_type}</div>' if mechanism_type else ''}
+                {f'<div class="mechanism-desc">{mechanism_desc}</div>' if mechanism_desc else ''}
+                {f'<div class="mechanism-diff"><strong>Differentiation:</strong> {mechanism_diff}</div>' if mechanism_diff else ''}
+            </div>'''
+
+        # Build indications list
+        indications_html = ""
+        if indications:
+            ind_badges = "".join(f'<span class="indication-badge">{ind}</span>' for ind in indications if ind)
+            indications_html = f'<div class="indications"><strong>Indications:</strong> {ind_badges}</div>'
+
+        # Build market opportunity section
+        market = asset.get("market_opportunity", {})
+        market_html = ""
+        if market:
+            market_html = f'''
+            <div class="market-section">
+                <h4>Market Opportunity</h4>
+                <div class="market-grid">
+                    {f'<div class="market-item"><span class="label">TAM</span><span class="value">{market.get("tam")}</span></div>' if market.get("tam") else ''}
+                    {f'<div class="market-item"><span class="label">Patient Population</span><span class="value">{market.get("patient_population")}</span></div>' if market.get("patient_population") else ''}
+                    {f'<div class="market-item full-width"><span class="label">Current Treatment</span><span class="value">{market.get("current_treatment")}</span></div>' if market.get("current_treatment") else ''}
+                    {f'<div class="market-item full-width unmet-need"><span class="label">Unmet Need</span><span class="value">{market.get("unmet_need")}</span></div>' if market.get("unmet_need") else ''}
+                </div>
+            </div>'''
+
+        # Build clinical significance section (derived from target biology + market)
+        clinical_sig_html = ""
+        if target_biology or target_genetic or (market and market.get("unmet_need")):
+            success_criteria = ""
+            if stage and "Phase 2" in stage:
+                success_criteria = "<li>EASI-75 response rate ≥35% vs placebo at Week 16</li><li>vIGA-AD 0/1 clear/almost clear skin</li><li>Statistically significant itch improvement (PP-NRS ≥4-point reduction)</li>"
+            clinical_sig_html = f'''
+            <div class="analysis-section clinical-sig">
+                <h4>Clinical Significance</h4>
+                <div class="analysis-content">
+                    <div class="sig-item">
+                        <strong>Why This Target Matters:</strong>
+                        <p>{target_biology}</p>
+                    </div>
+                    {f'<div class="sig-item genetic-box"><strong>Human Genetic Evidence:</strong><p>{target_genetic}</p></div>' if target_genetic else ''}
+                    {f'<div class="sig-item"><strong>What Clinical Success Looks Like:</strong><ul>{success_criteria}</ul></div>' if success_criteria else ''}
+                    {f'<div class="sig-item"><strong>Why Now:</strong><p>{target_why_degrader}</p></div>' if target_why_degrader else ''}
+                </div>
+            </div>'''
+
+        # Build key questions section
+        key_questions_html = f'''
+        <div class="analysis-section key-questions">
+            <h4>Key Questions to Monitor</h4>
+            <div class="questions-grid">
+                <div class="question-item">
+                    <div class="question">Can an oral degrader match injectable biologic efficacy in controlled trials?</div>
+                    <div class="data-needed"><strong>Data needed:</strong> BROADEN2 Phase 2b EASI-75 results vs placebo</div>
+                </div>
+                <div class="question-item">
+                    <div class="question">Will the safety profile differentiate from Dupixent?</div>
+                    <div class="data-needed"><strong>Watch for:</strong> Conjunctivitis incidence, long-term tolerability</div>
+                </div>
+                <div class="question-item">
+                    <div class="question">What is the dose-response relationship?</div>
+                    <div class="data-needed"><strong>Key metric:</strong> Efficacy plateau vs dose, Phase 3 dose selection</div>
+                </div>
+            </div>
+        </div>'''
 
         # Build trials HTML
         trials_html = ""
@@ -830,12 +946,21 @@ def _generate_company_html_v2(data: dict) -> str:
         <div class="asset-section">
             <button class="collapsible asset-header">
                 <span class="asset-name">{asset_name}</span>
-                <span class="badge target">{target}</span>
+                <span class="badge target">{target_name} Degrader</span>
                 <span class="badge stage">{stage}</span>
+                {f'<span class="badge modality">{modality}</span>' if modality else ''}
             </button>
             <div class="asset-content">
-                {trials_html}
+                <div class="asset-overview">
+                    {target_detail_html}
+                    {mechanism_html}
+                </div>
+                {indications_html}
+                {market_html}
+                {clinical_sig_html}
+                {f'<h4>Clinical Trials</h4>{trials_html}' if trials_html else '<p class="no-data">No clinical trial data available</p>'}
                 {f'<h4>Upcoming Catalysts</h4>{catalyst_html}' if catalyst_html else ''}
+                {key_questions_html}
             </div>
         </div>'''
 
@@ -1096,6 +1221,220 @@ def _generate_company_html_v2(data: dict) -> str:
             overflow: hidden;
         }}
         .asset-header {{ border-radius: 12px 12px 0 0; }}
+        .asset-overview {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }}
+        @media (max-width: 768px) {{
+            .asset-overview {{ grid-template-columns: 1fr; }}
+        }}
+        .no-data {{ color: var(--text-muted); font-style: italic; padding: 16px; }}
+
+        /* Target card */
+        .target-card {{
+            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
+            border: 1px solid #bee3f8;
+            border-radius: 12px;
+            padding: 20px;
+        }}
+        .target-header {{
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #bee3f8;
+        }}
+        .target-name {{
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }}
+        .target-full-name {{
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-left: 8px;
+        }}
+        .target-row {{
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }}
+        .target-row strong {{
+            color: var(--primary);
+            display: block;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }}
+        .target-row.genetic {{
+            background: #f0fff4;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--bull);
+        }}
+        .target-row.degrader {{
+            background: #fef3c7;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--warning);
+        }}
+
+        /* Mechanism card */
+        .mechanism-card {{
+            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
+            border: 1px solid #e9d8fd;
+            border-radius: 12px;
+            padding: 20px;
+        }}
+        .mechanism-header {{
+            font-size: 1rem;
+            font-weight: 700;
+            color: #6b46c1;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e9d8fd;
+        }}
+        .mechanism-type {{
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }}
+        .mechanism-desc {{
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }}
+        .mechanism-diff {{
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }}
+
+        /* Indications */
+        .indications {{
+            padding: 12px 0;
+            margin-bottom: 16px;
+        }}
+        .indication-badge {{
+            display: inline-block;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 4px 4px 4px 0;
+        }}
+
+        /* Market Section */
+        .market-section {{
+            background: linear-gradient(135deg, #f0fff4, #e6fffa);
+            border: 1px solid #9ae6b4;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }}
+        .market-section h4 {{
+            color: var(--bull);
+            margin: 0 0 16px 0;
+        }}
+        .market-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }}
+        .market-item {{
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+        }}
+        .market-item.full-width {{
+            grid-column: 1 / -1;
+        }}
+        .market-item .label {{
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }}
+        .market-item .value {{
+            font-weight: 500;
+        }}
+        .market-item.unmet-need {{
+            border-left: 3px solid var(--bull);
+        }}
+
+        /* Analysis Sections */
+        .analysis-section {{
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }}
+        .analysis-section h4 {{
+            color: var(--primary);
+            margin: 0 0 16px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }}
+        .analysis-content {{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }}
+        .sig-item {{
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 8px;
+        }}
+        .sig-item strong {{
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+        }}
+        .sig-item p {{
+            margin: 0;
+            line-height: 1.6;
+        }}
+        .sig-item ul {{
+            margin: 0;
+            padding-left: 20px;
+        }}
+        .sig-item li {{
+            margin-bottom: 4px;
+        }}
+        .genetic-box {{
+            background: #f0fff4;
+            border-left: 4px solid var(--bull);
+        }}
+
+        /* Key Questions */
+        .key-questions {{
+            background: #fffbeb;
+            border-color: var(--warning);
+        }}
+        .key-questions h4 {{
+            color: #b7791f;
+        }}
+        .questions-grid {{
+            display: grid;
+            gap: 16px;
+        }}
+        .question-item {{
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 3px solid var(--warning);
+        }}
+        .question {{
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }}
+        .data-needed {{
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }}
+
         .trial-card {{
             background: var(--bg);
             border-radius: 8px;

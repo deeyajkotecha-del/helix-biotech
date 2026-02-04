@@ -207,20 +207,26 @@ def get_company_full(ticker: str) -> Optional[dict]:
             asset_info = asset_data.get("asset", {})
             clinical_dev = asset_data.get("clinical_development", {})
 
-            # Build full asset object
+            # Build full asset object with PhD-level detail
             full_asset = {
                 "name": asset_info.get("name", asset_name),
                 "target": asset_info.get("target"),
                 "mechanism": asset_info.get("mechanism"),
                 "modality": asset_info.get("modality"),
                 "partner": asset_info.get("partner"),
+                "ownership": asset_info.get("ownership"),
                 "stage": clinical_dev.get("current_stage"),
-                "indications": clinical_dev.get("indications_in_development", []),
+                "lead_indication": clinical_dev.get("lead_indication"),
+                "indications": clinical_dev.get("indications_in_development", []) or (
+                    [clinical_dev.get("lead_indication")] + clinical_dev.get("expansion_indications", [])
+                ),
+                "market_opportunity": asset_data.get("market_opportunity", {}),
                 "clinical_data": {
                     "trials": asset_data.get("trials", []),
                 },
                 "investment_thesis": asset_data.get("investment_thesis", []),
                 "key_risks": asset_data.get("key_risks", []),
+                "probability_of_success": asset_data.get("probability_of_success", {}),
                 "_source_pages": asset_data.get("_source_pages", [])
             }
             assets_full.append(full_asset)
