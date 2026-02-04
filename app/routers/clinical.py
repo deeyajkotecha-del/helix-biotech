@@ -2002,7 +2002,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         </div>'''
 
     # =======================================================================
-    # BUILD INVESTMENT ANALYSIS HTML
+    # BUILD INVESTMENT ANALYSIS HTML (Wall Street Research Style)
     # =======================================================================
     investment_html = ""
     if investment_analysis:
@@ -2011,118 +2011,130 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         key_debates = investment_analysis.get("key_debates", [])
         pos = investment_analysis.get("probability_of_success", {})
 
-        bull_html = ""
+        # Bull Case Table Rows
+        bull_rows = ""
         for item in bull_case:
             if isinstance(item, dict):
-                conf = item.get("confidence", "medium").lower()
-                bull_html += f'''
-                <div class="thesis-item bull">
-                    <div class="thesis-point">{item.get('point', '')}</div>
-                    <div class="thesis-evidence"><strong>Evidence:</strong> {item.get('evidence', '')}</div>
-                    <div class="thesis-meta">
-                        <span class="confidence {conf}">{conf.title()} confidence</span>
-                        <span class="source">Slide {item.get('source_slide', 'N/A')}</span>
-                    </div>
-                </div>'''
+                point = item.get('point', '')
+                evidence = item.get('evidence', '')
+                conf = item.get('confidence', 'Medium').title()
+                bull_rows += f'<tr><td class="point-cell">{point}</td><td>{evidence}</td><td class="conf-cell">{conf}</td></tr>'
             else:
-                bull_html += f'<div class="thesis-item bull">{item}</div>'
+                bull_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td class="conf-cell">—</td></tr>'
 
-        bear_html = ""
+        # Bear Case Table Rows
+        bear_rows = ""
         for item in bear_case:
             if isinstance(item, dict):
-                counter = item.get("counter_argument", "")
-                prob = item.get("probability", "")
-                bear_html += f'''
-                <div class="thesis-item bear">
-                    <div class="thesis-point">{item.get('point', '')}</div>
-                    <div class="thesis-evidence"><strong>Evidence:</strong> {item.get('evidence', '')}</div>
-                    {f'<div class="thesis-counter"><strong>Counter:</strong> {counter}</div>' if counter else ''}
-                    {f'<div class="probability">Probability: {prob}</div>' if prob else ''}
-                </div>'''
+                point = item.get('point', '')
+                evidence = item.get('evidence', '')
+                counter = item.get('counter_argument', '')
+                prob = item.get('probability', '')
+                # Combine counter and probability into mitigant column
+                mitigant = counter if counter else ''
+                if prob:
+                    mitigant += f' (Probability: {prob})' if mitigant else f'Probability: {prob}'
+                bear_rows += f'<tr><td class="point-cell">{point}</td><td>{evidence}</td><td>{mitigant if mitigant else "—"}</td></tr>'
             else:
-                bear_html += f'<div class="thesis-item bear">{item}</div>'
+                bear_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td>—</td></tr>'
 
-        debates_html = ""
+        # Key Debates Table Rows
+        debates_rows = ""
         for debate in key_debates:
             if isinstance(debate, dict):
-                debates_html += f'''
-                <div class="debate-item">
-                    <div class="debate-question">{debate.get('question', '')}</div>
-                    <div class="debate-views">
-                        <div class="bull-view"><strong>Bull:</strong> {debate.get('bull_view', '')}</div>
-                        <div class="bear-view"><strong>Bear:</strong> {debate.get('bear_view', '')}</div>
-                    </div>
-                    <div class="data-to-watch"><strong>What resolves it:</strong> {debate.get('what_resolves_it', '')}</div>
-                </div>'''
+                question = debate.get('question', '')
+                bull_view = debate.get('bull_view', '')
+                bear_view = debate.get('bear_view', '')
+                resolves = debate.get('what_resolves_it', '')
+                debates_rows += f'<tr><td class="debate-q">{question}</td><td>{bull_view}</td><td>{bear_view}</td><td>{resolves}</td></tr>'
 
+        # Probability of Success Table
         pos_html = ""
         if pos:
             pos_html = f'''
-            <div class="pos-box">
-                <h5>Probability of Success</h5>
-                <div class="pos-grid">
-                    <div class="pos-item"><span class="label">Phase 2b→3:</span> <strong>{pos.get('phase2b_to_phase3', 'N/A')}</strong></div>
-                    <div class="pos-item"><span class="label">Phase 3→Approval:</span> <strong>{pos.get('phase3_to_approval', 'N/A')}</strong></div>
-                    <div class="pos-item highlight"><span class="label">Cumulative PoS:</span> <strong>{pos.get('cumulative_pos', 'N/A')}</strong></div>
-                </div>
-                <p class="methodology">{pos.get('methodology', '')}</p>
+            <div class="pos-section">
+                <h4>Probability of Success</h4>
+                <table class="research-table pos-table">
+                    <tbody>
+                        <tr><td class="label-cell">Phase 2b → Phase 3</td><td class="value-cell">{pos.get('phase2b_to_phase3', '—')}</td></tr>
+                        <tr><td class="label-cell">Phase 3 → Approval</td><td class="value-cell">{pos.get('phase3_to_approval', '—')}</td></tr>
+                        <tr class="total-row"><td class="label-cell">Cumulative PoS</td><td class="value-cell">{pos.get('cumulative_pos', '—')}</td></tr>
+                    </tbody>
+                </table>
+                {f'<p class="pos-methodology">{pos.get("methodology", "")}</p>' if pos.get("methodology") else ''}
             </div>'''
 
         investment_html = f'''
-        <section id="investment" class="section">
+        <section id="investment" class="section research-section">
             <h2 class="section-header">Investment Analysis</h2>
-            <div class="investment-grid">
-                <div class="bull-section">
-                    <h4 class="bull-header">Bull Case</h4>
-                    {bull_html}
-                </div>
-                <div class="bear-section">
-                    <h4 class="bear-header">Bear Case</h4>
-                    {bear_html}
-                </div>
+
+            <div class="research-subsection">
+                <h4>Bull Case</h4>
+                <table class="research-table">
+                    <thead>
+                        <tr><th>Thesis Point</th><th>Supporting Evidence</th><th>Confidence</th></tr>
+                    </thead>
+                    <tbody>
+                        {bull_rows if bull_rows else '<tr><td colspan="3">No bull case points available</td></tr>'}
+                    </tbody>
+                </table>
             </div>
-            {f'<div class="debates-section"><h4>Key Debates</h4>{debates_html}</div>' if debates_html else ''}
+
+            <div class="research-subsection">
+                <h4>Bear Case</h4>
+                <table class="research-table">
+                    <thead>
+                        <tr><th>Risk</th><th>Evidence</th><th>Mitigating Factors</th></tr>
+                    </thead>
+                    <tbody>
+                        {bear_rows if bear_rows else '<tr><td colspan="3">No bear case points available</td></tr>'}
+                    </tbody>
+                </table>
+            </div>
+
+            {f"""<div class="research-subsection">
+                <h4>Key Debates</h4>
+                <table class="research-table debates-table">
+                    <thead>
+                        <tr><th>Question</th><th>Bull View</th><th>Bear View</th><th>Resolution Catalyst</th></tr>
+                    </thead>
+                    <tbody>
+                        {debates_rows}
+                    </tbody>
+                </table>
+            </div>""" if debates_rows else ''}
+
             {pos_html}
         </section>'''
 
     # =======================================================================
-    # BUILD CATALYSTS HTML
+    # BUILD CATALYSTS HTML (Wall Street Research Style)
     # =======================================================================
-    catalysts_html = ""
+    catalysts_rows = ""
     for c in asset_catalysts:
+        event = c.get('event', '')
+        timing = c.get('timing', '')
+        importance = c.get('importance', '')
         what_to_watch = c.get("what_to_watch", [])
         if isinstance(what_to_watch, list):
-            watch_items = "".join(f'<li>{w}</li>' for w in what_to_watch)
+            watch_text = "; ".join(what_to_watch) if what_to_watch else "—"
         else:
-            watch_items = f'<li>{what_to_watch}</li>'
-        bull = c.get("bull_scenario", {})
-        bear = c.get("bear_scenario", {})
+            watch_text = what_to_watch if what_to_watch else "—"
         consensus = c.get("consensus_expectation", "")
 
-        catalysts_html += f'''
-        <div class="catalyst-card">
-            <div class="catalyst-header">
-                <h4>{c.get('event', '')}</h4>
-                <span class="badge timing">{c.get('timing', '')}</span>
-                <span class="badge importance {c.get('importance', '').lower()}">{c.get('importance', '')}</span>
-            </div>
-            {f'<div class="watch-list"><strong>What to watch:</strong><ul>{watch_items}</ul></div>' if watch_items else ''}
-            <div class="scenarios-grid">
-                <div class="scenario bull">
-                    <strong>Bull Scenario</strong>
-                    <p>{bull.get('outcome', '') if isinstance(bull, dict) else ''}</p>
-                    <span class="impact">Stock impact: {bull.get('stock_impact', '') if isinstance(bull, dict) else ''}</span>
-                    <span class="rationale">{bull.get('rationale', '') if isinstance(bull, dict) else ''}</span>
-                </div>
-                <div class="scenario bear">
-                    <strong>Bear Scenario</strong>
-                    <p>{bear.get('outcome', '') if isinstance(bear, dict) else ''}</p>
-                    <span class="impact">Stock impact: {bear.get('stock_impact', '') if isinstance(bear, dict) else ''}</span>
-                    <span class="rationale">{bear.get('rationale', '') if isinstance(bear, dict) else ''}</span>
-                </div>
-            </div>
-            {f'<div class="consensus"><strong>Consensus:</strong> {consensus}</div>' if consensus else ''}
-        </div>'''
+        catalysts_rows += f'<tr><td class="event-cell">{event}</td><td>{timing}</td><td>{importance}</td><td>{watch_text}</td><td>{consensus if consensus else "—"}</td></tr>'
+
+    catalysts_html = ""
+    if catalysts_rows:
+        catalysts_html = f'''
+        <table class="research-table catalysts-table">
+            <thead>
+                <tr><th>Event</th><th>Timing</th><th>Importance</th><th>Key Metrics to Watch</th><th>Consensus</th></tr>
+            </thead>
+            <tbody>
+                {catalysts_rows}
+            </tbody>
+        </table>'''
 
     # Indications badges
     ind_badges = "".join(f'<span class="indication-badge">{ind}</span>' for ind in indications if ind)
@@ -2533,58 +2545,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             color: var(--bear);
         }}
 
-        /* Catalysts */
-        .catalyst-card {{
-            background: #fffbeb;
-            border: 1px solid #f6e05e;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }}
-        .catalyst-header {{
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }}
-        .catalyst-header h4 {{
-            margin: 0;
-            color: #975a16;
-        }}
-        .watch-list {{
-            margin-bottom: 16px;
-        }}
-        .watch-list ul {{
-            margin: 8px 0 0 20px;
-        }}
-        .scenarios-grid {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }}
-        .scenario {{
-            padding: 16px;
-            border-radius: 8px;
-        }}
-        .scenario.bull {{
-            background: #f0fff4;
-        }}
-        .scenario.bear {{
-            background: #fff5f5;
-        }}
-        .scenario strong {{
-            display: block;
-            margin-bottom: 8px;
-        }}
-        .scenario.bull strong {{ color: var(--bull); }}
-        .scenario.bear strong {{ color: var(--bear); }}
-        .scenario .rationale {{
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 8px;
-        }}
+        /* Catalysts - now using research-table styling */
 
         /* Navigation */
         .asset-nav {{
@@ -2648,153 +2609,116 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             color: var(--text-muted);
         }}
 
-        /* v2.0 Schema: Investment Analysis */
-        .investment-grid {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }}
-        @media (max-width: 900px) {{
-            .investment-grid {{ grid-template-columns: 1fr; }}
-        }}
-        .bull-section, .bear-section {{
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid var(--border);
-        }}
-        .bull-section {{
-            border-left: 4px solid var(--bull);
-        }}
-        .bear-section {{
-            border-left: 4px solid var(--bear);
-        }}
-        .bull-header {{ color: var(--bull); margin-bottom: 16px; }}
-        .bear-header {{ color: var(--bear); margin-bottom: 16px; }}
-        .thesis-item {{
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }}
-        .thesis-item.bull {{
-            background: #f0fff4;
-        }}
-        .thesis-item.bear {{
-            background: #fff5f5;
-        }}
-        .thesis-point {{
-            font-weight: 600;
-            margin-bottom: 8px;
-        }}
-        .thesis-evidence {{
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }}
-        .thesis-counter {{
-            font-size: 0.9rem;
-            padding: 8px;
+        /* Wall Street Research Style: Investment Analysis */
+        .research-section {{
             background: white;
-            border-radius: 4px;
-            margin-bottom: 8px;
         }}
-        .thesis-meta {{
-            display: flex;
-            gap: 12px;
+        .research-subsection {{
+            margin-bottom: 32px;
+        }}
+        .research-subsection h4 {{
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 8px;
+        }}
+        .research-table {{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: white;
+        }}
+        .research-table th {{
+            background: #f8f9fa;
+            font-weight: 700;
+            text-align: left;
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
             font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #1a1a1a;
         }}
-        .confidence {{
-            padding: 2px 8px;
-            border-radius: 4px;
+        .research-table td {{
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            vertical-align: top;
+            color: #1a1a1a;
+            line-height: 1.5;
         }}
-        .confidence.high {{ background: #c6f6d5; color: var(--bull); }}
-        .confidence.medium {{ background: #fefcbf; color: #975a16; }}
-        .confidence.low {{ background: #fed7d7; color: var(--bear); }}
-        .probability {{
-            font-size: 0.85rem;
-            color: var(--bear);
+        .research-table tbody tr:nth-child(even) {{
+            background: #fafafa;
+        }}
+        .research-table .point-cell,
+        .research-table .event-cell {{
             font-weight: 600;
+            width: 25%;
         }}
-        .debates-section {{
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid var(--border);
-            margin-bottom: 24px;
+        .research-table .conf-cell {{
+            width: 100px;
+            text-align: center;
+            font-weight: 500;
         }}
-        .debates-section h4 {{
-            color: var(--primary);
-            margin-bottom: 16px;
-        }}
-        .debate-item {{
-            background: var(--bg);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }}
-        .debate-question {{
+        .research-table .debate-q {{
             font-weight: 600;
-            font-size: 1.1rem;
+            width: 20%;
+        }}
+        .debates-table th:nth-child(2),
+        .debates-table th:nth-child(3) {{
+            width: 25%;
+        }}
+        .catalysts-table .event-cell {{
+            width: 22%;
+        }}
+        .catalysts-table td:nth-child(2) {{
+            width: 12%;
+            white-space: nowrap;
+        }}
+        .catalysts-table td:nth-child(3) {{
+            width: 10%;
+            font-weight: 500;
+        }}
+
+        /* Probability of Success */
+        .pos-section {{
+            margin-top: 32px;
+        }}
+        .pos-section h4 {{
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a1a1a;
             margin-bottom: 12px;
-            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 8px;
         }}
-        .debate-views {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 12px;
+        .pos-table {{
+            max-width: 400px;
         }}
-        .bull-view {{
-            background: #f0fff4;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 0.9rem;
+        .pos-table .label-cell {{
+            font-weight: 500;
+            width: 180px;
         }}
-        .bear-view {{
-            background: #fff5f5;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 0.9rem;
+        .pos-table .value-cell {{
+            font-weight: 700;
+            text-align: right;
         }}
-        .data-to-watch {{
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            padding: 8px;
-            background: white;
-            border-radius: 4px;
+        .pos-table .total-row {{
+            background: #f8f9fa;
         }}
-        .pos-box {{
-            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
-            border: 1px solid #bee3f8;
-            border-radius: 12px;
-            padding: 24px;
+        .pos-table .total-row td {{
+            border-top: 2px solid #1a1a1a;
         }}
-        .pos-box h5 {{
-            color: var(--accent);
-            margin-bottom: 16px;
-        }}
-        .pos-grid {{
-            display: flex;
-            gap: 24px;
-            margin-bottom: 12px;
-        }}
-        .pos-item {{
-            background: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-        }}
-        .pos-item.highlight {{
-            background: #c6f6d5;
-        }}
-        .pos-item .label {{
+        .pos-methodology {{
             font-size: 0.85rem;
-            color: var(--text-muted);
-        }}
-        .methodology {{
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            color: #666;
             font-style: italic;
+            margin-top: 8px;
         }}
 
         /* v2.0 Schema: Trial Cards */
@@ -2954,8 +2878,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 </div>
             </section>
 
-            <section id="catalysts" class="section">
-                <h2 class="section-header">Upcoming Catalysts</h2>
+            <section id="catalysts" class="section research-section">
+                <h2 class="section-header">Catalysts & Upcoming Events</h2>
                 {catalysts_html if catalysts_html else '<p class="no-data">No catalyst data available.</p>'}
             </section>
 
@@ -3010,52 +2934,66 @@ def _generate_company_html_v2(data: dict) -> str:
     catalysts = data.get("catalysts", [])
     partnerships = data.get("partnerships", [])
 
-    # Build bull/bear case HTML
+    # Build bull/bear case HTML (Wall Street Research Style)
     bull_case = thesis.get("bull_case", []) if isinstance(thesis, dict) else thesis
     bear_case = thesis.get("bear_case", []) if isinstance(thesis, dict) else []
     key_debates = thesis.get("key_debates", []) if isinstance(thesis, dict) else []
 
-    bull_html = ""
+    # Bull Case Table Rows
+    bull_rows = ""
     for item in bull_case:
         if isinstance(item, dict):
-            bull_html += f'''
-            <div class="thesis-item bull">
-                <div class="thesis-point">{item.get('point', '')}</div>
-                <div class="thesis-evidence"><strong>Evidence:</strong> {item.get('evidence', '')}</div>
-                <div class="thesis-meta">
-                    <span class="confidence {item.get('confidence', 'medium')}">{item.get('confidence', 'medium').title()} confidence</span>
-                    <span class="source">Page {item.get('source_page', 'N/A')}</span>
-                </div>
-            </div>'''
+            point = item.get('point', '')
+            evidence = item.get('evidence', '')
+            conf = item.get('confidence', 'Medium').title()
+            bull_rows += f'<tr><td class="point-cell">{point}</td><td>{evidence}</td><td class="conf-cell">{conf}</td></tr>'
         else:
-            bull_html += f'<div class="thesis-item bull"><div class="thesis-point">{item}</div></div>'
+            bull_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td class="conf-cell">—</td></tr>'
 
-    bear_html = ""
+    # Bear Case Table Rows
+    bear_rows = ""
     for item in bear_case:
         if isinstance(item, dict):
-            counter = f'<div class="thesis-counter"><strong>Counter:</strong> {item.get("counter", "")}</div>' if item.get("counter") else ""
-            bear_html += f'''
-            <div class="thesis-item bear">
-                <div class="thesis-point">{item.get('point', '')}</div>
-                <div class="thesis-evidence"><strong>Evidence:</strong> {item.get('evidence', '')}</div>
-                {counter}
-                <div class="thesis-meta">
-                    <span class="confidence {item.get('confidence', 'medium')}">{item.get('confidence', 'medium').title()} confidence</span>
-                    <span class="source">Page {item.get('source_page', 'N/A')}</span>
-                </div>
-            </div>'''
+            point = item.get('point', '')
+            evidence = item.get('evidence', '')
+            counter = item.get('counter', '') or item.get('counter_argument', '')
+            bear_rows += f'<tr><td class="point-cell">{point}</td><td>{evidence}</td><td>{counter if counter else "—"}</td></tr>'
+        else:
+            bear_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td>—</td></tr>'
+
+    # Key Debates Table Rows
+    debates_rows = ""
+    for debate in key_debates:
+        question = debate.get('question', '')
+        bull_view = debate.get('bull_view', '')
+        bear_view = debate.get('bear_view', '')
+        data_watch = debate.get('data_to_watch', '') or debate.get('what_resolves_it', '')
+        debates_rows += f'<tr><td class="debate-q">{question}</td><td>{bull_view}</td><td>{bear_view}</td><td>{data_watch}</td></tr>'
+
+    # Build thesis HTML using tables
+    bull_html = ""
+    if bull_rows:
+        bull_html = f'''
+        <table class="research-table">
+            <thead><tr><th>Thesis Point</th><th>Supporting Evidence</th><th>Confidence</th></tr></thead>
+            <tbody>{bull_rows}</tbody>
+        </table>'''
+
+    bear_html = ""
+    if bear_rows:
+        bear_html = f'''
+        <table class="research-table">
+            <thead><tr><th>Risk</th><th>Evidence</th><th>Mitigating Factors</th></tr></thead>
+            <tbody>{bear_rows}</tbody>
+        </table>'''
 
     debates_html = ""
-    for debate in key_debates:
-        debates_html += f'''
-        <div class="debate-item">
-            <div class="debate-question">{debate.get('question', '')}</div>
-            <div class="debate-views">
-                <div class="bull-view"><strong>Bull:</strong> {debate.get('bull_view', '')}</div>
-                <div class="bear-view"><strong>Bear:</strong> {debate.get('bear_view', '')}</div>
-            </div>
-            <div class="data-to-watch"><strong>Data to watch:</strong> {debate.get('data_to_watch', '')}</div>
-        </div>'''
+    if debates_rows:
+        debates_html = f'''
+        <table class="research-table debates-table">
+            <thead><tr><th>Question</th><th>Bull View</th><th>Bear View</th><th>Resolution Catalyst</th></tr></thead>
+            <tbody>{debates_rows}</tbody>
+        </table>'''
 
     # Build assets HTML with full clinical data
     assets_html = ""
