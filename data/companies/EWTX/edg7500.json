@@ -9,220 +9,249 @@
     "ticker": "EWTX",
     "modality": "Small molecule cardiac sarcomere modulator",
     "stage": "Phase 2",
-    "one_liner": "Novel cardiac sarcomere modulator for HCM that improves cardiac function without the LVEF reductions seen with myosin inhibitors",
+    "one_liner": "First-in-class cardiac sarcomere modulator for HCM that slows acto-myosin engagement without inactivating myosin, avoiding the LVEF reductions seen with cardiac myosin inhibitors",
     "ownership": "Wholly-owned"
   },
   "target": {
     "name": "Cardiac Sarcomere (Acto-Myosin)",
     "full_name": "Cardiac sarcomere acto-myosin complex",
     "class": "Sarcomere modulator",
-    "pathway": "Acto-myosin engagement → cardiac contraction → LVOT obstruction in HCM",
+    "pathway": "Acto-myosin cross-bridge cycling → cardiac contraction → hypercontractility in HCM",
     "biology": {
-      "simple_explanation": "EDG-7500 slows the rate of acto-myosin engagement and speeds disengagement WITHOUT inactivating the myosin motor head. This is fundamentally different from myosin inhibitors (mavacamten, aficamten) which inactivate myosin and can cause systolic dysfunction requiring frequent LVEF monitoring.",
-      "mechanism_differentiation": "Slows engagement and speeds disengagement vs inactivating myosin motor head",
-      "key_advantage": "No meaningful LVEF reductions observed - potentially eliminates need for safety echocardiograms"
+      "simple_explanation": "EDG-7500 is a first-in-class selective cardiac sarcomere modulator designed to slow the rate of myocardial force generation in early systole and accelerate actin-myosin cross-bridge detachment in early diastole to improve ventricular filling. Unlike cardiac myosin inhibitors (CMIs) which stabilize the super-relaxed state by inactivating myosin, EDG-7500 preserves cardiac myosin function and does not affect myosin-actin proximity or cross-bridge reattachment rates.",
+      "mechanism_vs_cmi": {
+        "cmi_mechanism": "Selectively inhibit cardiac myosin ATPase activity to stabilize super-relaxed (SRX) state, decreasing myosin-actin cross-bridge formation",
+        "edg7500_mechanism": "Slows rate of acto-myosin engagement and speeds disengagement WITHOUT inactivating myosin motor head",
+        "key_difference": "CMIs can cause unpredictable LVEF reduction; EDG-7500 designed to preserve LVEF"
+      },
+      "downstream_effects": [
+        "Decreased LVOT obstruction",
+        "Improved diastolic filling",
+        "Preserved systolic function (LVEF maintained)"
+      ]
     },
     "why_good_target": {
-      "clinical_validation": "Mavacamten and aficamten validate sarcomere modulation in HCM",
+      "clinical_validation": "Sarcomere modulation validated by mavacamten (CAMZYOS) and aficamten approval in oHCM",
       "unmet_need": [
-        "Myosin inhibitors cause systolic dysfunction requiring REMS and frequent echos",
-        "Nonobstructive HCM (2/3 of patients) has NO approved treatments",
-        "Current therapies have significant monitoring burden"
+        "CMIs cause unpredictable LVEF reduction requiring frequent echocardiogram monitoring",
+        "Mavacamten requires REMS program in US with echos every 4-12 weeks",
+        "Up to 13.8% of patients on mavacamten develop LVEF <50%",
+        "Nonobstructive HCM (2/3 of patients) has NO approved therapies",
+        "Current therapies (beta-blockers, CCBs, disopyramide) do not modify disease"
       ]
     }
   },
-  "indications": {
-    "lead": {
-      "name": "Obstructive HCM (oHCM)",
-      "stage": "Phase 2 CIRRUS-HCM",
-      "rationale": "Validated market with approved competitors; opportunity to differentiate on safety"
+  "disease_background": {
+    "hcm_overview": {
+      "definition": "Hypertrophic cardiomyopathy (HCM) is characterized by enhanced cardiac actin-myosin cross-bridge cycling, leading to hypercontractility, myocardial hypertrophy, fibrosis, and diastolic dysfunction",
+      "prevalence": "Most common inherited cardiac condition; ~1 in 500 people",
+      "us_patients": "~600,000 patients in US",
+      "genetics": "Traditionally considered monogenic but polygenic component increasingly recognized"
     },
-    "expansion": [
-      {
-        "name": "Nonobstructive HCM (nHCM)",
-        "stage": "Phase 2 CIRRUS-HCM",
-        "rationale": "2/3 of HCM patients; zero approved treatments; clear unmet need"
+    "ohcm_phenotype": {
+      "definition": "Obstructive HCM - combination of hypercontractility, hypertrophy, small LV cavity, and abnormal mitral valve apparatus leading to LVOT obstruction",
+      "prevalence": "2/3 of HCM patients (~200,000 US)",
+      "pathophysiology": "LVOT gradient ≥30 mmHg at rest or ≥50 mmHg with provocation",
+      "symptoms": "Dyspnea, chest pain, syncope, exercise intolerance, heart failure"
+    },
+    "nhcm_phenotype": {
+      "definition": "Nonobstructive HCM - ventricular hypertrophy without significant LVOT obstruction",
+      "prevalence": "1/3 of HCM patients (~400,000 US)",
+      "unmet_need": "NO approved therapies; underserved population",
+      "pathophysiology": "Diastolic dysfunction, impaired filling, elevated filling pressures"
+    }
+  },
+  "current_treatment_landscape": {
+    "first_line_therapy": {
+      "agents": "Non-vasodilating beta-blockers (metoprolol, propranolol, nadolol)",
+      "mechanism": "Decrease calcium entry, reduce heart rate, prolong diastolic filling",
+      "efficacy": "Variable LVOT reduction; substantial proportion are non-responders",
+      "evidence": "No adequately powered RCTs; based on long-standing clinical use and expert consensus",
+      "limitations": "Do not modify disease; inconsistent efficacy"
+    },
+    "second_line_therapy": {
+      "agents": "Non-dihydropyridine calcium channel blockers (verapamil, diltiazem)",
+      "mechanism": "Inhibit L-type calcium channels, negative inotropy, prolong diastolic filling",
+      "efficacy": "Variable; substantial proportion are non-responders",
+      "evidence": "No adequately powered RCTs",
+      "limitations": "Do not modify disease"
+    },
+    "third_line_therapy": {
+      "agent": "Disopyramide",
+      "mechanism": "Sodium channel blocker with negative inotropic effects; inhibits peak/late sodium currents, L-type calcium currents, and RyRs",
+      "efficacy": "Some data showing symptomatic benefit",
+      "limitations": [
+        "QTc prolongation",
+        "Drug-drug interactions",
+        "Systemic anticholinergic symptoms",
+        "Tachyphylaxis",
+        "Inconsistent efficacy"
+      ]
+    },
+    "cardiac_myosin_inhibitors": {
+      "class_overview": "First drug class designed to directly target underlying pathophysiology of HCM; only HCM therapy with data from multiple placebo-controlled Phase III trials",
+      "mechanism": "Selectively inhibit cardiac myosin ATPase activity to stabilize super-relaxed (SRX) state, decreasing excessive myosin-actin cross-bridge formation",
+      "mavacamten": {
+        "brand_name": "CAMZYOS",
+        "company": "Bristol-Myers Squibb",
+        "approval": "FDA approved for symptomatic oHCM (NYHA Class II-III)",
+        "pivotal_trials": "EXPLORER-HCM (Phase 3), VALOR-HCM (Phase 3)",
+        "efficacy_explorer": "Improved exercise capacity, reduced LVOT gradient, alleviated symptoms",
+        "efficacy_valor": "Reduced need for septal reduction therapy in most patients",
+        "remodeling": "Favorable LV remodeling - improved LV mass index, max wall thickness, LA volume index",
+        "safety_lvef_reduction": "5.6% in EXPLORER-HCM; 8.7% in OLE; up to 13.8% in VALOR-HCM",
+        "safety_severe_lvef": "2 patients with LVEF <30% and 1 death in VALOR-HCM",
+        "safety_afib": "7.8-10.2% new-onset AF (higher than expected 2-3%/year)",
+        "rems_required": "Yes - echo every 4 weeks initially, every 12 weeks once stable",
+        "price": "$89,500/year in US"
+      },
+      "aficamten": {
+        "company": "Cytokinetics",
+        "status": "Under regulatory review for oHCM",
+        "pivotal_trial": "SEQUOIA-HCM (Phase 3)",
+        "differentiators": "Shorter half-life (3.4 days), no significant drug-drug interactions",
+        "efficacy": "pVO2 improvement +1.74 ml/kg/min; >95% clinically meaningful improvement",
+        "safety_lvef": "5.3% LVEF <50%",
+        "safety_afib": "2.4% (lower than mavacamten)"
       }
-    ]
+    },
+    "invasive_therapies": {
+      "surgical_myectomy": "Preferred for surgical candidates; can address multiple pathologies; <2% mortality at high-volume centers",
+      "alcohol_septal_ablation": "For non-surgical candidates; limited by coronary anatomy; up to 20% pacemaker dependence"
+    }
+  },
+  "edg7500_differentiation": {
+    "vs_cmi_mechanism": "Slows acto-myosin engagement WITHOUT inactivating myosin (CMIs inactivate myosin to stabilize SRX state)",
+    "vs_cmi_lvef": "No meaningful LVEF reductions observed across development program",
+    "vs_cmi_monitoring": "May not require REMS or frequent safety echocardiograms",
+    "vs_cmi_indications": "Active in both oHCM AND nHCM (CMIs only approved for oHCM)",
+    "preclinical_findings": "LVEF >50% maintained even at highest exposures in animal models",
+    "phase_1_findings": "Well tolerated in healthy volunteers; no LVEF <50% even above therapeutic exposure; half-life ~30 hours"
   },
   "clinical_data": {
     "trial_name": "CIRRUS-HCM (Phase 2)",
     "trial_design": {
       "phase": "Phase 2",
-      "design": "Multiple-dose study of safety, tolerability, and effects on hemodynamics and functional capacity",
-      "doses": "50 mg and 100 mg",
+      "design": "Multicenter open-label study of safety, tolerability, PK, and PD",
+      "doses_tested": "50 mg and 100 mg",
       "data_cutoff": "May 2025 (preliminary)"
     },
     "populations": {
-      "obstructive_hcm": {
+      "ohcm": {
         "n": 17,
         "description": "Patients with obstructive HCM"
       },
-      "nonobstructive_hcm": {
+      "nhcm": {
         "n": 12,
         "description": "Patients with nonobstructive HCM"
       },
       "total": {
         "n": 29,
-        "description": "Combined oHCM and nHCM cohorts"
+        "description": "Combined cohorts"
       }
     },
-    "baseline_characteristics": {
-      "ohcm": {
-        "age_mean": "61 years (SD 13)",
-        "female": "71%",
-        "bmi_mean": "28 kg/m2",
-        "pathogenic_sarcomere_variant": "24%",
-        "nyha_class_ii": "59%",
-        "nyha_class_iii": "35%",
-        "lvef_mean": "65% (SD 4)",
-        "lvot_g_resting": "59 mmHg (SD 30)",
-        "lvot_g_valsalva": "93 mmHg (SD 32)",
-        "nt_probnp_median": "710 pg/mL (IQR 381-1074)",
-        "kccq_oss_mean": "63 (SD 16)",
-        "kccq_css_mean": "69 (SD 15)"
-      },
-      "nhcm": {
-        "age_mean": "54 years (SD 19)",
-        "female": "58%",
-        "bmi_mean": "27 kg/m2",
-        "pathogenic_sarcomere_variant": "33%",
-        "icd": "50%",
-        "nyha_class_ii": "50%",
-        "nyha_class_iii": "50%",
-        "lvef_mean": "61% (SD 6)",
-        "lvot_g_resting": "9 mmHg (SD 6)",
-        "nt_probnp_median": "715 pg/mL (IQR 546-1231)",
-        "kccq_oss_mean": "57 (SD 22)",
-        "kccq_css_mean": "63 (SD 23)"
-      }
+    "baseline_ohcm": {
+      "age": "61 (13) years",
+      "female": "71%",
+      "nyha_ii": "59%",
+      "nyha_iii": "35%",
+      "lvef": "65 (4)%",
+      "lvot_g_rest": "59 (30) mmHg",
+      "lvot_g_valsalva": "93 (32) mmHg",
+      "e_prime": "6 (2) cm/s",
+      "nt_probnp_median": "710 pg/mL",
+      "kccq_oss": "63 (16)",
+      "kccq_css": "69 (15)",
+      "sarcomere_variant": "24%"
     },
-    "ohcm_efficacy_results": {
-      "lvot_g_response": {
-        "resting_lt30_50mg_wk4": "43%",
-        "resting_lt30_100mg_wk4": "89%",
-        "valsalva_lt50_50mg_wk4": "57%",
-        "valsalva_lt50_100mg_wk4": "89%"
-      },
-      "nt_probnp": {
-        "reduction_at_100mg": "~82% reduction from baseline",
-        "normalization": "56% (5/9) at 100mg achieved NT-proBNP <150 pg/mL",
-        "correlation": "Strong correlation between NT-proBNP improvements and pVO2 improvements"
-      },
-      "diastolic_function_e_prime": {
-        "baseline_mean": "6.0 cm/s (SD 1.3)",
-        "change_50mg_wk2": "+27% (p=NS)",
-        "change_100mg_wk2": "+27% (p≤0.05)",
-        "change_50mg_wk4": "Improvement (p≤0.05)",
-        "timing": "Rapid improvements observed as early as 1 week"
-      },
-      "kccq": {
-        "oss_median_improvement_50mg": "7 points",
-        "oss_median_improvement_100mg": "2 points",
-        "css_median_improvement_50mg": "2 points",
-        "css_median_improvement_100mg": "2 points"
-      },
-      "nyha_improvement": {
-        "50mg_gte1_class": "43%",
-        "100mg_gte1_class": "78%",
-        "overall_clinical_improvement": "89%"
-      }
+    "baseline_nhcm": {
+      "age": "54 (19) years",
+      "female": "58%",
+      "nyha_ii": "50%",
+      "nyha_iii": "50%",
+      "lvef": "61 (6)%",
+      "lvot_g_rest": "9 (6) mmHg",
+      "e_prime": "7 (2) cm/s",
+      "nt_probnp_median": "715 pg/mL",
+      "kccq_oss": "57 (22)",
+      "kccq_css": "63 (23)",
+      "sarcomere_variant": "33%",
+      "icd": "50%"
     },
-    "nhcm_efficacy_results": {
-      "nt_probnp": {
-        "reduction_50mg": "~48% reduction from baseline",
-        "reduction_100mg": "~64% reduction from baseline",
-        "timing": "Rapid and robust reductions observed"
-      },
-      "diastolic_function_e_prime": {
-        "change_50mg_wk2": "Improvement observed",
-        "change_100mg_wk2": "Improvement observed",
-        "timing": "Changes as early as 1 week following initiation"
-      },
-      "kccq_css": {
-        "very_large_improvement_gte20": "25.9%",
-        "large_improvement_15_to_20": "17.3%",
-        "moderate_improvement_10_to_15": "13.0%",
-        "small_improvement_5_to_10": "9.9%",
-        "minimal_worsening_or_stable": "33.9%",
-        "overall_clinical_improvement": "88%"
-      }
+    "efficacy_results": {
+      "ohcm_lvot_resting_50mg_wk4": "43% <30 mmHg",
+      "ohcm_lvot_resting_100mg_wk4": "89% <30 mmHg",
+      "ohcm_lvot_valsalva_50mg_wk4": "57% <50 mmHg",
+      "ohcm_lvot_valsalva_100mg_wk4": "89% <50 mmHg",
+      "ohcm_ntprobnp_100mg": "~82% reduction; 56% achieved <150 pg/mL",
+      "ohcm_e_prime_wk1": "Rapid improvement within 1 week",
+      "ohcm_e_prime_100mg_wk2": "+27% (p≤0.05)",
+      "ohcm_nyha_improvement_50mg": "43% ≥1 class",
+      "ohcm_nyha_improvement_100mg": "78% ≥1 class",
+      "ohcm_clinical_improvement": "89%",
+      "nhcm_ntprobnp_50mg": "~48% reduction",
+      "nhcm_ntprobnp_100mg": "~64% reduction",
+      "nhcm_e_prime_wk1": "Changes as early as 1 week",
+      "nhcm_clinical_improvement": "88%"
     },
     "safety": {
-      "lvef_key_finding": "No meaningful reductions in LVEF or LVEF <50% across broad exposure range",
-      "lvef_nhcm_detail": "4/12 (33%) nHCM had baseline LVEF <60%; all 4 remained stable; mean change +2.5%",
-      "discontinuation": "1 patient (oHCM) due to moderate dizziness",
-      "teaes_gt1_patient": {
-        "dizziness": "27.6% (8/29) - mostly mild and transient",
-        "upper_respiratory_infection": "17.2% (5/29)",
-        "atrial_fibrillation": "13.8% (4/29) - 3 oHCM + 1 nHCM; 2 were SAEs",
-        "influenza_like_illness": "10.3% (3/29)",
-        "palpitations": "10.3% (3/29)",
-        "constipation": "6.9% (2/29)",
-        "diarrhea": "6.9% (2/29)",
-        "headache": "6.9% (2/29)"
-      },
-      "afib_note": "None of the patients with atrial fibrillation experienced LVEF <50% at any time"
+      "lvef_key_finding": "No LVEF <50% across broad exposure range",
+      "lvef_nhcm_low_baseline": "4 patients with baseline <60% all remained stable (+2.5% change)",
+      "discontinuation": "1/29 (3.4%) due to moderate dizziness",
+      "dizziness": "27.6% (mostly mild/transient)",
+      "upper_respiratory": "17.2%",
+      "atrial_fibrillation": "13.8% (4/29) - 2 SAEs; none had LVEF <50%",
+      "palpitations": "10.3%"
     }
-  },
-  "key_differentiator": {
-    "vs_myosin_inhibitors": {
-      "mavacamten_camzyos": "Requires REMS program with frequent echocardiograms due to LVEF reduction risk",
-      "aficamten": "Also myosin inhibitor with similar LVEF concerns",
-      "edg7500_advantage": "No meaningful LVEF reductions - potentially eliminates need for safety echocardiograms"
-    },
-    "mechanism_difference": "EDG-7500 slows acto-myosin engagement/speeds disengagement WITHOUT inactivating myosin motor head"
   },
   "catalysts": [
     {
-      "event": "Longer-term CIRRUS-HCM data with intra-patient dose optimization",
+      "event": "Longer-term CIRRUS-HCM data with dose optimization",
       "timing": "2026",
       "importance": "high",
-      "what_to_watch": "Durability of efficacy; continued LVEF safety; dose optimization results"
+      "what_to_watch": "Durability; continued LVEF safety; optimal dosing"
     },
     {
       "event": "Phase 3 trial initiation",
       "timing": "TBD",
       "importance": "critical",
-      "what_to_watch": "Trial design; endpoints; oHCM vs nHCM strategy"
+      "what_to_watch": "Trial design for oHCM and/or nHCM"
     }
   ],
   "competitive_landscape": {
-    "approved_therapies": [
+    "competitors": [
       {
         "drug": "mavacamten (CAMZYOS)",
-        "company": "Bristol Myers Squibb",
-        "indication": "Obstructive HCM",
-        "limitation": "REMS required; frequent echocardiograms due to LVEF reduction risk"
+        "company": "Bristol-Myers Squibb",
+        "limitation": "REMS required; LVEF <50% up to 13.8%; $89,500/year; oHCM only"
       },
       {
         "drug": "aficamten",
         "company": "Cytokinetics",
-        "indication": "Obstructive HCM",
-        "limitation": "Myosin inhibitor mechanism with LVEF concerns"
+        "limitation": "LVEF <50% in 5.3%; oHCM only; will likely need monitoring"
       }
     ],
-    "edg7500_advantages": [
-      "No meaningful LVEF reductions - may not need REMS or frequent echos",
-      "Active in BOTH obstructive AND nonobstructive HCM",
-      "nHCM has NO approved treatments (2/3 of HCM patients)",
-      "Different mechanism: sarcomere modulator vs myosin inhibitor"
+    "our_advantages": [
+      "No meaningful LVEF reductions - may eliminate need for REMS/frequent echos",
+      "Active in BOTH oHCM AND nHCM (2/3 of HCM has no approved treatments)",
+      "Different mechanism preserves myosin function",
+      "Rapid diastolic improvement (e') within 1 week",
+      "89% clinical improvement oHCM; 88% nHCM"
     ]
   },
   "investment_analysis": {
-    "probability_of_success": "De-risked by Phase 2 but larger trials needed",
-    "peak_sales_estimate": "TBD - depends on label (oHCM only vs oHCM + nHCM)",
+    "probability_of_success": "De-risked by Phase 2; larger trials needed",
+    "peak_sales_estimate": "$2-4B+ if successful in oHCM + nHCM",
     "key_risks": [
-      "Small Phase 2 (N=29) - safety advantage needs confirmation in larger trials",
-      "Mavacamten and aficamten have head start in oHCM market",
-      "Atrial fibrillation signal (13.8%) needs monitoring",
+      "Small Phase 2 (N=29)",
+      "CMI competitors have head start",
+      "AF signal (13.8%) needs monitoring",
       "nHCM regulatory path unclear"
     ]
   },
   "market_opportunity": {
-    "ohcm_us": "~200,000 patients",
-    "nhcm_us": "~400,000 patients (NO approved treatments)",
-    "total_hcm_us": "~600,000 patients",
-    "key_insight": "If EDG-7500 succeeds in nHCM, it addresses 2x the market of current competitors"
+    "tam": "$2-4B (CMI class)",
+    "patient_population": "600,000 US (200K oHCM, 400K nHCM)",
+    "unmet_need": "nHCM has NO approved therapies; oHCM therapies have significant monitoring burden"
   }
 }

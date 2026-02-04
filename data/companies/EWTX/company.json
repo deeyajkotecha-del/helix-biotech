@@ -3,7 +3,7 @@
     "version": "2.0",
     "ticker": "EWTX",
     "company_name": "Edgewise Therapeutics",
-    "data_source": "CIRRUS-HCM Phase 2 Poster, CVCT Forum Dec 2025",
+    "data_source": "CIRRUS-HCM Phase 2 Poster (CVCT Forum Dec 2025); PMC review article (Nov 2025)",
     "extraction_date": "2026-02-04"
   },
   "company": {
@@ -12,50 +12,53 @@
     "exchange": "NASDAQ",
     "headquarters": "Boulder, CO",
     "website": "https://edgewisetx.com",
-    "one_liner": "Developing novel cardiac sarcomere modulators for HCM with potential best-in-class safety profile - no meaningful LVEF reductions observed unlike competing myosin inhibitors"
+    "one_liner": "Developing first-in-class cardiac sarcomere modulators for HCM with potential best-in-class safety - no meaningful LVEF reductions unlike competing cardiac myosin inhibitors"
   },
   "investment_thesis_summary": {
-    "core_thesis": "Edgewise is developing EDG-7500, a novel cardiac sarcomere modulator for hypertrophic cardiomyopathy (HCM) that slows acto-myosin engagement without inactivating the myosin motor head. Unlike approved myosin inhibitors that cause systolic dysfunction requiring frequent LVEF monitoring, EDG-7500 has shown no meaningful LVEF reductions across its development program, potentially eliminating the need for safety echocardiograms.",
+    "core_thesis": "Edgewise is developing EDG-7500, a first-in-class selective cardiac sarcomere modulator for hypertrophic cardiomyopathy (HCM). Unlike approved cardiac myosin inhibitors (mavacamten, aficamten) that can cause unpredictable LVEF reductions requiring REMS programs and frequent echocardiogram monitoring, EDG-7500 preserves myosin function and has shown no meaningful LVEF reductions across its development program. Phase 2 CIRRUS-HCM data show 89% clinical improvement in oHCM and 88% in nHCM - importantly, EDG-7500 is the only sarcomere-targeting therapy being developed for nonobstructive HCM, which represents 2/3 of HCM patients and has NO approved treatments.",
     "key_value_drivers": [
-      "Differentiated mechanism: slows acto-myosin engagement without inactivating myosin motor head",
-      "No meaningful LVEF reductions observed - potential best-in-class safety vs mavacamten/aficamten",
-      "Positive Phase 2 CIRRUS-HCM data in both obstructive and nonobstructive HCM",
-      "88-89% of patients showed clinical improvements across both HCM subtypes"
+      "No LVEF reductions observed - may eliminate need for REMS/frequent safety echos (major competitive advantage)",
+      "Active in BOTH oHCM AND nHCM - only therapy targeting the 400K US nHCM patients with zero approved options",
+      "Phase 2 CIRRUS-HCM: 89% achieved LVOT-G <30 mmHg at 100mg; 78% had ≥1 NYHA class improvement",
+      "Differentiated mechanism: slows acto-myosin engagement WITHOUT inactivating myosin motor head",
+      "Rapid improvements - diastolic function (e') improves within 1 week of treatment"
     ]
   },
   "investment_analysis": {
     "bull_case": [
-      "No LVEF reductions eliminates need for frequent safety echos - major convenience advantage vs mavacamten",
-      "Active in both oHCM AND nHCM - competitors only approved for oHCM",
-      "89% achieved LVOT-G <30 mmHg at rest with 100mg dose in oHCM",
-      "Rapid improvements in NT-proBNP, e', KCCQ, and NYHA class",
-      "56% at 100mg achieved NT-proBNP <150 pg/mL (near normalization)",
-      "78% had ≥1 NYHA class improvement at 100mg dose"
+      "No LVEF reductions eliminates major safety liability of CMIs - may not need REMS or frequent echos",
+      "Only therapy targeting nHCM (2/3 of HCM patients) - 400K US patients with NO approved options",
+      "89% LVOT-G response at 100mg in oHCM; 56% achieved NT-proBNP normalization (<150 pg/mL)",
+      "78% had ≥1 NYHA class improvement at 100mg - strong symptomatic benefit",
+      "Differentiated mechanism preserves myosin function vs CMIs that inactivate myosin",
+      "Mavacamten limitations (REMS, price $89.5K/yr, LVEF risk up to 13.8%) create opening for safer alternative",
+      "Rapid diastolic improvement within 1 week differentiates from slower-acting competitors"
     ],
     "bear_case": [
-      "Mavacamten (CAMZYOS) and aficamten already approved/launching with established data",
-      "Small Phase 2 study (N=29) - larger trials needed to confirm safety advantage",
-      "Atrial fibrillation observed in 13.8% (4/29) - 2 were SAEs",
-      "nHCM is unvalidated market with no approved therapies",
-      "Dizziness in 27.6% though mostly mild and transient"
+      "Small Phase 2 (N=29) - LVEF safety advantage needs confirmation in larger trials",
+      "Mavacamten (CAMZYOS) and aficamten already approved/launching with established efficacy data",
+      "Atrial fibrillation observed in 13.8% (4/29, 2 SAEs) - higher than expected background rate",
+      "nHCM is unvalidated regulatory path with no precedent for approval",
+      "Commercial execution risk as emerging company competing against BMS and Cytokinetics",
+      "Phase 3 design and timeline not yet disclosed"
     ],
     "key_debates": [
       {
         "question": "Is the LVEF safety advantage clinically meaningful enough to drive market share?",
-        "bull_view": "Frequent echos are major burden for patients and healthcare system; clean safety transforms adoption",
-        "bear_view": "Mavacamten LVEF issues manageable with monitoring; efficacy matters more",
-        "what_resolves_it": "Phase 3 data and real-world adoption patterns"
+        "bull_view": "Frequent echos are major burden for patients/healthcare system; clean safety profile transforms adoption",
+        "bear_view": "Mavacamten LVEF issues are manageable with monitoring; efficacy matters more than convenience",
+        "what_resolves_it": "Phase 3 head-to-head data; real-world adoption patterns post-CMI launch"
       },
       {
         "question": "Can EDG-7500 succeed in nonobstructive HCM?",
-        "bull_view": "nHCM has zero approved treatments; clear unmet need with 88% showing improvements",
-        "bear_view": "nHCM biology less understood; regulatory path unclear",
-        "what_resolves_it": "Phase 3 nHCM trial design and FDA feedback"
+        "bull_view": "nHCM has zero approved treatments despite 400K US patients; 88% clinical improvement in Phase 2",
+        "bear_view": "nHCM biology less understood; regulatory path unclear; no precedent for approval",
+        "what_resolves_it": "FDA feedback on nHCM development path; Phase 3 nHCM trial design"
       }
     ]
   },
   "pipeline_summary": {
-    "total_programs": 1,
+    "total_programs": 2,
     "clinical_stage": 1,
     "programs": [
       {
@@ -64,27 +67,51 @@
         "stage": "Phase 2",
         "indications": "Obstructive HCM, Nonobstructive HCM",
         "ownership": "Wholly-owned",
-        "next_catalyst": "Phase 3 initiation; longer-term CIRRUS-HCM data"
+        "next_catalyst": "Longer-term CIRRUS-HCM data; Phase 3 initiation"
+      },
+      {
+        "asset": "EDG-5003",
+        "target": "Skeletal muscle",
+        "stage": "Phase 2",
+        "indications": "Duchenne Muscular Dystrophy (DMD)",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 data"
       }
     ]
   },
   "platform": {
-    "name": "Sarcomere Modulation Platform",
-    "description": "Edgewise develops novel cardiac sarcomere modulators designed to slow the rate of acto-myosin engagement and speed disengagement without inactivating the myosin motor head, providing therapeutic benefit while avoiding the systolic dysfunction seen with myosin inhibitors."
+    "name": "Muscle Disease Platform",
+    "description": "Edgewise develops precision small molecules targeting sarcomere dysfunction in cardiac and skeletal muscle diseases. The platform focuses on modulating muscle contractility without the safety liabilities of existing approaches. Lead programs target HCM (cardiac) and DMD (skeletal muscle)."
   },
   "financials": {
     "cash_position": "TBD - check latest 10-Q",
     "cash_runway": "TBD"
   },
-  "market_opportunity": {
-    "hcm_overview": {
-      "us_prevalence": "~600,000 patients with HCM in US",
-      "obstructive_hcm": "~200,000 patients (1/3 of HCM)",
-      "nonobstructive_hcm": "~400,000 patients (2/3 of HCM) - NO approved treatments"
+  "catalysts": [
+    {
+      "asset": "EDG-7500",
+      "event": "Longer-term CIRRUS-HCM data with dose optimization",
+      "timing": "2026",
+      "importance": "high"
     },
-    "competitive_context": {
-      "mavacamten": "Approved for oHCM; requires REMS with frequent echos due to LVEF risk",
-      "aficamten": "Approved/launching for oHCM; also myosin inhibitor with LVEF concerns"
+    {
+      "asset": "EDG-7500",
+      "event": "Phase 3 trial initiation",
+      "timing": "TBD",
+      "importance": "critical"
+    },
+    {
+      "asset": "EDG-5003",
+      "event": "Phase 2 DMD data",
+      "timing": "TBD",
+      "importance": "high"
     }
+  ],
+  "market_opportunity": {
+    "hcm_total_us": "~600,000 patients",
+    "ohcm_us": "~200,000 patients (approved therapies: mavacamten, aficamten)",
+    "nhcm_us": "~400,000 patients (NO approved therapies)",
+    "cmi_market": "$2-4B estimated peak class sales",
+    "competitive_context": "Mavacamten $89,500/year with REMS; aficamten launching; both only for oHCM"
   }
 }
