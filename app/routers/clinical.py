@@ -2133,6 +2133,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     prev_name = prev_asset.get("name", "") if prev_asset else ""
     next_name = next_asset.get("name", "") if next_asset else ""
 
+    # Extract peak sales estimates (can't use {} in f-strings)
+    peak_sales = market.get("peak_sales_estimate", {}) if isinstance(market.get("peak_sales_estimate"), dict) else {}
+    peak_bull = peak_sales.get("bull_case", "") if peak_sales else ""
+    peak_base = peak_sales.get("base_case", "") if peak_sales else ""
+
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2942,8 +2947,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                             {f'<div class="market-item"><div class="label">Current Penetration</div><div class="value">{market.get("current_penetration", "")}</div></div>' if market.get("current_penetration") else ''}
                             {f'<div class="market-item"><div class="label">Oral Preference</div><div class="value">{market.get("oral_preference", "")}</div></div>' if market.get("oral_preference") else ''}
                             {f'<div class="market-item full highlight"><div class="label">Competitive Advantage</div><div class="value">{market.get("competitive_advantage", "")}</div></div>' if market.get("competitive_advantage") else ''}
-                            {f'<div class="market-item"><div class="label">Peak Sales (Bull)</div><div class="value">{market.get("peak_sales_estimate", {{}}).get("bull_case", "")}</div></div>' if isinstance(market.get("peak_sales_estimate"), dict) else ''}
-                            {f'<div class="market-item"><div class="label">Peak Sales (Base)</div><div class="value">{market.get("peak_sales_estimate", {{}}).get("base_case", "")}</div></div>' if isinstance(market.get("peak_sales_estimate"), dict) else ''}
+                            {f'<div class="market-item"><div class="label">Peak Sales (Bull)</div><div class="value">{peak_bull}</div></div>' if peak_bull else ''}
+                            {f'<div class="market-item"><div class="label">Peak Sales (Base)</div><div class="value">{peak_base}</div></div>' if peak_base else ''}
                         </div>
                     </div>
                 </div>
