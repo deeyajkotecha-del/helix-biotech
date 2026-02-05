@@ -118,7 +118,6 @@ from app.pages import (
     generate_companies_page,
     generate_targets_page,
     generate_target_detail_page,
-    generate_kols_page,
     generate_about_page,
     generate_company_detail,
     generate_glp1_report,
