@@ -1030,7 +1030,7 @@ def _generate_companies_list_html(companies: list, taxonomy: dict, filters: dict
             </div>
             <div class="company-notes">{notes}</div>
             <div class="company-footer">
-                <span class="market-cap">${c.get('market_cap_mm', 'N/A')}M</span>
+                <span class="market-cap">{_format_market_cap(c.get('market_cap_mm'))}</span>
                 <span class="priority badge {priority}">{priority.title()}</span>
             </div>
         </a>'''

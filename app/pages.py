@@ -882,11 +882,11 @@ def generate_target_detail_page(slug: str):
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
         @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
-        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
-        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
-        .bull-box h3 {{ color: #059669; margin-bottom: 16px; }}
-        .bear-box h3 {{ color: #dc2626; margin-bottom: 16px; }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; margin-bottom: 16px; }}
+        .bear-box h3 {{ color: #1a2b3c; margin-bottom: 16px; }}
         .thesis-list {{ list-style: none; padding: 0; margin: 0; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
@@ -1086,11 +1086,11 @@ def generate_glp1_report():
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
         @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
-        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
-        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
-        .bull-box h3 {{ color: #059669; }}
-        .bear-box h3 {{ color: #dc2626; }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; }}
+        .bear-box h3 {{ color: #1a2b3c; }}
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
@@ -1392,11 +1392,11 @@ def generate_tl1a_report():
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
         @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
-        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
-        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
-        .bull-box h3 {{ color: #059669; }}
-        .bear-box h3 {{ color: #dc2626; }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; }}
+        .bear-box h3 {{ color: #1a2b3c; }}
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
@@ -1616,11 +1616,11 @@ def generate_b7h3_report():
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
         @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
-        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
-        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
-        .bull-box h3 {{ color: #059669; }}
-        .bear-box h3 {{ color: #dc2626; }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; }}
+        .bear-box h3 {{ color: #1a2b3c; }}
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
@@ -1837,11 +1837,11 @@ def generate_kras_report():
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
         @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
-        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
-        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
-        .bull-box h3 {{ color: #059669; }}
-        .bear-box h3 {{ color: #dc2626; }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; }}
+        .bear-box h3 {{ color: #1a2b3c; }}
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
@@ -2166,11 +2166,11 @@ def generate_arwr_thesis():
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
         @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
-        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
-        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
-        .bull-box h3 {{ color: #059669; }}
-        .bear-box h3 {{ color: #dc2626; }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; }}
+        .bear-box h3 {{ color: #1a2b3c; }}
         .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
         .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; }}
         .thesis-list li:last-child {{ border-bottom: none; }}
