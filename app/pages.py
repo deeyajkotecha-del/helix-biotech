@@ -253,8 +253,8 @@ def generate_company_card(company):
         priority_class = f"priority-{priority}" if priority else ""
         priority_badge = f'<span class="priority-badge {priority_class}">{priority.upper()}</span>' if priority else ""
 
-        # Data badge
-        data_badge = '<span class="data-badge">Has Data</span>' if has_data else ""
+        # Data badge - shows checkmark for companies with detailed asset pages
+        data_badge = '<span class="data-badge">✓ Detailed</span>' if has_data else ""
 
         # Tags
         tags = []
@@ -289,9 +289,14 @@ def generate_companies_page():
     # Load companies from index.json - SINGLE SOURCE OF TRUTH
     companies = load_companies_from_index()
 
-    # Sort by priority (high > medium > low) then by ticker
+    # Sort by: 1) has_data first, 2) priority, 3) ticker
+    # Companies with detailed asset data appear at top
     priority_order = {"high": 0, "medium": 1, "low": 2, "": 3}
-    companies.sort(key=lambda c: (priority_order.get(c.get("priority", "").lower(), 3), c.get("ticker", "")))
+    companies.sort(key=lambda c: (
+        0 if c.get("has_data", False) else 1,  # has_data first
+        priority_order.get(c.get("priority", "").lower(), 3),  # then priority
+        c.get("ticker", "")  # then alphabetical
+    ))
 
     # Group by development stage
     stage_categories = {
@@ -335,8 +340,24 @@ def generate_companies_page():
     # Calculate total before building sections (companies gets reassigned in loop)
     total_count = len(companies)
 
-    # Build sections by stage
+    # Build sections starting with "Has Detailed Data" at top
     sections_html = ""
+
+    # FIRST: Featured section for companies with detailed data
+    detailed_companies = [c for c in companies if c.get("has_data", False)]
+    if detailed_companies:
+        cards_html = ''.join([generate_company_card(c) for c in detailed_companies])
+        sections_html += f'''
+        <section class="section" id="has-detailed-data">
+            <div class="section-header">
+                <h2 class="section-title">Featured: Detailed Analysis Available</h2>
+                <span class="section-count">{len(detailed_companies)}</span>
+            </div>
+            <div class="cards-grid">{cards_html}</div>
+        </section>
+        '''
+
+    # THEN: Regular sections by stage
     for stage_id, stage_name in stage_categories.items():
         stage_companies = by_stage.get(stage_id, [])
         if not stage_companies:
@@ -380,12 +401,12 @@ def generate_companies_page():
         .search-input {{ width: 100%; max-width: 500px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }}
         .search-input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }}
         .results-count {{ color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }}
-        /* New badges for index.json data */
-        .data-badge {{ background: #c6f6d5; color: #22543d; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; margin-left: 8px; }}
-        .priority-badge {{ padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }}
-        .priority-badge.priority-high {{ background: #fed7d7; color: #c53030; }}
-        .priority-badge.priority-medium {{ background: #fefcbf; color: #975a16; }}
-        .priority-badge.priority-low {{ background: #e2e8f0; color: #4a5568; }}
+        /* Badges - consistent neutral styling */
+        .data-badge {{ background: var(--navy); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-left: 8px; }}
+        .priority-badge {{ padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: #e5e7eb; color: #374151; }}
+        .priority-badge.priority-high {{ background: var(--navy); color: white; }}
+        .priority-badge.priority-medium {{ background: #e5e7eb; color: #374151; }}
+        .priority-badge.priority-low {{ background: #f3f4f6; color: #6b7280; }}
     </style>
 </head>
 <body>
