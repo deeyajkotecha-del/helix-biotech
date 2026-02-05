@@ -1377,6 +1377,73 @@ def _generate_companies_list_html(companies: list, taxonomy: dict, filters: dict
 </html>'''
 
 
+def _format_tag_label(tag: str) -> str:
+    """Format tag from snake_case to Title Case. e.g. 'mid_clinical' -> 'Mid Clinical'"""
+    if not tag:
+        return ""
+    return tag.replace("_", " ").title()
+
+
+def _format_market_cap(value) -> str:
+    """Format market cap - handle both numeric and pre-formatted string values."""
+    if not value or value == 0:
+        return "N/A"
+    # If it's already a string with $ or B, return as-is
+    if isinstance(value, str):
+        # Remove any existing $ prefix for consistency, then add it back
+        clean = value.strip()
+        if clean.startswith("$"):
+            return clean  # Already formatted like "$3.5B"
+        return f"${clean}"
+    # If numeric, format it
+    if isinstance(value, (int, float)):
+        if value >= 1000:
+            return f"${value/1000:.1f}B"
+        return f"${value:.0f}M"
+    return str(value)
+
+
+def _simplify_stage(stage: str) -> str:
+    """Simplify long stage descriptions to short pills.
+    e.g. 'IND-enabling complete; Phase 1 expected 2026' -> 'IND-enabling'
+    """
+    if not stage:
+        return ""
+    stage_lower = stage.lower()
+
+    # Check for known stage keywords and return short version
+    if "approved" in stage_lower:
+        return "Approved"
+    if "phase 3" in stage_lower or "phase3" in stage_lower or "ph3" in stage_lower:
+        return "Phase 3"
+    if "phase 2b" in stage_lower:
+        return "Phase 2b"
+    if "phase 2a" in stage_lower:
+        return "Phase 2a"
+    if "phase 2" in stage_lower or "phase2" in stage_lower or "ph2" in stage_lower:
+        return "Phase 2"
+    if "phase 1b" in stage_lower:
+        return "Phase 1b"
+    if "phase 1" in stage_lower or "phase1" in stage_lower or "ph1" in stage_lower:
+        return "Phase 1"
+    if "ind-enabling" in stage_lower or "ind enabling" in stage_lower:
+        return "IND-enabling"
+    if "ind" in stage_lower and "filed" in stage_lower:
+        return "IND Filed"
+    if "preclinical" in stage_lower:
+        return "Preclinical"
+    if "discovery" in stage_lower:
+        return "Discovery"
+
+    # If stage is long (has semicolon or >20 chars), take first part
+    if ";" in stage:
+        return stage.split(";")[0].strip()
+    if len(stage) > 25:
+        return stage[:20].strip() + "..."
+
+    return stage
+
+
 def _generate_company_overview_html(data: dict) -> str:
     """Generate company overview page HTML."""
     ticker = data.get("ticker", "")
@@ -1418,11 +1485,13 @@ def _generate_company_overview_html(data: dict) -> str:
                 break
 
         target_key = str(target_name).upper().replace(" ", "_") if target_name else ""
+        # Simplify stage for clean badge display
+        simple_stage = _simplify_stage(stage)
         pipeline_rows += f'''
         <tr>
             <td><a href="/api/clinical/companies/{ticker}/assets/{asset_slug}/html" class="asset-link">{asset_name}</a></td>
             <td><a href="/api/clinical/targets/{target_key}/html" class="target-link">{target_name}</a></td>
-            <td><span class="badge stage">{stage}</span></td>
+            <td><span class="badge stage">{simple_stage}</span></td>
             <td>{lead_ind}</td>
             <td class="catalyst-cell">{next_catalyst or '<span class="no-data">—</span>'}</td>
         </tr>'''
@@ -1468,6 +1537,19 @@ def _generate_company_overview_html(data: dict) -> str:
                 <div class="status">{p.get('status', '')}</div>
             </div>'''
 
+    # Build unique, formatted tags - avoid duplicates
+    raw_tags = [
+        classification.get('development_stage', ''),
+        classification.get('modality', ''),
+        classification.get('therapeutic_area', ''),
+    ]
+    seen_tags = set()
+    tags_html = ""
+    for tag in raw_tags:
+        if tag and tag not in seen_tags:
+            seen_tags.add(tag)
+            tags_html += f'<span class="badge">{_format_tag_label(tag)}</span>'
+
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1475,18 +1557,24 @@ def _generate_company_overview_html(data: dict) -> str:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{ticker} - {name} | Company Overview</title>
     <style>
+        /* Satya Bio color palette - matches asset pages */
         :root {{
-            --primary: #1a365d;
-            --primary-light: #2c5282;
-            --accent: #3182ce;
-            --bull: #38a169;
-            --bear: #e53e3e;
-            --warning: #d69e2e;
-            --bg: #f7fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text: #2d3748;
-            --text-muted: #718096;
+            --navy: #1a2b3c;
+            --coral: #e07a5f;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-border: #e2e5e9;
+            --gray-text: #6b7280;
+            --text-primary: #374151;
+            /* Legacy aliases */
+            --primary: var(--navy);
+            --primary-light: #2d4a5e;
+            --accent: var(--coral);
+            --bg: var(--gray-light);
+            --card-bg: var(--white);
+            --border: var(--gray-border);
+            --text: var(--text-primary);
+            --text-muted: var(--gray-text);
         }}
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
         body {{
@@ -1521,12 +1609,12 @@ def _generate_company_overview_html(data: dict) -> str:
             padding: 24px;
         }}
 
-        /* Header */
+        /* Header - clean navy, no gradients */
         .header {{
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
+            background: var(--navy);
+            color: var(--white);
             padding: 32px;
-            border-radius: 12px;
+            border-radius: 0;
             margin-bottom: 24px;
         }}
         .header-top {{
@@ -1569,22 +1657,20 @@ def _generate_company_overview_html(data: dict) -> str:
             font-weight: 600;
         }}
 
-        /* Tags */
+        /* Tags - subtle pills */
         .tags {{
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }}
         .badge {{
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            background: rgba(255,255,255,0.2);
-        }}
-        .badge.stage {{
-            background: var(--accent);
-            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.9);
         }}
 
         /* Cards */
@@ -1621,14 +1707,15 @@ def _generate_company_overview_html(data: dict) -> str:
             opacity: 0.9;
         }}
         .core-thesis {{
-            background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
-            border: 1px solid #bee3f8;
-            border-radius: 8px;
+            background: var(--white);
+            border: 1px solid var(--gray-border);
+            border-left: 3px solid var(--coral);
+            border-radius: 0;
             padding: 16px 20px;
             margin-bottom: 20px;
             font-size: 0.95rem;
             line-height: 1.6;
-            color: var(--primary);
+            color: var(--text-primary);
         }}
         .thesis-grid {{
             display: grid;
@@ -1640,15 +1727,15 @@ def _generate_company_overview_html(data: dict) -> str:
         }}
         .thesis-column {{
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 0;
+            background: var(--white);
+            border: 1px solid var(--gray-border);
         }}
         .thesis-column.bull {{
-            background: #f0fff4;
-            border: 1px solid #9ae6b4;
+            border-left: 2px solid var(--coral);
         }}
         .thesis-column.bear {{
-            background: #fff5f5;
-            border: 1px solid #feb2b2;
+            border-left: 2px solid var(--navy);
         }}
         .thesis-column h3 {{
             font-size: 1rem;
@@ -1657,8 +1744,8 @@ def _generate_company_overview_html(data: dict) -> str:
             align-items: center;
             gap: 8px;
         }}
-        .thesis-column.bull h3 {{ color: var(--bull); }}
-        .thesis-column.bear h3 {{ color: var(--bear); }}
+        .thesis-column.bull h3 {{ color: var(--coral); }}
+        .thesis-column.bear h3 {{ color: var(--navy); }}
         .thesis-column ul {{
             list-style: none;
         }}
@@ -1672,8 +1759,8 @@ def _generate_company_overview_html(data: dict) -> str:
             position: absolute;
             left: 0;
         }}
-        .thesis-column.bull li::before {{ color: var(--bull); }}
-        .thesis-column.bear li::before {{ color: var(--bear); }}
+        .thesis-column.bull li::before {{ color: var(--coral); }}
+        .thesis-column.bear li::before {{ color: var(--navy); }}
         .thesis-column li strong {{
             display: block;
             margin-bottom: 4px;
@@ -1683,25 +1770,37 @@ def _generate_company_overview_html(data: dict) -> str:
             color: var(--text-muted);
         }}
 
-        /* Pipeline Table */
+        /* Pipeline Table - Bloomberg style */
         .pipeline-table {{
             width: 100%;
             border-collapse: collapse;
         }}
         .pipeline-table th, .pipeline-table td {{
-            padding: 16px;
+            padding: 12px 16px;
             text-align: left;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--gray-border);
         }}
         .pipeline-table th {{
-            background: var(--bg);
-            font-size: 0.8rem;
+            background: var(--navy);
+            color: var(--white);
+            font-size: 0.75rem;
             text-transform: uppercase;
-            color: var(--text-muted);
             font-weight: 600;
+            letter-spacing: 0.3px;
+        }}
+        .pipeline-table tbody tr:nth-child(even) {{
+            background: var(--gray-light);
         }}
         .pipeline-table tr:hover {{
-            background: #fafafa;
+            background: #f0f4f8;
+        }}
+        .pipeline-table .badge.stage {{
+            background: var(--gray-light);
+            color: var(--navy);
+            border: 1px solid var(--gray-border);
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: 3px;
         }}
         .asset-link {{
             color: var(--accent);
@@ -1772,16 +1871,14 @@ def _generate_company_overview_html(data: dict) -> str:
                     <div class="ticker">{ticker} · {classification.get('exchange', 'NASDAQ')}</div>
                 </div>
                 <div class="tags">
-                    <span class="badge">{classification.get('development_stage', '')}</span>
-                    <span class="badge">{classification.get('modality', '')}</span>
-                    <span class="badge">{classification.get('therapeutic_area', '')}</span>
+                    {tags_html}
                 </div>
             </div>
             <p class="description">{company.get('description', '')}</p>
             <div class="snapshot">
                 <div class="snapshot-item">
                     <div class="label">Market Cap</div>
-                    <div class="value">${data.get('market_cap_mm', 'N/A')}M</div>
+                    <div class="value">{_format_market_cap(data.get('market_cap_mm'))}</div>
                 </div>
                 <div class="snapshot-item">
                     <div class="label">Cash Runway</div>
