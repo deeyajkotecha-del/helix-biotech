@@ -1,7 +1,135 @@
 """Clinical data API router - data-driven from JSON files."""
+import re
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import HTMLResponse
+
+# =============================================================================
+# GLOBAL MEDICAL ACRONYM CAPITALIZATION
+# =============================================================================
+
+MEDICAL_ACRONYMS = [
+    # Disease/Condition acronyms
+    "HCM", "oHCM", "nHCM", "NSCLC", "SCLC", "CML", "AML", "ALL", "NHL", "CLL",
+    "DLBCL", "MDS", "MPD", "MPN", "GIST", "RCC", "HCC", "CRC", "TNBC", "HR+",
+    "HER2", "EGFR", "ALK", "ROS1", "BRAF", "KRAS", "NRAS", "MET", "RET", "NTRK",
+    "IDH1", "IDH2", "FLT3", "BCR-ABL", "JAK2", "MPL", "CALR", "TP53", "BRCA",
+    "MSI", "TMB", "PD-L1", "FGFR", "PIK3CA", "PTEN", "mCRPC", "CRPC", "AD", "UC",
+    "IBS", "IBD", "RA", "SLE", "MS", "ALS", "PD", "HD", "DMD", "SMA", "CF",
+    "COPD", "IPF", "PAH", "CHF", "AF", "VTE", "DVT", "PE", "CAD", "MI", "HF",
+    "T2D", "T1D", "CKD", "ESRD", "NASH", "NAFLD", "HBV", "HCV", "HIV", "RSV",
+    "CMV", "EBV", "HPV", "HSV", "COVID", "SARS", "MERS", "TB", "UTI", "MRSA",
+    "MG", "gMG", "CIDP", "MMN", "ITP", "TTP", "HUS", "PNH", "IgAN",
+    # Cardiac/HCM specific
+    "LVEF", "LVOT", "NYHA", "NT-proBNP", "BNP", "LAVI", "LV", "LA", "RV", "RA",
+    "EF", "SRT", "ICD", "CRT", "ECMO", "LVAD", "PCI", "CABG", "TAVR", "TAVI",
+    # Clinical/Regulatory
+    "FDA", "EMA", "PMDA", "NMPA", "NDA", "BLA", "sNDA", "sBLA", "MAA", "IND",
+    "REMS", "BTD", "PRIME", "ODD", "PRV", "SPA", "PDUFA", "AdCom", "CRL",
+    "ORR", "CR", "PR", "SD", "PD", "PFS", "OS", "DFS", "EFS", "TTP", "TTR",
+    "DOR", "DoR", "DCR", "CBR", "MRD", "pCR", "ORR", "BOR",
+    "AE", "SAE", "TEAE", "DLT", "MTD", "RP2D", "QoL", "PRO", "HRQoL",
+    "MCID", "MMRM", "ITT", "mITT", "PP", "LOCF", "NRI",
+    # Drug classes/mechanisms
+    "CMI", "TKI", "mAb", "ADC", "CAR-T", "BiTE", "TCE", "PROTAC", "SMDC",
+    "PPI", "SSRI", "SNRI", "NSAID", "ACE", "ARB", "DPP4", "SGLT2", "GLP-1",
+    "PD-1", "PD-L1", "CTLA-4", "LAG-3", "TIM-3", "TIGIT", "CD19", "CD20",
+    "CD22", "CD33", "CD38", "BCMA", "FcRn", "C5", "C2", "IL-6", "IL-17",
+    "IL-23", "TNF", "JAK", "BTK", "SYK", "PI3K", "mTOR", "CDK", "PARP",
+    "HDAC", "BET", "BCL-2", "MCL-1", "MDM2", "KRAS", "SHP2", "SOS1",
+    # Biomarkers/Endpoints
+    "KCCQ", "CSS", "OSS", "EASI", "IGA", "SCORAD", "DLQI", "SF-36", "EQ-5D",
+    "MG-ADL", "QMG", "MGC", "MGII", "INCAT", "ONLS", "mRS", "EDSS",
+    "HAQ", "DAS28", "ACR", "PASI", "BSA", "PGA", "VAS",
+    "pVO2", "VO2", "6MWD", "6MWT", "FVC", "FEV1", "DLCO", "SpO2",
+    "eGFR", "GFR", "CrCl", "BUN", "ALT", "AST", "ALP", "GGT", "INR", "PT",
+    "PTT", "aPTT", "WBC", "RBC", "Hgb", "Hct", "PLT", "ANC", "ALC",
+    "CRP", "ESR", "PCT", "LDH", "CPK", "CK", "PSA", "AFP", "CEA", "CA-125",
+    "HbA1c", "A1c", "FPG", "OGTT", "TG", "TC", "LDL", "HDL", "VLDL",
+    # Study/Statistics
+    "RCT", "OLE", "EAP", "CUP", "IIT", "IST", "NIS", "RWE", "RWD",
+    "HR", "OR", "RR", "ARR", "NNT", "CI", "SD", "SEM", "IQR", "p-value",
+    "NS", "vs", "N/A", "TBD", "TBA", "EOT", "EOS", "SOC", "BSC",
+    # Other
+    "US", "EU", "UK", "JP", "CN", "ROW", "WW", "IP", "NCE", "API", "DP",
+    "PK", "PD", "ADME", "DMPK", "IV", "SC", "IM", "PO", "QD", "BID", "TID",
+    "QW", "Q2W", "Q4W", "PRN", "BMI", "BSA", "AUC", "Cmax", "Cmin", "Tmax",
+]
+
+def capitalize_medical_terms(text: str) -> str:
+    """Capitalize medical acronyms in text while preserving case of non-acronyms."""
+    if not text:
+        return text
+
+    # Sort by length (longest first) to avoid partial replacements
+    sorted_acronyms = sorted(MEDICAL_ACRONYMS, key=len, reverse=True)
+
+    for acronym in sorted_acronyms:
+        # Create case-insensitive pattern with word boundaries
+        pattern = r'\b' + re.escape(acronym.lower()) + r'\b'
+        text = re.sub(pattern, acronym, text, flags=re.IGNORECASE)
+
+    return text
+
+def get_stage_priority(stage: str) -> int:
+    """Get numeric priority for development stage (lower = more advanced)."""
+    if not stage:
+        return 99
+    stage_lower = stage.lower().strip()
+    stage_order = {
+        'approved': 1,
+        'launched': 1,
+        'marketed': 1,
+        'bla filed': 2,
+        'nda filed': 2,
+        'maa filed': 2,
+        'submitted': 2,
+        'under review': 2,
+        'phase 3': 3,
+        'pivotal': 3,
+        'registrational': 3,
+        'phase 2/3': 3,
+        'phase 2b': 4,
+        'phase 2': 4,
+        'phase 1/2': 5,
+        'phase 1b': 5,
+        'phase 1': 6,
+        'ind filed': 7,
+        'ind-enabling': 7,
+        'ind enabling': 7,
+        'preclinical': 8,
+        'pre-clinical': 8,
+        'discovery': 9,
+    }
+    # Check for partial matches
+    for key, priority in stage_order.items():
+        if key in stage_lower:
+            return priority
+    return 99
+
+def get_drug_class(modality: str) -> str:
+    """Extract drug class from modality string."""
+    modality_lower = modality.lower() if modality else ""
+    if "degrader" in modality_lower or "protac" in modality_lower:
+        return "Degrader"
+    elif "modulator" in modality_lower:
+        return "Modulator"
+    elif "inhibitor" in modality_lower:
+        return "Inhibitor"
+    elif "agonist" in modality_lower:
+        return "Agonist"
+    elif "antagonist" in modality_lower:
+        return "Antagonist"
+    elif "antibody" in modality_lower or "mab" in modality_lower:
+        return "Antibody"
+    elif "adc" in modality_lower:
+        return "ADC"
+    elif "car-t" in modality_lower or "car t" in modality_lower:
+        return "CAR-T"
+    elif "small molecule" in modality_lower:
+        return "Small Molecule"
+    else:
+        return ""
 
 from app.services.clinical.extractor import (
     generate_clinical_summary_for_asset,
@@ -1497,7 +1625,7 @@ def _generate_company_overview_html(data: dict) -> str:
 </head>
 <body>
     <div class="breadcrumb">
-        <a href="/api/clinical/companies">Companies</a>
+        <a href="/api/clinical/companies/html">Companies</a>
         <span>›</span>
         <strong>{ticker}</strong>
     </div>
@@ -1590,6 +1718,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     mechanism_data = asset.get("mechanism", {})
     stage = asset.get("stage", "")
     modality = asset.get("modality", "")
+    drug_class = get_drug_class(modality)
+    # Create short modality for header (remove redundant "small molecule" prefix if present)
+    short_modality = modality
+    if short_modality.lower().startswith("small molecule "):
+        short_modality = short_modality[15:].strip()  # Remove "small molecule "
+    short_modality = capitalize_medical_terms(short_modality)
     indications_data = asset.get("indications", {})
     market = asset.get("market_opportunity", {})
     clinical_data = asset.get("clinical_data", {})
@@ -2459,11 +2593,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         sections_html = ""
         for section_key, section_data in disease_background.items():
             if isinstance(section_data, dict):
-                section_title = section_key.replace("_", " ").title()
+                section_title = capitalize_medical_terms(section_key.replace("_", " ").title())
                 items_html = ""
                 for key, value in section_data.items():
-                    label = key.replace("_", " ").title()
-                    items_html += f'<div class="detail-row"><strong>{label}:</strong> {value}</div>'
+                    label = capitalize_medical_terms(key.replace("_", " ").title())
+                    value_str = capitalize_medical_terms(str(value)) if isinstance(value, str) else str(value)
+                    items_html += f'<div class="detail-row"><strong>{label}:</strong> {value_str}</div>'
                 sections_html += f'''
                 <div class="disease-section">
                     <h4>{section_title}</h4>
@@ -2486,30 +2621,32 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         treatment_sections = ""
         for therapy_key, therapy_data in current_treatment.items():
             if isinstance(therapy_data, dict):
-                therapy_title = therapy_key.replace("_", " ").title()
+                therapy_title = capitalize_medical_terms(therapy_key.replace("_", " ").title())
 
                 # Build therapy details
                 details_html = ""
                 for key, value in therapy_data.items():
                     if isinstance(value, dict):
                         # Nested drug info (like mavacamten, aficamten)
-                        drug_name = key.replace("_", " ").title()
+                        drug_name = capitalize_medical_terms(key.replace("_", " ").title())
                         drug_details = ""
                         for dk, dv in value.items():
-                            label = dk.replace("_", " ").title()
-                            drug_details += f'<div class="drug-detail"><strong>{label}:</strong> {dv}</div>'
+                            label = capitalize_medical_terms(dk.replace("_", " ").title())
+                            dv_str = capitalize_medical_terms(str(dv)) if isinstance(dv, str) else str(dv)
+                            drug_details += f'<div class="drug-detail"><strong>{label}:</strong> {dv_str}</div>'
                         details_html += f'''
                         <div class="nested-drug" style="margin: 12px 0; padding: 12px; background: white; border-radius: 6px;">
                             <h5 style="color: #4a5568; margin-bottom: 8px;">{drug_name}</h5>
                             {drug_details}
                         </div>'''
                     elif isinstance(value, list):
-                        label = key.replace("_", " ").title()
-                        list_items = "".join(f'<li>{item}</li>' for item in value)
+                        label = capitalize_medical_terms(key.replace("_", " ").title())
+                        list_items = "".join(f'<li>{capitalize_medical_terms(str(item))}</li>' for item in value)
                         details_html += f'<div class="detail-row"><strong>{label}:</strong><ul style="margin: 4px 0 0 20px;">{list_items}</ul></div>'
                     else:
-                        label = key.replace("_", " ").title()
-                        details_html += f'<div class="detail-row"><strong>{label}:</strong> {value}</div>'
+                        label = capitalize_medical_terms(key.replace("_", " ").title())
+                        value_str = capitalize_medical_terms(str(value)) if isinstance(value, str) else str(value)
+                        details_html += f'<div class="detail-row"><strong>{label}:</strong> {value_str}</div>'
 
                 treatment_sections += f'''
                 <div class="therapy-section" style="margin-bottom: 20px; padding: 16px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0;">
@@ -2533,11 +2670,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     if asset_differentiation:
         diff_items = ""
         for key, value in asset_differentiation.items():
-            label = key.replace("_", " ").replace("vs ", "vs. ").title()
+            label = capitalize_medical_terms(key.replace("_", " ").replace("vs ", "vs. ").title())
+            value_str = capitalize_medical_terms(str(value)) if isinstance(value, str) else str(value)
             diff_items += f'''
             <div class="diff-item" style="padding: 12px; background: #f0fff4; border-radius: 6px; border-left: 3px solid #38a169;">
                 <strong style="color: #276749;">{label}</strong>
-                <p style="margin: 4px 0 0 0;">{value}</p>
+                <p style="margin: 4px 0 0 0;">{value_str}</p>
             </div>'''
         if diff_items:
             differentiation_html = f'''
@@ -2585,6 +2723,22 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     next_slug = next_asset.get("name", "").lower().replace("-", "").replace(" ", "_") if next_asset else ""
     prev_name = prev_asset.get("name", "") if prev_asset else ""
     next_name = next_asset.get("name", "") if next_asset else ""
+
+    # Build sidebar "Other Assets" list - all assets for this company sorted by stage
+    all_company_assets = company_data.get("assets", [])
+    # Sort by stage priority (most advanced first)
+    sorted_assets = sorted(all_company_assets, key=lambda a: get_stage_priority(a.get("stage", "")))
+    # Build HTML list, excluding current asset
+    other_assets_html = ""
+    for a in sorted_assets:
+        a_name = a.get("name", "")
+        if a_name.lower() == asset_name.lower():
+            continue  # Skip current asset
+        a_slug = a_name.lower().replace("-", "").replace(" ", "_")
+        a_stage = a.get("stage", "")
+        # Format stage for display (e.g., "Phase 2" -> "Ph2")
+        stage_short = a_stage.replace("Phase ", "Ph").replace("Approved", "✓")
+        other_assets_html += f'<li><a href="/api/clinical/companies/{ticker}/assets/{a_slug}/html">{a_name} <span style="color: var(--text-muted); font-size: 0.85em;">({stage_short})</span></a></li>'
 
     # Extract peak sales estimates (can't use {} in f-strings)
     peak_sales = market.get("peak_sales_estimate", {}) if isinstance(market.get("peak_sales_estimate"), dict) else {}
@@ -3658,7 +3812,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 <body>
     <div class="sticky-header">
         <div class="breadcrumb">
-            <a href="/api/clinical/companies">Companies</a>
+            <a href="/api/clinical/companies/html">Companies</a>
             <span>›</span>
             <a href="/api/clinical/companies/{ticker}/html">{ticker}</a>
             <span>›</span>
@@ -3666,7 +3820,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         </div>
         <div class="header-badges">
             <span class="badge">{stage}</span>
-            <a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" class="badge-link"><span class="badge">{target_name} Degrader</span></a>
+            <a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" class="badge-link"><span class="badge">{target_name}{f" {drug_class}" if drug_class else ""}</span></a>
         </div>
     </div>
 
@@ -3684,15 +3838,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <li><a href="#market">Market Opportunity</a></li>
                 <li><a href="#catalysts">Catalysts</a></li>
             </ul>
-            <h3 style="margin-top: 24px;">Target</h3>
-            <ul class="sidebar-nav">
-                <li><a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html">{target_name} →</a></li>
-            </ul>
-            <h3 style="margin-top: 24px;">Other Assets</h3>
-            <ul class="sidebar-nav">
-                {f'<li><a href="/api/clinical/companies/{ticker}/assets/{prev_slug}/html">← {prev_name}</a></li>' if prev_asset else ''}
-                {f'<li><a href="/api/clinical/companies/{ticker}/assets/{next_slug}/html">{next_name} →</a></li>' if next_asset else ''}
-            </ul>
+            {f'<h3 style="margin-top: 24px;">{ticker} Assets</h3><ul class="sidebar-nav">{other_assets_html}</ul>' if other_assets_html else ''}
         </nav>
 
         <main class="main">
@@ -3701,7 +3847,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             <section id="overview" class="section">
                 <div class="asset-header">
                     <h1>{asset_name}</h1>
-                    <div class="subtitle"><a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" style="color: white; text-decoration: underline;">{target_name}</a> Degrader · {modality}</div>
+                    <div class="subtitle"><a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" style="color: white; text-decoration: underline;">{target_name}</a> · {short_modality}</div>
                     <div class="tags">
                         <span class="badge">{stage}</span>
                         {f'<span class="badge">{asset.get("ownership", "")}</span>' if asset.get("ownership") else ''}
@@ -3713,14 +3859,13 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                         <h3>Target: <a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" style="color: var(--accent);">{target_name}</a></h3>
                         {f'<div class="detail-row"><strong>Full Name</strong>{target_full}</div>' if target_full else ''}
                         {f'<div class="detail-row"><strong>Pathway</strong>{target_pathway}</div>' if target_pathway else ''}
-                        {f'<div class="detail-row"><strong>Biology</strong>{target_biology}</div>' if target_biology else ''}
-                        {f'<div class="genetic-highlight"><strong>Genetic Validation</strong><br>{target_genetic}</div>' if target_genetic else ''}
+                        {f'<div class="detail-row"><a href="#target" style="color: var(--accent);">See Target Biology →</a></div>' if target_biology else ''}
                     </div>
                     <div class="overview-card mechanism">
                         <h3>Mechanism of Action</h3>
                         {f'<div class="detail-row"><strong>Type</strong>{mech_type}</div>' if mech_type else ''}
                         {f'<div class="detail-row"><strong>Description</strong>{mech_desc}</div>' if mech_desc else ''}
-                        {f'<div class="detail-row"><strong>Why Degrader</strong>{target_why}</div>' if target_why else ''}
+                        {f'<div class="detail-row"><strong>Why This Approach</strong>{target_why}</div>' if target_why else ''}
                         {f'<div class="detail-row"><strong>Differentiation</strong>{mech_diff}</div>' if mech_diff else ''}
                     </div>
                 </div>
@@ -4248,7 +4393,7 @@ def _generate_company_html_v2(data: dict) -> str:
         <div class="asset-section">
             <button class="collapsible asset-header">
                 <span class="asset-name">{asset_name}</span>
-                <span class="badge target">{target_name} Degrader</span>
+                <span class="badge target">{target_name}{f" {drug_class}" if drug_class else ""}</span>
                 <span class="badge stage">{stage}</span>
                 {f'<span class="badge modality">{modality}</span>' if modality else ''}
             </button>
