@@ -201,6 +201,39 @@ def get_company_full(ticker: str) -> Optional[dict]:
     assets_full = []
     all_catalysts = []
 
+    # If no separate asset files, check for embedded assets in company.json
+    if not asset_names and company_data:
+        embedded_assets = company_data.get("assets", [])
+        for asset in embedded_assets:
+            # Build simplified asset object from embedded data
+            target_data = asset.get("target", {})
+            indications_raw = asset.get("indications", {})
+
+            full_asset = {
+                "name": asset.get("name", "Unknown"),
+                "one_liner": asset.get("one_liner"),
+                "target": target_data,
+                "mechanism": asset.get("mechanism", {}),
+                "modality": asset.get("modality"),
+                "partner": asset.get("partner"),
+                "ownership": asset.get("ownership"),
+                "stage": asset.get("stage", ""),
+                "lead_indication": indications_raw.get("lead", {}).get("name") if isinstance(indications_raw, dict) else "",
+                "indications": indications_raw,
+                "market_opportunity": asset.get("market_opportunity", {}),
+                "clinical_data": asset.get("clinical_data", {}),
+                "investment_analysis": asset.get("investment_analysis", {}),
+                "catalysts": asset.get("catalysts", []),
+            }
+            assets_full.append(full_asset)
+
+            # Collect catalysts
+            for catalyst in asset.get("catalysts", []):
+                if isinstance(catalyst, dict):
+                    catalyst_copy = catalyst.copy()
+                    catalyst_copy["asset"] = asset.get("name", "")
+                    all_catalysts.append(catalyst_copy)
+
     for asset_name in asset_names:
         asset_data = load_asset_data(ticker, asset_name)
         if asset_data:
@@ -346,15 +379,29 @@ def get_company_full(ticker: str) -> Optional[dict]:
             result["market_opportunity_company"] = company_data.get("market_opportunity", {})
             result["competitive_positioning"] = company_data.get("competitive_positioning", {})
         else:
-            # v1.0 schema
+            # v1.0/simplified schema (used by ARWR, etc.)
             result["company_details"] = {
                 "name": company_data.get("name"),
                 "headquarters": company_data.get("headquarters"),
                 "website": company_data.get("website"),
-                "description": company_data.get("description"),
+                "description": company_data.get("core_thesis") or company_data.get("description"),
                 "cash_runway": company_data.get("cash_runway"),
             }
-            result["investment_thesis"] = company_data.get("investment_thesis", [])
+            # Handle investment_thesis that can be dict or list
+            inv_thesis = company_data.get("investment_thesis", {})
+            if isinstance(inv_thesis, dict):
+                result["investment_thesis"] = inv_thesis
+            else:
+                result["investment_thesis"] = {"bull_case": inv_thesis, "bear_case": []}
+
+            # Pass through additional fields
+            result["core_thesis"] = company_data.get("core_thesis", "")
+            result["thesis_url"] = company_data.get("thesis_url", "")
+            result["one_liner"] = company_data.get("one_liner", "")
+
+            # Handle classification that may be at top level
+            if company_data.get("classification"):
+                result["classification"] = company_data.get("classification")
 
         result["key_risks"] = company_data.get("risks", company_data.get("key_risks", []))
         result["partnerships"] = company_data.get("partnerships", [])
@@ -362,6 +409,15 @@ def get_company_full(ticker: str) -> Optional[dict]:
         result["catalysts_2026"] = company_data.get("catalysts_2026", [])
         result["catalysts_2027"] = company_data.get("catalysts_2027", [])
         result["_metadata"] = company_data.get("_metadata", {})
+
+        # Merge company-level catalysts into all_catalysts
+        company_catalysts = company_data.get("catalysts", [])
+        for catalyst in company_catalysts:
+            if isinstance(catalyst, dict) and catalyst not in all_catalysts:
+                all_catalysts.append(catalyst)
+
+        # Update catalysts in result
+        result["catalysts"] = all_catalysts
 
     return result if (index_data or company_data) else None
 
