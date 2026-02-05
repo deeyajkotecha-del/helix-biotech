@@ -87,7 +87,6 @@ def get_nav_html(active=""):
             <nav class="nav-links">
                 <a href="/targets" {"class='active'" if active == "targets" else ""}>Targets</a>
                 <a href="/companies" {"class='active'" if active == "companies" else ""}>Companies</a>
-                <a href="/kols" {"class='active'" if active == "kols" else ""}>KOL Finder</a>
                 <a href="/about" {"class='active'" if active == "about" else ""}>About</a>
             </nav>
             <div class="nav-cta">
@@ -934,68 +933,6 @@ def generate_target_detail_page(slug: str):
                 <div class="bear-box">
                     <h3>Bear Case / Key Risks</h3>
                     <ul class="thesis-list">{bear_html}</ul>
-                </div>
-            </div>
-        </div>
-    </main>
-    <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
-    </footer>
-</body>
-</html>'''
-
-def generate_kols_page():
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOL Finder | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .search-section {{ max-width: 700px; margin: 0 auto 48px; text-align: center; }}
-        .search-box {{ position: relative; margin-top: 24px; }}
-        .search-input {{ width: 100%; padding: 18px 24px; border: 2px solid var(--border); border-radius: 14px; font-size: 1.1rem; outline: none; }}
-        .search-input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 4px rgba(224,122,95,0.15); }}
-        .search-hint {{ margin-top: 12px; color: var(--text-muted); font-size: 0.9rem; }}
-        .examples {{ margin-top: 48px; }}
-        .example-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 24px; }}
-        .example-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; }}
-        .example-card:hover {{ border-color: var(--accent); }}
-        .example-card h4 {{ color: var(--navy); margin-bottom: 8px; }}
-        .example-card p {{ color: var(--text-secondary); font-size: 0.85rem; }}
-    </style>
-</head>
-<body>
-    {get_nav_html("kols")}
-    <main class="main">
-        <div class="search-section">
-            <h1 class="page-title">Find Key Opinion Leaders</h1>
-            <p class="page-subtitle">Search by target, disease, or therapeutic area</p>
-            <div class="search-box">
-                <input type="text" class="search-input" placeholder="e.g., GLP-1 obesity, KRAS oncology, TL1A IBD...">
-            </div>
-            <p class="search-hint">Search connects to PubMed and ClinicalTrials.gov for real KOL data</p>
-        </div>
-        <div class="examples">
-            <h2 style="text-align: center; color: var(--navy);">Popular Searches</h2>
-            <div class="example-grid">
-                <div class="example-card">
-                    <h4>GLP-1 Obesity</h4>
-                    <p>Key researchers in incretin-based obesity therapeutics</p>
-                </div>
-                <div class="example-card">
-                    <h4>KRAS G12C Oncology</h4>
-                    <p>Leaders in RAS-targeted cancer therapy development</p>
-                </div>
-                <div class="example-card">
-                    <h4>TL1A Inflammatory Bowel Disease</h4>
-                    <p>Experts in next-gen IBD biologics</p>
-                </div>
-                <div class="example-card">
-                    <h4>Gene Therapy Rare Disease</h4>
-                    <p>Pioneers in AAV and gene editing therapeutics</p>
                 </div>
             </div>
         </div>

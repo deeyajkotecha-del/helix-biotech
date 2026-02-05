@@ -3,14 +3,12 @@ Biotech Intelligence Platform - Main Entry Point
 
 This is the orchestration layer that ties together:
 - 13F ownership scraping
-- KOL extraction from PubMed
 - Excel workbook generation
 - Web API (FastAPI)
 
 Usage (CLI):
     python main.py --company ABVX
     python main.py --scrape-13f
-    python main.py --find-kols "obefazimod ulcerative colitis"
 
 Usage (Web Server):
     python main.py --serve
@@ -40,7 +38,6 @@ from src.scrapers.holdings_analyzer import (
     export_to_csv,
     load_filings_from_json
 )
-from src.scrapers.pubmed_kol_extractor import PubMedKOLExtractor
 from src.excel_generator import ExcelWorkbookGenerator, CompanyData
 
 # =============================================================================
@@ -179,16 +176,6 @@ async def serve_target_detail(slug: str):
     # Fallback to main targets page if slug not found
     return HTMLResponse(generate_targets_page())
 
-@app.get("/kols", response_class=HTMLResponse)
-async def serve_kols():
-    """Serve KOL Finder page."""
-    return HTMLResponse(generate_kols_page())
-
-@app.get("/research", response_class=HTMLResponse)
-async def serve_research():
-    """Redirect to companies for now."""
-    return HTMLResponse(generate_companies_page())
-
 @app.get("/about", response_class=HTMLResponse)
 async def serve_about():
     """Serve about page."""
@@ -277,38 +264,7 @@ def analyze_13f_holdings():
     return report
 
 
-def find_kols(query: str, max_results: int = 100):
-    """Find KOLs for a given search query"""
-    print("=" * 60)
-    print(f"FINDING KOLs: {query}")
-    print("=" * 60)
-
-    extractor = PubMedKOLExtractor()
-    kols = extractor.find_kols(query, max_publications=max_results)
-
-    print(f"\nFound {len(kols)} KOLs")
-    print("\nTOP 10:")
-    print("-" * 40)
-
-    for i, kol in enumerate(kols[:10], 1):
-        email_status = "✅" if kol.email else "❌"
-        print(f"{i}. {kol.name}")
-        print(f"   {kol.institution or 'Unknown institution'}")
-        print(f"   {email_status} {kol.email or 'No email found'}")
-        print(f"   {kol.publication_count} pubs | Score: {kol.relevance_score:.1f}")
-
-    # Export
-    output_dir = Path("data/kols")
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    safe_name = query.replace(" ", "_").lower()[:50]
-    extractor.export_kols_to_csv(kols, output_dir / f"{safe_name}_kols.csv", query)
-    extractor.export_kols_to_json(kols, output_dir / f"{safe_name}_kols.json", query)
-
-    return kols
-
-
-def generate_company_workbook(ticker: str, include_kols: bool = True):
+def generate_company_workbook(ticker: str):
     """Generate an Excel workbook for a company"""
     print("=" * 60)
     print(f"GENERATING WORKBOOK: {ticker}")
@@ -381,12 +337,6 @@ def main():
         help="Analyze scraped 13F holdings"
     )
     parser.add_argument(
-        "--find-kols",
-        type=str,
-        metavar="QUERY",
-        help="Find KOLs for a search query (e.g., 'obefazimod ulcerative colitis')"
-    )
-    parser.add_argument(
         "--company",
         type=str,
         metavar="TICKER",
@@ -410,9 +360,6 @@ def main():
     elif args.analyze:
         analyze_13f_holdings()
 
-    elif args.find_kols:
-        find_kols(args.find_kols)
-
     elif args.company:
         generate_company_workbook(args.company)
 
@@ -421,27 +368,21 @@ def main():
         print("RUNNING DEMO")
         print("=" * 60)
 
-        # 1. Generate sample workbook
+        # Generate sample workbook
         from src.excel_generator import generate_sample_workbook
-        print("\n1. Generating sample Excel workbook...")
+        print("\nGenerating sample Excel workbook...")
         filepath = generate_sample_workbook()
         print(f"   Created: {filepath}")
-
-        # 2. Demo KOL search (limited)
-        print("\n2. Demo KOL search (obefazimod)...")
-        kols = find_kols("obefazimod ulcerative colitis", max_results=20)
 
         print("\n" + "=" * 60)
         print("DEMO COMPLETE")
         print("=" * 60)
         print(f"\nGenerated files in:")
         print(f"  - data/workbooks/")
-        print(f"  - data/kols/")
         print(f"\nNext steps:")
         print(f"  1. Run --scrape-13f to pull real 13F data")
-        print(f"  2. Run --find-kols 'drug indication' for any drug")
-        print(f"  3. Run --company TICKER to generate full analysis")
-        print(f"  4. Run --serve to start the web server")
+        print(f"  2. Run --company TICKER to generate full analysis")
+        print(f"  3. Run --serve to start the web server")
 
     else:
         parser.print_help()
@@ -450,7 +391,6 @@ def main():
         print("  python main.py --demo          # Run demo with sample data")
         print("  python main.py --serve         # Start web server")
         print("  python main.py --scrape-13f    # Scrape real 13F filings")
-        print("  python main.py --find-kols 'GLP-1 obesity'  # Find KOLs")
         print("=" * 60)
 
 
