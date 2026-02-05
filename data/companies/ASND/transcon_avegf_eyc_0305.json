@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "TransCon aVEGF (EYC-0305)",
+    "name": "TransCon_aVEGF_EYC-0305",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "VEGF",
     "mechanism": "TransCon anti-VEGF",
     "modality": "TransCon prodrug",
-    "partner": "Eyconis"
+    "partner": "Eyconis",
+    "stage": "Preclinical"
   },
   "clinical_development": {
     "current_stage": "Preclinical",

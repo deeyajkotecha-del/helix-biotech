@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "Palopegteriparatide (YORVIPATH\u00ae; TransCon\u00ae PTH)",
+    "name": "Palopegteriparatide_YORVIPATH_TransCon_PTH",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "PTH receptor",
     "mechanism": "Prodrug of PTH (1-34) that provides active PTH within physiological range for 24 hours per day through transient conjugation technology",
     "modality": "Prodrug using TransCon technology",
-    "partner": null
+    "partner": null,
+    "stage": "Approved"
   },
   "clinical_development": {
     "current_stage": "Approved",

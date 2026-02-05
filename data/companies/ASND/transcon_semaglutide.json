@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "TransCon semaglutide",
+    "name": "TransCon_semaglutide",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "GLP-1 receptor",
     "mechanism": "Once-monthly TransCon prodrug releasing semaglutide",
     "modality": "TransCon prodrug",
-    "partner": "Novo Nordisk"
+    "partner": "Novo Nordisk",
+    "stage": "Preclinical"
   },
   "clinical_development": {
     "current_stage": "Preclinical",

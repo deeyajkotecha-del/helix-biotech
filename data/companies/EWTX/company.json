@@ -6,6 +6,10 @@
     "data_source": "CIRRUS-HCM Phase 2 Poster (CVCT Forum Dec 2025); PMC review article (Nov 2025)",
     "extraction_date": "2026-02-04"
   },
+
+  "ticker": "EWTX",
+  "name": "Edgewise Therapeutics",
+
   "company": {
     "name": "Edgewise Therapeutics",
     "ticker": "EWTX",

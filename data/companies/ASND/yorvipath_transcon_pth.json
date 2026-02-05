@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "YORVIPATH (TransCon PTH)",
+    "name": "YORVIPATH_TransCon_PTH",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "Parathyroid hormone",
     "mechanism": "Once-daily TransCon prodrug releasing PTH",
     "modality": "TransCon prodrug",
-    "partner": null
+    "partner": null,
+    "stage": "Approved"
   },
   "clinical_development": {
     "current_stage": "Approved",

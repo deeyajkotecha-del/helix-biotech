@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "TransCon FGF-23 degrader",
+    "name": "TransCon_FGF-23_degrader",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "Fibroblast growth factor 23",
     "mechanism": "TransCon protein degrader",
     "modality": "TransCon protein degrader",
-    "partner": null
+    "partner": null,
+    "stage": "Preclinical"
   },
   "clinical_development": {
     "current_stage": "Preclinical",

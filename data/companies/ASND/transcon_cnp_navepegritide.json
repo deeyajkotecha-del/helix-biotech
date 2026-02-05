@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "TransCon CNP (navepegritide)",
+    "name": "TransCon_CNP_navepegritide",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "C-type natriuretic peptide",
     "mechanism": "Once-weekly TransCon prodrug releasing CNP for continuous exposure",
     "modality": "TransCon prodrug",
-    "partner": null
+    "partner": null,
+    "stage": "NDA Submitted"
   },
   "clinical_development": {
     "current_stage": "NDA and MAA Accepted",

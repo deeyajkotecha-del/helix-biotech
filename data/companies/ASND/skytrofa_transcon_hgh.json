@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "SKYTROFA (TransCon hGH)",
+    "name": "SKYTROFA_TransCon_hGH",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "Human growth hormone",
     "mechanism": "Once-weekly TransCon prodrug releasing hGH",
     "modality": "TransCon prodrug",
-    "partner": null
+    "partner": null,
+    "stage": "Approved"
   },
   "clinical_development": {
     "current_stage": "Approved",

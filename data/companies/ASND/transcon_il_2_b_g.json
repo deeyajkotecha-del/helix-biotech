@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "TransCon IL-2 \u03b2/\u03b3",
+    "name": "TransCon_IL-2_b_g",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "Interleukin-2",
     "mechanism": "TransCon prodrug releasing IL-2",
     "modality": "TransCon prodrug",
-    "partner": null
+    "partner": null,
+    "stage": "Phase 2"
   },
   "clinical_development": {
     "current_stage": "Phase 2",

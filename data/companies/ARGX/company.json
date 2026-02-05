@@ -6,6 +6,10 @@
     "data_source": "argenx 2026 JPM Corporate Presentation",
     "extraction_date": "2026-02-04"
   },
+
+  "ticker": "ARGX",
+  "name": "argenx",
+
   "company": {
     "name": "argenx",
     "ticker": "ARGX",

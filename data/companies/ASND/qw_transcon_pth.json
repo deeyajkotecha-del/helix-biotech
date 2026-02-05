@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "QW TransCon PTH",
+    "name": "QW_TransCon_PTH",
     "company": "Ascendis Pharma A/S",
     "ticker": "ASND",
     "target": "Parathyroid hormone",
     "mechanism": "Once-weekly TransCon prodrug designed to match YORVIPATH exposure over entire week",
     "modality": "TransCon prodrug",
-    "partner": null
+    "partner": null,
+    "stage": "Preclinical"
   },
   "clinical_development": {
     "current_stage": "Preclinical",

@@ -6,6 +6,9 @@
     "analyst_reviewed": true
   },
 
+  "ticker": "KYMR",
+  "name": "Kymera Therapeutics",
+
   "company": {
     "name": "Kymera Therapeutics",
     "ticker": "KYMR",

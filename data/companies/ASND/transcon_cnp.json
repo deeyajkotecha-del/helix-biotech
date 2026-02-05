@@ -1,12 +1,13 @@
 {
   "asset": {
-    "name": "TransCon CNP",
+    "name": "TransCon_CNP",
     "company": "Ascendis Pharma",
     "ticker": "ASND",
     "target": "C-type natriuretic peptide pathway",
     "mechanism": "CNP therapy that releases the FGFR3-induced brake, enabling complementary effect of growth hormone",
     "modality": "TransCon prodrug technology",
-    "partner": null
+    "partner": null,
+    "stage": "Phase 3"
   },
   "clinical_development": {
     "current_stage": "Phase 3",
