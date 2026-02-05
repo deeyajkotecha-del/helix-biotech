@@ -35,14 +35,6 @@ def load_target_data(slug: str):
             return json.load(f)
     return None
 
-def serve_thesis_html(ticker: str):
-    """Serve thesis HTML from data/thesis/{ticker.lower()}.html file."""
-    thesis_path = Path(__file__).parent.parent / "data" / "thesis" / f"{ticker.lower()}.html"
-    if thesis_path.exists():
-        with open(thesis_path) as f:
-            return f.read()
-    return None
-
 # Stage display labels
 STAGE_LABELS = {
     "large_cap_diversified": "Large Cap",
@@ -2102,14 +2094,14 @@ def generate_company_detail(ticker: str):
 
     tags_html = ''.join([f'<span class="tag">{tag}</span>' for tag in company.get("tags", [])])
 
-    # ARWR thesis section (only shown for ARWR)
-    arwr_thesis_section = ""
-    if company["ticker"] == "ARWR":
-        arwr_thesis_section = '''
+    # Detailed analysis section (for companies with has_data: true)
+    detailed_analysis_section = ""
+    if company.get("has_data", False) or company["ticker"] in ["ARWR", "KYMR"]:
+        detailed_analysis_section = f'''
         <div class="detail-section" style="background: linear-gradient(135deg, #fef5f3 0%, #fff 100%); border-color: var(--accent);">
-            <h2>Investment Analysis</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 16px;">Deep-dive thesis with pipeline analysis, competitive positioning, and catalyst timeline.</p>
-            <a href="/api/company/ARWR/thesis/html" style="display: inline-block; padding: 12px 24px; background: var(--accent); color: white; border-radius: 8px; font-weight: 600; text-decoration: none;">View Full Thesis &rarr;</a>
+            <h2>Detailed Asset Analysis</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">Deep-dive with pipeline analysis, clinical data, competitive positioning, and catalyst timeline.</p>
+            <a href="/api/clinical/companies/{company["ticker"]}/html" style="display: inline-block; padding: 12px 24px; background: var(--accent); color: white; border-radius: 8px; font-weight: 600; text-decoration: none;">View Full Analysis &rarr;</a>
         </div>
         '''
 
@@ -2166,7 +2158,7 @@ def generate_company_detail(ticker: str):
             <div class="tags-row" style="gap: 10px;">{tags_html}</div>
         </div>
 
-        {arwr_thesis_section}
+        {detailed_analysis_section}
 
         <a href="/companies" style="display: inline-block; margin-top: 24px; color: var(--accent);">← Back to Companies</a>
     </main>
@@ -2177,147 +2169,4 @@ def generate_company_detail(ticker: str):
 </html>'''
 
 
-def generate_arwr_thesis():
-    """Generate the ARWR investment thesis page."""
-
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARWR Investment Thesis | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
-            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
-            color: white;
-            padding: 48px 32px;
-            margin: -32px -32px 32px;
-            border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
-
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
-
-        .thesis-headline {{ font-size: 1.2rem; font-weight: 600; color: var(--navy); margin-bottom: 16px; padding: 16px; background: linear-gradient(135deg, #fef5f3 0%, #fff 100%); border-radius: 8px; border-left: 4px solid var(--accent); }}
-
-        .pipeline-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
-        .pipeline-table th {{ background: var(--navy); color: white; padding: 12px; text-align: left; }}
-        .pipeline-table td {{ padding: 12px; border-bottom: 1px solid var(--border); }}
-        .pipeline-table tr:hover {{ background: var(--bg); }}
-
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; }}
-        .bear-box h3 {{ color: #1a2b3c; }}
-        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-
-        .catalyst-timeline {{ margin-top: 20px; }}
-        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
-        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
-
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
-    </style>
-</head>
-<body>
-    {get_nav_html()}
-    <main class="main">
-        <div class="report-header">
-            <h1>Arrowhead Pharmaceuticals (ARWR)</h1>
-            <p>RNAi platform company with deep pipeline across liver, cardio, and pulmonary diseases. Key asset Plozasiran (Ionis partnership) approaching commercialization.</p>
-            <div class="report-meta">
-                <div class="meta-item"><div class="label">Market Cap</div><div class="value">$4.2B</div></div>
-                <div class="meta-item"><div class="label">Pipeline Assets</div><div class="value">15+</div></div>
-                <div class="meta-item"><div class="label">Phase 3</div><div class="value">3</div></div>
-                <div class="meta-item"><div class="label">Platform</div><div class="value">RNAi (TRiM)</div></div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Investment Thesis</h2>
-            <div class="thesis-headline">
-                Arrowhead's TRiM platform enables extra-hepatic RNAi delivery, differentiating from Alnylam's liver-focused approach. Near-term catalysts in obesity (ARO-INHBE) and approved Plozasiran provide multiple shots on goal.
-            </div>
-            <ul style="color: var(--text-secondary); line-height: 1.8; padding-left: 20px;">
-                <li><strong>Platform differentiation:</strong> TRiM enables delivery to lung, muscle, and adipose tissue — not just liver</li>
-                <li><strong>Obesity play:</strong> ARO-INHBE targets INHBE gene, a validated obesity pathway; Phase 1 data showed meaningful weight loss</li>
-                <li><strong>Plozasiran near approval:</strong> Best-in-class triglyceride reduction; partnership with Ionis for commercialization</li>
-                <li><strong>Pulmonary expansion:</strong> ARO-MUC5AC for COPD/asthma; lung delivery is significant technical achievement</li>
-                <li><strong>Amgen partnership:</strong> Cardiovascular programs with strong pharma partner</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Key Pipeline Assets</h2>
-            <table class="pipeline-table">
-                <thead>
-                    <tr><th>Asset</th><th>Target</th><th>Indication</th><th>Phase</th><th>Partner</th><th>Next Catalyst</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Plozasiran</strong></td><td>APOC3</td><td>Severe hypertriglyceridemia</td><td><span class="phase-badge">NDA Filed</span></td><td>Ionis</td><td>FDA decision 2025</td></tr>
-                    <tr><td><strong>ARO-INHBE</strong></td><td>INHBE</td><td>Obesity</td><td><span class="phase-badge">Phase 1</span></td><td>Internal</td><td>Ph1 data H2 2025</td></tr>
-                    <tr><td><strong>ARO-ANG3</strong></td><td>ANGPTL3</td><td>Dyslipidemia</td><td><span class="phase-badge">Phase 3</span></td><td>Amgen</td><td>Ph3 data 2026</td></tr>
-                    <tr><td><strong>ARO-APOC3</strong></td><td>APOC3</td><td>Cardiovascular</td><td><span class="phase-badge">Phase 3</span></td><td>Amgen</td><td>Ph3 data 2026</td></tr>
-                    <tr><td><strong>ARO-MUC5AC</strong></td><td>MUC5AC</td><td>COPD/Asthma</td><td><span class="phase-badge">Phase 1/2</span></td><td>Internal</td><td>Ph1/2 data 2025</td></tr>
-                    <tr><td><strong>ARO-DUX4</strong></td><td>DUX4</td><td>FSHD</td><td><span class="phase-badge">Phase 1/2</span></td><td>Internal</td><td>Ph1/2 data 2025</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="section">
-            <h2>Bull vs Bear</h2>
-            <div class="thesis-grid">
-                <div class="bull-box">
-                    <h3>Bull Case</h3>
-                    <ul class="thesis-list">
-                        <li>TRiM platform enables extra-hepatic delivery — differentiated from Alnylam</li>
-                        <li>ARO-INHBE is novel obesity approach; RNAi could disrupt GLP-1 market</li>
-                        <li>Plozasiran best-in-class triglyceride reduction; approval imminent</li>
-                        <li>Amgen partnership validates cardiovascular programs</li>
-                        <li>Deep pipeline provides multiple chances for success</li>
-                        <li>Pulmonary delivery opens large COPD/asthma market</li>
-                    </ul>
-                </div>
-                <div class="bear-box">
-                    <h3>Bear Case</h3>
-                    <ul class="thesis-list">
-                        <li>Alnylam dominates RNAi space with established commercial infrastructure</li>
-                        <li>ARO-INHBE obesity data still early; unclear if competitive with GLP-1s</li>
-                        <li>Cash burn remains elevated with multiple Phase 3 trials</li>
-                        <li>Execution risk on extra-hepatic delivery claims</li>
-                        <li>Partner concentration (Amgen, Ionis) creates dependency</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Upcoming Catalysts</h2>
-            <div class="catalyst-timeline">
-                <div class="catalyst-item"><div class="catalyst-date">H1 2025</div><div><strong>Plozasiran:</strong> FDA decision for severe hypertriglyceridemia</div></div>
-                <div class="catalyst-item"><div class="catalyst-date">H2 2025</div><div><strong>ARO-INHBE:</strong> Phase 1 obesity data readout</div></div>
-                <div class="catalyst-item"><div class="catalyst-date">2025</div><div><strong>ARO-MUC5AC:</strong> Phase 1/2 pulmonary data</div></div>
-                <div class="catalyst-item"><div class="catalyst-date">2026</div><div><strong>ARO-ANG3:</strong> Phase 3 cardiovascular data (Amgen)</div></div>
-                <div class="catalyst-item"><div class="catalyst-date">2026</div><div><strong>ARO-APOC3:</strong> Phase 3 cardiovascular data (Amgen)</div></div>
-            </div>
-        </div>
-
-        <a href="/api/company/ARWR/html" class="back-link">← Back to ARWR Profile</a>
-    </main>
-    <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
-    </footer>
-</body>
-</html>'''
+# Note: Legacy generate_arwr_thesis function removed - ARWR now uses standard clinical asset rendering via /api/clinical/companies/ARWR/html

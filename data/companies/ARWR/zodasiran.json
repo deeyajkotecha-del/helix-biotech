@@ -1,0 +1,193 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "ARWR Investment Thesis, Company Presentations",
+    "extraction_date": "2026-02-05",
+    "analyst_reviewed": true
+  },
+  "asset": {
+    "name": "Zodasiran",
+    "alternate_names": ["ARO-ANG3"],
+    "company": "Arrowhead Pharmaceuticals",
+    "ticker": "ARWR",
+    "stage": "Phase 2/3",
+    "modality": "RNAi (siRNA)",
+    "ownership": "Partnered with Amgen",
+    "one_liner": "Dual LDL-C and TG reduction via ANGPTL3 silencing with quarterly dosing"
+  },
+  "target": {
+    "name": "ANGPTL3",
+    "full_name": "Angiopoietin-like 3",
+    "class": "Lipid metabolism regulator",
+    "pathway": "Lipid metabolism - inhibits LPL and endothelial lipase",
+    "biology": {
+      "simple_explanation": "ANGPTL3 is a liver-secreted protein that inhibits both lipoprotein lipase (LPL) and endothelial lipase. By silencing ANGPTL3, zodasiran unleashes both enzymes, lowering BOTH triglycerides and LDL-cholesterol.",
+      "pathway_detail": "ANGPTL3 inhibits LPL (clearing TG) and endothelial lipase (clearing HDL phospholipids, affecting LDL metabolism). Loss of ANGPTL3 function leads to reduced LDL-C, TG, and paradoxically increased clearance of atherogenic lipoproteins.",
+      "downstream_effects": [
+        "65% LDL-C reduction",
+        "70% TG reduction",
+        "Reduced atherogenic lipoprotein particles"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "Evinacumab (ANGPTL3 antibody) approved for HoFH",
+      "genetic_validation": {
+        "loss_of_function": "ANGPTL3 LoF mutations associated with lower LDL, lower TGs, reduced CV events (familial combined hypolipidemia)"
+      },
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    }
+  },
+  "mechanism": {
+    "type": "RNAi (siRNA) via TRiM platform",
+    "delivery": "GalNAc-conjugated for hepatocyte targeting",
+    "how_it_works": "Zodasiran silences ANGPTL3 mRNA in hepatocytes, reducing circulating ANGPTL3 protein. This releases inhibition of LPL and endothelial lipase, enabling accelerated clearance of TG-rich and LDL particles.",
+    "potency": {
+      "ldl_c_reduction": "65%",
+      "tg_reduction": "70%"
+    },
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Homozygous Familial Hypercholesterolemia (HoFH)",
+      "patient_population": "~3,000 US patients",
+      "status": "Phase 3 recruiting",
+      "rationale": "Severe genetic dyslipidemia with inadequate LDL control despite max therapy"
+    },
+    "expansion": [
+      {
+        "name": "Mixed Dyslipidemia",
+        "patient_population": "Large",
+        "status": "Phase 2",
+        "rationale": "Dual LDL and TG reduction fills unmet need"
+      },
+      {
+        "name": "ASCVD Risk Reduction",
+        "patient_population": "Very large",
+        "status": "Early evaluation",
+        "rationale": "CV outcomes potential"
+      }
+    ],
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "clinical_data": {
+    "arches2_phase2": {
+      "trial_name": "ARCHES-2",
+      "nct_id": "NCT04832971",
+      "design": {
+        "type": "Randomized, placebo-controlled",
+        "population": "Patients with mixed dyslipidemia"
+      },
+      "results": {
+        "ldl_c_reduction": "-55%",
+        "interpretation": "Validates dual lipid-lowering mechanism"
+      },
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    },
+    "ongoing_trials": [
+      {
+        "trial_name": "Gateway",
+        "nct_id": "NCT05217667",
+        "phase": "Phase 2",
+        "indication": "Mixed dyslipidemia",
+        "status": "Active, not recruiting"
+      },
+      {
+        "trial_name": "Zodasiran Phase 3 HoFH",
+        "nct_id": "NCT07037771",
+        "phase": "Phase 3",
+        "indication": "Homozygous Familial Hypercholesterolemia",
+        "status": "Recruiting",
+        "data_expected": "2026-2027"
+      }
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "ANGPTL3 is genetically validated",
+        "evidence": "LOF mutations show low LDL, low TGs, reduced CV events",
+        "confidence": "High"
+      },
+      {
+        "point": "Dual LDL-C (65%) and TG (70%) reduction with quarterly dosing",
+        "evidence": "ARCHES-2 Phase 2 data",
+        "confidence": "High"
+      },
+      {
+        "point": "Superior to evinacumab",
+        "evidence": "65% vs 47% LDL-C reduction, quarterly SC vs monthly IV",
+        "confidence": "Medium - different patient populations"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Crowded lipid market",
+        "evidence": "Statins and PCSK9 inhibitors already available",
+        "counter_argument": "Different mechanism, additive benefit for high-risk patients"
+      },
+      {
+        "point": "Evinacumab already approved for HoFH",
+        "evidence": "Regeneron has first-mover advantage",
+        "counter_argument": "Zodasiran more efficacious, more convenient dosing"
+      },
+      {
+        "point": "Quarterly injection vs daily statin",
+        "evidence": "Convenience advantage over biologics, not oral drugs",
+        "counter_argument": "For severe patients already on injections, quarterly is improvement"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Can zodasiran demonstrate CV outcomes benefit?",
+        "bull_view": "Genetic validation strong; dual lipid lowering may be superior",
+        "bear_view": "CV outcomes trials expensive and long; may not be conducted",
+        "what_resolves_it": "Phase 3 HoFH data, potential outcomes study"
+      }
+    ]
+  },
+  "competitive_landscape": [
+    {
+      "competitor": "Evinacumab (Evkeeza)",
+      "company": "Regeneron",
+      "mechanism": "ANGPTL3 antibody",
+      "stage": "Approved (HoFH)",
+      "efficacy": "47% LDL-C reduction",
+      "differentiation": "Zodasiran shows higher efficacy (65% vs 47%), quarterly SC vs monthly IV"
+    }
+  ],
+  "catalysts": [
+    {
+      "event": "Phase 3 HoFH data",
+      "timing": "2026-2027",
+      "importance": "Critical",
+      "what_to_watch": "LDL-C reduction vs placebo in HoFH"
+    }
+  ],
+  "sources": [
+    {
+      "id": "arwr_thesis_2026",
+      "title": "ARWR Investment Thesis",
+      "type": "Internal Analysis",
+      "date": "2026-02-02"
+    },
+    {
+      "id": "clinicaltrials",
+      "title": "ClinicalTrials.gov",
+      "type": "Clinical Trial Registry",
+      "url": "https://clinicaltrials.gov/api/v2/studies"
+    }
+  ]
+}

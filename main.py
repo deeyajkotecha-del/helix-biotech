@@ -124,17 +124,13 @@ from app.pages import (
     generate_tl1a_report,
     generate_b7h3_report,
     generate_kras_report,
-    generate_arwr_thesis,
-    serve_thesis_html,
 )
+from fastapi.responses import RedirectResponse
 
 @app.get("/companies/ARWR/thesis", response_class=HTMLResponse)
 async def serve_arwr_thesis_clean():
-    """Serve ARWR investment thesis page (clean URL)."""
-    html = serve_thesis_html("ARWR")
-    if html:
-        return HTMLResponse(html)
-    return HTMLResponse(generate_arwr_thesis())
+    """Redirect ARWR thesis to new clinical company page."""
+    return RedirectResponse(url="/api/clinical/companies/ARWR/html", status_code=301)
 
 @app.get("/companies", response_class=HTMLResponse)
 async def serve_companies():
@@ -187,11 +183,8 @@ async def serve_report():
 
 @app.get("/api/company/ARWR/thesis/html", response_class=HTMLResponse)
 async def serve_arwr_thesis():
-    """Serve ARWR investment thesis page (legacy URL)."""
-    html = serve_thesis_html("ARWR")
-    if html:
-        return HTMLResponse(html)
-    return HTMLResponse(generate_arwr_thesis())
+    """Redirect legacy ARWR thesis URL to new clinical company page."""
+    return RedirectResponse(url="/api/clinical/companies/ARWR/html", status_code=301)
 
 @app.get("/api/company/{ticker}/html", response_class=HTMLResponse)
 async def serve_company_detail(ticker: str):

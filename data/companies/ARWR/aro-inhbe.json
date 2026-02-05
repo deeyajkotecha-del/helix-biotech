@@ -1,0 +1,189 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "ARWR Investment Thesis, Company Presentations",
+    "extraction_date": "2026-02-05",
+    "analyst_reviewed": true
+  },
+  "asset": {
+    "name": "ARO-INHBE",
+    "alternate_names": [],
+    "company": "Arrowhead Pharmaceuticals",
+    "ticker": "ARWR",
+    "stage": "Phase 1/2",
+    "modality": "RNAi (siRNA)",
+    "ownership": "Wholly-owned",
+    "one_liner": "Novel obesity approach with 6-9% weight loss, quarterly dosing, and no GI side effects"
+  },
+  "target": {
+    "name": "INHBE",
+    "full_name": "Inhibin Beta E",
+    "class": "TGF-beta superfamily ligand",
+    "pathway": "Activin E / ALK7 signaling in adipose tissue",
+    "biology": {
+      "simple_explanation": "INHBE forms activin E, which signals through the ALK7 receptor in adipose tissue to promote fat accumulation. By silencing INHBE, ARO-INHBE blocks activin E production, shifting energy balance toward fat oxidation and weight loss.",
+      "pathway_detail": "INHBE is secreted by the liver and forms activin E homodimers. Activin E binds ALK7 (ACVR1C) on adipocytes, activating SMAD signaling that promotes lipid storage and inhibits lipolysis.",
+      "downstream_effects": [
+        "Reduced activin E signaling",
+        "Increased fat oxidation",
+        "6-9% weight loss in Phase 1"
+      ]
+    },
+    "why_good_target": {
+      "genetic_validation": {
+        "loss_of_function": "INHBE LoF mutations associated with lower BMI and reduced obesity risk"
+      },
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    }
+  },
+  "mechanism": {
+    "type": "RNAi (siRNA) via TRiM platform",
+    "delivery": "GalNAc-conjugated for hepatocyte targeting",
+    "how_it_works": "ARO-INHBE silences INHBE mRNA in hepatocytes, reducing production of activin E. Without activin E signaling through ALK7, adipose tissue shifts from fat storage to fat oxidation, resulting in weight loss.",
+    "differentiation_vs_glp1": [
+      "Quarterly dosing vs weekly for GLP-1s",
+      "No GI side effects (nausea, vomiting) unlike GLP-1s",
+      "Novel mechanism orthogonal to incretin pathway"
+    ],
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Obesity",
+      "patient_population": "~100M US adults with obesity",
+      "status": "Phase 1/2",
+      "rationale": "Massive market with high unmet need for non-GLP-1 options"
+    },
+    "expansion": [
+      {
+        "name": "Metabolic Dysfunction",
+        "status": "Early evaluation",
+        "rationale": "Metabolic effects beyond weight loss"
+      }
+    ],
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "clinical_data": {
+    "phase1_data": {
+      "trial_name": "ARO-INHBE Phase 1/2",
+      "nct_id": "NCT06700538",
+      "results": {
+        "weight_loss": "6-9%",
+        "gi_side_effects": "None reported (unlike GLP-1s)",
+        "dosing": "Quarterly (Q12W)",
+        "interpretation": "Proof of concept established; differentiated safety profile"
+      },
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    },
+    "ongoing_trials": [
+      {
+        "trial_name": "ARO-INHBE Phase 1/2",
+        "nct_id": "NCT06700538",
+        "phase": "Phase 1/2",
+        "indication": "Obesity",
+        "status": "Recruiting"
+      }
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "Novel genetically-validated obesity target",
+        "evidence": "INHBE LoF mutations associated with lower BMI",
+        "confidence": "High"
+      },
+      {
+        "point": "Differentiated profile vs GLP-1s",
+        "evidence": "Quarterly dosing, no GI side effects",
+        "confidence": "Medium - early data"
+      },
+      {
+        "point": "ARWR retains full rights",
+        "evidence": "Wholly-owned program, no partner economics",
+        "confidence": "High"
+      },
+      {
+        "point": "Massive market opportunity",
+        "evidence": "Obesity is $50B+ market opportunity",
+        "confidence": "High if efficacy competitive"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "GLP-1s achieving 15-25% weight loss are becoming standard of care",
+        "evidence": "Wegovy: 15-17%, Zepbound: 20-25%",
+        "counter_argument": "Different mechanism, potential for combination"
+      },
+      {
+        "point": "6-9% weight loss may not be competitive",
+        "evidence": "Less than half of GLP-1 efficacy",
+        "counter_argument": "May improve with optimization; quarterly dosing and no GI AEs differentiate"
+      },
+      {
+        "point": "Mechanism less understood than GLP-1",
+        "evidence": "Newer pathway with less clinical validation",
+        "counter_argument": "Genetic validation provides foundation"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Can ARO-INHBE achieve >15% weight loss to compete with GLP-1s?",
+        "bull_view": "Dose optimization may improve efficacy; combination potential",
+        "bear_view": "Mechanism may have ceiling effect below GLP-1 efficacy",
+        "what_resolves_it": "Phase 2 dose-response data"
+      }
+    ]
+  },
+  "competitive_landscape": [
+    {
+      "competitor": "Semaglutide (Wegovy)",
+      "company": "Novo Nordisk",
+      "mechanism": "GLP-1 agonist",
+      "stage": "Approved",
+      "efficacy": "15-17% weight loss",
+      "differentiation": "ARO-INHBE is quarterly vs weekly, no GI side effects"
+    },
+    {
+      "competitor": "Tirzepatide (Zepbound)",
+      "company": "Eli Lilly",
+      "mechanism": "GLP-1/GIP dual agonist",
+      "stage": "Approved",
+      "efficacy": "20-25% weight loss",
+      "differentiation": "Tirzepatide best-in-class efficacy; ARO-INHBE offers different mechanism"
+    }
+  ],
+  "catalysts": [
+    {
+      "event": "Phase 1/2 dose-expansion data",
+      "timing": "2026",
+      "importance": "High",
+      "what_to_watch": "Weight loss magnitude, dose-response, safety"
+    }
+  ],
+  "sources": [
+    {
+      "id": "arwr_thesis_2026",
+      "title": "ARWR Investment Thesis",
+      "type": "Internal Analysis",
+      "date": "2026-02-02"
+    },
+    {
+      "id": "clinicaltrials",
+      "title": "ClinicalTrials.gov",
+      "type": "Clinical Trial Registry",
+      "url": "https://clinicaltrials.gov/api/v2/studies"
+    }
+  ]
+}

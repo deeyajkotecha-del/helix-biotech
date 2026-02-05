@@ -1,0 +1,145 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "ARWR Investment Thesis, Company Presentations",
+    "extraction_date": "2026-02-05",
+    "analyst_reviewed": true
+  },
+  "asset": {
+    "name": "ARO-ALK7",
+    "alternate_names": [],
+    "company": "Arrowhead Pharmaceuticals",
+    "ticker": "ARWR",
+    "stage": "Phase 1/2",
+    "modality": "RNAi (siRNA)",
+    "ownership": "Wholly-owned",
+    "one_liner": "Receptor-targeting approach to the activin E obesity pathway - orthogonal to ARO-INHBE"
+  },
+  "target": {
+    "name": "ALK7",
+    "full_name": "ACVR1C (Activin A Receptor Type 1C)",
+    "class": "TGF-beta superfamily receptor",
+    "pathway": "Activin E / ALK7 signaling in adipose tissue",
+    "biology": {
+      "simple_explanation": "ALK7 is the receptor for activin E in adipose tissue. While ARO-INHBE targets the ligand (activin E), ARO-ALK7 targets the receptor directly. Both approaches should block the same fat-storage pathway.",
+      "pathway_detail": "ALK7 (ACVR1C) is expressed in adipocytes and binds activin E to promote lipid storage. Silencing ALK7 should block activin E signaling regardless of ligand levels.",
+      "downstream_effects": [
+        "Blocked activin E signaling at receptor level",
+        "Potential weight loss similar to ARO-INHBE"
+      ]
+    },
+    "why_good_target": {
+      "rationale": "Orthogonal approach to same validated pathway as ARO-INHBE",
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    }
+  },
+  "mechanism": {
+    "type": "RNAi (siRNA) via TRiM platform",
+    "delivery": "Adipose tissue targeting (extra-hepatic)",
+    "how_it_works": "ARO-ALK7 silences ALK7 (ACVR1C) mRNA in adipose tissue, preventing activin E from signaling through its receptor. This blocks fat accumulation and promotes weight loss through the same pathway as ARO-INHBE.",
+    "differentiation_vs_inhbe": "Targets receptor (tissue-specific) vs ligand (liver-produced)",
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Obesity",
+      "patient_population": "~100M US adults with obesity",
+      "status": "Phase 1/2",
+      "rationale": "Alternative approach if ARO-INHBE limited by ligand biology"
+    },
+    "expansion": [
+      {
+        "name": "Metabolic Dysfunction",
+        "status": "Early evaluation"
+      }
+    ],
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "clinical_data": {
+    "ongoing_trials": [
+      {
+        "trial_name": "ARO-ALK7 Phase 1/2",
+        "nct_id": "NCT06937203",
+        "phase": "Phase 1/2",
+        "indication": "Obesity",
+        "status": "Recruiting"
+      }
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "Orthogonal approach to same validated pathway",
+        "evidence": "ALK7 is receptor for INHBE/activin E",
+        "confidence": "Medium"
+      },
+      {
+        "point": "Dual program gives optionality",
+        "evidence": "ARWR can advance best candidate",
+        "confidence": "High"
+      },
+      {
+        "point": "Earlier stage means less dilution if successful",
+        "evidence": "Phase 1/2 just started",
+        "confidence": "Medium"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Even earlier stage than ARO-INHBE",
+        "evidence": "No clinical data yet",
+        "counter_argument": "Provides pipeline depth"
+      },
+      {
+        "point": "Same GLP-1 competition",
+        "evidence": "Wegovy/Zepbound dominating obesity market",
+        "counter_argument": "Differentiated mechanism"
+      },
+      {
+        "point": "May be redundant with ARO-INHBE",
+        "evidence": "Same pathway targeted differently",
+        "counter_argument": "Different tissue targeting may yield different profile"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Will ALK7 inhibition show differentiated profile vs ARO-INHBE?",
+        "bull_view": "Receptor targeting in adipose may have different efficacy/safety",
+        "bear_view": "Same pathway means similar results; one program sufficient",
+        "what_resolves_it": "Head-to-head comparison of Phase 1/2 data"
+      }
+    ]
+  },
+  "competitive_landscape": [],
+  "catalysts": [
+    {
+      "event": "Phase 1/2 initial data",
+      "timing": "2026-2027",
+      "importance": "Medium",
+      "what_to_watch": "Weight loss, comparison to ARO-INHBE profile"
+    }
+  ],
+  "sources": [
+    {
+      "id": "arwr_thesis_2026",
+      "title": "ARWR Investment Thesis",
+      "type": "Internal Analysis",
+      "date": "2026-02-02"
+    },
+    {
+      "id": "clinicaltrials",
+      "title": "ClinicalTrials.gov",
+      "type": "Clinical Trial Registry",
+      "url": "https://clinicaltrials.gov/api/v2/studies"
+    }
+  ]
+}

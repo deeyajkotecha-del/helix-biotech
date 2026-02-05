@@ -1,0 +1,298 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "ARWR Investment Thesis, Company Presentations, FDA Database",
+    "extraction_date": "2026-02-05",
+    "analyst_reviewed": true
+  },
+  "asset": {
+    "name": "Plozasiran",
+    "alternate_names": ["ARO-APOC3", "REDEMPLO"],
+    "company": "Arrowhead Pharmaceuticals",
+    "ticker": "ARWR",
+    "stage": "Approved (FCS) / Phase 3 (sHTG)",
+    "modality": "RNAi (siRNA)",
+    "ownership": "Partnered with Amgen",
+    "one_liner": "First-in-class RNAi therapeutic achieving 80% triglyceride reduction with quarterly dosing"
+  },
+  "target": {
+    "name": "APOC3",
+    "full_name": "Apolipoprotein C-III",
+    "class": "Lipoprotein metabolism regulator",
+    "pathway": "Triglyceride metabolism",
+    "biology": {
+      "simple_explanation": "APOC3 is a protein that inhibits lipoprotein lipase (LPL), the enzyme that clears triglycerides from the blood. By silencing APOC3 with RNAi, plozasiran unleashes LPL activity, dramatically accelerating clearance of triglyceride-rich lipoproteins.",
+      "pathway_detail": "APOC3 inhibits LPL on capillary endothelium, slowing TG-rich lipoprotein catabolism. APOC3 also promotes hepatic VLDL secretion and impairs hepatic uptake of remnant lipoproteins.",
+      "downstream_effects": [
+        "Increased LPL activity",
+        "Accelerated TG-rich lipoprotein clearance",
+        "Reduced VLDL secretion",
+        "Reduced pancreatitis risk in FCS patients"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "Loss-of-function mutations in APOC3 are associated with ~40% lower triglycerides and reduced cardiovascular risk",
+      "genetic_validation": {
+        "loss_of_function": "APOC3 LoF carriers have lower TG, lower coronary heart disease"
+      },
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    }
+  },
+  "mechanism": {
+    "type": "RNAi (siRNA) via TRiM platform",
+    "delivery": "GalNAc-conjugated for hepatocyte targeting",
+    "how_it_works": "Plozasiran is a GalNAc-conjugated siRNA that is taken up specifically by hepatocytes via the asialoglycoprotein receptor. Once inside, it engages the RISC machinery to catalytically degrade APOC3 mRNA, reducing APOC3 protein production by >90%.",
+    "catalytic_advantage": "Each siRNA molecule can degrade multiple mRNA transcripts, enabling potent and durable knockdown with quarterly dosing",
+    "potency": {
+      "apoc3_reduction": ">90%",
+      "tg_reduction": "80%"
+    },
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Familial Chylomicronemia Syndrome (FCS)",
+      "patient_population": "~3,000 US patients",
+      "status": "Approved (Nov 2025)",
+      "brand_name": "REDEMPLO",
+      "rationale": "Ultra-rare orphan disease with no prior approved therapies providing adequate TG reduction"
+    },
+    "expansion": [
+      {
+        "name": "Severe Hypertriglyceridemia (sHTG)",
+        "patient_population": "~500,000 US patients",
+        "status": "Phase 3 (SHASTA-3/4/5)",
+        "rationale": "10x larger market than FCS; high unmet need for pancreatitis prevention"
+      },
+      {
+        "name": "Mixed Hyperlipidemia",
+        "patient_population": "Millions",
+        "status": "Phase 3 (MUIR-3)",
+        "rationale": "Combination with statins for residual CV risk"
+      }
+    ],
+    "development_strategy": "FCS approval provides orphan exclusivity and validates mechanism. sHTG represents the larger commercial opportunity.",
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "market_opportunity": {
+    "fcs_market": "Orphan indication, ~$500M potential",
+    "shtg_market": "~$2-3B potential if trials succeed",
+    "competitive_advantage": "Best-in-class TG reduction (80% vs ~60% for olezarsen), favorable safety vs volanesorsen",
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": false
+    }
+  },
+  "clinical_data": {
+    "palisade_phase3": {
+      "trial_name": "PALISADE",
+      "nct_id": "NCT05089084",
+      "design": {
+        "type": "Randomized, double-blind, placebo-controlled",
+        "population": "FCS patients",
+        "primary_endpoint": "Percent change from baseline in fasting TG at Week 10"
+      },
+      "results": {
+        "tg_reduction": "-80%",
+        "pancreatitis_risk_reduction": "83%",
+        "interpretation": "Best-in-class efficacy; supported FDA approval"
+      },
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    },
+    "shasta2_phase2": {
+      "trial_name": "SHASTA-2",
+      "nct_id": "NCT04720534",
+      "design": {
+        "type": "Randomized, double-blind, placebo-controlled, dose-ranging",
+        "population": "Patients with severe hypertriglyceridemia"
+      },
+      "results": {
+        "tg_reduction_q12w": "-77%",
+        "interpretation": "Supports quarterly dosing in broader sHTG population"
+      },
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    },
+    "ongoing_trials": [
+      {
+        "trial_name": "SHASTA-3",
+        "nct_id": "NCT06347003",
+        "phase": "Phase 3",
+        "indication": "Severe Hypertriglyceridemia",
+        "status": "Active, not recruiting",
+        "data_expected": "2026"
+      },
+      {
+        "trial_name": "SHASTA-4",
+        "nct_id": "NCT06347016",
+        "phase": "Phase 3",
+        "indication": "Severe Hypertriglyceridemia",
+        "status": "Active, not recruiting",
+        "data_expected": "2026"
+      },
+      {
+        "trial_name": "SHASTA-5",
+        "nct_id": "NCT06880770",
+        "phase": "Phase 3",
+        "indication": "Severe Hypertriglyceridemia",
+        "status": "Recruiting",
+        "data_expected": "2026"
+      },
+      {
+        "trial_name": "SHASTA-10",
+        "nct_id": "NCT06822790",
+        "phase": "Phase 3",
+        "indication": "Severe Hypertriglyceridemia",
+        "status": "Recruiting"
+      },
+      {
+        "trial_name": "MUIR-3",
+        "nct_id": "NCT06347133",
+        "phase": "Phase 3",
+        "indication": "Mixed Hyperlipidemia",
+        "status": "Active, not recruiting"
+      }
+    ]
+  },
+  "regulatory_status": {
+    "fda_approval": {
+      "brand_name": "REDEMPLO",
+      "approval_date": "2025-11-18",
+      "indication": "Adjunct to diet to reduce triglycerides in adults with familial chylomicronemia syndrome (FCS)"
+    },
+    "pending_approvals": [
+      {
+        "indication": "Severe Hypertriglyceridemia",
+        "status": "NDA filed",
+        "pdufa_date": "H1 2026"
+      }
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "First-in-class RNAi for APOC3 with best-in-class 80% TG reduction",
+        "evidence": "PALISADE Phase 3: -80% TG, 83% pancreatitis risk reduction",
+        "confidence": "High - FDA approved"
+      },
+      {
+        "point": "sHTG represents 10x larger market opportunity",
+        "evidence": "~500K US patients vs ~3K for FCS",
+        "confidence": "High - if trials succeed"
+      },
+      {
+        "point": "Amgen partnership provides experienced CV sales force",
+        "evidence": "Amgen has established cardiometabolic commercial infrastructure",
+        "confidence": "High"
+      },
+      {
+        "point": "Durable quarterly dosing improves compliance",
+        "evidence": "Q12W dosing vs weekly for volanesorsen",
+        "confidence": "High"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "FCS is a tiny orphan market",
+        "evidence": "~3,000 US patients limits near-term revenue",
+        "counter_argument": "sHTG is the real commercial opportunity"
+      },
+      {
+        "point": "Competition from olezarsen (Ionis)",
+        "evidence": "Tryngolza approved Dec 2024 for FCS",
+        "counter_argument": "Plozasiran has higher TG reduction (80% vs 60%)"
+      },
+      {
+        "point": "Amgen controls commercialization",
+        "evidence": "Majority economics flow to partner",
+        "counter_argument": "Royalties still meaningful on multi-billion market"
+      },
+      {
+        "point": "No CV outcomes data yet",
+        "evidence": "TG reduction is surrogate, not hard endpoint",
+        "counter_argument": "Genetic validation of APOC3 LoF and CV risk"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Will Phase 3 sHTG trials succeed?",
+        "bull_view": "Phase 2 data strong (-77%), mechanism validated",
+        "bear_view": "Larger trials may show safety signals or less efficacy",
+        "what_resolves_it": "SHASTA-3/4/5 data in 2026"
+      }
+    ]
+  },
+  "competitive_landscape": [
+    {
+      "competitor": "Volanesorsen (Waylivra)",
+      "company": "Ionis/Sobi",
+      "mechanism": "ASO targeting APOC3",
+      "stage": "Approved (EU only)",
+      "efficacy": "77% TG reduction",
+      "differentiation": "Plozasiran has better safety (no platelet issues), less frequent dosing (quarterly vs weekly)"
+    },
+    {
+      "competitor": "Olezarsen (Tryngolza)",
+      "company": "Ionis",
+      "mechanism": "GalNAc-ASO targeting APOC3",
+      "stage": "Approved (US, Dec 2024)",
+      "efficacy": "~60% TG reduction",
+      "differentiation": "Both quarterly dosing. Plozasiran shows higher TG reduction (80% vs 60%). Commercial competition ongoing."
+    }
+  ],
+  "catalysts": [
+    {
+      "event": "sHTG PDUFA decision",
+      "timing": "H1 2026",
+      "importance": "Critical",
+      "what_to_watch": "Approval for larger sHTG market"
+    },
+    {
+      "event": "SHASTA-3 topline data",
+      "timing": "2026",
+      "importance": "High",
+      "what_to_watch": "TG reduction in sHTG population"
+    },
+    {
+      "event": "SHASTA-4 topline data",
+      "timing": "2026",
+      "importance": "High",
+      "what_to_watch": "TG reduction in sHTG population"
+    }
+  ],
+  "sources": [
+    {
+      "id": "arwr_thesis_2026",
+      "title": "ARWR Investment Thesis",
+      "type": "Internal Analysis",
+      "date": "2026-02-02"
+    },
+    {
+      "id": "fda_approval",
+      "title": "FDA Approval Letter - REDEMPLO",
+      "type": "Regulatory",
+      "date": "2025-11-18",
+      "url": "https://api.fda.gov/drug/drugsfda.json"
+    },
+    {
+      "id": "clinicaltrials",
+      "title": "ClinicalTrials.gov",
+      "type": "Clinical Trial Registry",
+      "url": "https://clinicaltrials.gov/api/v2/studies"
+    }
+  ]
+}

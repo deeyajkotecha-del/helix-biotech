@@ -1,0 +1,182 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "ARWR Investment Thesis, Company Presentations",
+    "extraction_date": "2026-02-05",
+    "analyst_reviewed": true
+  },
+  "asset": {
+    "name": "Fazirsiran",
+    "alternate_names": ["ARO-AAT"],
+    "company": "Arrowhead Pharmaceuticals",
+    "ticker": "ARWR",
+    "stage": "Phase 3",
+    "modality": "RNAi (siRNA)",
+    "ownership": "Partnered with Takeda",
+    "one_liner": "First therapy addressing root cause of AATD liver disease with 96% Z-AAT reduction"
+  },
+  "target": {
+    "name": "AAT",
+    "full_name": "Alpha-1 Antitrypsin",
+    "class": "Serine protease inhibitor",
+    "pathway": "Protein misfolding / Liver toxicity",
+    "biology": {
+      "simple_explanation": "In Alpha-1 Antitrypsin Deficiency, the mutant Z-AAT protein misfolds and aggregates in hepatocytes instead of being secreted. This accumulation causes liver damage. By silencing AAT mRNA, fazirsiran prevents production of the toxic aggregates.",
+      "pathway_detail": "The Z mutation (Glu342Lys) causes AAT to misfold in the ER. Instead of being secreted, Z-AAT polymerizes and accumulates in hepatocyte ER, triggering ER stress, autophagy impairment, and eventual cirrhosis.",
+      "downstream_effects": [
+        "96% reduction in Z-AAT protein",
+        "Reduced hepatic aggregates",
+        "Liver fibrosis improvement"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "No approved therapy for AATD liver disease; only lung disease treated with AAT augmentation",
+      "rationale": "Silencing stops production at source; aggregates cleared over time",
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    }
+  },
+  "mechanism": {
+    "type": "RNAi (siRNA) via TRiM platform",
+    "delivery": "GalNAc-conjugated for hepatocyte targeting",
+    "how_it_works": "Fazirsiran silences AAT mRNA in hepatocytes, reducing production of both normal and mutant Z-AAT protein. With reduced production, existing toxic aggregates are cleared, and liver damage halts or reverses.",
+    "potency": {
+      "z_aat_reduction": "96%"
+    },
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Alpha-1 Antitrypsin Deficiency Liver Disease (AATD-LD)",
+      "patient_population": "~10-15% of AATD patients develop liver disease",
+      "status": "Phase 3 (SEQUOIA)",
+      "rationale": "No approved therapy; addresses root cause of liver damage"
+    },
+    "source": {
+      "id": "arwr_thesis_2026",
+      "verified": true
+    }
+  },
+  "clinical_data": {
+    "aroaat2002_phase2": {
+      "trial_name": "AROAAT-2002",
+      "nct_id": "NCT03946449",
+      "design": {
+        "type": "Open-label",
+        "population": "AATD patients with liver disease"
+      },
+      "results": {
+        "z_aat_reduction": "-96%",
+        "fibrosis": "Histological fibrosis improvement observed",
+        "interpretation": "Strong target engagement and early efficacy signal"
+      },
+      "source": {
+        "id": "arwr_thesis_2026",
+        "verified": true
+      }
+    },
+    "ongoing_trials": [
+      {
+        "trial_name": "SEQUOIA Phase 2",
+        "nct_id": "NCT03945292",
+        "phase": "Phase 2",
+        "indication": "AATD-LD",
+        "status": "Completed"
+      },
+      {
+        "trial_name": "SEQUOIA Phase 3",
+        "nct_id": "NCT05677971",
+        "phase": "Phase 3",
+        "indication": "AATD Liver Disease",
+        "status": "Recruiting",
+        "data_expected": "2028"
+      },
+      {
+        "trial_name": "SEQUOIA Extension",
+        "nct_id": "NCT05899673",
+        "phase": "Phase 3",
+        "indication": "AATD-LD",
+        "status": "Active, not recruiting"
+      }
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "Addresses root cause of AATD liver disease",
+        "evidence": "96% Z-AAT reduction with histological fibrosis improvement",
+        "confidence": "High"
+      },
+      {
+        "point": "No approved therapy exists",
+        "evidence": "AAT augmentation only treats lung disease, not liver",
+        "confidence": "High - clear unmet need"
+      },
+      {
+        "point": "Takeda partnership provides $1B+ potential milestones",
+        "evidence": "Strong pharma partner with rare disease expertise",
+        "confidence": "High"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "AATD liver disease is rare",
+        "evidence": "~10-15% of AATD patients develop liver disease",
+        "counter_argument": "Orphan indication with high unmet need"
+      },
+      {
+        "point": "Regulatory path unclear",
+        "evidence": "May require clinical outcomes (not just Z-AAT reduction) for approval",
+        "counter_argument": "Histology improvement in Phase 2 suggests pathway"
+      },
+      {
+        "point": "Takeda controls development",
+        "evidence": "Limited ARWR influence on timing and decisions",
+        "counter_argument": "Milestone payments still meaningful"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Will Phase 3 SEQUOIA show sufficient fibrosis improvement for FDA approval?",
+        "bull_view": "Phase 2 showed histological improvement; mechanism sound",
+        "bear_view": "Long timeline (2028), regulatory uncertainty",
+        "what_resolves_it": "SEQUOIA Phase 3 data"
+      }
+    ]
+  },
+  "competitive_landscape": [],
+  "catalysts": [
+    {
+      "event": "SEQUOIA Phase 3 data",
+      "timing": "2028",
+      "importance": "Critical",
+      "what_to_watch": "Fibrosis improvement, Z-AAT reduction, safety"
+    }
+  ],
+  "partnership": {
+    "partner": "Takeda",
+    "upfront": "$300M",
+    "milestones": "$1,040M",
+    "received_to_date": "$340M",
+    "royalties": "Tiered on net sales"
+  },
+  "sources": [
+    {
+      "id": "arwr_thesis_2026",
+      "title": "ARWR Investment Thesis",
+      "type": "Internal Analysis",
+      "date": "2026-02-02"
+    },
+    {
+      "id": "clinicaltrials",
+      "title": "ClinicalTrials.gov",
+      "type": "Clinical Trial Registry",
+      "url": "https://clinicaltrials.gov/api/v2/studies"
+    }
+  ]
+}
