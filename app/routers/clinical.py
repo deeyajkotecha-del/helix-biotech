@@ -1996,7 +1996,9 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             name = endpoint_data.get("full_name", endpoint_key.upper())
             what_measures = endpoint_data.get("what_it_measures", "")
             results = endpoint_data.get("results", {})
-            source = endpoint_data.get("source_slide", "N/A")
+            # Support both old source_slide and new source object format
+            source_obj = endpoint_data.get("source")
+            source_badge = generate_citation_badge(source_obj, ticker) if source_obj else ""
 
             # Get main result
             main_result = results.get("mean_change_overall_day29", "") or results.get("mean_change_overall", "") or results.get("responders_overall", "")
@@ -2005,12 +2007,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             rows += f'''
             <tr>
                 <td>
-                    <div class="endpoint-name">{name}</div>
+                    <div class="endpoint-name">{name}{source_badge}</div>
                     <div class="endpoint-def">{what_measures}</div>
                 </td>
                 <td class="result"><strong>{main_result}</strong></td>
                 <td class="comparator">{"vs Dupilumab: " + vs_dup if vs_dup else ""}</td>
-                <td class="source">Slide {source}</td>
             </tr>'''
 
         if rows:
@@ -2018,7 +2019,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             <div class="endpoints-section">
                 <h5>Efficacy Endpoints</h5>
                 <table class="data-table">
-                    <thead><tr><th>Endpoint</th><th>Result</th><th>vs Comparator</th><th>Source</th></tr></thead>
+                    <thead><tr><th>Endpoint</th><th>Result</th><th>vs Comparator</th></tr></thead>
                     <tbody>{rows}</tbody>
                 </table>
             </div>'''
@@ -2033,6 +2034,14 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         data = summary_table.get("data", [])
         if not data:
             return ""
+
+        # Get source badge for biomarker section
+        source_obj = summary_table.get("source")
+        section_badge = generate_citation_badge(source_obj, ticker) if source_obj else ""
+
+        # Also check for skin_transcriptomics source
+        skin_trans = biomarker_results.get("skin_transcriptomics", {})
+        skin_trans_badge = generate_citation_badge(skin_trans.get("source"), ticker) if skin_trans.get("source") else ""
 
         rows = ""
         for item in data:
@@ -2053,13 +2062,22 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <td>{interpretation}</td>
             </tr>'''
 
+        skin_trans_html = ""
+        if skin_trans:
+            skin_trans_html = f'''
+            <div class="skin-transcriptomics" style="margin-top: 12px; padding: 10px;">
+                <strong>Skin Transcriptomics{skin_trans_badge}</strong>: {skin_trans.get("result", "")}
+                <span style="color: var(--text-muted);">({skin_trans.get("interpretation", "")})</span>
+            </div>'''
+
         return f'''
         <div class="biomarkers-section">
-            <h5>Biomarker Results</h5>
+            <h5>Biomarker Results{section_badge}</h5>
             <table class="data-table">
                 <thead><tr><th>Biomarker</th><th>Result</th><th>vs Dupilumab</th><th>Interpretation</th></tr></thead>
                 <tbody>{rows}</tbody>
             </table>
+            {skin_trans_html}
         </div>'''
 
     def build_safety_html(safety: dict) -> str:
@@ -2069,6 +2087,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         summary = safety.get("summary", "")
         key_findings = safety.get("key_findings", [])
         conj_comp = safety.get("conjunctivitis_comparison", {})
+        source_obj = safety.get("source")
+        safety_badge = generate_citation_badge(source_obj, ticker) if source_obj else ""
 
         findings_html = ""
         if key_findings:
@@ -2088,7 +2108,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         if summary or findings_html:
             return f'''
             <div class="safety-box">
-                <h5>Safety Profile</h5>
+                <h5>Safety Profile{safety_badge}</h5>
                 <p>{summary}</p>
                 {findings_html}
                 {conj_html}
@@ -2108,6 +2128,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         stat6_deg = phase1_hv.get("stat6_degradation", {})
         deg_results = stat6_deg.get("results_by_dose", [])
         key_findings = stat6_deg.get("key_findings", [])
+        stat6_badge = generate_citation_badge(stat6_deg.get("source"), ticker) if stat6_deg.get("source") else ""
 
         deg_rows = ""
         for r in deg_results:
@@ -2138,7 +2159,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <p><strong>Population:</strong> {population}</p>
             </div>
             <div class="endpoints-section">
-                <h5>STAT6 Degradation by Dose</h5>
+                <h5>STAT6 Degradation by Dose{stat6_badge}</h5>
                 <table class="data-table">
                     <thead><tr><th>Dose</th><th>Blood Change</th><th>Skin Change</th><th>N</th></tr></thead>
                     <tbody>{deg_rows}</tbody>
@@ -2174,12 +2195,95 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         # Safety
         safety_html = build_safety_html(phase1b_ad.get("safety", {}))
 
+        # Baseline characteristics with badge
+        baseline_chars_ad = phase1b_ad.get("baseline_characteristics", {})
+        baseline_html = ""
+        if baseline_chars_ad and isinstance(baseline_chars_ad, dict):
+            baseline_badge = generate_citation_badge(baseline_chars_ad.get("source"), ticker) if baseline_chars_ad.get("source") else ""
+            baseline_rows = ""
+            for key, value in baseline_chars_ad.items():
+                if key in ("source", "analyst_note"):
+                    continue
+                label = key.replace("_", " ").replace("pct", "%").title()
+                label = label.replace("Easi", "EASI").replace("Ppnrs", "PPNRS").replace("Scorad", "SCORAD")
+                label = label.replace("Bsa", "BSA").replace("Bmi", "BMI").replace("Viga", "vIGA")
+                baseline_rows += f'<tr><td>{label}</td><td class="result"><strong>{value}</strong></td></tr>'
+            if baseline_rows:
+                analyst_note = baseline_chars_ad.get("analyst_note", "")
+                note_html = f'<div class="analyst-note"><strong>Note:</strong> {analyst_note}</div>' if analyst_note else ""
+                baseline_html = f'''
+                <div class="baseline-section" style="margin-top: 16px;">
+                    <h5>Baseline Characteristics{baseline_badge}</h5>
+                    <table class="data-table" style="font-size: 0.9em;">
+                        <tbody>{baseline_rows}</tbody>
+                    </table>
+                    {note_html}
+                </div>'''
+
+        # Comorbid asthma data with badge
+        comorbid_asthma = phase1b_ad.get("comorbid_asthma_data", {})
+        comorbid_asthma_html = ""
+        if comorbid_asthma and isinstance(comorbid_asthma, dict):
+            asthma_badge = generate_citation_badge(comorbid_asthma.get("source"), ticker) if comorbid_asthma.get("source") else ""
+            asthma_n = comorbid_asthma.get("n", "?")
+            caveat = comorbid_asthma.get("caveat", "")
+
+            asthma_rows = ""
+            for key, data in comorbid_asthma.items():
+                if key in ("source", "n", "caveat") or not isinstance(data, dict):
+                    continue
+                name = data.get("full_name", key.upper())
+                result = data.get("result", "") or data.get("mean_change", "")
+                vs_dup = data.get("vs_dupilumab_asthma", "")
+                interp = data.get("interpretation", "")
+                asthma_rows += f'<tr><td><strong>{name}</strong></td><td class="result">{result}</td><td>{vs_dup}</td><td><em>{interp}</em></td></tr>'
+
+            if asthma_rows:
+                comorbid_asthma_html = f'''
+                <div class="comorbid-section">
+                    <h5 style="margin-bottom: 8px;">Comorbid Asthma Subgroup (n={asthma_n}){asthma_badge}</h5>
+                    <table class="data-table" style="font-size: 0.9em;">
+                        <thead><tr><th>Measure</th><th>Result</th><th>vs Dupilumab</th><th>Interpretation</th></tr></thead>
+                        <tbody>{asthma_rows}</tbody>
+                    </table>
+                    {f'<p class="caveat" style="margin-top: 8px; font-style: italic; color: #6b7280;">{caveat}</p>' if caveat else ''}
+                </div>'''
+
+        # Comorbid allergic rhinitis data with badge
+        comorbid_rhinitis = phase1b_ad.get("comorbid_allergic_rhinitis_data", {})
+        comorbid_rhinitis_html = ""
+        if comorbid_rhinitis and isinstance(comorbid_rhinitis, dict):
+            rhinitis_badge = generate_citation_badge(comorbid_rhinitis.get("source"), ticker) if comorbid_rhinitis.get("source") else ""
+
+            rhinitis_rows = ""
+            for key, data in comorbid_rhinitis.items():
+                if key == "source" or not isinstance(data, dict):
+                    continue
+                name = data.get("full_name", key.upper())
+                n = data.get("n", "")
+                result = data.get("mean_change", "")
+                responders = data.get("responders", "")
+                mcid = data.get("mcid", "")
+                rhinitis_rows += f'<tr><td><strong>{name}</strong><br><span style="font-size: 0.85em; color: #6b7280;">MCID: {mcid}</span></td><td>n={n}</td><td class="result">{result}</td><td>{responders} responders</td></tr>'
+
+            if rhinitis_rows:
+                comorbid_rhinitis_html = f'''
+                <div class="comorbid-section">
+                    <h5 style="margin-bottom: 8px;">Comorbid Allergic Rhinitis Subgroup{rhinitis_badge}</h5>
+                    <table class="data-table" style="font-size: 0.9em;">
+                        <thead><tr><th>Measure</th><th>N</th><th>Change</th><th>Response</th></tr></thead>
+                        <tbody>{rhinitis_rows}</tbody>
+                    </table>
+                </div>'''
+
         # Head-to-head comparison table
         h2h_data = phase1b_ad.get("head_to_head_comparison_table", {})
         h2h_rows = ""
+        h2h_badge = ""
         if isinstance(h2h_data, dict):
             h2h_list = h2h_data.get("data", [])
             caveat = h2h_data.get("caveat", "")
+            h2h_badge = generate_citation_badge(h2h_data.get("source"), ticker) if h2h_data.get("source") else ""
             for row in h2h_list:
                 endpoint = row.get("endpoint", "")
                 kt621 = row.get("kt621_day29", "")
@@ -2197,7 +2301,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             if h2h_rows:
                 head_to_head_html = f'''
                 <div class="h2h-section">
-                    <h5>Head-to-Head Comparison: KT-621 vs Dupilumab</h5>
+                    <h5>Head-to-Head Comparison: KT-621 vs Dupilumab{h2h_badge}</h5>
                     <p class="caveat">{caveat}</p>
                     <table class="data-table h2h-table">
                         <thead><tr><th>Endpoint</th><th>KT-621 Day 29</th><th>Dupilumab Day 28</th><th>Winner</th></tr></thead>
@@ -2218,9 +2322,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <p><strong>Population:</strong> {population}</p>
             </div>
             {lims_html}
+            {baseline_html}
             {efficacy_html}
             {head_to_head_html}
             {biomarkers_html}
+            {comorbid_asthma_html}
+            {comorbid_rhinitis_html}
             {safety_html}
         </div>'''
 
@@ -2231,6 +2338,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         indication = trial.get("indication", "")
         status = trial.get("status", "Ongoing")
         data_expected = trial.get("data_expected", "")
+        trial_badge = generate_citation_badge(trial.get("source"), ticker) if trial.get("source") else ""
 
         design = trial.get("design", {})
         design_type = design.get("type", "") if isinstance(design, dict) else design
@@ -2257,7 +2365,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         trials_html += f'''
         <div class="trial-card ongoing">
             <div class="trial-header">
-                <h4>{trial_name}</h4>
+                <h4>{trial_name}{trial_badge}</h4>
                 <span class="badge ongoing">{phase}</span>
                 <span class="badge ongoing">{status}</span>
                 <span class="n-enrolled">Target n={n_target}</span>
@@ -2600,6 +2708,71 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         </div>'''
 
     # =======================================================================
+    # BUILD PRECLINICAL DATA HTML
+    # =======================================================================
+    preclinical_data = asset.get("preclinical_data", {})
+    preclinical_html = ""
+    if preclinical_data and isinstance(preclinical_data, dict):
+        preclinical_badge = generate_citation_badge(preclinical_data.get("source"), ticker) if preclinical_data.get("source") else ""
+
+        # Potency
+        potency = preclinical_data.get("potency", {})
+        potency_html = ""
+        if potency:
+            dc90 = potency.get("dc90", "")
+            interp = potency.get("interpretation", "")
+            potency_html = f'<div class="preclin-item"><strong>Potency:</strong> {dc90} <span style="color: #6b7280;">({interp})</span></div>' if dc90 else ""
+
+        # Selectivity
+        selectivity = preclinical_data.get("selectivity", {})
+        selectivity_html = ""
+        if selectivity:
+            desc = selectivity.get("description", "")
+            selectivity_html = f'<div class="preclin-item"><strong>Selectivity:</strong> {desc}</div>' if desc else ""
+
+        # Comparison to Dupilumab
+        comparison = preclinical_data.get("comparison_to_dupilumab", {})
+        comparison_html = ""
+        if comparison:
+            items = []
+            for key, value in comparison.items():
+                label = key.replace("_", " ").title()
+                items.append(f'<li><strong>{label}:</strong> {value}</li>')
+            if items:
+                comparison_html = f'<div class="preclin-item"><strong>vs Dupilumab:</strong><ul style="margin: 4px 0 0 16px;">{"".join(items)}</ul></div>'
+
+        # Safety pharmacology
+        safety_pharm = preclinical_data.get("safety_pharmacology", {})
+        safety_pharm_html = ""
+        if safety_pharm:
+            rows = []
+            for key, value in safety_pharm.items():
+                label = key.replace("_", " ").title()
+                rows.append(f'<tr><td>{label}</td><td>{value}</td></tr>')
+            if rows:
+                safety_pharm_html = f'''
+                <div class="preclin-item">
+                    <strong>Safety Pharmacology:</strong>
+                    <table class="data-table" style="font-size: 0.85em; margin-top: 8px;">
+                        <tbody>{"".join(rows)}</tbody>
+                    </table>
+                </div>'''
+
+        if potency_html or selectivity_html or comparison_html or safety_pharm_html:
+            preclinical_html = f'''
+            <section id="preclinical" class="section">
+                <h2 class="section-header">Preclinical Data{preclinical_badge}</h2>
+                <div class="card">
+                    <div class="card-content" style="display: flex; flex-direction: column; gap: 12px;">
+                        {potency_html}
+                        {selectivity_html}
+                        {comparison_html}
+                        {safety_pharm_html}
+                    </div>
+                </div>
+            </section>'''
+
+    # =======================================================================
     # BUILD INVESTMENT ANALYSIS HTML (Wall Street Research Style)
     # =======================================================================
     investment_html = ""
@@ -2622,7 +2795,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 point = item.get('point', '')
                 evidence = item.get('evidence', '')
                 conf = item.get('confidence', 'Medium').title()
-                bull_rows += f'<tr><td class="point-cell">{point}</td><td>{evidence}</td><td class="conf-cell">{conf}</td></tr>'
+                item_badge = generate_citation_badge(item.get('source'), ticker) if item.get('source') else ""
+                bull_rows += f'<tr><td class="point-cell">{point}{item_badge}</td><td>{evidence}</td><td class="conf-cell">{conf}</td></tr>'
             else:
                 bull_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td class="conf-cell">—</td></tr>'
 
@@ -2634,11 +2808,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 evidence = item.get('evidence', '')
                 counter = item.get('counter_argument', '')
                 prob = item.get('probability', '')
+                item_badge = generate_citation_badge(item.get('source'), ticker) if item.get('source') else ""
                 # Combine counter and probability into mitigant column
                 mitigant = counter if counter else ''
                 if prob:
                     mitigant += f' (Probability: {prob})' if mitigant else f'Probability: {prob}'
-                bear_rows += f'<tr><td class="point-cell">{point}</td><td>{evidence}</td><td>{mitigant if mitigant else "—"}</td></tr>'
+                bear_rows += f'<tr><td class="point-cell">{point}{item_badge}</td><td>{evidence}</td><td>{mitigant if mitigant else "—"}</td></tr>'
             else:
                 bear_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td>—</td></tr>'
 
@@ -2720,9 +2895,9 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         peak_sales_html = ""
         if peak_sales:
             peak_sales_html = f'''
-            <div class="peak-sales-highlight" style="margin-top: 16px; padding: 16px; background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%); border-radius: 8px; border-left: 4px solid #38a169;">
-                <strong style="color: #276749;">Peak Sales Estimate:</strong>
-                <span style="font-size: 1.1em; color: #22543d;">{peak_sales}</span>
+            <div class="peak-sales-highlight" style="margin-top: 12px; padding: 12px;">
+                <strong style="color: var(--navy);">Peak Sales Estimate:</strong>
+                <span style="font-size: 1em; color: var(--coral); font-weight: 600;">{peak_sales}</span>
             </div>'''
 
         investment_html = f'''
@@ -2823,15 +2998,15 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             label = capitalize_medical_terms(key.replace("_", " ").replace("vs ", "vs. ").title())
             value_str = capitalize_medical_terms(str(value)) if isinstance(value, str) else str(value)
             diff_items += f'''
-            <div class="diff-item" style="padding: 12px; background: #f0fff4; border-radius: 6px; border-left: 3px solid #38a169;">
-                <strong style="color: #276749;">{label}</strong>
-                <p style="margin: 4px 0 0 0;">{value_str}</p>
+            <div class="diff-item" style="padding: 10px; background: var(--gray-light); border-left: 2px solid var(--coral);">
+                <strong style="color: var(--navy);">{label}</strong>
+                <p style="margin: 4px 0 0 0; font-size: 0.85rem;">{value_str}</p>
             </div>'''
         if diff_items:
             differentiation_html = f'''
-            <div class="differentiation-section" style="margin-top: 24px;">
-                <h4 style="color: #276749; margin-bottom: 16px;">Key Differentiation</h4>
-                <div style="display: grid; gap: 12px;">
+            <div class="differentiation-section" style="margin-top: 20px;">
+                <h4 style="color: var(--navy); margin-bottom: 12px; font-size: 0.95rem; font-weight: 600;">Key Differentiation</h4>
+                <div style="display: grid; gap: 10px;">
                     {diff_items}
                 </div>
             </div>'''
@@ -2979,97 +3154,98 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{asset_name} - {ticker} | Asset Analysis</title>
     <style>
+        /* Bloomberg Terminal Style - Clean, Data-Dense, Professional */
         :root {{
-            --primary: #1a365d;
-            --primary-light: #2c5282;
-            --accent: #3182ce;
-            --bull: #38a169;
-            --bear: #e53e3e;
-            --warning: #d69e2e;
-            --bg: #f7fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text: #2d3748;
-            --text-muted: #718096;
-            --sidebar-width: 220px;
+            --navy: #1a2b3c;
+            --coral: #e07a5f;
+            --white: #ffffff;
+            --gray-light: #f8f9fa;
+            --gray-border: #e2e5e9;
+            --gray-text: #6b7280;
+            --text-primary: #374151;
+            --green: #4ade80;
+            --red: #ef4444;
+            --sidebar-width: 200px;
         }}
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
         body {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            background: var(--white);
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 0.875rem;
         }}
 
         /* Sticky Header */
         .sticky-header {{
             position: sticky;
             top: 0;
-            background: white;
-            border-bottom: 1px solid var(--border);
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-border);
             z-index: 100;
-            padding: 12px 24px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }}
         .breadcrumb {{
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }}
         .breadcrumb a {{
-            color: var(--accent);
+            color: var(--coral);
             text-decoration: none;
         }}
         .breadcrumb a:hover {{
             text-decoration: underline;
         }}
         .breadcrumb span {{
-            color: var(--text-muted);
-            margin: 0 8px;
+            color: var(--gray-text);
+            margin: 0 6px;
         }}
         .breadcrumb strong {{
-            color: var(--primary);
+            color: var(--navy);
         }}
         .header-badges {{
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }}
         .badge {{
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            background: var(--bg);
-            border: 1px solid var(--border);
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            background: var(--gray-light);
+            border: 1px solid var(--gray-border);
+            color: var(--navy);
         }}
-        .badge.ongoing {{ background: #c6f6d5; color: var(--bull); border-color: #9ae6b4; }}
-        .badge.completed {{ background: #bee3f8; color: var(--accent); border-color: #90cdf4; }}
-        .badge.timing {{ background: #fefcbf; color: #975a16; border-color: #f6e05e; }}
-        .badge.importance.critical {{ background: #fed7d7; color: var(--bear); }}
-        .badge.importance.high {{ background: #fefcbf; color: #975a16; }}
+        .badge.ongoing {{ background: var(--gray-light); color: var(--navy); border-color: var(--gray-border); }}
+        .badge.completed {{ background: var(--gray-light); color: var(--navy); border-color: var(--gray-border); }}
+        .badge.timing {{ background: var(--gray-light); color: var(--gray-text); }}
+        .badge.importance.critical {{ background: var(--gray-light); color: var(--red); border-color: var(--red); }}
+        .badge.importance.high {{ background: var(--gray-light); color: var(--navy); }}
         .badge-link {{
             text-decoration: none;
         }}
         .badge-link:hover .badge {{
-            background: #e9d8fd;
-            border-color: #805ad5;
+            border-color: var(--coral);
+            color: var(--coral);
         }}
 
         /* Citation Badges */
         .citation-badge {{
             font-size: 0.7em;
-            color: #999;
+            color: var(--gray-text);
             text-decoration: none;
             margin-left: 6px;
-            font-family: monospace;
+            font-family: 'SF Mono', 'Consolas', monospace;
             vertical-align: super;
         }}
         .citation-badge:hover {{
-            color: #e07a5f;
+            color: var(--coral);
             text-decoration: underline;
         }}
         .verified-check {{
-            color: #4ade80;
+            color: var(--green);
             font-size: 0.7em;
             margin-left: 2px;
         }}
@@ -3077,131 +3253,137 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         /* Layout */
         .layout {{
             display: flex;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }}
 
         /* Sidebar */
         .sidebar {{
             width: var(--sidebar-width);
-            padding: 24px 16px;
+            padding: 20px 12px;
             position: sticky;
-            top: 60px;
-            height: calc(100vh - 60px);
+            top: 50px;
+            height: calc(100vh - 50px);
             overflow-y: auto;
-            border-right: 1px solid var(--border);
-            background: white;
+            border-right: 1px solid var(--gray-border);
+            background: var(--white);
         }}
         .sidebar h3 {{
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            padding-left: 12px;
+            color: var(--gray-text);
+            margin-bottom: 10px;
+            padding-left: 10px;
+            letter-spacing: 0.5px;
         }}
         .sidebar-nav {{
             list-style: none;
         }}
         .sidebar-nav a {{
             display: block;
-            padding: 8px 12px;
-            color: var(--text);
+            padding: 6px 10px;
+            color: var(--text-primary);
             text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            margin-bottom: 2px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-bottom: 1px;
         }}
         .sidebar-nav a:hover {{
-            background: var(--bg);
+            background: var(--gray-light);
         }}
         .sidebar-nav a.active {{
-            background: var(--accent);
-            color: white;
+            background: var(--navy);
+            color: var(--white);
         }}
 
         /* Main Content */
         .main {{
             flex: 1;
-            padding: 24px 32px;
+            padding: 20px 28px;
             max-width: calc(100% - var(--sidebar-width));
         }}
 
         /* Sections */
         .section {{
-            margin-bottom: 48px;
-            scroll-margin-top: 80px;
+            margin-bottom: 36px;
+            scroll-margin-top: 70px;
         }}
         .section-header {{
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--border);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-border);
         }}
 
         /* Asset Header */
         .asset-header {{
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            padding: 32px;
-            border-radius: 12px;
-            margin-bottom: 32px;
+            background: var(--navy);
+            color: var(--white);
+            padding: 24px;
+            border-radius: 0;
+            margin-bottom: 24px;
         }}
         .asset-header h1 {{
-            font-size: 2rem;
-            margin-bottom: 8px;
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+            font-weight: 600;
         }}
         .asset-header .subtitle {{
-            opacity: 0.9;
-            font-size: 1.1rem;
+            opacity: 0.85;
+            font-size: 0.95rem;
         }}
         .asset-header .tags {{
-            margin-top: 16px;
+            margin-top: 12px;
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }}
         .asset-header .badge {{
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--white);
+            border-radius: 3px;
         }}
 
         /* Executive Summary */
         .exec-summary-box {{
-            background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
-            border: 1px solid #bee3f8;
-            border-left: 4px solid var(--accent);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 32px;
+            background: var(--white);
+            border: 1px solid var(--gray-border);
+            border-left: 3px solid var(--coral);
+            border-radius: 0;
+            padding: 16px 20px;
+            margin-bottom: 24px;
         }}
         .exec-header {{
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 12px;
         }}
         .exec-icon {{
-            font-size: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--coral);
         }}
         .exec-header h3 {{
-            color: var(--primary);
-            font-size: 1.2rem;
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 600;
             margin: 0;
         }}
         .exec-one-liner {{
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: var(--text);
-            margin-bottom: 16px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            margin-bottom: 12px;
         }}
         .exec-differentiators h4 {{
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            font-size: 0.75rem;
+            color: var(--gray-text);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }}
         .exec-bullets {{
             list-style: none;
@@ -3210,15 +3392,16 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         }}
         .exec-bullets li {{
             position: relative;
-            padding-left: 24px;
-            margin-bottom: 8px;
-            line-height: 1.5;
+            padding-left: 18px;
+            margin-bottom: 5px;
+            line-height: 1.4;
+            font-size: 0.85rem;
         }}
         .exec-bullets li::before {{
-            content: "✓";
+            content: "•";
             position: absolute;
             left: 0;
-            color: var(--bull);
+            color: var(--coral);
             font-weight: bold;
         }}
 
@@ -3226,26 +3409,28 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         .competitive-grid {{
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
+            gap: 16px;
         }}
         @media (max-width: 900px) {{
             .competitive-grid {{ grid-template-columns: 1fr; }}
         }}
         .comp-card {{
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid var(--border);
+            background: var(--white);
+            border-radius: 0;
+            padding: 16px;
+            border: 1px solid var(--gray-border);
         }}
         .comp-card h4 {{
-            color: var(--primary);
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
+            color: var(--navy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--gray-border);
         }}
         .comp-card.advantages {{
-            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
-            border-color: #9ae6b4;
+            background: var(--white);
+            border-left: 2px solid var(--coral);
         }}
         .advantages-list {{
             list-style: none;
@@ -3254,63 +3439,65 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         }}
         .advantages-list li {{
             position: relative;
-            padding-left: 24px;
-            margin-bottom: 10px;
-            line-height: 1.5;
+            padding-left: 16px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            font-size: 0.85rem;
         }}
         .advantages-list li::before {{
             content: "→";
             position: absolute;
             left: 0;
-            color: var(--bull);
-            font-weight: bold;
+            color: var(--coral);
         }}
 
         /* Comprehensive Clinical Data */
         .comprehensive-clinical {{
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: var(--white);
+            border-radius: 0;
+            border: 1px solid var(--gray-border);
             overflow: hidden;
         }}
         .clinical-subsection {{
-            padding: 24px;
-            border-bottom: 1px solid var(--border);
+            padding: 16px;
+            border-bottom: 1px solid var(--gray-border);
         }}
         .clinical-subsection:last-child {{
             border-bottom: none;
         }}
         .clinical-subsection h4 {{
-            color: var(--primary);
-            font-size: 1.1rem;
-            margin-bottom: 16px;
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }}
 
         /* Trial Overview */
         .trial-overview-header {{
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 12px;
         }}
         .trial-overview-header h3 {{
             margin: 0;
-            color: var(--primary);
-            font-size: 1.3rem;
+            color: var(--navy);
+            font-size: 1.1rem;
+            font-weight: 600;
         }}
         .trial-overview-grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
         }}
         .overview-item {{
-            padding: 8px 12px;
-            background: var(--bg);
-            border-radius: 6px;
-            font-size: 0.95rem;
+            padding: 6px 10px;
+            background: var(--gray-light);
+            border-radius: 0;
+            font-size: 0.85rem;
         }}
 
         /* Populations Table */
@@ -3318,40 +3505,40 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             width: 100%;
         }}
         .populations-table .n-value {{
-            font-weight: bold;
-            color: var(--accent);
+            font-weight: 600;
+            color: var(--coral);
             text-align: center;
         }}
 
         /* Tabs */
         .tabs-container {{
-            margin-top: 12px;
+            margin-top: 10px;
         }}
         .tab-buttons {{
             display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            border-bottom: 2px solid var(--border);
+            gap: 4px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--gray-border);
             padding-bottom: 0;
         }}
         .tab-btn {{
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             background: transparent;
-            color: var(--text-muted);
+            color: var(--gray-text);
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
             transition: all 0.2s;
         }}
         .tab-btn:hover {{
-            color: var(--primary);
+            color: var(--navy);
         }}
         .tab-btn.active {{
-            color: var(--accent);
-            border-bottom-color: var(--accent);
+            color: var(--navy);
+            border-bottom-color: var(--coral);
         }}
         .tab-pane {{
             display: none;
@@ -3366,33 +3553,36 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         }}
         .baseline-table .baseline-value {{
             text-align: right;
-            font-family: 'SF Mono', Monaco, monospace;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 0.8rem;
         }}
         .tooltip-icon {{
-            color: var(--accent);
+            color: var(--coral);
             cursor: help;
-            font-size: 0.85rem;
-            margin-left: 4px;
+            font-size: 0.8rem;
+            margin-left: 3px;
         }}
 
         /* Enhanced Tooltips */
         .enhanced-tooltip {{
-            color: var(--accent);
+            color: var(--gray-text);
             cursor: help;
-            font-size: 0.8rem;
-            margin-left: 6px;
+            font-size: 0.75rem;
+            margin-left: 4px;
             position: relative;
             display: inline-block;
-            background: #e0f2fe;
+            background: var(--gray-light);
             border-radius: 50%;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             text-align: center;
-            line-height: 16px;
+            line-height: 14px;
+            border: 1px solid var(--gray-border);
         }}
         .enhanced-tooltip:hover {{
-            background: var(--accent);
-            color: white;
+            background: var(--navy);
+            color: var(--white);
+            border-color: var(--navy);
         }}
         .enhanced-tooltip:hover::after {{
             content: attr(data-tooltip);
@@ -3400,17 +3590,17 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             bottom: calc(100% + 8px);
             left: 50%;
             transform: translateX(-50%);
-            background: #1e293b;
-            color: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            line-height: 1.5;
+            background: var(--navy);
+            color: var(--white);
+            padding: 10px 14px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            line-height: 1.4;
             white-space: normal;
-            width: 320px;
-            max-width: 400px;
+            width: 280px;
+            max-width: 350px;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             font-weight: normal;
             text-align: left;
         }}
@@ -3420,8 +3610,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             bottom: calc(100% + 2px);
             left: 50%;
             transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: #1e293b;
+            border: 5px solid transparent;
+            border-top-color: var(--navy);
             z-index: 1001;
         }}
         .var-cell {{
@@ -3430,13 +3620,13 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
         /* Global Abbreviation Tooltips */
         .abbr-tooltip {{
-            border-bottom: 1px dotted #64748b;
+            border-bottom: 1px dotted var(--gray-text);
             cursor: help;
             position: relative;
         }}
         .abbr-tooltip:hover {{
-            border-bottom-color: var(--accent);
-            color: var(--accent);
+            border-bottom-color: var(--coral);
+            color: var(--coral);
         }}
         .abbr-tooltip:hover::after {{
             content: attr(data-abbr);
@@ -3444,11 +3634,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             bottom: calc(100% + 6px);
             left: 50%;
             transform: translateX(-50%);
-            background: #334155;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            background: var(--navy);
+            color: var(--white);
+            padding: 5px 8px;
+            border-radius: 2px;
+            font-size: 0.75rem;
             white-space: nowrap;
             z-index: 1000;
             font-weight: normal;
@@ -3460,296 +3650,323 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             left: 50%;
             transform: translateX(-50%);
             border: 4px solid transparent;
-            border-top-color: #334155;
+            border-top-color: var(--navy);
             z-index: 1001;
         }}
 
         /* Efficacy Grid */
         .efficacy-grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
         }}
         .efficacy-card {{
-            background: var(--bg);
-            border-radius: 8px;
-            padding: 16px;
-            border-left: 3px solid var(--accent);
+            background: var(--gray-light);
+            border-radius: 0;
+            padding: 12px;
+            border-left: 2px solid var(--coral);
         }}
         .efficacy-card h5 {{
-            color: var(--primary);
-            margin: 0 0 12px 0;
-            font-size: 0.95rem;
+            color: var(--navy);
+            margin: 0 0 8px 0;
+            font-size: 0.85rem;
+            font-weight: 600;
         }}
         .efficacy-item {{
-            margin-bottom: 8px;
-            line-height: 1.5;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            font-size: 0.8rem;
         }}
         .efficacy-label {{
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            color: var(--gray-text);
+            font-size: 0.8rem;
         }}
 
         /* Safety Section */
         .safety-key-finding {{
-            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
-            border: 1px solid #9ae6b4;
-            border-radius: 8px;
-            padding: 16px 20px;
-            margin-bottom: 20px;
+            background: var(--white);
+            border: 1px solid var(--gray-border);
+            border-left: 2px solid var(--green);
+            border-radius: 0;
+            padding: 12px 16px;
+            margin-bottom: 16px;
             display: flex;
             align-items: flex-start;
-            gap: 12px;
+            gap: 10px;
         }}
         .safety-key-finding .check-icon {{
-            color: var(--bull);
-            font-size: 1.2rem;
+            color: var(--green);
+            font-size: 1rem;
             font-weight: bold;
         }}
         .ae-table {{
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
         }}
         .ae-section {{
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }}
         .ae-section h5 {{
-            color: var(--text);
-            margin-bottom: 12px;
-            font-size: 0.95rem;
+            color: var(--navy);
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
         }}
         .discontinuation {{
-            margin-top: 16px;
-            padding: 12px;
-            background: var(--bg);
-            border-radius: 6px;
+            margin-top: 12px;
+            padding: 10px;
+            background: var(--gray-light);
+            border-radius: 0;
         }}
         .other-safety {{
-            margin-top: 12px;
-            padding-left: 20px;
-            color: var(--text-muted);
+            margin-top: 10px;
+            padding-left: 18px;
+            color: var(--gray-text);
+            font-size: 0.8rem;
         }}
         .other-safety li {{
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }}
 
         /* Cards */
         .card {{
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 24px;
+            background: var(--white);
+            border-radius: 0;
+            border: 1px solid var(--gray-border);
+            margin-bottom: 20px;
             overflow: hidden;
         }}
         .card-content {{
-            padding: 24px;
+            padding: 16px;
         }}
 
         /* Target/Mechanism Grid */
         .overview-grid {{
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
+            gap: 16px;
+            margin-bottom: 20px;
         }}
         @media (max-width: 900px) {{
             .overview-grid {{ grid-template-columns: 1fr; }}
         }}
         .overview-card {{
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid var(--border);
+            background: var(--white);
+            border-radius: 0;
+            padding: 16px;
+            border: 1px solid var(--gray-border);
         }}
         .overview-card.target {{
-            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
-            border-color: #bee3f8;
+            background: var(--white);
+            border-left: 2px solid var(--navy);
         }}
         .overview-card.mechanism {{
-            background: linear-gradient(135deg, #faf5ff, #f3e8ff);
-            border-color: #e9d8fd;
+            background: var(--white);
+            border-left: 2px solid var(--coral);
         }}
         .overview-card h3 {{
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }}
-        .overview-card.target h3 {{ color: var(--accent); }}
-        .overview-card.mechanism h3 {{ color: #6b46c1; }}
-        .detail-row {{
             margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--gray-border);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }}
+        .overview-card.target h3 {{ color: var(--navy); }}
+        .overview-card.mechanism h3 {{ color: var(--navy); }}
+        .detail-row {{
+            margin-bottom: 10px;
+            font-size: 0.85rem;
         }}
         .detail-row strong {{
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 4px;
+            color: var(--gray-text);
+            margin-bottom: 3px;
+            letter-spacing: 0.3px;
         }}
         .genetic-highlight {{
-            background: #f0fff4;
-            border-left: 3px solid var(--bull);
-            padding: 12px;
-            border-radius: 0 8px 8px 0;
-            margin-top: 16px;
+            background: var(--gray-light);
+            border-left: 2px solid var(--green);
+            padding: 10px;
+            border-radius: 0;
+            margin-top: 12px;
+            font-size: 0.85rem;
         }}
 
         /* Market */
         .market-grid {{
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 12px;
         }}
         .market-item {{
-            background: var(--bg);
-            padding: 16px;
-            border-radius: 8px;
+            background: var(--gray-light);
+            padding: 12px;
+            border-radius: 0;
         }}
         .market-item.full {{ grid-column: 1 / -1; }}
         .market-item.highlight {{
-            background: #f0fff4;
-            border-left: 3px solid var(--bull);
+            background: var(--white);
+            border-left: 2px solid var(--coral);
         }}
         .market-item .label {{
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 4px;
+            color: var(--gray-text);
+            margin-bottom: 3px;
+            letter-spacing: 0.3px;
         }}
         .market-item .value {{
             font-weight: 500;
+            font-size: 0.85rem;
         }}
 
         /* Indications */
         .indications {{
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }}
         .indication-badge {{
             display: inline-block;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin: 4px 4px 4px 0;
+            background: var(--gray-light);
+            border: 1px solid var(--gray-border);
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin: 3px 3px 3px 0;
         }}
 
         /* Trials */
         .trial-card {{
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
+            background: var(--white);
+            border: 1px solid var(--gray-border);
+            border-radius: 0;
+            padding: 16px;
+            margin-bottom: 16px;
         }}
         .trial-header {{
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
         }}
         .trial-header h4 {{
             margin: 0;
-            color: var(--primary);
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 600;
         }}
         .n-enrolled {{
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            color: var(--gray-text);
+            font-size: 0.8rem;
         }}
         .trial-meta {{
-            background: var(--bg);
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: var(--gray-light);
+            padding: 12px;
+            border-radius: 0;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
         }}
         .trial-meta p {{
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }}
         .trial-meta p:last-child {{
             margin-bottom: 0;
         }}
         .limitation-text {{
-            color: var(--bear);
+            color: var(--red);
             font-style: italic;
         }}
 
-        /* Data Tables */
+        /* Data Tables - Compact Bloomberg Style */
         .data-table {{
-            width: 100%;
+            width: auto;
+            max-width: 100%;
             border-collapse: collapse;
-            margin: 16px 0;
-            font-size: 0.9rem;
+            margin: 12px 0;
+            font-size: 0.8rem;
         }}
         .data-table th, .data-table td {{
-            padding: 12px;
+            padding: 6px 10px;
             text-align: left;
-            border-bottom: 1px solid var(--border);
+            border: 1px solid var(--gray-border);
         }}
         .data-table th {{
-            background: var(--bg);
-            font-size: 0.75rem;
+            background: var(--navy);
+            color: var(--white);
+            font-size: 0.7rem;
             text-transform: uppercase;
-            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }}
+        .data-table tbody tr:nth-child(even) {{
+            background: var(--gray-light);
         }}
         .endpoint-name, .biomarker-name {{
             font-weight: 600;
+            color: var(--navy);
         }}
         .endpoint-def, .method {{
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            font-size: 0.75rem;
+            color: var(--gray-text);
         }}
         .result strong {{
-            color: var(--primary);
-            font-size: 1.1rem;
+            color: var(--coral);
+            font-size: 0.95rem;
         }}
         .comparator {{
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            font-size: 0.75rem;
+            color: var(--gray-text);
         }}
         .source {{
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            font-size: 0.75rem;
+            color: var(--gray-text);
         }}
 
         /* Safety */
         .safety-box {{
-            background: #f0fff4;
-            border: 1px solid #9ae6b4;
-            padding: 16px;
-            border-radius: 8px;
-            margin: 16px 0;
+            background: var(--white);
+            border: 1px solid var(--gray-border);
+            border-left: 2px solid var(--green);
+            padding: 12px;
+            border-radius: 0;
+            margin: 12px 0;
         }}
         .safety-box h5 {{
-            color: var(--bull);
-            margin-bottom: 8px;
+            color: var(--navy);
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }}
         .ae-badges {{
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
-            margin-top: 12px;
+            margin-top: 10px;
         }}
         .ae-badge {{
-            background: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.85rem;
+            background: var(--gray-light);
+            padding: 3px 8px;
+            border-radius: 0;
+            font-size: 0.75rem;
         }}
         .safety-diff {{
-            margin-top: 12px;
+            margin-top: 10px;
             font-style: italic;
-            color: var(--bull);
+            color: var(--gray-text);
+            font-size: 0.85rem;
         }}
 
         /* Limitations */
         .limitations-box {{
-            background: #fff5f5;
-            border-left: 3px solid var(--bear);
-            padding: 12px 16px;
-            border-radius: 0 8px 8px 0;
-            font-size: 0.9rem;
-            color: var(--bear);
+            background: var(--white);
+            border-left: 2px solid var(--red);
+            padding: 10px 14px;
+            border-radius: 0;
+            font-size: 0.85rem;
+            color: var(--red);
+            margin-bottom: 12px;
         }}
 
         /* Catalysts - now using research-table styling */
@@ -3758,24 +3975,25 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         .asset-nav {{
             display: flex;
             justify-content: space-between;
-            margin-top: 48px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
+            margin-top: 36px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-border);
         }}
         .nav-link {{
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            gap: 6px;
+            padding: 10px 16px;
+            background: var(--white);
+            border: 1px solid var(--gray-border);
+            border-radius: 0;
             text-decoration: none;
-            color: var(--text);
+            color: var(--text-primary);
+            font-size: 0.85rem;
         }}
         .nav-link:hover {{
-            border-color: var(--accent);
-            color: var(--accent);
+            border-color: var(--coral);
+            color: var(--coral);
         }}
         .nav-link.disabled {{
             opacity: 0.5;
@@ -3783,90 +4001,95 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         }}
 
         h5 {{
-            color: var(--primary);
-            margin-bottom: 12px;
+            color: var(--navy);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
         }}
 
         /* v2.0 Schema: Head-to-Head Comparison Table */
         .h2h-section {{
-            margin: 24px 0;
-            padding: 20px;
-            background: #f0fff4;
-            border-radius: 12px;
-            border: 1px solid #9ae6b4;
+            margin: 16px 0;
+            padding: 16px;
+            background: var(--white);
+            border-radius: 0;
+            border: 1px solid var(--gray-border);
+            border-left: 2px solid var(--coral);
         }}
         .h2h-section h5 {{
-            color: var(--bull);
-            margin-bottom: 8px;
+            color: var(--navy);
+            margin-bottom: 6px;
         }}
         .h2h-section .caveat {{
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            font-size: 0.75rem;
+            color: var(--gray-text);
             font-style: italic;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }}
         .h2h-table .winner-kt621 {{
-            background: #f0fff4;
+            background: var(--gray-light);
         }}
         .h2h-table .winner {{
             font-weight: 600;
-            color: var(--bull);
+            color: var(--coral);
         }}
         .h2h-table .winner-tie .winner {{
-            color: var(--text-muted);
+            color: var(--gray-text);
         }}
 
         /* Wall Street Research Style: Investment Analysis */
         .research-section {{
-            background: white;
+            background: var(--white);
         }}
         .research-subsection {{
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }}
         .research-subsection h4 {{
-            font-size: 1rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #1a1a1a;
-            padding-bottom: 8px;
+            letter-spacing: 0.4px;
+            border-bottom: 1px solid var(--gray-border);
+            padding-bottom: 6px;
         }}
         .research-table {{
-            width: 100%;
+            width: auto;
+            max-width: 100%;
             border-collapse: collapse;
-            font-size: 0.9rem;
-            background: white;
+            font-size: 0.8rem;
+            background: var(--white);
         }}
         .research-table th {{
-            background: #f8f9fa;
-            font-weight: 700;
+            background: var(--navy);
+            color: var(--white);
+            font-weight: 500;
             text-align: left;
-            padding: 10px 12px;
-            border: 1px solid #dee2e6;
-            font-size: 0.8rem;
+            padding: 6px 10px;
+            border: 1px solid var(--gray-border);
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            color: #1a1a1a;
         }}
         .research-table td {{
-            padding: 10px 12px;
-            border: 1px solid #dee2e6;
+            padding: 6px 10px;
+            border: 1px solid var(--gray-border);
             vertical-align: top;
-            color: #1a1a1a;
-            line-height: 1.5;
+            color: var(--text-primary);
+            line-height: 1.4;
         }}
         .research-table tbody tr:nth-child(even) {{
-            background: #fafafa;
+            background: var(--gray-light);
         }}
         .research-table .point-cell,
         .research-table .event-cell {{
             font-weight: 600;
             width: 25%;
+            color: var(--navy);
         }}
         .research-table .conf-cell {{
-            width: 100px;
+            width: 90px;
             text-align: center;
             font-weight: 500;
         }}
@@ -3892,74 +4115,81 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
         /* Probability of Success */
         .pos-section {{
-            margin-top: 32px;
+            margin-top: 24px;
         }}
         .pos-section h4 {{
-            font-size: 1rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #1a1a1a;
-            padding-bottom: 8px;
+            letter-spacing: 0.4px;
+            border-bottom: 1px solid var(--gray-border);
+            padding-bottom: 6px;
         }}
         .pos-table {{
-            max-width: 400px;
+            max-width: 350px;
         }}
         .pos-table .label-cell {{
             font-weight: 500;
-            width: 180px;
+            width: 160px;
         }}
         .pos-table .value-cell {{
-            font-weight: 700;
+            font-weight: 600;
             text-align: right;
+            color: var(--coral);
         }}
         .pos-table .total-row {{
-            background: #f8f9fa;
+            background: var(--gray-light);
         }}
         .pos-table .total-row td {{
-            border-top: 2px solid #1a1a1a;
+            border-top: 1px solid var(--navy);
         }}
         .pos-methodology {{
-            font-size: 0.85rem;
-            color: #666;
+            font-size: 0.75rem;
+            color: var(--gray-text);
             font-style: italic;
-            margin-top: 8px;
+            margin-top: 6px;
         }}
 
         /* v2.0 Schema: Trial Cards */
         .trial-card.featured {{
-            border: 2px solid var(--accent);
-            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.15);
+            border: 1px solid var(--coral);
+            border-left: 3px solid var(--coral);
         }}
         .trial-card.ongoing {{
-            border-left: 4px solid var(--warning);
+            border-left: 3px solid var(--gray-text);
         }}
         .key-findings {{
-            background: #ebf8ff;
-            padding: 16px;
-            border-radius: 8px;
-            margin: 16px 0;
+            background: var(--gray-light);
+            padding: 12px;
+            border-radius: 0;
+            margin: 12px 0;
+            border-left: 2px solid var(--coral);
         }}
         .key-findings ul {{
-            margin: 8px 0 0 20px;
+            margin: 6px 0 0 18px;
+            font-size: 0.85rem;
         }}
         .findings-list {{
-            margin: 12px 0 0 20px;
+            margin: 10px 0 0 18px;
+            font-size: 0.85rem;
         }}
         .success-criteria, .failure-criteria {{
-            padding: 16px;
-            border-radius: 8px;
-            margin: 12px 0;
+            padding: 12px;
+            border-radius: 0;
+            margin: 10px 0;
+            font-size: 0.85rem;
         }}
         .success-criteria {{
-            background: #f0fff4;
-            border-left: 3px solid var(--bull);
+            background: var(--white);
+            border: 1px solid var(--gray-border);
+            border-left: 2px solid var(--green);
         }}
         .failure-criteria {{
-            background: #fff5f5;
-            border-left: 3px solid var(--bear);
+            background: var(--white);
+            border: 1px solid var(--gray-border);
+            border-left: 2px solid var(--red);
         }}
         .success-criteria ul, .failure-criteria ul {{
             margin: 8px 0 0 20px;
@@ -3967,20 +4197,66 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
         /* Catalyst enhancements */
         .consensus {{
-            margin-top: 16px;
-            padding: 12px;
-            background: rgba(255,255,255,0.5);
-            border-radius: 8px;
-            font-size: 0.9rem;
+            margin-top: 12px;
+            padding: 10px;
+            background: var(--gray-light);
+            border-radius: 0;
+            font-size: 0.8rem;
         }}
         .impact {{
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            margin-top: 4px;
+            margin-top: 3px;
         }}
-        .scenario.bull .impact {{ color: var(--bull); }}
-        .scenario.bear .impact {{ color: var(--bear); }}
+        .scenario.bull .impact {{ color: var(--green); }}
+        .scenario.bear .impact {{ color: var(--red); }}
+
+        /* Additional compact styles */
+        .analyst-note {{
+            background: var(--gray-light);
+            border-left: 2px solid var(--coral);
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }}
+        .comorbid-section {{
+            background: var(--gray-light);
+            border-left: 2px solid var(--navy);
+            padding: 12px;
+            margin-top: 12px;
+        }}
+        .comorbid-section h5 {{
+            margin-bottom: 8px;
+        }}
+        .baseline-section {{
+            margin-top: 12px;
+        }}
+        .baseline-section h5 {{
+            margin-bottom: 8px;
+        }}
+        .preclin-item {{
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+        }}
+        .preclin-item ul {{
+            margin: 4px 0 0 16px;
+        }}
+        .skin-transcriptomics {{
+            background: var(--gray-light);
+            border-left: 2px solid var(--green);
+        }}
+        .unmet-need-callout {{
+            background: var(--gray-light) !important;
+            border-left: 2px solid var(--coral) !important;
+            border-radius: 0 !important;
+            padding: 12px !important;
+        }}
+        .peak-sales-highlight {{
+            background: var(--gray-light) !important;
+            border-left: 2px solid var(--coral) !important;
+            border-radius: 0 !important;
+        }}
     </style>
 </head>
 <body>
@@ -4009,6 +4285,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 {'<li><a href="#treatment">Treatment Landscape</a></li>' if current_treatment else ''}
                 <li><a href="#clinical">Clinical Data</a></li>
                 {'<li><a href="#competitive">Competitive Landscape</a></li>' if competitive_landscape else ''}
+                {'<li><a href="#preclinical">Preclinical Data</a></li>' if preclinical_data else ''}
                 <li><a href="#investment">Investment Analysis</a></li>
                 <li><a href="#market">Market Opportunity</a></li>
                 <li><a href="#catalysts">Catalysts</a></li>
@@ -4031,10 +4308,10 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
                 <div class="overview-grid">
                     <div class="overview-card target">
-                        <h3>Target: <a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" style="color: var(--accent);">{target_name}</a></h3>
+                        <h3>Target: <a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" style="color: var(--coral);">{target_name}</a></h3>
                         {f'<div class="detail-row"><strong>Full Name</strong>{target_full}</div>' if target_full else ''}
                         {f'<div class="detail-row"><strong>Pathway</strong>{target_pathway}</div>' if target_pathway else ''}
-                        {f'<div class="detail-row"><a href="#target" style="color: var(--accent);">See Target Biology →</a></div>' if target_biology else ''}
+                        {f'<div class="detail-row"><a href="#target" style="color: var(--coral);">See Target Biology →</a></div>' if target_biology else ''}
                     </div>
                     <div class="overview-card mechanism">
                         <h3>Mechanism of Action{mechanism_badge}</h3>
@@ -4070,6 +4347,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
             {competitive_html}
 
+            {preclinical_html}
+
             {investment_html}
 
             <section id="market" class="section">
@@ -4085,7 +4364,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                             {f'<div class="market-item"><div class="label">Peak Sales (Bull)</div><div class="value">{peak_bull}</div></div>' if peak_bull else ''}
                             {f'<div class="market-item"><div class="label">Peak Sales (Base)</div><div class="value">{peak_base}</div></div>' if peak_base else ''}
                         </div>
-                        {f'<div class="unmet-need-callout" style="margin-top: 16px; padding: 16px; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-radius: 8px; border-left: 4px solid #d97706;"><strong style="color: #92400e;">⚠️ Unmet Need:</strong> <span style="color: #78350f;">{market.get("unmet_need", "")}</span></div>' if market.get("unmet_need") else ''}
+                        {f'<div class="unmet-need-callout" style="margin-top: 12px; padding: 12px;"><strong style="color: var(--navy);">Unmet Need:</strong> <span style="color: var(--text-primary);">{market.get("unmet_need", "")}</span></div>' if market.get("unmet_need") else ''}
                     </div>
                 </div>
             </section>
