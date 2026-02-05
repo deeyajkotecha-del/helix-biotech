@@ -1600,6 +1600,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     current_treatment = asset.get("current_treatment_landscape", {})
     asset_differentiation = asset.get("edg7500_differentiation", {}) or asset.get("differentiation", {})
     competitive_landscape = asset.get("competitive_landscape", {})
+    abbreviations = asset.get("abbreviations", {})
 
     # Executive summary data
     one_liner = asset.get("one_liner", "")
@@ -2089,35 +2090,85 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         </div>'''
 
         # ===== 3. BASELINE CHARACTERISTICS WITH TABS =====
-        baseline_ohcm = clinical_data.get("baseline_ohcm", {})
-        baseline_nhcm = clinical_data.get("baseline_nhcm", {})
+        # Handle both old (baseline_ohcm/baseline_nhcm) and new (baseline_characteristics.ohcm/nhcm) formats
+        baseline_chars = clinical_data.get("baseline_characteristics", {})
+        baseline_ohcm = clinical_data.get("baseline_ohcm", {}) or baseline_chars.get("ohcm", {})
+        baseline_nhcm = clinical_data.get("baseline_nhcm", {}) or baseline_chars.get("nhcm", {})
+        baseline_explained = clinical_data.get("baseline_characteristics_explained", {})
 
-        # Abbreviation tooltips
-        abbrev_tooltips = {
-            "nyha": "New York Heart Association functional classification",
-            "lvef": "Left Ventricular Ejection Fraction - measure of heart pumping efficiency",
-            "lvot_g": "Left Ventricular Outflow Tract Gradient - pressure difference",
-            "e_prime": "Early diastolic mitral annular velocity - measure of diastolic function",
-            "nt_probnp": "N-terminal pro-B-type natriuretic peptide - cardiac stress biomarker",
-            "kccq": "Kansas City Cardiomyopathy Questionnaire - quality of life measure",
-            "icd": "Implantable Cardioverter-Defibrillator"
-        }
+        # Build enhanced tooltips from baseline_characteristics_explained
+        variable_defs = baseline_explained.get("variable_definitions", {})
 
-        def build_baseline_rows(baseline_data, abbrevs):
+        def get_enhanced_tooltip(key):
+            """Build rich tooltip from baseline_characteristics_explained data."""
+            key_lower = key.lower()
+
+            # Search through variable_definitions for matching key
+            for category, category_data in variable_defs.items():
+                if not isinstance(category_data, dict):
+                    continue
+                for var_key, var_data in category_data.items():
+                    if isinstance(var_data, dict) and var_key.lower() in key_lower:
+                        defn = var_data.get("definition", "")
+                        normal = var_data.get("normal_range", var_data.get("normal", ""))
+                        study = var_data.get("study_values", var_data.get("study_finding", ""))
+                        relevance = var_data.get("key_relevance", var_data.get("relevance", ""))
+
+                        # Build multi-line tooltip
+                        parts = []
+                        if defn:
+                            parts.append(defn)
+                        if normal:
+                            parts.append(f"Normal: {normal}")
+                        if study:
+                            parts.append(f"Study: {study}")
+                        if relevance:
+                            parts.append(f"Key: {relevance}")
+
+                        if parts:
+                            return " | ".join(parts)
+                    elif var_key.lower() in key_lower and isinstance(var_data, str):
+                        return var_data
+
+            # Fallback to basic tooltips
+            basic_tooltips = {
+                "nyha": "New York Heart Association functional classification (I-IV)",
+                "lvef": "Left Ventricular Ejection Fraction - heart pumping efficiency (normal: 55-70%)",
+                "lvot": "Left Ventricular Outflow Tract Gradient - pressure difference showing obstruction",
+                "e_prime": "Early diastolic velocity - measures heart relaxation (normal: >8 cm/s)",
+                "nt_probnp": "NT-proBNP - cardiac stress biomarker (normal: <125 pg/mL)",
+                "kccq": "Kansas City Cardiomyopathy Questionnaire - quality of life (0-100, higher=better)",
+                "icd": "Implantable Cardioverter-Defibrillator",
+                "sarcomere": "Genetic mutation in sarcomere proteins causing HCM",
+                "female": "Percentage of female patients in cohort",
+                "age": "Mean (SD) age of patients in years"
+            }
+            for abbr, tip in basic_tooltips.items():
+                if abbr in key_lower:
+                    return tip
+            return ""
+
+        def build_baseline_rows(baseline_data):
             rows = ""
             for key, value in baseline_data.items():
+                # Format label - convert to proper medical abbreviations
                 label = key.replace("_", " ").title()
-                # Check for tooltip
-                tooltip = ""
-                for abbr, tip in abbrevs.items():
-                    if abbr in key.lower():
-                        tooltip = f' <span class="tooltip-icon" title="{tip}">ⓘ</span>'
-                        break
-                rows += f'<tr><td>{label}{tooltip}</td><td class="baseline-value"><strong>{value}</strong></td></tr>'
+                # Fix common medical acronyms to uppercase
+                label = label.replace("Nyha", "NYHA").replace("Lvef", "LVEF").replace("Lvot", "LVOT")
+                label = label.replace("Nt Probnp", "NT-proBNP").replace("Kccq", "KCCQ")
+                label = label.replace("E Prime", "e'").replace("Icd", "ICD")
+                label = label.replace("Ohcm", "oHCM").replace("Nhcm", "nHCM")
+                label = label.replace("Hcm", "HCM").replace("Bmi", "BMI")
+
+                # Get enhanced tooltip
+                tooltip_text = get_enhanced_tooltip(key)
+                tooltip = f' <span class="enhanced-tooltip" data-tooltip="{tooltip_text}">ⓘ</span>' if tooltip_text else ''
+
+                rows += f'<tr><td class="var-cell">{label}{tooltip}</td><td class="baseline-value"><strong>{value}</strong></td></tr>'
             return rows
 
-        baseline_ohcm_rows = build_baseline_rows(baseline_ohcm, abbrev_tooltips)
-        baseline_nhcm_rows = build_baseline_rows(baseline_nhcm, abbrev_tooltips)
+        baseline_ohcm_rows = build_baseline_rows(baseline_ohcm)
+        baseline_nhcm_rows = build_baseline_rows(baseline_nhcm)
 
         baseline_html = ""
         if baseline_ohcm_rows or baseline_nhcm_rows:
@@ -2270,9 +2321,15 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     investment_html = ""
     if investment_analysis:
         bull_case = investment_analysis.get("bull_case", [])
+        # Fallback: use key_risks as bear_case if bear_case doesn't exist
         bear_case = investment_analysis.get("bear_case", [])
+        key_risks = investment_analysis.get("key_risks", [])
+        if not bear_case and key_risks:
+            # Convert key_risks strings to bear_case format
+            bear_case = [{"point": risk, "evidence": "", "counter_argument": ""} for risk in key_risks]
         key_debates = investment_analysis.get("key_debates", [])
         pos = investment_analysis.get("probability_of_success", {})
+        peak_sales = investment_analysis.get("peak_sales_estimate", "")
 
         # Bull Case Table Rows
         bull_rows = ""
@@ -2336,47 +2393,62 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 {f'<p class="pos-methodology">{pos.get("methodology", "")}</p>' if pos.get("methodology") else ''}
             </div>'''
 
-        investment_html = f'''
-        <section id="investment" class="section research-section">
-            <h2 class="section-header">Investment Analysis</h2>
-
+        # Build conditional sections
+        bull_section = ""
+        if bull_rows:
+            bull_section = f'''
             <div class="research-subsection">
                 <h4>Bull Case</h4>
                 <table class="research-table">
                     <thead>
                         <tr><th>Thesis Point</th><th>Supporting Evidence</th><th>Confidence</th></tr>
                     </thead>
-                    <tbody>
-                        {bull_rows if bull_rows else '<tr><td colspan="3">No bull case points available</td></tr>'}
-                    </tbody>
+                    <tbody>{bull_rows}</tbody>
                 </table>
-            </div>
+            </div>'''
 
+        bear_section = ""
+        if bear_rows:
+            bear_section = f'''
             <div class="research-subsection">
-                <h4>Bear Case</h4>
+                <h4>{"Key Risks" if key_risks and not investment_analysis.get("bear_case") else "Bear Case"}</h4>
                 <table class="research-table">
                     <thead>
                         <tr><th>Risk</th><th>Evidence</th><th>Mitigating Factors</th></tr>
                     </thead>
-                    <tbody>
-                        {bear_rows if bear_rows else '<tr><td colspan="3">No bear case points available</td></tr>'}
-                    </tbody>
+                    <tbody>{bear_rows}</tbody>
                 </table>
-            </div>
+            </div>'''
 
-            {f"""<div class="research-subsection">
+        debates_section = ""
+        if debates_rows:
+            debates_section = f'''
+            <div class="research-subsection">
                 <h4>Key Debates</h4>
                 <table class="research-table debates-table">
                     <thead>
                         <tr><th>Question</th><th>Bull View</th><th>Bear View</th><th>Resolution Catalyst</th></tr>
                     </thead>
-                    <tbody>
-                        {debates_rows}
-                    </tbody>
+                    <tbody>{debates_rows}</tbody>
                 </table>
-            </div>""" if debates_rows else ''}
+            </div>'''
 
+        peak_sales_html = ""
+        if peak_sales:
+            peak_sales_html = f'''
+            <div class="peak-sales-highlight" style="margin-top: 16px; padding: 16px; background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%); border-radius: 8px; border-left: 4px solid #38a169;">
+                <strong style="color: #276749;">Peak Sales Estimate:</strong>
+                <span style="font-size: 1.1em; color: #22543d;">{peak_sales}</span>
+            </div>'''
+
+        investment_html = f'''
+        <section id="investment" class="section research-section">
+            <h2 class="section-header">Investment Analysis</h2>
+            {bull_section}
+            {bear_section}
+            {debates_section}
             {pos_html}
+            {peak_sales_html}
         </section>'''
 
     # =======================================================================
@@ -2586,6 +2658,10 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 </div>""" if adv_items else ""}
             </div>
         </section>'''
+
+    # Generate abbreviations JSON for JavaScript
+    import json as json_module
+    abbr_json = json_module.dumps(abbreviations) if abbreviations else "{}"
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -2969,6 +3045,95 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             cursor: help;
             font-size: 0.85rem;
             margin-left: 4px;
+        }}
+
+        /* Enhanced Tooltips */
+        .enhanced-tooltip {{
+            color: var(--accent);
+            cursor: help;
+            font-size: 0.8rem;
+            margin-left: 6px;
+            position: relative;
+            display: inline-block;
+            background: #e0f2fe;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            text-align: center;
+            line-height: 16px;
+        }}
+        .enhanced-tooltip:hover {{
+            background: var(--accent);
+            color: white;
+        }}
+        .enhanced-tooltip:hover::after {{
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            white-space: normal;
+            width: 320px;
+            max-width: 400px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-weight: normal;
+            text-align: left;
+        }}
+        .enhanced-tooltip:hover::before {{
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 2px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #1e293b;
+            z-index: 1001;
+        }}
+        .var-cell {{
+            position: relative;
+        }}
+
+        /* Global Abbreviation Tooltips */
+        .abbr-tooltip {{
+            border-bottom: 1px dotted #64748b;
+            cursor: help;
+            position: relative;
+        }}
+        .abbr-tooltip:hover {{
+            border-bottom-color: var(--accent);
+            color: var(--accent);
+        }}
+        .abbr-tooltip:hover::after {{
+            content: attr(data-abbr);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #334155;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 1000;
+            font-weight: normal;
+        }}
+        .abbr-tooltip:hover::before {{
+            content: '';
+            position: absolute;
+            bottom: calc(100% + 2px);
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid transparent;
+            border-top-color: #334155;
+            z-index: 1001;
         }}
 
         /* Efficacy Grid */
@@ -3593,12 +3758,14 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                     <div class="card-content">
                         <div class="market-grid">
                             {f'<div class="market-item"><div class="label">Total Addressable Market</div><div class="value">{market.get("total_addressable_market", "") or market.get("tam", "N/A")}</div></div>' if market.get("total_addressable_market") or market.get("tam") else ''}
+                            {f'<div class="market-item"><div class="label">Patient Population</div><div class="value">{market.get("patient_population", "")}</div></div>' if market.get("patient_population") else ''}
                             {f'<div class="market-item"><div class="label">Current Penetration</div><div class="value">{market.get("current_penetration", "")}</div></div>' if market.get("current_penetration") else ''}
                             {f'<div class="market-item"><div class="label">Oral Preference</div><div class="value">{market.get("oral_preference", "")}</div></div>' if market.get("oral_preference") else ''}
                             {f'<div class="market-item full highlight"><div class="label">Competitive Advantage</div><div class="value">{market.get("competitive_advantage", "")}</div></div>' if market.get("competitive_advantage") else ''}
                             {f'<div class="market-item"><div class="label">Peak Sales (Bull)</div><div class="value">{peak_bull}</div></div>' if peak_bull else ''}
                             {f'<div class="market-item"><div class="label">Peak Sales (Base)</div><div class="value">{peak_base}</div></div>' if peak_base else ''}
                         </div>
+                        {f'<div class="unmet-need-callout" style="margin-top: 16px; padding: 16px; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-radius: 8px; border-left: 4px solid #d97706;"><strong style="color: #92400e;">⚠️ Unmet Need:</strong> <span style="color: #78350f;">{market.get("unmet_need", "")}</span></div>' if market.get("unmet_need") else ''}
                     </div>
                 </div>
             </section>
@@ -3665,6 +3832,70 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 }});
             }});
         }});
+
+        // Global abbreviation tooltips
+        const abbreviations = {abbr_json};
+        if (Object.keys(abbreviations).length > 0) {{
+            // Build regex pattern from abbreviation keys (sorted by length descending to match longer first)
+            const abbrKeys = Object.keys(abbreviations).sort((a, b) => b.length - a.length);
+            const pattern = new RegExp('\\\\b(' + abbrKeys.map(k => k.replace(/[.*+?^${{}}()|[\\]\\\\]/g, '\\\\$&')).join('|') + ')\\\\b', 'g');
+
+            // Find text nodes and wrap abbreviations
+            const walker = document.createTreeWalker(
+                document.querySelector('.content') || document.body,
+                NodeFilter.SHOW_TEXT,
+                {{
+                    acceptNode: function(node) {{
+                        // Skip script, style, and already-processed elements
+                        const parent = node.parentElement;
+                        if (!parent) return NodeFilter.FILTER_REJECT;
+                        if (parent.closest('script, style, .abbr-tooltip, .enhanced-tooltip, button, input, textarea, .baseline-table')) {{
+                            return NodeFilter.FILTER_REJECT;
+                        }}
+                        return pattern.test(node.textContent) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+                    }}
+                }}
+            );
+
+            const nodesToProcess = [];
+            while (walker.nextNode()) nodesToProcess.push(walker.currentNode);
+
+            nodesToProcess.forEach(textNode => {{
+                const text = textNode.textContent;
+                const fragment = document.createDocumentFragment();
+                let lastIndex = 0;
+                let match;
+
+                // Reset pattern for each node
+                pattern.lastIndex = 0;
+
+                while ((match = pattern.exec(text)) !== null) {{
+                    // Add text before match
+                    if (match.index > lastIndex) {{
+                        fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+                    }}
+
+                    // Create tooltip span
+                    const span = document.createElement('span');
+                    span.className = 'abbr-tooltip';
+                    span.setAttribute('data-abbr', abbreviations[match[1]] || abbreviations[match[1].replace('_', ' ')] || match[1]);
+                    span.textContent = match[1];
+                    fragment.appendChild(span);
+
+                    lastIndex = pattern.lastIndex;
+                }}
+
+                // Add remaining text
+                if (lastIndex < text.length) {{
+                    fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+                }}
+
+                // Replace original node
+                if (fragment.childNodes.length > 0) {{
+                    textNode.parentNode.replaceChild(fragment, textNode);
+                }}
+            }});
+        }}
     </script>
 </body>
 </html>'''
