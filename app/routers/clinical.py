@@ -2135,8 +2135,14 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         design = phase1_hv.get("design", {})
         design_type = design.get("type", "") if isinstance(design, dict) else design
         population = design.get("population", "") if isinstance(design, dict) else ""
-        sad_n = design.get("sad_n", "") if isinstance(design, dict) else ""
-        mad_n = design.get("mad_n", "") if isinstance(design, dict) else ""
+        sad_n = design.get("sad_n", 0) if isinstance(design, dict) else 0
+        mad_n = design.get("mad_n", 0) if isinstance(design, dict) else 0
+        # Format patient count cleanly: "n=118 (48 SAD, 70 MAD)"
+        try:
+            total_n = int(sad_n) + int(mad_n)
+            patient_count_str = f"n={total_n} ({sad_n} SAD, {mad_n} MAD)"
+        except (ValueError, TypeError):
+            patient_count_str = f"n={sad_n} SAD, {mad_n} MAD" if sad_n or mad_n else ""
 
         # STAT6 degradation data
         stat6_deg = phase1_hv.get("stat6_degradation", {})
@@ -2166,7 +2172,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <h4>{trial_name}</h4>
                 <span class="badge completed">Phase 1</span>
                 <span class="badge completed">Completed</span>
-                <span class="n-enrolled">n={sad_n} SAD + {mad_n} MAD</span>
+                <span class="n-enrolled">{patient_count_str}</span>
             </div>
             <div class="trial-meta">
                 <p><strong>Design:</strong> {design_type}</p>
@@ -2305,10 +2311,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 dup = row.get("dupilumab_day28", "")
                 winner = row.get("winner", "")
                 winner_class = "winner-kt621" if winner == "KT-621" else "winner-tie" if winner == "Tie" else ""
+                # Only highlight KT-621 value with coral when it's the winner
+                result_class = "result key-result" if winner == "KT-621" else "result"
                 h2h_rows += f'''
                 <tr class="{winner_class}">
                     <td>{endpoint}</td>
-                    <td class="result"><strong>{kt621}</strong></td>
+                    <td class="{result_class}"><strong>{kt621}</strong></td>
                     <td>{dup}</td>
                     <td class="winner">{winner}</td>
                 </tr>'''
@@ -3334,6 +3342,13 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             margin-bottom: 16px;
             padding-bottom: 10px;
             border-bottom: 1px solid var(--gray-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }}
+        .section-header .citation-badge {{
+            margin-left: auto;
+            font-size: 0.7rem;
         }}
 
         /* Asset Header */
@@ -3899,7 +3914,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             margin-bottom: 0;
         }}
         .limitation-text {{
-            color: var(--red);
+            color: var(--gray-text);
             font-style: italic;
         }}
 
@@ -3921,8 +3936,15 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             color: var(--white);
             font-size: 0.7rem;
             text-transform: uppercase;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.3px;
+        }}
+        .data-table td {{
+            color: var(--text-primary);
+            font-weight: 400;
+        }}
+        .data-table td:first-child {{
+            font-weight: 500;
         }}
         .data-table tbody tr:nth-child(even) {{
             background: var(--gray-light);
@@ -3935,9 +3957,22 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             font-size: 0.75rem;
             color: var(--gray-text);
         }}
+        /* Table data: regular weight, dark gray by default */
+        .result {{
+            color: var(--text-primary);
+        }}
         .result strong {{
-            color: var(--coral);
+            color: var(--text-primary);
             font-size: 0.95rem;
+            font-weight: 500;
+        }}
+        /* Use .key-result or .highlight for winning/headline numbers only */
+        .result.key-result strong,
+        .result.highlight strong,
+        td.key-result,
+        td.highlight {{
+            color: var(--coral);
+            font-weight: 600;
         }}
         .comparator {{
             font-size: 0.75rem;
@@ -3982,15 +4017,27 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             font-size: 0.85rem;
         }}
 
-        /* Limitations */
+        /* Limitations / Warnings - no red, subtle styling */
         .limitations-box {{
             background: var(--white);
-            border-left: 2px solid var(--red);
+            border: 1px solid var(--gray-border);
+            border-left: 2px solid var(--coral);
             padding: 10px 14px;
             border-radius: 0;
             font-size: 0.85rem;
-            color: var(--red);
+            color: var(--text-primary);
             margin-bottom: 12px;
+        }}
+        .limitations-box strong {{
+            color: var(--navy);
+        }}
+        .limitations-box ul {{
+            margin-top: 6px;
+            padding-left: 18px;
+        }}
+        .limitations-box li {{
+            margin-bottom: 4px;
+            line-height: 1.4;
         }}
 
         /* Catalysts - now using research-table styling */
@@ -4029,6 +4076,13 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             margin-bottom: 10px;
             font-size: 0.9rem;
             font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }}
+        h5 .citation-badge {{
+            margin-left: auto;
+            font-size: 0.7rem;
         }}
 
         /* v2.0 Schema: Head-to-Head Comparison Table */
