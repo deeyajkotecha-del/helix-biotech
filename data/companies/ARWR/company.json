@@ -1,0 +1,139 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "ARWR",
+    "last_updated": "2026-02-04"
+  },
+  "name": "Arrowhead Pharmaceuticals",
+  "ticker": "ARWR",
+  "classification": {
+    "stage": "Platform/Clinical",
+    "modality": "RNA Therapeutics (RNAi)",
+    "therapeutic_focus": ["Cardiovascular", "Metabolic", "Pulmonary", "Rare Disease"],
+    "market_cap": "$4.2B",
+    "exchange": "NASDAQ"
+  },
+  "core_thesis": "Arrowhead's TRiM platform enables extra-hepatic RNAi delivery, differentiating from Alnylam's liver-focused approach. Near-term catalysts in obesity (ARO-INHBE) and approved Plozasiran provide multiple shots on goal.",
+  "thesis_url": "/companies/ARWR/thesis",
+  "one_liner": "RNAi platform company with extra-hepatic (lung, muscle, adipose) delivery capability via TRiM technology",
+  "investment_thesis": {
+    "bull_case": [
+      "TRiM platform enables delivery to lung, muscle, and adipose tissue — not just liver",
+      "ARO-INHBE targets INHBE gene, a validated obesity pathway; Phase 1 data showed meaningful weight loss",
+      "Plozasiran best-in-class triglyceride reduction; near approval",
+      "Pulmonary expansion with ARO-MUC5AC for COPD/asthma - significant technical achievement",
+      "Amgen partnership validates cardiovascular programs",
+      "Deep pipeline provides multiple chances for success"
+    ],
+    "bear_case": [
+      "Alnylam dominates RNAi space with established commercial infrastructure",
+      "ARO-INHBE obesity data still early; unclear if competitive with GLP-1s",
+      "Cash burn remains elevated with multiple Phase 3 trials",
+      "Execution risk on extra-hepatic delivery claims",
+      "Partner concentration (Amgen, Ionis) creates dependency"
+    ]
+  },
+  "assets": [
+    {
+      "name": "Plozasiran",
+      "target": {"name": "APOC3", "full_name": "Apolipoprotein C-III"},
+      "stage": "NDA Filed",
+      "modality": "siRNA",
+      "partner": "Ionis",
+      "indications": {"lead": {"name": "Severe hypertriglyceridemia"}},
+      "one_liner": "Best-in-class triglyceride reduction for severe hypertriglyceridemia"
+    },
+    {
+      "name": "ARO-INHBE",
+      "target": {"name": "INHBE", "full_name": "Inhibin Beta E"},
+      "stage": "Phase 1",
+      "modality": "siRNA",
+      "partner": "Internal",
+      "indications": {"lead": {"name": "Obesity"}},
+      "one_liner": "Novel RNAi approach to obesity targeting INHBE gene"
+    },
+    {
+      "name": "Zodasiran (ARO-ANG3)",
+      "target": {"name": "ANGPTL3", "full_name": "Angiopoietin-like 3"},
+      "stage": "Phase 3",
+      "modality": "siRNA",
+      "partner": "Amgen",
+      "indications": {"lead": {"name": "Dyslipidemia"}},
+      "one_liner": "Phase 3 cardiovascular program partnered with Amgen"
+    },
+    {
+      "name": "ARO-APOC3",
+      "target": {"name": "APOC3", "full_name": "Apolipoprotein C-III"},
+      "stage": "Phase 3",
+      "modality": "siRNA",
+      "partner": "Amgen",
+      "indications": {"lead": {"name": "Cardiovascular"}},
+      "one_liner": "Second-gen APOC3 siRNA with Amgen partnership"
+    },
+    {
+      "name": "ARO-MUC5AC",
+      "target": {"name": "MUC5AC", "full_name": "Mucin 5AC"},
+      "stage": "Phase 1/2",
+      "modality": "siRNA (Pulmonary)",
+      "partner": "Internal",
+      "indications": {"lead": {"name": "COPD/Asthma"}},
+      "one_liner": "Pulmonary delivery - first extra-hepatic RNAi program"
+    },
+    {
+      "name": "ARO-DUX4",
+      "target": {"name": "DUX4", "full_name": "Double Homeobox 4"},
+      "stage": "Phase 1/2",
+      "modality": "siRNA (Muscle)",
+      "partner": "Internal",
+      "indications": {"lead": {"name": "FSHD"}},
+      "one_liner": "Muscle delivery for facioscapulohumeral muscular dystrophy"
+    }
+  ],
+  "catalysts": [
+    {
+      "event": "Plozasiran FDA decision",
+      "timing": "H1 2025",
+      "asset": "Plozasiran",
+      "importance": "critical"
+    },
+    {
+      "event": "ARO-INHBE Phase 1 obesity data",
+      "timing": "H2 2025",
+      "asset": "ARO-INHBE",
+      "importance": "high"
+    },
+    {
+      "event": "ARO-MUC5AC Phase 1/2 pulmonary data",
+      "timing": "2025",
+      "asset": "ARO-MUC5AC",
+      "importance": "medium"
+    },
+    {
+      "event": "ARO-ANG3 Phase 3 cardiovascular data",
+      "timing": "2026",
+      "asset": "Zodasiran",
+      "importance": "high"
+    }
+  ],
+  "partnerships": [
+    {
+      "partner": "Amgen",
+      "assets": ["ARO-ANG3", "ARO-APOC3"],
+      "type": "Development/Commercial",
+      "terms": "Cardiovascular programs"
+    },
+    {
+      "partner": "Ionis",
+      "assets": ["Plozasiran"],
+      "type": "Development/Commercial",
+      "terms": "Commercialization partnership"
+    }
+  ],
+  "pipeline_summary": {
+    "total_programs": 15,
+    "phase_3": 3,
+    "phase_1_2": 4,
+    "nda_filed": 1,
+    "key_modality": "RNAi (TRiM platform)"
+  }
+}

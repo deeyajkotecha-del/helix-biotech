@@ -29,14 +29,14 @@
       "ticker": "ARWR",
       "name": "Arrowhead Pharmaceuticals",
       "development_stage": "platform",
-      "modality": "mixed",
+      "modality": "rna_therapeutics",
       "therapeutic_area": "mixed",
       "priority": "high",
       "ir_priority": "HIGH",
-      "has_data": false,
+      "has_data": true,
       "market_cap_mm": "$4.2B",
       "ir_url": "",
-      "notes": ""
+      "notes": "RNAi platform with extra-hepatic delivery (TRiM). View thesis: /companies/ARWR/thesis"
     },
     {
       "ticker": "ASND",

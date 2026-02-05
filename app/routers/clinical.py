@@ -1278,6 +1278,8 @@ def _generate_company_overview_html(data: dict) -> str:
     assets = data.get("assets", [])
     catalysts = data.get("catalysts", [])
     partnerships = data.get("partnerships", [])
+    thesis_url = data.get("thesis_url", "")
+    core_thesis = data.get("core_thesis", "")
 
     # Build pipeline table rows
     pipeline_rows = ""
@@ -1496,6 +1498,29 @@ def _generate_company_overview_html(data: dict) -> str:
         }}
 
         /* Thesis */
+        .thesis-btn {{
+            float: right;
+            background: var(--accent, #e07a5f);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+        }}
+        .thesis-btn:hover {{
+            opacity: 0.9;
+        }}
+        .core-thesis {{
+            background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+            border: 1px solid #bee3f8;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--primary);
+        }}
         .thesis-grid {{
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1625,7 +1650,7 @@ def _generate_company_overview_html(data: dict) -> str:
 </head>
 <body>
     <div class="breadcrumb">
-        <a href="/api/clinical/companies/html">Companies</a>
+        <a href="/companies">Companies</a>
         <span>›</span>
         <strong>{ticker}</strong>
     </div>
@@ -1665,8 +1690,9 @@ def _generate_company_overview_html(data: dict) -> str:
         </div>
 
         <div class="card">
-            <div class="card-header">Investment Thesis</div>
+            <div class="card-header">Investment Thesis{f' <a href="{thesis_url}" class="thesis-btn">View Full Thesis →</a>' if thesis_url else ''}</div>
             <div class="card-content">
+                {f'<p class="core-thesis">{core_thesis}</p>' if core_thesis else ''}
                 <div class="thesis-grid">
                     <div class="thesis-column bull">
                         <h3>🐂 Bull Case</h3>
@@ -1712,11 +1738,11 @@ def _generate_company_overview_html(data: dict) -> str:
 def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict, next_asset: dict) -> str:
     """Generate individual asset page HTML with sidebar navigation - supports v2.0 schema."""
     ticker = company_data.get("ticker", "")
-    company_name = company_data.get("name", "")
-    asset_name = asset.get("name", "Unknown")
+    company_name = capitalize_medical_terms(company_data.get("name", ""))
+    asset_name = capitalize_medical_terms(asset.get("name", "Unknown"))
     target_data = asset.get("target", {})
     mechanism_data = asset.get("mechanism", {})
-    stage = asset.get("stage", "")
+    stage = capitalize_medical_terms(asset.get("stage", ""))
     modality = asset.get("modality", "")
     drug_class = get_drug_class(modality)
     # Create short modality for header (remove redundant "small molecule" prefix if present)
@@ -1762,9 +1788,9 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     # Parse target - handle both v1.0 (flat) and v2.0 (nested) schemas
     if isinstance(target_data, dict):
         # Handle both KYMR-style (name) and NUVL-style (primary_target) schemas
-        target_name = target_data.get("name", "") or target_data.get("primary_target", "")
-        target_full = target_data.get("full_name", "") or target_data.get("target_class", "")
-        target_pathway = target_data.get("pathway", "")
+        target_name = capitalize_medical_terms(target_data.get("name", "") or target_data.get("primary_target", ""))
+        target_full = capitalize_medical_terms(target_data.get("full_name", "") or target_data.get("target_class", ""))
+        target_pathway = capitalize_medical_terms(target_data.get("pathway", ""))
 
         # v2.0 has nested biology object
         biology_data = target_data.get("biology", "")
@@ -1799,7 +1825,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         # v2.0 dupilumab_comparison
         dupilumab_comp = target_data.get("dupilumab_comparison", {})
     else:
-        target_name = target_data
+        target_name = capitalize_medical_terms(target_data) if target_data else ""
         target_full = target_pathway = target_biology = target_genetic = target_why = clinical_validation = ""
         downstream = []
         dupilumab_comp = {}
@@ -3812,7 +3838,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 <body>
     <div class="sticky-header">
         <div class="breadcrumb">
-            <a href="/api/clinical/companies/html">Companies</a>
+            <a href="/companies">Companies</a>
             <span>›</span>
             <a href="/api/clinical/companies/{ticker}/html">{ticker}</a>
             <span>›</span>
@@ -3820,7 +3846,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         </div>
         <div class="header-badges">
             <span class="badge">{stage}</span>
-            <a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" class="badge-link"><span class="badge">{target_name}{f" {drug_class}" if drug_class else ""}</span></a>
+            <a href="/api/clinical/targets/{target_name.upper().replace(' ', '_')}/html" class="badge-link"><span class="badge">{target_name}</span></a>
+            <span class="badge modality">{short_modality}</span>
         </div>
     </div>
 
@@ -4393,9 +4420,9 @@ def _generate_company_html_v2(data: dict) -> str:
         <div class="asset-section">
             <button class="collapsible asset-header">
                 <span class="asset-name">{asset_name}</span>
-                <span class="badge target">{target_name}{f" {drug_class}" if drug_class else ""}</span>
+                <span class="badge target">{target_name}</span>
                 <span class="badge stage">{stage}</span>
-                {f'<span class="badge modality">{modality}</span>' if modality else ''}
+                {f'<span class="badge modality">{short_modality}</span>' if short_modality else ''}
             </button>
             <div class="asset-content">
                 <div class="asset-overview">
@@ -5248,7 +5275,7 @@ def _generate_targets_list_html(targets: dict) -> str:
 </head>
 <body>
     <div class="breadcrumb">
-        <a href="/api/clinical/companies/html">Companies</a> · <strong>Targets</strong>
+        <a href="/companies">Companies</a> · <strong>Targets</strong>
     </div>
 
     <div class="header">
@@ -5641,7 +5668,7 @@ def _generate_target_page_html(target: dict) -> str:
 <body>
     <div class="sticky-header">
         <div class="breadcrumb">
-            <a href="/api/clinical/companies/html">Companies</a>
+            <a href="/companies">Companies</a>
             <span>·</span>
             <a href="/api/clinical/targets/html">Targets</a>
             <span>›</span>
