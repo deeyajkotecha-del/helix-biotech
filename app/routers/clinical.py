@@ -2805,13 +2805,18 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     # =======================================================================
     competitive_html = ""
     if competitive_landscape:
-        competitors = competitive_landscape.get("competitors", [])
-        our_advantages = competitive_landscape.get("our_advantages", []) or competitive_landscape.get("vyvgart_advantages", []) or competitive_landscape.get("empasiprubart_advantages", [])
+        # Handle both formats: list directly or dict with "competitors" key
+        if isinstance(competitive_landscape, list):
+            competitors = competitive_landscape
+            our_advantages = []
+        else:
+            competitors = competitive_landscape.get("competitors", [])
+            our_advantages = competitive_landscape.get("our_advantages", []) or competitive_landscape.get("vyvgart_advantages", []) or competitive_landscape.get("empasiprubart_advantages", [])
 
         comp_rows = ""
         for comp in competitors:
             if isinstance(comp, dict):
-                drug = comp.get("drug", "")
+                drug = comp.get("drug", "") or comp.get("competitor", "")
                 company = comp.get("company", "")
                 limitation = comp.get("limitation", "") or comp.get("status", "")
                 comp_rows += f'<tr><td><strong>{drug}</strong></td><td>{company}</td><td>{limitation}</td></tr>'
