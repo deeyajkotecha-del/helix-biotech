@@ -1599,6 +1599,14 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     disease_background = asset.get("disease_background", {})
     current_treatment = asset.get("current_treatment_landscape", {})
     asset_differentiation = asset.get("edg7500_differentiation", {}) or asset.get("differentiation", {})
+    competitive_landscape = asset.get("competitive_landscape", {})
+
+    # Executive summary data
+    one_liner = asset.get("one_liner", "")
+    why_good_target = target_data.get("why_good_target", {}) if isinstance(target_data, dict) else {}
+    unmet_need = why_good_target.get("unmet_need", []) if isinstance(why_good_target, dict) else []
+    if isinstance(unmet_need, str):
+        unmet_need = [unmet_need]
 
     # Get catalysts from both company and asset level
     company_catalysts = company_data.get("catalysts", [])
@@ -2033,7 +2041,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         </div>'''
 
     # =======================================================================
-    # NUVL-STYLE FLAT CLINICAL DATA (trial_name at root, results as separate objects)
+    # COMPREHENSIVE CLINICAL DATA (EWTX/HCM-style with tabs and sections)
     # =======================================================================
     if not trials_html and clinical_data.get("trial_name"):
         trial_name = clinical_data.get("trial_name", "")
@@ -2042,63 +2050,217 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
         design_phase = trial_design.get("phase", "") if isinstance(trial_design, dict) else ""
         design_desc = trial_design.get("design", "") if isinstance(trial_design, dict) else ""
+        doses_tested = trial_design.get("doses_tested", "") if isinstance(trial_design, dict) else ""
+        data_cutoff = trial_design.get("data_cutoff", "") if isinstance(trial_design, dict) else ""
 
-        # Build populations section
-        pop_html = ""
+        # ===== 1. TRIAL OVERVIEW =====
+        trial_overview_html = f'''
+        <div class="clinical-subsection trial-overview">
+            <div class="trial-overview-header">
+                <h3>{trial_name}</h3>
+                <span class="badge ongoing">{design_phase}</span>
+            </div>
+            <div class="trial-overview-grid">
+                <div class="overview-item"><strong>Design:</strong> {design_desc}</div>
+                {f'<div class="overview-item"><strong>Doses:</strong> {doses_tested}</div>' if doses_tested else ''}
+                {f'<div class="overview-item"><strong>Data Cutoff:</strong> {data_cutoff}</div>' if data_cutoff else ''}
+            </div>
+        </div>'''
+
+        # ===== 2. POPULATIONS TABLE =====
+        pop_rows = ""
         if isinstance(populations, dict):
             for pop_key, pop_data in populations.items():
                 if isinstance(pop_data, dict):
-                    pop_html += f'<div class="pop-item"><strong>{pop_key.replace("_", " ").title()}:</strong> n={pop_data.get("n", "?")} - {pop_data.get("description", "")}</div>'
+                    pop_name = pop_key.upper() if pop_key in ['ohcm', 'nhcm'] else pop_key.replace("_", " ").title()
+                    n_val = pop_data.get("n", "?")
+                    desc = pop_data.get("description", "")
+                    pop_rows += f'<tr><td><strong>{pop_name}</strong></td><td class="n-value">{n_val}</td><td>{desc}</td></tr>'
 
-        # Build results sections (TKI pre-treated, TKI naïve, etc.)
-        results_html = ""
-        for result_key in ["tki_pretreated_results", "tki_naive_results", "tki_pretreated_efficacy", "tki_naive_results_alkove1_exploratory"]:
-            result_data = clinical_data.get(result_key, {})
-            if isinstance(result_data, dict) and result_data:
-                result_title = result_key.replace("_", " ").replace("results", "").title().strip()
-                rows = ""
-                for endpoint, value in result_data.items():
-                    if isinstance(value, dict):
-                        val_str = value.get("value", value.get("result", str(value)))
-                        ci = value.get("ci", value.get("confidence_interval", ""))
-                        rows += f'<tr><td>{endpoint.replace("_", " ").title()}</td><td><strong>{val_str}</strong></td><td>{ci}</td></tr>'
-                    else:
-                        rows += f'<tr><td>{endpoint.replace("_", " ").title()}</td><td><strong>{value}</strong></td><td></td></tr>'
-                if rows:
-                    results_html += f'''
-                    <div class="results-section">
-                        <h5>{result_title} Results</h5>
-                        <table class="data-table">
-                            <thead><tr><th>Endpoint</th><th>Result</th><th>CI</th></tr></thead>
-                            <tbody>{rows}</tbody>
-                        </table>
-                    </div>'''
+        populations_html = ""
+        if pop_rows:
+            populations_html = f'''
+        <div class="clinical-subsection populations-section">
+            <h4>Study Populations</h4>
+            <table class="data-table populations-table">
+                <thead><tr><th>Cohort</th><th>N</th><th>Description</th></tr></thead>
+                <tbody>{pop_rows}</tbody>
+            </table>
+        </div>'''
 
-        # Build safety section
+        # ===== 3. BASELINE CHARACTERISTICS WITH TABS =====
+        baseline_ohcm = clinical_data.get("baseline_ohcm", {})
+        baseline_nhcm = clinical_data.get("baseline_nhcm", {})
+
+        # Abbreviation tooltips
+        abbrev_tooltips = {
+            "nyha": "New York Heart Association functional classification",
+            "lvef": "Left Ventricular Ejection Fraction - measure of heart pumping efficiency",
+            "lvot_g": "Left Ventricular Outflow Tract Gradient - pressure difference",
+            "e_prime": "Early diastolic mitral annular velocity - measure of diastolic function",
+            "nt_probnp": "N-terminal pro-B-type natriuretic peptide - cardiac stress biomarker",
+            "kccq": "Kansas City Cardiomyopathy Questionnaire - quality of life measure",
+            "icd": "Implantable Cardioverter-Defibrillator"
+        }
+
+        def build_baseline_rows(baseline_data, abbrevs):
+            rows = ""
+            for key, value in baseline_data.items():
+                label = key.replace("_", " ").title()
+                # Check for tooltip
+                tooltip = ""
+                for abbr, tip in abbrevs.items():
+                    if abbr in key.lower():
+                        tooltip = f' <span class="tooltip-icon" title="{tip}">ⓘ</span>'
+                        break
+                rows += f'<tr><td>{label}{tooltip}</td><td class="baseline-value"><strong>{value}</strong></td></tr>'
+            return rows
+
+        baseline_ohcm_rows = build_baseline_rows(baseline_ohcm, abbrev_tooltips)
+        baseline_nhcm_rows = build_baseline_rows(baseline_nhcm, abbrev_tooltips)
+
+        baseline_html = ""
+        if baseline_ohcm_rows or baseline_nhcm_rows:
+            baseline_html = f'''
+        <div class="clinical-subsection baseline-section">
+            <h4>Baseline Characteristics</h4>
+            <div class="tabs-container">
+                <div class="tab-buttons">
+                    {'<button class="tab-btn active" data-tab="baseline-ohcm">oHCM (n=' + str(baseline_ohcm.get("n", populations.get("ohcm", {}).get("n", "?"))) + ')</button>' if baseline_ohcm_rows else ''}
+                    {'<button class="tab-btn" data-tab="baseline-nhcm">nHCM (n=' + str(baseline_nhcm.get("n", populations.get("nhcm", {}).get("n", "?"))) + ')</button>' if baseline_nhcm_rows else ''}
+                </div>
+                <div class="tab-content">
+                    {f'<div id="baseline-ohcm" class="tab-pane active"><table class="data-table baseline-table"><thead><tr><th>Variable</th><th>Value</th></tr></thead><tbody>{baseline_ohcm_rows}</tbody></table></div>' if baseline_ohcm_rows else ''}
+                    {f'<div id="baseline-nhcm" class="tab-pane"><table class="data-table baseline-table"><thead><tr><th>Variable</th><th>Value</th></tr></thead><tbody>{baseline_nhcm_rows}</tbody></table></div>' if baseline_nhcm_rows else ''}
+                </div>
+            </div>
+        </div>'''
+
+        # ===== 4. EFFICACY RESULTS WITH TABS =====
+        efficacy_results = clinical_data.get("efficacy_results", {})
+
+        # Separate oHCM and nHCM results
+        ohcm_efficacy = {k: v for k, v in efficacy_results.items() if k.startswith("ohcm_")}
+        nhcm_efficacy = {k: v for k, v in efficacy_results.items() if k.startswith("nhcm_")}
+
+        def build_efficacy_cards(efficacy_data, prefix):
+            cards = ""
+            # Group by category (lvot, ntprobnp, e_prime, nyha, etc.)
+            categories = {}
+            for key, value in efficacy_data.items():
+                clean_key = key.replace(f"{prefix}_", "")
+                # Determine category
+                if "lvot" in clean_key:
+                    cat = "LVOT-G Response"
+                elif "ntprobnp" in clean_key or "nt_probnp" in clean_key:
+                    cat = "NT-proBNP"
+                elif "e_prime" in clean_key:
+                    cat = "Diastolic Function (e')"
+                elif "nyha" in clean_key:
+                    cat = "NYHA Improvement"
+                elif "kccq" in clean_key:
+                    cat = "Quality of Life (KCCQ)"
+                elif "clinical" in clean_key:
+                    cat = "Overall Clinical Improvement"
+                else:
+                    cat = "Other Endpoints"
+                if cat not in categories:
+                    categories[cat] = []
+                categories[cat].append((clean_key, value))
+
+            for cat_name, items in categories.items():
+                items_html = ""
+                for item_key, item_val in items:
+                    label = item_key.replace("_", " ").title()
+                    items_html += f'<div class="efficacy-item"><span class="efficacy-label">{label}:</span> <strong>{item_val}</strong></div>'
+                cards += f'''
+                <div class="efficacy-card">
+                    <h5>{cat_name}</h5>
+                    {items_html}
+                </div>'''
+            return cards
+
+        ohcm_efficacy_cards = build_efficacy_cards(ohcm_efficacy, "ohcm")
+        nhcm_efficacy_cards = build_efficacy_cards(nhcm_efficacy, "nhcm")
+
+        efficacy_html = ""
+        if ohcm_efficacy_cards or nhcm_efficacy_cards:
+            efficacy_html = f'''
+        <div class="clinical-subsection efficacy-section">
+            <h4>Efficacy Results</h4>
+            <div class="tabs-container">
+                <div class="tab-buttons">
+                    {'<button class="tab-btn active" data-tab="efficacy-ohcm">oHCM</button>' if ohcm_efficacy_cards else ''}
+                    {'<button class="tab-btn" data-tab="efficacy-nhcm">nHCM</button>' if nhcm_efficacy_cards else ''}
+                </div>
+                <div class="tab-content">
+                    {f'<div id="efficacy-ohcm" class="tab-pane active"><div class="efficacy-grid">{ohcm_efficacy_cards}</div></div>' if ohcm_efficacy_cards else ''}
+                    {f'<div id="efficacy-nhcm" class="tab-pane"><div class="efficacy-grid">{nhcm_efficacy_cards}</div></div>' if nhcm_efficacy_cards else ''}
+                </div>
+            </div>
+        </div>'''
+
+        # ===== 5. SAFETY SECTION =====
         safety_data = clinical_data.get("safety", {})
         safety_html = ""
-        if isinstance(safety_data, dict):
-            safety_items = []
-            for skey, sval in safety_data.items():
-                if isinstance(sval, str):
-                    safety_items.append(f"<li><strong>{skey.replace('_', ' ').title()}:</strong> {sval}</li>")
-                elif isinstance(sval, dict):
-                    for sub_k, sub_v in sval.items():
-                        safety_items.append(f"<li><strong>{sub_k.replace('_', ' ').title()}:</strong> {sub_v}</li>")
-            if safety_items:
-                safety_html = f'<div class="safety-box"><h5>Safety</h5><ul>{"".join(safety_items[:6])}</ul></div>'
+        if isinstance(safety_data, dict) and safety_data:
+            # Key finding (highlighted)
+            key_finding = safety_data.get("lvef_key_finding", "")
+            key_finding_html = ""
+            if key_finding:
+                key_finding_html = f'''
+                <div class="safety-key-finding">
+                    <span class="check-icon">✓</span>
+                    <strong>KEY FINDING:</strong> {key_finding}
+                </div>'''
 
+            # Adverse events table
+            ae_rows = ""
+            ae_keys = ["dizziness", "upper_respiratory", "atrial_fibrillation", "palpitations", "headache", "nausea"]
+            for ae_key in ae_keys:
+                ae_val = safety_data.get(ae_key, "")
+                if ae_val:
+                    ae_label = ae_key.replace("_", " ").title()
+                    ae_rows += f'<tr><td>{ae_label}</td><td><strong>{ae_val}</strong></td></tr>'
+
+            ae_table = ""
+            if ae_rows:
+                ae_table = f'''
+                <div class="ae-section">
+                    <h5>Adverse Events</h5>
+                    <table class="data-table ae-table">
+                        <thead><tr><th>Event</th><th>Incidence</th></tr></thead>
+                        <tbody>{ae_rows}</tbody>
+                    </table>
+                </div>'''
+
+            # Discontinuation
+            discontinuation = safety_data.get("discontinuation", "")
+            disc_html = f'<div class="discontinuation"><strong>Discontinuation:</strong> {discontinuation}</div>' if discontinuation else ""
+
+            # Additional findings
+            other_findings = []
+            for skey, sval in safety_data.items():
+                if skey not in ["lvef_key_finding", "discontinuation"] + ae_keys and isinstance(sval, str):
+                    other_findings.append(f"<li>{skey.replace('_', ' ').title()}: {sval}</li>")
+            other_html = f'<ul class="other-safety">{"".join(other_findings)}</ul>' if other_findings else ""
+
+            safety_html = f'''
+        <div class="clinical-subsection safety-section">
+            <h4>Safety</h4>
+            {key_finding_html}
+            {ae_table}
+            {disc_html}
+            {other_html}
+        </div>'''
+
+        # ===== COMBINE ALL CLINICAL DATA SECTIONS =====
         trials_html = f'''
-        <div class="trial-card">
-            <div class="trial-header">
-                <h4>{trial_name}</h4>
-                <span class="badge ongoing">{design_phase}</span>
-            </div>
-            <div class="trial-meta">
-                <p><strong>Design:</strong> {design_desc}</p>
-                {f'<div class="populations">{pop_html}</div>' if pop_html else ''}
-            </div>
-            {results_html}
+        <div class="comprehensive-clinical">
+            {trial_overview_html}
+            {populations_html}
+            {baseline_html}
+            {efficacy_html}
             {safety_html}
         </div>'''
 
@@ -2357,6 +2519,74 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     peak_bull = peak_sales.get("bull_case", "") if peak_sales else ""
     peak_base = peak_sales.get("base_case", "") if peak_sales else ""
 
+    # =======================================================================
+    # BUILD EXECUTIVE SUMMARY HTML
+    # =======================================================================
+    executive_summary_html = ""
+    if one_liner or unmet_need:
+        # Build key differentiators from unmet_need or asset_differentiation
+        differentiators = []
+        if unmet_need:
+            differentiators = unmet_need[:4]  # Max 4 bullets
+        elif asset_differentiation:
+            differentiators = list(asset_differentiation.values())[:4]
+
+        diff_bullets = ""
+        if differentiators:
+            diff_items = "".join(f'<li>{d}</li>' for d in differentiators if d)
+            diff_bullets = f'<ul class="exec-bullets">{diff_items}</ul>'
+
+        executive_summary_html = f'''
+        <section id="executive-summary" class="section">
+            <div class="exec-summary-box">
+                <div class="exec-header">
+                    <span class="exec-icon">📊</span>
+                    <h3>Executive Summary</h3>
+                </div>
+                <p class="exec-one-liner">{one_liner}</p>
+                {f'<div class="exec-differentiators"><h4>Key Differentiators</h4>{diff_bullets}</div>' if diff_bullets else ''}
+            </div>
+        </section>'''
+
+    # =======================================================================
+    # BUILD COMPETITIVE LANDSCAPE HTML
+    # =======================================================================
+    competitive_html = ""
+    if competitive_landscape:
+        competitors = competitive_landscape.get("competitors", [])
+        our_advantages = competitive_landscape.get("our_advantages", []) or competitive_landscape.get("vyvgart_advantages", []) or competitive_landscape.get("empasiprubart_advantages", [])
+
+        comp_rows = ""
+        for comp in competitors:
+            if isinstance(comp, dict):
+                drug = comp.get("drug", "")
+                company = comp.get("company", "")
+                limitation = comp.get("limitation", "") or comp.get("status", "")
+                comp_rows += f'<tr><td><strong>{drug}</strong></td><td>{company}</td><td>{limitation}</td></tr>'
+
+        adv_items = ""
+        if our_advantages:
+            adv_items = "".join(f'<li>{a}</li>' for a in our_advantages)
+
+        if comp_rows or adv_items:
+            competitive_html = f'''
+        <section id="competitive" class="section">
+            <h2 class="section-header">Competitive Landscape</h2>
+            <div class="competitive-grid">
+                {f"""<div class="comp-card competitors">
+                    <h4>Competitors</h4>
+                    <table class="data-table">
+                        <thead><tr><th>Drug</th><th>Company</th><th>Limitation</th></tr></thead>
+                        <tbody>{comp_rows}</tbody>
+                    </table>
+                </div>""" if comp_rows else ""}
+                {f"""<div class="comp-card advantages">
+                    <h4>Our Advantages</h4>
+                    <ul class="advantages-list">{adv_items}</ul>
+                </div>""" if adv_items else ""}
+            </div>
+        </section>'''
+
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2531,6 +2761,283 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             background: rgba(255,255,255,0.2);
             border: none;
             color: white;
+        }}
+
+        /* Executive Summary */
+        .exec-summary-box {{
+            background: linear-gradient(135deg, #ebf8ff 0%, #e6fffa 100%);
+            border: 1px solid #bee3f8;
+            border-left: 4px solid var(--accent);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }}
+        .exec-header {{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }}
+        .exec-icon {{
+            font-size: 1.5rem;
+        }}
+        .exec-header h3 {{
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin: 0;
+        }}
+        .exec-one-liner {{
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text);
+            margin-bottom: 16px;
+        }}
+        .exec-differentiators h4 {{
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }}
+        .exec-bullets {{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }}
+        .exec-bullets li {{
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }}
+        .exec-bullets li::before {{
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--bull);
+            font-weight: bold;
+        }}
+
+        /* Competitive Landscape */
+        .competitive-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }}
+        @media (max-width: 900px) {{
+            .competitive-grid {{ grid-template-columns: 1fr; }}
+        }}
+        .comp-card {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }}
+        .comp-card h4 {{
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }}
+        .comp-card.advantages {{
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            border-color: #9ae6b4;
+        }}
+        .advantages-list {{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }}
+        .advantages-list li {{
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }}
+        .advantages-list li::before {{
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--bull);
+            font-weight: bold;
+        }}
+
+        /* Comprehensive Clinical Data */
+        .comprehensive-clinical {{
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }}
+        .clinical-subsection {{
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }}
+        .clinical-subsection:last-child {{
+            border-bottom: none;
+        }}
+        .clinical-subsection h4 {{
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }}
+
+        /* Trial Overview */
+        .trial-overview-header {{
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }}
+        .trial-overview-header h3 {{
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.3rem;
+        }}
+        .trial-overview-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }}
+        .overview-item {{
+            padding: 8px 12px;
+            background: var(--bg);
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }}
+
+        /* Populations Table */
+        .populations-table {{
+            width: 100%;
+        }}
+        .populations-table .n-value {{
+            font-weight: bold;
+            color: var(--accent);
+            text-align: center;
+        }}
+
+        /* Tabs */
+        .tabs-container {{
+            margin-top: 12px;
+        }}
+        .tab-buttons {{
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0;
+        }}
+        .tab-btn {{
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }}
+        .tab-btn:hover {{
+            color: var(--primary);
+        }}
+        .tab-btn.active {{
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }}
+        .tab-pane {{
+            display: none;
+        }}
+        .tab-pane.active {{
+            display: block;
+        }}
+
+        /* Baseline Characteristics */
+        .baseline-table {{
+            width: 100%;
+        }}
+        .baseline-table .baseline-value {{
+            text-align: right;
+            font-family: 'SF Mono', Monaco, monospace;
+        }}
+        .tooltip-icon {{
+            color: var(--accent);
+            cursor: help;
+            font-size: 0.85rem;
+            margin-left: 4px;
+        }}
+
+        /* Efficacy Grid */
+        .efficacy-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }}
+        .efficacy-card {{
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 16px;
+            border-left: 3px solid var(--accent);
+        }}
+        .efficacy-card h5 {{
+            color: var(--primary);
+            margin: 0 0 12px 0;
+            font-size: 0.95rem;
+        }}
+        .efficacy-item {{
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }}
+        .efficacy-label {{
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }}
+
+        /* Safety Section */
+        .safety-key-finding {{
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+            border: 1px solid #9ae6b4;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }}
+        .safety-key-finding .check-icon {{
+            color: var(--bull);
+            font-size: 1.2rem;
+            font-weight: bold;
+        }}
+        .ae-table {{
+            width: 100%;
+            max-width: 500px;
+        }}
+        .ae-section {{
+            margin-bottom: 16px;
+        }}
+        .ae-section h5 {{
+            color: var(--text);
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }}
+        .discontinuation {{
+            margin-top: 16px;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 6px;
+        }}
+        .other-safety {{
+            margin-top: 12px;
+            padding-left: 20px;
+            color: var(--text-muted);
+        }}
+        .other-safety li {{
+            margin-bottom: 6px;
         }}
 
         /* Cards */
@@ -3002,10 +3509,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         <nav class="sidebar">
             <h3>Navigation</h3>
             <ul class="sidebar-nav">
+                {'<li><a href="#executive-summary">Executive Summary</a></li>' if one_liner else ''}
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#target">Target Biology</a></li>
                 {'<li><a href="#treatment">Treatment Landscape</a></li>' if current_treatment else ''}
                 <li><a href="#clinical">Clinical Data</a></li>
+                {'<li><a href="#competitive">Competitive Landscape</a></li>' if competitive_landscape else ''}
                 <li><a href="#investment">Investment Analysis</a></li>
                 <li><a href="#market">Market Opportunity</a></li>
                 <li><a href="#catalysts">Catalysts</a></li>
@@ -3022,6 +3531,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         </nav>
 
         <main class="main">
+            {executive_summary_html}
+
             <section id="overview" class="section">
                 <div class="asset-header">
                     <h1>{asset_name}</h1>
@@ -3071,6 +3582,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <h2 class="section-header">Clinical Data</h2>
                 {trials_html if trials_html else '<p class="no-data">No clinical trial data available.</p>'}
             </section>
+
+            {competitive_html}
 
             {investment_html}
 
@@ -3128,6 +3641,28 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 if (link.getAttribute('href') === '#' + current) {{
                     link.classList.add('active');
                 }}
+            }});
+        }});
+
+        // Tab switching functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {{
+            btn.addEventListener('click', () => {{
+                const tabContainer = btn.closest('.tab-container, .baseline-section, .efficacy-section');
+                if (!tabContainer) return;
+
+                const tabId = btn.dataset.tab;
+
+                // Update button states within this container
+                tabContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update content visibility within this container
+                tabContainer.querySelectorAll('.tab-content').forEach(content => {{
+                    content.classList.remove('active');
+                    if (content.id === tabId) {{
+                        content.classList.add('active');
+                    }}
+                }});
             }});
         }});
     </script>
