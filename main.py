@@ -120,6 +120,7 @@ async def serve_admin(request: Request):
 from app.pages import (
     generate_companies_page,
     generate_targets_page,
+    generate_target_detail_page,
     generate_kols_page,
     generate_about_page,
     generate_company_detail,
@@ -128,6 +129,7 @@ from app.pages import (
     generate_b7h3_report,
     generate_kras_report,
     generate_arwr_thesis,
+    serve_thesis_html,
 )
 
 @app.get("/companies", response_class=HTMLResponse)
@@ -135,6 +137,11 @@ from app.pages import (
 async def serve_companies():
     """Serve companies page with 145 biotech companies."""
     return HTMLResponse(generate_companies_page())
+
+@app.get("/targets", response_class=HTMLResponse)
+async def serve_targets():
+    """Serve targets/competitive landscapes page."""
+    return HTMLResponse(generate_targets_page())
 
 @app.get("/targets/glp1-obesity", response_class=HTMLResponse)
 async def serve_glp1_report():
@@ -156,10 +163,13 @@ async def serve_kras_report():
     """Serve KRAS inhibitor competitive landscape report."""
     return HTMLResponse(generate_kras_report())
 
-@app.get("/targets", response_class=HTMLResponse)
-@app.get("/targets/{path:path}", response_class=HTMLResponse)
-async def serve_targets():
-    """Serve targets/competitive landscapes page."""
+@app.get("/targets/{slug}", response_class=HTMLResponse)
+async def serve_target_detail(slug: str):
+    """Serve individual target detail page from JSON data."""
+    html = generate_target_detail_page(slug)
+    if html:
+        return HTMLResponse(html)
+    # Fallback to main targets page if slug not found
     return HTMLResponse(generate_targets_page())
 
 @app.get("/kols", response_class=HTMLResponse)
@@ -182,9 +192,15 @@ async def serve_report():
     """Redirect to homepage."""
     return FileResponse(BASE_DIR / "index.html")
 
+@app.get("/companies/ARWR/thesis", response_class=HTMLResponse)
 @app.get("/api/company/ARWR/thesis/html", response_class=HTMLResponse)
 async def serve_arwr_thesis():
     """Serve ARWR investment thesis page."""
+    # Try to serve from file first
+    html = serve_thesis_html("ARWR")
+    if html:
+        return HTMLResponse(html)
+    # Fallback to generated version
     return HTMLResponse(generate_arwr_thesis())
 
 @app.get("/api/company/{ticker}/html", response_class=HTMLResponse)

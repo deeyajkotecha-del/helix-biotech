@@ -1,0 +1,337 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "target": "TL1A",
+    "last_updated": "2026-02-04"
+  },
+  "target": {
+    "name": "TL1A",
+    "full_name": "TNF-like ligand 1A",
+    "aliases": ["TNFSF15", "TL-1A", "VEGI"],
+    "gene_symbol": "TNFSF15",
+    "target_type": "cytokine"
+  },
+  "investment_thesis": {
+    "headline": "TL1A is the hottest target in IBD with $22B+ in deal activity and dual inflammation/fibrosis mechanism",
+    "key_points": [
+      "Genetic validation: TNFSF15 variants associated with IBD risk in GWAS studies",
+      "Dual mechanism: Blocks both inflammation AND fibrosis progression",
+      "Massive M&A: Merck ($10.8B for Prometheus), Roche ($7.25B for Telavant)",
+      "Three Phase 3 assets racing: tulisokibart, duvakitug, afimkibart",
+      "Best-in-class potential: Some programs showing 25-30% placebo-adjusted remission"
+    ],
+    "full_text": "TL1A (TNF-like ligand 1A, encoded by TNFSF15) represents the most significant new target in IBD since the advent of anti-TNF biologics. The target is genetically validated through GWAS studies showing TNFSF15 variants are associated with Crohn's disease risk. Unlike existing therapies that only address inflammation, TL1A inhibition blocks BOTH inflammatory cytokine production AND intestinal fibrosis - addressing the key unmet need of stricturing/fistulizing disease.\n\nThe investment landscape is unprecedented: Merck acquired Prometheus for $10.8B (April 2023) solely for tulisokibart, and Roche acquired Telavant for $7.25B (October 2023) for afimkibart. Combined with Sanofi's TEV-48574 partnership and internal programs at Pfizer, AbbVie, and others, over $22B has been committed to TL1A development.\n\nPhase 2 data across multiple programs show 20-30% placebo-adjusted clinical remission rates, which would be competitive with or superior to existing advanced therapies. The race to market is on, with Phase 3 readouts expected in 2025-2026."
+  },
+  "mechanism": {
+    "biology": "TL1A is a TNF superfamily cytokine that binds DR3 (death receptor 3), promoting Th1/Th17 differentiation, inflammatory cytokine production, and activation of fibroblasts leading to intestinal fibrosis.",
+    "rationale": "Blocking TL1A interrupts both the inflammatory cascade (via reduced Th1/Th17 activity) and the fibrotic pathway (via reduced fibroblast activation), addressing the two key drivers of IBD progression.",
+    "unique_value": "TL1A is the only validated target that addresses both inflammation AND fibrosis. Existing therapies (anti-TNF, anti-IL-23, JAKi) only target inflammation, leaving fibrosis/strictures unaddressed."
+  },
+  "market_opportunity": {
+    "total_market": "$25B global IBD market (2024), growing to $35B by 2030",
+    "target_share": "$8-12B peak revenue potential for best-in-class TL1A inhibitor",
+    "patient_population": "3.5M patients in US/EU with IBD; ~40% inadequate response to current therapies",
+    "unmet_need": "No approved therapy prevents or reverses intestinal fibrosis; 30-50% of Crohn's patients develop strictures requiring surgery"
+  },
+  "key_risks": [
+    {
+      "risk": "Crowded competitive landscape with 3+ Phase 3 assets",
+      "severity": "High",
+      "mitigation": "Differentiation through precision medicine (biomarker selection) or best-in-class efficacy"
+    },
+    {
+      "risk": "Cross-trial comparison challenges make differentiation unclear",
+      "severity": "Medium",
+      "mitigation": "Phase 3 data will clarify; some head-to-head studies possible"
+    },
+    {
+      "risk": "Safety signals in large trials could derail class",
+      "severity": "Medium",
+      "mitigation": "Phase 2 data shows clean safety profiles across programs"
+    },
+    {
+      "risk": "Payer resistance if efficacy not clearly differentiated",
+      "severity": "Medium",
+      "mitigation": "Fibrosis benefit may provide unique value proposition"
+    }
+  ],
+  "catalysts": [
+    {
+      "event": "ARTEMIS-CD Phase 3 readout (Crohn's Disease)",
+      "timing": "H2 2025",
+      "drug": "Tulisokibart",
+      "significance": "High"
+    },
+    {
+      "event": "ARTEMIS-UC Phase 3 readout (Ulcerative Colitis)",
+      "timing": "H1 2026",
+      "drug": "Tulisokibart",
+      "significance": "High"
+    },
+    {
+      "event": "Phase 3 initiation in UC",
+      "timing": "Q1 2025",
+      "drug": "Duvakitug",
+      "significance": "High"
+    },
+    {
+      "event": "Phase 3 readout in UC",
+      "timing": "2026",
+      "drug": "Afimkibart",
+      "significance": "High"
+    }
+  ],
+  "assets": [
+    {
+      "name": "Tulisokibart (PRA023, MK-7240)",
+      "code_names": ["PRA023", "MK-7240"],
+      "target": "TL1A",
+      "modality": "mAb",
+      "owner": "Merck",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Ulcerative Colitis",
+      "other_indications": ["Crohn's Disease", "IBD"],
+      "regulatory": {"btd": true, "odd": false, "fast_track": true},
+      "deal": {
+        "headline": "Merck acquisition of Prometheus",
+        "upfront": 10800,
+        "milestones": 0,
+        "date": "2023-04",
+        "partner": "Prometheus Biosciences (acquired)",
+        "territory": "Global",
+        "notes": "Merck acquired Prometheus Biosciences for $10.8B to gain tulisokibart"
+      },
+      "key_data": "26% remission (25% placebo-adj) in TL1A-high patients; 49% endoscopic improvement (NEJM 2024)",
+      "differentiator": "Most advanced; Merck resources; precision medicine strategy",
+      "efficacy_data": {
+        "endpoint": "Clinical Remission",
+        "result": 26,
+        "placebo": 1,
+        "placebo_adjusted": 25,
+        "trial": "ARTEMIS-UC",
+        "timepoint": "Week 12",
+        "population": "TL1A-high biomarker positive",
+        "source": "NEJM 2024"
+      }
+    },
+    {
+      "name": "Afimkibart (RVT-3101, RG6631)",
+      "code_names": ["RVT-3101", "RG6631"],
+      "target": "TL1A",
+      "modality": "mAb",
+      "owner": "Roche",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Ulcerative Colitis",
+      "other_indications": ["Crohn's Disease"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": true},
+      "deal": {
+        "headline": "Roche acquisition from Roivant",
+        "upfront": 7250,
+        "milestones": 0,
+        "date": "2023-10",
+        "partner": "Roivant/Telavant (acquired)",
+        "territory": "Global",
+        "notes": "Roche acquired Telavant (Roivant JV with Pfizer) for $7.25B"
+      },
+      "key_data": "70% clinical response, 35% remission in UC Phase 2 (ACG 2023)",
+      "differentiator": "Roche development; multi-indication expansion potential",
+      "efficacy_data": {
+        "endpoint": "Clinical Remission",
+        "result": 35,
+        "placebo": 12,
+        "placebo_adjusted": 23,
+        "trial": "Phase 2",
+        "timepoint": "Week 14",
+        "source": "ACG 2023"
+      }
+    },
+    {
+      "name": "Duvakitug (TEV-48574, SAR447189)",
+      "code_names": ["TEV-48574", "SAR447189"],
+      "target": "TL1A",
+      "modality": "mAb",
+      "owner": "Teva",
+      "partner": "Sanofi",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "Ulcerative Colitis",
+      "other_indications": ["Crohn's Disease"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": false},
+      "deal": {
+        "headline": "Sanofi collaboration",
+        "upfront": 500,
+        "milestones": 1000,
+        "date": "2023-12",
+        "partner": "Sanofi",
+        "territory": "Global (Sanofi has commercialization rights)"
+      },
+      "key_data": "47.8% remission (27.4% placebo-adj) at 1000mg Q4W - BEST IN CLASS (DDW 2024)",
+      "differentiator": "Best-in-class efficacy data; Sanofi commercialization power",
+      "efficacy_data": {
+        "endpoint": "Clinical Remission",
+        "result": 47.8,
+        "placebo": 20.4,
+        "placebo_adjusted": 27.4,
+        "trial": "RELIEVE UCCD",
+        "timepoint": "Week 14",
+        "source": "DDW 2024"
+      }
+    },
+    {
+      "name": "PF-06480605",
+      "code_names": ["PF-06480605"],
+      "target": "TL1A",
+      "modality": "mAb",
+      "owner": "Pfizer",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "Ulcerative Colitis",
+      "other_indications": ["Crohn's Disease"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": false},
+      "key_data": "Phase 2 TUSCANY study ongoing",
+      "differentiator": "Pfizer resources; internal development"
+    },
+    {
+      "name": "ABBV-274",
+      "code_names": ["ABBV-274"],
+      "target": "TL1A",
+      "modality": "mAb",
+      "owner": "AbbVie",
+      "phase": "Phase 1",
+      "status": "Active",
+      "lead_indication": "Ulcerative Colitis",
+      "other_indications": ["Crohn's Disease", "IBD"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": false},
+      "differentiator": "AbbVie IBD expertise (Humira, Skyrizi, Rinvoq)"
+    },
+    {
+      "name": "ANB032",
+      "code_names": ["ANB032"],
+      "target": "TL1A",
+      "modality": "mAb",
+      "owner": "AnaptysBio",
+      "partner": "GSK",
+      "phase": "Phase 1",
+      "status": "Active",
+      "lead_indication": "Inflammatory diseases",
+      "other_indications": ["IBD", "Atopic dermatitis"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": false},
+      "deal": {
+        "headline": "GSK collaboration",
+        "upfront": 45,
+        "milestones": 500,
+        "date": "2023-06",
+        "partner": "GSK",
+        "territory": "Global (GSK option)"
+      },
+      "key_data": "GSK partnered for development",
+      "differentiator": "GSK partnership"
+    },
+    {
+      "name": "SAR443765 (TL1A x IL-23 Bispecific)",
+      "code_names": ["SAR443765"],
+      "target": "TL1A x IL-23",
+      "modality": "Bispecific",
+      "owner": "Sanofi",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "Crohn's Disease",
+      "other_indications": ["Ulcerative Colitis", "IBD"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": false},
+      "key_data": "First-in-class bispecific combining two validated IBD targets",
+      "differentiator": "First TL1A bispecific; dual mechanism may provide best-in-class efficacy"
+    }
+  ],
+  "efficacy_comparison": [
+    {
+      "drug": "Duvakitug (TEV-48574)",
+      "trial": "RELIEVE UCCD",
+      "phase": "Phase 2",
+      "dose": "1000mg Q4W",
+      "endpoint": "Clinical Remission",
+      "result": 47.8,
+      "placebo": 20.4,
+      "placebo_adjusted": 27.4,
+      "indication": "Ulcerative Colitis",
+      "timepoint": "Week 14",
+      "source": "DDW 2024",
+      "notes": "Highest placebo-adjusted remission rate reported"
+    },
+    {
+      "drug": "Tulisokibart (PRA023)",
+      "trial": "ARTEMIS-UC",
+      "phase": "Phase 2b",
+      "dose": "1000mg → 500mg Q4W",
+      "endpoint": "Clinical Remission",
+      "result": 26,
+      "placebo": 1,
+      "placebo_adjusted": 25,
+      "indication": "Ulcerative Colitis",
+      "population": "TL1A-high biomarker positive",
+      "timepoint": "Week 12",
+      "source": "NEJM 2024",
+      "notes": "Precision medicine approach; patients selected by TL1A biomarker"
+    },
+    {
+      "drug": "Afimkibart (RVT-3101)",
+      "trial": "Phase 2",
+      "phase": "Phase 2",
+      "dose": "150mg Q4W",
+      "endpoint": "Clinical Remission",
+      "result": 35,
+      "placebo": 12,
+      "placebo_adjusted": 23,
+      "indication": "Ulcerative Colitis",
+      "timepoint": "Week 14",
+      "source": "ACG 2023"
+    }
+  ],
+  "differentiator_matrix": [
+    {
+      "drug": "Tulisokibart (PRA023)",
+      "strategy": "Precision medicine",
+      "dosing": "1000mg → 500mg Q4W SC",
+      "biomarker": "Yes (TL1A-high)",
+      "half_life": "~14 days",
+      "beyond_indication": "SSc-ILD, RA explored"
+    },
+    {
+      "drug": "Duvakitug (TEV-48574)",
+      "strategy": "Best-in-class efficacy",
+      "dosing": "500-1000mg Q4W SC",
+      "biomarker": "No",
+      "half_life": "~21 days",
+      "beyond_indication": "IBD only"
+    },
+    {
+      "drug": "Afimkibart (RVT-3101)",
+      "strategy": "Multi-indication expansion",
+      "dosing": "150mg Q4W SC",
+      "biomarker": "No",
+      "half_life": "~14 days",
+      "beyond_indication": "AD, MASH, Celiac potential"
+    },
+    {
+      "drug": "SAR443765 (Bispecific)",
+      "strategy": "Dual-target synergy",
+      "dosing": "TBD",
+      "biomarker": "No",
+      "half_life": "TBD",
+      "beyond_indication": "IBD focus"
+    }
+  ],
+  "investment_metrics": {
+    "total_committed": 18550,
+    "total_potential": 20050,
+    "largest_deal": {
+      "name": "Tulisokibart (Merck/Prometheus)",
+      "committed": 10800,
+      "partner": "Prometheus Biosciences"
+    },
+    "assets_with_deals": 4,
+    "phase_3_assets": 3,
+    "total_assets": 8
+  }
+}

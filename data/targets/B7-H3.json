@@ -1,0 +1,282 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "target": "B7-H3",
+    "last_updated": "2026-02-04"
+  },
+  "target": {
+    "name": "B7-H3",
+    "full_name": "B7 homolog 3 protein",
+    "aliases": ["CD276", "B7H3", "4Ig-B7-H3"],
+    "gene_symbol": "CD276",
+    "target_type": "immune checkpoint"
+  },
+  "investment_thesis": {
+    "headline": "B7-H3 is the leading next-gen ADC target with $22B Merck deal and limited normal tissue expression",
+    "key_points": [
+      "Ideal ADC target: High tumor expression, minimal normal tissue expression",
+      "Merck mega-deal: $22B collaboration with Daiichi Sankyo for I-DXd",
+      "Multiple modalities: ADCs, CAR-T, bispecifics, radioconjugates all in development",
+      "Best clinical data: 52% ORR in ES-SCLC with ifinatamab deruxtecan",
+      "Regulatory momentum: BTD and ODD designations for lead programs"
+    ],
+    "full_text": "B7-H3 (CD276) is emerging as the premier target for next-generation oncology therapeutics, particularly antibody-drug conjugates. The immune checkpoint protein is highly expressed across multiple solid tumors (lung, prostate, breast, pediatric cancers) while showing minimal expression on normal tissues - making it an ideal target for cytotoxic payloads.\n\nThe Merck-Daiichi Sankyo $22B collaboration (October 2023) represents the largest ADC deal in history, validating the target's commercial potential. Lead asset ifinatamab deruxtecan (I-DXd, DS-7300) has shown impressive efficacy with 52% ORR in extensive-stage small cell lung cancer and is advancing through registrational trials.\n\nThe competitive landscape includes multiple modalities: ADCs from GSK, BioNTech, and Chinese biotechs; CAR-T programs from academic centers; bispecifics from MacroGenics; and the only approved radioconjugate omburtamab for CNS tumors. This diversity suggests confidence in the target across the industry."
+  },
+  "mechanism": {
+    "biology": "B7-H3 is an immune checkpoint protein that inhibits T-cell activation and promotes tumor immune evasion. It is overexpressed in >70% of solid tumors.",
+    "rationale": "High tumor expression + low normal tissue expression = ideal therapeutic window for ADCs. The DXd payload has proven efficacy with Enhertu.",
+    "unique_value": "Unlike PD-L1 or HER2, B7-H3 is broadly expressed across tumor types with minimal toxicity concerns."
+  },
+  "market_opportunity": {
+    "total_market": "$80B+ oncology biologics market",
+    "target_share": "$5-10B peak revenue potential for best-in-class B7-H3 ADC",
+    "patient_population": "Broad applicability: SCLC, NSCLC, prostate, breast, pediatric tumors",
+    "unmet_need": "ES-SCLC has no targeted therapies; 2L+ solid tumors need new options"
+  },
+  "key_risks": [
+    {
+      "risk": "Competition from other ADC targets (TROP2, HER3, etc.)",
+      "severity": "Medium",
+      "mitigation": "B7-H3 expression is broader and more consistent than alternatives"
+    },
+    {
+      "risk": "Merck/Daiichi dominance may crowd out other players",
+      "severity": "High",
+      "mitigation": "Differentiation through indication focus or modality"
+    }
+  ],
+  "catalysts": [
+    {
+      "event": "TROPION-Lung08 Phase 3 readout (NSCLC)",
+      "timing": "H2 2025",
+      "drug": "Ifinatamab deruxtecan",
+      "significance": "High"
+    },
+    {
+      "event": "Potential accelerated approval in ES-SCLC",
+      "timing": "2025",
+      "drug": "Ifinatamab deruxtecan",
+      "significance": "High"
+    },
+    {
+      "event": "BLA decision for omburtamab (CNS tumors)",
+      "timing": "2024",
+      "drug": "Omburtamab",
+      "significance": "High"
+    }
+  ],
+  "assets": [
+    {
+      "name": "Ifinatamab deruxtecan",
+      "code_names": ["DS-7300", "I-DXd", "DS-7300a"],
+      "target": "B7-H3",
+      "modality": "ADC",
+      "modality_detail": "Topoisomerase I inhibitor (DXd/deruxtecan payload)",
+      "payload": "DXd (deruxtecan)",
+      "owner": "Daiichi Sankyo",
+      "partner": "Merck",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "ES-SCLC (Extensive-Stage Small Cell Lung Cancer)",
+      "other_indications": ["NSCLC", "Solid tumors", "Breast cancer", "Prostate cancer"],
+      "regulatory": {"btd": true, "odd": true, "fast_track": true, "prime": false},
+      "deal": {
+        "headline": "Merck-Daiichi Sankyo collaboration",
+        "upfront": 4000,
+        "equity": 1500,
+        "milestones": 16500,
+        "date": "2023-10",
+        "partner": "Merck",
+        "territory": "Global (co-develop/co-commercialize)",
+        "notes": "Includes I-DXd + 2 other Daiichi ADCs. Largest ADC deal ever."
+      },
+      "key_data": "52% ORR in ES-SCLC; 26% ORR in heavily pretreated solid tumors (ASCO 2024)",
+      "differentiator": "Best-in-class DXd payload; deep Merck partnership; most advanced"
+    },
+    {
+      "name": "Risvutatug rezetecan",
+      "code_names": ["HS-20093", "GSK4428859"],
+      "target": "B7-H3",
+      "modality": "ADC",
+      "modality_detail": "Topoisomerase I inhibitor payload",
+      "owner": "Hansoh Pharma",
+      "partner": "GSK",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "ES-SCLC",
+      "other_indications": ["NSCLC", "Solid tumors"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": true, "prime": false},
+      "deal": {
+        "headline": "GSK collaboration",
+        "upfront": 85,
+        "milestones": 1525,
+        "date": "2024-01",
+        "partner": "GSK",
+        "territory": "Ex-China rights"
+      },
+      "key_data": "75% ORR in ES-SCLC 2L+ (WCLC 2023); durable responses",
+      "differentiator": "Chinese-origin ADC with strong efficacy data; GSK global development"
+    },
+    {
+      "name": "YL201",
+      "code_names": ["YL201"],
+      "target": "B7-H3",
+      "modality": "ADC",
+      "owner": "MediLink Therapeutics",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "ES-SCLC",
+      "key_data": "61% ORR in ES-SCLC; 80.6% DCR (ASCO 2024)",
+      "differentiator": "Competitive China ADC with strong Phase 1/2 data"
+    },
+    {
+      "name": "DB-1311",
+      "code_names": ["DB-1311", "BNT324"],
+      "target": "B7-H3",
+      "modality": "ADC",
+      "owner": "DualityBio",
+      "partner": "BioNTech",
+      "phase": "Phase 1/2",
+      "status": "Active",
+      "lead_indication": "Solid tumors",
+      "deal": {
+        "headline": "BioNTech collaboration",
+        "upfront": 170,
+        "milestones": 1500,
+        "date": "2024-03",
+        "partner": "BioNTech",
+        "territory": "Global ex-Greater China"
+      },
+      "differentiator": "BioNTech partnership; mRNA combo potential"
+    },
+    {
+      "name": "Vobramitamab duocarmazine",
+      "code_names": ["MGC018"],
+      "target": "B7-H3",
+      "modality": "ADC",
+      "modality_detail": "Duocarmazine DNA alkylating payload",
+      "payload": "Duocarmazine",
+      "owner": "MacroGenics",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "mCRPC (Metastatic Castration-Resistant Prostate Cancer)",
+      "other_indications": ["Solid tumors", "NSCLC", "Triple-negative breast cancer"],
+      "key_data": "40% PSA50 response rate in mCRPC; differentiated prostate focus",
+      "differentiator": "Only B7-H3 ADC with duocarmazine payload; prostate cancer focus"
+    },
+    {
+      "name": "Omburtamab",
+      "code_names": ["8H9", "Burtomab"],
+      "target": "B7-H3",
+      "modality": "Radioconjugate",
+      "modality_detail": "Iodine-131 labeled monoclonal antibody (radioimmunotherapy)",
+      "payload": "Iodine-131",
+      "owner": "Y-mAbs Therapeutics",
+      "phase": "Filed",
+      "status": "Active",
+      "lead_indication": "CNS/leptomeningeal metastases from neuroblastoma",
+      "other_indications": ["Medulloblastoma", "DIPG", "Brain metastases"],
+      "regulatory": {"btd": true, "odd": true, "fast_track": false, "prime": true, "rmat": true},
+      "key_data": "BLA filed Oct 2022; PDUFA extended; Phase 3 for DIPG",
+      "differentiator": "Only radioconjugate; CNS penetration; pediatric focus"
+    },
+    {
+      "name": "Enoblituzumab",
+      "code_names": ["MGA271"],
+      "target": "B7-H3",
+      "modality": "mAb",
+      "modality_detail": "Fc-enhanced humanized IgG1 monoclonal antibody",
+      "owner": "MacroGenics",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "HNSCC",
+      "other_indications": ["Prostate cancer", "Pediatric solid tumors", "Melanoma"],
+      "regulatory": {"btd": false, "odd": true, "fast_track": false, "prime": false},
+      "key_data": "Fc-enhanced for ADCC; combination with retifanlimab (PD-1)",
+      "differentiator": "Fc-enhanced ADCC; IO combination approach"
+    },
+    {
+      "name": "MGD024",
+      "code_names": ["MGD024"],
+      "target": "B7-H3 x CD3",
+      "modality": "Bispecific",
+      "modality_detail": "DART (Dual-Affinity Re-Targeting) B7-H3 x CD3 bispecific",
+      "owner": "MacroGenics",
+      "phase": "Phase 1",
+      "status": "Active",
+      "lead_indication": "Solid tumors",
+      "other_indications": ["Pediatric solid tumors"],
+      "regulatory": {"btd": false, "odd": true, "fast_track": false, "prime": false},
+      "differentiator": "DART platform; T-cell engagement"
+    },
+    {
+      "name": "4SCAR-276 (Stanford B7-H3 CAR-T)",
+      "code_names": ["4SCAR-276"],
+      "target": "B7-H3",
+      "modality": "CAR-T",
+      "modality_detail": "4th generation CAR-T targeting B7-H3",
+      "owner": "Stanford University",
+      "phase": "Phase 1",
+      "status": "Active",
+      "lead_indication": "Pediatric solid tumors",
+      "other_indications": ["Neuroblastoma", "Osteosarcoma"],
+      "regulatory": {"btd": false, "odd": true, "fast_track": false, "prime": false},
+      "differentiator": "Academic; pediatric focus; 4th gen CAR"
+    },
+    {
+      "name": "SCRI-CARB7H3 (Seattle CAR-T)",
+      "code_names": ["SCRI-CARB7H3"],
+      "target": "B7-H3",
+      "modality": "CAR-T",
+      "modality_detail": "CAR-T for CNS tumors with intrathecal delivery",
+      "owner": "Seattle Children's Research Institute",
+      "phase": "Phase 1",
+      "status": "Active",
+      "lead_indication": "Medulloblastoma",
+      "other_indications": ["DIPG", "CNS tumors", "Ependymoma"],
+      "key_data": "Intrathecal delivery for CNS penetration",
+      "differentiator": "CNS administration; pediatric CNS tumors"
+    }
+  ],
+  "efficacy_comparison": [
+    {
+      "drug": "Ifinatamab deruxtecan (DS-7300)",
+      "trial": "Phase 1/2",
+      "phase": "Phase 1/2",
+      "dose": "8 mg/kg Q3W",
+      "endpoint": "ORR",
+      "result": 52,
+      "placebo": 0,
+      "placebo_adjusted": 52,
+      "indication": "ES-SCLC",
+      "source": "ASCO 2024",
+      "notes": "Best-in-class response rate"
+    },
+    {
+      "drug": "HS-20093 (GSK)",
+      "trial": "Phase 1/2",
+      "phase": "Phase 1/2",
+      "dose": "Dose escalation",
+      "endpoint": "ORR",
+      "result": 75,
+      "placebo": 0,
+      "placebo_adjusted": 75,
+      "indication": "ES-SCLC 2L+",
+      "source": "WCLC 2023",
+      "notes": "Impressive early data from Chinese program"
+    }
+  ],
+  "investment_metrics": {
+    "total_committed": 5755,
+    "total_potential": 23780,
+    "largest_deal": {
+      "name": "Ifinatamab deruxtecan (Merck/Daiichi)",
+      "committed": 5500,
+      "potential": 22000,
+      "partner": "Merck"
+    },
+    "assets_with_deals": 4,
+    "phase_3_assets": 2,
+    "total_assets": 23
+  }
+}

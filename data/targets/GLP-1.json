@@ -1,0 +1,333 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "target": "GLP-1",
+    "last_updated": "2026-02-04"
+  },
+  "target": {
+    "name": "GLP-1",
+    "full_name": "Glucagon-like peptide-1 receptor",
+    "aliases": ["GLP1", "GLP-1R", "GLP1R", "incretin"],
+    "gene_symbol": "GLP1R",
+    "target_type": "receptor"
+  },
+  "investment_thesis": {
+    "headline": "GLP-1 agonists are the largest growth market in pharma with $50B+ potential and massive deal activity",
+    "key_points": [
+      "Blockbuster market: Ozempic + Wegovy $20B+ in 2024 sales, Mounjaro $10B+",
+      "Beyond diabetes: Obesity, MASH, CV outcomes, kidney disease expanding indications",
+      "Next wave: Oral small molecules (orforglipron), triple agonists (retatrutide)",
+      "Deal frenzy: $22B+ in announced deals (Pfizer/Metsera, AZ/CSPC, Roche/Zealand)",
+      "Best-in-class race: Multiple programs targeting 20%+ weight loss"
+    ],
+    "full_text": "GLP-1 receptor agonists have become the largest and fastest-growing drug class in pharmaceuticals. With combined 2024 sales exceeding $30B for semaglutide (Ozempic/Wegovy) and tirzepatide (Mounjaro/Zepbound), the commercial validation is unprecedented.\n\nThe market continues to expand beyond diabetes into obesity (FDA approved), MASH/liver disease, cardiovascular risk reduction (FLOW, SUMMIT), obstructive sleep apnea, and potentially kidney disease and Alzheimer's. Each new indication adds billions to the addressable market.\n\nThe competitive landscape is intensifying with next-generation molecules: oral small molecules (Lilly's orforglipron, Structure's GSBR-1290), triple agonists (retatrutide showing 24% weight loss), monthly dosing (Amgen's MariTide), and combinations (CagriSema). Deal activity has been extraordinary with Pfizer acquiring Metsera ($4.9B), AstraZeneca partnering with CSPC ($4.7B), and Roche licensing petrelintide from Zealand ($5.3B total)."
+  },
+  "mechanism": {
+    "biology": "GLP-1 receptor agonists mimic the incretin hormone GLP-1, stimulating glucose-dependent insulin secretion, suppressing glucagon, slowing gastric emptying, and reducing appetite through central nervous system effects.",
+    "rationale": "The mechanism provides multimodal metabolic benefits: improved glycemic control for diabetes, significant weight loss through appetite suppression, and cardiovascular/renal protective effects.",
+    "unique_value": "Validated efficacy with 15-24% weight loss and proven CV/renal outcomes benefits. No other drug class has shown this breadth of metabolic effects."
+  },
+  "market_opportunity": {
+    "total_market": "$50B+ projected by 2030 for GLP-1/GIP agonists",
+    "target_share": "Multiple $10B+ blockbusters possible across different mechanism strategies",
+    "patient_population": "42M US adults with obesity; 38M with diabetes; overlap creates massive addressable population",
+    "unmet_need": "Convenience (oral), tolerability (GI side effects), muscle preservation, and accessibility remain key unmet needs"
+  },
+  "key_risks": [
+    {
+      "risk": "Manufacturing constraints limiting supply",
+      "severity": "High",
+      "mitigation": "Multiple new facilities under construction; oral formulations reduce peptide demand"
+    },
+    {
+      "risk": "Safety signals emerging in post-marketing data",
+      "severity": "Medium",
+      "mitigation": "Large real-world databases monitoring; long-term CV outcomes data supportive"
+    },
+    {
+      "risk": "Payer resistance to obesity coverage",
+      "severity": "Medium",
+      "mitigation": "CMS considering coverage; employer plans increasingly covering; outcomes data justifying cost"
+    }
+  ],
+  "catalysts": [
+    {
+      "event": "Retatrutide Phase 3 readouts",
+      "timing": "2026",
+      "drug": "Retatrutide",
+      "significance": "High"
+    },
+    {
+      "event": "Orforglipron ACHIEVE Phase 3 readouts",
+      "timing": "2025-2026",
+      "drug": "Orforglipron",
+      "significance": "High"
+    },
+    {
+      "event": "CagriSema Phase 3 data",
+      "timing": "2025",
+      "drug": "CagriSema",
+      "significance": "High"
+    },
+    {
+      "event": "VK2735 VANQUISH Phase 3 data",
+      "timing": "2026",
+      "drug": "VK2735",
+      "significance": "High"
+    }
+  ],
+  "assets": [
+    {
+      "name": "Semaglutide (Ozempic/Wegovy/Rybelsus)",
+      "code_names": ["NN9535", "Ozempic", "Wegovy", "Rybelsus"],
+      "target": "GLP-1",
+      "modality": "Peptide",
+      "owner": "Novo Nordisk",
+      "phase": "Approved",
+      "status": "Active",
+      "lead_indication": "T2D, Obesity, CV Risk",
+      "other_indications": ["MASH", "CKD"],
+      "key_data": "~15-17% weight loss (Wegovy); FLOW: 24% kidney risk reduction",
+      "differentiator": "Market leader; multiple formulations (SC/oral); proven CV and renal benefits"
+    },
+    {
+      "name": "Tirzepatide (Mounjaro/Zepbound)",
+      "code_names": ["LY3298176", "Mounjaro", "Zepbound"],
+      "target": "GLP-1/GIP",
+      "modality": "Dual Peptide",
+      "owner": "Eli Lilly",
+      "phase": "Approved",
+      "status": "Active",
+      "lead_indication": "T2D, Obesity",
+      "other_indications": ["HFpEF", "OSA"],
+      "regulatory": {"btd": true, "odd": false, "fast_track": false},
+      "key_data": "~21-22.5% weight loss; SUMMIT: 33% CV death/HF reduction",
+      "differentiator": "Best-in-class weight loss; dual GLP-1/GIP mechanism"
+    },
+    {
+      "name": "Mazdutide",
+      "code_names": ["IBI362", "LY3305677"],
+      "target": "GLP-1/GCG",
+      "modality": "Dual Peptide",
+      "owner": "Innovent Biologics",
+      "partner": "Eli Lilly (ex-China)",
+      "phase": "Approved",
+      "status": "Active",
+      "lead_indication": "Obesity, T2D",
+      "key_data": "GLORY-1: 14.8% (6mg), GLORY-2: 20.1% (9mg)",
+      "differentiator": "First dual GCG/GLP-1 approved; China leader"
+    },
+    {
+      "name": "Orforglipron",
+      "code_names": ["LY3502970"],
+      "target": "GLP-1",
+      "modality": "Small Molecule",
+      "owner": "Eli Lilly",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity, T2D",
+      "other_indications": ["NASH"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": true},
+      "key_data": "Phase 2: 14.7% weight loss at 36 weeks",
+      "differentiator": "First oral small molecule GLP-1; convenience over peptides"
+    },
+    {
+      "name": "Retatrutide",
+      "code_names": ["LY3437943"],
+      "target": "GLP-1/GIP/GCGR",
+      "modality": "Triple Peptide",
+      "owner": "Eli Lilly",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity",
+      "other_indications": ["T2D", "MASH", "OSA"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": true},
+      "key_data": "Phase 2: ~24% weight loss at 48 weeks",
+      "differentiator": "Triple agonist; highest weight loss ever reported; potential best-in-class"
+    },
+    {
+      "name": "CagriSema",
+      "code_names": ["NN9838"],
+      "target": "GLP-1/Amylin",
+      "modality": "Combination",
+      "owner": "Novo Nordisk",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity",
+      "other_indications": ["T2D"],
+      "key_data": "Phase 2: ~15.6% weight loss at 32 weeks",
+      "differentiator": "Semaglutide + cagrilintide combination; Novo combination strategy"
+    },
+    {
+      "name": "VK2735",
+      "code_names": ["VK2735"],
+      "target": "GLP-1/GIP",
+      "modality": "Dual Peptide",
+      "owner": "Viking Therapeutics",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity",
+      "other_indications": ["MASH"],
+      "regulatory": {"btd": false, "odd": false, "fast_track": true},
+      "key_data": "Phase 2: 14.7% at 13 weeks (highest dose)",
+      "differentiator": "Biotech speed; attractive M&A target"
+    },
+    {
+      "name": "Survodutide",
+      "code_names": ["BI 456906"],
+      "target": "GLP-1/GCGR",
+      "modality": "Dual Peptide",
+      "owner": "Boehringer Ingelheim",
+      "partner": "Zealand Pharma",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity, MASH",
+      "other_indications": ["T2D"],
+      "key_data": "Phase 2: ~19% weight loss; 83% MASH improvement",
+      "differentiator": "Strong MASH efficacy; differentiated liver indication"
+    },
+    {
+      "name": "MariTide",
+      "code_names": ["AMG 133"],
+      "target": "GLP-1/GIPR-antagonist",
+      "modality": "Bispecific Antibody-Peptide",
+      "owner": "Amgen",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity",
+      "key_data": "Phase 2: ~20% weight loss with monthly dosing",
+      "differentiator": "Monthly dosing; unique GIP antagonist mechanism"
+    },
+    {
+      "name": "HRS9531",
+      "code_names": ["HRS9531"],
+      "target": "GLP-1/GIP",
+      "modality": "Dual Peptide",
+      "owner": "Hengrui Pharma",
+      "partner": "Kailera (US)",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity",
+      "deal": {
+        "headline": "Kailera US rights deal",
+        "milestones": 6000,
+        "partner": "Kailera",
+        "territory": "US rights",
+        "notes": "$6B potential deal with Kailera"
+      },
+      "key_data": "Phase 3: ~18% weight loss at 48 weeks",
+      "differentiator": "China leader; large US deal validates asset"
+    },
+    {
+      "name": "Petrelintide",
+      "code_names": ["ZP8396"],
+      "target": "Amylin",
+      "modality": "Peptide",
+      "owner": "Zealand Pharma",
+      "partner": "Roche",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "Obesity",
+      "deal": {
+        "headline": "Roche acquisition deal",
+        "upfront": 1650,
+        "milestones": 3650,
+        "partner": "Roche",
+        "territory": "Global",
+        "notes": "$1.65B upfront from Roche; up to $5.3B total"
+      },
+      "key_data": "Phase 1b: 8.6% at 16 weeks",
+      "differentiator": "Amylin mechanism; Roche mega-deal validates; combo potential"
+    },
+    {
+      "name": "Aleniglipron (GSBR-1290)",
+      "code_names": ["GSBR-1290"],
+      "target": "GLP-1",
+      "modality": "Small Molecule",
+      "owner": "Structure Therapeutics",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "Obesity, T2D",
+      "key_data": "Phase 2a: 6.2% weight loss at 12 weeks",
+      "differentiator": "Oral small molecule; M&A target"
+    },
+    {
+      "name": "Elecoglipron",
+      "code_names": ["AZD5004"],
+      "target": "GLP-1",
+      "modality": "Small Molecule",
+      "owner": "AstraZeneca",
+      "partner": "Eccogene",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "Obesity, T2D",
+      "deal": {
+        "headline": "Licensed from Eccogene",
+        "partner": "Eccogene (Shanghai)",
+        "territory": "Global ex-China"
+      },
+      "key_data": "Phase 1: 5.8% at 4 weeks",
+      "differentiator": "AstraZeneca backing; oral small molecule"
+    },
+    {
+      "name": "Pemvidutide",
+      "code_names": ["ALT-801"],
+      "target": "GLP-1/GCGR",
+      "modality": "Dual Peptide",
+      "owner": "Altimmune",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "MASH, Obesity",
+      "key_data": "Phase 2: 80% liver fat reduction",
+      "differentiator": "MASH-focused; strong liver fat reduction"
+    },
+    {
+      "name": "MET-097i",
+      "code_names": ["MET-097i"],
+      "target": "GLP-1",
+      "modality": "Peptide",
+      "owner": "Pfizer",
+      "phase": "Phase 1",
+      "status": "Active",
+      "lead_indication": "Obesity",
+      "deal": {
+        "headline": "Metsera acquisition",
+        "upfront": 4900,
+        "partner": "Metsera (acquired)",
+        "notes": "$4.9B Metsera acquisition"
+      },
+      "differentiator": "$4.9B acquisition validates; Pfizer backing"
+    },
+    {
+      "name": "SYH2082",
+      "code_names": ["SYH2082"],
+      "target": "GLP-1/GIP",
+      "modality": "Dual Peptide",
+      "owner": "CSPC Pharmaceuticals",
+      "partner": "AstraZeneca",
+      "phase": "Phase 1",
+      "status": "Active",
+      "lead_indication": "Obesity, T2D",
+      "deal": {
+        "headline": "AstraZeneca deal",
+        "upfront": 1200,
+        "milestones": 3500,
+        "partner": "AstraZeneca",
+        "notes": "$1.2B upfront from AstraZeneca; $3.5B milestones; 8 programs total"
+      },
+      "differentiator": "Monthly dosing; part of mega AstraZeneca deal"
+    }
+  ],
+  "investment_metrics": {
+    "total_committed": 9450,
+    "total_potential": 22850,
+    "largest_deal": {
+      "name": "Pfizer/Metsera",
+      "committed": 4900,
+      "partner": "Metsera"
+    },
+    "phase_3_assets": 9,
+    "approved_assets": 4,
+    "total_assets": 25
+  }
+}

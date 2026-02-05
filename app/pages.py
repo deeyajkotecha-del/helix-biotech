@@ -17,6 +17,32 @@ def load_companies_from_index():
             return data.get("companies", [])
     return []
 
+# Load targets from index.json
+def load_targets_index():
+    """Load targets from data/targets/index.json"""
+    index_path = Path(__file__).parent.parent / "data" / "targets" / "index.json"
+    if index_path.exists():
+        with open(index_path) as f:
+            data = json.load(f)
+            return data.get("targets", []), data.get("categories", {})
+    return [], {}
+
+def load_target_data(slug: str):
+    """Load individual target data from data/targets/{slug}.json"""
+    target_path = Path(__file__).parent.parent / "data" / "targets" / f"{slug}.json"
+    if target_path.exists():
+        with open(target_path) as f:
+            return json.load(f)
+    return None
+
+def serve_thesis_html(ticker: str):
+    """Serve thesis HTML from data/thesis/{ticker.lower()}.html file."""
+    thesis_path = Path(__file__).parent.parent / "data" / "thesis" / f"{ticker.lower()}.html"
+    if thesis_path.exists():
+        with open(thesis_path) as f:
+            return f.read()
+    return None
+
 # Stage display labels
 STAGE_LABELS = {
     "large_cap_diversified": "Large Cap",
@@ -447,13 +473,51 @@ def generate_companies_page():
 def generate_targets_page():
     """Generate the targets page with category filters and search."""
 
-    # All targets with full data from CLI
-    targets = [
-        # Oncology
-        {"name": "KRAS G12C", "category": "oncology", "slug": "kras", "status": "Approved Drug Exists",
-         "leader": {"company": "Amgen", "ticker": "AMGN", "drug": "Lumakras", "phase": "Approved"},
-         "challenger": {"company": "Revolution", "ticker": "RVMD", "drug": "RMC-6236", "phase": "Phase 3"},
-         "count": "8+", "desc": "Amgen, Mirati approved. Next-gen focus on combos."},
+    # Load targets from index.json
+    index_targets, categories = load_targets_index()
+
+    # Map index.json targets to display format
+    targets = []
+    for t in index_targets:
+        slug = t.get("slug", "")
+        market_status = t.get("market_status", "race_to_first")
+        status_map = {"approved": "Approved Drug Exists", "race_to_first": "Race to First", "early": "Early Stage"}
+        status = status_map.get(market_status, "Race to First")
+
+        # Get leader/challenger from lead_companies list
+        lead_companies = t.get("lead_companies", [])
+        leader = {"company": lead_companies[0] if len(lead_companies) > 0 else "-", "ticker": "-", "drug": "-", "phase": "-"}
+        challenger = {"company": lead_companies[1] if len(lead_companies) > 1 else "-", "ticker": "-", "drug": "-", "phase": "-"}
+
+        # Load detailed data if available
+        detail = load_target_data(slug)
+        if detail:
+            assets = detail.get("assets", [])
+            if len(assets) > 0:
+                a = assets[0]
+                leader = {"company": a.get("company", "-"), "ticker": a.get("ticker", "-"), "drug": a.get("drug", a.get("name", "-")), "phase": a.get("stage", "-")}
+            if len(assets) > 1:
+                a = assets[1]
+                challenger = {"company": a.get("company", "-"), "ticker": a.get("ticker", "-"), "drug": a.get("drug", a.get("name", "-")), "phase": a.get("stage", "-")}
+
+        # Use legacy_slug for backwards compatible URLs, otherwise use slug
+        url_slug = t.get("legacy_slug", slug)
+
+        targets.append({
+            "name": t.get("name", slug),
+            "category": t.get("category", "other"),
+            "slug": url_slug,
+            "status": status,
+            "leader": leader,
+            "challenger": challenger,
+            "count": str(t.get("total_assets", "?")),
+            "desc": t.get("description", ""),
+            "hot": t.get("hot_target", False)
+        })
+
+    # Add any hardcoded targets not in index.json
+    existing_slugs = {t.get("slug") for t in targets if t.get("slug")}
+    hardcoded_extras = [
         {"name": "RAS(ON) Multi", "category": "oncology", "slug": "kras", "status": "Race to First",
          "leader": {"company": "Revolution", "ticker": "RVMD", "drug": "Daraxonrasib", "phase": "Phase 3"},
          "challenger": {"company": "Mirati/BMS", "ticker": "BMY", "drug": "MRTX1133", "phase": "Phase 1"},
@@ -466,40 +530,10 @@ def generate_targets_page():
          "leader": {"company": "Arcus/Gilead", "ticker": "RCUS", "drug": "Domvanalimab", "phase": "Phase 3"},
          "challenger": {"company": "Merck", "ticker": "MRK", "drug": "Vibostolimab", "phase": "Phase 3"},
          "count": "10+", "desc": "Crowded checkpoint. Fc design matters."},
-        {"name": "B7-H3", "category": "oncology", "slug": "b7h3-adc", "status": "Race to First",
-         "leader": {"company": "Daiichi/Merck", "ticker": "DSNKY", "drug": "I-DXd", "phase": "Phase 3"},
-         "challenger": {"company": "GSK", "ticker": "GSK", "drug": "HS-20093", "phase": "Phase 2"},
-         "count": "23", "desc": "Highly expressed in solid tumors with limited normal tissue."},
-
-        # Immunology
-        {"name": "TL1A", "category": "immunology", "slug": "tl1a-ibd", "status": "Race to First",
-         "leader": {"company": "Merck", "ticker": "MRK", "drug": "Tulisokibart", "phase": "Phase 3"},
-         "challenger": {"company": "Sanofi", "ticker": "SNY", "drug": "Duvakitug", "phase": "Phase 3"},
-         "count": "9", "desc": "Hot IBD target with anti-fibrotic potential."},
-        {"name": "FcRn", "category": "immunology", "slug": None, "status": "Approved Drug Exists",
-         "leader": {"company": "argenx", "ticker": "ARGX", "drug": "VYVGART", "phase": "Approved"},
-         "challenger": {"company": "Immunovant", "ticker": "IMVT", "drug": "IMVT-1402", "phase": "Phase 3"},
-         "count": "5", "desc": "$4B+ market. MG, CIDP, ITP."},
         {"name": "IL-4Ra / IL-13", "category": "immunology", "slug": None, "status": "Approved Drug Exists",
          "leader": {"company": "Regeneron", "ticker": "REGN", "drug": "Dupixent", "phase": "Approved"},
          "challenger": {"company": "Apogee", "ticker": "APGE", "drug": "APG777", "phase": "Phase 2"},
          "count": "4", "desc": "$13B+ blockbuster. Q12W dosing goal."},
-        {"name": "KIT (mast cell)", "category": "immunology", "slug": None, "status": "Race to First",
-         "leader": {"company": "Celldex", "ticker": "CLDX", "drug": "Barzolvolimab", "phase": "Phase 3"},
-         "challenger": {"company": "Allakos", "ticker": "ALLK", "drug": "Various", "phase": "Phase 2"},
-         "count": "3", "desc": "Mast cell depletion for urticaria."},
-
-        # Metabolic
-        {"name": "GLP-1/GIP dual", "category": "metabolic", "slug": "glp1-obesity", "status": "Approved Drug Exists",
-         "leader": {"company": "Eli Lilly", "ticker": "LLY", "drug": "Mounjaro", "phase": "Approved"},
-         "challenger": {"company": "Viking", "ticker": "VKTX", "drug": "VK2735", "phase": "Phase 3"},
-         "count": "10+", "desc": "$50B+ market. Oral formulation key."},
-
-        # Cardiovascular
-        {"name": "Aldosterone synth", "category": "cardiovascular", "slug": None, "status": "Race to First",
-         "leader": {"company": "Mineralys", "ticker": "MLYS", "drug": "Lorundrostat", "phase": "Phase 3"},
-         "challenger": {"company": "Alnylam", "ticker": "ALNY", "drug": "Zilebesiran", "phase": "Phase 3"},
-         "count": "3", "desc": "CYP11B2 for resistant HTN."},
 
         # Rare Disease
         {"name": "DMD gene therapy", "category": "rare", "slug": None, "status": "Approved Drug Exists",
@@ -521,6 +555,8 @@ def generate_targets_page():
          "challenger": {"company": "Idorsia", "ticker": "IDIA", "drug": "Various", "phase": "Phase 2"},
          "count": "2", "desc": "Kv7 mechanism for epilepsy."},
     ]
+    # Add hardcoded extras that aren't already in targets from index.json
+    targets.extend(hardcoded_extras)
 
     # Category colors and labels
     category_styles = {
@@ -740,6 +776,170 @@ def generate_targets_page():
             applyFilters();
         }}
     </script>
+</body>
+</html>'''
+
+def generate_target_detail_page(slug: str):
+    """Generate a detailed target page from JSON data."""
+    data = load_target_data(slug)
+    if not data:
+        return None
+
+    target_name = data.get("name", slug)
+    full_name = data.get("full_name", target_name)
+    category = data.get("category", "other")
+    description = data.get("description", "")
+    total_assets = data.get("total_assets", 0)
+    market_status = data.get("market_status", "race_to_first")
+
+    # Category styling
+    category_styles = {
+        "oncology": {"bg": "#fef2f2", "color": "#dc2626", "label": "Oncology"},
+        "immunology": {"bg": "#f0fdf4", "color": "#16a34a", "label": "I&I"},
+        "metabolic": {"bg": "#fef9c3", "color": "#ca8a04", "label": "Metabolic"},
+        "cardiovascular": {"bg": "#eff6ff", "color": "#2563eb", "label": "Cardiovascular"},
+        "rare": {"bg": "#faf5ff", "color": "#7c3aed", "label": "Rare Disease"},
+        "neuro": {"bg": "#fef3c7", "color": "#92400e", "label": "Neuro"},
+    }
+    cat_style = category_styles.get(category, {"bg": "#f3f4f6", "color": "#4b5563", "label": category.title()})
+
+    # Build assets table
+    assets = data.get("assets", [])
+    assets_html = ""
+    for asset in assets:
+        phase = asset.get("stage", asset.get("phase", ""))
+        phase_colors = {"Approved": "#22c55e", "Phase 3": "#3b82f6", "Phase 2": "#f59e0b", "Phase 2b": "#f59e0b", "Phase 1": "#6b7280", "Phase 1/2": "#6b7280", "Pivotal": "#3b82f6", "Registrational": "#22c55e"}
+        phase_color = "#6b7280"
+        for key, color in phase_colors.items():
+            if key.lower() in phase.lower():
+                phase_color = color
+                break
+        company = asset.get("company", "")
+        ticker = asset.get("ticker", "")
+        drug = asset.get("drug", asset.get("name", ""))
+        deal_value = asset.get("deal_value", "")
+        deal_info = f'<span class="deal-value">${deal_value}M</span>' if deal_value else ""
+
+        assets_html += f'''
+        <tr>
+            <td><strong>{drug}</strong></td>
+            <td><a href="/api/clinical/companies/{ticker}/html" class="company-link">{company}</a> <span class="ticker">({ticker})</span></td>
+            <td><span class="phase-badge" style="background:{phase_color};">{phase}</span></td>
+            <td>{deal_info}</td>
+        </tr>
+        '''
+
+    # Investment thesis
+    thesis = data.get("investment_thesis", {})
+    bull_points = thesis.get("bull_case", [])
+    bear_points = thesis.get("bear_case", thesis.get("key_risks", []))
+
+    bull_html = "".join([f'<li>{point}</li>' for point in bull_points]) if bull_points else "<li>No bull case data available</li>"
+    bear_html = "".join([f'<li>{point}</li>' for point in bear_points]) if bear_points else "<li>No bear case data available</li>"
+
+    # Key metrics
+    total_committed = data.get("total_committed", 0)
+    phase_3_assets = data.get("phase_3_assets", 0)
+    approved_assets = data.get("approved_assets", 0)
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{target_name} Target Landscape | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header .subtitle {{ opacity: 0.85; font-size: 1rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.7; max-width: 700px; font-size: 0.95rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+        .category-badge {{ display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+
+        .assets-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
+        .assets-table th {{ background: var(--navy); color: white; padding: 12px; text-align: left; }}
+        .assets-table td {{ padding: 12px; border-bottom: 1px solid var(--border); }}
+        .assets-table tr:hover {{ background: var(--bg); }}
+        .phase-badge {{ padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }}
+        .company-link {{ color: var(--navy); text-decoration: none; font-weight: 500; }}
+        .company-link:hover {{ color: var(--accent); }}
+        .ticker {{ color: var(--text-muted); font-size: 0.8rem; }}
+        .deal-value {{ color: #059669; font-weight: 600; }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 12px; }}
+        .bull-box {{ background: #ecfdf5; border: 1px solid #10b981; }}
+        .bear-box {{ background: #fef2f2; border: 1px solid #ef4444; }}
+        .bull-box h3 {{ color: #059669; margin-bottom: 16px; }}
+        .bear-box h3 {{ color: #dc2626; margin-bottom: 16px; }}
+        .thesis-list {{ list-style: none; padding: 0; margin: 0; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-bottom: 24px; font-weight: 500; }}
+    </style>
+</head>
+<body>
+    {get_nav_html("targets")}
+    <main class="main">
+        <a href="/targets" class="back-link">← Back to All Targets</a>
+
+        <div class="report-header">
+            <span class="category-badge" style="background:{cat_style['bg']};color:{cat_style['color']};">{cat_style['label']}</span>
+            <h1>{target_name}</h1>
+            <p class="subtitle">{full_name}</p>
+            <p>{description}</p>
+            <div class="report-meta">
+                <div class="meta-item"><div class="label">Total Assets</div><div class="value">{total_assets}</div></div>
+                <div class="meta-item"><div class="label">Phase 3+</div><div class="value">{phase_3_assets + approved_assets}</div></div>
+                {f'<div class="meta-item"><div class="label">Deal Activity</div><div class="value">${total_committed:,}M</div></div>' if total_committed else ''}
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Competitive Landscape ({len(assets)} Assets)</h2>
+            <table class="assets-table">
+                <thead>
+                    <tr><th>Drug</th><th>Company</th><th>Stage</th><th>Deal Value</th></tr>
+                </thead>
+                <tbody>
+                    {assets_html}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Investment Thesis</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">{bull_html}</ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case / Key Risks</h3>
+                    <ul class="thesis-list">{bear_html}</ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
 </body>
 </html>'''
 

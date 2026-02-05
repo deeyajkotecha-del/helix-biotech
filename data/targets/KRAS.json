@@ -1,0 +1,163 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "target": "KRAS",
+    "last_updated": "2026-02-04"
+  },
+  "target": {
+    "name": "KRAS",
+    "full_name": "Kirsten rat sarcoma viral oncogene homolog",
+    "aliases": ["K-RAS", "KRAS G12C", "KRAS G12D", "KRAS G12V", "KRAS G12R"],
+    "gene_symbol": "KRAS",
+    "target_type": "oncogene"
+  },
+  "investment_thesis": {
+    "headline": "KRAS went from 'undruggable' to approved with sotorasib/adagrasib, now G12D race heats up",
+    "key_points": [
+      "G12C approved: Sotorasib (Amgen) and adagrasib (Mirati) validated drugging KRAS",
+      "G12D frontier: Revolution Medicines (RMC-6236) leading with Pan-RAS approach",
+      "Degraders emerging: Multiple PROTAC programs targeting KRAS for deeper responses",
+      "Combination potential: KRAS inhibitors + SHP2, MEK, EGFR for durability",
+      "Resistance challenge: Acquired mutations limit monotherapy durability"
+    ],
+    "full_text": "KRAS was considered 'undruggable' for 40 years until the breakthrough discovery of covalent G12C inhibitors. Amgen's sotorasib (Lumakras, 2021) and Mirati's adagrasib (Krazati, 2022) validated the target, though clinical responses remain modest (~35% ORR) with limited durability due to resistance.\n\nThe next wave focuses on: (1) G12D inhibitors for pancreatic cancer, (2) Pan-RAS(ON) inhibitors blocking multiple mutants, (3) Degraders for potentially deeper knockdown, and (4) Combinations to address resistance. Revolution Medicines leads with RMC-6236, showing promising data across G12 mutations.\n\nThe commercial opportunity remains significant given KRAS is mutated in ~25% of all cancers, with G12D (pancreatic) being the largest unaddressed segment."
+  },
+  "mechanism": {
+    "biology": "KRAS is a GTPase that cycles between active (GTP-bound) and inactive (GDP-bound) states, driving cell proliferation through RAF-MEK-ERK signaling. Oncogenic mutations lock KRAS in the active state.",
+    "rationale": "Covalent inhibitors (G12C) trap mutant KRAS in inactive state. Newer approaches target the active (ON) state or use degraders to eliminate the protein entirely.",
+    "unique_value": "KRAS mutations are among the most common oncogenic drivers, representing a massive unmet need particularly in pancreatic and colorectal cancer."
+  },
+  "market_opportunity": {
+    "total_market": "$5B+ for KRAS inhibitors by 2030",
+    "target_share": "G12C: ~$2B (NSCLC), G12D: $3B+ potential (pancreatic, CRC)",
+    "patient_population": "~25% of all cancers have KRAS mutations; G12C (13% NSCLC), G12D (90% pancreatic)",
+    "unmet_need": "No approved therapies for G12D; limited durability of G12C monotherapy; need for combinations"
+  },
+  "key_risks": [
+    {
+      "risk": "Acquired resistance limits durability",
+      "severity": "High",
+      "mitigation": "Combinations with SHP2, MEK, or vertical pathway inhibitors"
+    },
+    {
+      "risk": "G12D proving more challenging than G12C",
+      "severity": "Medium",
+      "mitigation": "Pan-RAS approaches may address multiple mutations"
+    },
+    {
+      "risk": "Crowded competitive landscape",
+      "severity": "Medium",
+      "mitigation": "Differentiation through mutation coverage, tissue distribution, combinations"
+    }
+  ],
+  "catalysts": [
+    {
+      "event": "RMC-6236 Phase 3 PDAC readout",
+      "timing": "2026",
+      "drug": "RMC-6236 (daraxonrasib)",
+      "significance": "High"
+    },
+    {
+      "event": "Adagrasib combination data",
+      "timing": "2025",
+      "drug": "Adagrasib + cetuximab",
+      "significance": "Medium"
+    }
+  ],
+  "assets": [
+    {
+      "name": "Sotorasib (Lumakras)",
+      "code_names": ["AMG 510", "Lumakras"],
+      "target": "KRAS G12C",
+      "modality": "Small Molecule",
+      "owner": "Amgen",
+      "phase": "Approved",
+      "status": "Active",
+      "lead_indication": "NSCLC",
+      "other_indications": ["Colorectal cancer"],
+      "key_data": "36% ORR in 2L+ NSCLC (CodeBreaK 100)",
+      "differentiator": "First-in-class; first approved KRAS inhibitor"
+    },
+    {
+      "name": "Adagrasib (Krazati)",
+      "code_names": ["MRTX849", "Krazati"],
+      "target": "KRAS G12C",
+      "modality": "Small Molecule",
+      "owner": "Mirati Therapeutics (BMS)",
+      "phase": "Approved",
+      "status": "Active",
+      "lead_indication": "NSCLC",
+      "other_indications": ["Colorectal cancer"],
+      "key_data": "42% ORR in 2L+ NSCLC (KRYSTAL-1)",
+      "differentiator": "Longer half-life; CNS penetration"
+    },
+    {
+      "name": "Daraxonrasib (RMC-6236)",
+      "code_names": ["RMC-6236"],
+      "target": "Pan-RAS (G12X)",
+      "modality": "Small Molecule",
+      "owner": "Revolution Medicines",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Pancreatic cancer",
+      "other_indications": ["NSCLC", "Colorectal cancer"],
+      "key_data": "36% ORR in PDAC; 50%+ ORR in NSCLC",
+      "differentiator": "Pan-RAS(ON) inhibitor; covers multiple G12 mutations"
+    },
+    {
+      "name": "RMC-6291",
+      "code_names": ["RMC-6291"],
+      "target": "KRAS G12C(ON)",
+      "modality": "Small Molecule",
+      "owner": "Revolution Medicines",
+      "phase": "Phase 1/2",
+      "status": "Active",
+      "lead_indication": "NSCLC",
+      "key_data": "Targets active (ON) state",
+      "differentiator": "Active state inhibitor; different mechanism than sotorasib/adagrasib"
+    },
+    {
+      "name": "Divarasib",
+      "code_names": ["GDC-6036"],
+      "target": "KRAS G12C",
+      "modality": "Small Molecule",
+      "owner": "Roche/Genentech",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "NSCLC",
+      "key_data": "53% ORR in 2L+ NSCLC",
+      "differentiator": "Best ORR data; Roche development"
+    },
+    {
+      "name": "Opnurasib",
+      "code_names": ["JDQ443"],
+      "target": "KRAS G12C",
+      "modality": "Small Molecule",
+      "owner": "Novartis",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "NSCLC, Colorectal cancer",
+      "key_data": "46% ORR",
+      "differentiator": "Novartis development; combo potential with TNO155 (SHP2)"
+    },
+    {
+      "name": "Glecirasib",
+      "code_names": ["JAB-21822"],
+      "target": "KRAS G12C",
+      "modality": "Small Molecule",
+      "owner": "Jacobio Pharma",
+      "phase": "Phase 2",
+      "status": "Active",
+      "lead_indication": "NSCLC",
+      "key_data": "~50% ORR",
+      "differentiator": "China-developed; strong efficacy data"
+    }
+  ],
+  "investment_metrics": {
+    "total_committed": 0,
+    "total_potential": 0,
+    "approved_assets": 2,
+    "phase_3_assets": 1,
+    "total_assets": 7
+  }
+}

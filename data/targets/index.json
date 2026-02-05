@@ -1,0 +1,118 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "type": "targets_index",
+    "last_updated": "2026-02-04"
+  },
+  "targets": [
+    {
+      "slug": "TL1A",
+      "name": "TL1A",
+      "full_name": "TNF-like ligand 1A",
+      "category": "immunology",
+      "market_status": "race_to_first",
+      "total_assets": 8,
+      "phase_3_assets": 3,
+      "total_committed": 18550,
+      "lead_companies": ["Merck", "Roche", "Sanofi/Teva"],
+      "hot_target": true,
+      "description": "Hot IBD target with anti-fibrotic potential",
+      "legacy_slug": "tl1a-ibd"
+    },
+    {
+      "slug": "B7-H3",
+      "name": "B7-H3",
+      "full_name": "B7 homolog 3 protein (CD276)",
+      "category": "oncology",
+      "market_status": "race_to_first",
+      "total_assets": 23,
+      "phase_3_assets": 2,
+      "total_committed": 5755,
+      "lead_companies": ["Merck/Daiichi", "GSK/Hansoh", "MacroGenics"],
+      "hot_target": true,
+      "description": "Highly expressed in solid tumors with limited normal tissue",
+      "legacy_slug": "b7h3-adc"
+    },
+    {
+      "slug": "GLP-1",
+      "name": "GLP-1",
+      "full_name": "Glucagon-like peptide-1 receptor",
+      "category": "metabolic",
+      "market_status": "approved",
+      "total_assets": 25,
+      "phase_3_assets": 9,
+      "approved_assets": 4,
+      "total_committed": 9450,
+      "lead_companies": ["Novo Nordisk", "Eli Lilly", "Amgen"],
+      "hot_target": true,
+      "description": "$50B+ market. Oral formulation key.",
+      "legacy_slug": "glp1-obesity"
+    },
+    {
+      "slug": "KRAS",
+      "name": "KRAS G12C",
+      "full_name": "Kirsten rat sarcoma viral oncogene",
+      "category": "oncology",
+      "market_status": "approved",
+      "total_assets": 7,
+      "phase_3_assets": 1,
+      "approved_assets": 2,
+      "lead_companies": ["Amgen", "Mirati/BMS", "Revolution Medicines"],
+      "description": "From undruggable to approved. G12D next frontier.",
+      "legacy_slug": "kras"
+    },
+    {
+      "slug": "FcRn",
+      "name": "FcRn",
+      "full_name": "Neonatal Fc Receptor",
+      "category": "immunology",
+      "market_status": "approved",
+      "total_assets": 5,
+      "approved_assets": 2,
+      "lead_companies": ["argenx", "UCB", "J&J"],
+      "description": "IgG recycling. VYVGART leads."
+    },
+    {
+      "slug": "KIT",
+      "name": "KIT",
+      "full_name": "KIT Proto-Oncogene",
+      "category": "immunology",
+      "market_status": "race_to_first",
+      "total_assets": 3,
+      "lead_companies": ["Blueprint", "Cogent", "Allakos"],
+      "description": "Mast cell depletion for urticaria."
+    },
+    {
+      "slug": "Aldosterone",
+      "name": "Aldosterone synth",
+      "full_name": "Aldosterone Synthase (CYP11B2)",
+      "category": "cardiovascular",
+      "market_status": "race_to_first",
+      "total_assets": 3,
+      "lead_companies": ["Mineralys", "Idorsia"],
+      "description": "HTN without hyperkalemia risk."
+    }
+  ],
+  "categories": {
+    "oncology": {
+      "name": "Oncology",
+      "color": "#dc2626",
+      "count": 2
+    },
+    "immunology": {
+      "name": "I&I",
+      "color": "#7c3aed",
+      "count": 3
+    },
+    "metabolic": {
+      "name": "Metabolic",
+      "color": "#059669",
+      "count": 1
+    },
+    "cardiovascular": {
+      "name": "Cardiovascular",
+      "color": "#0284c7",
+      "count": 1
+    }
+  }
+}
