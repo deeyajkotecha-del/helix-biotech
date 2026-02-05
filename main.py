@@ -132,8 +132,15 @@ from app.pages import (
     serve_thesis_html,
 )
 
+@app.get("/companies/ARWR/thesis", response_class=HTMLResponse)
+async def serve_arwr_thesis_clean():
+    """Serve ARWR investment thesis page (clean URL)."""
+    html = serve_thesis_html("ARWR")
+    if html:
+        return HTMLResponse(html)
+    return HTMLResponse(generate_arwr_thesis())
+
 @app.get("/companies", response_class=HTMLResponse)
-@app.get("/companies/{path:path}", response_class=HTMLResponse)
 async def serve_companies():
     """Serve companies page with 145 biotech companies."""
     return HTMLResponse(generate_companies_page())
@@ -192,15 +199,12 @@ async def serve_report():
     """Redirect to homepage."""
     return FileResponse(BASE_DIR / "index.html")
 
-@app.get("/companies/ARWR/thesis", response_class=HTMLResponse)
 @app.get("/api/company/ARWR/thesis/html", response_class=HTMLResponse)
 async def serve_arwr_thesis():
-    """Serve ARWR investment thesis page."""
-    # Try to serve from file first
+    """Serve ARWR investment thesis page (legacy URL)."""
     html = serve_thesis_html("ARWR")
     if html:
         return HTMLResponse(html)
-    # Fallback to generated version
     return HTMLResponse(generate_arwr_thesis())
 
 @app.get("/api/company/{ticker}/html", response_class=HTMLResponse)
