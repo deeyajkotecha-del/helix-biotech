@@ -1595,6 +1595,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     clinical_data = asset.get("clinical_data", {})
     investment_analysis = asset.get("investment_analysis", {})
 
+    # New v2.0 fields for disease context
+    disease_background = asset.get("disease_background", {})
+    current_treatment = asset.get("current_treatment_landscape", {})
+    asset_differentiation = asset.get("edg7500_differentiation", {}) or asset.get("differentiation", {})
+
     # Get catalysts from both company and asset level
     company_catalysts = company_data.get("catalysts", [])
     asset_catalysts_list = asset.get("catalysts", [])
@@ -2211,6 +2216,103 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
             {pos_html}
         </section>'''
+
+    # =======================================================================
+    # BUILD DISEASE BACKGROUND HTML
+    # =======================================================================
+    disease_bg_html = ""
+    if disease_background:
+        sections_html = ""
+        for section_key, section_data in disease_background.items():
+            if isinstance(section_data, dict):
+                section_title = section_key.replace("_", " ").title()
+                items_html = ""
+                for key, value in section_data.items():
+                    label = key.replace("_", " ").title()
+                    items_html += f'<div class="detail-row"><strong>{label}:</strong> {value}</div>'
+                sections_html += f'''
+                <div class="disease-section">
+                    <h4>{section_title}</h4>
+                    {items_html}
+                </div>'''
+        if sections_html:
+            disease_bg_html = f'''
+            <div class="disease-background-section" style="margin-top: 24px; padding: 20px; background: #f8fafc; border-radius: 8px; border-left: 4px solid #3182ce;">
+                <h4 style="color: #2c5282; margin-bottom: 16px;">Disease Background</h4>
+                <div class="disease-sections" style="display: grid; gap: 20px;">
+                    {sections_html}
+                </div>
+            </div>'''
+
+    # =======================================================================
+    # BUILD TREATMENT LANDSCAPE HTML
+    # =======================================================================
+    treatment_html = ""
+    if current_treatment:
+        treatment_sections = ""
+        for therapy_key, therapy_data in current_treatment.items():
+            if isinstance(therapy_data, dict):
+                therapy_title = therapy_key.replace("_", " ").title()
+
+                # Build therapy details
+                details_html = ""
+                for key, value in therapy_data.items():
+                    if isinstance(value, dict):
+                        # Nested drug info (like mavacamten, aficamten)
+                        drug_name = key.replace("_", " ").title()
+                        drug_details = ""
+                        for dk, dv in value.items():
+                            label = dk.replace("_", " ").title()
+                            drug_details += f'<div class="drug-detail"><strong>{label}:</strong> {dv}</div>'
+                        details_html += f'''
+                        <div class="nested-drug" style="margin: 12px 0; padding: 12px; background: white; border-radius: 6px;">
+                            <h5 style="color: #4a5568; margin-bottom: 8px;">{drug_name}</h5>
+                            {drug_details}
+                        </div>'''
+                    elif isinstance(value, list):
+                        label = key.replace("_", " ").title()
+                        list_items = "".join(f'<li>{item}</li>' for item in value)
+                        details_html += f'<div class="detail-row"><strong>{label}:</strong><ul style="margin: 4px 0 0 20px;">{list_items}</ul></div>'
+                    else:
+                        label = key.replace("_", " ").title()
+                        details_html += f'<div class="detail-row"><strong>{label}:</strong> {value}</div>'
+
+                treatment_sections += f'''
+                <div class="therapy-section" style="margin-bottom: 20px; padding: 16px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <h4 style="color: #2d3748; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">{therapy_title}</h4>
+                    {details_html}
+                </div>'''
+
+        if treatment_sections:
+            treatment_html = f'''
+        <section id="treatment" class="section">
+            <h2 class="section-header">Treatment Landscape</h2>
+            <div style="display: grid; gap: 16px;">
+                {treatment_sections}
+            </div>
+        </section>'''
+
+    # =======================================================================
+    # BUILD DIFFERENTIATION HTML
+    # =======================================================================
+    differentiation_html = ""
+    if asset_differentiation:
+        diff_items = ""
+        for key, value in asset_differentiation.items():
+            label = key.replace("_", " ").replace("vs ", "vs. ").title()
+            diff_items += f'''
+            <div class="diff-item" style="padding: 12px; background: #f0fff4; border-radius: 6px; border-left: 3px solid #38a169;">
+                <strong style="color: #276749;">{label}</strong>
+                <p style="margin: 4px 0 0 0;">{value}</p>
+            </div>'''
+        if diff_items:
+            differentiation_html = f'''
+            <div class="differentiation-section" style="margin-top: 24px;">
+                <h4 style="color: #276749; margin-bottom: 16px;">Key Differentiation</h4>
+                <div style="display: grid; gap: 12px;">
+                    {diff_items}
+                </div>
+            </div>'''
 
     # =======================================================================
     # BUILD CATALYSTS HTML (Wall Street Research Style)
@@ -2902,6 +3004,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             <ul class="sidebar-nav">
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#target">Target Biology</a></li>
+                {'<li><a href="#treatment">Treatment Landscape</a></li>' if current_treatment else ''}
                 <li><a href="#clinical">Clinical Data</a></li>
                 <li><a href="#investment">Investment Analysis</a></li>
                 <li><a href="#market">Market Opportunity</a></li>
@@ -2956,9 +3059,13 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                         {f'<p style="margin-bottom: 16px;">{target_biology}</p>' if target_biology else '<p>No target biology data available.</p>'}
                         {f'<div class="genetic-highlight"><strong>Human Genetic Evidence:</strong> {target_genetic}</div>' if target_genetic else ''}
                         {f'<div class="detail-row" style="margin-top: 16px;"><strong>Why Previous Approaches Failed</strong>{target_why}</div>' if target_why else ''}
+                        {disease_bg_html}
+                        {differentiation_html}
                     </div>
                 </div>
             </section>
+
+            {treatment_html}
 
             <section id="clinical" class="section">
                 <h2 class="section-header">Clinical Data</h2>

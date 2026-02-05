@@ -271,6 +271,12 @@ def get_company_full(ticker: str) -> Optional[dict]:
                 "probability_of_success": asset_data.get("probability_of_success", {}),
                 # v2.0 catalysts at asset level
                 "catalysts": asset_data.get("catalysts", []),
+                # v2.0 disease context sections
+                "disease_background": asset_data.get("disease_background", {}),
+                "current_treatment_landscape": asset_data.get("current_treatment_landscape", {}),
+                "edg7500_differentiation": asset_data.get("edg7500_differentiation", {}),
+                "differentiation": asset_data.get("differentiation", {}),
+                "competitive_landscape": asset_data.get("competitive_landscape", {}),
                 "_source_pages": asset_data.get("_source_pages", []),
                 "_metadata": asset_data.get("_metadata", {})
             }
