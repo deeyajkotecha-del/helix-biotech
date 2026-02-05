@@ -173,6 +173,14 @@ def get_base_styles():
         .tags-row { display: flex; flex-wrap: wrap; gap: 6px; }
         .tag { padding: 4px 10px; background: #f3f4f6; color: var(--text-secondary); font-size: 0.75rem; border-radius: 12px; }
 
+        /* Shared badge styles - consistent neutral gray for ALL phases */
+        .phase-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: #e5e7eb; color: #374151; }
+        .ticker-small { color: #6b7280; font-size: 0.8rem; }
+        .deal-value { color: var(--navy); font-weight: 600; }
+        .data-highlight { font-weight: 600; color: var(--navy); }
+        .delta-positive { color: var(--navy); font-weight: 700; }
+        .notes-text { font-size: 0.8rem; color: var(--text-secondary); }
+
         .footer { background: var(--navy); color: rgba(255,255,255,0.7); padding: 32px; text-align: center; margin-top: 64px; }
         .footer p { font-size: 0.85rem; }
 
@@ -578,11 +586,8 @@ def generate_targets_page():
     # Build target cards
     cards_html = ""
     for t in targets:
-        cat = category_styles.get(t["category"], {"bg": "#f3f4f6", "color": "#4b5563", "label": "Other"})
-        status = status_styles.get(t["status"], {"bg": "#f3f4f6", "color": "#4b5563"})
-        phase_colors = {"Approved": "#22c55e", "Phase 3": "#3b82f6", "Phase 2": "#f59e0b", "Phase 2/3": "#f59e0b", "Phase 1": "#6b7280", "Phase 1/2": "#6b7280", "NDA Filed": "#22c55e"}
-        leader_phase_color = phase_colors.get(t["leader"]["phase"], "#6b7280")
-        challenger_phase_color = phase_colors.get(t["challenger"]["phase"], "#6b7280")
+        cat = category_styles.get(t["category"], {"bg": "#f0f0f0", "color": "#6b7280", "label": "Other"})
+        status = status_styles.get(t["status"], {"bg": "#1a2b3c", "color": "#ffffff"})
 
         view_btn = f'<a href="/targets/{t["slug"]}" class="view-btn">View Full Landscape &rarr;</a>' if t["slug"] else ""
 
@@ -596,7 +601,7 @@ def generate_targets_page():
             if company and company != "-":
                 parts.append(f'<span class="company">{company}</span>')
                 if ticker and ticker != "-":
-                    parts.append(f'(<span class="ticker">{ticker}</span>)')
+                    parts.append(f'<span class="ticker">({ticker})</span>')
 
             if drug and drug != "-":
                 if parts:
@@ -609,26 +614,32 @@ def generate_targets_page():
         leader_text = format_competitor(t["leader"])
         challenger_text = format_competitor(t["challenger"])
 
+        # Only show phase pill if there's a valid phase
+        leader_phase = t["leader"]["phase"]
+        challenger_phase = t["challenger"]["phase"]
+        leader_pill = f'<span class="stage-pill">{leader_phase}</span>' if leader_phase and leader_phase != "-" else ""
+        challenger_pill = f'<span class="stage-pill">{challenger_phase}</span>' if challenger_phase and challenger_phase != "-" else ""
+
         cards_html += f'''
         <div class="target-card" data-category="{t["category"]}">
             <div class="target-header">
                 <div class="target-name">{t["name"]}</div>
-                <span class="area-badge" style="background:{cat["bg"]};color:{cat["color"]};">{cat["label"]}</span>
+                <span class="area-badge">{cat["label"]}</span>
             </div>
-            <div class="market-status" style="background:{status["bg"]};color:{status["color"]};">{t["status"]}</div>
+            <div class="market-status">{t["status"]}</div>
             <div class="competitor-section">
                 <div class="competitor-row">
                     <span class="competitor-label">{"Market Leader" if "Approved" in t["status"] else "Frontrunner"}</span>
                     <span class="competitor-info">
                         <span class="competitor-text">{leader_text}</span>
-                        <span class="stage-pill" style="background:{leader_phase_color};">{t["leader"]["phase"]}</span>
+                        {leader_pill}
                     </span>
                 </div>
                 <div class="competitor-row">
                     <span class="competitor-label">{"Challenger" if "Approved" in t["status"] else "Fast Follower"}</span>
                     <span class="competitor-info">
                         <span class="competitor-text">{challenger_text}</span>
-                        {f'<span class="stage-pill" style="background:{challenger_phase_color};">{t["challenger"]["phase"]}</span>' if t["challenger"]["phase"] != "-" else ""}
+                        {challenger_pill}
                     </span>
                 </div>
             </div>
@@ -677,8 +688,10 @@ def generate_targets_page():
         .target-card:hover {{ border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }}
         .target-header {{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }}
         .target-name {{ font-size: 1.1rem; font-weight: 700; color: var(--navy); }}
-        .area-badge {{ padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }}
-        .market-status {{ display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; }}
+        /* Category badge - consistent neutral styling */
+        .area-badge {{ padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 500; background: transparent; border: 1px solid #d1d5db; color: #6b7280; }}
+        /* Status pill - navy background for all statuses */
+        .market-status {{ display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; background: #1a2b3c; color: #ffffff; }}
 
         .competitor-section {{ margin-bottom: 12px; }}
         .competitor-row {{ display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }}
@@ -687,8 +700,10 @@ def generate_targets_page():
         .competitor-info {{ display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; text-align: right; }}
         .competitor-text {{ color: var(--text-secondary); }}
         .competitor-text .company {{ color: var(--navy); font-weight: 500; }}
-        .competitor-text .ticker {{ color: var(--accent); }}
-        .stage-pill {{ padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; color: white; }}
+        /* Ticker - subtle gray, not coral */
+        .competitor-text .ticker {{ color: #6b7280; font-size: 0.85em; }}
+        /* Phase pill - consistent neutral gray for ALL phases */
+        .stage-pill {{ padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; }}
 
         .target-footer {{ padding-top: 12px; }}
         .companies-count {{ font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }}
@@ -831,12 +846,6 @@ def generate_target_detail_page(slug: str):
     assets_html = ""
     for asset in assets:
         phase = asset.get("stage", asset.get("phase", ""))
-        phase_colors = {"Approved": "#22c55e", "Phase 3": "#3b82f6", "Phase 2": "#f59e0b", "Phase 2b": "#f59e0b", "Phase 1": "#6b7280", "Phase 1/2": "#6b7280", "Pivotal": "#3b82f6", "Registrational": "#22c55e"}
-        phase_color = "#6b7280"
-        for key, color in phase_colors.items():
-            if key.lower() in phase.lower():
-                phase_color = color
-                break
         company = asset.get("company", "")
         ticker = asset.get("ticker", "")
         drug = asset.get("drug", asset.get("name", ""))
@@ -847,7 +856,7 @@ def generate_target_detail_page(slug: str):
         <tr>
             <td><strong>{drug}</strong></td>
             <td><a href="/api/clinical/companies/{ticker}/html" class="company-link">{company}</a> <span class="ticker">({ticker})</span></td>
-            <td><span class="phase-badge" style="background:{phase_color};">{phase}</span></td>
+            <td><span class="phase-badge">{phase}</span></td>
             <td>{deal_info}</td>
         </tr>
         '''
@@ -1058,13 +1067,12 @@ def generate_glp1_report():
     # Build pipeline drugs table
     pipeline_rows = ""
     for drug in pipeline_drugs:
-        phase_color = "#22c55e" if "Phase 3" in drug["phase"] else "#f59e0b" if "Phase 2" in drug["phase"] else "#6b7280"
         pipeline_rows += f'''
         <tr>
             <td><strong>{drug["asset"]}</strong></td>
-            <td>{drug["company"]}<br><span style="color: var(--accent); font-size: 0.8rem;">{drug["ticker"]}</span></td>
+            <td>{drug["company"]}<br><span class="ticker-small">{drug["ticker"]}</span></td>
             <td>{drug["mechanism"]}</td>
-            <td><span style="background: {phase_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">{drug["phase"]}</span></td>
+            <td><span class="phase-badge">{drug["phase"]}</span></td>
             <td><strong>{drug["weight_loss"]}</strong></td>
             <td>{drug["catalyst"]}</td>
         </tr>
@@ -1355,14 +1363,13 @@ def generate_tl1a_report():
     # Build assets table
     assets_rows = ""
     for a in assets:
-        phase_color = "#22c55e" if "Phase 3" in a["phase"] else "#f59e0b" if "Phase 2" in a["phase"] else "#6b7280"
         assets_rows += f'''
         <tr>
             <td><strong>{a["asset"]}</strong></td>
-            <td>{a["company"]}<br><span style="color: var(--accent); font-size: 0.8rem;">{a["ticker"]}</span></td>
-            <td><span style="background: {phase_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">{a["phase"]}</span></td>
+            <td>{a["company"]}<br><span class="ticker-small">{a["ticker"]}</span></td>
+            <td><span class="phase-badge">{a["phase"]}</span></td>
             <td>{a["indication"]}</td>
-            <td style="color: var(--accent); font-weight: 600;">{a["deal"]}</td>
+            <td class="deal-value">{a["deal"]}</td>
             <td>{a["catalyst"]}</td>
         </tr>
         '''
@@ -1377,7 +1384,7 @@ def generate_tl1a_report():
             <td>{e["endpoint"]}</td>
             <td>{e["result"]}</td>
             <td>{e["placebo"]}</td>
-            <td style="color: #22c55e; font-weight: 700;">{e["delta"]}</td>
+            <td class="delta-positive">{e["delta"]}</td>
             <td>{e["population"]}</td>
         </tr>
         '''
@@ -1593,15 +1600,14 @@ def generate_b7h3_report():
     # Build assets table
     assets_rows = ""
     for a in assets:
-        phase_color = "#22c55e" if "Phase 3" in a["phase"] or "Approved" in a["phase"] else "#f59e0b" if "Phase 2" in a["phase"] else "#6b7280"
         assets_rows += f'''
         <tr>
             <td><strong>{a["asset"]}</strong></td>
-            <td>{a["company"]}<br><span style="color: var(--accent); font-size: 0.8rem;">{a["ticker"]}</span></td>
-            <td><span style="background: {phase_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">{a["phase"]}</span></td>
+            <td>{a["company"]}<br><span class="ticker-small">{a["ticker"]}</span></td>
+            <td><span class="phase-badge">{a["phase"]}</span></td>
             <td>{a["modality"]}</td>
             <td>{a["indication"]}</td>
-            <td style="font-weight: 600;">{a["orr"]}</td>
+            <td class="data-highlight">{a["orr"]}</td>
             <td>{a["catalyst"]}</td>
         </tr>
         '''
@@ -1809,16 +1815,15 @@ def generate_kras_report():
     # Build assets table
     assets_rows = ""
     for a in assets:
-        phase_color = "#22c55e" if "Approved" in a["phase"] else "#3b82f6" if "Phase 3" in a["phase"] else "#f59e0b" if "Phase 2" in a["phase"] else "#6b7280"
         assets_rows += f'''
         <tr>
             <td><strong>{a["asset"]}</strong></td>
-            <td>{a["company"]}<br><span style="color: var(--accent); font-size: 0.8rem;">{a["ticker"]}</span></td>
-            <td><span style="background: {phase_color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;">{a["phase"]}</span></td>
+            <td>{a["company"]}<br><span class="ticker-small">{a["ticker"]}</span></td>
+            <td><span class="phase-badge">{a["phase"]}</span></td>
             <td><strong>{a["mutation"]}</strong></td>
             <td>{a["indication"]}</td>
-            <td style="font-weight: 600;">{a["orr"]}</td>
-            <td style="font-size: 0.8rem; color: var(--text-secondary);">{a["notes"]}</td>
+            <td class="data-highlight">{a["orr"]}</td>
+            <td class="notes-text">{a["notes"]}</td>
         </tr>
         '''
 
@@ -2240,12 +2245,12 @@ def generate_arwr_thesis():
                     <tr><th>Asset</th><th>Target</th><th>Indication</th><th>Phase</th><th>Partner</th><th>Next Catalyst</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><strong>Plozasiran</strong></td><td>APOC3</td><td>Severe hypertriglyceridemia</td><td style="color:#22c55e;font-weight:600;">NDA Filed</td><td>Ionis</td><td>FDA decision 2025</td></tr>
-                    <tr><td><strong>ARO-INHBE</strong></td><td>INHBE</td><td>Obesity</td><td style="color:#f59e0b;font-weight:600;">Phase 1</td><td>Internal</td><td>Ph1 data H2 2025</td></tr>
-                    <tr><td><strong>ARO-ANG3</strong></td><td>ANGPTL3</td><td>Dyslipidemia</td><td style="color:#3b82f6;font-weight:600;">Phase 3</td><td>Amgen</td><td>Ph3 data 2026</td></tr>
-                    <tr><td><strong>ARO-APOC3</strong></td><td>APOC3</td><td>Cardiovascular</td><td style="color:#3b82f6;font-weight:600;">Phase 3</td><td>Amgen</td><td>Ph3 data 2026</td></tr>
-                    <tr><td><strong>ARO-MUC5AC</strong></td><td>MUC5AC</td><td>COPD/Asthma</td><td style="color:#f59e0b;font-weight:600;">Phase 1/2</td><td>Internal</td><td>Ph1/2 data 2025</td></tr>
-                    <tr><td><strong>ARO-DUX4</strong></td><td>DUX4</td><td>FSHD</td><td style="color:#f59e0b;font-weight:600;">Phase 1/2</td><td>Internal</td><td>Ph1/2 data 2025</td></tr>
+                    <tr><td><strong>Plozasiran</strong></td><td>APOC3</td><td>Severe hypertriglyceridemia</td><td><span class="phase-badge">NDA Filed</span></td><td>Ionis</td><td>FDA decision 2025</td></tr>
+                    <tr><td><strong>ARO-INHBE</strong></td><td>INHBE</td><td>Obesity</td><td><span class="phase-badge">Phase 1</span></td><td>Internal</td><td>Ph1 data H2 2025</td></tr>
+                    <tr><td><strong>ARO-ANG3</strong></td><td>ANGPTL3</td><td>Dyslipidemia</td><td><span class="phase-badge">Phase 3</span></td><td>Amgen</td><td>Ph3 data 2026</td></tr>
+                    <tr><td><strong>ARO-APOC3</strong></td><td>APOC3</td><td>Cardiovascular</td><td><span class="phase-badge">Phase 3</span></td><td>Amgen</td><td>Ph3 data 2026</td></tr>
+                    <tr><td><strong>ARO-MUC5AC</strong></td><td>MUC5AC</td><td>COPD/Asthma</td><td><span class="phase-badge">Phase 1/2</span></td><td>Internal</td><td>Ph1/2 data 2025</td></tr>
+                    <tr><td><strong>ARO-DUX4</strong></td><td>DUX4</td><td>FSHD</td><td><span class="phase-badge">Phase 1/2</span></td><td>Internal</td><td>Ph1/2 data 2025</td></tr>
                 </tbody>
             </table>
         </div>
