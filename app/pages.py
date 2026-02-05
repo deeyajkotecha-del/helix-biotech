@@ -290,6 +290,7 @@ def generate_companies_page():
     stage_categories = {
         "large_cap_diversified": "Large Cap",
         "commercial_stage": "Commercial Stage",
+        "platform": "Platform / Genetic Medicines",
         "late_clinical": "Late Clinical (Phase 3)",
         "mid_clinical": "Mid Clinical (Phase 2)",
         "early_clinical": "Early Clinical (Phase 1)",
