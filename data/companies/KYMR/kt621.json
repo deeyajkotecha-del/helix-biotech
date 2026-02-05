@@ -969,7 +969,20 @@
     }
   ],
   "regulatory_path": {
-    "fda_designations": "None yet; potential for Breakthrough if Phase 2b positive",
+    "fda_designations": [
+      {
+        "designation": "Fast Track",
+        "indication": "Moderate-to-severe atopic dermatitis",
+        "date": "December 11, 2025",
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": "TBD",
+          "verified": false,
+          "note": "Fast Track designation mentioned in company materials - slide reference needs verification"
+        }
+      }
+    ],
+    "potential_designations": "Breakthrough Therapy if Phase 2b positive",
     "expected_filing": "2029-2030 (if Phase 2b and Phase 3 successful)",
     "expected_approval": "2030-2031",
     "registration_strategy": "Parallel development in AD and asthma enables multiple NDA opportunities"

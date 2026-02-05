@@ -1869,6 +1869,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     current_treatment = asset.get("current_treatment_landscape", {})
     asset_differentiation = asset.get("edg7500_differentiation", {}) or asset.get("differentiation", {})
     competitive_landscape = asset.get("competitive_landscape", {})
+    regulatory_path = asset.get("regulatory_path", {})
     abbreviations = asset.get("abbreviations", {})
 
     # Extract citation badges from source objects
@@ -1897,6 +1898,19 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     company_catalysts = company_data.get("catalysts", [])
     asset_catalysts_list = asset.get("catalysts", [])
     asset_catalysts = asset_catalysts_list + [c for c in company_catalysts if c.get("asset", "").lower() == asset_name.lower()]
+
+    # Build FDA designation badges
+    fda_designation_badges = ""
+    fda_designations = regulatory_path.get("fda_designations", [])
+    if isinstance(fda_designations, list):
+        for des in fda_designations:
+            if isinstance(des, dict):
+                des_name = des.get("designation", "")
+                des_date = des.get("date", "")
+                des_badge = generate_citation_badge(des.get("source"), ticker) if des.get("source") else ""
+                fda_designation_badges += f'<span class="badge fda-designation" title="{des.get("indication", "")} ({des_date})">{des_name}{des_badge}</span>'
+    elif isinstance(fda_designations, str) and fda_designations.lower() not in ["none", "none yet"]:
+        fda_designation_badges = f'<span class="badge fda-designation">{fda_designations}</span>'
 
     # Parse indications - handle both list and v2.0 nested format
     if isinstance(indications_data, dict):
@@ -2164,6 +2178,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                     <thead><tr><th>Dose</th><th>Blood Change</th><th>Skin Change</th><th>N</th></tr></thead>
                     <tbody>{deg_rows}</tbody>
                 </table>
+                <p class="data-approximation-note"><em>Values approximated from presentation visuals. Official: >90% mean STAT6 degradation at doses ≥25mg; complete degradation at ≥50mg MAD.</em></p>
             </div>
             {findings_html}
             {safety_html}
@@ -2307,6 +2322,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                         <thead><tr><th>Endpoint</th><th>KT-621 Day 29</th><th>Dupilumab Day 28</th><th>Winner</th></tr></thead>
                         <tbody>{h2h_rows}</tbody>
                     </table>
+                    <p class="cross-trial-disclaimer"><em>Note: Cross-trial comparisons may not be reliable. No head-to-head trials have been conducted. Data may not be directly comparable due to differences in trial protocols, dosing regimens, and patient populations.</em></p>
                 </div>'''
 
         trials_html += f'''
@@ -2903,6 +2919,9 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         investment_html = f'''
         <section id="investment" class="section research-section">
             <h2 class="section-header">Investment Analysis</h2>
+            <div class="editorial-disclaimer">
+                <strong>Satya Bio Analysis</strong> — estimates based on public data and analyst judgment, not sourced from company materials
+            </div>
             {bull_section}
             {bear_section}
             {debates_section}
@@ -3345,6 +3364,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             border: 1px solid rgba(255,255,255,0.3);
             color: var(--white);
             border-radius: 3px;
+        }}
+        .asset-header .badge.fda-designation {{
+            background: rgba(78, 205, 196, 0.25);
+            border: 1px solid rgba(78, 205, 196, 0.5);
+            color: #4ecdc4;
         }}
 
         /* Executive Summary */
@@ -4036,6 +4060,34 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         .h2h-table .winner-tie .winner {{
             color: var(--gray-text);
         }}
+        .cross-trial-disclaimer {{
+            font-size: 0.75rem;
+            color: var(--gray-text);
+            font-style: italic;
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: var(--gray-light);
+            border-radius: 4px;
+            line-height: 1.4;
+        }}
+        .data-approximation-note {{
+            font-size: 0.75rem;
+            color: var(--gray-text);
+            font-style: italic;
+            margin-top: 8px;
+        }}
+        .editorial-disclaimer {{
+            font-size: 0.8rem;
+            color: var(--gray-text);
+            background: var(--gray-light);
+            padding: 10px 14px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            border-left: 3px solid var(--coral);
+        }}
+        .editorial-disclaimer strong {{
+            color: var(--coral);
+        }}
 
         /* Wall Street Research Style: Investment Analysis */
         .research-section {{
@@ -4303,6 +4355,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                     <div class="tags">
                         <span class="badge">{stage}</span>
                         {f'<span class="badge">{asset.get("ownership", "")}</span>' if asset.get("ownership") else ''}
+                        {fda_designation_badges}
                     </div>
                 </div>
 
