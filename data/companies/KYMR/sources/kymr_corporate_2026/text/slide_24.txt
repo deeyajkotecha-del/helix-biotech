@@ -1,0 +1,25 @@
+                                                   Design
+                                                   • Single arm, open label
+                                                   • 22 patients
+    Phase 1b in Moderate to Severe                 • Oral, once daily dose for 28 days
+      Atopic Dermatitis Patients                   • 14-day follow-up after dosing completed
+
+Baseline entry criteria:
+• Adult, moderate to severe AD patients            Dosing
+                                                   • Two sequential dose cohorts
+    EASI           ≥16
+                                                      • 100 mg (10 patients)
+    vIGA-AD        ≥3
+                                                      • 200 mg (12 patients)
+    PPNRS          ≥4
+    BSA            ≥10%
+• Documented TCS (Topical Corticosteroid)          Endpoints
+  failure for AD
+                                                   • Safety
+• Prior biologics allowed, after washout, if       • Pharmacokinetics
+  patient has responded to treatment               • STAT6 degradation
+• Concurrent medications for AD not                • Type 2 biomarkers in blood, skin lesions and lung
+  permitted                                        • Clinical activity (EASI, PPNRS, vIGA-AD, patient-
+                                                     reported outcomes)                                  24
+                                               .
+

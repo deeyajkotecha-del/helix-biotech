@@ -1,0 +1,18 @@
+KT-579: An Exquisitely Selective and Picomolar Oral IRF5 Degrader
+                                                                  Equipotent Degradation in Relevant
+    KT-579: 10xDC90 in hPBMCs @ 24 hrs                   Equipotent Degradation in relevant hPBMC subsets @
+                                                                       hPBMC Subsets @ 24hrs
+                                                                               24hrs
+
+
+
+
+                                                                      Cell Subsets      KT-579 DC50 (nM)
+                                                                        PBMC                  0.8
+     Selectivity Binding and Cellular Assays   KT-579
+                                                                      CD19+ B cells           1.0
+      IRF3, 4, 6, 7, 8 SPR binding, Kd (nM)    >10,000              CD14+ Monocytes           0.6
+          IRF3 Degradation DC50 (nM)           >10,000            HLA-DR+CD123+ pDCs          0.9
+          IRF7 Degradation DC50 (nM)           >10,000            HLA-DR+CD11c mDCs           0.9
+                                                                                                           42
+

@@ -1,0 +1,31 @@
+KT-621 Significantly Downregulated Core Type 2 Inflammation
+Gene Set in Skin Lesions of AD Patients
+                                                                  p < 0.01            KT-621 (n=18)
+                                                                                      Dupilumab2 (n=23)
+
+
+
+• Genes in signature1:
+   • CCL26/Eotaxin-3
+
+
+
+
+                                            Signature Score
+   • CCL17/TARC
+   • CCL18/PARC
+   • CCL13/MCP-4
+
+• Changes in transcriptome comparable to
+  published data for dupilumab at week 42
+
+
+
+                                                              1                  29
+                                                                    Time (Day)
+
+
+
+
+                                                                                                   27
+

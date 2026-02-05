@@ -1,0 +1,39 @@
+Example of Clinical and Biomarker Response to KT-621 in BroADen
+Patient with Severe AD and Prior Dupilumab Treatment
+                    Pre and Day 29 Photos for EASI-75 Responder                                                                                                          STAT6 Staining IHC
+                                               Baseline                                                              Day 29                                   Baseline                               Day 29
+
+
+
+
+                                                       % Change in EASI and Itch1
+                                                       EASI                                             SCORAD ITCH and PPNRS
+
+
+
+Percent Change from Baseline in                                       Percent Change from Baseline in
+                                                                                                                        ()*+,-         ../+(
+                                    0                                                                     0
+
+                                   -20                                                                   -20
+
+                                   -40                                                                   -40
+
+
+
+
+            EASI                                                        PPNRS and SCORAD - Itch
+                                   -60                                                                   -60
+                                                                                                                                                                     Biomarker Changes at D29
+                                   -80                                                                   -80
+                                                                                                                                                             Blood    Skin    Serum    Serum      Serum     Skin       Skin
+                                  -100                                                                  -100
+                                                                                                                                                             STAT6   STAT6    TARC    Eotaxin-3    IgE    Eotaxin-3   KRT16
+                                         !    "   !#   $$   $%   &'                                            !    "   !#   AA   A%      CD
+                                                                                                                                               Change from
+                                             ON TREATMENT                                                          ON TREATMENT
+                                                                                                                                                 Baseline
+                                                                                                                                                             -95%    -94%     -78%     -96%       -19%     -92%       -93%
+                                                  Time (Day)                                                            Time (Day)
+                                                                                                                                                                                                                              60
+

@@ -1,0 +1,36 @@
+KT-621: Compelling Preclinical Profile
+Preclinical Package Suggests Potential for Dupilumab-like Activity in a Pill
+
+                                                                   Full Inhibition of IL-4/IL-13           Excellent Preclinical
+                        Exquisite          Robust Degradation
+                                                                    Pathways, More Potent                 Activity Comparable or
+                       Selectivity        in Relevant Cell Types
+                                                                         than Dupilumab                   Superior to Dupilumab
+                                                                                                                Lung Remodeling
+                                            STAT6 Degradation in    IL-4 Induced TARC Release in
+                                                                                                              Goblet Cell Metaplasia
+                                               Immune Cells                 Human PBMC
+                                                                                                                 in HDM Model1
+                  4
+
+
+
+
+-Log10(p-Value)
+                  2
+
+
+
+
+                  0
+
+                      -2      0      2
+                      Log2(Fold-Change)
+
+
+
+
+    Favorable safety profile: well-tolerated in multiple preclinical species and safety studies at
+    concentrations 40-fold above efficacious dose with up to 4 months of dosing
+                                                                                 visit Kymera’s website                                56
+

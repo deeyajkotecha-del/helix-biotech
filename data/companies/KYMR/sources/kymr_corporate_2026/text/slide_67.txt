@@ -1,0 +1,26 @@
+  Abbreviations
+  Ph     Phase                                                SMI      Small Molecule Inhibitor
+PK/PD    Pharmacokinetics/Pharmacodynamics                    SOC      Standard of Care
+ pM      Picomolar                                             SSc     Systemic Sclerosis
+ PN      Prurigo Nodularis                                    STAT     Signal Transducer and Activator of Transcription
+ POC     Proof-of-Concept                                    STAT6     Signal Transducer and Activator of Transcription 6
+POEM     Patient-Oriented Eczema Measure                      TARC     Thymus and Activation-Regulated Chemokine
+PPNRS    Peak Pruritus Numerical Rating Scale                 TEAE     Treatment Emergent Adverse Event
+ PRRs    Pattern Recognition Receptors                         Th1     T Helper 1
+ PsO     Psoriasis                                             Th2     T Helper 2
+pSTAT    Signal Transducer and Activator of Transcription     Th17     T Helper 17
+ QD      Once a day                                           TLR      Toll-like Receptors
+ QoL     Quality of Life                                      TNSS     Total Nasal Symptom Score
+ R&D     Research and Development                             TPD      Targeted Protein Degradation
+  RA     Rheumatoid Arthritis                                 TPP      Target Product Profile
+ RNA     Ribonucleic Acid                                     TRAE     Treatment Related Adverse Event
+ ROW     Rest of World                                        TYK2     Tyrosine Kinase 2
+  RP     Recurrent Pericarditis                                UC      Ulcerative Colitis
+RQLQ     Rhinoconjunctivitis Quality of Life Questionnaire     US      United States
+ SAD     Single Ascending Dose study                         vIGA-AD   Validated Investigator Global Assessment for AD
+ SAE     Serious Adverse Event                                WW       Worldwide
+SCORAD   SCORing Atopic Dermatitis
+  SD     Single Dose
+ SLE     Systemic Lupus Erythematosus
+                                                                                                                            67
+

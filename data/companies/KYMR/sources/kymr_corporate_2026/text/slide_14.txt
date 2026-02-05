@@ -1,0 +1,27 @@
+ STAT6 Transcription Factor: Highly Validated but Undrugged Target
+                                                                                  STAT6
+                                                                         TRANSCRIPTION
+• STAT6 is the specific transcription factor in the                         FACTOR
+
+  IL-4/IL-13 pathway
+                                                      Dupilumab IL-4         Dupilumab IL-4            IL-13
+• IL-4/IL-13 is clinically validated by dupilumab
+  across multiple Type 2 diseases:                      IL-4R⍺               γC     IL-4R⍺                     IL-13R⍺1
+
+    • AD, asthma, COPD, EoE, CRSwNP, CSU, PN, BP
+
+• STAT6 is genetically validated by human GoF
+  and heterozygous LoF alleles
+
+• While several therapies target the upstream IL-                                 STAT6               KT-621
+
+  4/IL-13 receptors, there are no known drugs
+  that selectively target this pathway with oral
+  delivery potential
+                                                                       Allergic Type 2 Inflammation
+
+
+
+
+                                                                                                                          14
+

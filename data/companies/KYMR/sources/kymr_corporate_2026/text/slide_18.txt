@@ -1,0 +1,28 @@
+KT-621 Data Provide Validation and Derisk Future Clinical Trials
+                                                                                                  Relieves allergic rhinitis
+        Preclinical                             In Humans                                        symptoms (TNSS, RQLQ)
+
+
+POTENCY                                       Blocks Type 2 inflammation in
+• < 100 pM DC90 in all relevant human cell     skin and impacts AD lesions
+  types                                         (EASI, vIGA-AD, and skin                             Deep STAT6 degradation
+                                                 transcriptomic changes)                                >94/95% in HV &
+                                                                                                     patients with AD in skin
+EFFICACY
+• Blocked IL-4 and IL-13 signaling in human
+  cells and in vivo systems equally or more
+  potently than dupilumab                      Deep STAT6 degradation
+                                              >95% in HV & patients with
+• Robust activity in asthma and AD in                AD in blood
+  mouse models
+SAFETY                                                                                                 Robust and consistent
+                                                                                                     reductions in itch (PPNRS,
+• No AEs at any doses in:                                                                               SCORAD Itch, IL-31)
+  • 4 weeks rat and NHP GLP tox
+                                                                  Blocks Type 2 inflammation
+  • 4 months rat and NHP GLP tox
+                                                                  in lungs (FeNO) and relieves
+  • Embryofetal development tox in rat,                            asthma symptoms (ACQ-5)
+    rabbit and NHP
+                                                                                                                                  18
+

@@ -291,6 +291,54 @@ async def get_company_assets(ticker: str):
 
 
 # =============================================================================
+# SOURCE ENDPOINTS
+# =============================================================================
+
+@router.get("/companies/{ticker}/sources/")
+async def get_company_sources(ticker: str):
+    """
+    List all source documents for a company.
+
+    Example: GET /api/clinical/companies/KYMR/sources/
+    Returns the index.json from data/companies/{ticker}/sources/
+    """
+    from pathlib import Path
+    import json
+
+    ticker = ticker.upper()
+    sources_index = Path(f"data/companies/{ticker}/sources/index.json")
+
+    if not sources_index.exists():
+        return {"sources": []}
+
+    with open(sources_index) as f:
+        return json.load(f)
+
+
+@router.get("/companies/{ticker}/sources/{source_id}/slide/{slide_num}")
+async def get_source_slide(ticker: str, source_id: str, slide_num: int):
+    """
+    Serve a slide image from a source document.
+
+    Example: GET /api/clinical/companies/KYMR/sources/kymr_corporate_2026/slide/14
+    Returns the PNG image for slide 14.
+    """
+    from pathlib import Path
+    from fastapi.responses import FileResponse
+
+    ticker = ticker.upper()
+    slide_path = Path(f"data/companies/{ticker}/sources/{source_id}/slide_{slide_num:02d}.png")
+
+    if not slide_path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail=f"Slide {slide_num} not found in source {source_id}"
+        )
+
+    return FileResponse(slide_path, media_type="image/png")
+
+
+# =============================================================================
 # ASSET ENDPOINTS
 # =============================================================================
 

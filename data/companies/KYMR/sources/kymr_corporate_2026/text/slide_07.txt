@@ -1,0 +1,19 @@
+Degraders Allow for Continuous, Biologics-like, Complete Pathway
+Blockade Unlike Traditional Small Molecule Inhibitors (SMI)
+                           SMI                                                            Degrader
+
+
+
+
+   STOICHIOMETRIC INHIBITION                                              CATALYTIC DEGRADATION
+   Pharmacodynamic effect (PD) correlated to drug exposure               PD NOT directly correlated to PK, (catalytic) allowing
+   (PK), (stochiometric) requiring continuous high drug                  fast, complete protein elimination and pathway
+   exposures to block protein function1                                  blockade with low/short drug exposures
+
+    • Oral drugs with biologics-like activity, unlocking target classes unreachable by other modalities
+    • High selectivity, strong potency, and catalytic mechanism enable full and constant target suppression with low doses
+    • Achieves full pathway blockade, matching biologics-like depth of immune modulation
+         Oral degraders that combine the activity of injectable biologics with the convenience of
+                oral drugs have the potential to transform current treatment paradigms
+                                                                                                                                  7
+

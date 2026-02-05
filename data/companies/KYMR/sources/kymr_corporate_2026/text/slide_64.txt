@@ -1,0 +1,37 @@
+IRAK4 Biology and Target Rationale
+                                                                                                      IRAK4
+                                                                                                  SCAFFOLDING
+                                                                                                     KINASE
+
+
+Target Rationale                                                                            IL-1R/TLR Pathway
+•   IRAK4 is an obligate node in IL-1R/TLR signaling, and its degradation is            TLR
+                                                                                                                        Cytokines
+                                                                                                                        IL-1, IL-18,
+    the only approach to fully block the pathway                                      Agonists
+                                                                                                                       IL-33, IL-36
+
+                                                                                           TLRs                           IL-1R
+Human Genetics
+•   Adult humans with IRAK4 null mutation are healthy
+
+                                                                               Cytoplasm
+Clinical Pathway Validation                                                                               MyD88
+•   IRAK4 degradation has the potential to achieve a broad, well-tolerated
+                                                                                                          IRAK4
+    anti-inflammatory effect                                                          KT-485                         Myddosome
+                                                                                                          IRAK1/2
+•   Multiple development opportunities in immune-inflammatory diseases
+                                                                                                          TRAF6
+    which signal through MyD88/IRAK4 have been clinically validated1:                         Catalytic              Scaffolding
+      • IL-1⍺/IL-1b: RA, CAPS, HS, AD, RP, Gout
+                                                                                                     Th1/Th2/Th17
+      • IL-18: AD, Macrophage Activation Syndrome                                                     Inflammation
+      • IL-36: Generalized Pustular Psoriasis
+      • IL-33: Asthma, COPD                                                          IRAK4 is master regulator of
+      • IRAK4 SMI: RA                                                                innate immunity with
+                                                                                     scaffolding and kinase functions
+
+
+                                                                                                                                       64
+

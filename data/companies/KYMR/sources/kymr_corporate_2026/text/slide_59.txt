@@ -1,0 +1,21 @@
+KT-621 BroADen Phase 1b Baseline Disease Characteristics
+Generally Well-Balanced Across Treatment Cohorts
+
+                                                    100 mg        200 mg        Overall
+                                                    (n=10)        (n=12)        (n=22)
+vIGA-AD, n (%)
+  Moderate (3)                                       6 (60)        6 (50)      12 (54.5)
+  Severe (4)                                         4 (40)        6 (50)      10 (45.5)
+EASI Score, mean (SD)                              23.5 (7.5)     26.1 (9)     24.9 (8.3)
+Other Disease Characteristics, Mean (SD)
+  Peak Pruritus NRS                                 7.4 (1.2)     7.6 (0.9)      7.5 (1)
+  SCORAD                                           55.7 (15.6)   63.8 (13.4)   60.1 (14.7)
+  BSA (%)                                          29.1 (9.8)    30.0 (15.1)   29.6 (12.7)
+Comorbid Type 2 Diseases, n (%)
+  Asthma                                             1 (10)        3 (25)3      4 (18.2)
+  Allergic Rhinitis                                  2 (20)       7 (58.3)      9 (40.9)
+Prior Systemic Therapy for AD, n (%)                 1 (10)1      4 (33.3)2     5 (22.7)
+
+
+                                                                                             59
+

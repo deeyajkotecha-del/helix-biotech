@@ -1,0 +1,46 @@
+KT-579 Significantly Decreases IgG, Complement 3 (C3) and Renal
+Disease Progression
+                                                     Assessment of Terminal Kidney Collected from Surviving MRL/lpr Mice at Week 19
+                                                15
+                                                           IgG                                                                    10
+                                                                                                                                                     C3                                                   6
+                                                                                                                                                                                                              Total Kidney Lesions
+
+
+
+
+       % IgG+ Area of Renal Cortex Area + SEM                                             % C3+ Area of Renal Cortex Area + SEM
+                                                                                                                                                                        Total Kidney Lesion Score + SEM
+                                                                                                                                  8                                                                                                                   Vehicle
+                                                                                                                                                                                                                                                      KT-579 50 mg/kg
+                                                10                                                                                                                                                        4
+                                                                                                                                  6                                                                                                                   KT-579 200 mg/kg
+                                                                                                                                                                                                                                                      Afimetoran
+                                                                                                                                                                                                                                                      Deucravacitinib
+                                                                                                                                  4
+                                                5                                                                                                                                                         2
+                                                                                                                                                                                                                *                                     Cyclophosphamide
+                                                                                                                                                                                                                                                      Anti-IFNAR
+                                                                                                                                  2                   *                                                                      *
+                                                                                                                                                                                                                    *
+                                                            *                                                                                *   *
+                                                                        *                                                                                 *
+                                                0                                                                                 0                                                                       0
+
+                                                                         *p≤0.01                                                                              *p≤0.05                                                            *p≤0.05 vs vehicle
+
+                                                      Vehicle IgG                                                                      KT-579 IgG                       Vehicle C3                                                            KT-579 C3
+
+      IgG                                                                          IgG                                                                        Complement 3                                                   Complement 3
+      DAPI                                                                         DAPI                                                                        DAPI                                                          DAPI
+
+
+
+
+                                                     Representative images (10x) of IgG and C3 staining in vehicle vs KT-579 treated MRL/lpr kidney glomerular structures
+
+
+Clear reduction in IgG/complement glomeruli staining indicating reduced kidney disease involvement in SLE MRL/lpr mouse
+                              model with IRF5 degrader as compared to standard of care
+                                                                                                                                                                                                                                                                         46
+

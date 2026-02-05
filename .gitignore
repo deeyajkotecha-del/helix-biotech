@@ -56,3 +56,4 @@ htmlcov/
 .ipynb_checkpoints/
 cli/.env
 cli/.env
+data/companies/*/sources/*/original.pdf

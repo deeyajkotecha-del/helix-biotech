@@ -1,0 +1,29 @@
+KT-621: BROADEN2 Phase 2b Trial
+Randomized, Double Blind, Placebo-controlled, Parallel-group, Multicenter Dose-ranging
+                                Design
+                                • Randomized, double-blind,
+                                  placebo-controlled
+                                                                            Key Trial Aim
+                                • ~200 patients
+                                • Daily dose for 16-weeks;                  Establish clinical activity and
+  Adult & Adolescent              52-week open label extension
+                                                                            safety in AD to select Phase 3
+  Moderate to Severe            Dosing                                      dose to support registrational
+     AD Patients                • Three KT-621 doses + one placebo          studies in multiple dermatological
+     Ages 12-75                   (1:1:1:1)                                 and gastrointestinal indications
+                                Endpoints
+ Baseline entry criteria:       • Primary endpoint: Percent change
+       EASI ≥ 16;                 from baseline in EASI score             Status update:
+     vIGA-AD ≥ 3;                 at week 16
+ Peak Pruritus NRS ≥4;                                                    Ongoing, also including
+                                • Secondary endpoints include:
+       BSA ≥10%;
+                                   • EASI-50, EASI-75, vIGA-AD 0/1
+                                                                          adolescents;
+   Documented TCS
+                                   • At least a 4-point improvement       Data expected by mid-2027
+     failure for AD
+                                     from baseline in Peak Pruritus NRS
+
+                                                                                                            19
+

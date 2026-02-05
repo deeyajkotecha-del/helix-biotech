@@ -1,0 +1,37 @@
+IRF5: Targeting a Genetically Validated Undrugged Transcription Factor
+                                                                                                                        IRF5
+                                                                                                                   MASTER
+                                                                                                                 REGULATOR
+   Target Biology and Rationale
+                                                                                      TLR Agonists
+   •   IRF5 regulates pro-inflammatory cytokines, Type I IFN production and
+       autoantibody production in a cell and activation-specific manner                                                               Dectin1/2
+                                                                                      TLR2/4/5
+   •   Targeting IRF5 has the potential to block cell-specific immune
+       dysregulation while sparing normal cell function
+
+   Genetically and Clinically Validated
+                                                                                                   MyD88         TLR7/8        TLR9        SYK
+   • IRF5 functional risk variants associate with increased susceptibility to SLE,
+                                                                                                                        IRAK4
+     Sjögren’s, RA, IBD, and SSc1, 2                                                                     IRAK4
+                                                                                                                                           Cytosolic RNA
+   • IRF5 regulated pathways have been clinically validated by multiple drugs        Cytosolic Receptors                 P                    Sensors
+     (i.e., anti-IFN, -TNF, IL-6, IL-12, IL-23 Ab, B cell targeting agents)               NOD1/2                          IRF5
+                                                                                                                                                  RIG-I
+
+
+   IRF5 Degrader Advantage                                                                              IRF5 Degrader
+
+   •   Conventional approaches have failed to effectively and selectively block
+                                                                                         Pro-inflammatory
+       IRF5 due to multiple activation steps and IRF family member homology             Cytokines (Il-6, TNF⍺,          Type I IFNs       Autoantibodies
+                                                                                          IL-12, IL-23, etc.)
+   •   TPD allows for a single and specific binding event to drive depletion of
+       the protein and disrupt all IRF5 signaling
+                                                                                            IRF5 is a genetically validated transcription
+                                                                                             factor and a master regulator of immunity
+
+
+                                                                                                                                                           38
+

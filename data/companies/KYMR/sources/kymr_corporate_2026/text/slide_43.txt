@@ -1,0 +1,44 @@
+KT-579 Potently Inhibits Production of Key Pro-Inflammatory
+Cytokines and Type I IFN in Human Primary Cellular Assays
+                                                                                            HuMonocytes + R848     HuMonocytes + ssRNA40
+                                                               Cytokine    KT-579            IL12p40 Production       IFNb Production
+Biology                      Receptor      Stim      Cell
+                                                               Readout    DC50 (nM)
+                                                                                                   N-3 donors                N-2 donors
+                              TLR8       ssRNA40   Monocytes     IFNb        0.3
+
+ Type I IFN
+                              TRL7/8      R848     Monocytes     IFNb        0.4
+ Production
+                              TLR9       ODN2006    PBMC         IFNb        0.8
+
+                              TLR7/8      R848      PBMC        TNF⍺         1.5
+
+
+
+
+ Pro-inflammatory Cytokine
+                              TLR7/8      R848      B cells     TNF⍺         0.4
+                                                                                           HuPBMC + ODN2006              HuPBMC + LPS
+                                                                                           IL-12p40 Production          IL-23 Production
+                              TLR8       ssRNA40   Monocytes    TNF⍺         1.3
+                                                                                                     N-3 donors                N-3donors
+                              TL7/8       R848     Monocytes   IL-12p40      0.5
+
+
+
+         Production
+                              TLR9       ODN2006    PBMC       IL-12p40      1.8
+
+
+                              TLR7/8      R848     Monocytes    IL-1b       0.15
+
+                              TLR4         LPS      PBMC        IL-23        1.1
+
+
+
+                                      IRF5 degradation inhibits proinflammatory cytokines (TNF⍺, IL-12, IL-23, IL-1) and
+                                           Type I IFN (IFNb) downstream of TLR4, TLR7, TLR8, and TLR9 activation
+
+                                                                                                                                           43
+

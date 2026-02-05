@@ -1,0 +1,30 @@
+IRF5 Genetically Validated in Multiple Autoimmune Diseases
+                             Human Genetics                                    Mouse IRF5 KO Studies
+ • Multiple GWAS studies identify IRF5 as an autoimmune          • KO mice are viable and fertile; with normal B cell
+   susceptibility gene1                                            development
+ • IRF5 risk haplotypes and hyperactivated IRF5 levels in        • IRF5 KO mouse can protect or attenuate disease in
+   SLE patients associated with high serum IFN⍺ levels,            models of SLE, SSc, RA and IBD
+   anti-dsDNA or anti-RNA binding protein antibodies
+                                                                 • In a mouse model of lupus (FcyIIB-/-, Yaa) IRF5 plays an
+ • Genetic associations and functional variants also               essential role in lupus pathogenesis, that is independent
+   identified in RA, IBD, SSc, and MS                              of Type I IFN pathways2
+
+
+                     Meta-analyses Identified IRF5 as a Risk   IRF5 KO Increases Survival and has   Type I IFN Modestly Protects
+                                Locus for SLE                        Essential Role in Lupus                Against Lupus
+
+
+             Meta-analysis
+
+
+
+
+ -log10(P)
+
+
+
+
+                                     Chromosome
+
+                                                                                                                                   40
+

@@ -1,0 +1,30 @@
+KT-621 Achieved Deep STAT6 Degradation in Blood and Skin
+Degradation Maintained for 28 Days Across Both Dose Cohorts
+
+                                   Median STAT6 Degradation in Blood                                                 Median STAT6 Degradation in Skin
+                                             Method: Flow Cytometry                                                        Method: Targeted Mass Spec
+
+
+
+
+   % STAT6 Change from Baseline                                                       % STAT6 Change from Baseline
+                                               KT-621 100 mg QD (n = 8)1
+                                               KT-621 200 mg QD (n = 10)1
+
+
+
+
+         Median (Q1, Q3)                                                                    Median (Q1, Q3)
+
+
+                                            ON TREATMENT
+                                                                                                                       KT-621 100 mg QD     KT-621 200 mg QD
+                                                                                                                             (n = 9)2             (n = 11)2
+                                                  Time (Day)
+
+                  •               Median STAT6 degradation of 98% in blood in both dose groups maintained throughout the treatment period
+                  •               Deep skin degradation of 94% in both dose groups with multiple patients’ STAT6 levels below the LLOQ (lower
+                                  limit of quantification)
+
+                                                                                                                                                               25
+

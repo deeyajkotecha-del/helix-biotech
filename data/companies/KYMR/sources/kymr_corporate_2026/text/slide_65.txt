@@ -1,0 +1,36 @@
+CDK2 Molecular Glue Degrader Advantage
+                                                                                                      CDK2
+                                                                                         MASTER CELL CYCLE
+                                                                                            REGULATOR
+
+Target Biology and Rationale
+• Regulates the G1-S transition, with its partner CCNE
+                                                                                                                    CDK1
+• CCNE is often overexpressed or amplified in HGSOC and CDK4/6i                  CDK1 is essential for
+  resistant breast cancers, driving uncontrolled cell proliferation              all dividing cells
+                                                                                                                   Cyclin B
+                                                                                                                                           G0
+Genetically Validated                                                            CDK1                               M
+• DEPMAP identifies CCNE1 amplification as a biomarker of                        Cyclin A
+  dependency for CDK2 across cancer cell types                                               G2                                                 CDK3
+• High CCNE activity is associated to resistance of CDK4/6
+                                                                                                                                             Cyclin C
+  therapies                                                                                               E2F
+                                                                                                                        E2F        G1
+
+Advantages of MG Degraders                                                                            P        P        Rb               CDK4/6
+• CDK2 inhibitors face challenges due to similarity with other                                            Rb                                   Cyclin D
+  CDKs, including CDK1, causing toxicities before effective CDK2-
+  pRB pathway inhibition can be achieved                                                          S
+• MG degraders offer greater selectivity, and potentially broader                    CDK2
+                                                                                                                                    CDK2
+  therapeutic index with more complete CDK2 pathway inhibition          MG
+                                                                                      Cyclin A
+                                                                      Degrader
+                                                                                                                              Cyclin E
+
+
+
+
+                                                                                                                                                          65
+

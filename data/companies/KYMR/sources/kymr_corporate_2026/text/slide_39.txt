@@ -1,0 +1,29 @@
+Stimuli and Cell Specific IRF5 Activation in Clinically Validated Pathways
+IRF5 degradation has the potential to selectively block inflammation and restore immune regulation by
+inhibiting pro-inflammatory cytokines, Type I IFN and autoantibody production
+
+                      Activation by: TLR2, -4, -5, -7, -8, -9, Dectin 1, -2                   Activation by TLR7, -8, -9
+
+
+ Cell-Specific                                                                                                    BCR
+                                                                                                           IRF5
+ IRF5 Activation                                   IRF5
+ By Pattern              IRF5                                          IRF5
+ Recognition
+ Receptors
+                   Dendritic Cells          Monocytes            M1 Macrophages                         B cells
+
+ Pathogenic
+ Immune               Pro-inflammatory Cytokines                    Type I IFNs                     Autoantibodies
+ Response             TNF⍺, IL-1b, IL-6, IL-12p40, IL-23
+
+
+ Clinical
+ Pathway
+ Validation
+
+   Blocking IRF5 activity has the potential for more effective, tolerated and durable responses in autoimmune diseases such as
+                                                    SLE, Sjögren’s, RA, and IBD
+
+                                                                                                                                 39
+

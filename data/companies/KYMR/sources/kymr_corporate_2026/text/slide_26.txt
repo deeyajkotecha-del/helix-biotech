@@ -1,0 +1,29 @@
+  Robust Impact on All Disease-Relevant Biomarkers of Type 2
+  Inflammation in BroADen Phase 1b AD Trial
+                       TARC                       Eotaxin-3
+                                                                                    IgE                          IL-31                         FeNO
+                      (CCL17)                      (CCL26)
+
+
+
+
+                 Validated biomarker of     Highly specific downstream   IL-4 promotes B-cell class      Key pruritogenic cytokine     Marker of Type 2 airway
+                  Type 2 inflammation         cytokine of the IL-4/13     switching, amplifying IgE     produced by activated Type     inflammation in asthma2
+                 suppression in patients             pathway                    production                        2 cells1
+                                                                                                                                         FeNO reflects airway
+                  Drives chemotaxis of      Drives chemotaxis of CCR3-   IgE activates mast cells and     Signals through the IL-      epithelial iNOS activity
+                CCR4-expressed T cells to    expressed inflammatory      basophils to release Type 2     31RA/OSMR complex on         driven by IL-4/13 signaling
+                   inflammatory sites          cells to inflamed sites            cytokines             neurons, keratinocytes, and
+                                                                                                           immune cells, linking      Historically not measured in
+                                                                                                         immune activation to itch            AD patients
+Median %
+Inhibition at
+Day 29
+KT-621                   74%3                         73%                          14%                            54%                            33%
+Dupilumab4                74%                   51% (in Asthma)                    ~15%                      Not measured                  Not measured
+
+
+
+
+                                                                                                                                                                     26
+

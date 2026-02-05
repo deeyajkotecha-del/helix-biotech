@@ -1,0 +1,27 @@
+CDK2 Overview
+Novel Molecular Glue (MG) Degrader
+
+
+                                                • CDK2 is a master regulator of           • Unlike inhibitors, CDK2
+                 Potential best-in-class          the cell cycle with strong genetic        molecular glue degraders
+                 profile, with exquisite          and clinical validation and broad         selectively degrade CDK2 while
+                 selectivity for CDK2             oncology treatment potential              sparing closely related kinases
+                                                  including breast cancer and               like CDK1, offering a potentially
+                                                  other solid tumors                        broader therapeutic index
+
+
+
+  OPPORTUNITY
+                                                                                       CDK2 MGs offer an oral therapeutic
+• ~500k potential patient         • CDK4/6 inhibitor class ~$13B in WW                 option with the potential to selectively
+  impact in multiple tumor          revenue in 2024; projected to grow to              target cancer cells with minimal
+  types1                            $18B by 20302                                      impact on healthy tissue
+
+
+
+                  • Partnered with Gilead to accelerate development and commercialization, with up to $750 million in total
+                    payments, including $85 million in upfront and potential option exercise payments
+    STATUS
+                  • Kymera will lead all research activities for the CDK2 MG program
+                                                                                                                                  52
+

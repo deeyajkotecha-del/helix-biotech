@@ -1,0 +1,57 @@
+  Abbreviations                                        EoE
+                                                       EU
+                                                              Eosinophilic Esophagitis
+                                                              European Union
+                                                                                                            IgE
+
+                                                                                                           IHS4
+                                                                                                                   Immunoglobulin E
+                                                                                                                   International Hidradenitis Suppurativa
+  Ab       Antibody                                                                                                Severity Score
+                                                       FDA    Food and Drug Administration
+  AD       Atopic Dermatitis                                                                                IL     Interleukin
+                                                      FeNO    Fractional Exhaled Nitric Oxide
+  AIA      Antigen-Induced Arthritis                                                                       IND     Investigational New Drug Application
+                                                       FIH    First-in-Human
+ ASMS      Affinity Selection Mass Spectrometry                                                            IRAK4   Interleukin 1 Receptor Associated Kinase 4
+                                                       GI     Gastrointestinal
+AN Count   Abscess and Inflammatory Nodule Count                                                           IRF5    Interferon Regulatory Factor 5
+                                                       GLP    Good Laboratory Practice
+  BID      Twice a day                                                                                      JP     Japan
+                                                      GOF     Gain of Function
+  BP       Bullous Pemphigoid                                                                               KO     Knockout
+                                                      GWAS    Genome-Wide Association Study
+  BSA      Body Surface Area                                                                               LABA    Long-Acting Beta Agonist
+                                                       HD     High Dose
+ CAPS      Cryopyrin-Associated Periodic Syndrome                                                          LAMA    Long-Acting Muscarinic Antagonist
+                                                      HDM     House Dust Mite
+  CD       Crohn’s Disease                                                                                  LD     Low Dose
+                                                      HiSCR   Hidradenitis Suppurativa Clinical Response
+ CDK2      Cyclin-Dependent Kinase 2                                                                       LLOQ    Lower Limit of Quantification
+                                                      hPBMC   Human Peripheral Blood Mononuclear Cells
+ COPD      Chronic Obstructive Pulmonary Disease                                                           LOF     Loss of Function
+                                                       HS     Hidradenitis Suppurativa
+CRSwNP     Chronic Rhinosinusitis with Nasal Polyps                                                         LPS    Lipopolysaccharide Solution
+                                                       HTS    High Throughput Screening
+Cryo-EM    Cryo-Electron Microscopy                                                                        LTRA    Leukotriene Receptor Antagonist
+                                                       HV     Healthy Volunteers
+  Ctrl     Control                                                                                         MAD     Multiple Ascending Dose Study
+                                                       I&I    Immunology and Inflammation
+  CSU      Chronic Spontaneous Urticaria                                                                   MOA     Mechanism of Action
+                                                       IA     Interim Analysis
+  DC#      Degradation Concentration                                                                       NF-kB   Nuclear Factor Kappa B
+                                                       IBD    Inflammatory Bowel Disease
+  DCs      Dendritic Cells                                                                                 NHP     Nonhuman Primate
+                                                       IC#    Inhibitory Concentration
+  DEL      DNA-Encoded Library                                                                              nM     Nanomolar
+                                                       ICS    Inhaled Corticosteroid
+ DLQI      Dermatology Life Quality Index                                                                  NRS     Numerical Rating Scale
+                                                       IFN    Interferon
+  DM       Dermatomyositis                                                                                 PBMC    Peripheral Blood Mononuclear Cells
+                                                       ISG    Interferon-Stimulated Gene
+ DMSO      Dimethyl Sulfoxide
+                                                       IGA    Investigator Global Assessment                Pbo    Placebo
+ dsDNA     Double-Stranded DNA
+                                                                                                           PGA     Physician Global Assessment
+  EASI     Eczema Area and Severity Index                                                                                                                       66
+
