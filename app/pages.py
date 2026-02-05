@@ -558,21 +558,21 @@ def generate_targets_page():
     # Add hardcoded extras that aren't already in targets from index.json
     targets.extend(hardcoded_extras)
 
-    # Category colors and labels
+    # Category colors and labels - consistent gray styling
     category_styles = {
-        "oncology": {"bg": "#fef2f2", "color": "#dc2626", "label": "Oncology"},
-        "immunology": {"bg": "#f0fdf4", "color": "#16a34a", "label": "I&I"},
-        "metabolic": {"bg": "#fef9c3", "color": "#ca8a04", "label": "Metabolic"},
-        "cardiovascular": {"bg": "#eff6ff", "color": "#2563eb", "label": "Cardiovascular"},
-        "rare": {"bg": "#faf5ff", "color": "#7c3aed", "label": "Rare Disease"},
-        "neuro": {"bg": "#fef3c7", "color": "#92400e", "label": "Neuro"},
+        "oncology": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Oncology"},
+        "immunology": {"bg": "#f0f0f0", "color": "#6b7280", "label": "I&I"},
+        "metabolic": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Metabolic"},
+        "cardiovascular": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Cardiovascular"},
+        "rare": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Rare Disease"},
+        "neuro": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Neuro"},
     }
 
-    # Status colors
+    # Status colors - consistent navy styling for all
     status_styles = {
-        "Approved Drug Exists": {"bg": "#dcfce7", "color": "#166534"},
-        "Race to First": {"bg": "#fef9c3", "color": "#854d0e"},
-        "Early Stage": {"bg": "#f3f4f6", "color": "#4b5563"},
+        "Approved Drug Exists": {"bg": "#1a2b3c", "color": "#ffffff"},
+        "Race to First": {"bg": "#1a2b3c", "color": "#ffffff"},
+        "Early Stage": {"bg": "#1a2b3c", "color": "#ffffff"},
     }
 
     # Build target cards
@@ -586,6 +586,29 @@ def generate_targets_page():
 
         view_btn = f'<a href="/targets/{t["slug"]}" class="view-btn">View Full Landscape &rarr;</a>' if t["slug"] else ""
 
+        # Build clean competitor text - handle missing data
+        def format_competitor(comp):
+            parts = []
+            company = comp.get("company", "-")
+            ticker = comp.get("ticker", "-")
+            drug = comp.get("drug", "-")
+
+            if company and company != "-":
+                parts.append(f'<span class="company">{company}</span>')
+                if ticker and ticker != "-":
+                    parts.append(f'(<span class="ticker">{ticker}</span>)')
+
+            if drug and drug != "-":
+                if parts:
+                    parts.append(f'— {drug}')
+                else:
+                    parts.append(drug)
+
+            return ' '.join(parts) if parts else '<span class="text-muted">TBD</span>'
+
+        leader_text = format_competitor(t["leader"])
+        challenger_text = format_competitor(t["challenger"])
+
         cards_html += f'''
         <div class="target-card" data-category="{t["category"]}">
             <div class="target-header">
@@ -597,14 +620,14 @@ def generate_targets_page():
                 <div class="competitor-row">
                     <span class="competitor-label">{"Market Leader" if "Approved" in t["status"] else "Frontrunner"}</span>
                     <span class="competitor-info">
-                        <span class="competitor-text"><span class="company">{t["leader"]["company"]}</span> (<span class="ticker">{t["leader"]["ticker"]}</span>) - {t["leader"]["drug"]}</span>
+                        <span class="competitor-text">{leader_text}</span>
                         <span class="stage-pill" style="background:{leader_phase_color};">{t["leader"]["phase"]}</span>
                     </span>
                 </div>
                 <div class="competitor-row">
                     <span class="competitor-label">{"Challenger" if "Approved" in t["status"] else "Fast Follower"}</span>
                     <span class="competitor-info">
-                        <span class="competitor-text"><span class="company">{t["challenger"]["company"]}</span> {f'(<span class="ticker">{t["challenger"]["ticker"]}</span>)' if t["challenger"]["ticker"] != "-" else ""} {f'- {t["challenger"]["drug"]}' if t["challenger"]["drug"] != "-" else ""}</span>
+                        <span class="competitor-text">{challenger_text}</span>
                         {f'<span class="stage-pill" style="background:{challenger_phase_color};">{t["challenger"]["phase"]}</span>' if t["challenger"]["phase"] != "-" else ""}
                     </span>
                 </div>
@@ -695,27 +718,27 @@ def generate_targets_page():
                         All Targets
                     </label>
                     <label class="filter-option" data-filter="oncology">
-                        <span class="filter-dot" style="border-color:#dc2626;"></span>
+                        <span class="filter-dot"></span>
                         Oncology
                     </label>
                     <label class="filter-option" data-filter="immunology">
-                        <span class="filter-dot" style="border-color:#16a34a;"></span>
+                        <span class="filter-dot"></span>
                         Immunology
                     </label>
                     <label class="filter-option" data-filter="metabolic">
-                        <span class="filter-dot" style="border-color:#ca8a04;"></span>
+                        <span class="filter-dot"></span>
                         Metabolic
                     </label>
                     <label class="filter-option" data-filter="cardiovascular">
-                        <span class="filter-dot" style="border-color:#2563eb;"></span>
+                        <span class="filter-dot"></span>
                         Cardiovascular
                     </label>
                     <label class="filter-option" data-filter="rare">
-                        <span class="filter-dot" style="border-color:#7c3aed;"></span>
+                        <span class="filter-dot"></span>
                         Rare Disease
                     </label>
                     <label class="filter-option" data-filter="neuro">
-                        <span class="filter-dot" style="border-color:#92400e;"></span>
+                        <span class="filter-dot"></span>
                         Neuropsychiatry
                     </label>
                 </div>
