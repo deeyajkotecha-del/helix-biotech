@@ -71,6 +71,67 @@ def capitalize_medical_terms(text: str) -> str:
 
     return text
 
+
+def generate_citation_badge(source: dict, ticker: str) -> str:
+    """
+    Generate a citation badge HTML from a source object.
+
+    Source format: {"id": "kymr_corporate_2026", "slide": 14, "verified": false}
+    Output: <a href="..." class="citation-badge" ...>[Corp '26 S14]</a>
+    """
+    if not source or not isinstance(source, dict):
+        return ""
+
+    source_id = source.get("id", "")
+    slide = source.get("slide", "")
+    verified = source.get("verified", False)
+
+    if not source_id or not slide:
+        return ""
+
+    # Generate short label from source_id
+    # kymr_corporate_2026 → "Corp '26"
+    # kymr_jpm_2026 → "JPM '26"
+    # kymr_broaden_poster_aad_2026 → "AAD '26"
+    event_keywords = {
+        "corporate": "Corp",
+        "jpm": "JPM",
+        "aad": "AAD",
+        "asco": "ASCO",
+        "ash": "ASH",
+        "esmo": "ESMO",
+        "easl": "EASL",
+        "poster": "Poster",
+        "presentation": "Pres",
+    }
+
+    source_lower = source_id.lower()
+    event_label = "Src"  # default
+    for keyword, label in event_keywords.items():
+        if keyword in source_lower:
+            event_label = label
+            break
+
+    # Extract year (4 digits)
+    import re
+    year_match = re.search(r'(\d{4})', source_id)
+    year_short = year_match.group(1)[-2:] if year_match else "??"
+
+    # Build label: "Corp '26 S14"
+    label = f"{event_label} '{year_short} S{slide}"
+
+    # Build URL
+    url = f"/api/clinical/companies/{ticker}/sources/{source_id}/slide/{slide}"
+
+    # Build title
+    title = f"{event_label} {year_match.group(1) if year_match else ''}, Slide {slide}"
+
+    # Generate badge HTML
+    verified_mark = '<span class="verified-check">✓</span>' if verified else ""
+
+    return f'''<a href="{url}" class="citation-badge" target="_blank" title="{title}">[{label}]</a>{verified_mark}'''
+
+
 def get_stage_priority(stage: str) -> int:
     """Get numeric priority for development stage (lower = more advanced)."""
     if not stage:
@@ -1810,6 +1871,21 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     competitive_landscape = asset.get("competitive_landscape", {})
     abbreviations = asset.get("abbreviations", {})
 
+    # Extract citation badges from source objects
+    def get_badge(data_obj, key="source"):
+        """Extract source object and generate badge."""
+        if isinstance(data_obj, dict):
+            source = data_obj.get(key)
+            if source:
+                return generate_citation_badge(source, ticker)
+        return ""
+
+    # Section-level citation badges
+    target_source_badge = get_badge(target_data.get("why_good_target", {}) if isinstance(target_data, dict) else {})
+    mechanism_badge = get_badge(mechanism_data) if isinstance(mechanism_data, dict) else ""
+    indications_badge = get_badge(indications_data) if isinstance(indications_data, dict) else ""
+    market_badge = get_badge(market) if isinstance(market, dict) else ""
+
     # Executive summary data
     one_liner = asset.get("one_liner", "")
     why_good_target = target_data.get("why_good_target", {}) if isinstance(target_data, dict) else {}
@@ -2979,6 +3055,25 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             border-color: #805ad5;
         }}
 
+        /* Citation Badges */
+        .citation-badge {{
+            font-size: 0.7em;
+            color: #999;
+            text-decoration: none;
+            margin-left: 6px;
+            font-family: monospace;
+            vertical-align: super;
+        }}
+        .citation-badge:hover {{
+            color: #e07a5f;
+            text-decoration: underline;
+        }}
+        .verified-check {{
+            color: #4ade80;
+            font-size: 0.7em;
+            margin-left: 2px;
+        }}
+
         /* Layout */
         .layout {{
             display: flex;
@@ -3942,7 +4037,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                         {f'<div class="detail-row"><a href="#target" style="color: var(--accent);">See Target Biology →</a></div>' if target_biology else ''}
                     </div>
                     <div class="overview-card mechanism">
-                        <h3>Mechanism of Action</h3>
+                        <h3>Mechanism of Action{mechanism_badge}</h3>
                         {f'<div class="detail-row"><strong>Type</strong>{mech_type}</div>' if mech_type else ''}
                         {f'<div class="detail-row"><strong>Description</strong>{mech_desc}</div>' if mech_desc else ''}
                         {f'<div class="detail-row"><strong>Why This Approach</strong>{target_why}</div>' if target_why else ''}
@@ -3950,11 +4045,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                     </div>
                 </div>
 
-                {f'<div class="indications"><strong>Indications:</strong> {ind_badges}</div>' if ind_badges else ''}
+                {f'<div class="indications"><strong>Indications:{indications_badge}</strong> {ind_badges}</div>' if ind_badges else ''}
             </section>
 
             <section id="target" class="section">
-                <h2 class="section-header">Target Biology</h2>
+                <h2 class="section-header">Target Biology{target_source_badge}</h2>
                 <div class="card">
                     <div class="card-content">
                         {f'<p style="margin-bottom: 16px;">{target_biology}</p>' if target_biology else '<p>No target biology data available.</p>'}
@@ -3978,7 +4073,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             {investment_html}
 
             <section id="market" class="section">
-                <h2 class="section-header">Market Opportunity</h2>
+                <h2 class="section-header">Market Opportunity{market_badge}</h2>
                 <div class="card">
                     <div class="card-content">
                         <div class="market-grid">

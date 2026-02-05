@@ -5,7 +5,6 @@
     "extraction_date": "2026-02-04",
     "analyst_reviewed": true
   },
-
   "asset": {
     "name": "KT-621",
     "company": "Kymera Therapeutics",
@@ -15,16 +14,14 @@
     "ownership": "Wholly-owned",
     "one_liner": "Dupilumab-like activity in a pill - first oral STAT6 degrader"
   },
-
   "target": {
     "name": "STAT6",
     "full_name": "Signal Transducer and Activator of Transcription 6",
     "class": "Transcription Factor",
-    "pathway": "IL-4/IL-13 → Type 2 inflammation",
-    
+    "pathway": "IL-4/IL-13 \u2192 Type 2 inflammation",
     "biology": {
       "simple_explanation": "STAT6 is THE transcription factor for IL-4/IL-13 signaling. When IL-4 or IL-13 binds to receptors on cells, STAT6 gets activated, moves to the nucleus, and turns on all the genes that cause allergic inflammation.",
-      "pathway_detail": "IL-4 binds IL-4Rα + γC receptor complex. IL-13 binds IL-4Rα + IL-13Rα1 complex. Both activate JAK1/JAK3, which phosphorylate STAT6. Phospho-STAT6 dimerizes, translocates to nucleus, and drives transcription of Type 2 inflammation genes.",
+      "pathway_detail": "IL-4 binds IL-4R\u03b1 + \u03b3C receptor complex. IL-13 binds IL-4R\u03b1 + IL-13R\u03b11 complex. Both activate JAK1/JAK3, which phosphorylate STAT6. Phospho-STAT6 dimerizes, translocates to nucleus, and drives transcription of Type 2 inflammation genes.",
       "downstream_effects": [
         "IgE class switching in B cells",
         "Th2 differentiation",
@@ -33,29 +30,29 @@
         "Skin barrier dysfunction"
       ]
     },
-    
     "why_good_target": {
-      "clinical_validation": "Dupilumab (anti-IL-4Rα) validates this pathway with $13B+ in sales. Approved in AD, asthma, COPD, EoE, CRSwNP, CSU, PN, BP.",
+      "clinical_validation": "Dupilumab (anti-IL-4R\u03b1) validates this pathway with $13B+ in sales. Approved in AD, asthma, COPD, EoE, CRSwNP, CSU, PN, BP.",
       "genetic_validation": {
         "gain_of_function": "STAT6 GoF mutations cause hyper-IgE syndrome and severe allergic disease",
         "loss_of_function": "STAT6 heterozygous LoF alleles protect against allergic disease"
       },
-      "source_slide": 14
+      "source": {
+        "id": "kymr_corporate_2026",
+        "slide": 14,
+        "verified": false
+      }
     },
-    
     "why_undruggable_before": {
       "challenge": "Transcription factors lack enzymatic pockets for traditional small molecule inhibitors to bind",
       "previous_attempts": "No known drugs selectively target this pathway with oral delivery potential",
       "degrader_solution": "TPD allows elimination of entire protein, achieving complete pathway blockade equivalent to biologics"
     },
-    
     "dupilumab_comparison": {
-      "dupilumab_mechanism": "Blocks IL-4Rα receptor upstream",
+      "dupilumab_mechanism": "Blocks IL-4R\u03b1 receptor upstream",
       "kt621_mechanism": "Destroys STAT6 transcription factor downstream",
       "expected_result": "Both should achieve same pathway blockade, but KT-621 is oral"
     }
   },
-
   "mechanism": {
     "type": "Heterobifunctional degrader (PROTAC)",
     "e3_ligase": "Cereblon (CRBN)",
@@ -70,9 +67,12 @@
       "blood": "Confirmed deep degradation",
       "skin": "Confirmed penetration via punch biopsies - critical for dermatology"
     },
-    "source_slide": 56
+    "source": {
+      "id": "kymr_corporate_2026",
+      "slide": 56,
+      "verified": false
+    }
   },
-
   "indications": {
     "lead": {
       "name": "Atopic Dermatitis",
@@ -120,9 +120,12 @@
     ],
     "total_addressable_patients": ">140M",
     "development_strategy": "Parallel Phase 2b in AD + Asthma enables Phase 3 across multiple dermatology, GI, and respiratory indications with same dose",
-    "source_slide": 15
+    "source": {
+      "id": "kymr_corporate_2026",
+      "slide": 15,
+      "verified": false
+    }
   },
-
   "market_opportunity": {
     "total_addressable_market": ">$27B by 2030",
     "current_penetration": "Only ~1% of patients on advanced systemic therapy",
@@ -133,9 +136,12 @@
       "bear_case": "$1B"
     },
     "competitive_advantage": "Oral convenience could expand market penetration from 1% to 10%+",
-    "source_slide": 13
+    "source": {
+      "id": "kymr_corporate_2026",
+      "slide": 13,
+      "verified": false
+    }
   },
-
   "clinical_data": {
     "phase1_healthy_volunteer": {
       "trial_name": "Phase 1 SAD/MAD",
@@ -146,7 +152,6 @@
         "mad_n": 70,
         "dosing": "Single ascending dose and multiple ascending dose (14 days)"
       },
-      
       "stat6_degradation": {
         "description": "Primary PD endpoint measuring target engagement",
         "methods": {
@@ -154,23 +159,68 @@
           "skin": "Targeted mass spectrometry on punch biopsies"
         },
         "results_by_dose": [
-          {"dose": "Placebo", "blood_change": "~0%", "skin_change": "~0%", "n_blood": 18, "n_skin": 17},
-          {"dose": "1.5mg QD", "blood_change": "~-20%", "skin_change": "~-10%", "n_blood": 9, "n_skin": 7},
-          {"dose": "12.5mg QD", "blood_change": "~-70%", "skin_change": "~-60%", "n_blood": 7, "n_skin": 7},
-          {"dose": "25mg QD", "blood_change": ">-90%", "skin_change": ">-90%", "n_blood": 9, "n_skin": 8},
-          {"dose": "50mg QD", "blood_change": ">-90%", "skin_change": ">-90%", "n_blood": 9, "n_skin": 9},
-          {"dose": "100mg QD", "blood_change": ">-90%", "skin_change": ">-90%", "n_blood": 9, "n_skin": 9},
-          {"dose": "200mg QD", "blood_change": ">-90%", "skin_change": ">-90%", "n_blood": 9, "n_skin": 9}
+          {
+            "dose": "Placebo",
+            "blood_change": "~0%",
+            "skin_change": "~0%",
+            "n_blood": 18,
+            "n_skin": 17
+          },
+          {
+            "dose": "1.5mg QD",
+            "blood_change": "~-20%",
+            "skin_change": "~-10%",
+            "n_blood": 9,
+            "n_skin": 7
+          },
+          {
+            "dose": "12.5mg QD",
+            "blood_change": "~-70%",
+            "skin_change": "~-60%",
+            "n_blood": 7,
+            "n_skin": 7
+          },
+          {
+            "dose": "25mg QD",
+            "blood_change": ">-90%",
+            "skin_change": ">-90%",
+            "n_blood": 9,
+            "n_skin": 8
+          },
+          {
+            "dose": "50mg QD",
+            "blood_change": ">-90%",
+            "skin_change": ">-90%",
+            "n_blood": 9,
+            "n_skin": 9
+          },
+          {
+            "dose": "100mg QD",
+            "blood_change": ">-90%",
+            "skin_change": ">-90%",
+            "n_blood": 9,
+            "n_skin": 9
+          },
+          {
+            "dose": "200mg QD",
+            "blood_change": ">-90%",
+            "skin_change": ">-90%",
+            "n_blood": 9,
+            "n_skin": 9
+          }
         ],
         "key_findings": [
           "Clear dose-response from 1.5mg to 25mg",
-          "Plateau at ≥25mg - maximal degradation achieved",
+          "Plateau at \u226525mg - maximal degradation achieved",
           "Skin penetration confirmed - critical for dermatology indication",
           "100mg vs 200mg equivalent - suggests 100mg sufficient"
         ],
-        "source_slide": 22
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 22,
+          "verified": false
+        }
       },
-      
       "biomarker_results": {
         "tarc": {
           "full_name": "Thymus and Activation-Regulated Chemokine (CCL17)",
@@ -188,7 +238,6 @@
           "interpretation": "Stronger response than TARC; predicts efficacy in EoE and asthma"
         }
       },
-      
       "safety": {
         "summary": "Well-tolerated across all doses; safety profile undifferentiated from placebo",
         "sad_aes": {
@@ -208,10 +257,13 @@
           "No discontinuations due to AEs",
           "No clinically relevant changes in vitals, labs, ECGs"
         ],
-        "source_slide": 57
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 57,
+          "verified": false
+        }
       }
     },
-
     "phase1b_ad": {
       "trial_name": "BroADen Phase 1b",
       "design": {
@@ -221,11 +273,16 @@
         "dosing": "Oral, once daily for 28 days",
         "follow_up": "14 days after dosing completed",
         "cohorts": [
-          {"dose": "100mg QD", "n": 10},
-          {"dose": "200mg QD", "n": 12}
+          {
+            "dose": "100mg QD",
+            "n": 10
+          },
+          {
+            "dose": "200mg QD",
+            "n": 12
+          }
         ]
       },
-      
       "design_limitations": [
         "Open-label - no placebo arm",
         "AD has 25-35% placebo response rate",
@@ -233,16 +290,14 @@
         "Short duration (29 days vs 16 weeks for registration)",
         "Cross-trial comparison to Dupixent has caveats"
       ],
-      
       "inclusion_criteria": [
-        "EASI ≥16",
-        "vIGA-AD ≥3",
-        "Peak Pruritus NRS ≥4",
-        "BSA ≥10%",
+        "EASI \u226516",
+        "vIGA-AD \u22653",
+        "Peak Pruritus NRS \u22654",
+        "BSA \u226510%",
         "Documented TCS failure",
         "Prior biologics allowed after washout if patient responded"
       ],
-      
       "baseline_characteristics": {
         "age_mean": 31.7,
         "female_pct": 59.1,
@@ -259,9 +314,12 @@
         "comorbid_allergic_rhinitis_pct": 40.9,
         "prior_systemic_therapy_pct": 22.7,
         "analyst_note": "45.5% severe patients and prior biologic use shows this is a sick, treatment-experienced population",
-        "source_slide": "58-59"
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": "58-59",
+          "verified": false
+        }
       },
-      
       "efficacy_endpoints": {
         "stat6_degradation": {
           "blood": {
@@ -278,12 +336,15 @@
             "note": "Multiple patients below LLOQ (lower limit of quantification)",
             "interpretation": "Confirms drug penetrates target tissue"
           },
-          "source_slide": 25
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 25,
+            "verified": false
+          }
         },
-        
         "easi": {
           "full_name": "Eczema Area and Severity Index",
-          "what_it_measures": "Composite of affected BSA × severity (erythema, induration, excoriation, lichenification) across 4 body regions",
+          "what_it_measures": "Composite of affected BSA \u00d7 severity (erythema, induration, excoriation, lichenification) across 4 body regions",
           "scoring": "0-72 scale; higher = worse",
           "regulatory_status": "FDA-accepted primary endpoint for AD trials",
           "results": {
@@ -297,12 +358,31 @@
             "easi75_vs_dupilumab": "28%"
           },
           "time_course": [
-            {"day": 1, "change": "0%"},
-            {"day": 8, "change": "~-27%"},
-            {"day": 15, "change": "~-45%"},
-            {"day": 22, "change": "~-55%"},
-            {"day": 29, "change": "-63%"},
-            {"day": 43, "change": "~-55%", "note": "14 days off treatment"}
+            {
+              "day": 1,
+              "change": "0%"
+            },
+            {
+              "day": 8,
+              "change": "~-27%"
+            },
+            {
+              "day": 15,
+              "change": "~-45%"
+            },
+            {
+              "day": 22,
+              "change": "~-55%"
+            },
+            {
+              "day": 29,
+              "change": "-63%"
+            },
+            {
+              "day": 43,
+              "change": "~-55%",
+              "note": "14 days off treatment"
+            }
           ],
           "key_observations": [
             "Rapid onset - ~30% improvement by Day 8",
@@ -310,9 +390,12 @@
             "100mg = 200mg - no dose-response at these levels",
             "Some durability - still -55% at Day 43 (off treatment)"
           ],
-          "source_slide": 28
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 28,
+            "verified": false
+          }
         },
-        
         "viga_ad": {
           "full_name": "Validated Investigator Global Assessment for AD",
           "what_it_measures": "Physician assessment of overall disease severity",
@@ -324,9 +407,12 @@
             "responders_overall": "19%",
             "vs_dupilumab": "12%"
           },
-          "source_slide": 33
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 33,
+            "verified": false
+          }
         },
-        
         "ppnrs": {
           "full_name": "Peak Pruritus Numerical Rating Scale",
           "what_it_measures": "Patient-reported worst itch in past 24 hours",
@@ -338,9 +424,12 @@
             "mean_change_overall": "-40%",
             "vs_dupilumab": "-33%"
           },
-          "source_slide": 29
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 29,
+            "verified": false
+          }
         },
-        
         "scorad": {
           "full_name": "SCORing Atopic Dermatitis",
           "results": {
@@ -349,18 +438,24 @@
             "itch_change_overall": "-44%",
             "sleeplessness_change_overall": "-76%"
           },
-          "source_slide": "28-30"
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": "28-30",
+            "verified": false
+          }
         },
-        
         "bsa": {
           "full_name": "Body Surface Area affected",
           "results": {
             "mean_change_overall": "-49%",
             "vs_dupilumab": "-36%"
           },
-          "source_slide": 33
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 33,
+            "verified": false
+          }
         },
-        
         "poem": {
           "full_name": "Patient-Oriented Eczema Measure",
           "what_it_measures": "Patient-reported disease severity and experience",
@@ -371,9 +466,12 @@
             "responders_overall": "73%",
             "vs_dupilumab_week16": "69%"
           },
-          "source_slide": 30
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 30,
+            "verified": false
+          }
         },
-        
         "dlqi": {
           "full_name": "Dermatology Life Quality Index",
           "what_it_measures": "Quality of life impact",
@@ -384,13 +482,20 @@
             "responders_overall": "61%",
             "vs_dupilumab_week16": "69%"
           },
-          "source_slide": 30
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 30,
+            "verified": false
+          }
         }
       },
-      
       "biomarker_results": {
         "summary_table": {
-          "source_slide": 26,
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 26,
+            "verified": false
+          },
           "data": [
             {
               "biomarker": "TARC (CCL17)",
@@ -429,18 +534,25 @@
             }
           ]
         },
-        
         "skin_transcriptomics": {
           "description": "Core Type 2 inflammation gene signature in skin lesions",
-          "genes_measured": ["CCL26/Eotaxin-3", "CCL17/TARC", "CCL18/PARC", "CCL13/MCP-4"],
+          "genes_measured": [
+            "CCL26/Eotaxin-3",
+            "CCL17/TARC",
+            "CCL18/PARC",
+            "CCL13/MCP-4"
+          ],
           "result": "Significant downregulation from Day 1 to Day 29",
           "p_value": "<0.01",
           "vs_dupilumab": "Changes comparable to published Dupilumab data at Week 4",
           "interpretation": "Objective molecular evidence of disease modification at tissue level",
-          "source_slide": 27
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 27,
+            "verified": false
+          }
         }
       },
-      
       "comorbid_asthma_data": {
         "n": 4,
         "feno": {
@@ -458,9 +570,12 @@
           "interpretation": "All patients had clinically meaningful improvement"
         },
         "caveat": "Only 4 patients - directionally positive but small n",
-        "source_slide": 31
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 31,
+          "verified": false
+        }
       },
-      
       "comorbid_allergic_rhinitis_data": {
         "tnss": {
           "full_name": "Total Nasal Symptom Score",
@@ -476,9 +591,12 @@
           "responders": "33%",
           "mcid": "0.5 points"
         },
-        "source_slide": 32
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 32,
+          "verified": false
+        }
       },
-      
       "safety": {
         "summary": "Well-tolerated with favorable safety at both doses; profile similar to Phase 1 HV",
         "key_findings": [
@@ -496,25 +614,66 @@
           "dupilumab": "10-25%",
           "interpretation": "Potential safety differentiation - conjunctivitis limits Dupixent use in some patients"
         },
-        "source_slide": 34
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 34,
+          "verified": false
+        }
       },
-      
       "head_to_head_comparison_table": {
         "description": "KT-621 vs Dupilumab at similar timepoints",
         "caveat": "Cross-trial comparison - no head-to-head conducted",
-        "source_slide": 33,
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 33,
+          "verified": false
+        },
         "data": [
-          {"endpoint": "Mean % Change EASI", "kt621_day29": "-63%", "dupilumab_day28": "-52%", "winner": "KT-621"},
-          {"endpoint": "EASI-50", "kt621_day29": "76%", "dupilumab_day28": "57%", "winner": "KT-621"},
-          {"endpoint": "EASI-75", "kt621_day29": "29%", "dupilumab_day28": "28%", "winner": "Tie"},
-          {"endpoint": "Mean % Change PP-NRS", "kt621_day29": "-40%", "dupilumab_day28": "-33%", "winner": "KT-621"},
-          {"endpoint": "Mean % Change SCORAD", "kt621_day29": "-48%", "dupilumab_day28": "-41%", "winner": "KT-621"},
-          {"endpoint": "vIGA-AD 0/1", "kt621_day29": "19%", "dupilumab_day28": "12%", "winner": "KT-621"},
-          {"endpoint": "Mean % Change BSA", "kt621_day29": "-49%", "dupilumab_day28": "-36%", "winner": "KT-621"}
+          {
+            "endpoint": "Mean % Change EASI",
+            "kt621_day29": "-63%",
+            "dupilumab_day28": "-52%",
+            "winner": "KT-621"
+          },
+          {
+            "endpoint": "EASI-50",
+            "kt621_day29": "76%",
+            "dupilumab_day28": "57%",
+            "winner": "KT-621"
+          },
+          {
+            "endpoint": "EASI-75",
+            "kt621_day29": "29%",
+            "dupilumab_day28": "28%",
+            "winner": "Tie"
+          },
+          {
+            "endpoint": "Mean % Change PP-NRS",
+            "kt621_day29": "-40%",
+            "dupilumab_day28": "-33%",
+            "winner": "KT-621"
+          },
+          {
+            "endpoint": "Mean % Change SCORAD",
+            "kt621_day29": "-48%",
+            "dupilumab_day28": "-41%",
+            "winner": "KT-621"
+          },
+          {
+            "endpoint": "vIGA-AD 0/1",
+            "kt621_day29": "19%",
+            "dupilumab_day28": "12%",
+            "winner": "KT-621"
+          },
+          {
+            "endpoint": "Mean % Change BSA",
+            "kt621_day29": "-49%",
+            "dupilumab_day28": "-36%",
+            "winner": "KT-621"
+          }
         ]
       }
     },
-
     "ongoing_trials": [
       {
         "trial_name": "BROADEN2",
@@ -528,22 +687,27 @@
           "arms": "Three KT-621 doses + placebo (1:1:1:1)"
         },
         "inclusion_criteria": [
-          "EASI ≥16",
-          "vIGA-AD ≥3",
-          "Peak Pruritus NRS ≥4",
-          "BSA ≥10%",
+          "EASI \u226516",
+          "vIGA-AD \u22653",
+          "Peak Pruritus NRS \u22654",
+          "BSA \u226510%",
           "Documented TCS failure"
         ],
         "endpoints": {
           "primary": "Percent change from baseline in EASI score at Week 16",
-          "secondary": ["EASI-50", "EASI-75", "vIGA-AD 0/1", "≥4-point improvement in Peak Pruritus NRS"]
+          "secondary": [
+            "EASI-50",
+            "EASI-75",
+            "vIGA-AD 0/1",
+            "\u22654-point improvement in Peak Pruritus NRS"
+          ]
         },
         "status": "Ongoing, also including adolescents",
         "data_expected": "Mid-2027",
         "key_trial_aim": "Establish clinical activity and safety to select Phase 3 dose for registrational studies in multiple dermatological and GI indications",
         "what_success_looks_like": {
-          "easi75_target": "≥40%",
-          "placebo_delta_target": "≥15%",
+          "easi75_target": "\u226540%",
+          "placebo_delta_target": "\u226515%",
           "safety": "Maintain clean profile"
         },
         "what_failure_looks_like": {
@@ -551,7 +715,11 @@
           "small_placebo_delta": "<10%",
           "safety_signal": "Emergence of conjunctivitis or other concerning AEs"
         },
-        "source_slide": 19
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 19,
+          "verified": false
+        }
       },
       {
         "trial_name": "BREADTH",
@@ -565,23 +733,29 @@
           "arms": "Three KT-621 doses + placebo (1:1:1:1)"
         },
         "inclusion_criteria": [
-          "Blood eosinophils ≥300 cells/µL",
-          "FeNO ≥25 ppb",
+          "Blood eosinophils \u2265300 cells/\u00b5L",
+          "FeNO \u226525 ppb",
           "Pre-bronchodilator FEV1 40-80% of predicted"
         ],
         "endpoints": {
           "primary": "Percent change from baseline in pre-bronchodilator FEV1 at Week 12",
-          "secondary": ["Change from baseline in ACQ-5", "Change from baseline in AQLQ"]
+          "secondary": [
+            "Change from baseline in ACQ-5",
+            "Change from baseline in AQLQ"
+          ]
         },
         "status": "Initiated January 2026",
         "data_expected": "Late 2027",
         "key_trial_aim": "Establish clinical activity and safety to select Phase 3 dose for respiratory indications",
         "why_it_matters": "Proves platform works beyond skin; validates respiratory opportunity",
-        "source_slide": 20
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 20,
+          "verified": false
+        }
       }
     ]
   },
-
   "preclinical_data": {
     "potency": {
       "dc90": "<100 pM in all relevant human cell types",
@@ -606,43 +780,65 @@
       "embryofetal_nhp": "No toxicity",
       "safety_margin": "Well-tolerated at 40-fold above efficacious dose"
     },
-    "source_slide": 56
+    "source": {
+      "id": "kymr_corporate_2026",
+      "slide": 56,
+      "verified": false
+    }
   },
-
   "investment_analysis": {
     "bull_case": [
       {
         "point": "Phase 1b efficacy matches Dupilumab",
         "evidence": "EASI -63% vs -52%; EASI-75 29% vs 28%; TARC -74% = -74%",
         "confidence": "High - multiple endpoints consistent",
-        "source_slide": 33
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 33,
+          "verified": false
+        }
       },
       {
         "point": "Oral convenience could transform market",
         "evidence": ">90% of biologic patients prefer oral; only 1% penetration today",
         "confidence": "High - survey data + low penetration",
-        "source_slide": 6
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 6,
+          "verified": false
+        }
       },
       {
         "point": "Clean safety with no conjunctivitis",
         "evidence": "0% vs 10-25% for Dupixent",
         "confidence": "Medium - need larger n to confirm",
-        "source_slide": 34
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 34,
+          "verified": false
+        }
       },
       {
         "point": "No plateau at Day 29 - efficacy may improve",
         "evidence": "EASI curve still declining; Dupixent improves through Week 16",
         "confidence": "Medium - need longer data",
-        "source_slide": 28
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 28,
+          "verified": false
+        }
       },
       {
         "point": "Biomarker data is objective validation",
         "evidence": "98% STAT6 degradation in blood, 94% in skin cannot be placebo effect",
         "confidence": "High - objective measurement",
-        "source_slide": 25
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 25,
+          "verified": false
+        }
       }
     ],
-    
     "bear_case": [
       {
         "point": "Open-label design - placebo effect possible",
@@ -669,7 +865,6 @@
         "probability": "Ongoing risk"
       }
     ],
-    
     "key_debates": [
       {
         "question": "Can an oral degrader match an injectable biologic?",
@@ -690,15 +885,13 @@
         "what_resolves_it": "BROADEN2 Week 16 time course data"
       }
     ],
-    
     "probability_of_success": {
       "phase2b_to_phase3": "55%",
       "phase3_to_approval": "65%",
       "cumulative_pos": "36%",
-      "methodology": "Historical Phase 2→3 success rates in dermatology + adjustment for strong biomarker data"
+      "methodology": "Historical Phase 2\u21923 success rates in dermatology + adjustment for strong biomarker data"
     }
   },
-
   "catalysts": [
     {
       "event": "BROADEN2 Phase 2b AD enrollment completion",
@@ -711,14 +904,14 @@
       "timing": "Mid-2027",
       "importance": "Critical",
       "what_to_watch": [
-        "EASI-75 at Week 16 (target ≥40%)",
-        "Placebo delta (target ≥15%)",
+        "EASI-75 at Week 16 (target \u226540%)",
+        "Placebo delta (target \u226515%)",
         "vIGA-AD 0/1 response rate",
         "Safety - especially conjunctivitis incidence",
         "Dose response - which dose selected for Phase 3"
       ],
       "bull_scenario": {
-        "outcome": "EASI-75 ≥45%, clean safety, clear dose selection",
+        "outcome": "EASI-75 \u226545%, clean safety, clear dose selection",
         "stock_impact": "+50-100%",
         "rationale": "Confirms Dupixent-like efficacy in placebo-controlled setting; validates platform"
       },
@@ -742,12 +935,11 @@
       "why_it_matters": "Validates expansion beyond dermatology; asthma is 55M patient market"
     }
   ],
-
   "competitive_landscape": [
     {
       "competitor": "Dupixent (dupilumab)",
       "company": "Sanofi/Regeneron",
-      "mechanism": "Anti-IL-4Rα antibody",
+      "mechanism": "Anti-IL-4R\u03b1 antibody",
       "stage": "Approved",
       "sales": "$13B+ annually",
       "differentiation": {
@@ -776,14 +968,12 @@
       "differentiation": "KT-621 is first oral STAT6 degrader in Phase 2"
     }
   ],
-
   "regulatory_path": {
     "fda_designations": "None yet; potential for Breakthrough if Phase 2b positive",
     "expected_filing": "2029-2030 (if Phase 2b and Phase 3 successful)",
     "expected_approval": "2030-2031",
     "registration_strategy": "Parallel development in AD and asthma enables multiple NDA opportunities"
   },
-
   "sources": [
     {
       "title": "Kymera Therapeutics Corporate Presentation January 2026",
