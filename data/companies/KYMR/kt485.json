@@ -1,14 +1,25 @@
 {
   "_metadata": {
-    "version": "2.0",
-    "extracted_from": "Kymera Therapeutics Corporate Presentation January 2026",
-    "extraction_date": "2026-02-04",
-    "analyst_reviewed": true
+    "version": "2.2",
+    "ticker": "KYMR",
+    "asset_name": "KT-485",
+    "last_updated": "2026-02-06",
+    "sources": [
+      {
+        "id": "kymr_corporate_2026",
+        "type": "corporate_presentation",
+        "title": "Kymera Therapeutics Corporate Presentation January 2026",
+        "date": "2026-01",
+        "slides": 67,
+        "url": null
+      }
+    ]
   },
-
   "asset": {
     "name": "KT-485",
-    "alternative_names": ["SAR447971"],
+    "alternative_names": [
+      "SAR447971"
+    ],
     "company": "Kymera Therapeutics",
     "ticker": "KYMR",
     "stage": "IND-enabling complete; Phase 1 expected 2026",
@@ -16,94 +27,123 @@
     "ownership": "Partnered with Sanofi",
     "one_liner": "Second-generation oral IRAK4 degrader - combined activity of upstream biologics (anti-IL-1/18/33/36) in a pill"
   },
-
-  "partnership": {
-    "partner": "Sanofi",
-    "deal_type": "Co-development and commercialization",
-    "announced": "Prior to January 2026",
-    "terms": {
-      "upfront": "$150M (received for KT-474 deal)",
-      "total_milestones": "Up to $2B potential",
-      "royalties": "Tiered double-digit"
-    },
-    "structure": {
-      "development_lead": "Sanofi",
-      "kymera_role": "Discovery, research support",
-      "decision": "Sanofi prioritized KT-485 over KT-474 (first-generation) for clinical development"
-    },
-    "strategic_value": [
-      "Validates IRAK4 degradation approach",
-      "Sanofi has deep I&I expertise and commercial infrastructure",
-      "Non-dilutive funding",
-      "Milestone/royalty economics preserved"
-    ],
-    "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
-  },
-
   "target": {
     "name": "IRAK4",
     "full_name": "Interleukin 1 Receptor Associated Kinase 4",
     "class": "Scaffolding Kinase",
     "pathway": "IL-1R/TLR signaling → Th1/Th2/Th17 inflammation",
-    
     "biology": {
       "simple_explanation": "IRAK4 is a master regulator of innate immunity that sits at the crossroads of multiple inflammatory pathways. When cytokines like IL-1, IL-18, IL-33, or IL-36 bind their receptors, or when TLRs detect danger signals, IRAK4 is the critical node that transmits the signal to cause inflammation.",
-      
       "dual_function": {
         "kinase_activity": "Phosphorylates downstream targets",
         "scaffolding_function": "Physically brings together signaling components (MyD88, IRAK1/2) in the 'Myddosome' complex",
         "key_insight": "Traditional kinase inhibitors can only block ~50% of IRAK4 function. DEGRADATION eliminates BOTH kinase AND scaffolding functions - the only way to fully block the pathway"
       },
-      
       "pathway_detail": {
         "upstream_signals": [
-          {"cytokine": "IL-1α/IL-1β", "receptor": "IL-1R"},
-          {"cytokine": "IL-18", "receptor": "IL-18R"},
-          {"cytokine": "IL-33", "receptor": "ST2"},
-          {"cytokine": "IL-36", "receptor": "IL-36R"},
-          {"ligands": "TLR agonists (PAMPs/DAMPs)", "receptors": "TLR2, TLR4, TLR5, TLR7, TLR8, TLR9"}
+          {
+            "cytokine": "IL-1α/IL-1β",
+            "receptor": "IL-1R"
+          },
+          {
+            "cytokine": "IL-18",
+            "receptor": "IL-18R"
+          },
+          {
+            "cytokine": "IL-33",
+            "receptor": "ST2"
+          },
+          {
+            "cytokine": "IL-36",
+            "receptor": "IL-36R"
+          },
+          {
+            "ligands": "TLR agonists (PAMPs/DAMPs)",
+            "receptors": "TLR2, TLR4, TLR5, TLR7, TLR8, TLR9"
+          }
         ],
         "signaling_cascade": "Receptor activation → MyD88 recruitment → IRAK4 → IRAK1/2 → TRAF6 → NF-κB → Inflammatory gene transcription",
         "outputs": "Th1, Th2, and Th17 inflammatory cytokines"
       },
-      
       "why_obligate_node": "IRAK4 is required for ALL MyD88-dependent signaling. Without functional IRAK4, the entire IL-1R/TLR pathway is blocked."
     },
-    
     "why_good_target": {
       "genetic_validation": {
         "finding": "Adult humans with IRAK4 null mutations are HEALTHY",
         "implication": "Natural experiment proving complete IRAK4 elimination is safe",
         "caveat": "IRAK4-null children have increased susceptibility to pyogenic bacterial infections, but this resolves with age",
-        "source": {"id": "kymr_corporate_2026", "slide": 64, "verified": false}
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 64,
+          "verified": false
+        }
       },
-      
       "clinical_pathway_validation": {
         "description": "Multiple drugs validate the pathways upstream and downstream of IRAK4",
         "validated_pathways": [
-          {"cytokine": "IL-1α/IL-1β", "drugs": "Anakinra, Canakinumab, Rilonacept", "indications": "RA, CAPS, HS, AD, Recurrent Pericarditis, Gout"},
-          {"cytokine": "IL-18", "drugs": "In development", "indications": "AD, Macrophage Activation Syndrome"},
-          {"cytokine": "IL-36", "drugs": "Spesolimab (anti-IL-36R)", "indications": "Generalized Pustular Psoriasis (GPP)"},
-          {"cytokine": "IL-33", "drugs": "Itepekimab, Astegolimab", "indications": "Asthma, COPD"},
-          {"pathway": "IRAK4 kinase", "drugs": "IRAK4 kinase inhibitors (Phase 1/2)", "indications": "RA"}
+          {
+            "cytokine": "IL-1α/IL-1β",
+            "drugs": "Anakinra, Canakinumab, Rilonacept",
+            "indications": "RA, CAPS, HS, AD, Recurrent Pericarditis, Gout"
+          },
+          {
+            "cytokine": "IL-18",
+            "drugs": "In development",
+            "indications": "AD, Macrophage Activation Syndrome"
+          },
+          {
+            "cytokine": "IL-36",
+            "drugs": "Spesolimab (anti-IL-36R)",
+            "indications": "Generalized Pustular Psoriasis (GPP)"
+          },
+          {
+            "cytokine": "IL-33",
+            "drugs": "Itepekimab, Astegolimab",
+            "indications": "Asthma, COPD"
+          },
+          {
+            "pathway": "IRAK4 kinase",
+            "drugs": "IRAK4 kinase inhibitors (Phase 1/2)",
+            "indications": "RA"
+          }
         ],
         "key_insight": "IRAK4 degradation could achieve the COMBINED activity of anti-IL-1 + anti-IL-18 + anti-IL-33 + anti-IL-36 biologics in one oral pill"
       }
     },
-    
     "why_degrader_not_inhibitor": {
       "inhibitor_limitation": "IRAK4 has essential SCAFFOLDING function that kinase inhibitors cannot block",
       "published_evidence": "Clinical IRAK4 kinase inhibitors have shown limited efficacy, likely because scaffolding function remains",
       "degrader_advantage": "Complete protein elimination blocks both kinase AND scaffolding - full pathway shutdown"
     }
   },
-
   "mechanism": {
     "type": "Heterobifunctional degrader (PROTAC)",
     "e3_ligase": "Not specified",
     "how_it_works": "KT-485 binds IRAK4 and recruits an E3 ligase to ubiquitinate and degrade the entire IRAK4 protein, eliminating both kinase and scaffolding functions"
   },
-
+  "regulatory": null,
+  "partnership": {
+    "partner": "Sanofi",
+    "deal_date": "Prior to January 2026",
+    "upfront_payment": "$150M (received for KT-474 deal)",
+    "total_milestones": "Up to $2B",
+    "milestone_breakdown": null,
+    "royalty_rates": "Tiered double-digit",
+    "opt_in_rights": null,
+    "territory": null,
+    "who_controls_development": "Sanofi (development lead); Kymera provides discovery and research support",
+    "strategic_value": [
+      "Validates IRAK4 degradation approach",
+      "Sanofi has deep I&I expertise and commercial infrastructure",
+      "Non-dilutive funding",
+      "Milestone/royalty economics preserved"
+    ],
+    "source": {
+      "id": "kymr_corporate_2026",
+      "slide": 51,
+      "verified": false
+    }
+  },
   "indications": {
     "lead": {
       "name": "Hidradenitis Suppurativa (HS)",
@@ -111,25 +151,50 @@
       "rationale": "IL-1 pathway validated; high unmet need; no oral options"
     },
     "expansion": [
-      {"name": "Atopic Dermatitis (AD)", "rationale": "IL-18, IL-33 validated"},
-      {"name": "Asthma", "rationale": "IL-33 validated"},
-      {"name": "COPD", "rationale": "IL-33 validated"},
-      {"name": "Rheumatoid Arthritis (RA)", "rationale": "IL-1 validated; IRAK4i in trials"},
-      {"name": "SLE", "rationale": "TLR pathway"},
-      {"name": "UC/CD (IBD)", "rationale": "IL-1/TLR pathway"}
+      {
+        "name": "Atopic Dermatitis (AD)",
+        "rationale": "IL-18, IL-33 validated"
+      },
+      {
+        "name": "Asthma",
+        "rationale": "IL-33 validated"
+      },
+      {
+        "name": "COPD",
+        "rationale": "IL-33 validated"
+      },
+      {
+        "name": "Rheumatoid Arthritis (RA)",
+        "rationale": "IL-1 validated; IRAK4i in trials"
+      },
+      {
+        "name": "SLE",
+        "rationale": "TLR pathway"
+      },
+      {
+        "name": "UC/CD (IBD)",
+        "rationale": "IL-1/TLR pathway"
+      }
     ],
     "total_addressable_patients": ">140M",
     "current_penetration": "3% on advanced systemic therapies",
-    "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
+    "source": {
+      "id": "kymr_corporate_2026",
+      "slide": 51,
+      "verified": false
+    }
   },
-
   "market_opportunity": {
     "total_addressable_market": ">$55B combined",
     "current_penetration": "3% on advanced therapy",
     "unique_value_proposition": "Combined activity of multiple upstream biologics in one oral drug",
-    "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
+    "source": {
+      "id": "kymr_corporate_2026",
+      "slide": 51,
+      "verified": false
+    }
   },
-
+  "pharmacology": null,
   "kt485_vs_kt474": {
     "description": "KT-485 is the second-generation IRAK4 degrader that improves on KT-474",
     "comparison": {
@@ -145,25 +210,83 @@
       ]
     },
     "analyst_note": "The QTc issue with KT-474 was a setback, but KT-485 addresses this. Sanofi's decision to advance KT-485 validates that the improvement is meaningful.",
-    "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
+    "source": {
+      "id": "kymr_corporate_2026",
+      "slide": 51,
+      "verified": false
+    }
   },
-
   "clinical_data": {
     "status": "No human data for KT-485 yet",
     "kt474_learnings": "Learnings from KT-474 clinical studies will be applied to accelerate KT-485 development",
     "ind_enabling": "Complete for KT-485"
   },
-
   "upcoming_trials": {
     "phase1": {
       "description": "Phase 1 clinical trial",
       "timing": "Expected to initiate in 2026",
       "sponsor": "Sanofi (leading development)",
       "kymera_role": "Learnings and support from KT-474 program",
-      "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
+      "source": {
+        "id": "kymr_corporate_2026",
+        "slide": 51,
+        "verified": false
+      }
     }
   },
-
+  "biomarkers": null,
+  "differentiation_claims": {
+    "claims": [
+      {
+        "claim": "Degrader blocks both kinase AND scaffolding function vs kinase inhibitors blocking only kinase",
+        "comparator": "IRAK4 kinase inhibitors (Pfizer, others)",
+        "evidence_level": "mechanistic_rationale",
+        "supporting_data": "IRAK4 has essential scaffolding function in Myddosome assembly; kinase inhibitors leave scaffolding intact, blocking only ~50% of function",
+        "caveat": null,
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 51,
+          "verified": false
+        }
+      },
+      {
+        "claim": "Oral once-daily dosing vs injectable biologics",
+        "comparator": "Anti-IL-1 biologics (Anakinra, Canakinumab), Anti-IL-36R (Spesolimab)",
+        "evidence_level": "head_to_head",
+        "supporting_data": "KT-485 is oral; Anakinra/Canakinumab/Spesolimab are injectable",
+        "caveat": null,
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 51,
+          "verified": false
+        }
+      },
+      {
+        "claim": "Combined activity of anti-IL-1 + anti-IL-18 + anti-IL-33 + anti-IL-36 in one molecule",
+        "comparator": "Spesolimab (anti-IL-36R only), Anakinra (anti-IL-1 only)",
+        "evidence_level": "mechanistic_rationale",
+        "supporting_data": "IRAK4 sits at convergence of IL-1R, IL-18R, ST2, IL-36R signaling; degradation blocks all simultaneously",
+        "caveat": null,
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 51,
+          "verified": false
+        }
+      },
+      {
+        "claim": "No QTc signal vs first-generation KT-474",
+        "comparator": "KT-474 (first-generation IRAK4 degrader)",
+        "evidence_level": "preclinical_only",
+        "supporting_data": "KT-474 had QTc prolongation signal; KT-485 designed to eliminate this; Sanofi prioritized KT-485",
+        "caveat": "Based on preclinical data only, not confirmed in humans.",
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 51,
+          "verified": false
+        }
+      }
+    ]
+  },
   "investment_analysis": {
     "bull_case": [
       {
@@ -192,7 +315,6 @@
         "confidence": "Medium - need Phase 1 confirmation"
       }
     ],
-    
     "bear_case": [
       {
         "point": "KT-474 QTc issue raises questions about chemistry",
@@ -213,7 +335,6 @@
         "probability": "Low - partnership risk"
       }
     ],
-    
     "key_debates": [
       {
         "question": "Is scaffolding function blockade clinically meaningful?",
@@ -222,7 +343,6 @@
         "what_resolves_it": "KT-485 Phase 2 efficacy vs historical IRAK4 inhibitor data"
       }
     ],
-    
     "economics_to_kymera": {
       "upfront_received": "$150M",
       "potential_milestones": "Up to $2B",
@@ -231,7 +351,6 @@
       "net_impact": "Positive NPV with limited ongoing investment"
     }
   },
-
   "catalysts": [
     {
       "event": "KT-485 Phase 1 initiation",
@@ -251,7 +370,6 @@
       ]
     }
   ],
-
   "competitive_landscape": [
     {
       "competitor": "IRAK4 kinase inhibitors",
@@ -271,11 +389,12 @@
       "threat_level": "Medium - approved for GPP"
     }
   ],
-
+  "ip_landscape": null,
   "sources": [
     {
+      "id": "kymr_corporate_2026",
+      "type": "corporate_presentation",
       "title": "Kymera Therapeutics Corporate Presentation January 2026",
-      "type": "Company Presentation",
       "date": "2026-01-15",
       "key_slides": {
         "51": "IRAK4 overview",
