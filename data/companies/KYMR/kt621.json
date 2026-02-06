@@ -1,9 +1,27 @@
 {
   "_metadata": {
-    "version": "2.0",
-    "extracted_from": "Kymera Therapeutics Corporate Presentation January 2026",
-    "extraction_date": "2026-02-04",
-    "analyst_reviewed": true
+    "version": "2.2",
+    "ticker": "KYMR",
+    "asset_name": "KT-621",
+    "last_updated": "2026-02-06",
+    "sources": [
+      {
+        "id": "kymr_corporate_2026",
+        "type": "corporate_presentation",
+        "title": "Kymera Therapeutics Corporate Presentation January 2026",
+        "date": "2026-01",
+        "slides": 67,
+        "url": null
+      },
+      {
+        "id": "kymr_press_release_2025",
+        "type": "press_release",
+        "title": "KT-621 BroADen Phase 1b Positive Clinical Results",
+        "date": "2025-12-08",
+        "slides": null,
+        "url": null
+      }
+    ]
   },
   "asset": {
     "name": "KT-621",
@@ -18,10 +36,10 @@
     "name": "STAT6",
     "full_name": "Signal Transducer and Activator of Transcription 6",
     "class": "Transcription Factor",
-    "pathway": "IL-4/IL-13 \u2192 Type 2 inflammation",
+    "pathway": "IL-4/IL-13 → Type 2 inflammation",
     "biology": {
       "simple_explanation": "STAT6 is THE transcription factor for IL-4/IL-13 signaling. When IL-4 or IL-13 binds to receptors on cells, STAT6 gets activated, moves to the nucleus, and turns on all the genes that cause allergic inflammation.",
-      "pathway_detail": "IL-4 binds IL-4R\u03b1 + \u03b3C receptor complex. IL-13 binds IL-4R\u03b1 + IL-13R\u03b11 complex. Both activate JAK1/JAK3, which phosphorylate STAT6. Phospho-STAT6 dimerizes, translocates to nucleus, and drives transcription of Type 2 inflammation genes.",
+      "pathway_detail": "IL-4 binds IL-4Rα + γC receptor complex. IL-13 binds IL-4Rα + IL-13Rα1 complex. Both activate JAK1/JAK3, which phosphorylate STAT6. Phospho-STAT6 dimerizes, translocates to nucleus, and drives transcription of Type 2 inflammation genes.",
       "downstream_effects": [
         "IgE class switching in B cells",
         "Th2 differentiation",
@@ -31,7 +49,7 @@
       ]
     },
     "why_good_target": {
-      "clinical_validation": "Dupilumab (anti-IL-4R\u03b1) validates this pathway with $13B+ in sales. Approved in AD, asthma, COPD, EoE, CRSwNP, CSU, PN, BP.",
+      "clinical_validation": "Dupilumab (anti-IL-4Rα) validates this pathway with $13B+ in sales. Approved in AD, asthma, COPD, EoE, CRSwNP, CSU, PN, BP.",
       "genetic_validation": {
         "gain_of_function": "STAT6 GoF mutations cause hyper-IgE syndrome and severe allergic disease",
         "loss_of_function": "STAT6 heterozygous LoF alleles protect against allergic disease"
@@ -48,7 +66,7 @@
       "degrader_solution": "TPD allows elimination of entire protein, achieving complete pathway blockade equivalent to biologics"
     },
     "dupilumab_comparison": {
-      "dupilumab_mechanism": "Blocks IL-4R\u03b1 receptor upstream",
+      "dupilumab_mechanism": "Blocks IL-4Rα receptor upstream",
       "kt621_mechanism": "Destroys STAT6 transcription factor downstream",
       "expected_result": "Both should achieve same pathway blockade, but KT-621 is oral"
     }
@@ -211,7 +229,7 @@
         ],
         "key_findings": [
           "Clear dose-response from 1.5mg to 25mg",
-          "Plateau at \u226525mg - maximal degradation achieved",
+          "Plateau at ≥25mg - maximal degradation achieved",
           "Skin penetration confirmed - critical for dermatology indication",
           "100mg vs 200mg equivalent - suggests 100mg sufficient"
         ],
@@ -283,6 +301,18 @@
           }
         ]
       },
+      "arms": [
+        {
+          "name": "KT-621 100mg",
+          "dose": "100mg QD",
+          "n": 10
+        },
+        {
+          "name": "KT-621 200mg",
+          "dose": "200mg QD",
+          "n": 12
+        }
+      ],
       "design_limitations": [
         "Open-label - no placebo arm",
         "AD has 25-35% placebo response rate",
@@ -291,10 +321,10 @@
         "Cross-trial comparison to Dupixent has caveats"
       ],
       "inclusion_criteria": [
-        "EASI \u226516",
-        "vIGA-AD \u22653",
-        "Peak Pruritus NRS \u22654",
-        "BSA \u226510%",
+        "EASI ≥16",
+        "vIGA-AD ≥3",
+        "Peak Pruritus NRS ≥4",
+        "BSA ≥10%",
         "Documented TCS failure",
         "Prior biologics allowed after washout if patient responded"
       ],
@@ -318,6 +348,15 @@
           "id": "kymr_corporate_2026",
           "slide": "58-59",
           "verified": false
+        },
+        "prior_therapy_detail": "~23% prior biologics (dupilumab and/or tralokinumab)",
+        "comorbid_combined_pct": "~46% comorbid asthma or allergic rhinitis",
+        "dose_groups_balanced": "Generally well-balanced for gender, age, race, vIGA-AD, EASI, PP-NRS",
+        "_refined_from_prior_therapy": {
+          "previous_value": "prior_systemic_therapy_pct: 22.7",
+          "previous_source": "kymr_corporate_2026",
+          "refinement": "Press release specifies prior systemic therapy was specifically prior biologics (dupilumab and/or tralokinumab)",
+          "new_source": "kymr_press_release_2025"
         }
       },
       "efficacy_endpoints": {
@@ -344,7 +383,7 @@
         },
         "easi": {
           "full_name": "Eczema Area and Severity Index",
-          "what_it_measures": "Composite of affected BSA \u00d7 severity (erythema, induration, excoriation, lichenification) across 4 body regions",
+          "what_it_measures": "Composite of affected BSA × severity (erythema, induration, excoriation, lichenification) across 4 body regions",
           "scoring": "0-72 scale; higher = worse",
           "regulatory_status": "FDA-accepted primary endpoint for AD trials",
           "results": {
@@ -489,6 +528,62 @@
           }
         }
       },
+      "efficacy_results": {
+        "stat6_degradation_blood": "98% median (both doses)",
+        "stat6_degradation_skin": "94% median (both doses)",
+        "easi_change": "-63% mean from baseline (all patients)",
+        "easi_50": "76% of patients",
+        "easi_75": "29% of patients",
+        "viga_ad_response": "19% of patients",
+        "pp_nrs_change": "-40% mean (all patients)",
+        "scorad_total": "-48% mean (all patients)",
+        "scorad_sleeplessness": "-76% mean (all patients)",
+        "scorad_itch": "-44% mean (all patients)"
+      },
+      "efficacy_by_dose": {
+        "100mg": {
+          "n": 10,
+          "easi_change": "-62% mean",
+          "easi_50": "67%",
+          "easi_75": "33%",
+          "viga_ad_response": "22%",
+          "pp_nrs_change": "-47% mean",
+          "scorad_total": "-52% mean",
+          "scorad_sleeplessness": "-72% mean",
+          "scorad_itch": "-40% mean",
+          "tarc_reduction": "-48% median",
+          "eotaxin_3_reduction": "-62% median",
+          "ige_reduction": "-5% median",
+          "il_31_reduction": "-56% median",
+          "feno_reduction": "-25% median",
+          "source": {
+            "id": "kymr_press_release_2025",
+            "slide": null,
+            "verified": false
+          }
+        },
+        "200mg": {
+          "n": 12,
+          "easi_change": "-63% mean",
+          "easi_50": "83%",
+          "easi_75": "25%",
+          "viga_ad_response": "17%",
+          "pp_nrs_change": "-35% mean",
+          "scorad_total": "-46% mean",
+          "scorad_sleeplessness": "-78% mean",
+          "scorad_itch": "-47% mean",
+          "tarc_reduction": "-55% median",
+          "eotaxin_3_reduction": "-73% median",
+          "ige_reduction": "-14% median",
+          "il_31_reduction": "-54% median",
+          "feno_reduction": "-33% median",
+          "source": {
+            "id": "kymr_press_release_2025",
+            "slide": null,
+            "verified": false
+          }
+        }
+      },
       "biomarker_results": {
         "summary_table": {
           "source": {
@@ -500,37 +595,95 @@
             {
               "biomarker": "TARC (CCL17)",
               "what_it_measures": "Validated Type 2 marker; T cell chemotaxis",
-              "kt621_result": "-74%",
+              "kt621_result": "-74% median (patients with baseline TARC ≥1,600 pg/mL)",
               "dupilumab_result": "-74%",
-              "interpretation": "Matches Dupilumab exactly - key validation"
+              "interpretation": "Matches Dupilumab exactly - key validation",
+              "by_dose": {
+                "100mg": "-48% median",
+                "200mg": "-55% median"
+              },
+              "is_first_known_demonstration": false,
+              "_refined_from": {
+                "previous_value": "-74%",
+                "previous_source": "kymr_corporate_2026",
+                "refinement": "Press release specifies -74% applies to patients with baseline TARC ≥1,600 pg/mL (lower bound of 95% CI of median from dupilumab SOLO1-2). All-patient by-dose values are -48% (100mg) and -55% (200mg).",
+                "new_source": "kymr_press_release_2025"
+              },
+              "by_dose_source": {
+                "id": "kymr_press_release_2025",
+                "slide": null,
+                "verified": false
+              }
             },
             {
               "biomarker": "Eotaxin-3 (CCL26)",
               "what_it_measures": "Eosinophil chemotaxis; highly specific to IL-4/13",
               "kt621_result": "-73%",
               "dupilumab_result": "-51% (in asthma)",
-              "interpretation": "BEATS Dupilumab (though different populations)"
+              "interpretation": "BEATS Dupilumab (though different populations)",
+              "by_dose": {
+                "100mg": "-62% median",
+                "200mg": "-73% median"
+              },
+              "is_first_known_demonstration": false,
+              "by_dose_source": {
+                "id": "kymr_press_release_2025",
+                "slide": null,
+                "verified": false
+              }
             },
             {
               "biomarker": "IgE",
               "what_it_measures": "Allergic antibody; B cell class switching",
               "kt621_result": "-14%",
               "dupilumab_result": "~15%",
-              "interpretation": "Similar to Dupilumab"
+              "interpretation": "Similar to Dupilumab",
+              "by_dose": {
+                "100mg": "-5% median",
+                "200mg": "-14% median"
+              },
+              "is_first_known_demonstration": false,
+              "by_dose_source": {
+                "id": "kymr_press_release_2025",
+                "slide": null,
+                "verified": false
+              }
             },
             {
               "biomarker": "IL-31",
               "what_it_measures": "Pruritogenic (itch) cytokine",
               "kt621_result": "-54%",
               "dupilumab_result": "Not measured",
-              "interpretation": "Explains itch improvement - IL-31 is the 'itch cytokine'"
+              "interpretation": "Explains itch improvement - IL-31 is the 'itch cytokine'",
+              "by_dose": {
+                "100mg": "-56% median",
+                "200mg": "-54% median"
+              },
+              "is_first_known_demonstration": true,
+              "first_demonstration_detail": "First known demonstration in AD patients of reduction in blood IL-31 levels with IL-4/13 pathway blockade",
+              "by_dose_source": {
+                "id": "kymr_press_release_2025",
+                "slide": null,
+                "verified": false
+              }
             },
             {
               "biomarker": "FeNO",
               "what_it_measures": "Fractional exhaled NO; airway Type 2 inflammation",
               "kt621_result": "-33%",
               "dupilumab_result": "Not measured in AD",
-              "interpretation": "Suggests potential asthma efficacy"
+              "interpretation": "Suggests potential asthma efficacy",
+              "by_dose": {
+                "100mg": "-25% median",
+                "200mg": "-33% median"
+              },
+              "is_first_known_demonstration": true,
+              "first_demonstration_detail": "First known demonstration of FeNO reduction in AD patients, providing initial proof of concept for Type 2 inflammation inhibition in lungs",
+              "by_dose_source": {
+                "id": "kymr_press_release_2025",
+                "slide": null,
+                "verified": false
+              }
             }
           ]
         },
@@ -597,6 +750,59 @@
           "verified": false
         }
       },
+      "subgroup_analyses": [
+        {
+          "subgroup": "Patients with comorbid asthma",
+          "n": 4,
+          "results": {
+            "feno_reduction": "-56% median",
+            "acq_5_change": "-1.2 mean (100% responder rate at ≥0.5-point improvement)"
+          },
+          "source": {
+            "id": "kymr_press_release_2025",
+            "slide": null,
+            "verified": false
+          }
+        },
+        {
+          "subgroup": "Patients with comorbid allergic rhinitis — TNSS",
+          "n": 7,
+          "results": {
+            "tnss_mean_change": "-0.9 points",
+            "tnss_responder_rate": "57% (MCID ≥0.55 points)"
+          },
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 32,
+            "verified": false
+          }
+        },
+        {
+          "subgroup": "Patients with comorbid allergic rhinitis — RQLQ",
+          "n": 6,
+          "results": {
+            "rqlq_mean_change": "-0.8 points",
+            "rqlq_responder_rate": "33% (MCID ≥0.5 points)"
+          },
+          "source": {
+            "id": "kymr_corporate_2026",
+            "slide": 32,
+            "verified": false
+          }
+        },
+        {
+          "subgroup": "Patients with baseline TARC ≥1,600 pg/mL",
+          "n": null,
+          "results": {
+            "tarc_reduction": "-74% median at Day 29"
+          },
+          "source": {
+            "id": "kymr_press_release_2025",
+            "slide": null,
+            "verified": false
+          }
+        }
+      ],
       "safety": {
         "summary": "Well-tolerated with favorable safety at both doses; profile similar to Phase 1 HV",
         "key_findings": [
@@ -687,10 +893,10 @@
           "arms": "Three KT-621 doses + placebo (1:1:1:1)"
         },
         "inclusion_criteria": [
-          "EASI \u226516",
-          "vIGA-AD \u22653",
-          "Peak Pruritus NRS \u22654",
-          "BSA \u226510%",
+          "EASI ≥16",
+          "vIGA-AD ≥3",
+          "Peak Pruritus NRS ≥4",
+          "BSA ≥10%",
           "Documented TCS failure"
         ],
         "endpoints": {
@@ -699,15 +905,15 @@
             "EASI-50",
             "EASI-75",
             "vIGA-AD 0/1",
-            "\u22654-point improvement in Peak Pruritus NRS"
+            "≥4-point improvement in Peak Pruritus NRS"
           ]
         },
         "status": "Ongoing, also including adolescents",
         "data_expected": "Mid-2027",
         "key_trial_aim": "Establish clinical activity and safety to select Phase 3 dose for registrational studies in multiple dermatological and GI indications",
         "what_success_looks_like": {
-          "easi75_target": "\u226540%",
-          "placebo_delta_target": "\u226515%",
+          "easi75_target": "≥40%",
+          "placebo_delta_target": "≥15%",
           "safety": "Maintain clean profile"
         },
         "what_failure_looks_like": {
@@ -733,8 +939,8 @@
           "arms": "Three KT-621 doses + placebo (1:1:1:1)"
         },
         "inclusion_criteria": [
-          "Blood eosinophils \u2265300 cells/\u00b5L",
-          "FeNO \u226525 ppb",
+          "Blood eosinophils ≥300 cells/µL",
+          "FeNO ≥25 ppb",
           "Pre-bronchodilator FEV1 40-80% of predicted"
         ],
         "endpoints": {
@@ -785,6 +991,58 @@
       "slide": 56,
       "verified": false
     }
+  },
+  "differentiation_claims": {
+    "claims": [
+      {
+        "claim": "0% conjunctivitis vs 10-25% for dupilumab",
+        "comparator": "dupilumab (Dupixent)",
+        "evidence_level": "cross_trial",
+        "supporting_data": "0/22 patients in BroADen Phase 1b; dupilumab rates from LIBERTY AD trials",
+        "caveat": "Cross-trial comparison. Different patient populations, trial designs, and treatment durations. No head-to-head data exists.",
+        "source": {
+          "id": "kymr_press_release_2025",
+          "slide": null,
+          "verified": false
+        }
+      },
+      {
+        "claim": "Oral once-daily dosing vs biweekly injection",
+        "comparator": "dupilumab (Dupixent)",
+        "evidence_level": "head_to_head",
+        "supporting_data": "KT-621 is oral QD; dupilumab is 300mg SC Q2W",
+        "caveat": null,
+        "source": {
+          "id": "kymr_corporate_2026",
+          "slide": 12,
+          "verified": false
+        }
+      },
+      {
+        "claim": "TARC reduction in line with dupilumab at week 4",
+        "comparator": "dupilumab (Dupixent)",
+        "evidence_level": "cross_trial",
+        "supporting_data": "KT-621 -74% median TARC (baseline ≥1,600 pg/mL) vs published dupilumab week 4 TARC reduction",
+        "caveat": "Cross-trial comparison. TARC subgroup defined as baseline TARC ≥1,600 pg/mL (lower bound 95% CI of median from SOLO1-2).",
+        "source": {
+          "id": "kymr_press_release_2025",
+          "slide": null,
+          "verified": false
+        }
+      },
+      {
+        "claim": "Eotaxin-3 reduction numerically exceeded dupilumab even at 52 weeks",
+        "comparator": "dupilumab (Dupixent)",
+        "evidence_level": "cross_trial",
+        "supporting_data": "KT-621 -73% median Eotaxin-3 at 200mg (Day 29) vs published dupilumab data in asthma and CRSwNP at 52 weeks",
+        "caveat": "Cross-trial comparison across different indications (AD vs asthma/CRSwNP) and different timepoints (4 weeks vs 52 weeks). Particularly unreliable comparison.",
+        "source": {
+          "id": "kymr_press_release_2025",
+          "slide": null,
+          "verified": false
+        }
+      }
+    ]
   },
   "investment_analysis": {
     "bull_case": [
@@ -889,7 +1147,7 @@
       "phase2b_to_phase3": "55%",
       "phase3_to_approval": "65%",
       "cumulative_pos": "36%",
-      "methodology": "Historical Phase 2\u21923 success rates in dermatology + adjustment for strong biomarker data"
+      "methodology": "Historical Phase 2→3 success rates in dermatology + adjustment for strong biomarker data"
     }
   },
   "catalysts": [
@@ -904,14 +1162,14 @@
       "timing": "Mid-2027",
       "importance": "Critical",
       "what_to_watch": [
-        "EASI-75 at Week 16 (target \u226540%)",
-        "Placebo delta (target \u226515%)",
+        "EASI-75 at Week 16 (target ≥40%)",
+        "Placebo delta (target ≥15%)",
         "vIGA-AD 0/1 response rate",
         "Safety - especially conjunctivitis incidence",
         "Dose response - which dose selected for Phase 3"
       ],
       "bull_scenario": {
-        "outcome": "EASI-75 \u226545%, clean safety, clear dose selection",
+        "outcome": "EASI-75 ≥45%, clean safety, clear dose selection",
         "stock_impact": "+50-100%",
         "rationale": "Confirms Dupixent-like efficacy in placebo-controlled setting; validates platform"
       },
@@ -939,7 +1197,7 @@
     {
       "competitor": "Dupixent (dupilumab)",
       "company": "Sanofi/Regeneron",
-      "mechanism": "Anti-IL-4R\u03b1 antibody",
+      "mechanism": "Anti-IL-4Rα antibody",
       "stage": "Approved",
       "sales": "$13B+ annually",
       "differentiation": {
@@ -989,8 +1247,9 @@
   },
   "sources": [
     {
+      "id": "kymr_corporate_2026",
+      "type": "corporate_presentation",
       "title": "Kymera Therapeutics Corporate Presentation January 2026",
-      "type": "Company Presentation",
       "date": "2026-01-15",
       "key_slides": {
         "13": "KT-621 summary",
@@ -1005,6 +1264,20 @@
         "33": "Dupilumab comparison table",
         "34": "Safety summary"
       }
+    },
+    {
+      "id": "kymr_press_release_2025",
+      "type": "press_release",
+      "title": "KT-621 BroADen Phase 1b Positive Clinical Results",
+      "date": "2025-12-08",
+      "data_added": [
+        "Biomarker by-dose breakdowns (100mg vs 200mg)",
+        "Efficacy by-dose breakdowns (EASI-50, EASI-75, SCORAD per dose)",
+        "TARC subgroup clarification (baseline ≥1,600 pg/mL)",
+        "First-known-demonstration flags for IL-31 and FeNO",
+        "Differentiation claims with evidence levels",
+        "Subgroup analyses (comorbid asthma, high-baseline TARC)"
+      ]
     },
     {
       "title": "Dupilumab SOLO Phase 3 trials",

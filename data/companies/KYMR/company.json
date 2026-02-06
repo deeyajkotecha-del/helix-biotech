@@ -69,7 +69,7 @@
         "immunogenicity": "No anti-drug antibodies with small molecules"
       }
     },
-    "source_slide": "4, 7"
+    "source": {"id": "kymr_corporate_2026", "slide": "4, 7", "verified": false}
   },
 
   "pipeline_summary": {
@@ -116,7 +116,7 @@
         "market_opportunity": "~$18B (CDK4/6i market)"
       }
     ],
-    "source_slide": 11
+    "source": {"id": "kymr_corporate_2026", "slide": 11, "verified": false}
   },
 
   "financials": {
@@ -142,7 +142,7 @@
     "untreated": "~62M (39%)",
     "advanced_therapy_market": ">$100B annual sales",
     "key_insight": "Vast majority of patients do not have access to advanced systemic therapies - oral degraders could dramatically expand access",
-    "source_slide": 5
+    "source": {"id": "kymr_corporate_2026", "slide": 5, "verified": false}
   },
 
   "competitive_positioning": {

@@ -73,7 +73,7 @@
         "gwas_findings": "Multiple GWAS studies identify IRF5 as autoimmune susceptibility gene",
         "risk_haplotypes": "IRF5 functional risk variants associate with increased susceptibility to SLE, Sjögren's, RA, IBD, SSc, MS",
         "sle_specifics": "IRF5 risk haplotypes in SLE patients associated with high serum IFNα levels, anti-dsDNA antibodies, and anti-RNA binding protein antibodies",
-        "source_slide": 40
+        "source": {"id": "kymr_corporate_2026", "slide": 40, "verified": false}
       },
       
       "mouse_knockout_data": {
@@ -152,7 +152,7 @@
     ],
     "total_addressable_patients": ">10M",
     "current_penetration": "7% on advanced systemic therapies",
-    "source_slide": 41
+    "source": {"id": "kymr_corporate_2026", "slide": 41, "verified": false}
   },
 
   "market_opportunity": {
@@ -160,7 +160,7 @@
     "markets_included": "SLE, LN, RA, IBD combined",
     "current_penetration": "7% on advanced systemic therapy",
     "competitive_advantage": "Could achieve 'combined biologic' effect (anti-TNF + anti-IL-6 + anti-IFN + anti-B cell) in one oral pill",
-    "source_slide": 37
+    "source": {"id": "kymr_corporate_2026", "slide": 37, "verified": false}
   },
 
   "preclinical_data": {
@@ -176,9 +176,9 @@
         {"target": "IRF7", "assay": "Degradation DC50 (nM)", "result": ">10,000", "interpretation": "No degradation"}
       ],
       "key_finding": ">10,000x selectivity is exceptional - addresses key challenge of IRF family homology",
-      "source_slide": 42
+      "source": {"id": "kymr_corporate_2026", "slide": 42, "verified": false}
     },
-    
+
     "potency_in_human_cells": {
       "description": "Equipotent degradation across ALL relevant immune cell types",
       "data": [
@@ -189,9 +189,9 @@
         {"cell_type": "HLA-DR+CD11c+ mDCs (myeloid DCs)", "dc50_nM": 0.9}
       ],
       "key_finding": "~1 nM potency across all cell types - highly potent",
-      "source_slide": 42
+      "source": {"id": "kymr_corporate_2026", "slide": 42, "verified": false}
     },
-    
+
     "cytokine_inhibition": {
       "description": "KT-579 potently inhibits both Type I IFN and pro-inflammatory cytokines",
       "type1_ifn_data": [
@@ -209,7 +209,7 @@
         {"receptor": "TLR4", "stimulus": "LPS", "cell": "PBMC", "cytokine": "IL-23", "dc50_nM": 1.1}
       ],
       "key_finding": "Sub-nanomolar to low nanomolar potency across ALL readouts. Blocks BOTH Type I IFN AND pro-inflammatory cytokines across TLR4, TLR7, TLR8, TLR9.",
-      "source_slide": 43
+      "source": {"id": "kymr_corporate_2026", "slide": 43, "verified": false}
     },
     
     "sle_patient_samples": {
@@ -220,7 +220,7 @@
         "Inhibits IgG production in SLE-derived B cells"
       ],
       "key_insight": "Showing activity in PATIENT samples is critical - SLE patients have hyperactivated immune systems",
-      "source_slide": 44
+      "source": {"id": "kymr_corporate_2026", "slide": 44, "verified": false}
     },
     
     "mrl_lpr_lupus_model": {
@@ -256,7 +256,7 @@
         ]
       },
       
-      "source_slide": 45
+      "source": {"id": "kymr_corporate_2026", "slide": 45, "verified": false}
     },
     
     "kidney_data": {
@@ -294,7 +294,7 @@
       "representative_images": "Clear reduction in IgG and C3 staining in kidney glomeruli with KT-579 vs vehicle",
       
       "key_insight": "Lupus nephritis is what kills SLE patients. KT-579 significantly reduces kidney immune deposits - better than all comparators. This is the path to lupus nephritis indication.",
-      "source_slide": 46
+      "source": {"id": "kymr_corporate_2026", "slide": 46, "verified": false}
     },
     
     "nzbw1_lupus_model": {
@@ -319,7 +319,7 @@
       },
       
       "key_finding": "Early, sustained, and complete reduction in anti-dsDNA antibodies - BEST IN CLASS preclinical",
-      "source_slide": 47
+      "source": {"id": "kymr_corporate_2026", "slide": 47, "verified": false}
     },
     
     "ra_model": {
@@ -342,7 +342,7 @@
       },
       
       "key_finding": "KT-579 matches Tofacitinib (approved JAK inhibitor) in RA model - supports RA as expansion indication",
-      "source_slide": 48
+      "source": {"id": "kymr_corporate_2026", "slide": 48, "verified": false}
     },
     
     "nhp_pkpd_and_safety": {
@@ -362,7 +362,7 @@
         "implication": "200x safety margin is exceptional - predicts clean Phase 1"
       },
       
-      "source_slide": 49
+      "source": {"id": "kymr_corporate_2026", "slide": 49, "verified": false}
     }
   },
 
@@ -388,7 +388,7 @@
         "PK supporting once-daily dosing",
         "Reduction in IFN gene signature (exploratory)"
       ],
-      "source_slide": 37
+      "source": {"id": "kymr_corporate_2026", "slide": 37, "verified": false}
     }
   },
 

@@ -2107,7 +2107,6 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             name = endpoint_data.get("full_name", endpoint_key.upper())
             what_measures = endpoint_data.get("what_it_measures", "")
             results = endpoint_data.get("results", {})
-            # Support both old source_slide and new source object format
             source_obj = endpoint_data.get("source")
             source_badge = generate_citation_badge(source_obj, ticker) if source_obj else ""
 
@@ -2475,12 +2474,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
         success_html = ""
         if success:
-            items = "".join(f'<li>{k}: {v}</li>' for k, v in success.items() if k != "source_slide")
+            items = "".join(f'<li>{k}: {v}</li>' for k, v in success.items())
             success_html = f'<div class="success-criteria"><strong>Success Criteria:</strong><ul>{items}</ul></div>'
 
         failure_html = ""
         if failure:
-            items = "".join(f'<li>{k}: {v}</li>' for k, v in failure.items() if k != "source_slide")
+            items = "".join(f'<li>{k}: {v}</li>' for k, v in failure.items())
             failure_html = f'<div class="failure-criteria"><strong>Failure Criteria:</strong><ul>{items}</ul></div>'
 
         trials_html += f'''

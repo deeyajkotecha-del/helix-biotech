@@ -37,7 +37,7 @@
       "Non-dilutive funding",
       "Milestone/royalty economics preserved"
     ],
-    "source_slide": 51
+    "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
   },
 
   "target": {
@@ -75,7 +75,7 @@
         "finding": "Adult humans with IRAK4 null mutations are HEALTHY",
         "implication": "Natural experiment proving complete IRAK4 elimination is safe",
         "caveat": "IRAK4-null children have increased susceptibility to pyogenic bacterial infections, but this resolves with age",
-        "source_slide": 64
+        "source": {"id": "kymr_corporate_2026", "slide": 64, "verified": false}
       },
       
       "clinical_pathway_validation": {
@@ -120,14 +120,14 @@
     ],
     "total_addressable_patients": ">140M",
     "current_penetration": "3% on advanced systemic therapies",
-    "source_slide": 51
+    "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
   },
 
   "market_opportunity": {
     "total_addressable_market": ">$55B combined",
     "current_penetration": "3% on advanced therapy",
     "unique_value_proposition": "Combined activity of multiple upstream biologics in one oral drug",
-    "source_slide": 51
+    "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
   },
 
   "kt485_vs_kt474": {
@@ -145,7 +145,7 @@
       ]
     },
     "analyst_note": "The QTc issue with KT-474 was a setback, but KT-485 addresses this. Sanofi's decision to advance KT-485 validates that the improvement is meaningful.",
-    "source_slide": 51
+    "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
   },
 
   "clinical_data": {
@@ -160,7 +160,7 @@
       "timing": "Expected to initiate in 2026",
       "sponsor": "Sanofi (leading development)",
       "kymera_role": "Learnings and support from KT-474 program",
-      "source_slide": 51
+      "source": {"id": "kymr_corporate_2026", "slide": 51, "verified": false}
     }
   },
 
