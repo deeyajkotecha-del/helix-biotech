@@ -34,6 +34,25 @@
       }
     }
   },
+  "mechanism": {
+    "type": "Bispecific antibody (Biclonics® platform)",
+    "how_it_works": "Petosemtamab simultaneously binds EGFR on tumor cells and LGR5 on cancer stem cells. EGFR blockade halts proliferation signaling while LGR5 targeting eliminates the treatment-resistant stem cell population responsible for recurrence. The intact Fc domain also enables ADCC — immune-mediated killing of targeted cells.",
+    "differentiation": "Only bispecific combining EGFR blockade with cancer stem cell (LGR5) targeting. Cetuximab blocks EGFR but cannot address LGR5+ stem cells that drive resistance."
+  },
+  "regulatory_path": {
+    "fda_designations": [
+      {
+        "type": "Breakthrough Therapy",
+        "indication": "Monotherapy in 2L+ R/M HNSCC",
+        "date": "2024"
+      },
+      {
+        "type": "Breakthrough Therapy",
+        "indication": "Combination with pembrolizumab in 1L PD-L1+ R/M HNSCC",
+        "date": "2025"
+      }
+    ]
+  },
   "indications": {
     "lead": {
       "name": "Head and Neck Squamous Cell Carcinoma (HNSCC)",
@@ -116,6 +135,48 @@
     ]
   },
   "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "63% ORR in 1L HNSCC combination — substantially above historical 36-40% ORR for pembrolizumab alone",
+        "evidence": "Phase 2 data presented at ASCO 2025",
+        "confidence": "High"
+      },
+      {
+        "point": "Dual Breakthrough Therapy Designations — strongest regulatory signal in HNSCC pipeline",
+        "evidence": "FDA granted BTDs for both 1L combo and 2L+ monotherapy",
+        "confidence": "High"
+      },
+      {
+        "point": "Unique LGR5 targeting addresses cancer stem cell resistance mechanism that no other drug addresses",
+        "evidence": "LGR5 is validated stem cell marker; dual targeting explains superior ORR vs EGFR blockade alone",
+        "confidence": "Medium"
+      },
+      {
+        "point": "Full-length antibody format enables ADCC in addition to pathway blockade",
+        "evidence": "Intact Fc domain recruits immune-mediated killing; bispecific format validated by Biclonics platform",
+        "confidence": "High"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Phase 3 could fail to confirm Phase 2 ORR",
+        "evidence": "Combination studies can be unpredictable; single-arm Phase 2 may overstate benefit",
+        "counter_argument": "Magnitude of ORR difference (63% vs 36-40%) provides substantial margin; dual BTDs from FDA suggest confidence",
+        "probability": "Medium"
+      },
+      {
+        "point": "Competitive landscape evolving rapidly with multiple I-O combinations in development",
+        "evidence": "Several EGFR + I-O combos and novel agents in HNSCC trials",
+        "counter_argument": "No competitor addresses LGR5/stem cells; 63% ORR significantly above published combinations",
+        "probability": "Low-Medium"
+      },
+      {
+        "point": "Safety profile in larger population may reveal new signals",
+        "evidence": "EGFR + I-O combinations carry overlapping toxicity risk",
+        "counter_argument": "Phase 2 safety consistent with known class effects; full-length IgG format typically well-tolerated",
+        "probability": "Low"
+      }
+    ],
     "probability_of_success": "Phase 3 registration: ~55-65% (strong Phase 2 signal + dual BTDs, but Phase 3 confirmation needed)",
     "peak_sales_estimate": "$3-5B+ (HNSCC is a large market with high unmet need; global ~800K new cases/year)",
     "key_risks": [

@@ -34,6 +34,25 @@
       }
     }
   },
+  "mechanism": {
+    "type": "Drug-Fc Conjugate (DFC) — Cloudbreak® platform",
+    "how_it_works": "CD388 conjugates a potent neuraminidase inhibitor to a human antibody Fc fragment. The small molecule component directly blocks viral neuraminidase, preventing viral release from infected cells. The Fc fragment extends half-life to weeks (enabling single-dose, season-long protection) and recruits immune-mediated clearance (ADCC) of virus-infected cells. This dual mechanism — direct antiviral + immune engagement — is unique to the DFC modality.",
+    "differentiation": "Only long-acting neuraminidase inhibitor in development. Tamiflu has hours-long half-life requiring twice-daily dosing for 5 days. CD388 provides weeks of protection from a single subcutaneous injection. Fc-mediated ADCC adds immune clearance mechanism absent from conventional antivirals."
+  },
+  "regulatory_path": {
+    "fda_designations": [
+      {
+        "type": "Breakthrough Therapy",
+        "indication": "Prevention of influenza in high-risk populations",
+        "date": "October 2025"
+      },
+      {
+        "type": "Fast Track",
+        "indication": "Prevention of influenza",
+        "date": "June 2023"
+      }
+    ]
+  },
   "indications": {
     "lead": {
       "name": "Prevention of influenza A and B in high-risk adults and adolescents",
@@ -151,6 +170,64 @@
     ]
   },
   "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "76.1% prevention efficacy at highest dose — clear dose-response across all three doses",
+        "evidence": "NAVIGATE Phase 2b met all primary and secondary endpoints; statistically significant at all doses",
+        "confidence": "High"
+      },
+      {
+        "point": "Strain-agnostic: single dose covers influenza A and B including pandemic strains (H5N1)",
+        "evidence": "Preclinical activity against 12 seasonal and multiple pandemic subtypes",
+        "confidence": "High"
+      },
+      {
+        "point": "Not dependent on immune response — works in immunocompromised patients where vaccines fail",
+        "evidence": "Mechanism is direct neuraminidase inhibition + Fc ADCC, not adaptive immune response",
+        "confidence": "High"
+      },
+      {
+        "point": "FDA BTD + Fast Track = strong regulatory engagement and potential accelerated pathway",
+        "evidence": "BTD granted October 2025; Fast Track June 2023",
+        "confidence": "High"
+      },
+      {
+        "point": "Enormous market: 290K-650K flu deaths globally per year; vaccines only ~40% effective",
+        "evidence": "1 billion annual infections; high-risk populations include 54M elderly + 10M+ immunocompromised in US alone",
+        "confidence": "High"
+      },
+      {
+        "point": "BARDA award up to $339.2M validates government interest for pandemic preparedness",
+        "evidence": "US government manufacturing support for domestic supply",
+        "confidence": "High"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Phase 2b was in healthy unvaccinated adults — Phase 3 is in high-risk populations",
+        "evidence": "Different population may have different pharmacokinetics and baseline infection rates",
+        "counter_argument": "CD388 is not immune-dependent — mechanism should work regardless of immune status; may show better relative efficacy where vaccines fail",
+        "probability": "Medium"
+      },
+      {
+        "point": "Prevention endpoint harder to demonstrate in vaccinated populations",
+        "evidence": "Phase 3 includes vaccinated patients; lower baseline infection rate reduces event count",
+        "counter_argument": "6,000-patient enrollment provides adequate statistical power; interim analysis Q1 2026 assesses powering",
+        "probability": "Medium"
+      },
+      {
+        "point": "Price point for annual preventive injection must justify value vs flu vaccines ($20-80)",
+        "evidence": "Novel modality premium pricing expected; payer resistance possible",
+        "counter_argument": "High-risk patients have outsized healthcare costs from flu complications; pharmacoeconomic case is strong",
+        "probability": "Medium"
+      },
+      {
+        "point": "Manufacturing scale-up for novel DFC modality is unproven at commercial scale",
+        "evidence": "DFC is a new modality class; BARDA funding supports manufacturing development",
+        "counter_argument": "Merck has world-class manufacturing infrastructure; BARDA $339.2M specifically for scale-up",
+        "probability": "Low"
+      }
+    ],
     "probability_of_success": "Phase 3 → Approval: ~50-60% (strong Phase 2b signal + BTD, but high-risk population is different from Phase 2b healthy adults)",
     "peak_sales_estimate": "$5-10B+ (if approved for broad high-risk population; influenza affects 1B people/year)",
     "key_risks": [

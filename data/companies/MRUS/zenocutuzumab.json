@@ -34,6 +34,35 @@
       }
     }
   },
+  "mechanism": {
+    "type": "Bispecific antibody (Biclonics® platform)",
+    "how_it_works": "Zenocutuzumab simultaneously binds HER2 and HER3, physically preventing the NRG1 ligand-driven HER2:HER3 heterodimerization that drives oncogenic signaling. By blocking receptor pairing, it shuts down PI3K/AKT and MAPK signaling downstream of NRG1 fusions. Works regardless of HER2 expression level — targets the dimerization interface, not HER2 overexpression.",
+    "differentiation": "Only therapy specifically designed to block NRG1-driven HER2:HER3 signaling. Trastuzumab requires HER2 overexpression; afatinib is a broad TKI not designed for NRG1 fusions."
+  },
+  "regulatory_path": {
+    "fda_designations": [
+      {
+        "type": "Accelerated Approval",
+        "indication": "NRG1 fusion-positive NSCLC and pancreatic adenocarcinoma",
+        "date": "December 2024"
+      },
+      {
+        "type": "Breakthrough Therapy",
+        "indication": "NRG1 fusion-positive pancreatic cancer",
+        "date": "July 2023"
+      },
+      {
+        "type": "Fast Track",
+        "indication": "NRG1 fusion-positive cancers",
+        "date": "January 2021"
+      },
+      {
+        "type": "Orphan Drug",
+        "indication": "NRG1 fusion-positive cancers",
+        "date": "July 2020"
+      }
+    ]
+  },
   "indications": {
     "lead": {
       "name": "NRG1 fusion-positive NSCLC and pancreatic adenocarcinoma (2L+)",
@@ -119,6 +148,48 @@
     ]
   },
   "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "First and only FDA-approved therapy for NRG1 fusion-positive cancers",
+        "evidence": "Accelerated approval Dec 2024; no competitors in this space",
+        "confidence": "High"
+      },
+      {
+        "point": "Tumor-agnostic mechanism — responses across 12 tumor types in eNRGy trial",
+        "evidence": "30% ORR overall; 42% ORR in pancreatic; 29% in NSCLC",
+        "confidence": "High"
+      },
+      {
+        "point": "NEJM publication validates clinical significance and builds physician awareness",
+        "evidence": "Published February 2025 in New England Journal of Medicine",
+        "confidence": "High"
+      },
+      {
+        "point": "Orphan drug pricing offsets small patient population",
+        "evidence": "Orphan Drug Designation granted; precedent for premium pricing in rare oncology",
+        "confidence": "Medium"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Ultra-rare indication limits commercial opportunity",
+        "evidence": "NRG1 fusions in ~1-2% of NSCLC, ~5-7% of pancreatic mucinous adenocarcinoma",
+        "counter_argument": "Orphan pricing + tumor-agnostic label could reach $200-500M peak sales",
+        "probability": "High — ceiling is real"
+      },
+      {
+        "point": "Confirmatory trial required to maintain accelerated approval",
+        "evidence": "FDA requires confirmatory data; failure could lead to withdrawal",
+        "counter_argument": "Tumor-agnostic signal across 12 types; BTD + NEJM publication support durability",
+        "probability": "Low-Medium"
+      },
+      {
+        "point": "Companion diagnostic requirement may limit adoption",
+        "evidence": "NRG1 fusion testing not standard; requires NGS panels",
+        "counter_argument": "Increasing NGS adoption in oncology; NRG1 now a recognized actionable target",
+        "probability": "Medium"
+      }
+    ],
     "probability_of_success": "Approved (accelerated) — confirmatory trial needed for full approval",
     "peak_sales_estimate": "$200-500M (rare indication: NRG1 fusions in ~1-2% of NSCLC/pancreatic; orphan pricing offsets small population)",
     "key_risks": [
