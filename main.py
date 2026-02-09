@@ -76,7 +76,7 @@ async def startup_event():
     init_db()
 
 # Include API routers
-from app.routers import auth_router, documents_router, admin_router, sources_router, citations_router, services_router, clinical_router
+from app.routers import auth_router, documents_router, admin_router, sources_router, citations_router, services_router, clinical_router, extract_router
 from app.routers.company import router as company_router
 
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
@@ -87,6 +87,7 @@ app.include_router(citations_router, prefix="/api/citations", tags=["Citations"]
 app.include_router(company_router, prefix="/api/company", tags=["Company"])
 app.include_router(services_router, prefix="/api/services", tags=["Services"])
 app.include_router(clinical_router, prefix="/api/clinical", tags=["Clinical"])
+app.include_router(extract_router, prefix="/extract", tags=["Extract"])
 
 # =============================================================================
 # Frontend Routes
