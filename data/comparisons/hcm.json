@@ -1,0 +1,701 @@
+{
+  "target_disease": "Obstructive HCM",
+  "target_mechanism": "Cardiac myosin inhibitor",
+  "last_updated": "2026-02-09",
+
+  "endpoint_registry": {
+    "composite_pvo2_nyha": {
+      "label": "Composite: pVO2 + NYHA Improvement",
+      "category": "composite",
+      "display_format": "percentage",
+      "sort_order": 1,
+      "higher_is_better": true,
+      "description": "pVO2 ≥1.5 mL/kg/min increase AND ≥1 NYHA class improvement, OR pVO2 ≥3.0 mL/kg/min increase with no NYHA worsening",
+      "endpoint_class": "primary",
+      "outcome_type": "clinical",
+      "regulatory_precedent": true
+    },
+    "pvo2_change": {
+      "label": "Peak VO2 Change",
+      "category": "functional_capacity",
+      "display_format": "number",
+      "sort_order": 2,
+      "higher_is_better": true,
+      "description": "Change in peak oxygen consumption from baseline",
+      "endpoint_class": "primary",
+      "outcome_type": "clinical",
+      "regulatory_precedent": true
+    },
+    "post_exercise_lvot_gradient": {
+      "label": "Post-Exercise LVOT Gradient Change",
+      "category": "cardiac_function",
+      "display_format": "number",
+      "sort_order": 3,
+      "higher_is_better": false,
+      "description": "Change in left ventricular outflow tract gradient after exercise from baseline",
+      "endpoint_class": "secondary",
+      "outcome_type": "surrogate",
+      "regulatory_precedent": true
+    },
+    "valsalva_lvot_gradient": {
+      "label": "Valsalva LVOT Gradient Change",
+      "category": "cardiac_function",
+      "display_format": "number",
+      "sort_order": 4,
+      "higher_is_better": false,
+      "description": "Change in LVOT gradient during Valsalva maneuver from baseline",
+      "endpoint_class": "secondary",
+      "outcome_type": "surrogate",
+      "regulatory_precedent": true
+    },
+    "resting_lvot_gradient": {
+      "label": "Resting LVOT Gradient",
+      "category": "cardiac_function",
+      "display_format": "number",
+      "sort_order": 5,
+      "higher_is_better": false,
+      "description": "Resting LVOT gradient absolute value at endpoint",
+      "endpoint_class": "secondary",
+      "outcome_type": "surrogate",
+      "regulatory_precedent": true
+    },
+    "nyha_improvement": {
+      "label": "NYHA Class Improvement ≥1",
+      "category": "functional_capacity",
+      "display_format": "percentage",
+      "sort_order": 6,
+      "higher_is_better": true,
+      "description": "Proportion of patients achieving ≥1 NYHA functional class improvement",
+      "endpoint_class": "secondary",
+      "outcome_type": "clinical",
+      "regulatory_precedent": true
+    },
+    "valsalva_lvot_below_30": {
+      "label": "Valsalva LVOT-G <30 mmHg",
+      "category": "cardiac_function",
+      "display_format": "percentage",
+      "sort_order": 7,
+      "higher_is_better": true,
+      "description": "Proportion achieving Valsalva LVOT gradient below 30 mmHg (non-obstructive threshold)",
+      "endpoint_class": "secondary",
+      "outcome_type": "surrogate",
+      "regulatory_precedent": false
+    },
+    "kccq_os": {
+      "label": "KCCQ-OS Change",
+      "category": "patient_reported",
+      "display_format": "number",
+      "sort_order": 8,
+      "higher_is_better": true,
+      "description": "Kansas City Cardiomyopathy Questionnaire Overall Summary Score change from baseline",
+      "endpoint_class": "secondary",
+      "outcome_type": "pro",
+      "regulatory_precedent": false
+    },
+    "kccq_css": {
+      "label": "KCCQ-CSS Change",
+      "category": "patient_reported",
+      "display_format": "number",
+      "sort_order": 9,
+      "higher_is_better": true,
+      "description": "Kansas City Cardiomyopathy Questionnaire Clinical Summary Score change from baseline",
+      "endpoint_class": "secondary",
+      "outcome_type": "pro",
+      "regulatory_precedent": false
+    }
+  },
+
+  "comparators": [
+    {
+      "id": "mavacamten",
+      "drug_name": "CAMZYOS",
+      "generic_name": "mavacamten",
+      "company": "Bristol-Myers Squibb",
+      "ticker": "BMY",
+      "mechanism_class": "Cardiac myosin inhibitor (selective, allosteric, reversible)",
+      "route": "oral",
+      "dosing_summary": "5mg QD starting dose, titrated based on LVEF and Valsalva LVOT gradient",
+      "indications": ["Symptomatic NYHA class II-III oHCM"],
+      "combination_partners": [],
+
+      "trials": [
+        {
+          "id": "explorer-hcm",
+          "trial_name": "EXPLORER-HCM",
+          "nct_id": "NCT03470545",
+          "phase": "3",
+          "study_design": "rct_double_blind",
+          "n_enrolled": 251,
+          "n_randomized": 251,
+          "duration": "30 weeks",
+          "control_arm": "placebo",
+          "population_summary": "Symptomatic oHCM, NYHA class II-III, LVOT gradient ≥50 mmHg, LVEF ≥55%, 92% on background beta-blocker or CCB",
+          "key_inclusion_criteria": [
+            "NYHA class II or III",
+            "LVEF ≥55%",
+            "Peak LVOT gradient ≥50 mmHg (resting or provoked)",
+            "Stable background beta-blocker or calcium channel blocker (or none)"
+          ],
+          "primary_endpoint_ids": ["composite_pvo2_nyha"],
+          "primary_endpoint_strategy": "single",
+          "line_of_therapy": "1L",
+          "crossover_allowed": false,
+
+          "endpoints": [
+            {
+              "endpoint_id": "composite_pvo2_nyha",
+              "timepoint": "Week 30",
+              "value": 37,
+              "unit": "%",
+              "change_type": "responder_rate",
+              "control_value": 17,
+              "delta": 19.4,
+              "p_value": 0.0005,
+              "confidence_interval": [8.7, 30.1],
+              "statistical_test": "Cochran-Mantel-Haenszel",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Olivotto I, et al. Lancet 2020;396:759-69",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "post_exercise_lvot_gradient",
+              "timepoint": "Week 30",
+              "value": -47,
+              "unit": "mmHg",
+              "change_type": "absolute_change",
+              "control_value": -10,
+              "delta": -36,
+              "assessment_method": "post-exercise",
+              "p_value": 0.0001,
+              "confidence_interval": [-43.2, -28.1],
+              "statistical_test": "ANCOVA",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Olivotto I, et al. Lancet 2020;396:759-69",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "valsalva_lvot_gradient",
+              "timepoint": "Week 30",
+              "value": -49,
+              "unit": "mmHg",
+              "change_type": "absolute_change",
+              "control_value": -12,
+              "delta": -37,
+              "assessment_method": "Valsalva",
+              "multiplicity_adjusted": false,
+              "analysis_type": "final",
+              "source": "Olivotto I, et al. Lancet 2020;396:759-69",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "pvo2_change",
+              "timepoint": "Week 30",
+              "value": 1.4,
+              "unit": "mL/kg/min",
+              "change_type": "absolute_change",
+              "control_value": 0.0,
+              "delta": 1.4,
+              "p_value": 0.0006,
+              "confidence_interval": [0.6, 2.1],
+              "statistical_test": "ANCOVA",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Olivotto I, et al. Lancet 2020;396:759-69",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "nyha_improvement",
+              "timepoint": "Week 30",
+              "value": 65,
+              "unit": "%",
+              "change_type": "responder_rate",
+              "control_value": 31,
+              "delta": 34,
+              "p_value": 0.0001,
+              "confidence_interval": [22.2, 45.4],
+              "statistical_test": "Cochran-Mantel-Haenszel",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Olivotto I, et al. Lancet 2020;396:759-69",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "kccq_os",
+              "timepoint": "Week 30",
+              "value": 14.9,
+              "unit": "points",
+              "change_type": "absolute_change",
+              "control_value": 5.4,
+              "delta": 9.1,
+              "p_value": 0.0001,
+              "confidence_interval": [5.5, 12.8],
+              "statistical_test": "MMRM",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Olivotto I, et al. Lancet 2020;396:759-69",
+              "data_maturity": "peer_reviewed"
+            }
+          ],
+
+          "data_events": [
+            {
+              "event_date": "2020-05-13",
+              "event_type": "topline_readout",
+              "event_description": "EXPLORER-HCM topline results: primary composite endpoint met with high statistical significance",
+              "endpoints_reported": [
+                {
+                  "endpoint_id": "composite_pvo2_nyha",
+                  "timepoint": "Week 30",
+                  "value": 37,
+                  "unit": "%",
+                  "change_type": "responder_rate",
+                  "control_value": 17,
+                  "delta": 19.4,
+                  "p_value": 0.0005,
+                  "analysis_type": "final",
+                  "source": "MyoKardia press release, May 2020",
+                  "data_maturity": "press_release"
+                }
+              ]
+            },
+            {
+              "event_date": "2020-08-29",
+              "event_type": "full_data_presentation",
+              "event_description": "EXPLORER-HCM full results presented at ESC 2020 Hot Line Session",
+              "endpoints_reported": [
+                {
+                  "endpoint_id": "composite_pvo2_nyha",
+                  "timepoint": "Week 30",
+                  "value": 37,
+                  "unit": "%",
+                  "change_type": "responder_rate",
+                  "control_value": 17,
+                  "delta": 19.4,
+                  "p_value": 0.0005,
+                  "statistical_test": "Cochran-Mantel-Haenszel",
+                  "multiplicity_adjusted": true,
+                  "analysis_type": "final",
+                  "source": "ESC 2020 Hot Line Session",
+                  "data_maturity": "conference_presentation"
+                },
+                {
+                  "endpoint_id": "post_exercise_lvot_gradient",
+                  "timepoint": "Week 30",
+                  "value": -47,
+                  "unit": "mmHg",
+                  "change_type": "absolute_change",
+                  "control_value": -10,
+                  "delta": -36,
+                  "assessment_method": "post-exercise",
+                  "p_value": 0.0001,
+                  "confidence_interval": [-43.2, -28.1],
+                  "multiplicity_adjusted": true,
+                  "analysis_type": "final",
+                  "source": "ESC 2020 Hot Line Session",
+                  "data_maturity": "conference_presentation"
+                }
+              ]
+            },
+            {
+              "event_date": "2020-09-03",
+              "event_type": "publication",
+              "event_description": "EXPLORER-HCM primary results published in The Lancet (Olivotto I, et al. Lancet 2020;396:759-69)",
+              "endpoints_reported": []
+            },
+            {
+              "event_date": "2021-06-01",
+              "event_type": "regulatory_submission",
+              "event_description": "NDA submitted to FDA for mavacamten in symptomatic oHCM",
+              "endpoints_reported": []
+            },
+            {
+              "event_date": "2022-04-28",
+              "event_type": "approval_decision",
+              "event_description": "FDA approves CAMZYOS (mavacamten) for treatment of symptomatic NYHA class II-III oHCM",
+              "endpoints_reported": []
+            }
+          ]
+        }
+      ],
+
+      "safety_profile": {
+        "serious_ae_rate": { "pct": 8.0, "n": 10 },
+        "ae_categories": [
+          {
+            "category": "Cardiac",
+            "events": [
+              {
+                "event_name": "LVEF <50%",
+                "incidence_pct": 5.7,
+                "vs_control_pct": 1.6,
+                "is_class_effect": true
+              },
+              {
+                "event_name": "Syncope",
+                "incidence_pct": 6.0,
+                "vs_control_pct": 2.0,
+                "is_class_effect": true
+              }
+            ]
+          },
+          {
+            "category": "Neurological",
+            "events": [
+              {
+                "event_name": "Dizziness",
+                "incidence_pct": 27.0,
+                "vs_control_pct": 18.0,
+                "is_class_effect": true
+              }
+            ]
+          }
+        ],
+        "regulatory_warnings": [
+          "REMS program (CAMZYOS REMS): echocardiogram before initiation, at weeks 4, 8, 12, and every 12 weeks thereafter",
+          "Dose titration based on LVEF and Valsalva LVOT gradient",
+          "Contraindicated with strong/moderate CYP2C19 inhibitors",
+          "CYP2C19 poor metabolizers: max dose 2.5mg"
+        ]
+      },
+
+      "regulatory_status": {
+        "approval_status": "approved",
+        "approved_indications": ["Symptomatic NYHA class II-III oHCM"],
+        "label_restrictions": [
+          "REMS program (CAMZYOS REMS)",
+          "Echo monitoring every 12 weeks",
+          "Not recommended if LVEF <55%",
+          "CYP2C19 interaction monitoring required"
+        ],
+        "regulatory_designations": ["breakthrough_therapy", "priority_review"],
+        "regulatory_pathway": "priority"
+      },
+
+      "commercial": {
+        "tam_patients": 280000,
+        "pricing_annual_usd": 90000,
+        "formulary_status": "restricted",
+        "key_commercial_risks": [
+          "REMS/echo monitoring burden limits prescriber adoption",
+          "Aficamten competition with second-in-class entry",
+          "CYP2C19 drug-drug interactions limit eligible patients"
+        ]
+      }
+    },
+
+    {
+      "id": "aficamten",
+      "drug_name": "Myqorzo",
+      "generic_name": "aficamten",
+      "company": "Cytokinetics",
+      "ticker": "CYTK",
+      "mechanism_class": "Cardiac myosin inhibitor (selective, allosteric, reversible)",
+      "route": "oral",
+      "dosing_summary": "5mg starting dose, titrated in 5mg increments to max 20mg",
+      "indications": ["Symptomatic oHCM to improve functional capacity and symptoms"],
+      "combination_partners": [],
+
+      "trials": [
+        {
+          "id": "sequoia-hcm",
+          "trial_name": "SEQUOIA-HCM",
+          "nct_id": "NCT05186818",
+          "phase": "3",
+          "study_design": "rct_double_blind",
+          "n_enrolled": 282,
+          "n_randomized": 282,
+          "duration": "24 weeks",
+          "control_arm": "placebo",
+          "population_summary": "Symptomatic oHCM, NYHA class II-III, LVEF ≥60%, resting LVOT-G ≥30 mmHg, post-Valsalva LVOT-G ≥50 mmHg; 101 sites in 14 countries; 61.3% on beta-blockers, 28.7% on CCBs, 12.8% on disopyramide",
+          "key_inclusion_criteria": [
+            "NYHA class II or III",
+            "LVEF ≥60%",
+            "Resting LVOT gradient ≥30 mmHg",
+            "Post-Valsalva LVOT gradient ≥50 mmHg"
+          ],
+          "primary_endpoint_ids": ["pvo2_change"],
+          "primary_endpoint_strategy": "single",
+          "line_of_therapy": "1L",
+          "crossover_allowed": false,
+
+          "endpoints": [
+            {
+              "endpoint_id": "pvo2_change",
+              "timepoint": "Week 24",
+              "value": 1.8,
+              "unit": "mL/kg/min",
+              "change_type": "absolute_change",
+              "control_value": 0.0,
+              "delta": 1.74,
+              "p_value": 0.000002,
+              "confidence_interval": [1.04, 2.44],
+              "statistical_test": "ANCOVA",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Maron MS, et al. N Engl J Med 2024",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "kccq_css",
+              "timepoint": "Week 24",
+              "value": 12,
+              "unit": "points",
+              "change_type": "absolute_change",
+              "control_value": 5,
+              "delta": 7,
+              "p_value": 0.0001,
+              "confidence_interval": [5, 10],
+              "statistical_test": "MMRM",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Maron MS, et al. N Engl J Med 2024",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "nyha_improvement",
+              "timepoint": "Week 24",
+              "value": 58.5,
+              "unit": "%",
+              "change_type": "responder_rate",
+              "control_value": 24.3,
+              "delta": 34.2,
+              "p_value": 0.0001,
+              "statistical_test": "logistic regression",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Maron MS, et al. N Engl J Med 2024",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "valsalva_lvot_gradient",
+              "timepoint": "Week 24",
+              "value": -47.6,
+              "unit": "mmHg",
+              "change_type": "absolute_change",
+              "control_value": 1.8,
+              "delta": -50,
+              "assessment_method": "Valsalva",
+              "p_value": 0.0001,
+              "confidence_interval": [-57, -44],
+              "statistical_test": "ANCOVA",
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Maron MS, et al. N Engl J Med 2024",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "valsalva_lvot_below_30",
+              "timepoint": "Week 24",
+              "value": 49.3,
+              "unit": "%",
+              "change_type": "responder_rate",
+              "control_value": 3.6,
+              "delta": 45.7,
+              "assessment_method": "Valsalva",
+              "p_value": 0.0001,
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Maron MS, et al. N Engl J Med 2024",
+              "data_maturity": "peer_reviewed"
+            },
+            {
+              "endpoint_id": "resting_lvot_gradient",
+              "timepoint": "Week 24",
+              "value": 20,
+              "unit": "mmHg",
+              "change_type": "raw_value",
+              "control_value": 60,
+              "delta": -40,
+              "assessment_method": "resting",
+              "p_value": 0.0001,
+              "multiplicity_adjusted": true,
+              "analysis_type": "final",
+              "source": "Maron MS, et al. N Engl J Med 2024",
+              "data_maturity": "peer_reviewed"
+            }
+          ],
+
+          "data_events": [
+            {
+              "event_date": "2024-01-09",
+              "event_type": "topline_readout",
+              "event_description": "SEQUOIA-HCM topline results: met primary endpoint and all 10 hierarchically tested secondary endpoints",
+              "endpoints_reported": [
+                {
+                  "endpoint_id": "pvo2_change",
+                  "timepoint": "Week 24",
+                  "value": 1.8,
+                  "unit": "mL/kg/min",
+                  "change_type": "absolute_change",
+                  "control_value": 0.0,
+                  "delta": 1.74,
+                  "p_value": 0.000002,
+                  "analysis_type": "final",
+                  "source": "Cytokinetics press release, January 2024",
+                  "data_maturity": "press_release"
+                }
+              ]
+            },
+            {
+              "event_date": "2024-05-12",
+              "event_type": "full_data_presentation",
+              "event_description": "SEQUOIA-HCM full results presented at Heart Failure Association of the ESC (ESC-HF 2024)",
+              "endpoints_reported": [
+                {
+                  "endpoint_id": "pvo2_change",
+                  "timepoint": "Week 24",
+                  "value": 1.8,
+                  "unit": "mL/kg/min",
+                  "change_type": "absolute_change",
+                  "control_value": 0.0,
+                  "delta": 1.74,
+                  "p_value": 0.000002,
+                  "confidence_interval": [1.04, 2.44],
+                  "statistical_test": "ANCOVA",
+                  "multiplicity_adjusted": true,
+                  "analysis_type": "final",
+                  "source": "ESC-HF 2024 Late-Breaking Clinical Trials",
+                  "data_maturity": "conference_presentation"
+                },
+                {
+                  "endpoint_id": "nyha_improvement",
+                  "timepoint": "Week 24",
+                  "value": 58.5,
+                  "unit": "%",
+                  "change_type": "responder_rate",
+                  "control_value": 24.3,
+                  "delta": 34.2,
+                  "p_value": 0.0001,
+                  "multiplicity_adjusted": true,
+                  "analysis_type": "final",
+                  "source": "ESC-HF 2024 Late-Breaking Clinical Trials",
+                  "data_maturity": "conference_presentation"
+                }
+              ]
+            },
+            {
+              "event_date": "2024-05-24",
+              "event_type": "publication",
+              "event_description": "SEQUOIA-HCM results published in New England Journal of Medicine (Maron MS, et al.)",
+              "endpoints_reported": []
+            },
+            {
+              "event_date": "2025-02-15",
+              "event_type": "regulatory_submission",
+              "event_description": "NDA submitted to FDA for aficamten in symptomatic oHCM",
+              "endpoints_reported": []
+            },
+            {
+              "event_date": "2025-12-19",
+              "event_type": "approval_decision",
+              "event_description": "FDA approves Myqorzo (aficamten) for symptomatic oHCM",
+              "endpoints_reported": []
+            }
+          ]
+        }
+      ],
+
+      "safety_profile": {
+        "serious_ae_rate": { "pct": 5.6, "n": 8 },
+        "dose_reduction_rate": { "pct": 4.9, "n": 7 },
+        "ae_categories": [
+          {
+            "category": "Cardiac",
+            "events": [
+              {
+                "event_name": "LVEF <50%",
+                "incidence_pct": 3.5,
+                "vs_control_pct": 0.7,
+                "is_class_effect": true
+              },
+              {
+                "event_name": "Palpitations",
+                "incidence_pct": 7.0,
+                "vs_control_pct": 2.9,
+                "is_class_effect": false
+              },
+              {
+                "event_name": "Atrial fibrillation",
+                "incidence_pct": 2.8,
+                "vs_control_pct": 2.9,
+                "is_class_effect": false
+              }
+            ]
+          },
+          {
+            "category": "Vascular",
+            "events": [
+              {
+                "event_name": "Hypertension",
+                "incidence_pct": 7.7,
+                "vs_control_pct": 2.1,
+                "is_class_effect": false
+              }
+            ]
+          }
+        ],
+        "regulatory_warnings": [
+          "REMS program (Myqorzo REMS)",
+          "Boxed warning: risk of heart failure due to systolic dysfunction",
+          "Echo monitoring required before and during treatment",
+          "Not recommended if LVEF <55%"
+        ]
+      },
+
+      "regulatory_status": {
+        "approval_status": "approved",
+        "approved_indications": ["Symptomatic oHCM to improve functional capacity and symptoms"],
+        "label_restrictions": [
+          "REMS program (Myqorzo REMS)",
+          "Boxed warning: risk of heart failure due to systolic dysfunction",
+          "Echo monitoring required",
+          "Not recommended if LVEF <55%"
+        ],
+        "regulatory_designations": ["breakthrough_therapy"],
+        "regulatory_pathway": "standard"
+      },
+
+      "commercial": {
+        "tam_patients": 280000,
+        "launch_date": "2026-01-20",
+        "formulary_status": "restricted",
+        "key_commercial_risks": [
+          "Mavacamten established first-mover advantage with 3+ years on market",
+          "REMS program required (contrary to initial market expectations)",
+          "Pricing pressure from mavacamten competition"
+        ]
+      }
+    }
+  ],
+
+  "cross_trial_caveats": [
+    "Different primary endpoints: EXPLORER-HCM used a composite (pVO2 + NYHA improvement), SEQUOIA-HCM used pVO2 change alone — not directly comparable",
+    "Different trial durations: 30 weeks (EXPLORER) vs 24 weeks (SEQUOIA)",
+    "Different baseline LVEF entry criteria: ≥55% (EXPLORER) vs ≥60% (SEQUOIA)",
+    "Different background therapy rates and types across trial populations",
+    "No head-to-head trial data available between mavacamten and aficamten"
+  ],
+
+  "key_debates": [
+    {
+      "question": "Is aficamten's LVEF <50% rate (3.5%) meaningfully better than mavacamten's (5.7%), given both now require REMS?",
+      "bull_view": "Lower LVEF signal + shorter half-life = faster dose optimization and recovery from over-inhibition. 3.5% vs 5.7% is a ~40% relative reduction in the key safety event.",
+      "bear_view": "Both drugs require REMS and echo monitoring. The absolute difference (2.2 percentage points) is small and may not change prescribing behavior. Real-world data needed.",
+      "resolution_catalyst": "Real-world comparative safety data and FOREST-HCM long-term extension results"
+    },
+    {
+      "question": "Can aficamten differentiate on monitoring burden and drug interactions given both drugs now require REMS?",
+      "bull_view": "Aficamten avoids CYP2C19 DDI issues that limit mavacamten in ~15% of patients on common co-medications. Simpler titration with shorter half-life.",
+      "bear_view": "CAMZYOS has 3+ years of real-world safety data and established payer/prescriber relationships. REMS parity neutralizes aficamten's pre-launch narrative advantage.",
+      "resolution_catalyst": "Formulary decisions, payer coverage terms, and real-world prescribing patterns in first 12 months post-launch"
+    },
+    {
+      "question": "Does aficamten's shorter half-life (~2 weeks to steady state vs 4-6 weeks for mavacamten) translate to meaningful clinical advantage?",
+      "bull_view": "Faster titration enables quicker symptom relief and dose optimization. Faster washout in safety events — LVEF recovers in days vs weeks.",
+      "bear_view": "Most patients are titrated at quarterly visits regardless. The PK advantage is theoretical until real-world evidence demonstrates better outcomes.",
+      "resolution_catalyst": "MAPLE-HCM (aficamten vs metoprolol) data and real-world clinical experience"
+    }
+  ]
+}
