@@ -79,6 +79,7 @@ def get_nav_html(active=""):
             <nav class="nav-links">
                 <a href="/targets" {"class='active'" if active == "targets" else ""}>Targets</a>
                 <a href="/companies" {"class='active'" if active == "companies" else ""}>Companies</a>
+                <a href="/extract/" {"class='active'" if active == "extract" else ""}>Extract</a>
                 <a href="/about" {"class='active'" if active == "about" else ""}>About</a>
             </nav>
             <div class="nav-cta">
