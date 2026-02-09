@@ -1,0 +1,136 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "MRUS",
+    "company_name": "Merus N.V.",
+    "data_source": "SEC filings, Genmab acquisition materials, NEJM publication, ASCO 2025",
+    "extraction_date": "2026-02-09",
+    "satya_bio_note": "ACQUISITION TARGET — Identified by Satya Bio platform prior to deal announcement"
+  },
+  "company": {
+    "name": "Merus N.V.",
+    "ticker": "MRUS",
+    "exchange": "NASDAQ",
+    "headquarters": "Utrecht, Netherlands",
+    "website": "www.merus.nl",
+    "one_liner": "Bispecific/trispecific antibody oncology company — acquired by Genmab for $8.0B ($97/share, 41% premium)"
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Merus developed a differentiated Biclonics® platform generating bispecific antibodies with best-in-class clinical profiles in head & neck cancer (petosemtamab) and NRG1 fusion cancers (zenocutuzumab/BIZENGRI). The platform's ability to produce novel bispecifics targeting hard-to-drug tumor antigens made Merus a strategic acquisition target for antibody-focused acquirers seeking late-stage oncology assets.",
+    "key_value_drivers": [
+      "Petosemtamab (EGFRxLGR5): 63% ORR in 1L HNSCC combo with pembro at ASCO 2025 — substantially above standard of care",
+      "Dual Breakthrough Therapy Designations for petosemtamab in 1L and 2L+ HNSCC",
+      "BIZENGRI (zenocutuzumab): FDA accelerated approval Dec 2024 for NRG1 fusion-positive NSCLC and pancreatic cancer — first-ever therapy for this indication",
+      "Two Phase 3 trials running (1L and 2L/3L HNSCC) with interim readout anticipated 2026",
+      "Biclonics platform validated across multiple targets with full-length bispecific format"
+    ]
+  },
+  "acquisition": {
+    "acquirer": "Genmab A/S (GMAB)",
+    "deal_value": "$8.0 billion",
+    "price_per_share": "$97.00",
+    "premium_to_close": "41% over $68.89 closing price on Sept 26, 2025",
+    "premium_to_vwap": "44% over 30-day VWAP of $67.42",
+    "announcement_date": "September 29, 2025",
+    "expected_close": "Early Q1 2026",
+    "structure": "All-cash tender offer",
+    "financing": "Cash on hand + $5.5B non-convertible debt",
+    "strategic_rationale": "Accelerates Genmab's shift to wholly owned model; adds late-stage solid tumor asset (petosemtamab) + approved product (BIZENGRI); complement to Genmab's antibody engineering expertise"
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Petosemtamab 63% ORR in 1L HNSCC combination — substantially above historical standard of care with pembrolizumab alone",
+      "Dual BTDs signal strong FDA engagement and potential accelerated pathway to approval",
+      "BIZENGRI approval establishes regulatory credibility and commercial infrastructure",
+      "Two Phase 3 trials running simultaneously in HNSCC — multiple shots on goal for registration",
+      "Biclonics platform enables multiple follow-on programs beyond lead assets"
+    ],
+    "bear_case": [
+      "Phase 2 data in combination — need Phase 3 confirmation of ORR and PFS benefit",
+      "HNSCC market competitive with multiple I-O combinations in development",
+      "BIZENGRI targets ultra-rare NRG1 fusions (1-2% of NSCLC) — limited commercial opportunity as standalone",
+      "Bispecific manufacturing complexity could limit scale-up"
+    ],
+    "key_debates": [
+      {
+        "question": "Can petosemtamab's Phase 2 ORR translate to PFS/OS benefit in Phase 3?",
+        "bull_view": "63% ORR with pembro is dramatically above historical 36-40% ORR for pembro alone; magnitude of benefit suggests real PFS improvement",
+        "bear_view": "ORR doesn't always translate to survival; HNSCC is unpredictable; Phase 3 could fail to confirm early signal",
+        "what_resolves_it": "Phase 3 interim readout anticipated 2026"
+      },
+      {
+        "question": "Was Merus undervalued pre-acquisition?",
+        "bull_view": "Stock at $68.89 didn't fully price dual BTDs + Phase 3 program + approved product; Genmab saw more value",
+        "bear_view": "41% premium was fair for the risk remaining in Phase 3; market was appropriately cautious",
+        "what_resolves_it": "Resolved — acquisition confirmed at $97/share"
+      }
+    ]
+  },
+  "pipeline_summary": {
+    "total_programs": 5,
+    "clinical_stage": 4,
+    "programs": [
+      {
+        "asset": "Petosemtamab (MCLA-158)",
+        "target": "EGFRxLGR5",
+        "stage": "Phase 3",
+        "indications": "Head and neck squamous cell carcinoma (HNSCC)",
+        "ownership": "Wholly-owned (now Genmab)",
+        "next_catalyst": "Phase 3 interim readout 2026"
+      },
+      {
+        "asset": "Zenocutuzumab (BIZENGRI)",
+        "target": "HER2xHER3 (NRG1 fusions)",
+        "stage": "Approved (accelerated)",
+        "indications": "NRG1 fusion-positive NSCLC and pancreatic adenocarcinoma",
+        "ownership": "Commercialized by Partner Therapeutics (licensed)",
+        "next_catalyst": "Confirmatory trial and potential label expansion"
+      },
+      {
+        "asset": "MCLA-129",
+        "target": "EGFRxc-MET",
+        "stage": "Phase 2",
+        "indications": "NSCLC, other solid tumors",
+        "ownership": "Licensed to Betta Pharmaceuticals (Greater China)",
+        "next_catalyst": "Phase 2 data readouts"
+      },
+      {
+        "asset": "MCLA-145",
+        "target": "PD-L1x4-1BB",
+        "stage": "Phase 1",
+        "indications": "Solid tumors",
+        "ownership": "Partnered (Incyte)",
+        "next_catalyst": "Phase 1 dose escalation"
+      }
+    ]
+  },
+  "platform": {
+    "name": "Biclonics® / Multiclonics®",
+    "description": "Proprietary technology platform for generating full-length human bispecific and trispecific antibodies. Biclonics leverage the natural antibody format (full-length IgG) which improves manufacturability, stability, and half-life compared to engineered bispecific formats. Platform enables rapid generation of novel combinations targeting two or three distinct epitopes."
+  },
+  "financials": {
+    "cash_position": "Pre-acquisition: ~$600M+ (well-funded through Phase 3)",
+    "market_cap_at_acquisition": "$8.0B (at $97/share offer)",
+    "pre_deal_close": "$68.89 (September 26, 2025)"
+  },
+  "catalysts": [
+    {
+      "asset": "Petosemtamab",
+      "event": "Phase 3 interim data readout (1L or 2L/3L HNSCC)",
+      "timing": "2026",
+      "importance": "Critical — determines acquisition thesis validation"
+    },
+    {
+      "asset": "BIZENGRI",
+      "event": "Confirmatory trial / label expansion data",
+      "timing": "2026-2027",
+      "importance": "High — needed to convert accelerated to full approval"
+    },
+    {
+      "asset": "Corporate",
+      "event": "Genmab acquisition completed",
+      "timing": "Q1 2026",
+      "importance": "High — tender offer close"
+    }
+  ]
+}

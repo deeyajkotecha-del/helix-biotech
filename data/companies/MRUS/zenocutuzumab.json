@@ -1,0 +1,135 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "MRUS",
+    "asset_name": "zenocutuzumab"
+  },
+  "asset": {
+    "name": "Zenocutuzumab (BIZENGRI®)",
+    "ticker": "MRUS",
+    "modality": "Bispecific antibody (Biclonics®)",
+    "stage": "Approved (Accelerated)",
+    "one_liner": "First and only FDA-approved therapy for NRG1 fusion-positive cancers — accelerated approval Dec 2024 — targets HER2xHER3 to block NRG1 oncogenic signaling",
+    "ownership": "Commercialized by Partner Therapeutics (US license); Merus retains ex-US (now Genmab)"
+  },
+  "target": {
+    "name": "HER2 x HER3 (NRG1 fusions)",
+    "full_name": "Human Epidermal Growth Factor Receptor 2 x Human Epidermal Growth Factor Receptor 3",
+    "class": "Bispecific antibody — blocks ligand-dependent HER2:HER3 heterodimerization",
+    "pathway": "NRG1 fusion → NRG1 ligand overexpression → HER3 binding → HER2:HER3 dimerization → PI3K/AKT signaling → tumor growth",
+    "biology": {
+      "simple_explanation": "NRG1 gene fusions are rare oncogenic drivers found in ~1-2% of multiple solid tumors. The fusion creates a protein that constantly stimulates HER3, which pairs with HER2 to activate growth signaling. Zenocutuzumab is a bispecific antibody that simultaneously binds HER2 and HER3, physically preventing them from pairing up. This blocks the oncogenic signal at its source. Before BIZENGRI, patients with NRG1 fusions had no targeted therapy option.",
+      "downstream_effects": [
+        "Blocks NRG1 ligand-induced HER2:HER3 heterodimerization",
+        "Suppresses PI3K/AKT/mTOR and MAPK signaling downstream of HER3",
+        "Tumor-agnostic mechanism — works across any cancer driven by NRG1 fusions",
+        "Does not require HER2 overexpression (unlike trastuzumab) — works via blocking dimerization"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "FDA accelerated approval Dec 2024 based on 30% ORR across 12 tumor types in eNRGy trial. First targeted therapy for NRG1 fusion-positive cancers.",
+      "genetic_validation": {
+        "gain_of_function": "NRG1 gene fusions create constitutively active NRG1 ligand that drives HER3/HER2 signaling — clear oncogenic driver",
+        "loss_of_function": "N/A — NRG1 fusions are gain-of-function oncogenic drivers"
+      }
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "NRG1 fusion-positive NSCLC and pancreatic adenocarcinoma (2L+)",
+      "stage": "Approved (accelerated)",
+      "rationale": "First systemic therapy for NRG1 fusion-positive cancers. Accelerated approval based on ORR in eNRGy registrational Phase 2 trial."
+    },
+    "expansion": [
+      {
+        "name": "Other NRG1 fusion-positive solid tumors",
+        "stage": "Under evaluation",
+        "rationale": "Tumor-agnostic mechanism; responses observed across 12 tumor types in eNRGy trial"
+      }
+    ]
+  },
+  "clinical_data": {
+    "trial_name": "eNRGy (Phase 2 registrational)",
+    "trial_design": {
+      "phase": "Phase 2",
+      "design": "Single-arm, open-label, registrational study",
+      "enrollment": "204 patients across 12 tumor types"
+    },
+    "populations": {
+      "efficacy_population": {
+        "n": 158,
+        "description": "Patients with measurable disease enrolled ≥24 weeks before data cutoff"
+      }
+    },
+    "efficacy_results": {
+      "orr_all_tumors": "30% (95% CI: 23-37%) across all tumor types",
+      "orr_nsclc": "29% (27/93 patients; 95% CI: 20-39%)",
+      "orr_pancreatic": "42% (15/36 patients; 95% CI: 25-59%)",
+      "cbr_nsclc": "61.5%",
+      "median_dor": "11.1 months (95% CI: 7.4-12.9)",
+      "median_pfs": "6.8 months (95% CI: 5.5-9.1)",
+      "ongoing_responses": "19% of responses ongoing at data cutoff",
+      "publication": "New England Journal of Medicine (Feb 2025)"
+    },
+    "safety": {
+      "general_profile": "Primarily grade 1-2 adverse events; well tolerated",
+      "diarrhea": "18% (treatment-related)",
+      "fatigue": "12% (treatment-related)",
+      "nausea": "11% (treatment-related)"
+    },
+    "regulatory_designations": [
+      "FDA Accelerated Approval (December 4, 2024)",
+      "Breakthrough Therapy Designation (July 2023) — NRG1+ pancreatic cancer",
+      "Fast Track Designation (January 2021)",
+      "Orphan Drug Designation (July 2020)"
+    ]
+  },
+  "catalysts": [
+    {
+      "event": "Confirmatory trial data",
+      "timing": "TBD",
+      "importance": "High",
+      "what_to_watch": "Required to convert accelerated approval to full approval"
+    },
+    {
+      "event": "Label expansion to additional NRG1+ tumor types",
+      "timing": "TBD",
+      "importance": "Medium",
+      "what_to_watch": "Tumor-agnostic filing potential based on eNRGy cross-tumor data"
+    }
+  ],
+  "competitive_landscape": {
+    "competitors": [
+      {
+        "drug": "No approved competitors",
+        "company": "N/A",
+        "limitation": "BIZENGRI is first and only targeted therapy for NRG1 fusions"
+      },
+      {
+        "drug": "Afatinib (off-label HER2/EGFR TKI)",
+        "company": "Boehringer Ingelheim",
+        "limitation": "Limited efficacy in NRG1 fusions; not specifically designed for NRG1-driven cancers"
+      }
+    ],
+    "our_advantages": [
+      "First and only FDA-approved therapy for NRG1 fusion-positive cancers",
+      "Mechanism specifically designed to block NRG1-driven HER2:HER3 signaling",
+      "Tumor-agnostic — works across 12+ tumor types with NRG1 fusions",
+      "NEJM publication validates clinical significance"
+    ]
+  },
+  "investment_analysis": {
+    "probability_of_success": "Approved (accelerated) — confirmatory trial needed for full approval",
+    "peak_sales_estimate": "$200-500M (rare indication: NRG1 fusions in ~1-2% of NSCLC/pancreatic; orphan pricing offsets small population)",
+    "key_risks": [
+      "Ultra-rare indication limits commercial opportunity",
+      "Confirmatory trial required to maintain accelerated approval",
+      "Companion diagnostic requirement for NRG1 fusion detection may limit adoption"
+    ]
+  },
+  "market_opportunity": {
+    "tam": "NRG1 fusion-positive cancers: ~5,000-10,000 patients annually in US (1-2% of NSCLC + pancreatic + other tumors)",
+    "patient_population": "NRG1 fusions found in ~1-2% of NSCLC, ~5-7% of pancreatic mucinous adenocarcinoma, and scattered across other tumor types",
+    "unmet_need": "Prior to BIZENGRI, no targeted therapy existed for NRG1 fusion-positive cancers. Patients had only standard chemotherapy options. NRG1 fusions represent a clear, actionable oncogenic driver with no prior treatment."
+  }
+}

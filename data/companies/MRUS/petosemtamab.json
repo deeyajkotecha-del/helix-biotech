@@ -1,0 +1,132 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "MRUS",
+    "asset_name": "petosemtamab"
+  },
+  "asset": {
+    "name": "Petosemtamab (MCLA-158)",
+    "ticker": "MRUS",
+    "modality": "Bispecific antibody (Biclonics®)",
+    "stage": "Phase 3",
+    "one_liner": "EGFRxLGR5 bispecific with 63% ORR in 1L HNSCC combo — dual Breakthrough Therapy Designations — key driver of $8B Genmab acquisition",
+    "ownership": "Wholly-owned (now Genmab)"
+  },
+  "target": {
+    "name": "EGFR x LGR5",
+    "full_name": "Epidermal Growth Factor Receptor x Leucine-Rich Repeat-Containing G Protein-Coupled Receptor 5",
+    "class": "Bispecific antibody — dual targeting",
+    "pathway": "EGFR signaling + cancer stem cell (LGR5/Wnt) elimination",
+    "biology": {
+      "simple_explanation": "Petosemtamab blocks EGFR (which drives tumor growth) while simultaneously targeting LGR5 (a marker of cancer stem cells that drive resistance and recurrence). By hitting both targets with one molecule, it attacks the tumor's growth engine AND its ability to regenerate from stem cells. This dual mechanism explains why response rates are dramatically higher than EGFR blockade alone.",
+      "downstream_effects": [
+        "Blocks EGFR-driven proliferation signaling in tumor cells",
+        "Targets LGR5+ cancer stem cells responsible for treatment resistance and disease recurrence",
+        "Induces antibody-dependent cellular cytotoxicity (ADCC) via intact Fc domain",
+        "Disrupts Wnt/beta-catenin signaling through LGR5 pathway interference"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "EGFR inhibition established in HNSCC (cetuximab approved). LGR5 expression correlates with cancer stemness and resistance across GI and H&N cancers. Dual targeting uniquely addresses resistance mechanism.",
+      "genetic_validation": {
+        "gain_of_function": "EGFR amplification/overexpression drives HNSCC in majority of patients; LGR5 marks treatment-resistant cancer stem cell populations",
+        "loss_of_function": "N/A — targeting involves blocking overexpressed/overactive pathways"
+      }
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Head and Neck Squamous Cell Carcinoma (HNSCC)",
+      "stage": "Phase 3",
+      "rationale": "HNSCC has high unmet need. Current 1L standard (pembrolizumab ± chemo) has ORR ~36-40%. Petosemtamab combo with pembro showed 63% ORR in Phase 2 — potentially practice-changing."
+    },
+    "expansion": [
+      {
+        "name": "Colorectal Cancer",
+        "stage": "Phase 1/2",
+        "rationale": "LGR5 is a validated stem cell marker in colorectal cancer; EGFR targeting (cetuximab/panitumumab) already standard in RAS wild-type CRC"
+      }
+    ]
+  },
+  "clinical_data": {
+    "trial_name": "Phase 2 — Petosemtamab + Pembrolizumab in 1L HNSCC",
+    "trial_design": {
+      "phase": "Phase 2",
+      "design": "Open-label, single-arm combination study",
+      "enrollment": "Multiple cohorts in 1L and 2L+ HNSCC"
+    },
+    "populations": {
+      "efficacy_population": {
+        "n": 0,
+        "description": "1L recurrent/metastatic HNSCC patients treated with petosemtamab + pembrolizumab"
+      }
+    },
+    "efficacy_results": {
+      "orr_1l_combo": "63% (petosemtamab + pembrolizumab in 1L R/M HNSCC) — presented at ASCO 2025",
+      "orr_vs_standard_of_care": "63% vs historical ~36-40% for pembrolizumab alone in PD-L1+ HNSCC",
+      "median_pfs": "Substantially higher than standard of care (per Genmab acquisition announcement)",
+      "note": "Phase 2 data; Phase 3 confirmation needed"
+    },
+    "safety": {
+      "general_profile": "Consistent with known EGFR inhibitor and immunotherapy class effects",
+      "key_aes": "Skin toxicity (EGFR class effect), immune-related adverse events (pembrolizumab component)"
+    },
+    "regulatory_designations": [
+      "Breakthrough Therapy Designation (2024): Monotherapy in 2L+ R/M HNSCC after platinum and PD-1/PD-L1 progression",
+      "Breakthrough Therapy Designation (2025): Combination with pembrolizumab in 1L PD-L1+ R/M HNSCC"
+    ]
+  },
+  "catalysts": [
+    {
+      "event": "Phase 3 interim readout (1L or 2L/3L HNSCC)",
+      "timing": "2026",
+      "importance": "Critical",
+      "what_to_watch": "ORR confirmation vs Phase 2 signal; PFS benefit vs standard of care; safety profile in larger population"
+    },
+    {
+      "event": "Potential initial launch",
+      "timing": "2027 (per Genmab guidance)",
+      "importance": "High",
+      "what_to_watch": "Subject to positive Phase 3 data and regulatory approval"
+    }
+  ],
+  "competitive_landscape": {
+    "competitors": [
+      {
+        "drug": "Pembrolizumab (Keytruda)",
+        "company": "Merck",
+        "limitation": "36-40% ORR as monotherapy in 1L PD-L1+ HNSCC; many patients progress"
+      },
+      {
+        "drug": "Cetuximab + pembrolizumab combinations",
+        "company": "Various",
+        "limitation": "Overlapping toxicity profiles; cetuximab doesn't target cancer stem cells"
+      },
+      {
+        "drug": "Nivolumab combinations",
+        "company": "BMS",
+        "limitation": "CheckMate 651 failed to show OS benefit in 1L HNSCC combo"
+      }
+    ],
+    "our_advantages": [
+      "63% ORR in combination substantially above any published 1L HNSCC combination data",
+      "Dual BTDs from FDA — strongest regulatory signal in HNSCC pipeline",
+      "Unique LGR5 targeting addresses cancer stem cell resistance mechanism",
+      "Full-length antibody format with intact Fc enables ADCC in addition to pathway blockade"
+    ]
+  },
+  "investment_analysis": {
+    "probability_of_success": "Phase 3 registration: ~55-65% (strong Phase 2 signal + dual BTDs, but Phase 3 confirmation needed)",
+    "peak_sales_estimate": "$3-5B+ (HNSCC is a large market with high unmet need; global ~800K new cases/year)",
+    "key_risks": [
+      "Phase 3 could fail to confirm Phase 2 ORR — combination studies can be unpredictable",
+      "Competitive landscape evolving rapidly with multiple I-O combinations in development",
+      "Safety profile in larger population may reveal new signals"
+    ]
+  },
+  "market_opportunity": {
+    "tam": "HNSCC therapeutic market: $5-8B globally",
+    "patient_population": "~800,000 new HNSCC cases globally per year; ~66,000 in the US",
+    "unmet_need": "Current 1L standard (pembrolizumab) has modest ORR of 36-40%. Majority of patients progress within 12 months. No approved EGFR+I-O combination. Cancer stem cell-targeting is completely unaddressed."
+  }
+}

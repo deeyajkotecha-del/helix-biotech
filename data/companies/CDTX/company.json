@@ -1,0 +1,131 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "CDTX",
+    "company_name": "Cidara Therapeutics",
+    "data_source": "Merck acquisition announcement, ID Week 2025 presentation, NAVIGATE Phase 2b data, SEC filings",
+    "extraction_date": "2026-02-09",
+    "satya_bio_note": "ACQUISITION TARGET — Identified by Satya Bio platform prior to deal announcement"
+  },
+  "company": {
+    "name": "Cidara Therapeutics, Inc.",
+    "ticker": "CDTX",
+    "exchange": "NASDAQ",
+    "headquarters": "San Diego, California",
+    "website": "www.cidara.com",
+    "one_liner": "Drug-Fc conjugate (DFC) platform company — acquired by Merck for $9.2B ($221.50/share, 109% premium) on strength of CD388 influenza prevention data"
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Cidara developed CD388, a potentially first-in-class long-acting antiviral that achieved up to 76.1% prevention efficacy against influenza in Phase 2b. The asset addresses a massive unmet need — a single-dose, season-long flu prevention option for high-risk patients (elderly, immunocompromised) who respond poorly to vaccines. FDA granted Breakthrough Therapy Designation, and the Phase 3 ANCHOR trial enrolled rapidly. The combination of novel mechanism, clear clinical signal, and enormous market opportunity made Cidara an irresistible acquisition target for Merck.",
+    "key_value_drivers": [
+      "CD388 Phase 2b NAVIGATE: 76.1% prevention efficacy at 450mg — statistically significant across all doses",
+      "FDA Breakthrough Therapy Designation (Oct 2025) + Fast Track (June 2023)",
+      "Phase 3 ANCHOR trial initiated Sept 2025, 6,000-patient enrollment hit by Dec 2025",
+      "Not a vaccine — works regardless of immune status, critical for immunocompromised",
+      "Cloudbreak® DFC platform applicable to oncology and other infectious diseases"
+    ]
+  },
+  "acquisition": {
+    "acquirer": "Merck & Co. (MRK)",
+    "deal_value": "$9.2 billion",
+    "price_per_share": "$221.50",
+    "premium_to_close": "109% over $105.99 closing price on Nov 13, 2025",
+    "announcement_date": "November 14, 2025",
+    "completion_date": "January 7, 2026",
+    "structure": "All-cash tender offer followed by back-end merger",
+    "strategic_rationale": "Diversifies Merck's pipeline with late-stage antiviral asset complementing respiratory portfolio (Lagevrio). CD388's strain-agnostic, vaccine-independent mechanism addresses massive prevention market. Cloudbreak platform extends into oncology DFCs — potential Keytruda lifecycle management."
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "76.1% prevention efficacy at highest dose — clear dose-response relationship across all three doses tested",
+      "Strain-agnostic: single dose covers influenza A and B including pandemic strains like H5N1",
+      "Not dependent on immune response — works in immunocompromised patients where vaccines fail",
+      "FDA BTD + Fast Track = strong regulatory engagement and potential accelerated pathway",
+      "Enormous market: 290K-650K flu deaths globally per year; vaccines only ~40% effective on average",
+      "Cloudbreak platform has oncology applications — potential pipeline beyond CD388",
+      "BARDA award up to $339.2M for US manufacturing support"
+    ],
+    "bear_case": [
+      "Phase 2b was in healthy unvaccinated adults — Phase 3 is in high-risk populations where efficacy may differ",
+      "Prevention efficacy endpoint is harder to demonstrate in vaccinated populations",
+      "Price point for annual preventive injection must justify value vs. flu vaccines ($20-80)",
+      "Competition from universal flu vaccine programs (though these are years away)",
+      "Manufacturing scale-up for DFC modality is unproven at commercial scale"
+    ],
+    "key_debates": [
+      {
+        "question": "Will 76% efficacy in healthy adults translate to high-risk populations?",
+        "bull_view": "CD388 is not immune-dependent — mechanism should work regardless of immune status; may actually show BETTER relative efficacy in immunocompromised where vaccines fail",
+        "bear_view": "Immunocompromised patients have different pharmacokinetics; higher baseline infection rates may reduce apparent efficacy",
+        "what_resolves_it": "ANCHOR Phase 3 interim analysis Q1 2026"
+      },
+      {
+        "question": "Was Cidara a good acquisition for Merck at $9.2B?",
+        "bull_view": "If CD388 works in Phase 3, peak sales could exceed $5B+. Merck gets Cloudbreak platform and oncology DFCs as bonus. Multiple of <2x peak sales is cheap for a de-risked asset",
+        "bear_view": "Phase 3 failure risk is real — $9B for a Phase 3 asset is expensive. Merck already struggling with Keytruda patent cliff",
+        "what_resolves_it": "ANCHOR Phase 3 results and BLA submission timeline"
+      }
+    ]
+  },
+  "pipeline_summary": {
+    "total_programs": 4,
+    "clinical_stage": 2,
+    "programs": [
+      {
+        "asset": "CD388",
+        "target": "Neuraminidase (long-acting DFC inhibitor)",
+        "stage": "Phase 3",
+        "indications": "Prevention of influenza A and B in high-risk populations",
+        "ownership": "Wholly-owned (now Merck)",
+        "next_catalyst": "ANCHOR Phase 3 interim analysis Q1 2026"
+      },
+      {
+        "asset": "REZZAYO (rezafungin)",
+        "target": "1,3-β-D-glucan synthase",
+        "stage": "Approved",
+        "indications": "Candidemia and invasive candidiasis",
+        "ownership": "Licensed to Mundipharma (ex-US/Japan), Melinta (US)",
+        "next_catalyst": "Commercial ramp"
+      },
+      {
+        "asset": "Oncology DFC programs",
+        "target": "Undisclosed solid tumor targets",
+        "stage": "Preclinical",
+        "indications": "Solid tumors",
+        "ownership": "Wholly-owned (now Merck)",
+        "next_catalyst": "IND-enabling studies"
+      }
+    ]
+  },
+  "platform": {
+    "name": "Cloudbreak®",
+    "description": "Proprietary platform for developing drug-Fc conjugates (DFCs). DFCs are NOT antibodies or vaccines — they are low molecular weight biologics comprising targeted small molecules or peptides conjugated to a human antibody Fc fragment. The dual mechanism provides direct target inhibition PLUS immune-mediated clearance via the Fc domain. The Fc fragment extends half-life enabling long-acting dosing (single dose for season-long flu protection). Platform applicable across infectious disease, oncology, and immunology."
+  },
+  "financials": {
+    "cash_position": "$476.5M as of September 30, 2025",
+    "cash_runway": "Funded through Phase 3 completion (BARDA award provides additional $339.2M for manufacturing)",
+    "market_cap_at_acquisition": "$9.2B (at $221.50/share offer)",
+    "pre_deal_close": "$105.99 (November 13, 2025)",
+    "stock_appreciation_2025": "Up 1,165%+ in 2025 (from ~$17.50 area to $221.50 deal price)"
+  },
+  "catalysts": [
+    {
+      "asset": "CD388",
+      "event": "ANCHOR Phase 3 interim analysis",
+      "timing": "Q1 2026",
+      "importance": "Critical — assesses trial powering and potential for early success"
+    },
+    {
+      "asset": "CD388",
+      "event": "Potential BLA submission",
+      "timing": "2027+ (contingent on Phase 3 success)",
+      "importance": "High — regulatory filing for approval"
+    },
+    {
+      "asset": "Corporate",
+      "event": "Merck acquisition completed",
+      "timing": "January 7, 2026 (COMPLETED)",
+      "importance": "Resolved — tender offer completed, Cidara now wholly-owned Merck subsidiary"
+    }
+  ]
+}

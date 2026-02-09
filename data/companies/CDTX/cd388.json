@@ -1,0 +1,168 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "CDTX",
+    "asset_name": "cd388"
+  },
+  "asset": {
+    "name": "CD388",
+    "ticker": "CDTX",
+    "modality": "Drug-Fc Conjugate (DFC)",
+    "stage": "Phase 3",
+    "one_liner": "First-in-class long-acting antiviral — single dose provides season-long influenza prevention — 76% efficacy in Phase 2b — FDA Breakthrough Therapy — drove $9.2B Merck acquisition",
+    "ownership": "Wholly-owned (now Merck)"
+  },
+  "target": {
+    "name": "Neuraminidase",
+    "full_name": "Influenza Neuraminidase (sialidase)",
+    "class": "Drug-Fc conjugate — long-acting small molecule inhibitor + Fc immune engagement",
+    "pathway": "Neuraminidase cleaves sialic acid on host cell receptors → enables viral release from infected cells → viral spread",
+    "biology": {
+      "simple_explanation": "Neuraminidase is the enzyme on the surface of influenza viruses that lets newly formed viral particles escape from infected cells to spread throughout the body. By blocking neuraminidase, CD388 traps new viruses on the cell surface, preventing infection from spreading. Unlike Tamiflu (which also blocks neuraminidase but lasts hours), CD388 conjugates the inhibitor to an antibody Fc fragment that extends its half-life to weeks — enabling single-dose, season-long protection. The Fc also recruits the immune system to destroy virus-infected cells directly.",
+      "downstream_effects": [
+        "Blocks viral release from infected cells by inhibiting neuraminidase enzymatic activity",
+        "Extended half-life via Fc fragment enables weeks-long drug exposure from single dose",
+        "Fc domain recruits immune-mediated killing (ADCC) of virus-infected cells — dual mechanism",
+        "Strain-agnostic: neuraminidase is conserved across influenza A and B including pandemic strains"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "Neuraminidase inhibitors (oseltamivir/Tamiflu, zanamivir/Relenza) are FDA-approved and clinically validated for flu treatment. CD388 extends the proven mechanism with long-acting formulation and immune engagement.",
+      "genetic_validation": {
+        "gain_of_function": "Neuraminidase is essential for viral replication — all influenza strains require functional neuraminidase for spread",
+        "loss_of_function": "Neuraminidase inhibitor resistance exists but is rare (<2% of circulating strains); CD388 multi-valent design provides potency advantage over monovalent inhibitors"
+      }
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Prevention of influenza A and B in high-risk adults and adolescents",
+      "stage": "Phase 3 (ANCHOR trial)",
+      "rationale": "1 billion people infected by seasonal flu annually; 290K-650K deaths per year globally. Vaccines only ~40% effective on average and even lower in elderly/immunocompromised. No existing option provides single-dose, season-long, immune-independent protection."
+    },
+    "expansion": [
+      {
+        "name": "Pandemic influenza prevention (H5N1, novel strains)",
+        "stage": "Preclinical",
+        "rationale": "CD388 is strain-agnostic — preclinical data shows activity against 12 seasonal and multiple pandemic subtypes including H5N1. Enormous government/public health interest."
+      },
+      {
+        "name": "General population flu prevention",
+        "stage": "Potential future indication",
+        "rationale": "If approved in high-risk, expansion to broader at-risk populations is natural line extension"
+      }
+    ]
+  },
+  "clinical_data": {
+    "trial_name": "NAVIGATE (Phase 2b)",
+    "trial_design": {
+      "phase": "Phase 2b",
+      "design": "Randomized, double-blind, placebo-controlled, dose-ranging",
+      "enrollment": "~5,000 healthy unvaccinated adults aged 18-64"
+    },
+    "populations": {
+      "efficacy_population": {
+        "n": 5000,
+        "description": "Healthy, unvaccinated adults ages 18-64 across 3 dose cohorts + placebo"
+      }
+    },
+    "efficacy_results": {
+      "primary_endpoint": "Prevention efficacy (PE) against symptomatic laboratory-confirmed influenza A and B",
+      "pe_150mg": "57.7% (statistically significant vs placebo)",
+      "pe_300mg": "61.3% (statistically significant vs placebo)",
+      "pe_450mg": "76.1% (statistically significant vs placebo)",
+      "dose_response": "Clear dose-response relationship across all three doses",
+      "study_met_primary": "Yes — all primary and secondary endpoints met",
+      "note": "Single subcutaneous injection provided season-long protection"
+    },
+    "safety": {
+      "general_profile": "Well tolerated with no apparent safety issues across all doses",
+      "injection_site": "Mild injection site reactions (expected for SC injection)",
+      "serious_adverse_events": "No safety signals identified",
+      "discontinuations": "Not reported as significant"
+    },
+    "regulatory_designations": [
+      "Fast Track Designation (FDA, June 2023)",
+      "Breakthrough Therapy Designation (FDA, October 2025)"
+    ],
+    "phase_3": {
+      "trial_name": "ANCHOR (NCT07159763)",
+      "design": "Randomized, double-blind, placebo-controlled",
+      "population": "Adults and adolescents at higher risk of influenza complications (elderly ≥65, immunocompromised, chronic conditions)",
+      "enrollment_target": 6000,
+      "sites": "150 sites in US and UK",
+      "first_dosed": "September 2025",
+      "enrollment_status": "6,000-patient enrollment target reached by December 2025",
+      "primary_endpoint": "Prevention of symptomatic laboratory-confirmed influenza in high-risk populations",
+      "interim_analysis": "Q1 2026",
+      "note": "Phase 3 start accelerated by 6 months to overlap with 2025 Northern Hemisphere flu season"
+    }
+  },
+  "catalysts": [
+    {
+      "event": "ANCHOR Phase 3 interim analysis",
+      "timing": "Q1 2026",
+      "importance": "Critical",
+      "what_to_watch": "Assess trial powering; potential for adaptive enrollment; early efficacy signal in high-risk patients"
+    },
+    {
+      "event": "Full ANCHOR Phase 3 data",
+      "timing": "2026-2027",
+      "importance": "Critical",
+      "what_to_watch": "PE in high-risk populations; dose selected for registration; safety in immunocompromised"
+    },
+    {
+      "event": "Potential BLA submission",
+      "timing": "2027+",
+      "importance": "High",
+      "what_to_watch": "Contingent on Phase 3 success; BTD enables rolling submission"
+    }
+  ],
+  "competitive_landscape": {
+    "competitors": [
+      {
+        "drug": "Seasonal influenza vaccines (Fluzone, Flublok, etc.)",
+        "company": "Sanofi, CSL Seqirus, others",
+        "limitation": "~40% average effectiveness; even lower in elderly and immunocompromised; must be reformulated annually; requires immune response"
+      },
+      {
+        "drug": "Tamiflu (oseltamivir)",
+        "company": "Roche (generic)",
+        "limitation": "Treatment only (not prevention); must be taken within 48 hours; twice daily for 5 days; short half-life"
+      },
+      {
+        "drug": "Xofluza (baloxavir)",
+        "company": "Roche/Shionogi",
+        "limitation": "Treatment/prophylaxis but short-acting; resistance emerges rapidly; not suitable for season-long prevention"
+      },
+      {
+        "drug": "Universal flu vaccine candidates",
+        "company": "Various (Moderna mRNA-1010, etc.)",
+        "limitation": "Still require immune response; years from approval; won't work in immunocompromised patients"
+      }
+    ],
+    "our_advantages": [
+      "Only single-dose, season-long influenza prevention option in development",
+      "Not dependent on immune response — works in immunocompromised where vaccines fail",
+      "Strain-agnostic: covers influenza A, B, and pandemic strains (H5N1)",
+      "76.1% PE demonstrated — higher than average vaccine effectiveness",
+      "FDA BTD + Fast Track accelerate development timeline",
+      "BARDA support ($339.2M) validates government interest for pandemic preparedness"
+    ]
+  },
+  "investment_analysis": {
+    "probability_of_success": "Phase 3 → Approval: ~50-60% (strong Phase 2b signal + BTD, but high-risk population is different from Phase 2b healthy adults)",
+    "peak_sales_estimate": "$5-10B+ (if approved for broad high-risk population; influenza affects 1B people/year)",
+    "key_risks": [
+      "Phase 3 is in high-risk population (immunocompromised, elderly) — different from Phase 2b healthy adults",
+      "Prevention endpoint harder to demonstrate in mixed vaccinated/unvaccinated population",
+      "Pricing and reimbursement for annual preventive injection is uncertain — must justify vs low-cost vaccines",
+      "Manufacturing scale-up for novel DFC modality at commercial scale is unproven"
+    ]
+  },
+  "market_opportunity": {
+    "tam": "Global antiviral market >$1.5B; vaccine market significantly larger. Flu prevention in high-risk populations alone represents multi-billion dollar opportunity.",
+    "patient_population": "High-risk populations include: elderly >65 years (~54M in US), immunocompromised (cancer, transplant, autoimmune ~10M+), patients with chronic conditions (diabetes, heart disease, lung disease). Tens of millions qualify as high-risk in US alone.",
+    "unmet_need": "Critical: vaccines only ~40% effective on average, with even lower efficacy in elderly and immunocompromised. Current antivirals require daily dosing with poor compliance and are treatment-only. No existing option provides single-dose, season-long, immune-independent protection. 290,000-650,000 flu deaths globally per year despite available vaccines."
+  }
+}
