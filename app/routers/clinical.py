@@ -485,6 +485,14 @@ async def get_target_page_html(target_name: str):
             detail=f"Target {target_name} not found. Available targets: {', '.join(list_all_targets())}"
         )
 
+    # Load rich target data from data/targets/{slug}.json if available
+    from app.pages import load_target_data
+    for slug in [target_name, target_name.upper(), target_name.upper().replace(" ", "_").replace("-", "_"), target_name.replace("_", "-")]:
+        rich_data = load_target_data(slug)
+        if rich_data:
+            target["rich_data"] = rich_data
+            break
+
     html = _generate_target_page_html(target)
     return HTMLResponse(content=html)
 
@@ -5947,6 +5955,355 @@ def _generate_targets_list_html(targets: dict) -> str:
 </html>'''
 
 
+def _get_stage_class(stage: str) -> str:
+    """Get CSS class for stage badge."""
+    if "Approved" in stage:
+        return "approved"
+    elif "Phase 3" in stage or "NDA" in stage or "filed" in stage.lower():
+        return "late"
+    elif "Phase 2" in stage:
+        return "mid"
+    elif "Phase 1" in stage:
+        return "early"
+    return ""
+
+
+def _build_rich_target_sections(rd: dict) -> str:
+    """Build HTML sections from rich target JSON data (data/targets/*.json)."""
+    sections = []
+
+    # --- Investment Thesis ---
+    thesis = rd.get("investment_thesis", {})
+    market = rd.get("market_opportunity", {})
+    if thesis:
+        key_points = thesis.get("key_points", [])
+        kp_html = "".join(f'<li>{p}</li>' for p in key_points)
+        full_text = thesis.get("full_text", "")
+        paragraphs = full_text.split("\n\n") if full_text else []
+        text_html = "".join(f'<p>{p}</p>' for p in paragraphs)
+        market_html = ""
+        if market:
+            market_html = f'''<div class="market-stats">
+                <div class="mstat"><div class="mstat-value">{market.get("total_market", "")}</div><div class="mstat-label">Total Market</div></div>
+                <div class="mstat"><div class="mstat-value">{market.get("patient_population", "")}</div><div class="mstat-label">Patient Population</div></div>
+            </div>'''
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Market Overview</h2>
+            <div class="card">
+                <h3 style="margin-bottom: 12px;">{thesis.get("headline", "")}</h3>
+                <ul class="key-points">{kp_html}</ul>
+                {market_html}
+                <div class="full-text" style="margin-top: 16px; color: var(--text-muted); line-height: 1.7;">{text_html}</div>
+            </div>
+        </div>''')
+
+    # --- Efficacy Ranking ---
+    ranking = rd.get("efficacy_ranking", [])
+    if ranking:
+        rank_rows = ""
+        for r in ranking:
+            phase = r.get("phase", "")
+            sc = _get_stage_class(phase)
+            rank_rows += f'''<tr>
+                <td><strong>{r.get("rank", "")}</strong></td>
+                <td><strong>{r.get("asset", "")}</strong></td>
+                <td>{r.get("company", "")}</td>
+                <td>{r.get("mechanism", "")}</td>
+                <td>{r.get("route", "")}</td>
+                <td>{r.get("frequency", "")}</td>
+                <td class="result"><strong>{r.get("weight_loss", "")}</strong></td>
+                <td>{r.get("timepoint", "")}</td>
+                <td>{r.get("placebo_adj", "")}</td>
+                <td><span class="badge stage-{sc}">{phase}</span></td>
+                <td style="font-size:0.85em">{r.get("differentiator", "")}</td>
+            </tr>'''
+        footnote = rd.get("efficacy_ranking_footnote", "")
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Efficacy Ranking (All Assets)</h2>
+            <div class="card" style="overflow-x: auto;">
+                <table class="landscape-table">
+                    <thead><tr><th>#</th><th>Asset</th><th>Company</th><th>Mechanism</th><th>Route</th><th>Freq</th><th>Wt Loss</th><th>Timepoint</th><th>Placebo-Adj</th><th>Phase</th><th>Key Differentiator</th></tr></thead>
+                    <tbody>{rank_rows}</tbody>
+                </table>
+                {f'<p class="footnote">{footnote}</p>' if footnote else ''}
+            </div>
+        </div>''')
+
+    # --- Pipeline Assets (from rich data) ---
+    rich_assets = rd.get("assets", [])
+    if rich_assets:
+        stage_order = {"Approved": 0, "Phase 3 (filed)": 1, "Phase 3": 2, "Phase 2b": 3, "Phase 2": 4, "Phase 1": 5}
+        sorted_assets = sorted(rich_assets, key=lambda a: stage_order.get(a.get("phase", ""), 10))
+        asset_rows = ""
+        for a in sorted_assets:
+            phase = a.get("phase", "")
+            sc = _get_stage_class(phase)
+            deal = a.get("deal", {})
+            deal_info = deal.get("notes", "") if deal else ""
+            asset_rows += f'''<tr>
+                <td><strong>{a.get("name", "")}</strong></td>
+                <td>{a.get("owner", "")}</td>
+                <td><span class="badge stage-{sc}">{phase}</span></td>
+                <td>{a.get("modality", "")}</td>
+                <td>{a.get("lead_indication", "")}</td>
+                <td style="font-size:0.85em">{a.get("key_data", "")}</td>
+                <td style="font-size:0.85em">{a.get("differentiator", "")}</td>
+            </tr>'''
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Pipeline Assets ({len(rich_assets)})</h2>
+            <div class="card" style="overflow-x: auto;">
+                <table class="landscape-table">
+                    <thead><tr><th>Asset</th><th>Company</th><th>Stage</th><th>Modality</th><th>Lead Indication</th><th>Key Data</th><th>Differentiator</th></tr></thead>
+                    <tbody>{asset_rows}</tbody>
+                </table>
+            </div>
+        </div>''')
+
+    # --- Trial Design Comparison ---
+    trial_design = rd.get("trial_design_comparison", {})
+    if trial_design:
+        trials = trial_design.get("trials", [])
+        td_rows = ""
+        for t in trials:
+            td_rows += f'''<tr>
+                <td><strong>{t.get("trial", "")}</strong></td>
+                <td>{t.get("drug", "")}</td>
+                <td>{t.get("n", "")}</td>
+                <td>{t.get("baseline_bmi", "")}</td>
+                <td style="font-size:0.85em">{t.get("bmi_inclusion", "")}</td>
+                <td>{t.get("duration_wks", "")}</td>
+                <td style="font-size:0.85em">{t.get("estimand", "")}</td>
+                <td>{t.get("placebo_wt_loss", "")}</td>
+                <td class="result"><strong>{t.get("placebo_adj_effect", "")}</strong></td>
+                <td>{t.get("gi_discontinuation", "")}</td>
+            </tr>'''
+        footnotes = trial_design.get("footnotes", [])
+        fn_html = "".join(f'<li>{f}</li>' for f in footnotes)
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Trial Design Comparison</h2>
+            <p class="section-subtitle">{trial_design.get("subtitle", "")}</p>
+            <div class="card" style="overflow-x: auto;">
+                <table class="landscape-table">
+                    <thead><tr><th>Trial</th><th>Drug</th><th>N</th><th>Baseline BMI</th><th>BMI Inclusion</th><th>Wks</th><th>Estimand</th><th>Placebo Wt Loss</th><th>Placebo-Adj Effect</th><th>GI Discont.</th></tr></thead>
+                    <tbody>{td_rows}</tbody>
+                </table>
+                {f'<ul class="footnotes">{fn_html}</ul>' if fn_html else ''}
+            </div>
+        </div>''')
+
+    # --- Safety Comparison ---
+    safety = rd.get("safety_comparison", {})
+    if safety:
+        drugs = safety.get("drugs", [])
+        drug_headers = "".join(f'<th>{d}</th>' for d in drugs)
+        params = safety.get("parameters", [])
+        safety_rows = ""
+        for p in params:
+            highlight = p.get("highlight", False)
+            row_class = ' class="highlight-row"' if highlight else ""
+            vals = p.get("values", [])
+            val_cells = ""
+            for v in vals:
+                cell_class = ' class="warning-cell"' if highlight and "NEW SIGNAL" in str(v) else ""
+                val_cells += f'<td{cell_class}>{v}</td>'
+            safety_rows += f'<tr{row_class}><td><strong>{p.get("parameter", "")}</strong></td>{val_cells}</tr>'
+        notes = safety.get("notes", [])
+        notes_html = "".join(f'<li>{n}</li>' for n in notes)
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Safety Comparison</h2>
+            <p class="section-subtitle">{safety.get("subtitle", "")}</p>
+            <div class="card" style="overflow-x: auto;">
+                <table class="landscape-table">
+                    <thead><tr><th>Parameter</th>{drug_headers}</tr></thead>
+                    <tbody>{safety_rows}</tbody>
+                </table>
+                {f'<ul class="safety-notes">{notes_html}</ul>' if notes_html else ''}
+            </div>
+        </div>''')
+
+    # --- Regulatory Landscape ---
+    reg = rd.get("regulatory_landscape", {})
+    if reg:
+        reg_drugs = reg.get("drugs", [])
+        reg_rows = ""
+        for d in reg_drugs:
+            status = d.get("current_status", "")
+            sc = _get_stage_class(status)
+            reg_rows += f'''<tr>
+                <td><strong>{d.get("drug", "")}</strong></td>
+                <td>{d.get("company", "")}</td>
+                <td><span class="badge stage-{sc}">{status}</span></td>
+                <td>{d.get("designations", "")}</td>
+                <td>{d.get("expected_nda", "")}</td>
+                <td><strong>{d.get("expected_approval", "")}</strong></td>
+                <td style="font-size:0.85em">{d.get("key_risk", "")}</td>
+            </tr>'''
+        reg_notes = reg.get("notes", [])
+        rn_html = "".join(f'<li>{n}</li>' for n in reg_notes)
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Regulatory Landscape</h2>
+            <div class="card" style="overflow-x: auto;">
+                <table class="landscape-table">
+                    <thead><tr><th>Drug</th><th>Company</th><th>Status</th><th>Designations</th><th>NDA/BLA</th><th>Approval</th><th>Key Risk</th></tr></thead>
+                    <tbody>{reg_rows}</tbody>
+                </table>
+                {f'<ul class="footnotes">{rn_html}</ul>' if rn_html else ''}
+            </div>
+        </div>''')
+
+    # --- Payer & Pricing ---
+    payer = rd.get("payer_pricing", {})
+    if payer:
+        pricing = payer.get("current_pricing", [])
+        price_rows = ""
+        for p in pricing:
+            price_rows += f'''<tr>
+                <td><strong>{p.get("drug", "")}</strong></td>
+                <td>{p.get("wac_per_month", "")}</td>
+                <td>{p.get("trumprx_price", "")}</td>
+                <td>{p.get("dtc_cash_price", "")}</td>
+                <td>{p.get("medicare_price", "")}</td>
+                <td>{p.get("medicare_copay", "")}</td>
+            </tr>'''
+
+        medicare = payer.get("medicare_medicaid", {})
+        medicare_html = ""
+        if medicare:
+            phases = medicare.get("eligibility_phases", [])
+            phases_html = "".join(f'<li>{p}</li>' for p in phases)
+            medicare_html = f'''
+            <div class="medicare-box">
+                <h3>{medicare.get("headline", "")}</h3>
+                <div class="medicare-grid">
+                    <div><strong>Eligibility (phased):</strong><ul>{phases_html}</ul></div>
+                    <div>
+                        <p><strong>Injectables:</strong> {medicare.get("injectable_price", "")}</p>
+                        <p><strong>Oral starting:</strong> {medicare.get("oral_starting_price", "")}</p>
+                        <p><strong>Copay:</strong> {medicare.get("copay", "")}</p>
+                        <p><strong>Medicaid:</strong> {medicare.get("medicaid", "")}</p>
+                    </div>
+                </div>
+                <p class="caveat" style="margin-top: 12px; font-style: italic; color: var(--bear);">{medicare.get("key_uncertainty", "")}</p>
+            </div>'''
+
+        commercial = payer.get("commercial_coverage", [])
+        comm_html = "".join(f'<li>{c}</li>' for c in commercial)
+
+        implications = payer.get("investor_implications", [])
+        impl_html = "".join(f'<li>{i}</li>' for i in implications)
+
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Payer & Pricing Intelligence</h2>
+            <p class="section-subtitle">{payer.get("subtitle", "")}</p>
+            <div class="card" style="overflow-x: auto;">
+                <h3 style="margin-bottom: 12px;">Current Pricing (Feb 2026)</h3>
+                <table class="landscape-table">
+                    <thead><tr><th>Drug</th><th>WAC/mo</th><th>TrumpRx/mo</th><th>DTC Cash/mo</th><th>Medicare/mo</th><th>Copay</th></tr></thead>
+                    <tbody>{price_rows}</tbody>
+                </table>
+            </div>
+            {f'<div class="card">{medicare_html}</div>' if medicare_html else ''}
+            {f'<div class="card"><h3 style="margin-bottom: 12px;">Commercial Coverage</h3><ul class="coverage-list">{comm_html}</ul></div>' if comm_html else ''}
+            {f'<div class="card"><h3 style="margin-bottom: 12px;">Pricing Implications for Investors</h3><ul class="coverage-list">{impl_html}</ul></div>' if impl_html else ''}
+        </div>''')
+
+    # --- Deal Activity ---
+    deals = rd.get("deal_activity", {})
+    if deals:
+        deal_list = deals.get("deals", [])
+        deal_rows = ""
+        for d in deal_list:
+            deal_rows += f'''<tr>
+                <td>{d.get("date", "")}</td>
+                <td><strong>{d.get("deal", "")}</strong></td>
+                <td class="result"><strong>{d.get("value", "")}</strong></td>
+                <td style="font-size:0.85em">{d.get("signal", "")}</td>
+            </tr>'''
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Recent Deal Activity</h2>
+            <p class="section-subtitle">{deals.get("subtitle", "")}</p>
+            <div class="card" style="overflow-x: auto;">
+                <table class="landscape-table">
+                    <thead><tr><th>Date</th><th>Deal</th><th>Value</th><th>Signal</th></tr></thead>
+                    <tbody>{deal_rows}</tbody>
+                </table>
+            </div>
+        </div>''')
+
+    # --- Key Debates ---
+    debates = rd.get("key_debates", [])
+    if debates:
+        debate_rows = ""
+        for d in debates:
+            debate_rows += f'''<tr>
+                <td><strong>{d.get("question", "")}</strong></td>
+                <td class="bull-text">{d.get("bull_view", "")}</td>
+                <td class="bear-text">{d.get("bear_view", "")}</td>
+                <td style="font-size:0.85em"><em>{d.get("resolution", "")}</em></td>
+            </tr>'''
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Key Debates</h2>
+            <div class="card" style="overflow-x: auto;">
+                <table class="landscape-table">
+                    <thead><tr><th>Question</th><th style="color:var(--bull)">Bull View</th><th style="color:var(--bear)">Bear View</th><th>Resolution Catalyst</th></tr></thead>
+                    <tbody>{debate_rows}</tbody>
+                </table>
+            </div>
+        </div>''')
+
+    # --- Catalysts ---
+    catalysts = rd.get("catalysts", [])
+    if catalysts:
+        cat_items = ""
+        for c in catalysts:
+            sig = c.get("significance", "")
+            sig_class = "critical" if sig == "Critical" else "high" if sig == "High" else ""
+            cat_items += f'''
+            <div class="catalyst-item-rich {sig_class}">
+                <div class="cat-header">
+                    <span class="cat-event">{c.get("event", "")}</span>
+                    <span class="badge stage-late">{c.get("timing", "")}</span>
+                    <span class="badge {sig_class}">{sig}</span>
+                </div>
+                <div class="cat-detail">{c.get("detail", "")}</div>
+                <div class="cat-meta">{c.get("company", "")} — {c.get("drug", "")}</div>
+            </div>'''
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Upcoming Catalysts</h2>
+            {cat_items}
+        </div>''')
+
+    # --- Key Risks ---
+    risks = rd.get("key_risks", [])
+    if risks:
+        risk_items = ""
+        for r in risks:
+            sev = r.get("severity", "")
+            sev_class = "high" if sev == "High" else "medium" if sev == "Medium" else ""
+            risk_items += f'''
+            <div class="risk-item">
+                <div class="risk-header"><strong>{r.get("risk", "")}</strong> <span class="badge {sev_class}">{sev}</span></div>
+                <div class="risk-mitigation">{r.get("mitigation", "")}</div>
+            </div>'''
+        sections.append(f'''
+        <div class="section">
+            <h2 class="section-header">Key Risks</h2>
+            {risk_items}
+        </div>''')
+
+    return "\n".join(sections)
+
+
 def _generate_target_page_html(target: dict) -> str:
     """Generate individual target page HTML with competitive landscape."""
     target_name = target["name"]
@@ -5956,33 +6313,27 @@ def _generate_target_page_html(target: dict) -> str:
     genetic = target.get("genetic_validation", "")
     why_undruggable = target.get("why_undruggable", "")
     assets = target.get("assets", [])
+    rich_data = target.get("rich_data", {})
 
-    # Group assets by company
+    # Group assets by company (from company-file scanning)
     by_company = {}
     for asset in assets:
-        ticker = asset["ticker"]
+        ticker = asset.get("ticker", "")
+        if not ticker:
+            continue
         if ticker not in by_company:
             by_company[ticker] = []
         by_company[ticker].append(asset)
 
-    # Build competitive landscape table
+    # Build competitive landscape table from company-file assets
     landscape_rows = ""
     for asset in sorted(assets, key=lambda x: x.get("stage", "")):
         mechanism = asset.get("mechanism_type", "")
-        diff = asset.get("mechanism_differentiation", "")
         stage = asset.get("stage", "")
         indication = asset.get("lead_indication", "")
         ownership = asset.get("ownership", "")
 
-        stage_class = ""
-        if "Approved" in stage:
-            stage_class = "approved"
-        elif "Phase 3" in stage or "NDA" in stage:
-            stage_class = "late"
-        elif "Phase 2" in stage:
-            stage_class = "mid"
-        elif "Phase 1" in stage:
-            stage_class = "early"
+        stage_class = _get_stage_class(stage)
 
         landscape_rows += f'''
         <tr>
@@ -6016,6 +6367,13 @@ def _generate_target_page_html(target: dict) -> str:
             <div class="company-assets">{asset_links}</div>
             <div class="company-stages">{stages}</div>
         </div>'''
+
+    # =====================================================================
+    # RICH DATA SECTIONS (from data/targets/{slug}.json)
+    # =====================================================================
+    rich_sections_html = ""
+    if rich_data:
+        rich_sections_html = _build_rich_target_sections(rich_data)
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -6302,6 +6660,179 @@ def _generate_target_page_html(target: dict) -> str:
         .back-link:hover {{
             text-decoration: underline;
         }}
+
+        /* --- Rich target section styles --- */
+        .section-subtitle {{
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-style: italic;
+        }}
+        .footnote {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 12px;
+            font-style: italic;
+        }}
+        .footnotes, .safety-notes {{
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 12px;
+            padding-left: 20px;
+        }}
+        .footnotes li, .safety-notes li {{
+            margin-bottom: 4px;
+        }}
+        .result {{
+            color: var(--bull);
+        }}
+        .highlight-row {{
+            background: #fffff0;
+        }}
+        .highlight-row:hover {{
+            background: #fefce8 !important;
+        }}
+        .warning-cell {{
+            color: var(--bear);
+            font-weight: 600;
+        }}
+        .bull-text {{
+            color: var(--bull);
+        }}
+        .bear-text {{
+            color: var(--bear);
+        }}
+        .key-points {{
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }}
+        .key-points li {{
+            margin-bottom: 6px;
+            line-height: 1.6;
+        }}
+        .full-text p {{
+            margin-bottom: 12px;
+        }}
+        .market-stats {{
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+        }}
+        .mstat {{
+            background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            border: 1px solid #9ae6b4;
+            padding: 16px 24px;
+            border-radius: 12px;
+            text-align: center;
+        }}
+        .mstat-value {{
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--bull);
+        }}
+        .mstat-label {{
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }}
+        .medicare-box {{
+            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
+            border: 1px solid #bee3f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 16px;
+        }}
+        .medicare-box h3 {{
+            color: var(--accent);
+            margin-bottom: 12px;
+        }}
+        .medicare-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }}
+        @media (max-width: 768px) {{
+            .medicare-grid {{ grid-template-columns: 1fr; }}
+            .market-stats {{ flex-direction: column; }}
+        }}
+        .medicare-grid ul {{
+            padding-left: 20px;
+            margin-top: 8px;
+        }}
+        .medicare-grid li {{
+            margin-bottom: 4px;
+        }}
+        .coverage-list {{
+            padding-left: 20px;
+        }}
+        .coverage-list li {{
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }}
+        .catalyst-item-rich {{
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }}
+        .catalyst-item-rich.critical {{
+            border-left: 4px solid var(--bear);
+        }}
+        .catalyst-item-rich.high {{
+            border-left: 4px solid var(--warning);
+        }}
+        .cat-header {{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }}
+        .cat-event {{
+            font-weight: 600;
+            font-size: 1rem;
+        }}
+        .cat-detail {{
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }}
+        .cat-meta {{
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }}
+        .risk-item {{
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }}
+        .risk-header {{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }}
+        .risk-mitigation {{
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }}
+        .badge.critical {{
+            background: #fed7d7;
+            color: var(--bear);
+        }}
+        .badge.high {{
+            background: #fefcbf;
+            color: #975a16;
+        }}
+        .badge.medium {{
+            background: #e2e8f0;
+            color: var(--text-muted);
+        }}
     </style>
 </head>
 <body>
@@ -6340,6 +6871,8 @@ def _generate_target_page_html(target: dict) -> str:
                 {f'<div class="undruggable-card"><h3>Why Previously Undruggable</h3><p>{why_undruggable}</p></div>' if why_undruggable else ''}
             </div>
         </div>
+
+        {rich_sections_html}
 
         <div class="section">
             <h2 class="section-header">Competitive Landscape</h2>

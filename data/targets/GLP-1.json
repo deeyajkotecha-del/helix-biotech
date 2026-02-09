@@ -1,8 +1,8 @@
 {
   "_metadata": {
-    "version": "2.0",
+    "version": "3.0",
     "target": "GLP-1",
-    "last_updated": "2026-02-04"
+    "last_updated": "2026-02-09"
   },
   "target": {
     "name": "GLP-1",
@@ -16,70 +16,95 @@
     "key_points": [
       "Blockbuster market: Ozempic + Wegovy $20B+ in 2024 sales, Mounjaro $10B+",
       "Beyond diabetes: Obesity, MASH, CV outcomes, kidney disease expanding indications",
-      "Next wave: Oral small molecules (orforglipron), triple agonists (retatrutide)",
+      "Next wave: Oral small molecules (orforglipron PDUFA May 2026), triple agonists (retatrutide 28.7% wt loss)",
       "Deal frenzy: $22B+ in announced deals (Pfizer/Metsera, AZ/CSPC, Roche/Zealand)",
-      "Best-in-class race: Multiple programs targeting 20%+ weight loss"
+      "Medicare coverage: Historic change — GLP-1s covered for obesity starting mid-2026 at $245/mo"
     ],
-    "full_text": "GLP-1 receptor agonists have become the largest and fastest-growing drug class in pharmaceuticals. With combined 2024 sales exceeding $30B for semaglutide (Ozempic/Wegovy) and tirzepatide (Mounjaro/Zepbound), the commercial validation is unprecedented.\n\nThe market continues to expand beyond diabetes into obesity (FDA approved), MASH/liver disease, cardiovascular risk reduction (FLOW, SUMMIT), obstructive sleep apnea, and potentially kidney disease and Alzheimer's. Each new indication adds billions to the addressable market.\n\nThe competitive landscape is intensifying with next-generation molecules: oral small molecules (Lilly's orforglipron, Structure's GSBR-1290), triple agonists (retatrutide showing 24% weight loss), monthly dosing (Amgen's MariTide), and combinations (CagriSema). Deal activity has been extraordinary with Pfizer acquiring Metsera ($4.9B), AstraZeneca partnering with CSPC ($4.7B), and Roche licensing petrelintide from Zealand ($5.3B total)."
+    "full_text": "GLP-1 receptor agonists have become the largest and fastest-growing drug class in pharmaceuticals. With combined 2024 sales exceeding $30B for semaglutide (Ozempic/Wegovy) and tirzepatide (Mounjaro/Zepbound), the commercial validation is unprecedented.\n\nThe market continues to expand beyond diabetes into obesity (FDA approved), MASH/liver disease, cardiovascular risk reduction (SELECT, SUMMIT), obstructive sleep apnea, and potentially kidney disease and Alzheimer's. Each new indication adds billions to the addressable market.\n\nThe competitive landscape is intensifying with next-generation molecules: oral small molecules (Lilly's orforglipron under FDA review, PDUFA May 2026), triple agonists (retatrutide showing 28.7% weight loss in TRIUMPH-4 Phase 3), monthly dosing (Amgen's MariTide), and combinations (CagriSema). Deal activity has been extraordinary with Pfizer acquiring Metsera ($4.9B), AstraZeneca partnering with CSPC ($4.7B), and Roche licensing petrelintide from Zealand ($5.3B total).\n\nThe FDA approved oral Wegovy (semaglutide pill) in December 2025, marking the first oral GLP-1 for weight management. Medicare will cover GLP-1s for obesity for the first time starting mid-2026 under the GENEROUS pilot model at $245/month, dramatically expanding the addressable population."
   },
   "mechanism": {
     "biology": "GLP-1 receptor agonists mimic the incretin hormone GLP-1, stimulating glucose-dependent insulin secretion, suppressing glucagon, slowing gastric emptying, and reducing appetite through central nervous system effects.",
     "rationale": "The mechanism provides multimodal metabolic benefits: improved glycemic control for diabetes, significant weight loss through appetite suppression, and cardiovascular/renal protective effects.",
-    "unique_value": "Validated efficacy with 15-24% weight loss and proven CV/renal outcomes benefits. No other drug class has shown this breadth of metabolic effects."
+    "unique_value": "Validated efficacy with 15-29% weight loss and proven CV/renal outcomes benefits. No other drug class has shown this breadth of metabolic effects."
   },
   "market_opportunity": {
     "total_market": "$50B+ projected by 2030 for GLP-1/GIP agonists",
     "target_share": "Multiple $10B+ blockbusters possible across different mechanism strategies",
     "patient_population": "42M US adults with obesity; 38M with diabetes; overlap creates massive addressable population",
-    "unmet_need": "Convenience (oral), tolerability (GI side effects), muscle preservation, and accessibility remain key unmet needs"
+    "unmet_need": "Convenience (oral), tolerability (GI side effects), muscle preservation, and accessibility remain key unmet needs",
+    "medicare_expansion": "Medicare coverage starting mid-2026 could add 10%+ of beneficiaries; 48M Americans expect to start a GLP-1 in 2026 (RAND survey)"
   },
   "key_risks": [
     {
       "risk": "Manufacturing constraints limiting supply",
       "severity": "High",
-      "mitigation": "Multiple new facilities under construction; oral formulations reduce peptide demand"
+      "mitigation": "Multiple new facilities under construction; oral formulations reduce peptide demand; $10B+ combined Novo/Lilly manufacturing investment"
     },
     {
       "risk": "Safety signals emerging in post-marketing data",
       "severity": "Medium",
-      "mitigation": "Large real-world databases monitoring; long-term CV outcomes data supportive"
+      "mitigation": "Large real-world databases monitoring; long-term CV outcomes data supportive (SELECT trial); retatrutide dysesthesia signal is key new concern"
     },
     {
-      "risk": "Payer resistance to obesity coverage",
-      "severity": "Medium",
-      "mitigation": "CMS considering coverage; employer plans increasingly covering; outcomes data justifying cost"
+      "risk": "Pricing compression from Medicare/government programs",
+      "severity": "High",
+      "mitigation": "Volume expansion may offset per-unit price decline; $245/mo Medicare price is 60-75% below WAC but addressable population grows dramatically"
     }
   ],
   "catalysts": [
     {
-      "event": "Retatrutide Phase 3 readouts",
-      "timing": "2026",
-      "drug": "Retatrutide",
-      "significance": "High"
-    },
-    {
-      "event": "Orforglipron ACHIEVE Phase 3 readouts",
-      "timing": "2025-2026",
+      "event": "Orforglipron FDA decision (PDUFA)",
+      "timing": "May 2026",
       "drug": "Orforglipron",
-      "significance": "High"
+      "company": "Eli Lilly",
+      "significance": "Critical",
+      "detail": "Already submitted with Priority Review. Beat semaglutide head-to-head on A1C in T2D Phase 3. First oral small molecule GLP-1 if approved."
     },
     {
-      "event": "CagriSema Phase 3 data",
-      "timing": "2025",
+      "event": "Retatrutide Phase 3 TRIUMPH readouts (7 trials)",
+      "timing": "Throughout 2026",
+      "drug": "Retatrutide",
+      "company": "Eli Lilly",
+      "significance": "Critical",
+      "detail": "TRIUMPH-4 reported Dec 11, 2025: 28.7% weight loss at 12mg. NDA submission expected late 2026. Key risk: dysesthesia in 20.9% at 12mg. GlobalData forecasts $15.6B peak sales."
+    },
+    {
+      "event": "CagriSema NDA submission",
+      "timing": "Q2 2026",
       "drug": "CagriSema",
-      "significance": "High"
+      "company": "Novo Nordisk",
+      "significance": "High",
+      "detail": "Semaglutide + cagrilintide combination. Approval expected late 2026 to H1 2027."
     },
     {
-      "event": "VK2735 VANQUISH Phase 3 data",
-      "timing": "2026",
+      "event": "VK2735 VENTURE Phase 3 interim data",
+      "timing": "Q1 2026",
       "drug": "VK2735",
-      "significance": "High"
+      "company": "Viking Therapeutics",
+      "significance": "High",
+      "detail": "Dual GLP-1/GIP agonist. Key M&A target. Phase 3 interim expected Q1 2026."
+    },
+    {
+      "event": "Medicare GLP-1 obesity coverage rollout (GENEROUS model)",
+      "timing": "Mid-2026",
+      "drug": "All GLP-1s",
+      "company": "Market-wide",
+      "significance": "Critical",
+      "detail": "First-ever Medicare coverage for obesity drugs. $245/mo for injectables. Phased eligibility by BMI/comorbidity. Pilot program — legal challenges possible."
+    },
+    {
+      "event": "Oral Wegovy now available (approved Dec 22, 2025)",
+      "timing": "Available now",
+      "drug": "Oral Semaglutide",
+      "company": "Novo Nordisk",
+      "significance": "High",
+      "detail": "First oral GLP-1 approved for weight management. Cash price: $149/mo starting, $300/mo maintenance via TrumpRx/NovoCare."
     }
   ],
   "assets": [
     {
-      "name": "Semaglutide (Ozempic/Wegovy/Rybelsus)",
-      "code_names": ["NN9535", "Ozempic", "Wegovy", "Rybelsus"],
+      "name": "Semaglutide (Ozempic/Wegovy)",
+      "code_names": ["NN9535", "Ozempic", "Wegovy"],
       "target": "GLP-1",
       "modality": "Peptide",
       "owner": "Novo Nordisk",
@@ -87,8 +112,20 @@
       "status": "Active",
       "lead_indication": "T2D, Obesity, CV Risk",
       "other_indications": ["MASH", "CKD"],
-      "key_data": "~15-17% weight loss (Wegovy); FLOW: 24% kidney risk reduction",
-      "differentiator": "Market leader; multiple formulations (SC/oral); proven CV and renal benefits"
+      "key_data": "~15-17% weight loss (Wegovy SC); SELECT: 20% MACE risk reduction (HR 0.80); FLOW: 24% kidney risk reduction",
+      "differentiator": "Market leader; only GLP-1 with completed CVOT; multiple formulations; proven CV and renal benefits"
+    },
+    {
+      "name": "Oral Semaglutide (Wegovy Pill)",
+      "code_names": ["Rybelsus", "Oral Wegovy"],
+      "target": "GLP-1",
+      "modality": "Oral Peptide",
+      "owner": "Novo Nordisk",
+      "phase": "Approved",
+      "status": "Active — approved Dec 22, 2025",
+      "lead_indication": "Obesity",
+      "key_data": "~11-12% weight loss at 68 weeks; first oral GLP-1 approved for obesity",
+      "differentiator": "First approved oral GLP-1 for weight loss; cash price $149-300/mo; sets precedent for oral GLP-1 approval pathway"
     },
     {
       "name": "Tirzepatide (Mounjaro/Zepbound)",
@@ -98,11 +135,11 @@
       "owner": "Eli Lilly",
       "phase": "Approved",
       "status": "Active",
-      "lead_indication": "T2D, Obesity",
-      "other_indications": ["HFpEF", "OSA"],
+      "lead_indication": "T2D, Obesity, OSA",
+      "other_indications": ["HFpEF"],
       "regulatory": {"btd": true, "odd": false, "fast_track": false},
-      "key_data": "~21-22.5% weight loss; SUMMIT: 33% CV death/HF reduction",
-      "differentiator": "Best-in-class weight loss; dual GLP-1/GIP mechanism"
+      "key_data": "~20.9% weight loss (SURMOUNT-1); SURMOUNT-5 head-to-head: beat semaglutide by ~5%; SUMMIT: 33% CV death/HF reduction",
+      "differentiator": "Best-in-class approved weight loss; dual GLP-1/GIP mechanism; head-to-head winner vs semaglutide; no CVOT yet"
     },
     {
       "name": "Mazdutide",
@@ -123,13 +160,13 @@
       "target": "GLP-1",
       "modality": "Small Molecule",
       "owner": "Eli Lilly",
-      "phase": "Phase 3",
-      "status": "Active",
+      "phase": "Phase 3 (filed)",
+      "status": "Under FDA review — Priority Review, PDUFA May 2026",
       "lead_indication": "Obesity, T2D",
       "other_indications": ["NASH"],
-      "regulatory": {"btd": false, "odd": false, "fast_track": true},
-      "key_data": "Phase 2: 14.7% weight loss at 36 weeks",
-      "differentiator": "First oral small molecule GLP-1; convenience over peptides"
+      "regulatory": {"btd": false, "odd": false, "fast_track": true, "priority_review": true},
+      "key_data": "Phase 2: 14.7% weight loss at 36 wks; beat semaglutide head-to-head on A1C in T2D Phase 3",
+      "differentiator": "First oral small molecule GLP-1; convenience over peptides; PDUFA May 2026; highest nausea risk in NMA may limit positioning"
     },
     {
       "name": "Retatrutide",
@@ -138,12 +175,12 @@
       "modality": "Triple Peptide",
       "owner": "Eli Lilly",
       "phase": "Phase 3",
-      "status": "Active",
+      "status": "Active — TRIUMPH-4 reported Dec 2025; 7 additional readouts in 2026",
       "lead_indication": "Obesity",
-      "other_indications": ["T2D", "MASH", "OSA"],
+      "other_indications": ["T2D", "MASH", "OSA", "Knee OA"],
       "regulatory": {"btd": false, "odd": false, "fast_track": true},
-      "key_data": "Phase 2: ~24% weight loss at 48 weeks",
-      "differentiator": "Triple agonist; highest weight loss ever reported; potential best-in-class"
+      "key_data": "TRIUMPH-4 Phase 3: 28.7% weight loss at 12mg, 68 wks. Phase 2: ~24% at 48 wks. NEW safety signal: dysesthesia 20.9% at 12mg (vs 0.7% placebo).",
+      "differentiator": "Best-in-class weight loss ever reported; triple agonist (GLP-1/GIP/glucagon); dysesthesia signal is key risk; GlobalData $15.6B peak sales forecast; NDA expected late 2026"
     },
     {
       "name": "CagriSema",
@@ -155,22 +192,22 @@
       "status": "Active",
       "lead_indication": "Obesity",
       "other_indications": ["T2D"],
-      "key_data": "Phase 2: ~15.6% weight loss at 32 weeks",
-      "differentiator": "Semaglutide + cagrilintide combination; Novo combination strategy"
+      "key_data": "~25% weight loss estimated; semaglutide + cagrilintide combination",
+      "differentiator": "Semaglutide + cagrilintide combination; Novo next-gen; FDA submission expected Q2 2026"
     },
     {
-      "name": "VK2735",
+      "name": "VK2735 (SC)",
       "code_names": ["VK2735"],
       "target": "GLP-1/GIP",
       "modality": "Dual Peptide",
       "owner": "Viking Therapeutics",
       "phase": "Phase 3",
-      "status": "Active",
+      "status": "Active — VENTURE Phase 3 ongoing",
       "lead_indication": "Obesity",
       "other_indications": ["MASH"],
       "regulatory": {"btd": false, "odd": false, "fast_track": true},
-      "key_data": "Phase 2: 14.7% at 13 weeks (highest dose)",
-      "differentiator": "Biotech speed; attractive M&A target"
+      "key_data": "Phase 2: 14.7% at 13 wks (highest dose); VENTURE interim expected Q1 2026",
+      "differentiator": "Biotech speed; attractive M&A target; early timepoint — could increase with longer duration"
     },
     {
       "name": "Survodutide",
@@ -183,11 +220,11 @@
       "status": "Active",
       "lead_indication": "Obesity, MASH",
       "other_indications": ["T2D"],
-      "key_data": "Phase 2: ~19% weight loss; 83% MASH improvement",
-      "differentiator": "Strong MASH efficacy; differentiated liver indication"
+      "key_data": "Phase 2: 18.7% weight loss at 46 wks; 83% MASH improvement",
+      "differentiator": "Strong MASH efficacy; dual obesity + MASH play"
     },
     {
-      "name": "MariTide",
+      "name": "MariTide (AMG 133)",
       "code_names": ["AMG 133"],
       "target": "GLP-1/GIPR-antagonist",
       "modality": "Bispecific Antibody-Peptide",
@@ -195,8 +232,8 @@
       "phase": "Phase 3",
       "status": "Active",
       "lead_indication": "Obesity",
-      "key_data": "Phase 2: ~20% weight loss with monthly dosing",
-      "differentiator": "Monthly dosing; unique GIP antagonist mechanism"
+      "key_data": "Phase 2: ~14.5% weight loss at 12 wks with monthly dosing; weight maintenance after discontinuation",
+      "differentiator": "Monthly dosing; unique GIP antagonist mechanism; weight maintenance differentiation"
     },
     {
       "name": "HRS9531",
@@ -215,8 +252,32 @@
         "territory": "US rights",
         "notes": "$6B potential deal with Kailera"
       },
-      "key_data": "Phase 3: ~18% weight loss at 48 weeks",
-      "differentiator": "China leader; large US deal validates asset"
+      "key_data": "Phase 3: 16.8% weight loss at 24 wks",
+      "differentiator": "China market leader; large US deal validates asset"
+    },
+    {
+      "name": "Pemvidutide",
+      "code_names": ["ALT-801"],
+      "target": "GLP-1/GCGR",
+      "modality": "Dual Peptide",
+      "owner": "Altimmune",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity, MASH",
+      "key_data": "Phase 2b: 15.6% weight loss at 48 wks; 80% liver fat reduction",
+      "differentiator": "Obesity + MASH combo play; Phase 3 ongoing"
+    },
+    {
+      "name": "Ecnoglutide",
+      "code_names": [],
+      "target": "GLP-1",
+      "modality": "Peptide",
+      "owner": "Sciwind Biosciences",
+      "phase": "Phase 3",
+      "status": "Active",
+      "lead_indication": "Obesity, T2D",
+      "key_data": "~15% weight loss",
+      "differentiator": "China-focused GLP-1 mono; Phase 3"
     },
     {
       "name": "Petrelintide",
@@ -270,16 +331,16 @@
       "differentiator": "AstraZeneca backing; oral small molecule"
     },
     {
-      "name": "Pemvidutide",
-      "code_names": ["ALT-801"],
-      "target": "GLP-1/GCGR",
-      "modality": "Dual Peptide",
-      "owner": "Altimmune",
-      "phase": "Phase 2",
+      "name": "VK2735 (Oral)",
+      "code_names": ["VK2735"],
+      "target": "GLP-1/GIP",
+      "modality": "Oral Peptide",
+      "owner": "Viking Therapeutics",
+      "phase": "Phase 2b",
       "status": "Active",
-      "lead_indication": "MASH, Obesity",
-      "key_data": "Phase 2: 80% liver fat reduction",
-      "differentiator": "MASH-focused; strong liver fat reduction"
+      "lead_indication": "Obesity",
+      "key_data": "Phase 2a: 8.2% weight loss at 28 days; very early timepoint",
+      "differentiator": "Oral dual GLP-1/GIP agonist; early data"
     },
     {
       "name": "MET-097i",
@@ -316,18 +377,613 @@
         "notes": "$1.2B upfront from AstraZeneca; $3.5B milestones; 8 programs total"
       },
       "differentiator": "Monthly dosing; part of mega AstraZeneca deal"
+    },
+    {
+      "name": "Liraglutide (Saxenda)",
+      "code_names": ["Saxenda", "Victoza"],
+      "target": "GLP-1",
+      "modality": "Peptide",
+      "owner": "Novo Nordisk",
+      "phase": "Approved",
+      "status": "Active — generic expected 2027",
+      "lead_indication": "Obesity, T2D",
+      "key_data": "~8% weight loss at 56 wks; daily SC injection",
+      "differentiator": "First-gen GLP-1 for obesity; generic 2027; daily dosing limits use"
     }
   ],
+  "efficacy_ranking": [
+    {
+      "rank": 1,
+      "asset": "Retatrutide",
+      "company": "Eli Lilly",
+      "mechanism": "GLP-1/GIP/Glucagon triple",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "28.7%",
+      "timepoint": "68 wks",
+      "placebo_adj": "26.6%",
+      "phase": "Phase 3",
+      "differentiator": "Best-in-class efficacy; dysesthesia signal"
+    },
+    {
+      "rank": 2,
+      "asset": "CagriSema",
+      "company": "Novo Nordisk",
+      "mechanism": "Semaglutide + Amylin",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "~25% (est)",
+      "timepoint": "TBD",
+      "placebo_adj": "TBD",
+      "phase": "Phase 3",
+      "differentiator": "Combo approach; submission Q2 2026"
+    },
+    {
+      "rank": 3,
+      "asset": "Zepbound/Mounjaro (tirzepatide)",
+      "company": "Eli Lilly",
+      "mechanism": "GLP-1/GIP dual",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "20.9%",
+      "timepoint": "72 wks",
+      "placebo_adj": "17.8%",
+      "phase": "Approved",
+      "differentiator": "Head-to-head winner vs semaglutide"
+    },
+    {
+      "rank": 4,
+      "asset": "Survodutide",
+      "company": "Boehringer/Zealand",
+      "mechanism": "GLP-1/Glucagon dual",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "18.7%",
+      "timepoint": "46 wks",
+      "placebo_adj": "15.9%",
+      "phase": "Phase 3",
+      "differentiator": "Dual MASH + obesity play"
+    },
+    {
+      "rank": 5,
+      "asset": "HRS9531",
+      "company": "Hengrui",
+      "mechanism": "GLP-1/GIP dual",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "16.8%",
+      "timepoint": "24 wks",
+      "placebo_adj": "~14%",
+      "phase": "Phase 3",
+      "differentiator": "China market leader"
+    },
+    {
+      "rank": 6,
+      "asset": "Pemvidutide",
+      "company": "Altimmune",
+      "mechanism": "GLP-1/Glucagon dual",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "15.6%",
+      "timepoint": "48 wks",
+      "placebo_adj": "~13%",
+      "phase": "Phase 3",
+      "differentiator": "Obesity + MASH combo"
+    },
+    {
+      "rank": 7,
+      "asset": "Wegovy (semaglutide SC)",
+      "company": "Novo Nordisk",
+      "mechanism": "GLP-1 mono",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "14.9%",
+      "timepoint": "68 wks",
+      "placebo_adj": "12.4%",
+      "phase": "Approved",
+      "differentiator": "Only drug with CVOT (SELECT)"
+    },
+    {
+      "rank": 8,
+      "asset": "Orforglipron",
+      "company": "Eli Lilly",
+      "mechanism": "GLP-1 small molecule",
+      "route": "Oral",
+      "frequency": "Daily",
+      "weight_loss": "14.7%",
+      "timepoint": "36 wks",
+      "placebo_adj": "12.6%",
+      "phase": "Phase 3 (filed)",
+      "differentiator": "Oral convenience; PDUFA May 2026"
+    },
+    {
+      "rank": 9,
+      "asset": "VK2735 (SC)",
+      "company": "Viking",
+      "mechanism": "GLP-1/GIP dual",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "14.7%",
+      "timepoint": "13 wks",
+      "placebo_adj": "12.3%",
+      "phase": "Phase 3",
+      "differentiator": "Early timepoint; could increase"
+    },
+    {
+      "rank": 10,
+      "asset": "MariTide (AMG 133)",
+      "company": "Amgen",
+      "mechanism": "GLP-1 agonist / GIPR antag",
+      "route": "SC",
+      "frequency": "Monthly",
+      "weight_loss": "14.5%",
+      "timepoint": "12 wks",
+      "placebo_adj": "~12%",
+      "phase": "Phase 3",
+      "differentiator": "Monthly dosing; weight maintenance"
+    },
+    {
+      "rank": 11,
+      "asset": "Ecnoglutide",
+      "company": "Sciwind",
+      "mechanism": "GLP-1 mono",
+      "route": "SC",
+      "frequency": "Weekly",
+      "weight_loss": "~15%",
+      "timepoint": "TBD",
+      "placebo_adj": "TBD",
+      "phase": "Phase 3",
+      "differentiator": "China-focused"
+    },
+    {
+      "rank": 12,
+      "asset": "Wegovy Pill (oral sema)",
+      "company": "Novo Nordisk",
+      "mechanism": "GLP-1 mono",
+      "route": "Oral",
+      "frequency": "Daily",
+      "weight_loss": "~12%",
+      "timepoint": "68 wks",
+      "placebo_adj": "~10%",
+      "phase": "Approved (Dec 2025)",
+      "differentiator": "First approved oral for obesity"
+    },
+    {
+      "rank": 13,
+      "asset": "VK2735 (Oral)",
+      "company": "Viking",
+      "mechanism": "GLP-1/GIP dual",
+      "route": "Oral",
+      "frequency": "Daily",
+      "weight_loss": "8.2%",
+      "timepoint": "28 days",
+      "placebo_adj": "~6%",
+      "phase": "Phase 2b",
+      "differentiator": "Very early; short duration"
+    },
+    {
+      "rank": 14,
+      "asset": "Saxenda (liraglutide)",
+      "company": "Novo Nordisk",
+      "mechanism": "GLP-1 mono",
+      "route": "SC",
+      "frequency": "Daily",
+      "weight_loss": "8.0%",
+      "timepoint": "56 wks",
+      "placebo_adj": "~5%",
+      "phase": "Approved",
+      "differentiator": "Generic 2027; daily dosing limits use"
+    }
+  ],
+  "efficacy_ranking_footnote": "Weight loss percentages are from different trials with different designs, durations, and patient populations. Placebo-adjusted estimates remove background weight loss but do not fully account for cross-trial differences. See Trial Design Comparison table for details.",
+  "trial_design_comparison": {
+    "subtitle": "Why trial design matters: Baseline BMI, placebo weight loss, estimand methodology, and duration all affect headline numbers. Direct comparison of weight loss percentages across trials without accounting for these differences is misleading.",
+    "trials": [
+      {
+        "trial": "STEP 1",
+        "drug": "Semaglutide 2.4mg SC",
+        "n": 1961,
+        "baseline_bmi": "37.9",
+        "bmi_inclusion": ">=30, or >=27 + comorbidity",
+        "duration_wks": 68,
+        "primary_endpoint": "% change body weight",
+        "estimand": "Treatment policy + trial product",
+        "placebo_wt_loss": "-2.4%",
+        "placebo_adj_effect": "-12.4%",
+        "gi_discontinuation": "~7%"
+      },
+      {
+        "trial": "SURMOUNT-1",
+        "drug": "Tirzepatide 15mg SC",
+        "n": 2539,
+        "baseline_bmi": "38.0",
+        "bmi_inclusion": ">=30, or >=27 + comorbidity (no T2D)",
+        "duration_wks": 72,
+        "primary_endpoint": "% change body weight",
+        "estimand": "Treatment-regimen + efficacy",
+        "placebo_wt_loss": "-3.1%",
+        "placebo_adj_effect": "-17.8%",
+        "gi_discontinuation": "~6%"
+      },
+      {
+        "trial": "SURMOUNT-5",
+        "drug": "Tirzepatide vs Semaglutide (head-to-head)",
+        "n": 751,
+        "baseline_bmi": "~38",
+        "bmi_inclusion": ">=30, or >=27 + comorbidity",
+        "duration_wks": 72,
+        "primary_endpoint": "% change body weight (superiority)",
+        "estimand": "Treatment policy",
+        "placebo_wt_loss": "Semaglutide arm: -13.7%",
+        "placebo_adj_effect": "Tirze superior by ~5%",
+        "gi_discontinuation": "Similar both arms"
+      },
+      {
+        "trial": "TRIUMPH-4",
+        "drug": "Retatrutide 12mg SC",
+        "n": 445,
+        "baseline_bmi": "~39",
+        "bmi_inclusion": ">=27 + knee OA",
+        "duration_wks": 68,
+        "primary_endpoint": "Co-primary: % body wt + WOMAC pain",
+        "estimand": "Treatment policy",
+        "placebo_wt_loss": "-2.1%",
+        "placebo_adj_effect": "-26.6%",
+        "gi_discontinuation": "18.2% (12mg) vs 4.0% (pbo)"
+      },
+      {
+        "trial": "Phase 2 (obesity)",
+        "drug": "Orforglipron 36mg oral",
+        "n": 272,
+        "baseline_bmi": "37.9",
+        "bmi_inclusion": ">=30, or >=27 + comorbidity",
+        "duration_wks": 36,
+        "primary_endpoint": "% change body weight",
+        "estimand": "Treatment policy",
+        "placebo_wt_loss": "-2.2%",
+        "placebo_adj_effect": "-12.6%",
+        "gi_discontinuation": "~10%"
+      },
+      {
+        "trial": "Phase 2 (obesity)",
+        "drug": "VK2735 SC",
+        "n": 175,
+        "baseline_bmi": "~35",
+        "bmi_inclusion": ">=30, or >=27 + comorbidity",
+        "duration_wks": 13,
+        "primary_endpoint": "% change body weight",
+        "estimand": "Modified ITT",
+        "placebo_wt_loss": "-2.4%",
+        "placebo_adj_effect": "-12.3%",
+        "gi_discontinuation": "Low (not fully reported)"
+      },
+      {
+        "trial": "SYNCHRONIZE (Ph2)",
+        "drug": "Survodutide SC",
+        "n": 387,
+        "baseline_bmi": "37.1",
+        "bmi_inclusion": ">=27 + comorbidity",
+        "duration_wks": 46,
+        "primary_endpoint": "% change body weight",
+        "estimand": "Trial product",
+        "placebo_wt_loss": "-2.8%",
+        "placebo_adj_effect": "-15.9%",
+        "gi_discontinuation": "~8%"
+      }
+    ],
+    "footnotes": [
+      "\"Treatment policy\" counts all randomized patients including dropouts. \"Trial product\" / \"on-treatment\" only counts patients who stayed on drug. On-treatment estimates typically inflate weight loss by 2-5%.",
+      "SURMOUNT-5 was the first head-to-head: tirzepatide significantly beat semaglutide on weight loss.",
+      "TRIUMPH-4 dysesthesia discontinuations included in AE discontinuation rate; some discontinuations were for \"perceived excessive weight loss.\""
+    ]
+  },
+  "safety_comparison": {
+    "subtitle": "GI side effects are the primary driver of discontinuation and the #1 prescriber concern. Side effects are most pronounced during dose escalation and generally attenuate over 4-8 weeks.",
+    "drugs": ["Semaglutide 2.4mg (STEP)", "Tirzepatide 15mg (SURMOUNT)", "Retatrutide 12mg (TRIUMPH-4)", "Orforglipron 36mg (Phase 2)"],
+    "parameters": [
+      {
+        "parameter": "Nausea",
+        "values": ["~44%", "~31%", "~30% (est)", "~40-50% (highest risk per NMA)"]
+      },
+      {
+        "parameter": "Vomiting",
+        "values": ["~25%", "~12%", "~15% (est)", "~25%"]
+      },
+      {
+        "parameter": "Diarrhea",
+        "values": ["~30%", "~23%", "~20% (est)", "~20%"]
+      },
+      {
+        "parameter": "Constipation",
+        "values": ["~24%", "~11%", "~15% (est)", "~15%"]
+      },
+      {
+        "parameter": "GI-related discontinuation",
+        "values": ["~7%", "~6%", "~12-18%", "~10%"]
+      },
+      {
+        "parameter": "Pancreatitis",
+        "values": ["<1%", "<1%", "Not reported", "Not reported"]
+      },
+      {
+        "parameter": "Cholelithiasis/cholecystitis",
+        "values": ["~1-2%", "~0.6%", "Not reported", "Not reported"]
+      },
+      {
+        "parameter": "Dysesthesia",
+        "values": ["Not reported", "Not reported", "20.9% at 12mg (NEW SIGNAL)", "Not reported"],
+        "highlight": true
+      },
+      {
+        "parameter": "MACE (CV events)",
+        "values": ["SELECT: 20% risk reduction (HR 0.80)", "No CVOT yet", "No CVOT yet", "No CVOT yet"]
+      },
+      {
+        "parameter": "Thyroid C-cell signal",
+        "values": ["Rodent signal; human relevance debated", "Rodent signal", "Rodent signal", "Rodent signal"]
+      },
+      {
+        "parameter": "SAEs (overall)",
+        "values": ["~8%", "~5%", "Similar across arms", "~5%"]
+      }
+    ],
+    "notes": [
+      "Semaglutide is the ONLY GLP-1 with a completed cardiovascular outcomes trial (SELECT). This is a major regulatory and commercial advantage.",
+      "Retatrutide's dysesthesia signal is unique to the triple agonist and was NOT seen in Phase 2. This is the key risk to watch in remaining TRIUMPH readouts.",
+      "Orforglipron (oral small molecule) showed the highest nausea risk in network meta-analysis, which could limit its competitive positioning vs injectable semaglutide despite oral convenience.",
+      "GI side effects generally attenuate over 4-8 weeks; slow dose titration significantly reduces severity.",
+      "Tirzepatide showed a higher severe hypoglycemia risk (<54 mg/dL) than semaglutide in NMA, though absolute rates were very low in non-diabetic populations."
+    ]
+  },
+  "regulatory_landscape": {
+    "drugs": [
+      {
+        "drug": "Wegovy (SC)",
+        "company": "Novo Nordisk",
+        "current_status": "Approved (obesity, CV risk reduction)",
+        "designations": "—",
+        "expected_nda": "—",
+        "expected_approval": "Approved 2021 (obesity), 2024 (CV)",
+        "key_risk": "Label expansion to HFpEF, CKD"
+      },
+      {
+        "drug": "Wegovy Pill (oral sema)",
+        "company": "Novo Nordisk",
+        "current_status": "Approved Dec 22, 2025",
+        "designations": "—",
+        "expected_nda": "—",
+        "expected_approval": "Approved",
+        "key_risk": "First oral GLP-1 for weight loss"
+      },
+      {
+        "drug": "Zepbound (tirzepatide)",
+        "company": "Eli Lilly",
+        "current_status": "Approved (obesity, sleep apnea)",
+        "designations": "BTD",
+        "expected_nda": "—",
+        "expected_approval": "Approved 2023",
+        "key_risk": "No CVOT yet; may need one"
+      },
+      {
+        "drug": "Orforglipron",
+        "company": "Eli Lilly",
+        "current_status": "Under FDA review",
+        "designations": "Priority Review",
+        "expected_nda": "Filed 2025",
+        "expected_approval": "PDUFA May 2026",
+        "key_risk": "GI tolerability vs injectables"
+      },
+      {
+        "drug": "Retatrutide",
+        "company": "Eli Lilly",
+        "current_status": "Phase 3 (7 TRIUMPH readouts in 2026)",
+        "designations": "Fast Track",
+        "expected_nda": "Late 2026 (est)",
+        "expected_approval": "Late 2026 - early 2027",
+        "key_risk": "Dysesthesia signal; FDA may require additional data"
+      },
+      {
+        "drug": "CagriSema",
+        "company": "Novo Nordisk",
+        "current_status": "Phase 3",
+        "designations": "—",
+        "expected_nda": "Q2 2026 (est)",
+        "expected_approval": "Late 2026 - H1 2027",
+        "key_risk": "Combo product complexity"
+      },
+      {
+        "drug": "VK2735 (SC)",
+        "company": "Viking",
+        "current_status": "Phase 3 (VENTURE)",
+        "designations": "Fast Track",
+        "expected_nda": "2027 (est)",
+        "expected_approval": "2027-2028",
+        "key_risk": "Small company execution risk"
+      },
+      {
+        "drug": "Survodutide",
+        "company": "Boehringer/Zealand",
+        "current_status": "Phase 3",
+        "designations": "—",
+        "expected_nda": "2027 (est)",
+        "expected_approval": "2027-2028",
+        "key_risk": "Competitive timing; crowded market"
+      },
+      {
+        "drug": "MariTide",
+        "company": "Amgen",
+        "current_status": "Phase 3",
+        "designations": "—",
+        "expected_nda": "2027 (est)",
+        "expected_approval": "2028",
+        "key_risk": "Monthly dosing differentiation vs efficacy gap"
+      }
+    ],
+    "notes": [
+      "FDA has signaled it may want cardiovascular outcomes data for new obesity drug approvals going forward, which could extend timelines for drugs without CVOT data.",
+      "Semaglutide's SELECT CVOT (20% MACE reduction) gives Novo Nordisk a durable labeling advantage.",
+      "Oral Wegovy approval (Dec 2025) sets precedent for oral GLP-1 obesity drugs, potentially smoothing path for orforglipron.",
+      "Compounding: FDA resolved GLP-1 shortages in May 2025, ending the compounding loophole. FDA has issued warning letters against unauthorized compounders."
+    ]
+  },
+  "payer_pricing": {
+    "subtitle": "Pricing and coverage are the #1 determinant of GLP-1 market size. Net pricing, not WAC, drives revenue.",
+    "current_pricing": [
+      {
+        "drug": "Wegovy (SC)",
+        "wac_per_month": "~$1,350",
+        "trumprx_price": "$350 (trending to $245 over 2 yrs)",
+        "dtc_cash_price": "$499 (Costco/NovoCare)",
+        "medicare_price": "$245 (all doses)",
+        "medicare_copay": "$50"
+      },
+      {
+        "drug": "Wegovy Pill",
+        "wac_per_month": "TBD",
+        "trumprx_price": "$150 (starting); $300 (maintenance)",
+        "dtc_cash_price": "$150-$300",
+        "medicare_price": "$150-$300",
+        "medicare_copay": "$50"
+      },
+      {
+        "drug": "Zepbound (SC)",
+        "wac_per_month": "~$1,086",
+        "trumprx_price": "$350 (trending to $245 over 2 yrs)",
+        "dtc_cash_price": "$299-$449 (LillyDirect)",
+        "medicare_price": "$245 (all doses)",
+        "medicare_copay": "$50"
+      },
+      {
+        "drug": "Ozempic (SC, T2D)",
+        "wac_per_month": "~$1,000",
+        "trumprx_price": "$350",
+        "dtc_cash_price": "$499 (Costco)",
+        "medicare_price": "$245",
+        "medicare_copay": "$50"
+      },
+      {
+        "drug": "Mounjaro (SC, T2D)",
+        "wac_per_month": "~$1,086",
+        "trumprx_price": "$346",
+        "dtc_cash_price": "$299-$449 (LillyDirect)",
+        "medicare_price": "$245",
+        "medicare_copay": "$50"
+      },
+      {
+        "drug": "Orforglipron (if approved)",
+        "wac_per_month": "TBD",
+        "trumprx_price": "$346 (est)",
+        "dtc_cash_price": "$149 starting; $400 maintenance",
+        "medicare_price": "TBD",
+        "medicare_copay": "TBD"
+      }
+    ],
+    "medicare_medicaid": {
+      "headline": "Medicare will cover GLP-1s for obesity for the first time, starting mid-2026",
+      "eligibility_phases": [
+        "Phase 1: BMI >27 with prediabetes or cardiovascular disease history",
+        "Phase 2: BMI >30 with uncontrolled hypertension, CKD, or heart failure",
+        "Phase 3: BMI >35"
+      ],
+      "injectable_price": "$245/month (all doses), trending down over 2 years",
+      "oral_starting_price": "$150/month for starting doses",
+      "copay": "$50/month for beneficiaries",
+      "medicaid": "State opt-in model. States must issue letter of intent to participate.",
+      "key_uncertainty": "This is a pilot program (GENEROUS model), NOT a legislative change. Medicare is still statutorily prohibited from covering drugs for weight loss. The Trump admin is reinterpreting existing authority. Legal challenges possible."
+    },
+    "commercial_coverage": [
+      "Only 19% of firms with 200+ employees cover GLP-1s for weight loss in their largest plan (2025 KFF data)",
+      "Coverage rises to 43% among firms with 5,000+ employees",
+      "CVS CareMark: Excluding Zepbound from formulary starting July 2025. Favoring Wegovy.",
+      "PBM trends: Increasingly pairing GLP-1 authorization with mandatory lifestyle management programs",
+      "Some employers exploring \"generics-first\" with Saxenda (liraglutide generic available 2027)",
+      "Cash-pay programs (LillyDirect, NovoCare, Costco, Walmart) are becoming a significant distribution channel"
+    ],
+    "investor_implications": [
+      "Gross-to-net: GLP-1s have massive gross-to-net adjustments. WAC of ~$1,000-1,350/mo but estimated net to manufacturer is $400-600/mo for commercial, and now $245/mo for government programs.",
+      "Volume vs. price tradeoff: TrumpRx/Medicare pricing is 60-75% below WAC, but dramatically expands addressable volume. Net-net for Novo and Lilly revenue depends on volume ramp exceeding price compression.",
+      "48 million Americans expect to start a GLP-1 in 2026 (RAND survey).",
+      "International comparison: Americans still pay 2-4x more than European peers ($83-$144/month in EU).",
+      "Compounding shutdown: FDA ended compounding loophole May 2025 after shortage resolution. Some compounders creating \"slight variations\" to avoid enforcement. Regulatory overhang."
+    ]
+  },
+  "key_debates": [
+    {
+      "question": "Can oral GLP-1s match injectable efficacy?",
+      "bull_view": "Yes — oral Wegovy shows ~11-12% weight loss, comparable to injectable in Phase 3. Orforglipron showed 14.7% in Phase 2. Oral convenience will massively expand market.",
+      "bear_view": "No — oral semaglutide achieves ~11% vs ~15% for injectable. 3-4% gap matters clinically. GI side effects may be worse with oral (orforglipron highest nausea risk in NMA).",
+      "resolution": "Orforglipron Phase 3 ATTAIN data (PDUFA May 2026); real-world oral Wegovy persistence data"
+    },
+    {
+      "question": "Does triple agonism maintain its advantage at scale?",
+      "bull_view": "Yes — retatrutide 28.7% weight loss in TRIUMPH-4 is best-in-class by wide margin. Triple mechanism (GLP-1 + GIP + glucagon) is fundamentally more potent.",
+      "bear_view": "No — dysesthesia in 20.9% is a new safety signal not seen in Phase 2. AE discontinuation rate 18.2% is higher than competitors. If other TRIUMPH readouts show similar issues, label could be restrictive.",
+      "resolution": "7 additional TRIUMPH Phase 3 readouts in 2026"
+    },
+    {
+      "question": "Will Medicare coverage materially expand the market?",
+      "bull_view": "Yes — adds 10% of Medicare beneficiaries. At $245/mo to manufacturers, volume upside is enormous. Signals to private payers that coverage is standard of care.",
+      "bear_view": "No — pilot program, not legislation. Legal challenges likely. $245/mo is 75% below WAC, severely compressing margins. State Medicaid opt-in means patchy coverage.",
+      "resolution": "GENEROUS model rollout mid-2026; commercial payer follow-through"
+    },
+    {
+      "question": "Can anyone break the Novo/Lilly duopoly?",
+      "bull_view": "Yes — Viking (VK2735), Amgen (MariTide), and Chinese entrants (Hengrui, Sciwind) offer differentiated profiles. Monthly dosing (MariTide) and oral dual agonists (VK2735 oral) could carve niches.",
+      "bear_view": "No — Novo and Lilly have manufacturing scale, regulatory moats (CVOT data), brand recognition, and DTC channels. Small players can't match distribution. Truist estimates Lilly's trio alone could reach $101B peak sales.",
+      "resolution": "Viking VENTURE data Q1 2026; Amgen MariTide Phase 3 H1 2026"
+    }
+  ],
+  "deal_activity": {
+    "subtitle": "Deal valuations signal what acquirers believe the market opportunity is worth.",
+    "deals": [
+      {
+        "date": "2025",
+        "deal": "Roche / Zealand Pharma (petrelintide, amylin)",
+        "value": "$5.3B",
+        "signal": "Validates long-acting amylin as combo approach; Roche entering obesity"
+      },
+      {
+        "date": "2025",
+        "deal": "AstraZeneca / CSPC (GLP-1 portfolio, China)",
+        "value": "$4.7B",
+        "signal": "Big pharma paying up for China GLP-1 access"
+      },
+      {
+        "date": "2025",
+        "deal": "Pfizer / Metsera (obesity portfolio)",
+        "value": "$4.9B",
+        "signal": "Pfizer re-entering obesity after danuglipron setback"
+      },
+      {
+        "date": "2024",
+        "deal": "Novo Nordisk / Akero (efruxifermin, MASH)",
+        "value": "$620M",
+        "signal": "Beyond-obesity indication expansion"
+      },
+      {
+        "date": "2025",
+        "deal": "Kailera / Hengrui (HRS9531, US rights)",
+        "value": "Up to $6B",
+        "signal": "Largest ex-China licensing deal for a GLP-1 asset"
+      },
+      {
+        "date": "Ongoing",
+        "deal": "Novo Nordisk + Eli Lilly manufacturing investments",
+        "value": "$10B+ combined",
+        "signal": "US manufacturing capacity build-out to address supply constraints"
+      }
+    ]
+  },
   "investment_metrics": {
     "total_committed": 9450,
     "total_potential": 22850,
     "largest_deal": {
-      "name": "Pfizer/Metsera",
-      "committed": 4900,
-      "partner": "Metsera"
+      "name": "Kailera/Hengrui",
+      "committed": 6000,
+      "partner": "Hengrui"
     },
-    "phase_3_assets": 9,
-    "approved_assets": 4,
-    "total_assets": 25
+    "phase_3_assets": 10,
+    "approved_assets": 5,
+    "total_assets": 20
   }
 }
