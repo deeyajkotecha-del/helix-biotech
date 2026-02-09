@@ -310,6 +310,7 @@ def get_company_full(ticker: str) -> Optional[dict]:
                 "edg7500_differentiation": asset_data.get("edg7500_differentiation", {}),
                 "differentiation": asset_data.get("differentiation", {}),
                 "competitive_landscape": asset_data.get("competitive_landscape", {}),
+                "regulatory_path": asset_data.get("regulatory_path", {}),
                 "abbreviations": asset_data.get("abbreviations", {}),
                 "_source_pages": asset_data.get("_source_pages", []),
                 "_metadata": asset_data.get("_metadata", {})

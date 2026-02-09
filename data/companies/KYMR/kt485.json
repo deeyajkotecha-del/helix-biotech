@@ -373,18 +373,23 @@
   "competitive_landscape": [
     {
       "competitor": "IRAK4 kinase inhibitors",
+      "company": "Pfizer, others",
       "companies": "Pfizer (discontinued), others",
+      "limitation": "Only block kinase activity, not scaffolding function; disappointing clinical efficacy to date",
       "differentiation": "Inhibitors cannot block scaffolding function; limited efficacy",
       "threat_level": "Low - different mechanism"
     },
     {
       "competitor": "Anti-IL-1 biologics (Anakinra, Canakinumab)",
+      "company": "Sobi, Novartis",
+      "limitation": "Injectable; only block IL-1 pathway (IRAK4 sits at convergence of IL-1, IL-18, IL-33, IL-36)",
       "differentiation": "Biologics are injectable; IRAK4 degrader is oral and blocks multiple cytokines",
       "threat_level": "Incumbent in some indications"
     },
     {
       "competitor": "Anti-IL-36R (Spesolimab)",
       "company": "Boehringer",
+      "limitation": "Injectable; only blocks IL-36 pathway; approved for GPP flares only, not broader I&I",
       "differentiation": "Spesolimab only blocks IL-36; IRAK4 blocks IL-1 + IL-18 + IL-33 + IL-36",
       "threat_level": "Medium - approved for GPP"
     }

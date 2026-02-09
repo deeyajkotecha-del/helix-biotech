@@ -1991,10 +1991,19 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     if isinstance(unmet_need, str):
         unmet_need = [unmet_need]
 
-    # Get catalysts from both company and asset level
+    # Get catalysts from both company and asset level, deduplicating by event name
     company_catalysts = company_data.get("catalysts", [])
     asset_catalysts_list = asset.get("catalysts", [])
     asset_catalysts = asset_catalysts_list + [c for c in company_catalysts if c.get("asset", "").lower() == asset_name.lower()]
+    # Deduplicate by event name (asset catalysts already included in company-level merged list)
+    seen_events = set()
+    unique_catalysts = []
+    for c in asset_catalysts:
+        event = c.get("event", "") if isinstance(c, dict) else str(c)
+        if event not in seen_events:
+            seen_events.add(event)
+            unique_catalysts.append(c)
+    asset_catalysts = unique_catalysts
 
     # Build FDA designation badges
     fda_designation_badges = ""
@@ -2319,7 +2328,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             baseline_badge = generate_citation_badge(baseline_chars_ad.get("source"), ticker) if baseline_chars_ad.get("source") else ""
             baseline_rows = ""
             for key, value in baseline_chars_ad.items():
-                if key in ("source", "analyst_note"):
+                if key in ("source", "analyst_note") or key.startswith("_"):
                     continue
                 label = key.replace("_", " ").replace("pct", "%").title()
                 label = label.replace("Easi", "EASI").replace("Ppnrs", "PPNRS").replace("Scorad", "SCORAD")

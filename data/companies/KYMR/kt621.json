@@ -351,16 +351,16 @@
         },
         "prior_therapy_detail": "~23% prior biologics (dupilumab and/or tralokinumab)",
         "comorbid_combined_pct": "~46% comorbid asthma or allergic rhinitis",
-        "dose_groups_balanced": "Generally well-balanced for gender, age, race, vIGA-AD, EASI, PP-NRS",
-        "_refined_from_prior_therapy": {
-          "previous_value": "prior_systemic_therapy_pct: 22.7",
-          "previous_source": "kymr_corporate_2026",
-          "refinement": "Press release specifies prior systemic therapy was specifically prior biologics (dupilumab and/or tralokinumab)",
-          "new_source": "kymr_press_release_2025"
-        }
+        "dose_groups_balanced": "Generally well-balanced for gender, age, race, vIGA-AD, EASI, PP-NRS"
       },
       "efficacy_endpoints": {
         "stat6_degradation": {
+          "full_name": "STAT6 Degradation",
+          "what_it_measures": "Target protein elimination in blood and skin",
+          "results": {
+            "mean_change_overall_day29": "98% in blood, 94% in skin at Day 29",
+            "vs_dupilumab": "Dupilumab does not degrade STAT6 (different mechanism)"
+          },
           "blood": {
             "method": "Flow cytometry",
             "result_100mg_day29": "-98%",
@@ -950,7 +950,7 @@
             "Change from baseline in AQLQ"
           ]
         },
-        "status": "Initiated January 2026",
+        "status": "First patient dosed January 29, 2026. Enrollment ongoing.",
         "data_expected": "Late 2027",
         "key_trial_aim": "Establish clinical activity and safety to select Phase 3 dose for respiratory indications",
         "why_it_matters": "Proves platform works beyond skin; validates respiratory opportunity",
@@ -1200,6 +1200,7 @@
       "mechanism": "Anti-IL-4Rα antibody",
       "stage": "Approved",
       "sales": "$13B+ annually",
+      "limitation": "Injectable (SC q2w); conjunctivitis in 10-25%; cold chain storage; ~$36K/year",
       "differentiation": {
         "administration": "Dupixent is SC injection Q2W; KT-621 is daily oral pill",
         "convenience": "Oral may expand access to patients who decline/can't tolerate injections",
@@ -1213,6 +1214,7 @@
       "company": "AbbVie, Pfizer",
       "mechanism": "JAK1 inhibitors",
       "stage": "Approved",
+      "limitation": "FDA black box warning (MACE, malignancy, VTE, thrombosis); not recommended first-line; infection risk; lab monitoring required",
       "differentiation": {
         "safety": "JAKs have boxed warning (CV, malignancy, VTE); limits use",
         "selectivity": "KT-621 is more targeted (STAT6 only vs broad JAK pathway)"
@@ -1221,8 +1223,10 @@
     },
     {
       "competitor": "Other oral approaches",
+      "company": "—",
       "examples": "Other degrader companies, IL-4/13 pathway small molecules",
       "status": "None in late-stage development for AD",
+      "limitation": "No oral IL-4/IL-13 pathway inhibitors in late-stage development for AD",
       "differentiation": "KT-621 is first oral STAT6 degrader in Phase 2"
     }
   ],

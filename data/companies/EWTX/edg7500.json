@@ -1,562 +1,745 @@
 {
   "_metadata": {
-    "version": "2.0",
+    "version": "2.2",
     "ticker": "EWTX",
     "asset_name": "edg7500",
-    "source": "CIRRUS-HCM Phase 2 Poster, CVCT Forum Dec 2025",
-    "data_cutoff": "May 2025 (preliminary)",
-    "extraction_date": "2026-02-04"
+    "last_updated": "2026-02-09",
+    "sources": [
+      {
+        "id": "ewtx_extraction_20260209",
+        "type": "ai_extraction",
+        "title": "AI extraction from Edgewise EDG-7500 poster.pdf",
+        "date": "2026-02-09",
+        "model": "claude-sonnet-4-5-20250929"
+      }
+    ]
   },
   "asset": {
     "name": "EDG-7500",
+    "company": "Edgewise Therapeutics",
     "ticker": "EWTX",
-    "modality": "Small molecule cardiac sarcomere modulator",
     "stage": "Phase 2",
-    "one_liner": "First-in-class cardiac sarcomere modulator for HCM that slows acto-myosin engagement without inactivating myosin, avoiding the LVEF reductions seen with cardiac myosin inhibitors",
-    "ownership": "Wholly-owned"
+    "modality": "",
+    "one_liner": "EDG-7500 demonstrated robust efficacy across both obstructive and nonobstructive HCM with 89% (100mg dose) achieving complete LVOT-G response in oHCM and significant improvements in NT-proBNP, diastol"
   },
   "target": {
-    "name": "Cardiac Sarcomere (Acto-Myosin)",
-    "full_name": "Cardiac sarcomere acto-myosin complex",
-    "class": "Sarcomere modulator",
-    "pathway": "Acto-myosin cross-bridge cycling → cardiac contraction → hypercontractility in HCM",
+    "name": "Cardiac sarcomere",
     "biology": {
-      "simple_explanation": "EDG-7500 is a novel cardiac sarcomere modulator designed to slow the rate of acto-myosin engagement and speed disengagement WITHOUT inactivating the myosin motor head. This is fundamentally different from cardiac myosin inhibitors (CMIs) which stabilize the super-relaxed state by inactivating myosin.",
-      "mechanism_detail": {
-        "acto_myosin_engagement": "Slows the rate of engagement in early systole",
-        "acto_myosin_disengagement": "Speeds disengagement in early diastole",
-        "myosin_motor_head": "Does NOT inactivate - preserves cardiac myosin function",
-        "result": "Improved ventricular filling without compromising systolic function"
-      },
-      "vs_cmi": {
-        "cmi_mechanism": "Stabilize super-relaxed (SRX) state by inactivating myosin, decreasing myosin-actin cross-bridge formation",
-        "cmi_problem": "Might cause systolic dysfunction and require careful LVEF monitoring through frequent echocardiographic evaluation",
-        "edg7500_advantage": "No meaningful reductions in LVEF observed across the development program - potentially could eliminate the need for safety echocardiograms"
-      }
-    },
-    "why_good_target": {
-      "clinical_validation": "Sarcomere modulation validated by mavacamten (CAMZYOS) and aficamten in oHCM",
-      "preclinical_evidence": "In preclinical studies and Phase 2 single-dose oHCM study, EDG-7500 demonstrated significant reductions in LVOT-G and NT-proBNP along with improvements in diastolic function",
-      "unmet_need": [
-        "CMIs cause systolic dysfunction requiring frequent echo monitoring",
-        "Mavacamten requires REMS with echos every 4-12 weeks",
-        "nHCM has NO approved therapies"
-      ]
+      "simple_explanation": "Novel cardiac sarcomere modulator designed to slow the rate of acto-myosin engagement and speed disengagement without inactivating the myosin motor head. Unlike cardiac myosin inhibitors, EDG-7500 does not inactivate the myosin motor and has not shown meaningful reductions in LVEF in preclinical or clinical studies to date."
+    }
+  },
+  "mechanism": {
+    "type": "Novel cardiac sarcomere modulator designed to slow the rate of acto-myosin engagement and speed disengagement without inactivating the myosin motor head. Unlike cardiac myosin inhibitors, EDG-7500 does not inactivate the myosin motor and has not shown meaningful reductions in LVEF in preclinical or clinical studies to date.",
+    "how_it_works": "Novel cardiac sarcomere modulator designed to slow the rate of acto-myosin engagement and speed disengagement without inactivating the myosin motor head. Unlike cardiac myosin inhibitors, EDG-7500 does not inactivate the myosin motor and has not shown meaningful reductions in LVEF in preclinical or clinical studies to date."
+  },
+  "indications": {
+    "lead": {
+      "name": "Hypertrophic Cardiomyopathy (HCM) - both obstructive (oHCM) and nonobstructive (nHCM)",
+      "patient_population": "29",
+      "rationale": ""
     }
   },
   "clinical_data": {
-    "trial_name": "CIRRUS-HCM",
-    "full_title": "A Multiple-Dose Phase 2 Study of Safety, Tolerability, and Effects on Hemodynamics and Functional Capacity of the Novel Cardiac Sarcomere Modulator EDG-7500 in Hypertrophic Cardiomyopathy",
-    "trial_design": {
-      "phase": "Phase 2",
-      "design": "Multiple-dose, open-label",
-      "endpoints": "Safety, tolerability, pharmacokinetics, pharmacodynamics",
-      "doses_tested": ["50 mg", "100 mg"],
-      "duration": "4 weeks",
-      "data_status": "Preliminary data as of May 2025"
-    },
-    "investigators": {
-      "lead_author": "Anjali T Owens",
-      "co_authors": ["Theodore P Abraham", "Ronald Wharton", "Ankit Bhatia", "Mariko W Harper", "Christopher Dufton", "Daniel D Gretler", "Jeffrey A Silverman", "Marilyn M Mok", "Molly Madden", "James MacDougall", "Natalie Hawryluk", "Marc J Semigran"],
-      "institutions": [
-        {"number": 1, "name": "University of Pennsylvania, Philadelphia PA"},
-        {"number": 2, "name": "University of California, San Francisco CA"},
-        {"number": 3, "name": "Northwell Health, New Hyde Park NY"},
-        {"number": 4, "name": "The Christ Hospital Health Network, Cincinnati OH"},
-        {"number": 5, "name": "Virginia Mason Franciscan Health, Seattle WA"},
-        {"number": 6, "name": "Edgewise Therapeutics, Boulder CO"}
-      ]
-    },
-    "populations": {
-      "ohcm": {
-        "n": 17,
-        "definition": "Obstructive HCM - thickened heart muscle blocks blood flow out through LVOT"
-      },
-      "nhcm": {
-        "n": 12,
-        "definition": "Nonobstructive HCM - thickened muscle without significant outflow blockage"
-      },
-      "combined": {
+    "extracted_edg7500": {
+      "trial_name": [
+        "CIRRUS-HCM: Multiple-dose, open-label Phase 2 study evaluating safety, tolerability, and effects on hemodynamics and functional capacity"
+      ],
+      "design": {
+        "type": "CIRRUS-HCM: Multiple-dose, open-label Phase 2 study evaluating safety, tolerability, and effects on hemodynamics and functional capacity. Two cohorts: obstructive HCM (oHCM, N=17) and nonobstructive HCM (nHCM, N=12). Dose levels: 50 mg and 100 mg. Duration: at least 4 weeks with measurements at baseline, week 1, week 2, and week 4. Longer-term cohort exploring intra-patient dose optimization. No placebo control.",
+        "population": "Hypertrophic cardiomyopathy patients with symptomatic disease (NYHA Class II-III). oHCM cohort had baseline resting LVOT-G \u226530 mmHg or Valsalva LVOT-G \u226550 mmHg (though 5 participants had gradients below these thresholds on Day 1). nHCM cohort had minimal/no obstruction.",
         "n": 29
-      }
-    },
-    "baseline_characteristics": {
-      "ohcm": {
-        "n": 17,
-        "age_years_mean_sd": "61 (13)",
-        "female_n_pct": "12 (71%)",
-        "bmi_kg_m2_mean_sd": "28 (4)",
-        "pathogenic_sarcomere_variant_n_pct": "4 (24%)",
-        "history_paroxysmal_af_flutter_n_pct": "1 (6%)",
-        "icd_n_pct": "2 (12%)",
-        "prior_srt_n_pct": "1 (6%)",
-        "hypertension_n_pct": "11 (65%)",
-        "diabetes_n_pct": "1 (6%)",
-        "nyha_class_i_n_pct": "1 (6%)",
-        "nyha_class_ii_n_pct": "10 (59%)",
-        "nyha_class_iii_n_pct": "6 (35%)",
-        "lvef_pct_mean_sd": "65 (4)",
-        "lvot_g_resting_mmhg_mean_sd": "59 (30)",
-        "lvot_g_valsalva_mmhg_mean_sd": "93 (32)",
-        "e_prime_cm_s_mean_sd": "6 (2)",
-        "maximal_lv_wall_thickness_mm_mean_sd": "18 (2)",
-        "lavi_ml_m2_mean_sd": "37 (13)",
-        "kccq_oss_mean_sd": "63 (16)",
-        "kccq_css_mean_sd": "69 (15)",
-        "nt_probnp_geometric_mean": 724,
-        "nt_probnp_median": 710,
-        "nt_probnp_iqr": "381, 1074"
       },
-      "nhcm": {
-        "n": 12,
-        "age_years_mean_sd": "54 (19)",
-        "female_n_pct": "7 (58%)",
-        "bmi_kg_m2_mean_sd": "27 (4)",
-        "pathogenic_sarcomere_variant_n_pct": "4 (33%)",
-        "history_paroxysmal_af_flutter_n_pct": "2 (17%)",
-        "icd_n_pct": "6 (50%)",
-        "prior_srt_n_pct": "0 (0%)",
-        "hypertension_n_pct": "2 (17%)",
-        "diabetes_n_pct": "2 (17%)",
-        "nyha_class_i_n_pct": "0 (0%)",
-        "nyha_class_ii_n_pct": "6 (50%)",
-        "nyha_class_iii_n_pct": "6 (50%)",
-        "lvef_pct_mean_sd": "61 (6)",
-        "lvot_g_resting_mmhg_mean_sd": "9 (6)",
-        "lvot_g_valsalva_mmhg_mean_sd": "14 (10)",
-        "e_prime_cm_s_mean_sd": "7 (2)",
-        "maximal_lv_wall_thickness_mm_mean_sd": "18 (3)",
-        "lavi_ml_m2_mean_sd": "31 (12)",
-        "kccq_oss_mean_sd": "57 (22)",
-        "kccq_css_mean_sd": "63 (23)",
-        "nt_probnp_geometric_mean": 782,
-        "nt_probnp_median": 715,
-        "nt_probnp_iqr": "546, 1231"
-      }
-    },
-    "baseline_characteristics_explained": {
-      "study_populations": {
-        "ohcm": "Obstructive HCM - thickened heart muscle blocks blood flow out of the heart through the LVOT",
-        "nhcm": "Non-obstructive HCM - thickened heart muscle without significant outflow blockage",
-        "key_observation": "Groups are reasonably well-matched except for expected obstruction differences (LVOT-G), ensuring treatment effects aren't due to baseline imbalances"
-      },
-      "variable_definitions": {
-        "demographics": {
-          "age_sex_bmi": "Basic patient characteristics - both groups mostly female, similar BMI ~27-28 kg/m2",
-          "pathogenic_sarcomere_variant": "Confirmed genetic mutation causing disease - 24-33% have identified mutations; remainder may be polygenic or unidentified"
-        },
-        "cardiac_history": {
-          "af_flutter": "Atrial fibrillation/flutter history - irregular heartbeat increasing stroke risk",
-          "icd": "Implantable cardioverter-defibrillator - device for dangerous arrhythmias. Notably HIGHER in nHCM (50% vs 12%) reflecting higher arrhythmia risk despite no obstruction",
-          "prior_srt": "Prior septal reduction therapy - surgical myectomy or alcohol ablation",
-          "hypertension_diabetes": "Common cardiovascular comorbidities"
-        },
-        "heart_function": {
-          "nyha_class": {
-            "definition": "New York Heart Association functional classification",
-            "class_i": "No limitation of physical activity",
-            "class_ii": "Slight limitation - comfortable at rest but ordinary activity causes symptoms",
-            "class_iii": "Marked limitation - comfortable at rest but less than ordinary activity causes symptoms",
-            "study_finding": "59% NYHA II and 35% NYHA III in oHCM; 50%/50% split in nHCM - moderate to severe symptoms"
-          },
-          "lvef": {
-            "definition": "Left ventricular ejection fraction - percentage of blood pumped out each heartbeat",
-            "normal_range": "55-70%",
-            "study_values": "65% oHCM, 61% nHCM - both NORMAL, typical for HCM (systolic function preserved)",
-            "key_relevance": "EDG-7500's differentiator is maintaining LVEF vs CMIs which can reduce it"
-          },
-          "lvot_g": {
-            "definition": "Left ventricular outflow tract gradient - pressure difference showing obstruction",
-            "normal": "<30 mmHg at rest",
-            "ohcm_threshold": "≥30 mmHg rest or ≥50 mmHg with provocation",
-            "study_values_ohcm": "59 mmHg rest, 93 mmHg Valsalva",
-            "study_values_nhcm": "9 mmHg rest, 14 mmHg Valsalva",
-            "interpretation": "Confirms proper oHCM vs nHCM classification"
-          },
-          "e_prime": {
-            "definition": "Early diastolic mitral annular velocity - measures how well heart RELAXES (diastolic function)",
-            "normal": ">8 cm/s",
-            "study_values": "6-7 cm/s - IMPAIRED in both groups",
-            "key_relevance": "Key treatment target - EDG-7500 improves e' within 1 week"
-          },
-          "max_lv_wall_thickness": {
-            "definition": "Maximum thickness of left ventricular wall",
-            "normal": "<12 mm",
-            "hcm_threshold": "≥15 mm (or ≥13 mm with family history)",
-            "study_values": "18 mm both groups - confirms HCM diagnosis"
-          },
-          "lavi": {
-            "definition": "Left atrial volume index - LA size adjusted for body size",
-            "normal": "<34 ml/m2",
-            "study_values": "37 ml/m2 oHCM, 31 ml/m2 nHCM - mild enlargement in oHCM",
-            "relevance": "LA enlargement reflects chronic elevated filling pressures and predicts AF risk"
-          }
-        },
-        "quality_of_life_biomarkers": {
-          "kccq": {
-            "definition": "Kansas City Cardiomyopathy Questionnaire - patient-reported QoL",
-            "oss": "Overall Summary Score (0-100, higher = better)",
-            "css": "Clinical Summary Score (0-100, higher = better)",
-            "study_values": "57-69 range - moderately impaired QoL",
-            "mcid": "5 points minimum clinically important difference"
-          },
-          "nt_probnp": {
-            "definition": "N-terminal pro-B-type natriuretic peptide - blood marker of cardiac wall stress",
-            "normal": "<125 pg/mL (age-adjusted)",
-            "study_values": "710-715 pg/mL median - ELEVATED indicating significant cardiac strain",
-            "relevance": "56% achieved normalization (<150 pg/mL) at 100mg; strong correlation with pVO2 improvement"
-          }
-        }
-      },
-      "key_baseline_observations": {
-        "icd_difference": "50% ICD rate in nHCM vs 12% in oHCM suggests nHCM patients may have higher arrhythmia burden despite lacking obstruction",
-        "similar_symptoms": "Both groups have similar NYHA class distribution and QoL impairment, supporting need for treatment in BOTH populations",
-        "diastolic_dysfunction": "Impaired e' in both groups (6-7 cm/s vs normal >8) confirms diastolic dysfunction is common target regardless of obstruction status"
-      }
-    },
-    "efficacy_ohcm": {
-      "lvot_gradient": {
-        "section_title": "LVOT-G at Rest & Post Valsalva",
-        "baseline_note": "5 participants had either resting gradients <30 mmHg or Valsalva gradients <50 mmHg on Day 1",
-        "n_with_week4_data": {
-          "50mg": 7,
-          "100mg": 9
-        },
-        "resting_lvot_g": {
-          "endpoint": "% Reaching Resting LVOT-G <30 mmHg at Week 4",
-          "50mg": "43%",
-          "100mg": "89%"
-        },
-        "valsalva_lvot_g": {
-          "endpoint": "% Reaching Valsalva LVOT-G <50 mmHg at Week 4",
-          "50mg": "57%",
-          "100mg": "89%"
-        },
-        "complete_response_definition": "Resting and Valsalva gradients <30 mmHg and <50 mmHg, respectively",
-        "data_presentation": "Mean ± SEM"
-      },
-      "nt_probnp": {
-        "section_title": "NT-proBNP",
-        "percent_change_100mg": "~82% reduction (Mean ≈ 82%)",
-        "normalization": {
-          "endpoint": "Achieved NT-proBNP <150 pg/mL at 100mg",
-          "result": "5/9 (56%)"
-        },
-        "correlation_note": "Improvements in NT-proBNP have shown a strong correlation to improvements in pVO2",
-        "reference": "Coats CJ et al., Eur Heart J 2024 Nov 8;45(42)"
-      },
-      "e_prime_diastolic_function": {
-        "section_title": "Early Diastolic Mitral Annular Velocity (e')",
-        "baseline_mean": "6.1 cm/s",
-        "key_finding": "Rapid dose-responsive improvements in mean e' observed as early as 1 week after initiation of treatment with EDG-7500",
-        "timepoint_data": {
-          "week_2_vs_baseline": {
-            "50mg_p_value": "NS",
-            "100mg_p_value": "≤0.05",
-            "50mg_change": "+27%",
-            "100mg_change": "+27%"
-          },
-          "week_4_vs_baseline": {
-            "50mg_p_value": "≤0.05",
-            "100mg_p_value": "NS"
-          }
-        },
-        "data_presentation": "Mean ± SD for baseline value; Mean ± SEM for % change from baseline"
-      },
-      "kccq": {
-        "section_title": "KCCQ-OSS and KCCQ-CSS 4 Weeks vs. Baseline",
-        "n_evaluated_week4": "7 individuals",
-        "kccq_oss": {
-          "median_improvement_50mg": "7 points",
-          "median_improvement_100mg": "2 points"
-        },
-        "kccq_css": {
-          "median_improvement_50mg": "2 points",
-          "median_improvement_100mg": "2 points"
-        },
-        "p_values": "p = NS at both doses across both KCCQ measures at Week 4",
-        "kccq_css_100mg_distribution": {
-          "section_title": "KCCQ-CSS 100mg after 4 Weeks vs. Baseline",
-          "very_large_improvement_gte20_points": "46.7%",
-          "large_improvement_15_to_20_points": "11.1%",
-          "moderate_improvement_10_to_15_points": "11.1%",
-          "small_improvement_5_to_10_points": "17.8%",
-          "minimal_change_or_worsening": "13.3%"
-        },
-        "clinical_improvement_overall": "89% with Clinical Improvements"
-      },
-      "nyha_class": {
-        "section_title": "NYHA Functional Class",
-        "n_evaluated_week4_50mg": 7,
-        "n_evaluated_week4_100mg": 5,
-        "50mg_dose_group": {
-          "baseline_class_ii": "43%",
-          "baseline_class_iii": "57%",
-          "week_2_class_i": "29%",
-          "week_2_class_ii": "43%",
-          "week_2_class_iii": "29%",
-          "week_4_class_i": "14%",
-          "week_4_class_ii": "43%",
-          "week_4_class_iii": "14%",
-          "eos_class_i": "0%",
-          "eos_class_ii": "57%",
-          "eos_class_iii": "0%"
-        },
-        "100mg_dose_group": {
-          "baseline_class_ii": "67%",
-          "baseline_class_iii": "22%",
-          "week_2_class_i": "11%",
-          "week_2_class_ii": "56%",
-          "week_2_class_iii": "11%",
-          "week_4_class_i": "57%",
-          "week_4_class_ii": "22%",
-          "week_4_class_iii": "11%"
-        },
-        "improvement_gte1_class_week4": {
-          "50mg": "43%",
-          "100mg": "78%"
-        },
-        "note": "* Represents 7 individuals evaluated for NYHA at week 4 (50mg); * Represents patients evaluated by NYHA at week 2 (100mg)"
-      }
-    },
-    "efficacy_nhcm": {
-      "nt_probnp": {
-        "section_title": "NT-proBNP",
-        "key_finding": "EDG-7500 treatment resulted in rapid and robust reductions in NT-proBNP in participants with nHCM",
-        "percent_change_from_baseline": {
-          "50mg_week1": "~30% reduction",
-          "50mg_week2": "~40% reduction",
-          "50mg_week4": "~48% reduction",
-          "100mg_week1": "~50% reduction",
-          "100mg_week2": "~55% reduction",
-          "100mg_week4": "~64% reduction"
-        },
-        "note": "Mean ± SEM"
-      },
-      "e_prime_diastolic_function": {
-        "section_title": "Early Diastolic Mitral Annular Velocity (e')",
-        "baseline_mean": "7.1 cm/s",
-        "key_finding": "Treatment with EDG-7500 led to mean e' changes in participants with nHCM as early as one week following initiation of dosing",
-        "timepoint_data": {
-          "week_2_vs_baseline": {
-            "p_value": "0.05 at both doses"
-          },
-          "week_4_vs_baseline": {
-            "note": "Two participants at week 4",
-            "p_value": "NS at both doses"
-          }
-        },
-        "data_presentation": "Mean ± SD for baseline value; Mean ± SEM for % change from baseline"
-      },
-      "kccq": {
-        "section_title": "KCCQ-CSS 50mg and 100mg after 4 Weeks vs. Baseline",
-        "50mg_dose_group": {
-          "median_improvement": "12 points",
-          "note": "4/8 at baseline; 1/8 not evaluated at baseline and/or EOS (end of study)"
-        },
-        "100mg_dose_group": {
-          "median_improvement": "17 points"
-        },
-        "kccq_css_distribution": {
-          "very_large_improvement_gte20_points": "25.9%",
-          "large_improvement_15_to_20_points": "17.3%",
-          "moderate_improvement_10_to_15_points": "13.0%",
-          "small_improvement_5_to_10_points": "9.9%",
-          "minimal_change_or_worsening": "33.9%"
-        },
-        "clinical_improvement_overall": "88% with Clinical Improvements"
-      }
-    },
-    "safety": {
-      "section_title": "oHCM and nHCM: Safety Summary",
-      "lvef_findings": {
-        "main_finding": "No Meaningful Reductions in LVEF or LVEF<50% Across a Broad Exposure Range Observed After EDG-7500 Treatment",
-        "pooled_analysis": {
-          "description": "Pooled Healthy Volunteer and CIRRUS Data",
-          "result": "No correlation between EDG-7500 plasma concentration (ng/mL) and LVEF change from baseline",
-          "concentration_range_tested": "0 to >1200 ng/mL"
-        },
-        "nhcm_low_baseline_lvef": {
-          "finding": "4/12 (33%) participants with nHCM had a baseline LVEF <60% by core lab",
-          "outcome": "All 4 remained stable throughout the treatment period",
-          "lvef_below_50": "No LVEF below 50%",
-          "change_from_baseline": "+2.5% for the 4 nHCM participants"
-        },
-        "ohcm_lvef_changes": {
-          "50mg_week2": "+1.2%",
-          "50mg_week4": "-3.2%",
-          "100mg_week2": "-2.1%",
-          "100mg_week4": "+1.2%"
-        }
-      },
-      "treatment_emergent_adverse_events": {
-        "total_n": 29,
-        "note": "Treatment-emergent adverse events in >1 participant in the combined oHCM and nHCM cohorts",
-        "events": [
-          {"event": "Dizziness", "n": 8, "pct": "27.6%", "note": "mostly mild and transient in duration"},
-          {"event": "Upper respiratory tract infection", "n": 5, "pct": "17.2%"},
-          {"event": "Atrial fibrillation", "n": 4, "pct": "13.8%", "note": "see details below"},
-          {"event": "Influenza like illness", "n": 3, "pct": "10.3%"},
-          {"event": "Palpitations", "n": 3, "pct": "10.3%"},
-          {"event": "Constipation", "n": 2, "pct": "6.9%"},
-          {"event": "Diarrhea", "n": 2, "pct": "6.9%"},
-          {"event": "Headache", "n": 2, "pct": "6.9%"}
+      "baseline_characteristics": {
+        "age_yrs_mean_sd": [
+          "61 (13)",
+          "54 (19)"
         ],
-        "atrial_fibrillation_detail": {
-          "total": "4 participants (3 oHCM, 1 nHCM) had new onset symptomatic atrial fibrillation",
-          "saes": "Two of these events were considered SAEs",
-          "lvef_note": "None of the patients who had atrial fibrillation experienced LVEF <50% at any time"
+        "female_n_%": [
+          "12 (71%)",
+          "7 (58%)"
+        ],
+        "bmi_kg_m\u00b2_mean_sd": [
+          "28 (4)",
+          "27 (4)"
+        ],
+        "pathogenic_sarcomere_variant_n_%": [
+          "4 (24%)",
+          "4 (33%)"
+        ],
+        "history_of_paroxysmal_af_flutter_n_%": [
+          "1 (6%)",
+          "2 (17%)"
+        ],
+        "icd_n_%": [
+          "2 (12%)",
+          "6 (50%)"
+        ],
+        "prior_srt_n_%": [
+          "1 (6%)",
+          "0%"
+        ],
+        "hypertension_n_%": [
+          "11 (65%)",
+          "2 (17%)"
+        ],
+        "diabetes_n_%": [
+          "1 (6%)",
+          "2 (17%)"
+        ],
+        "nyha_class_i_n_%": [
+          "1 (6%)",
+          "0%"
+        ],
+        "nyha_class_ii_n_%": [
+          "10 (59%)",
+          "6 (50%)"
+        ],
+        "nyha_class_iii_n_%": [
+          "6 (35%)",
+          "6 (50%)"
+        ],
+        "lvef_%_mean_sd": [
+          "65 (4)",
+          "61 (6)"
+        ],
+        "lvot-g_resting;_mmhg_mean_sd": [
+          "59 (30)",
+          "9 (6)"
+        ],
+        "lvot-g_valsalva;_mmhg_mean_sd": [
+          "93 (32)",
+          "14 (10)"
+        ],
+        "e'_mean_cm_s_mean_sd": [
+          "6 (2)",
+          "7 (2)"
+        ],
+        "maximal_lv_wall_thickness_mm_mean_sd": [
+          "18 (2)",
+          "18 (3)"
+        ],
+        "lavi_ml_m\u00b2_mean_sd": [
+          "37 (13)",
+          "31 (12)"
+        ],
+        "kccq-oss_mean_sd": [
+          "63 (16)",
+          "57 (22)"
+        ],
+        "kccq-css_mean_sd": [
+          "69 (15)",
+          "63 (23)"
+        ],
+        "nt-probnp_geometric_mean_median_iqr;_pg_": [
+          "724 / 710 (381, 1074)",
+          "782 / 715 (546, 1231)"
+        ]
+      },
+      "efficacy_endpoints": {
+        "resting_lvot_g_<30_mmhg": {
+          "name": "Resting LVOT-G <30 mmHg",
+          "population": "oHCM",
+          "dose": "100 mg",
+          "baseline": "59 (30) mmHg mean (SD)",
+          "result": "89% responders",
+          "change": null,
+          "timepoint": "Week 4",
+          "p_value": null,
+          "n": 9,
+          "confidence": "high"
         },
-        "discontinuation": {
-          "n": 1,
-          "detail": "One oHCM participant discontinued treatment due to moderate dizziness"
+        "valsalva_lvot_g_<50_mmhg": {
+          "name": "Valsalva LVOT-G <50 mmHg",
+          "population": "oHCM",
+          "dose": "100 mg",
+          "baseline": "93 (32) mmHg mean (SD)",
+          "result": "89% responders",
+          "change": null,
+          "timepoint": "Week 4",
+          "p_value": null,
+          "n": 9,
+          "confidence": "high"
+        },
+        "nt_probnp_<150_pg/ml": {
+          "name": "NT-proBNP <150 pg/mL",
+          "population": "oHCM",
+          "dose": "100 mg",
+          "baseline": "724 pg/mL geometric mean",
+          "result": "56% responders (5/9)",
+          "change": null,
+          "timepoint": "Week 4",
+          "p_value": null,
+          "n": 9,
+          "confidence": "high"
+        },
+        "nyha_class_improvement_\u22651_class": {
+          "name": "NYHA Class improvement \u22651 class",
+          "population": "oHCM",
+          "dose": "100 mg",
+          "baseline": "NYHA II/III distribution",
+          "result": "78% responders",
+          "change": null,
+          "timepoint": "Week 4",
+          "p_value": null,
+          "n": 9,
+          "confidence": "high"
+        },
+        "kccq_oss_change": {
+          "name": "KCCQ-OSS change",
+          "population": "oHCM",
+          "dose": "100 mg",
+          "baseline": "63 (16) mean (SD)",
+          "result": "Absolute change approximately +12 points",
+          "change": "+12 points",
+          "timepoint": "Week 4",
+          "p_value": "NS",
+          "n": 9,
+          "confidence": "medium"
+        },
+        "kccq_css_clinical_improvement_distributi": {
+          "name": "KCCQ-CSS clinical improvement distribution",
+          "population": "nHCM",
+          "dose": "50 mg and 100 mg combined",
+          "baseline": "63 (23) mean (SD)",
+          "result": "88% with clinical improvements: 25% very large (>20pt), 38% large (10-20pt), 25% moderate (5-10pt)",
+          "change": null,
+          "timepoint": "Week 4",
+          "p_value": "NS at both doses",
+          "n": 7,
+          "confidence": "medium"
+        },
+        "nt_probnp_change": {
+          "name": "NT-proBNP change",
+          "population": "nHCM",
+          "dose": "50 mg and 100 mg combined",
+          "baseline": "782 pg/mL geometric mean",
+          "result": "Rapid and robust reductions observed",
+          "change": null,
+          "timepoint": "Week 1-4",
+          "p_value": null,
+          "n": 12,
+          "confidence": "high"
+        },
+        "early_diastolic_mitral_annular_velocity_": {
+          "name": "Early diastolic mitral annular velocity (e') change",
+          "population": "nHCM",
+          "dose": "100 mg",
+          "baseline": "7 (2) cm/s mean (SD)",
+          "result": "Improvements observed",
+          "change": null,
+          "timepoint": "Week 1 onwards",
+          "p_value": "Week 2: \u22640.05; Week 4: NS",
+          "n": 12,
+          "confidence": "high"
+        },
+        "lvef_change_from_baseline": {
+          "name": "LVEF change from baseline",
+          "population": "oHCM + nHCM combined",
+          "dose": "All doses",
+          "baseline": "65 (4)% oHCM, 61 (6)% nHCM",
+          "result": "No meaningful reductions; no LVEF <50%",
+          "change": "+2.5% for 4 nHCM participants with baseline LVEF <60%",
+          "timepoint": "Throughout treatment period",
+          "p_value": null,
+          "n": 29,
+          "confidence": "high"
         }
+      },
+      "time_course_data": [
+        {
+          "endpoint": "Resting LVOT-G",
+          "unit": "mmHg",
+          "data": [
+            {
+              "timepoint": "Baseline",
+              "dose": "50 mg",
+              "value": "approximately 60"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "50 mg",
+              "value": "approximately 40"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "50 mg",
+              "value": "approximately 30"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "50 mg",
+              "value": "approximately 35"
+            },
+            {
+              "timepoint": "Baseline",
+              "dose": "100 mg",
+              "value": "approximately 60"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "100 mg",
+              "value": "approximately 25"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "100 mg",
+              "value": "approximately 20"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "100 mg",
+              "value": "approximately 18"
+            }
+          ]
+        },
+        {
+          "endpoint": "Valsalva LVOT-G",
+          "unit": "mmHg",
+          "data": [
+            {
+              "timepoint": "Baseline",
+              "dose": "50 mg",
+              "value": "approximately 90"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "50 mg",
+              "value": "approximately 55"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "50 mg",
+              "value": "approximately 45"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "50 mg",
+              "value": "approximately 50"
+            },
+            {
+              "timepoint": "Baseline",
+              "dose": "100 mg",
+              "value": "approximately 95"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "100 mg",
+              "value": "approximately 45"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "100 mg",
+              "value": "approximately 35"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "100 mg",
+              "value": "approximately 30"
+            }
+          ]
+        },
+        {
+          "endpoint": "NT-proBNP",
+          "unit": "% change from baseline",
+          "data": [
+            {
+              "timepoint": "Baseline",
+              "dose": "oHCM",
+              "value": "0"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "oHCM",
+              "value": "approximately -40%"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "oHCM",
+              "value": "approximately -50%"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "oHCM",
+              "value": "approximately -30%"
+            },
+            {
+              "timepoint": "End of Study",
+              "dose": "oHCM",
+              "value": "approximately -40%"
+            },
+            {
+              "timepoint": "Baseline",
+              "dose": "nHCM 50mg",
+              "value": "0"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "nHCM 50mg",
+              "value": "approximately -50%"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "nHCM 50mg",
+              "value": "approximately -60%"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "nHCM 50mg",
+              "value": "approximately -55%"
+            },
+            {
+              "timepoint": "Baseline",
+              "dose": "nHCM 100mg",
+              "value": "0"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "nHCM 100mg",
+              "value": "approximately -50%"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "nHCM 100mg",
+              "value": "approximately -55%"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "nHCM 100mg",
+              "value": "approximately -45%"
+            }
+          ]
+        },
+        {
+          "endpoint": "Early diastolic mitral annular velocity (e')",
+          "unit": "% change from baseline",
+          "data": [
+            {
+              "timepoint": "Baseline (nHCM combined)",
+              "dose": "all",
+              "value": "0"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "nHCM 50mg",
+              "value": "approximately +10%"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "nHCM 50mg",
+              "value": "approximately +20%"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "nHCM 50mg",
+              "value": "approximately +25%"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "nHCM 100mg",
+              "value": "approximately +15%"
+            },
+            {
+              "timepoint": "Week 2",
+              "dose": "nHCM 100mg",
+              "value": "approximately +25%"
+            },
+            {
+              "timepoint": "Week 4",
+              "dose": "nHCM 100mg",
+              "value": "approximately +20%"
+            },
+            {
+              "timepoint": "Baseline (oHCM)",
+              "dose": "all",
+              "value": "0"
+            },
+            {
+              "timepoint": "Week 1",
+              "dose": "oHCM",
+              "value": "approximately +8%"
+            }
+          ]
+        },
+        {
+          "endpoint": "KCCQ-OSS",
+          "unit": "absolute change from baseline (points)",
+          "data": [
+            {
+              "timepoint": "Baseline",
+              "dose": "50 mg",
+              "value": "0"
+            },
+            {
+              "timepoint": "2 weeks",
+              "dose": "50 mg",
+              "value": "approximately +8"
+            },
+            {
+              "timepoint": "4 weeks",
+              "dose": "50 mg",
+              "value": "approximately +10"
+            },
+            {
+              "timepoint": "Baseline",
+              "dose": "100 mg",
+              "value": "0"
+            },
+            {
+              "timepoint": "2 weeks",
+              "dose": "100 mg",
+              "value": "approximately +12"
+            },
+            {
+              "timepoint": "4 weeks",
+              "dose": "100 mg",
+              "value": "approximately +12"
+            }
+          ]
+        },
+        {
+          "endpoint": "KCCQ-CSS",
+          "unit": "absolute change from baseline (points)",
+          "data": [
+            {
+              "timepoint": "Baseline",
+              "dose": "50 mg",
+              "value": "0"
+            },
+            {
+              "timepoint": "2 weeks",
+              "dose": "50 mg",
+              "value": "approximately +10"
+            },
+            {
+              "timepoint": "4 weeks",
+              "dose": "50 mg",
+              "value": "approximately +12"
+            },
+            {
+              "timepoint": "Baseline",
+              "dose": "100 mg",
+              "value": "0"
+            },
+            {
+              "timepoint": "2 weeks",
+              "dose": "100 mg",
+              "value": "approximately +14"
+            },
+            {
+              "timepoint": "4 weeks",
+              "dose": "100 mg",
+              "value": "approximately +15"
+            }
+          ]
+        },
+        {
+          "endpoint": "NYHA Class Distribution",
+          "unit": "percentage of patients",
+          "data": [
+            {
+              "timepoint": "Baseline (50mg)",
+              "dose": "Class I",
+              "value": "14%"
+            },
+            {
+              "timepoint": "Baseline (50mg)",
+              "dose": "Class II",
+              "value": "57%"
+            },
+            {
+              "timepoint": "Baseline (50mg)",
+              "dose": "Class III",
+              "value": "29%"
+            },
+            {
+              "timepoint": "Week 4 (50mg)",
+              "dose": "Class I",
+              "value": "29%"
+            },
+            {
+              "timepoint": "Week 4 (50mg)",
+              "dose": "Class II",
+              "value": "57%"
+            },
+            {
+              "timepoint": "Week 4 (50mg)",
+              "dose": "Class III",
+              "value": "14%"
+            },
+            {
+              "timepoint": "Baseline (100mg)",
+              "dose": "Class I",
+              "value": "0%"
+            },
+            {
+              "timepoint": "Baseline (100mg)",
+              "dose": "Class II",
+              "value": "56%"
+            },
+            {
+              "timepoint": "Baseline (100mg)",
+              "dose": "Class III",
+              "value": "44%"
+            },
+            {
+              "timepoint": "Week 4 (100mg)",
+              "dose": "Class I",
+              "value": "44%"
+            },
+            {
+              "timepoint": "Week 4 (100mg)",
+              "dose": "Class II",
+              "value": "44%"
+            },
+            {
+              "timepoint": "Week 4 (100mg)",
+              "dose": "Class III",
+              "value": "11%"
+            }
+          ]
+        }
+      ],
+      "safety": {
+        "summary": "",
+        "teae_table": {
+          "columns": [
+            "Treatment-Emergent Adverse Events (TEAE)",
+            "N=29 n (%)"
+          ],
+          "rows": [
+            {
+              "event": "Dizziness (mostly mild and transient in duration)",
+              "values": [
+                "8 (27.6%)"
+              ]
+            },
+            {
+              "event": "Upper respiratory tract infection",
+              "values": [
+                "5 (17.2%)"
+              ]
+            },
+            {
+              "event": "Atrial fibrillation",
+              "values": [
+                "4 (13.8%)"
+              ]
+            },
+            {
+              "event": "Influenza like illness",
+              "values": [
+                "3 (10.3%)"
+              ]
+            },
+            {
+              "event": "Palpitations",
+              "values": [
+                "3 (10.3%)"
+              ]
+            },
+            {
+              "event": "Constipation",
+              "values": [
+                "2 (6.9%)"
+              ]
+            },
+            {
+              "event": "Diarrhea",
+              "values": [
+                "2 (6.9%)"
+              ]
+            },
+            {
+              "event": "Headache",
+              "values": [
+                "2 (6.9%)"
+              ]
+            }
+          ]
+        },
+        "serious_adverse_events": [
+          "Atrial fibrillation: A total of 3 oHCM participants and 1 nHCM participant had new onset symptomatic atrial fibrillation",
+          "Two of the atrial fibrillation events were considered SAEs",
+          "None of the patients who had atrial fibrillation experienced LVEF <50% at any time"
+        ],
+        "discontinuation_details": "One oHCM participant discontinued treatment due to moderate dizziness. No other discontinuations reported.",
+        "lvef_safety": {
+          "narrative": "No meaningful reductions in LVEF or LVEF <50% were observed across a broad exposure range after EDG-7500 treatment. In the nHCM cohort, 4/12 (33%) participants had a baseline LVEF <60% by core lab; all 4 remained stable throughout the treatment period with a mean change from baseline of +2.5%. This is a key differentiation from cardiac myosin inhibitors (both approved and in development) which can cause systolic dysfunction and require careful LVEF monitoring through frequent echocardiographic evaluation. The lack of meaningful LVEF reduction potentially could eliminate the need for safety echocardiograms.",
+          "findings": [
+            "No LVEF <50% observed in any patient across entire study",
+            "No meaningful reductions in LVEF observed in oHCM or nHCM cohorts",
+            "4 nHCM participants with baseline LVEF <60% remained stable with +2.5% mean improvement",
+            "Even patients with atrial fibrillation had no LVEF <50%",
+            "No LVEF-related safety signals across broad exposure range"
+          ]
+        },
+        "key_findings": [
+          "Atrial fibrillation in 13.8% (4/29) with 2 SAEs is notable but none had LVEF compromise",
+          "Dizziness in 27.6% was mostly mild and transient, leading to only 1 discontinuation",
+          "No systolic dysfunction signals - major differentiation from myosin inhibitors",
+          "Generally well tolerated across broad exposure range",
+          "Special population: 4 nHCM patients with baseline LVEF <60% had stable/improved LVEF"
+        ]
       }
-    },
-    "conclusions": {
-      "from_poster": [
-        "EDG-7500 has the potential to emerge as an exciting new therapeutic option for both oHCM and nHCM",
-        "EDG-7500 treatment appears to be generally well tolerated across a broad exposure range without meaningful impact on LVEF",
-        "Treatment with EDG-7500 was shown to improve LVOT-G, NT-proBNP, e', KCCQ, and NYHA",
-        "In the longer-term cohort of CIRRUS-HCM, intra-patient dose optimization is being explored"
-      ]
-    }
-  },
-  "disease_background": {
-    "hcm_overview": {
-      "definition": "Hypertrophic cardiomyopathy (HCM) is characterized by enhanced cardiac actin-myosin cross-bridge cycling, leading to hypercontractility, myocardial hypertrophy, fibrosis, and diastolic dysfunction",
-      "prevalence": "Most common inherited cardiac condition; ~1 in 500 people",
-      "us_patients": "~600,000 patients in US"
-    },
-    "ohcm_phenotype": {
-      "definition": "Obstructive HCM - combination of hypercontractility, hypertrophy, small LV cavity, and abnormal mitral valve apparatus leading to LVOT obstruction",
-      "prevalence": "2/3 of HCM patients (~200,000 US)",
-      "pathophysiology": "LVOT gradient ≥30 mmHg at rest or ≥50 mmHg with provocation"
-    },
-    "nhcm_phenotype": {
-      "definition": "Nonobstructive HCM - ventricular hypertrophy without significant LVOT obstruction",
-      "prevalence": "1/3 of HCM patients (~400,000 US)",
-      "unmet_need": "NO approved therapies - underserved population"
-    }
-  },
-  "current_treatment_landscape": {
-    "first_line": {
-      "agents": "Non-vasodilating beta-blockers (metoprolol, propranolol, nadolol)",
-      "mechanism": "Decrease calcium entry, reduce heart rate, prolong diastolic filling",
-      "limitations": "No RCT evidence; do not modify disease"
-    },
-    "second_line": {
-      "agents": "Non-dihydropyridine calcium channel blockers (verapamil, diltiazem)",
-      "limitations": "No RCT evidence; do not modify disease"
-    },
-    "third_line": {
-      "agent": "Disopyramide",
-      "limitations": "QTc prolongation, anticholinergic effects, tachyphylaxis"
-    },
-    "cardiac_myosin_inhibitors": {
-      "class_overview": "First drug class targeting underlying HCM pathophysiology",
-      "mechanism": "Inhibit cardiac myosin ATPase to stabilize super-relaxed state",
-      "mavacamten": {
-        "brand": "CAMZYOS",
-        "approval": "FDA approved oHCM NYHA II-III",
-        "safety_concern": "LVEF <50% in up to 13.8%; requires REMS with frequent echos",
-        "price": "$89,500/year US"
-      },
-      "aficamten": {
-        "status": "Under regulatory review",
-        "safety": "LVEF <50% in 5.3%"
-      },
-      "edg7500_differentiation": "No meaningful LVEF reductions - may eliminate need for safety echocardiograms"
     }
   },
   "catalysts": [
     {
-      "event": "Longer-term CIRRUS-HCM data with intra-patient dose optimization",
-      "timing": "2026",
-      "importance": "high",
-      "what_to_watch": "Durability of efficacy; continued LVEF safety; optimal dosing strategy"
-    },
-    {
-      "event": "Phase 3 trial initiation",
-      "timing": "TBD",
-      "importance": "critical",
-      "what_to_watch": "Trial design for oHCM and/or nHCM populations; endpoints; comparator"
+      "event": "Longer-term CIRRUS-HCM data with intra-patient dose optimization results. Potential Phase 3 program initiation contingent on Phase 2 completion. Further characterization of atrial fibrillation signal and NT-proBNP correlation to pVO2 improvements.",
+      "importance": "High"
     }
   ],
-  "competitive_landscape": {
-    "competitors": [
-      {
-        "drug": "mavacamten (CAMZYOS)",
-        "company": "Bristol-Myers Squibb",
-        "limitation": "REMS required; LVEF <50% up to 13.8%; $89,500/year; oHCM only"
-      },
-      {
-        "drug": "aficamten",
-        "company": "Cytokinetics",
-        "limitation": "LVEF <50% in 5.3%; oHCM only; will require monitoring"
-      }
-    ],
-    "our_advantages": [
-      "No meaningful LVEF reductions - may eliminate need for REMS/frequent echos",
-      "Active in BOTH oHCM AND nHCM (nHCM has 400K US patients with zero approved therapies)",
-      "Different mechanism preserves myosin function",
-      "Rapid diastolic improvement (e') within 1 week",
-      "89% clinical improvement oHCM; 88% nHCM"
-    ]
+  "regulatory_path": {
+    "status": "EDG-7500 is an investigational therapy not approved by any health authority. Phase 2 CIRRUS-HCM study ongoing with longer-term cohort exploring intra-patient dose optimization."
   },
   "investment_analysis": {
     "bull_case": [
-      "No LVEF reductions - eliminates major CMI safety liability; may not need REMS/frequent echos",
-      "Only therapy targeting nHCM (400K US patients with ZERO approved options)",
-      "89% LVOT-G response at 100mg; 56% achieved NT-proBNP normalization",
-      "78% had ≥1 NYHA class improvement at 100mg - strong symptomatic benefit",
-      "Differentiated mechanism preserves myosin function vs CMIs that inactivate myosin",
-      "Rapid diastolic improvement within 1 week differentiates from competitors"
+      {
+        "point": "EDG-7500 demonstrated robust efficacy across both obstructive and nonobstructive HCM with 89% (100mg dose) achieving complete LVOT-G response in oHCM and significant improvements in NT-proBNP, diastolic function (e'), KCCQ, and NYHA class in both populations. Critically, NO meaningful LVEF reductions or LVEF <50% were observed across a broad exposure range, potentially differentiating EDG-7500 from cardiac myosin inhibitors that require frequent safety echocardiograms due to systolic dysfunction risk. Atrial fibrillation occurred in 13.8% (4/29 patients, with 3 SAEs), which warrants monitoring but none had LVEF <50%.",
+        "confidence": "Medium - single extraction"
+      }
     ],
     "bear_case": [
-      "Small Phase 2 (N=29) - safety advantage needs larger trial confirmation",
-      "Mavacamten and aficamten already approved/launching",
-      "Atrial fibrillation in 13.8% (4/29, 2 SAEs) higher than expected",
-      "nHCM regulatory path unvalidated",
-      "Commercial execution risk as emerging company"
-    ],
-    "probability_of_success": "De-risked by Phase 2 but larger trials needed",
-    "peak_sales_estimate": "$2-4B+ if successful in oHCM + nHCM",
-    "key_risks": [
-      "Small Phase 2 sample size",
-      "CMI competitors have head start",
-      "AF signal needs monitoring",
-      "nHCM regulatory path unclear"
+      {
+        "point": "Open-label design without placebo control - limits interpretation of subjective endpoints like KCCQ and NYHA",
+        "probability": ""
+      },
+      {
+        "point": "Small sample size (N=29 total; N=17 oHCM, N=12 nHCM) - limited statistical power",
+        "probability": ""
+      },
+      {
+        "point": "Short duration (4 weeks primary endpoint) - longer-term efficacy and safety unknown",
+        "probability": ""
+      },
+      {
+        "point": "Heterogeneous population: 5 oHCM participants had subthreshold LVOT-G on Day 1",
+        "probability": ""
+      },
+      {
+        "point": "Unequal dose group sizes at Week 4 (N=7 at 50mg, N=9 at 100mg in oHCM) limits dose comparison",
+        "probability": ""
+      },
+      {
+        "point": "Enriched population may limit generalizability - predominantly NYHA II/III, selected for symptoms",
+        "probability": ""
+      },
+      {
+        "point": "No assessment of exercise capacity (pVO2) in this dataset though mentioned as correlated endpoint",
+        "probability": ""
+      },
+      {
+        "point": "Preliminary data as of May 2025 - dataset may not be fully mature",
+        "probability": ""
+      },
+      {
+        "point": "Missing data: Not all patients had Week 4 assessments for all endpoints",
+        "probability": ""
+      },
+      {
+        "point": "No head-to-head comparison with approved HCM therapies (mavacamten, aficamten)",
+        "probability": ""
+      }
     ]
-  },
-  "market_opportunity": {
-    "tam": "$2-4B (CMI class)",
-    "patient_population": "600,000 US (200K oHCM, 400K nHCM)",
-    "unmet_need": "nHCM has NO approved therapies; oHCM therapies have significant monitoring burden"
-  },
-  "abbreviations": {
-    "AF": "atrial fibrillation",
-    "BMI": "body mass index",
-    "e_prime": "early diastolic mitral annular velocity",
-    "CSS": "clinical summary score",
-    "EOS": "end of study",
-    "HCM": "hypertrophic cardiomyopathy",
-    "ICD": "implantable cardioverter-defibrillator",
-    "KCCQ": "Kansas City Cardiomyopathy Questionnaire",
-    "LAVI": "left atrial volume index",
-    "LV": "left ventricular",
-    "LVEF": "LV ejection fraction",
-    "LVOT": "LV outflow tract",
-    "LVOT_G": "LVOT gradient",
-    "NS": "not significant",
-    "NT_proBNP": "N-terminal pro-B-type natriuretic peptide",
-    "NYHA": "New York Heart Association",
-    "oHCM": "obstructive HCM",
-    "nHCM": "nonobstructive HCM",
-    "OSS": "overall summary score",
-    "pVO2": "peak oxygen consumption",
-    "SRT": "septal reduction therapy",
-    "SEM": "standard error of the mean",
-    "SD": "standard deviation"
   }
 }
