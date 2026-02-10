@@ -1855,17 +1855,17 @@ def generate_tl1a_report(admin: bool = False):
 </html>'''
 
 
-def generate_b7h3_report():
+def generate_b7h3_report(admin: bool = False):
     """Generate the B7-H3 / ADC competitive landscape report."""
 
-    # B7-H3 Assets data
+    # B7-H3 Assets data — updated Feb 2026
     assets = [
-        {"asset": "Ifinatamab deruxtecan (DS-7300)", "company": "Daiichi Sankyo / Merck", "ticker": "DSNKY/MRK", "phase": "Phase 3", "modality": "ADC (DXd)", "indication": "SCLC, NSCLC, Solid tumors", "deal": "$22B partnership", "orr": "52% (ES-SCLC)", "catalyst": "TROPION-Lung08 H2 2025"},
-        {"asset": "HS-20093", "company": "GSK (via Hansoh)", "ticker": "GSK", "phase": "Phase 2", "modality": "ADC", "indication": "SCLC", "deal": "$1.7B", "orr": "75% (ES-SCLC 2L+)", "catalyst": "Ph2 expansion 2025"},
-        {"asset": "AZD8205", "company": "AstraZeneca", "ticker": "AZN", "phase": "Phase 2", "modality": "ADC (Topo I)", "indication": "Solid tumors", "deal": "Internal", "orr": "Early data", "catalyst": "Ph2 data 2025"},
-        {"asset": "BNT324", "company": "BioNTech", "ticker": "BNTX", "phase": "Phase 1/2", "modality": "ADC", "indication": "Solid tumors", "deal": "Internal", "orr": "Early stage", "catalyst": "Ph1 data 2025"},
-        {"asset": "Omburtamab", "company": "Y-mAbs", "ticker": "YMAB", "phase": "Approved", "modality": "Radioconjugate", "indication": "CNS tumors", "deal": "Internal", "orr": "N/A", "catalyst": "Label expansion"},
-        {"asset": "MGC018", "company": "MacroGenics", "ticker": "MGNX", "phase": "Phase 2", "modality": "ADC (vcMMAE)", "indication": "Solid tumors", "deal": "Internal", "orr": "Early data", "catalyst": "Ph2 data 2025"},
+        {"asset": "Ifinatamab deruxtecan (I-DXd)", "company": "Daiichi Sankyo / Merck", "ticker": "DSNKY/MRK", "phase": "Phase 3", "modality": "ADC (DXd)", "indication": "SCLC, NSCLC, mCRPC, ESCC", "orr": "48.2% (ES-SCLC)", "catalyst": "IDeate-Lung02 Ph3 data ~2028; potential accel. approval 2027"},
+        {"asset": "HS-20093 / GSK'227", "company": "GSK (via Hansoh)", "ticker": "GSK", "phase": "Phase 1/2/3", "modality": "ADC (TOPOi)", "indication": "SCLC, Osteosarcoma", "orr": "61% (ES-SCLC 8mg/kg)", "catalyst": "GSK global data H1 2026; Ph3 SCLC enrolling"},
+        {"asset": "AZD8205", "company": "AstraZeneca", "ticker": "AZN", "phase": "Phase 2", "modality": "ADC (Topo I)", "indication": "Solid tumors", "orr": "Early data", "catalyst": "Ph2 data ongoing"},
+        {"asset": "BNT324", "company": "BioNTech", "ticker": "BNTX", "phase": "Phase 1/2", "modality": "ADC", "indication": "Solid tumors", "orr": "Early stage", "catalyst": "Ph1 data ongoing"},
+        {"asset": "Omburtamab", "company": "Y-mAbs", "ticker": "YMAB", "phase": "Approved", "modality": "Radioconjugate", "indication": "CNS tumors", "orr": "N/A", "catalyst": "Label expansion"},
+        {"asset": "Vobramitamab duocarmazine (MGC018)", "company": "MacroGenics", "ticker": "MGNX", "phase": "Phase 1/2", "modality": "ADC (vcMMAE)", "indication": "CRC, SCLC, Solid tumors", "orr": "Early data", "catalyst": "Ph2 data TBD"},
     ]
 
     # Build assets table
@@ -1908,6 +1908,7 @@ def generate_b7h3_report():
 
         .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
         .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 20px 0 12px; }}
 
         table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
         th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
@@ -1930,6 +1931,16 @@ def generate_b7h3_report():
         .highlight-box h4 {{ color: #92400e; margin-bottom: 8px; }}
         .highlight-box p {{ color: #78350f; font-size: 0.9rem; }}
 
+        .note-box {{ background: var(--bg); border-left: 3px solid var(--accent); padding: 16px 20px; margin-top: 16px; border-radius: 0 8px 8px 0; }}
+        .note-box p {{ color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin: 0; }}
+
+        .bio-point {{ display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }}
+        .bio-point:last-child {{ border-bottom: none; }}
+        .bio-icon {{ min-width: 28px; height: 28px; background: var(--navy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }}
+        .bio-icon.risk {{ background: #dc2626; }}
+        .bio-text {{ font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }}
+        .bio-text strong {{ color: var(--text); }}
+
         .catalyst-timeline {{ margin-top: 20px; }}
         .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
         .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
@@ -1947,7 +1958,7 @@ def generate_b7h3_report():
             <div class="report-meta">
                 <div class="meta-item"><div class="label">Largest Deal</div><div class="value">$22B (MRK/DSK)</div></div>
                 <div class="meta-item"><div class="label">Assets in Development</div><div class="value">23+</div></div>
-                <div class="meta-item"><div class="label">Best ORR</div><div class="value">75% (ES-SCLC)</div></div>
+                <div class="meta-item"><div class="label">Best ORR</div><div class="value">61% (ES-SCLC)</div></div>
                 <div class="meta-item"><div class="label">Modalities</div><div class="value">ADC, CAR-T, RIT</div></div>
             </div>
         </div>
@@ -1955,17 +1966,16 @@ def generate_b7h3_report():
         <!-- Mega Deal Highlight -->
         <div class="highlight-box">
             <h4>Merck-Daiichi Sankyo Partnership (Oct 2023)</h4>
-            <p>The <strong>$22 billion</strong> collaboration is the largest ADC deal in history, validating B7-H3 as a high-conviction oncology target. Merck paid $4B upfront + $18B in milestones for global co-development and commercialization rights to ifinatamab deruxtecan (DS-7300).</p>
+            <p>The <strong>$22 billion</strong> collaboration is the largest ADC deal in history, validating B7-H3 as a high-conviction oncology target. Merck paid $4B upfront + $18B in milestones for global co-development and commercialization rights to ifinatamab deruxtecan (I-DXd).</p>
         </div>
 
-        <!-- Why B7-H3 -->
+        <!-- Target Biology -->
         <div class="section">
-            <h2>Why B7-H3 is the Premier ADC Target</h2>
+            <h2>Target Biology</h2>
             <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
-                B7-H3 is an immune checkpoint protein that is <strong>overexpressed in >70% of solid tumors</strong> while showing
-                minimal expression on normal tissues. This creates an ideal therapeutic window for cytotoxic payloads like the DXd topoisomerase I inhibitor used in Enhertu.
+                B7-H3 (CD276) is a type I transmembrane protein in the B7 immune checkpoint family, encoded by the <em>CD276</em> gene.
             </p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
                 <div style="background: var(--bg); padding: 16px; border-radius: 8px; text-align: center;">
                     <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">70%+</div>
                     <div style="font-size: 0.8rem; color: var(--text-muted);">Tumor expression rate</div>
@@ -1978,6 +1988,91 @@ def generate_b7h3_report():
                     <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">Pan-tumor</div>
                     <div style="font-size: 0.8rem; color: var(--text-muted);">Broad applicability</div>
                 </div>
+            </div>
+            <div class="bio-point">
+                <div class="bio-icon">1</div>
+                <div class="bio-text"><strong>Expressed in >70% of solid tumors</strong> with minimal expression in normal tissues — this is the key therapeutic window that makes B7-H3 an ideal ADC target.</div>
+            </div>
+            <div class="bio-point">
+                <div class="bio-icon">2</div>
+                <div class="bio-text"><strong>Dual role: immune checkpoint + tumor promoter.</strong> Unlike PD-L1/CTLA-4, B7-H3 has both immune checkpoint suppression AND direct tumor-promoting functions (promotes migration, invasion, angiogenesis).</div>
+            </div>
+            <div class="bio-point">
+                <div class="bio-icon risk">!</div>
+                <div class="bio-text"><strong>Receptor still debated.</strong> TLT-2 has been proposed but remains controversial; the precise mechanism of B7-H3 immune suppression is not fully resolved. This is a scientific risk, though it does not impact ADC delivery.</div>
+            </div>
+            <div class="bio-point">
+                <div class="bio-icon">3</div>
+                <div class="bio-text"><strong>Expression does NOT clearly predict ADC response.</strong> Current trials are NOT selecting patients by B7-H3 expression level. This is different from HER2 ADCs where expression matters — B7-H3 ADCs rely on high prevalence across tumor types.</div>
+            </div>
+        </div>
+
+        <!-- ADC Technology Comparison -->
+        <div class="section">
+            <h2>ADC Technology Comparison</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>I-DXd (Merck/Daiichi)</th>
+                            <th>HS-20093 (GSK/Hansoh)</th>
+                            <th>MGC018 (MacroGenics)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Antibody</strong></td><td>Humanized IgG1</td><td>Fully human IgG1</td><td>Humanized IgG1</td></tr>
+                        <tr><td><strong>Payload</strong></td><td>DXd (Topo I inhibitor)</td><td>TOPOi (proprietary)</td><td>vcMMAE (microtubule)</td></tr>
+                        <tr><td><strong>Linker</strong></td><td>Tetrapeptide cleavable</td><td>Proprietary cleavable</td><td>Cleavable</td></tr>
+                        <tr><td><strong>DAR</strong></td><td>~4</td><td>TBD</td><td>~4</td></tr>
+                        <tr><td><strong>Bystander effect</strong></td><td>Yes (membrane permeable)</td><td>Yes</td><td>Limited</td></tr>
+                        <tr><td><strong>Key toxicity</strong></td><td>Nausea, neutropenia, ILD risk</td><td>Neutropenia (39% Gr3+), thrombocytopenia</td><td>Typical MMAE profile</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                <p><strong>Why payload matters:</strong> DXd and TOPOi payloads have bystander killing effects, meaning they can kill neighboring tumor cells even without B7-H3 expression. This is clinically important for heterogeneous tumors. MMAE payloads are less membrane-permeable and have a different toxicity profile.</p>
+            </div>
+        </div>
+
+        <!-- Deal Landscape -->
+        <div class="section">
+            <h2>Deal Landscape</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Deal</th>
+                            <th>Parties</th>
+                            <th>Date</th>
+                            <th>Total Value</th>
+                            <th>Structure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>I-DXd co-development</strong></td>
+                            <td>Merck + Daiichi Sankyo</td>
+                            <td>Oct 2023</td>
+                            <td class="deal-value">$22B</td>
+                            <td>$4B upfront + $18B milestones</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HS-20093 (B7-H3 ADC)</strong></td>
+                            <td>GSK + Hansoh</td>
+                            <td>Dec 2023</td>
+                            <td class="deal-value">$1.71B</td>
+                            <td>$185M upfront + $1.525B milestones</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HS-20089 (B7-H4 ADC)</strong></td>
+                            <td>GSK + Hansoh</td>
+                            <td>Oct 2023</td>
+                            <td class="deal-value">$1.585B</td>
+                            <td>$85M upfront + $1.5B milestones</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -2004,6 +2099,58 @@ def generate_b7h3_report():
             </div>
         </div>
 
+        <!-- Registration Strategy -->
+        <div class="section">
+            <h2>Registration Strategy — Active Phase 3 Trials</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Trial</th>
+                            <th>Asset</th>
+                            <th>Indication</th>
+                            <th>Phase</th>
+                            <th>Patients</th>
+                            <th>Expected Completion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>IDeate-Lung02</strong></td><td>I-DXd</td><td>2L ES-SCLC</td><td><span class="phase-badge">Phase 3</span></td><td>~540</td><td>2028</td></tr>
+                        <tr><td><strong>IDeate-Lung03</strong></td><td>I-DXd</td><td>1L ES-SCLC (combo)</td><td><span class="phase-badge">Phase 3</span></td><td>TBD</td><td>TBD</td></tr>
+                        <tr><td><strong>IDeate-Prostate01</strong></td><td>I-DXd</td><td>mCRPC</td><td><span class="phase-badge">Phase 3</span></td><td>~1440</td><td>Jun 2028</td></tr>
+                        <tr><td><strong>IDeate-Esophageal01</strong></td><td>I-DXd</td><td>ESCC</td><td><span class="phase-badge">Phase 3</span></td><td>TBD</td><td>TBD</td></tr>
+                        <tr><td><strong>TROPION-Lung08</strong></td><td>I-DXd</td><td>1L NSCLC</td><td><span class="phase-badge">Phase 3</span></td><td>TBD</td><td>TBD</td></tr>
+                        <tr><td><strong>GSK'227 Ph3</strong></td><td>HS-20093</td><td>SCLC</td><td><span class="phase-badge">Phase 3</span></td><td>TBD</td><td>TBD</td></tr>
+                        <tr><td><strong>GSK'227 Ph3</strong></td><td>HS-20093</td><td>Osteosarcoma</td><td><span class="phase-badge">Phase 3</span></td><td>TBD</td><td>TBD</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Market Opportunity -->
+        <div class="section">
+            <h2>Market Opportunity by Indication</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Indication</th>
+                            <th>Addressable Market</th>
+                            <th>Key Competitors</th>
+                            <th>B7-H3 Advantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>ES-SCLC (2L+)</strong></td><td>$2-3B</td><td>Lurbinectedin, tarlatamab</td><td>48% ORR, durable responses, BTD</td></tr>
+                        <tr><td><strong>NSCLC (1L)</strong></td><td>$30B+</td><td>Keytruda combos, Tagrisso</td><td>Combo potential, broad expression</td></tr>
+                        <tr><td><strong>mCRPC</strong></td><td>$8-10B</td><td>Enzalutamide, Xtandi, Pluvicto</td><td>Novel mechanism, post-ARPI</td></tr>
+                        <tr><td><strong>ESCC</strong></td><td>$2-3B</td><td>Keytruda, Opdivo</td><td>Unmet need in 2L+</td></tr>
+                        <tr><td><strong>Osteosarcoma</strong></td><td>&lt;$500M (orphan)</td><td>Limited options</td><td>High unmet need, orphan pricing</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Bull/Bear -->
         <div class="section">
             <h2>Bull vs Bear</h2>
@@ -2012,52 +2159,29 @@ def generate_b7h3_report():
                     <h3>Bull Case</h3>
                     <ul class="thesis-list">
                         <li>$22B Merck deal = largest ADC partnership ever; major pharma conviction</li>
-                        <li>52% ORR in ES-SCLC is best-in-class for a tumor with no targeted therapy</li>
+                        <li>48% ORR in ES-SCLC with BTD — best-in-class for a tumor with limited targeted therapy</li>
                         <li>Ideal target biology: high tumor, low normal tissue expression</li>
+                        <li>5+ registrational Phase 3 trials across SCLC, NSCLC, prostate, esophageal</li>
                         <li>Multiple modalities (ADC, CAR-T, radioconjugate) = diversified bet on target</li>
-                        <li>Enhertu-style DXd payload has proven safety and efficacy track record</li>
-                        <li>Pan-solid tumor applicability = massive market opportunity ($80B+ oncology)</li>
+                        <li>Pan-solid tumor applicability = $40B+ addressable market across indications</li>
                     </ul>
                 </div>
                 <div class="bear-box">
                     <h3>Bear Case</h3>
                     <ul class="thesis-list">
+                        <li>B7-H3 receptor mechanism not fully understood — scientific risk</li>
+                        <li>Expression does not predict response — no biomarker-driven patient selection</li>
                         <li>Merck/Daiichi dominance may crowd out smaller players</li>
-                        <li>Competition from other ADC targets (TROP2, HER3, Nectin-4)</li>
-                        <li>ADC class toxicities (ILD, cytopenias) may limit use</li>
-                        <li>Registration trials still ongoing; approval not guaranteed</li>
-                        <li>High price of ADCs may face payer pushback</li>
+                        <li>ADC class toxicities (ILD, cytopenias) may limit combination strategies</li>
+                        <li>Registration trials still enrolling; Phase 3 data not expected until 2027-2028</li>
+                        <li>Competition from other ADC targets (TROP2, HER3, Nectin-4, B7-H4)</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Catalysts -->
-        <div class="section">
-            <h2>Upcoming Catalysts</h2>
-            <div class="catalyst-timeline">
-                <div class="catalyst-item">
-                    <div class="catalyst-date">H2 2025</div>
-                    <div><strong>Daiichi/Merck:</strong> TROPION-Lung08 Phase 3 readout (NSCLC 1L)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">2025</div>
-                    <div><strong>Daiichi/Merck:</strong> Potential accelerated approval in ES-SCLC</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">2025</div>
-                    <div><strong>GSK:</strong> HS-20093 Phase 2 expansion data</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">2025</div>
-                    <div><strong>AstraZeneca:</strong> AZD8205 Phase 2 monotherapy and combo data</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">2026</div>
-                    <div><strong>Daiichi/Merck:</strong> Additional Phase 3 readouts in prostate, breast</div>
-                </div>
-            </div>
-        </div>
+        <!-- Catalysts (data-driven from catalysts.json) -->
+        {render_catalyst_section("b7h3-adc", admin=admin)}
 
         <a href="/targets" class="back-link">← Back to Target Landscapes</a>
     </main>

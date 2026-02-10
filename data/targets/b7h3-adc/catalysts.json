@@ -1,0 +1,122 @@
+{
+  "target": "B7-H3",
+  "slug": "b7h3-adc",
+  "last_reviewed": "2026-02-10",
+  "catalysts": [
+    {
+      "date": "2024-08",
+      "date_display": "Aug 2024",
+      "company": "GSK",
+      "asset": "GSK'227",
+      "description": "FDA Breakthrough Therapy Designation for ES-SCLC",
+      "outcome": "Granted"
+    },
+    {
+      "date": "2024-09",
+      "date_display": "Sep 2024",
+      "company": "Hansoh/GSK",
+      "asset": "HS-20093",
+      "description": "Phase 1 ARTEMIS-001 updated data at WCLC 2024 — 61% ORR at 8mg/kg in ES-SCLC",
+      "outcome": "Positive"
+    },
+    {
+      "date": "2025-01",
+      "date_display": "Jan 2025",
+      "company": "GSK",
+      "asset": "GSK'227",
+      "description": "FDA Breakthrough Therapy Designation for relapsed/refractory osteosarcoma",
+      "outcome": "Granted"
+    },
+    {
+      "date": "2025-05",
+      "date_display": "May 2025",
+      "company": "Merck/Daiichi",
+      "asset": "I-DXd",
+      "description": "IDeate-Esophageal01 Phase 3 initiated in ESCC",
+      "outcome": "First patient dosed"
+    },
+    {
+      "date": "2025-06",
+      "date_display": "Jun 2025",
+      "company": "Merck/Daiichi",
+      "asset": "I-DXd",
+      "description": "IDeate-Prostate01 Phase 3 initiated in mCRPC (~1440 patients)",
+      "outcome": "First patient dosed"
+    },
+    {
+      "date": "2025-08",
+      "date_display": "Aug 2025",
+      "company": "Merck/Daiichi",
+      "asset": "I-DXd",
+      "description": "FDA Breakthrough Therapy Designation for ES-SCLC",
+      "outcome": "Granted"
+    },
+    {
+      "date": "2025-09",
+      "date_display": "Sep 2025",
+      "company": "Merck/Daiichi",
+      "asset": "I-DXd",
+      "description": "IDeate-Lung01 Phase 2 primary analysis: 48.2% ORR, 10.3mo OS in ES-SCLC",
+      "outcome": "Published in JCO Jan 2026"
+    },
+    {
+      "date": "2025-10",
+      "date_display": "Oct 2025",
+      "company": "Hansoh/GSK",
+      "asset": "HS-20093",
+      "description": "Phase 2 data in sarcoma presented at ESMO 2025",
+      "outcome": "Promising efficacy signal in osteosarcoma and STS"
+    },
+    {
+      "date": "2025-10",
+      "date_display": "Oct 2025",
+      "company": "GSK",
+      "asset": "GSK'227",
+      "description": "EMA Priority Medicines (PRIME) Designation for ES-SCLC",
+      "outcome": "Granted"
+    },
+    {
+      "date": "2025-12",
+      "date_display": "H2 2025",
+      "company": "GSK",
+      "asset": "GSK'227",
+      "description": "Phase 3 initiated in SCLC (outside China)",
+      "outcome": "Enrolling"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "H1 2026",
+      "company": "GSK",
+      "asset": "GSK'227",
+      "description": "Own clinical data readout expected (Phase 1/2 global studies)"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "H1 2026",
+      "company": "GSK",
+      "asset": "GSK'227",
+      "description": "5 Phase 3 studies for B7-H4 ADC (GSK'584) launching"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027",
+      "company": "Merck/Daiichi",
+      "asset": "I-DXd",
+      "description": "Potential accelerated approval in ES-SCLC (if IDeate-Lung02 interim positive)"
+    },
+    {
+      "date": "2028-06",
+      "date_display": "2028",
+      "company": "Merck/Daiichi",
+      "asset": "I-DXd",
+      "description": "IDeate-Lung02 Phase 3 completion expected (2L ES-SCLC)"
+    },
+    {
+      "date": "2028-06",
+      "date_display": "2028",
+      "company": "Merck/Daiichi",
+      "asset": "I-DXd",
+      "description": "IDeate-Prostate01 Phase 3 primary completion (mCRPC)"
+    }
+  ]
+}
