@@ -2,7 +2,8 @@
   "_metadata": {
     "version": "2.0",
     "type": "targets_index",
-    "last_updated": "2026-02-04"
+    "last_updated": "2026-02-10",
+    "total_targets": 12
   },
   "targets": [
     {
@@ -17,7 +18,8 @@
       "lead_companies": ["Merck", "Roche", "Sanofi/Teva"],
       "hot_target": true,
       "description": "Hot IBD target with anti-fibrotic potential",
-      "legacy_slug": "tl1a-ibd"
+      "legacy_slug": "tl1a-ibd",
+      "has_full_page": true
     },
     {
       "slug": "B7-H3",
@@ -31,7 +33,8 @@
       "lead_companies": ["Merck/Daiichi", "GSK/Hansoh", "MacroGenics"],
       "hot_target": true,
       "description": "Highly expressed in solid tumors with limited normal tissue",
-      "legacy_slug": "b7h3-adc"
+      "legacy_slug": "b7h3-adc",
+      "has_full_page": true
     },
     {
       "slug": "GLP-1",
@@ -46,7 +49,8 @@
       "lead_companies": ["Novo Nordisk", "Eli Lilly", "Amgen"],
       "hot_target": true,
       "description": "$50B+ market. Oral formulation key.",
-      "legacy_slug": "glp1-obesity"
+      "legacy_slug": "glp1-obesity",
+      "has_full_page": true
     },
     {
       "slug": "KRAS",
@@ -59,38 +63,8 @@
       "approved_assets": 2,
       "lead_companies": ["Amgen", "Mirati/BMS", "Revolution Medicines"],
       "description": "From undruggable to approved. G12D next frontier.",
-      "legacy_slug": "kras"
-    },
-    {
-      "slug": "FcRn",
-      "name": "FcRn",
-      "full_name": "Neonatal Fc Receptor",
-      "category": "immunology",
-      "market_status": "approved",
-      "total_assets": 5,
-      "approved_assets": 2,
-      "lead_companies": ["argenx", "UCB", "J&J"],
-      "description": "IgG recycling. VYVGART leads."
-    },
-    {
-      "slug": "KIT",
-      "name": "KIT",
-      "full_name": "KIT Proto-Oncogene",
-      "category": "immunology",
-      "market_status": "race_to_first",
-      "total_assets": 3,
-      "lead_companies": ["Blueprint", "Cogent", "Allakos"],
-      "description": "Mast cell depletion for urticaria."
-    },
-    {
-      "slug": "Aldosterone",
-      "name": "Aldosterone synth",
-      "full_name": "Aldosterone Synthase (CYP11B2)",
-      "category": "cardiovascular",
-      "market_status": "race_to_first",
-      "total_assets": 3,
-      "lead_companies": ["Mineralys", "Idorsia"],
-      "description": "HTN without hyperkalemia risk."
+      "legacy_slug": "kras",
+      "has_full_page": true
     },
     {
       "slug": "Cell-Therapy",
@@ -102,7 +76,8 @@
       "lead_companies": ["Eli Lilly/Orna", "AbbVie/Capstan", "AstraZeneca/EsoBiotec"],
       "hot_target": true,
       "description": "$7B+ in vivo M&A wave. Ex vivo economics broken for autoimmune.",
-      "legacy_slug": "cell-therapy"
+      "legacy_slug": "cell-therapy",
+      "has_full_page": true
     },
     {
       "slug": "STAT6",
@@ -116,7 +91,8 @@
       "lead_companies": ["Kymera Therapeutics", "Sanofi/Nurix", "Gilead/LEO"],
       "hot_target": true,
       "description": "Undruggable no more. Oral PROTAC matches dupilumab.",
-      "legacy_slug": "stat6"
+      "legacy_slug": "stat6",
+      "has_full_page": true
     },
     {
       "slug": "miR-124",
@@ -129,33 +105,94 @@
       "lead_companies": ["Abivax", "Formation Bio/Kenmare"],
       "hot_target": true,
       "description": "MicroRNA that resets immune balance. Obefazimod Phase 3 positive in UC.",
-      "legacy_slug": "mir-124"
+      "legacy_slug": "mir-124",
+      "has_full_page": true
+    },
+    {
+      "slug": "FcRn",
+      "name": "FcRn",
+      "full_name": "Neonatal Fc Receptor",
+      "category": "immunology",
+      "badge": "Approved Drug Exists",
+      "market_leader": "VYVGART (efgartigimod)",
+      "challenger": "IMVT-1402 (Immunovant)",
+      "companies_pursuing": 6,
+      "tagline": "IgG recycling blocker for autoimmune; argenx $4B+ franchise",
+      "has_full_page": false
+    },
+    {
+      "slug": "KIT",
+      "name": "KIT",
+      "full_name": "KIT Proto-Oncogene",
+      "category": "immunology",
+      "badge": "Race to First",
+      "frontrunner": "Barzolvolimab (Celldex)",
+      "fast_follower": "TBD",
+      "companies_pursuing": 3,
+      "tagline": "Mast cell depletion for chronic urticaria and prurigo nodularis",
+      "has_full_page": false
+    },
+    {
+      "slug": "menin-mll",
+      "name": "Menin-MLL",
+      "full_name": "Menin-MLL Interaction Inhibitors",
+      "category": "oncology",
+      "badge": "Approved Drug Exists",
+      "market_leader": "Revuforj (revumenib, Syndax)",
+      "challenger": "Ziftomenib (Kura Oncology)",
+      "companies_pursuing": 4,
+      "tagline": "First-in-class for KMT2A-rearranged AML",
+      "has_full_page": false
+    },
+    {
+      "slug": "tigit",
+      "name": "TIGIT",
+      "full_name": "T-cell immunoreceptor with Ig and ITIM domains",
+      "category": "oncology",
+      "badge": "Race to First",
+      "frontrunner": "Domvanalimab (Arcus/Gilead)",
+      "fast_follower": "Ociperlimab (BeiGene)",
+      "companies_pursuing": 5,
+      "tagline": "Immune checkpoint — Fc-silent design may crack the code",
+      "has_full_page": false
+    },
+    {
+      "slug": "dmd",
+      "name": "DMD Gene Therapy",
+      "full_name": "Duchenne Muscular Dystrophy Gene Therapy",
+      "category": "rare_disease",
+      "badge": "Approved Drug Exists",
+      "market_leader": "Elevidys (Sarepta)",
+      "challenger": "Exon-skipping therapies (Sarepta)",
+      "companies_pursuing": 3,
+      "tagline": "First gene therapy for Duchenne muscular dystrophy",
+      "has_full_page": false
     }
   ],
   "categories": {
     "oncology": {
       "name": "Oncology",
       "color": "#dc2626",
-      "count": 2
+      "count": 4
     },
     "immunology": {
       "name": "I&I",
       "color": "#7c3aed",
-      "count": 5
+      "count": 4
     },
     "metabolic": {
       "name": "Metabolic",
       "color": "#059669",
       "count": 1
     },
-    "cardiovascular": {
-      "name": "Cardiovascular",
-      "color": "#0284c7",
-      "count": 1
-    },
     "modality": {
       "name": "Modality",
       "color": "#9333ea",
+      "count": 1
+    },
+    "rare_disease": {
+      "name": "Rare Disease",
+      "color": "#d97706",
       "count": 1
     }
   }
