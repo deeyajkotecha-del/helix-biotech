@@ -1,0 +1,180 @@
+{
+  "target": "GLP-1",
+  "slug": "glp1-obesity",
+  "last_reviewed": "2026-02-10",
+  "catalysts": [
+    {
+      "date": "2021-06",
+      "date_display": "Jun 2021",
+      "company": "Novo Nordisk",
+      "asset": "Wegovy (semaglutide 2.4mg)",
+      "description": "FDA approval for chronic weight management in adults with obesity",
+      "outcome": "Approved"
+    },
+    {
+      "date": "2022-05",
+      "date_display": "May 2022",
+      "company": "Eli Lilly",
+      "asset": "Mounjaro (tirzepatide)",
+      "description": "FDA approval for type 2 diabetes",
+      "outcome": "Approved"
+    },
+    {
+      "date": "2023-06",
+      "date_display": "Jun 2023",
+      "company": "Eli Lilly",
+      "asset": "Retatrutide",
+      "description": "Phase 2 results published — 24.2% weight loss at 48 weeks (triple agonist)",
+      "outcome": "Best-in-class Phase 2 data"
+    },
+    {
+      "date": "2023-11",
+      "date_display": "Nov 2023",
+      "company": "Eli Lilly",
+      "asset": "Zepbound (tirzepatide)",
+      "description": "FDA approval for chronic weight management in adults with obesity",
+      "outcome": "Approved"
+    },
+    {
+      "date": "2023-11",
+      "date_display": "Nov 2023",
+      "company": "Novo Nordisk",
+      "asset": "Semaglutide 2.4mg",
+      "description": "SELECT trial results — 20% MACE risk reduction in overweight/obese adults with CV disease",
+      "outcome": "Positive — first CV outcomes data for anti-obesity medicine"
+    },
+    {
+      "date": "2024-03",
+      "date_display": "Mar 2024",
+      "company": "Novo Nordisk",
+      "asset": "Semaglutide",
+      "description": "FDA expanded Wegovy label to include cardiovascular risk reduction",
+      "outcome": "Label expansion granted"
+    },
+    {
+      "date": "2024-06",
+      "date_display": "Jun 2024",
+      "company": "Novo Nordisk",
+      "asset": "Semaglutide",
+      "description": "FLOW trial — 24% reduction in kidney disease progression in T2D with CKD",
+      "outcome": "Positive — stopped early for efficacy"
+    },
+    {
+      "date": "2024-07",
+      "date_display": "Jul 2024",
+      "company": "Amgen",
+      "asset": "MariTide (maridebart cafraglutide)",
+      "description": "Phase 2 results — ~20% weight loss at 52 weeks with monthly dosing",
+      "outcome": "Positive — monthly dosing differentiation confirmed"
+    },
+    {
+      "date": "2024-09",
+      "date_display": "Sep 2024",
+      "company": "Viking Therapeutics",
+      "asset": "VK2735 (SC)",
+      "description": "Phase 2 topline: 14.7% weight loss at 13 weeks (SC formulation)",
+      "outcome": "Positive — best early-stage data in class"
+    },
+    {
+      "date": "2024-12",
+      "date_display": "Dec 2024",
+      "company": "Novo Nordisk",
+      "asset": "CagriSema",
+      "description": "REDEFINE-1 Phase 3 topline — did not beat semaglutide on co-primary endpoint; ~22.7% absolute WL",
+      "outcome": "Mixed — missed sema comparator endpoint but strong absolute WL"
+    },
+    {
+      "date": "2025-01",
+      "date_display": "Jan 2025",
+      "company": "U.S. Congress",
+      "asset": "Treat and Reduce Obesity Act",
+      "description": "Medicare Part D coverage for anti-obesity medications enacted",
+      "outcome": "Signed into law — ~15-20M new addressable lives"
+    },
+    {
+      "date": "2025-09",
+      "date_display": "Sep 2025",
+      "company": "Eli Lilly",
+      "asset": "Orforglipron",
+      "description": "Phase 3 ATTAIN-1 topline: oral small molecule GLP-1 met primary endpoint in obesity",
+      "outcome": "Positive"
+    },
+    {
+      "date": "2026-03",
+      "date_display": "Q1 2026",
+      "company": "Viking Therapeutics",
+      "asset": "VK2735 (SC)",
+      "description": "Phase 3 VENTURE interim efficacy data in obesity"
+    },
+    {
+      "date": "2026-03",
+      "date_display": "Q1 2026",
+      "company": "Eli Lilly",
+      "asset": "Retatrutide",
+      "description": "FDA submission expected for obesity (triple agonist)"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "H1 2026",
+      "company": "Amgen",
+      "asset": "MariTide",
+      "description": "Phase 3 data readout; monthly dosing differentiation"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "H1 2026",
+      "company": "Viking Therapeutics",
+      "asset": "VK2735 (Oral)",
+      "description": "Phase 2b full data readout (oral dual agonist)"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "Q2 2026",
+      "company": "Novo Nordisk",
+      "asset": "CagriSema",
+      "description": "FDA submission expected (semaglutide + cagrilintide)"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "Q2 2026",
+      "company": "Eli Lilly",
+      "asset": "Orforglipron",
+      "description": "FDA filing expected (oral small molecule GLP-1 agonist)"
+    },
+    {
+      "date": "2026-09",
+      "date_display": "H2 2026",
+      "company": "Boehringer Ingelheim",
+      "asset": "Survodutide",
+      "description": "Phase 3 SYNCHRONIZE-2 topline (GLP-1/glucagon dual agonist)"
+    },
+    {
+      "date": "2026-12",
+      "date_display": "H2 2026",
+      "company": "Eli Lilly",
+      "asset": "Retatrutide",
+      "description": "Potential FDA approval (best-in-class ~22% placebo-adjusted weight loss)"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027",
+      "company": "Eli Lilly",
+      "asset": "Orforglipron",
+      "description": "Potential FDA approval — first oral small molecule GLP-1"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027",
+      "company": "Novo Nordisk",
+      "asset": "Amycretin",
+      "description": "Phase 2 data expected (oral GLP-1/amylin dual agonist)"
+    },
+    {
+      "date": "2028-06",
+      "date_display": "2028+",
+      "company": "Multiple",
+      "asset": "Next-generation agents",
+      "description": "Retatrutide maintenance studies, MariTide Phase 3 completion, oral triple agonists"
+    }
+  ]
+}

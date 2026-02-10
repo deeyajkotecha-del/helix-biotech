@@ -1211,33 +1211,33 @@ def generate_about_page():
 </body>
 </html>'''
 
-def generate_glp1_report():
+def generate_glp1_report(admin: bool = False):
     """Generate the GLP-1 / Obesity competitive landscape report."""
 
-    # Approved drugs data
+    # Approved drugs data — weight loss is placebo-adjusted from pivotal trials
     approved_drugs = [
-        {"name": "Wegovy", "generic": "semaglutide", "company": "Novo Nordisk", "mechanism": "GLP-1 agonist", "route": "SC weekly", "approval": "2021", "indication": "Obesity", "weight_loss": "~15%", "revenue_2024": "$6.2B"},
-        {"name": "Zepbound", "generic": "tirzepatide", "company": "Eli Lilly", "mechanism": "GLP-1/GIP dual", "route": "SC weekly", "approval": "2023", "indication": "Obesity", "weight_loss": "~21%", "revenue_2024": "$1.2B"},
-        {"name": "Ozempic", "generic": "semaglutide", "company": "Novo Nordisk", "mechanism": "GLP-1 agonist", "route": "SC weekly", "approval": "2017", "indication": "T2D (off-label obesity)", "weight_loss": "~12%", "revenue_2024": "$18.4B"},
-        {"name": "Mounjaro", "generic": "tirzepatide", "company": "Eli Lilly", "mechanism": "GLP-1/GIP dual", "route": "SC weekly", "approval": "2022", "indication": "T2D", "weight_loss": "~18%", "revenue_2024": "$7.4B"},
-        {"name": "Saxenda", "generic": "liraglutide", "company": "Novo Nordisk", "mechanism": "GLP-1 agonist", "route": "SC daily", "approval": "2014", "indication": "Obesity", "weight_loss": "~8%", "revenue_2024": "$0.8B"},
-        {"name": "Rybelsus", "generic": "semaglutide", "company": "Novo Nordisk", "mechanism": "GLP-1 agonist", "route": "Oral daily", "approval": "2019", "indication": "T2D", "weight_loss": "~10%", "revenue_2024": "$2.8B"},
+        {"name": "Wegovy", "generic": "semaglutide 2.4mg", "company": "Novo Nordisk", "mechanism": "GLP-1 mono-agonist", "route": "SC weekly", "approval": "2021", "indication": "Obesity", "weight_loss": "~12.4%", "trial": "STEP 1", "revenue_2024": "$6.2B"},
+        {"name": "Zepbound", "generic": "tirzepatide 15mg", "company": "Eli Lilly", "mechanism": "GLP-1/GIP dual agonist", "route": "SC weekly", "approval": "2023", "indication": "Obesity", "weight_loss": "~18.4%", "trial": "SURMOUNT-1", "revenue_2024": "$1.2B"},
+        {"name": "Ozempic", "generic": "semaglutide 1mg", "company": "Novo Nordisk", "mechanism": "GLP-1 mono-agonist", "route": "SC weekly", "approval": "2017", "indication": "T2D (off-label obesity)", "weight_loss": "~10%", "trial": "SUSTAIN", "revenue_2024": "$18.4B"},
+        {"name": "Mounjaro", "generic": "tirzepatide 15mg", "company": "Eli Lilly", "mechanism": "GLP-1/GIP dual agonist", "route": "SC weekly", "approval": "2022", "indication": "T2D", "weight_loss": "~15%", "trial": "SURPASS", "revenue_2024": "$7.4B"},
+        {"name": "Saxenda", "generic": "liraglutide 3mg", "company": "Novo Nordisk", "mechanism": "GLP-1 mono-agonist", "route": "SC daily", "approval": "2014", "indication": "Obesity", "weight_loss": "~5.4%", "trial": "SCALE", "revenue_2024": "$0.8B"},
+        {"name": "Rybelsus", "generic": "semaglutide 14mg", "company": "Novo Nordisk", "mechanism": "GLP-1 mono-agonist", "route": "Oral daily", "approval": "2019", "indication": "T2D", "weight_loss": "~7%", "trial": "PIONEER", "revenue_2024": "$2.8B"},
     ]
 
-    # Pipeline drugs data
+    # Pipeline drugs data — mechanism names only, no Gen labels
     pipeline_drugs = [
-        {"asset": "VK2735 (SC)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "14.7% (13 wks)", "catalyst": "Ph3 VENTURE interim Q1 2026", "differentiation": "Potentially best-in-class efficacy"},
-        {"asset": "VK2735 (Oral)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual", "phase": "Phase 2b", "route": "Oral daily", "weight_loss": "8.2% (28 days)", "catalyst": "Ph2b data H1 2026", "differentiation": "Oral convenience + dual agonism"},
-        {"asset": "MariTide (AMG 133)", "company": "Amgen", "ticker": "AMGN", "mechanism": "GLP-1 agonist / GIPR antagonist", "phase": "Phase 3", "route": "SC monthly", "weight_loss": "14.5% (12 wks)", "catalyst": "Ph3 data H1 2026", "differentiation": "Monthly dosing, sustained effect after discontinuation"},
-        {"asset": "Orforglipron", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1 agonist (small molecule)", "phase": "Phase 3", "route": "Oral daily", "weight_loss": "14.7% (36 wks)", "catalyst": "Ph3 ATTAIN-3 Q2 2026", "differentiation": "Oral small molecule, easier manufacturing"},
-        {"asset": "Retatrutide", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1/GIP/Glucagon triple", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "24.2% (48 wks)", "catalyst": "FDA submission Q1 2026", "differentiation": "Best-in-class weight loss, triple agonism"},
-        {"asset": "CagriSema", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Semaglutide + Amylin", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~25% (est)", "catalyst": "FDA submission Q2 2026", "differentiation": "Best-in-class efficacy, amylin synergy"},
-        {"asset": "Survodutide", "company": "Boehringer / Zealand", "ticker": "Private", "mechanism": "GLP-1/Glucagon dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "18.7% (46 wks)", "catalyst": "Ph3 SYNCHRONIZE-2 H2 2026", "differentiation": "Glucagon component may improve MASH"},
-        {"asset": "Pemvidutide", "company": "Altimmune", "ticker": "ALT", "mechanism": "GLP-1/Glucagon dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "15.6% (48 wks)", "catalyst": "Ph3 data 2026", "differentiation": "MASH + obesity dual indication"},
-        {"asset": "Ecnoglutide", "company": "Sciwind Biosciences", "ticker": "Private", "mechanism": "GLP-1 agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~15%", "catalyst": "China NDA 2026", "differentiation": "China-focused development"},
-        {"asset": "HRS9531", "company": "Jiangsu Hengrui", "ticker": "600276.SS", "mechanism": "GLP-1/GIP dual", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "16.8% (24 wks)", "catalyst": "China NDA H2 2026", "differentiation": "Leading Chinese GLP-1"},
-        {"asset": "ARO-INHBE", "company": "Arrowhead Pharma", "ticker": "ARWR", "mechanism": "RNAi (INHBE silencing)", "phase": "Phase 2", "route": "SC quarterly", "weight_loss": "TBD", "catalyst": "Ph2 initiation H2 2026", "differentiation": "RNAi approach, infrequent dosing"},
-        {"asset": "Petrelintide", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Long-acting amylin analog", "phase": "Phase 2", "route": "SC weekly", "weight_loss": "~10%", "catalyst": "Ph2 combo data 2026", "differentiation": "Potential combo with semaglutide"},
+        {"asset": "Retatrutide", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1/GIP/GCG triple agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~22.1%*", "trial": "Phase 2", "catalyst": "FDA submission Q1 2026"},
+        {"asset": "MariTide (maridebart cafraglutide)", "company": "Amgen", "ticker": "AMGN", "mechanism": "GIP antagonist / GLP-1 agonist", "phase": "Phase 2 \u2192 3", "route": "SC monthly", "weight_loss": "~20%*", "trial": "Phase 2, 52 wks", "catalyst": "Ph3 data H1 2026"},
+        {"asset": "CagriSema", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "GLP-1 + amylin combination", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~15-17%\u2020", "trial": "REDEFINE-1", "catalyst": "FDA submission Q2 2026"},
+        {"asset": "Survodutide", "company": "Boehringer / Zealand", "ticker": "Private", "mechanism": "GLP-1/GCG dual agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~16%*", "trial": "Phase 2", "catalyst": "Ph3 SYNCHRONIZE-2 H2 2026"},
+        {"asset": "Orforglipron", "company": "Eli Lilly", "ticker": "LLY", "mechanism": "GLP-1 mono-agonist (oral small molecule)", "phase": "Phase 3", "route": "Oral daily", "weight_loss": "~14.7%*", "trial": "Phase 2, 36 wks", "catalyst": "FDA filing Q2 2026"},
+        {"asset": "VK2735 (SC)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "14.7% (13 wks)", "trial": "Phase 2", "catalyst": "Ph3 VENTURE interim Q1 2026"},
+        {"asset": "VK2735 (Oral)", "company": "Viking Therapeutics", "ticker": "VKTX", "mechanism": "GLP-1/GIP dual agonist", "phase": "Phase 2b", "route": "Oral daily", "weight_loss": "8.2% (28 days)", "trial": "Phase 1b", "catalyst": "Ph2b data H1 2026"},
+        {"asset": "Pemvidutide", "company": "Altimmune", "ticker": "ALT", "mechanism": "GLP-1/GCG dual agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~15.6%", "trial": "Phase 2, 48 wks", "catalyst": "Ph3 data 2026"},
+        {"asset": "Ecnoglutide", "company": "Sciwind Biosciences", "ticker": "Private", "mechanism": "GLP-1 mono-agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "~15%", "trial": "Phase 2", "catalyst": "China NDA 2026"},
+        {"asset": "HRS9531", "company": "Jiangsu Hengrui", "ticker": "600276.SS", "mechanism": "GLP-1/GIP dual agonist", "phase": "Phase 3", "route": "SC weekly", "weight_loss": "16.8% (24 wks)", "trial": "Phase 2", "catalyst": "China NDA H2 2026"},
+        {"asset": "Petrelintide", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "Long-acting amylin analog", "phase": "Phase 2", "route": "SC weekly", "weight_loss": "~10%", "trial": "Phase 1/2", "catalyst": "Ph2 combo data 2026"},
+        {"asset": "Amycretin", "company": "Novo Nordisk", "ticker": "NVO", "mechanism": "GLP-1 + amylin dual agonist (oral)", "phase": "Phase 2", "route": "Oral daily", "weight_loss": "~13% (12 wks)", "trial": "Phase 1", "catalyst": "Ph2 data 2027"},
     ]
 
     # Build approved drugs table
@@ -1249,7 +1249,7 @@ def generate_glp1_report():
             <td>{drug["company"]}</td>
             <td>{drug["mechanism"]}</td>
             <td>{drug["route"]}</td>
-            <td><strong style="color: var(--accent);">{drug["weight_loss"]}</strong></td>
+            <td><strong style="color: var(--accent);">{drug["weight_loss"]}</strong><br><span style="color: var(--text-muted); font-size: 0.75rem;">{drug["trial"]}</span></td>
             <td>{drug["revenue_2024"]}</td>
         </tr>
         '''
@@ -1263,10 +1263,13 @@ def generate_glp1_report():
             <td>{drug["company"]}<br><span class="ticker-small">{drug["ticker"]}</span></td>
             <td>{drug["mechanism"]}</td>
             <td><span class="phase-badge">{drug["phase"]}</span></td>
-            <td><strong>{drug["weight_loss"]}</strong></td>
+            <td><strong>{drug["weight_loss"]}</strong><br><span style="color: var(--text-muted); font-size: 0.75rem;">{drug["trial"]}</span></td>
             <td>{drug["catalyst"]}</td>
         </tr>
         '''
+
+    # Catalyst section from shared system
+    catalyst_html = render_catalyst_section("glp1-obesity", admin=admin)
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -1286,7 +1289,7 @@ def generate_glp1_report():
         }}
         .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
         .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
         .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
         .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
         .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
@@ -1300,10 +1303,11 @@ def generate_glp1_report():
         .market-stat .value {{ font-size: 2rem; font-weight: 700; color: var(--accent); }}
         .market-stat .label {{ color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px; }}
 
-        table {{ width: 100%; border-collapse: collapse; font-size: 0.9rem; }}
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
         th {{ background: var(--navy); color: white; padding: 14px 12px; text-align: left; font-weight: 600; }}
         td {{ padding: 14px 12px; border-bottom: 1px solid var(--border); }}
         tr:hover {{ background: var(--bg); }}
+        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
         @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
@@ -1317,6 +1321,19 @@ def generate_glp1_report():
         .thesis-list li:last-child {{ border-bottom: none; }}
         .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
 
+        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
+        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-point {{ padding: 8px 0; border-bottom: 1px solid #dbeafe; font-size: 0.9rem; color: #374151; }}
+        .bio-point:last-child {{ border-bottom: none; }}
+        .bio-point strong {{ color: #1e40af; }}
+
+        .pipeline-flow {{ display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 6px 0; font-size: 0.85rem; }}
+        .pipeline-flow .arrow {{ color: var(--text-secondary); }}
+        .pipeline-flow .drug {{ background: var(--bg); padding: 3px 10px; border-radius: 6px; border: 1px solid var(--border); }}
+        .pipeline-flow .drug.approved {{ background: #dcfce7; border-color: #86efac; }}
+        .pipeline-flow .drug.filing {{ background: #fef3c7; border-color: #fcd34d; }}
+
         .catalyst-timeline {{ margin-top: 20px; }}
         .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
         .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
@@ -1324,6 +1341,9 @@ def generate_glp1_report():
 
         .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
         .back-link:hover {{ text-decoration: underline; }}
+
+        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
+        .source-list a {{ color: var(--accent); }}
     </style>
 </head>
 <body>
@@ -1347,27 +1367,46 @@ def generate_glp1_report():
                 <div class="market-stat"><div class="value">$50B</div><div class="label">2024 GLP-1 Market</div></div>
                 <div class="market-stat"><div class="value">42%</div><div class="label">Adult Obesity Rate (US)</div></div>
                 <div class="market-stat"><div class="value">537M</div><div class="label">Global Diabetics</div></div>
-                <div class="market-stat"><div class="value">~15-25%</div><div class="label">Weight Loss Range</div></div>
+                <div class="market-stat"><div class="value">~12-22%</div><div class="label">Placebo-Adj. WL Range</div></div>
             </div>
             <p style="color: var(--text-secondary); line-height: 1.7;">
                 The GLP-1 receptor agonist class has transformed obesity treatment, achieving weight loss previously only possible with bariatric surgery.
                 The market is dominated by <strong>Novo Nordisk</strong> (Wegovy, Ozempic) and <strong>Eli Lilly</strong> (Zepbound, Mounjaro), with combined 2024 revenues exceeding $35B.
-                Supply constraints persist, driving urgency for next-generation therapies. Key differentiators include: oral vs. injectable, dosing frequency,
+                Supply constraints are easing but demand continues to accelerate. Key differentiators include: oral vs. injectable, dosing frequency,
                 weight loss efficacy, GI tolerability, and cardiometabolic benefits beyond weight.
             </p>
 
             <h3>Key Market Dynamics</h3>
             <ul style="color: var(--text-secondary); line-height: 1.9; padding-left: 20px;">
-                <li><strong>Supply shortage:</strong> Demand far exceeds manufacturing capacity; Novo and Lilly investing $10B+ in capacity expansion</li>
-                <li><strong>Payer coverage:</strong> Medicare currently excludes obesity drugs; legislation pending to change this (Treat & Reduce Obesity Act)</li>
-                <li><strong>Beyond obesity:</strong> CV outcomes (SELECT trial), MASH, CKD, sleep apnea indications expanding addressable market</li>
-                <li><strong>Oral competition:</strong> First oral small molecule GLP-1s (orforglipron, oral semaglutide) could expand market 2-3x</li>
+                <li><strong>Supply catch-up:</strong> Novo and Lilly investing $10B+ in capacity expansion; compounding pharmacies filling short-term gap</li>
+                <li><strong>Medicare coverage:</strong> Treat and Reduce Obesity Act enacted Jan 2025 — Part D now covers anti-obesity meds, adding ~15-20M addressable lives</li>
+                <li><strong>Beyond obesity:</strong> CV outcomes (SELECT), MASH, CKD, sleep apnea, HFpEF expanding addressable market 2-3x</li>
+                <li><strong>Oral competition:</strong> Orforglipron and oral semaglutide 50mg could expand market by removing injection barrier</li>
+                <li><strong>Monthly dosing:</strong> Amgen's MariTide (monthly SC) could improve adherence vs. weekly injections</li>
             </ul>
+        </div>
+
+        <!-- GIP Agonism vs Antagonism Biology Box -->
+        <div class="section">
+            <h2>GIP Agonism vs. Antagonism: The Unresolved Paradox</h2>
+            <div class="bio-box">
+                <p>A central puzzle in incretin biology: <strong>tirzepatide</strong> (a GIP receptor <em>agonist</em>) and <strong>MariTide</strong> (a GIP receptor <em>antagonist</em>) both produce &gt;15% placebo-adjusted weight loss.
+                This paradox has major implications for target selection and mechanism-based drug design.</p>
+                <div style="margin-top: 16px;">
+                    <div class="bio-point"><strong>The paradox:</strong> GIP agonism (tirzepatide ~18.4% WL) and GIP antagonism (MariTide ~20% WL) both work through incretin pathways, yet have opposite effects on the GIP receptor.</div>
+                    <div class="bio-point"><strong>Functional selectivity:</strong> GIP agonists may engage biased signaling cascades distinct from those blocked by antagonists, resulting in convergent metabolic outcomes through different intracellular pathways.</div>
+                    <div class="bio-point"><strong>Receptor desensitization:</strong> Chronic GIP agonism may functionally desensitize the receptor, making sustained agonism and antagonism phenotypically similar over time.</div>
+                    <div class="bio-point"><strong>Tissue-specific effects:</strong> GIP agonism and antagonism may have different effects in adipose tissue, pancreas, and CNS — net weight loss may result from different tissue contributions.</div>
+                    <div class="bio-point"><strong>Investment implication:</strong> The paradox means the GLP-1 component may be the primary driver of weight loss in both cases. If so, pure GLP-1 agonists (semaglutide, orforglipron) may be closer to ceiling efficacy than assumed.</div>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 12px; color: #6b7280;">Ref: Lu et al., <em>Cell Metabolism</em> 2024; Killion et al., <em>Nature Metabolism</em> 2024</p>
+            </div>
         </div>
 
         <!-- Approved Drugs -->
         <div class="section">
             <h2>Approved Drugs</h2>
+            <div style="overflow-x: auto;">
             <table>
                 <thead>
                     <tr>
@@ -1375,7 +1414,7 @@ def generate_glp1_report():
                         <th>Company</th>
                         <th>Mechanism</th>
                         <th>Route</th>
-                        <th>Weight Loss</th>
+                        <th>Placebo-Adj. WL</th>
                         <th>2024 Revenue</th>
                     </tr>
                 </thead>
@@ -1383,11 +1422,14 @@ def generate_glp1_report():
                     {approved_rows}
                 </tbody>
             </table>
+            </div>
+            <p class="table-footnote">All weight loss figures are placebo-adjusted from pivotal trials at highest approved dose. Cross-trial comparisons are directionally informative only &mdash; populations, trial designs, and durations differ.</p>
         </div>
 
         <!-- Pipeline -->
         <div class="section">
             <h2>Pipeline Assets</h2>
+            <div style="overflow-x: auto;">
             <table>
                 <thead>
                     <tr>
@@ -1395,7 +1437,7 @@ def generate_glp1_report():
                         <th>Company</th>
                         <th>Mechanism</th>
                         <th>Phase</th>
-                        <th>Weight Loss</th>
+                        <th>Placebo-Adj. WL</th>
                         <th>Next Catalyst</th>
                     </tr>
                 </thead>
@@ -1403,6 +1445,240 @@ def generate_glp1_report():
                     {pipeline_rows}
                 </tbody>
             </table>
+            </div>
+            <p class="table-footnote">* Placebo-adjusted estimate from Phase 2 data. Phase 3 may differ. &dagger; CagriSema: ~15-17% placebo-adjusted; REDEFINE-1 primary results were nuanced &mdash; strong absolute WL (~22.7%) but co-primary vs. semaglutide endpoint was not met. Cross-trial comparisons are directionally informative only.</p>
+        </div>
+
+        <!-- Safety Comparison -->
+        <div class="section">
+            <h2>Safety Comparison</h2>
+            <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Drug</th>
+                        <th>Nausea</th>
+                        <th>Vomiting</th>
+                        <th>Discontinuation (GI)</th>
+                        <th>Serious AE of Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Semaglutide 2.4mg</strong></td>
+                        <td>~44%</td>
+                        <td>~24%</td>
+                        <td>~7%</td>
+                        <td>Gallbladder, pancreatitis (rare)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tirzepatide 15mg</strong></td>
+                        <td>~31%</td>
+                        <td>~12%</td>
+                        <td>~5%</td>
+                        <td>Lower GI AEs than sema at similar WL</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Retatrutide 12mg</strong></td>
+                        <td>~45%</td>
+                        <td>~23%</td>
+                        <td>~6%</td>
+                        <td>Phase 2 only; Phase 3 will clarify</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Orforglipron</strong></td>
+                        <td>~35-40%</td>
+                        <td>~15-20%</td>
+                        <td>TBD</td>
+                        <td>Oral &mdash; GI profile may differ</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MariTide</strong></td>
+                        <td>~20-25%</td>
+                        <td>TBD</td>
+                        <td>Low</td>
+                        <td>Monthly dosing may reduce GI peaks</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <p class="table-footnote">All GLP-1 RAs carry class labeling for thyroid C-cell tumors (rodent signal), pancreatitis, and gallbladder events. Rates are approximate from published trial data and may vary by dose titration schedule.</p>
+        </div>
+
+        <!-- Weight Regain & Durability -->
+        <div class="section">
+            <h2>Weight Regain &amp; Durability</h2>
+            <div class="bio-box" style="background: #fef3c7; border-color: #f59e0b;">
+                <h3 style="color: #92400e;">THE key question for revenue modeling</h3>
+                <p style="color: #78350f;">If patients must stay on therapy permanently, peak sales estimates roughly double. Weight regain data is therefore the most commercially significant dataset in the class.</p>
+            </div>
+            <div style="margin-top: 16px;">
+                <div class="bio-point"><strong>STEP 1 extension data:</strong> ~2/3 of weight lost was regained within 1 year of stopping semaglutide 2.4mg. Cardiometabolic improvements also reversed.</div>
+                <div class="bio-point"><strong>Implication:</strong> Anti-obesity medications are likely lifetime therapies for most patients &mdash; analogous to statins for cardiovascular risk. This transforms revenue models from episodic to chronic.</div>
+                <div class="bio-point"><strong>MariTide differentiation:</strong> Phase 2 data suggested more sustained weight loss after discontinuation vs. GLP-1 RAs. If confirmed in Phase 3, this would be a major differentiator &mdash; but could also mean shorter treatment duration (bear case for Amgen revenue).</div>
+                <div class="bio-point"><strong>Key upcoming data:</strong> TRIUMPH-6 (retatrutide maintenance study) and REDEFINE maintenance arms will be critical for modeling treatment duration and lifetime revenue per patient.</div>
+                <div class="bio-point"><strong>Muscle loss concern:</strong> GLP-1 RA-induced weight loss includes ~25-40% lean mass. Combination with bimagrumab (anti-activin type II receptor) or exercise programs may be needed for long-term health outcomes.</div>
+            </div>
+        </div>
+
+        <!-- Beyond Obesity: Expanding Indications -->
+        <div class="section">
+            <h2>Beyond Obesity: Expanding Indications</h2>
+            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+                GLP-1 RAs are showing broad cardiometabolic benefits that extend far beyond weight loss. These indication expansions could multiply the addressable market 3-5x.
+            </p>
+            <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indication</th>
+                        <th>Key Trial</th>
+                        <th>Drug</th>
+                        <th>Result</th>
+                        <th>Market Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>CV risk reduction</strong></td>
+                        <td>SELECT</td>
+                        <td>Semaglutide 2.4mg</td>
+                        <td>20% MACE reduction</td>
+                        <td>Label expansion; massive payer argument for coverage</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CKD</strong></td>
+                        <td>FLOW</td>
+                        <td>Semaglutide</td>
+                        <td>24% reduction in kidney disease progression</td>
+                        <td>New indication filed</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MASH/NASH</strong></td>
+                        <td>Phase 2/3</td>
+                        <td>Survodutide, semaglutide, retatrutide</td>
+                        <td>62% MASH improvement (survodutide Ph2)</td>
+                        <td>$30B+ market; GLP-1/GCG duals may have advantage</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sleep apnea</strong></td>
+                        <td>SURMOUNT-OSA</td>
+                        <td>Tirzepatide</td>
+                        <td>~60% AHI reduction</td>
+                        <td>Label expansion for Zepbound</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Heart failure</strong></td>
+                        <td>STEP-HFpEF</td>
+                        <td>Semaglutide</td>
+                        <td>Improved symptoms, exercise capacity</td>
+                        <td>HFpEF is huge unmet need (~3M US patients)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Alzheimer's</strong></td>
+                        <td>EVOKE / EVOKE+</td>
+                        <td>Oral semaglutide</td>
+                        <td>Phase 3 ongoing</td>
+                        <td>High-risk, high-reward; neuroprotective hypothesis</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Addiction</strong></td>
+                        <td>Observational</td>
+                        <td>GLP-1 class</td>
+                        <td>Reduced alcohol, nicotine use signals</td>
+                        <td>Very early; mostly observational and preclinical</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- Payer & Market Access -->
+        <div class="section">
+            <h2>Payer &amp; Market Access</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">~15-20M</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">New US lives via Medicare Part D (2025)</div>
+                </div>
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">~$1,350/mo</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Wegovy list price</div>
+                </div>
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">~$1,060/mo</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Zepbound list price</div>
+                </div>
+                <div style="background: var(--bg); padding: 20px; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent);">2030+</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Semaglutide generics expected</div>
+                </div>
+            </div>
+            <ul style="color: var(--text-secondary); line-height: 1.9; padding-left: 20px;">
+                <li><strong>Medicare Part D:</strong> Treat and Reduce Obesity Act enacted Jan 2025 — obesity coverage began, expanding addressable US population by ~15-20M lives</li>
+                <li><strong>Net price erosion:</strong> Significant rebating and PBM negotiations are compressing net prices well below list. Net-to-gross for Wegovy estimated at ~50-60%.</li>
+                <li><strong>Compounding threat:</strong> Compounding pharmacies offering semaglutide at ~$200-400/month. FDA enforcement actions ongoing; Novo litigation active.</li>
+                <li><strong>Generic liraglutide:</strong> Available since 2024 at ~$300/month for Saxenda equivalent. Limited market impact given efficacy gap vs. semaglutide.</li>
+                <li><strong>Employer coverage:</strong> Growing rapidly — large self-insured employers adding GLP-1 coverage due to CV benefit data (SELECT trial) and productivity arguments.</li>
+                <li><strong>Global expansion:</strong> EU, UK, Japan approvals creating second wave of growth. China market nascent but high-potential via domestic players (Hengrui, Innovent).</li>
+            </ul>
+        </div>
+
+        <!-- Company Pipeline Overview -->
+        <div class="section">
+            <h2>Company Pipeline Overview</h2>
+
+            <h3>Novo Nordisk (NVO)</h3>
+            <div class="pipeline-flow">
+                <span class="drug approved">Wegovy (approved)</span>
+                <span class="arrow">&rarr;</span>
+                <span class="drug filing">Oral sema 50mg (filing)</span>
+                <span class="arrow">&rarr;</span>
+                <span class="drug filing">CagriSema (Phase 3)</span>
+                <span class="arrow">&rarr;</span>
+                <span class="drug">Amycretin (Phase 2)</span>
+            </div>
+
+            <h3>Eli Lilly (LLY)</h3>
+            <div class="pipeline-flow">
+                <span class="drug approved">Zepbound (approved)</span>
+                <span class="arrow">&rarr;</span>
+                <span class="drug filing">Orforglipron (filing 2026)</span>
+                <span class="arrow">&rarr;</span>
+                <span class="drug filing">Retatrutide (Phase 3)</span>
+                <span class="arrow">&rarr;</span>
+                <span class="drug">Bimagrumab combo (Phase 2)</span>
+            </div>
+
+            <h3>Amgen (AMGN)</h3>
+            <div class="pipeline-flow">
+                <span class="drug filing">MariTide (Phase 2 &rarr; Phase 3)</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px;">GIP antagonist / GLP-1 agonist bispecific. Monthly SC dosing. ~20% WL at 52 weeks.</p>
+
+            <h3>Viking Therapeutics (VKTX)</h3>
+            <div class="pipeline-flow">
+                <span class="drug filing">VK2735 SC (Phase 3)</span>
+                <span class="arrow">+</span>
+                <span class="drug">VK2735 Oral (Phase 2b)</span>
+            </div>
+
+            <h3>Structure Therapeutics (GPCR)</h3>
+            <div class="pipeline-flow">
+                <span class="drug">GSBR-1290 oral GLP-1 (Phase 2)</span>
+            </div>
+
+            <h3>Altimmune (ALT)</h3>
+            <div class="pipeline-flow">
+                <span class="drug filing">Pemvidutide (Phase 3)</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px;">GLP-1/GCG dual agonist. Obesity + MASH dual indication strategy.</p>
+
+            <h3>Boehringer Ingelheim</h3>
+            <div class="pipeline-flow">
+                <span class="drug filing">Survodutide (Phase 3)</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px;">GLP-1/GCG dual agonist. MASH data strongest in class (62% improvement). SYNCHRONIZE Phase 3 program.</p>
         </div>
 
         <!-- Bull/Bear Thesis -->
@@ -1413,116 +1689,60 @@ def generate_glp1_report():
                     <h3>Bull Case</h3>
                     <ul class="thesis-list">
                         <li>Market size could reach $150B+ by 2030, larger than any therapeutic class in history</li>
-                        <li>Medicare coverage (Treat & Reduce Obesity Act) would add 30M+ addressable patients</li>
-                        <li>Beyond obesity: MASH, CKD, heart failure, sleep apnea expand TAM 2-3x</li>
-                        <li>Oral formulations remove injection barrier, massively expanding uptake</li>
-                        <li>Monthly dosing (Amgen's MariTide) improves compliance vs. weekly</li>
-                        <li>Weight maintenance after stopping less concerning with newer agents</li>
-                        <li>Chronic therapy model = multi-decade revenue streams</li>
+                        <li>Medicare Part D coverage (enacted 2025) adds ~15-20M addressable lives</li>
+                        <li>Beyond obesity: MASH, CKD, heart failure, sleep apnea, Alzheimer's expand TAM 3-5x</li>
+                        <li>Oral formulations (orforglipron, oral semaglutide 50mg) remove injection barrier</li>
+                        <li>Monthly dosing (MariTide) improves compliance vs. weekly</li>
+                        <li>Chronic therapy model = multi-decade revenue streams per patient</li>
+                        <li>CV benefit data (SELECT) transforms payer willingness to cover</li>
                     </ul>
                 </div>
                 <div class="bear-box">
                     <h3>Bear Case</h3>
                     <ul class="thesis-list">
-                        <li>GI side effects (nausea, vomiting) limit tolerability; 10-15% discontinuation</li>
-                        <li>Muscle loss concerns may require combination with exercise/protein</li>
-                        <li>Insurance coverage gaps; $1,000+/month cash pay limits adoption</li>
-                        <li>Compounding pharmacies eroding brand pricing power</li>
-                        <li>Long-term safety unknowns (thyroid cancer signals in rodents)</li>
-                        <li>Lilly and Novo duopoly may squeeze out smaller players</li>
-                        <li>Weight regain after discontinuation (15-20% regain at 1 year)</li>
+                        <li>GI side effects (nausea, vomiting) limit tolerability; 5-7% GI discontinuation</li>
+                        <li>Muscle loss (~25-40% of weight lost is lean mass) — long-term health impact unclear</li>
+                        <li>Weight regain: ~2/3 regained within 1 year of stopping (STEP 1 extension)</li>
+                        <li>Compounding pharmacies eroding brand pricing; FDA enforcement inconsistent</li>
+                        <li>Long-term safety unknowns: thyroid C-cell tumors (rodent), pancreatitis</li>
+                        <li>Lilly and Novo duopoly may squeeze out smaller players on manufacturing scale</li>
+                        <li>Net price erosion from PBM negotiations and Medicare rebating</li>
                         <li>Manufacturing complexity limits rapid capacity expansion</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Catalysts -->
+        <!-- Catalysts (shared system) -->
+        {catalyst_html}
+
+        <!-- Sources -->
         <div class="section">
-            <h2>Upcoming Catalysts (2026)</h2>
-            <div class="catalyst-timeline">
-                <div class="catalyst-item">
-                    <div class="catalyst-date">Q1 2026</div>
-                    <div class="catalyst-content"><strong>Viking (VKTX):</strong> VK2735 Phase 3 VENTURE interim efficacy data (obesity)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">Q1 2026</div>
-                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Retatrutide FDA submission for obesity (triple agonist)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">Q2 2026</div>
-                    <div class="catalyst-content"><strong>Novo Nordisk (NVO):</strong> CagriSema FDA submission expected (semaglutide + amylin)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">Q2 2026</div>
-                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Orforglipron Phase 3 ATTAIN-3 data (oral small molecule GLP-1)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">H1 2026</div>
-                    <div class="catalyst-content"><strong>Amgen (AMGN):</strong> MariTide Phase 3 data readout; monthly dosing differentiation</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">H1 2026</div>
-                    <div class="catalyst-content"><strong>Viking (VKTX):</strong> Oral VK2735 Phase 2b full data readout</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">H2 2026</div>
-                    <div class="catalyst-content"><strong>Boehringer/Zealand:</strong> Survodutide Phase 3 SYNCHRONIZE-2 topline (GLP-1/glucagon)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">H2 2026</div>
-                    <div class="catalyst-content"><strong>Arrowhead (ARWR):</strong> ARO-INHBE Phase 2 initiation (RNAi approach for obesity)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">2026</div>
-                    <div class="catalyst-content"><strong>Eli Lilly (LLY):</strong> Retatrutide potential FDA approval (best-in-class 24% weight loss)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">2026</div>
-                    <div class="catalyst-content"><strong>Regulatory:</strong> Medicare Part D obesity drug coverage decision (Treat & Reduce Obesity Act)</div>
-                </div>
-            </div>
+            <h2>Key Sources</h2>
+            <ol class="source-list">
+                <li>Wilding JPH et al. "Once-Weekly Semaglutide in Adults with Overweight or Obesity" (STEP 1). <em>NEJM</em> 2021; 384:989-1002. <a href="https://pubmed.ncbi.nlm.nih.gov/33567185/" target="_blank">PubMed</a></li>
+                <li>Jastreboff AM et al. "Tirzepatide Once Weekly for the Treatment of Obesity" (SURMOUNT-1). <em>NEJM</em> 2022; 387:205-216. <a href="https://pubmed.ncbi.nlm.nih.gov/35658024/" target="_blank">PubMed</a></li>
+                <li>Jastreboff AM et al. "Triple-Hormone-Receptor Agonist Retatrutide for Obesity" (Phase 2). <em>NEJM</em> 2023; 389:514-526. <a href="https://pubmed.ncbi.nlm.nih.gov/37385337/" target="_blank">PubMed</a></li>
+                <li>Lincoff AM et al. "Semaglutide and Cardiovascular Outcomes in Obesity without Diabetes" (SELECT). <em>NEJM</em> 2023; 389:2221-2232. <a href="https://pubmed.ncbi.nlm.nih.gov/37952131/" target="_blank">PubMed</a></li>
+                <li>Perkovic V et al. "Effects of Semaglutide on CKD in T2D" (FLOW). <em>NEJM</em> 2024; 391:109-121. <a href="https://pubmed.ncbi.nlm.nih.gov/38785209/" target="_blank">PubMed</a></li>
+                <li>Wilding JPH et al. "Weight regain and cardiometabolic effects after withdrawal of semaglutide" (STEP 1 extension). <em>Diabetes Obes Metab</em> 2022; 24:1553-1564. <a href="https://pubmed.ncbi.nlm.nih.gov/35441470/" target="_blank">PubMed</a></li>
+                <li>Kosiborod MN et al. "Semaglutide in HFpEF and Obesity" (STEP-HFpEF). <em>NEJM</em> 2023; 389:1069-1084. <a href="https://pubmed.ncbi.nlm.nih.gov/37622681/" target="_blank">PubMed</a></li>
+                <li>Malhotra A et al. "Tirzepatide for the Treatment of Obstructive Sleep Apnea" (SURMOUNT-OSA). <em>NEJM</em> 2024; 391:1288-1298. <a href="https://pubmed.ncbi.nlm.nih.gov/38912654/" target="_blank">PubMed</a></li>
+                <li>Sanyal AJ et al. "Survodutide for MASH" (Phase 2). <em>NEJM</em> 2024; 391:311-319. <a href="https://pubmed.ncbi.nlm.nih.gov/38847460/" target="_blank">PubMed</a></li>
+                <li>Frias JP et al. "Orforglipron for Obesity" (Phase 2). <em>NEJM</em> 2023; 389:877-888. <a href="https://pubmed.ncbi.nlm.nih.gov/37351564/" target="_blank">PubMed</a></li>
+                <li>Killion EA et al. "Anti-obesity effects of GIPR antagonism." <em>Nature Metabolism</em> 2024. <a href="https://pubmed.ncbi.nlm.nih.gov/38378898/" target="_blank">PubMed</a></li>
+                <li>Lu SC et al. "GIP receptor biology in obesity." <em>Cell Metabolism</em> 2024. <a href="https://pubmed.ncbi.nlm.nih.gov/38959862/" target="_blank">PubMed</a></li>
+                <li>Novo Nordisk. "CagriSema REDEFINE-1 Phase 3 Topline Results." Press release, Dec 2024.</li>
+                <li>Amgen. "MariTide Phase 2 52-week Data." Investor presentation, Jul 2024.</li>
+                <li>Treat and Reduce Obesity Act. U.S. Congress, enacted Jan 2025.</li>
+                <li>Viking Therapeutics. "VK2735 Phase 2 Topline Results." Press release, Feb 2024.</li>
+            </ol>
         </div>
 
-        <!-- Key Companies -->
-        <div class="section">
-            <h2>Key Companies to Watch</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 20px;">
-                <a href="/api/company/VKTX/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <strong style="color: var(--navy);">Viking Therapeutics</strong>
-                        <span style="color: var(--accent);">VKTX</span>
-                    </div>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Best-in-class Ph2 data; oral + SC in development</p>
-                </a>
-                <a href="/api/company/AMGN/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <strong style="color: var(--navy);">Amgen</strong>
-                        <span style="color: var(--accent);">AMGN</span>
-                    </div>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">MariTide monthly dosing; weight maintenance</p>
-                </a>
-                <a href="/api/company/ALT/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <strong style="color: var(--navy);">Altimmune</strong>
-                        <span style="color: var(--accent);">ALT</span>
-                    </div>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Pemvidutide for obesity + MASH dual play</p>
-                </a>
-                <a href="/api/company/ARWR/html" style="display: block; background: var(--bg); padding: 20px; border-radius: 12px; text-decoration: none; border: 1px solid var(--border);">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <strong style="color: var(--navy);">Arrowhead Pharma</strong>
-                        <span style="color: var(--accent);">ARWR</span>
-                    </div>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">RNAi approach (ARO-INHBE); quarterly dosing</p>
-                </a>
-            </div>
-        </div>
-
-        <a href="/targets" class="back-link">← Back to Target Landscapes</a>
+        <a href="/targets" class="back-link">&larr; Back to Target Landscapes</a>
     </main>
     <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
     </footer>
 </body>
 </html>'''
