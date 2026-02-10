@@ -1,0 +1,190 @@
+{
+  "target": "KRAS",
+  "slug": "kras",
+  "last_reviewed": "2026-02-10",
+  "catalysts": [
+    {
+      "date": "2021-05",
+      "date_display": "May 2021",
+      "company": "Amgen",
+      "asset": "Sotorasib (Lumakras)",
+      "description": "First-ever FDA approval of a KRAS inhibitor — G12C in 2L+ NSCLC",
+      "outcome": "Approved (accelerated)"
+    },
+    {
+      "date": "2022-12",
+      "date_display": "Dec 2022",
+      "company": "BMS (Mirati)",
+      "asset": "Adagrasib (Krazati)",
+      "description": "FDA accelerated approval for KRAS G12C in 2L+ NSCLC",
+      "outcome": "Approved"
+    },
+    {
+      "date": "2024-12",
+      "date_display": "Dec 2024",
+      "company": "BMS",
+      "asset": "Adagrasib",
+      "description": "KRYSTAL-1 Phase 1/2 2-year follow-up published — 43% ORR, 6.9mo PFS",
+      "outcome": "Published"
+    },
+    {
+      "date": "2025-01",
+      "date_display": "Jan 2025",
+      "company": "Amgen",
+      "asset": "Sotorasib + panitumumab",
+      "description": "FDA approval for KRAS G12C-mutated CRC (CodeBreaK 300)",
+      "outcome": "Approved"
+    },
+    {
+      "date": "2025-04",
+      "date_display": "Apr 2025",
+      "company": "Revolution Medicines",
+      "asset": "Zoldonrasib (RMC-9805)",
+      "description": "AACR 2025: 61% ORR in KRAS G12D NSCLC (n=18), 30% ORR in PDAC (n=40)",
+      "outcome": "Positive — first G12D clinical data in NSCLC"
+    },
+    {
+      "date": "2025-05",
+      "date_display": "May 2025",
+      "company": "Verastem",
+      "asset": "Avutometinib + defactinib",
+      "description": "FDA approval for KRAS-mutated recurrent LGSOC (first-ever for this indication)",
+      "outcome": "Approved (accelerated)"
+    },
+    {
+      "date": "2025-09",
+      "date_display": "Sep 2025",
+      "company": "Merck/Daiichi",
+      "asset": "Calderasib (MK-1084)",
+      "description": "KANDLELIT-001 Phase 1 data at ESMO 2025: 38% ORR NSCLC, 38% CRC, 34% other",
+      "outcome": "Promising across tumor types"
+    },
+    {
+      "date": "2025-10",
+      "date_display": "Oct 2025",
+      "company": "Astellas",
+      "asset": "Setidegrasib (ASP3082)",
+      "description": "AACR-NCI-EORTC 2025: First NSCLC data from KRAS G12D degrader — 23% ORR",
+      "outcome": "Modest monotherapy but novel modality"
+    },
+    {
+      "date": "2026-01-05",
+      "date_display": "Jan 5, 2026",
+      "company": "AstraZeneca / Jacobio",
+      "asset": "JAB-23E73",
+      "description": "AZ licenses pan-KRAS inhibitor from Jacobio for $100M upfront (ex-China)",
+      "outcome": "Deal closed"
+    },
+    {
+      "date": "2026-01-07",
+      "date_display": "Jan 7, 2026",
+      "company": "Revolution Medicines",
+      "asset": "RVMD (company)",
+      "description": "WSJ reports AbbVie in talks to acquire RVMD for >$20B. RVMD stock surges 30%. AbbVie denies.",
+      "outcome": "AbbVie denied"
+    },
+    {
+      "date": "2026-01-08",
+      "date_display": "Jan 8, 2026",
+      "company": "Revolution Medicines",
+      "asset": "Zoldonrasib",
+      "description": "FDA grants Breakthrough Therapy Designation for KRAS G12D NSCLC — first-ever BTD for any G12D drug",
+      "outcome": "BTD granted — RVMD's 3rd BTD"
+    },
+    {
+      "date": "2026-01-08",
+      "date_display": "Jan 8, 2026",
+      "company": "Merck",
+      "asset": "Calderasib",
+      "description": "Phase 3 KANDLELIT-007 initiated: calderasib + Keytruda Qlex in 1L NSCLC (~675 patients)",
+      "outcome": "First patient enrolled"
+    },
+    {
+      "date": "2026-01-09",
+      "date_display": "Jan 9, 2026",
+      "company": "Merck / Revolution Medicines",
+      "asset": "RVMD (company)",
+      "description": "FT reports Merck in acquisition talks at $28-32B range. RVMD stock up 11%.",
+      "outcome": "Talks confirmed by multiple outlets"
+    },
+    {
+      "date": "2026-01-10",
+      "date_display": "Jan 10, 2026",
+      "company": "Astellas",
+      "asset": "Setidegrasib + mFOLFIRINOX",
+      "description": "ASCO-GI 2026: 58% ORR in frontline KRAS G12D PDAC with chemo combo (n=12)",
+      "outcome": "Promising in 1L PDAC"
+    },
+    {
+      "date": "2026-01-26",
+      "date_display": "Jan 26, 2026",
+      "company": "Merck / Revolution Medicines",
+      "asset": "RVMD (company)",
+      "description": "Merck-RVMD acquisition talks collapse. RVMD stock drops 20%, settles ~$24B market cap.",
+      "outcome": "Deal dead — RVMD remains independent"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "H1 2026",
+      "company": "BMS",
+      "asset": "Adagrasib",
+      "description": "KRYSTAL-10 Phase 3 data expected — adagrasib in 2L CRC"
+    },
+    {
+      "date": "2026-12",
+      "date_display": "Late 2026",
+      "company": "Revolution Medicines",
+      "asset": "Daraxonrasib (RMC-6236)",
+      "description": "RASolute-302 Phase 3 data in 2L PDAC — THE most-watched readout in KRAS for 2026"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "2026",
+      "company": "Revolution Medicines",
+      "asset": "Daraxonrasib",
+      "description": "RASolute-303 Phase 3 in 1L PDAC expected to begin enrollment"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "2026",
+      "company": "Arvinas",
+      "asset": "ARV-806",
+      "description": "Phase 1 data expected for KRAS G12D degrader"
+    },
+    {
+      "date": "2027-09",
+      "date_display": "~2027",
+      "company": "Roche",
+      "asset": "Divarasib",
+      "description": "KRASCENDO-1 Phase 3 data — divarasib vs sotorasib/adagrasib in 2L NSCLC (delayed from 2026)"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027",
+      "company": "Eli Lilly",
+      "asset": "Olomorasib",
+      "description": "SUNRAY-01 Phase 3 interim — olomorasib + pembrolizumab in 1L NSCLC"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027-2028",
+      "company": "Merck",
+      "asset": "Calderasib",
+      "description": "KANDLELIT-007 Phase 3 interim data — calderasib + Keytruda Qlex in 1L NSCLC"
+    },
+    {
+      "date": "2028-06",
+      "date_display": "2028",
+      "company": "BMS",
+      "asset": "Adagrasib",
+      "description": "KRYSTAL-7 Phase 3 data — adagrasib in 1L NSCLC (PD-L1 >=50%)"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027",
+      "company": "Astellas",
+      "asset": "Setidegrasib",
+      "description": "Phase 3 data in 1L PDAC (setidegrasib + mFOLFIRINOX)"
+    }
+  ]
+}

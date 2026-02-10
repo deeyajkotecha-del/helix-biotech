@@ -159,9 +159,9 @@ async def serve_b7h3_report(admin: bool = False):
     return HTMLResponse(generate_b7h3_report(admin=admin))
 
 @app.get("/targets/kras", response_class=HTMLResponse)
-async def serve_kras_report():
+async def serve_kras_report(admin: bool = False):
     """Serve KRAS inhibitor competitive landscape report."""
-    return HTMLResponse(generate_kras_report())
+    return HTMLResponse(generate_kras_report(admin=admin))
 
 @app.get("/targets/{slug}", response_class=HTMLResponse)
 async def serve_target_detail(slug: str):
