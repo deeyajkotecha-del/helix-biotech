@@ -1528,20 +1528,77 @@ def generate_glp1_report():
 </html>'''
 
 
-def _build_catalyst_timeline_html(catalysts):
-    """Build completed + upcoming catalyst timeline sections from JSON data."""
-    completed = [c for c in catalysts if c.get("status") == "completed"]
-    upcoming = [c for c in catalysts if c.get("status") == "upcoming"]
+def _parse_catalyst_date(date_str: str):
+    """Parse a machine-readable date string (YYYY-MM-DD or YYYY-MM) into a date object for comparison."""
+    from datetime import date as _date
+    parts = date_str.split("-")
+    try:
+        year = int(parts[0])
+        month = int(parts[1]) if len(parts) >= 2 else 1
+        day = int(parts[2]) if len(parts) >= 3 else 1
+        return _date(year, month, day)
+    except (ValueError, IndexError):
+        return _date(9999, 1, 1)  # unparseable dates sort to end
 
+
+def render_catalyst_section(slug: str, admin: bool = False) -> str:
+    """Load catalysts from data/targets/{slug}/catalysts.json and render completed + upcoming sections.
+
+    Catalysts with date < today are completed; date >= today are upcoming.
+    Completed sorted by date descending (most recent first).
+    Upcoming sorted by date ascending (soonest first).
+    """
+    catalysts_path = Path(__file__).parent.parent / "data" / "targets" / slug / "catalysts.json"
+    if not catalysts_path.exists():
+        return ""
+    with open(catalysts_path) as f:
+        data = json.load(f)
+
+    catalysts = data.get("catalysts", [])
+    last_reviewed = data.get("last_reviewed", "")
+
+    from datetime import date as _date
+    today = _date.today()
+
+    # Split by date
+    completed = []
+    upcoming = []
+    for c in catalysts:
+        parsed = _parse_catalyst_date(c.get("date", ""))
+        if parsed < today:
+            completed.append((parsed, c))
+        else:
+            upcoming.append((parsed, c))
+
+    # Sort: completed descending (most recent first), upcoming ascending (soonest first)
+    completed.sort(key=lambda x: x[0], reverse=True)
+    upcoming.sort(key=lambda x: x[0])
+
+    # Staleness banner (admin only)
+    staleness_html = ""
+    if admin and last_reviewed:
+        try:
+            reviewed_date = _date.fromisoformat(last_reviewed)
+            days_ago = (today - reviewed_date).days
+            if days_ago > 30:
+                staleness_html = f'''
+        <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.85rem; color: #92400e;">
+            Catalysts last verified {last_reviewed} ({days_ago} days ago). Some dates may have changed.
+        </div>'''
+        except ValueError:
+            pass
+
+    # Render completed
     completed_html = ""
     if completed:
         items = ""
-        for c in completed:
+        for _, c in completed:
+            display = c.get("date_display", c.get("date", ""))
             outcome = f'<div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px;">{c["outcome"]}</div>' if c.get("outcome") else ""
             asset_label = f' ({c["asset"]})' if c.get("asset") else ""
             items += f'''
                 <div class="catalyst-item">
-                    <div class="catalyst-date" style="color: var(--text-muted);">{c["date"]}</div>
+                    <div class="catalyst-date" style="color: #16a34a;">{display}</div>
                     <div>
                         <strong>{c["company"]}{asset_label}:</strong> {c["description"]}
                         {outcome}
@@ -1554,14 +1611,16 @@ def _build_catalyst_timeline_html(catalysts):
             </div>
         </div>'''
 
+    # Render upcoming
     upcoming_html = ""
     if upcoming:
         items = ""
-        for c in upcoming:
+        for _, c in upcoming:
+            display = c.get("date_display", c.get("date", ""))
             asset_label = f' ({c["asset"]})' if c.get("asset") else ""
             items += f'''
                 <div class="catalyst-item">
-                    <div class="catalyst-date">{c["date"]}</div>
+                    <div class="catalyst-date">{display}</div>
                     <div><strong>{c["company"]}{asset_label}:</strong> {c["description"]}</div>
                 </div>'''
         upcoming_html = f'''
@@ -1571,15 +1630,11 @@ def _build_catalyst_timeline_html(catalysts):
             </div>
         </div>'''
 
-    return completed_html + upcoming_html
+    return staleness_html + completed_html + upcoming_html
 
 
-def generate_tl1a_report():
+def generate_tl1a_report(admin: bool = False):
     """Generate the TL1A / IBD competitive landscape report."""
-
-    # Load catalyst data from JSON
-    tl1a_data = load_target_data("TL1A")
-    catalysts = tl1a_data.get("catalysts", []) if tl1a_data else []
 
     # TL1A Assets data
     assets = [
@@ -1788,8 +1843,8 @@ def generate_tl1a_report():
             </div>
         </div>
 
-        <!-- Catalysts (data-driven from TL1A.json) -->
-        {_build_catalyst_timeline_html(catalysts)}
+        <!-- Catalysts (data-driven from catalysts.json) -->
+        {render_catalyst_section("tl1a-ibd", admin=admin)}
 
         <a href="/targets" class="back-link">← Back to Target Landscapes</a>
     </main>

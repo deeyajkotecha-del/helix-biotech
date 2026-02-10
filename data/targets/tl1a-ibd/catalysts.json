@@ -1,0 +1,82 @@
+{
+  "target": "TL1A",
+  "slug": "tl1a-ibd",
+  "last_reviewed": "2026-02-10",
+  "catalysts": [
+    {
+      "date": "2025-02",
+      "date_display": "Feb 2025",
+      "company": "Sanofi/Teva",
+      "asset": "Duvakitug",
+      "description": "Phase 2b detailed results presented at ECCO 2025",
+      "outcome": "Positive — met primary endpoints in UC (47.8% remission high-dose) and CD"
+    },
+    {
+      "date": "2025-05",
+      "date_display": "May 2025",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "APOLLO-CD Phase 2 trial completed",
+      "outcome": "Completed — well tolerated through 50 weeks"
+    },
+    {
+      "date": "2025-09",
+      "date_display": "H2 2025",
+      "company": "Sanofi/Teva",
+      "asset": "Duvakitug",
+      "description": "Phase 3 programs initiated: SUNSCAPE (UC) and STARSCAPE (CD)",
+      "outcome": "Initiated — enrolling"
+    },
+    {
+      "date": "2025-10",
+      "date_display": "H2 2025",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "Expanded into Phase 2b for HS, r-axSpA, and RA",
+      "outcome": "3 new Phase 2b trials initiated"
+    },
+    {
+      "date": "2025-12",
+      "date_display": "Q4 2025",
+      "company": "Sanofi/Teva",
+      "asset": "Duvakitug",
+      "description": "$500M development milestone triggered by Phase 3 initiation",
+      "outcome": "Milestone paid"
+    },
+    {
+      "date": "2026-03",
+      "date_display": "Q1 2026",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "ATLAS-UC Phase 3 primary completion expected"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "2026",
+      "company": "Roche",
+      "asset": "Afimkibart",
+      "description": "Phase 3 readout in UC"
+    },
+    {
+      "date": "2026-11",
+      "date_display": "H2 2026",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "ATLAS-UC Phase 3 preliminary results expected"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027+",
+      "company": "Sanofi/Teva",
+      "asset": "Duvakitug",
+      "description": "SUNSCAPE & STARSCAPE Phase 3 data readouts"
+    },
+    {
+      "date": "2029-06",
+      "date_display": "2029",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "ARES-CD Phase 3 primary completion expected"
+    }
+  ]
+}

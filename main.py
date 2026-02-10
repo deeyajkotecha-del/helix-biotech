@@ -149,9 +149,9 @@ async def serve_glp1_report():
     return HTMLResponse(generate_glp1_report())
 
 @app.get("/targets/tl1a-ibd", response_class=HTMLResponse)
-async def serve_tl1a_report():
+async def serve_tl1a_report(admin: bool = False):
     """Serve TL1A / IBD competitive landscape report."""
-    return HTMLResponse(generate_tl1a_report())
+    return HTMLResponse(generate_tl1a_report(admin=admin))
 
 @app.get("/targets/b7h3-adc", response_class=HTMLResponse)
 async def serve_b7h3_report():
