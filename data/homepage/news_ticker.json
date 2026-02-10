@@ -1,0 +1,251 @@
+{
+  "_metadata": {
+    "last_fetched": "2026-02-10T19:43:36.806004+00:00",
+    "sources": [
+      "FierceBiotech",
+      "BioSpace",
+      "Endpoints News",
+      "STAT News"
+    ],
+    "total_items": 20,
+    "pinned_items": 3
+  },
+  "pinned": [
+    {
+      "headline": "Eli Lilly acquires Orna Therapeutics for up to $2.4B \u2014 in vivo CAR-T for autoimmune",
+      "source": "Manual",
+      "url": "",
+      "published": "2026-02-09",
+      "category": "deal",
+      "tickers": [
+        "LLY"
+      ],
+      "importance": 5,
+      "one_liner": "Lilly acquires Orna for $2.4B \u2014 in vivo CAR-T for autoimmune diseases"
+    },
+    {
+      "headline": "Kymera BREADTH Phase 2b in asthma \u2014 first patient dosed",
+      "source": "Manual",
+      "url": "",
+      "published": "2026-01-29",
+      "category": "clinical_data",
+      "tickers": [
+        "KYMR"
+      ],
+      "importance": 5,
+      "one_liner": "KYMR: BREADTH Phase 2b first patient dosed in asthma (STAT6 degrader)"
+    },
+    {
+      "headline": "Formation Bio licenses miR-124 activator from CTFH for up to $500M \u2014 new subsidiary Kenmare Bio",
+      "source": "Manual",
+      "url": "",
+      "published": "2026-01-29",
+      "category": "deal",
+      "tickers": [],
+      "importance": 4,
+      "one_liner": "Formation Bio enters miR-124 space \u2014 licenses FHND5032 for up to $500M"
+    }
+  ],
+  "items": [
+    {
+      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/nektar-eczema-candidate-checked-all-boxes-long-term-ph-2-data\" hreflang=\"",
+      "source": "FierceBiotech",
+      "url": "https://www.fiercebiotech.com/biotech/nektar-eczema-candidate-checked-all-boxes-long-term-ph-2-data",
+      "published": "",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/nektar-eczema-candidate-checked-a"
+    },
+    {
+      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/astrazeneca-reveals-oral-glp1-scored-phase-2-wins-holds-back-weight-loss-",
+      "source": "FierceBiotech",
+      "url": "https://www.fiercebiotech.com/biotech/astrazeneca-reveals-oral-glp1-scored-phase-2-wins-holds-back-weight-loss-data",
+      "published": "",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/astrazeneca-reveals-oral-glp1-sco"
+    },
+    {
+      "headline": "<a href=\"https://www.fiercebiotech.com/medtech/merck-teams-british-medtech-boost-vaginal-therapeutics-delivery-system\" h",
+      "source": "FierceBiotech",
+      "url": "https://www.fiercebiotech.com/medtech/merck-teams-british-medtech-boost-vaginal-therapeutics-delivery-system",
+      "published": "",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "<a href=\"https://www.fiercebiotech.com/medtech/merck-teams-british-medtech-boost"
+    },
+    {
+      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/evommunes-dupixent-phase-2-eczema-data-drive-75-stock-rally\" hreflang=\"en",
+      "source": "FierceBiotech",
+      "url": "https://www.fiercebiotech.com/biotech/evommunes-dupixent-phase-2-eczema-data-drive-75-stock-rally",
+      "published": "",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/evommunes-dupixent-phase-2-eczema"
+    },
+    {
+      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/kailera-hengrui-tout-promising-mid-stage-results-obesity-pill\" hreflang=\"",
+      "source": "FierceBiotech",
+      "url": "https://www.fiercebiotech.com/biotech/kailera-hengrui-tout-promising-mid-stage-results-obesity-pill",
+      "published": "",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/kailera-hengrui-tout-promising-mi"
+    },
+    {
+      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/fierce-biotech-fundraising-tracker-26\" hreflang=\"en\">Fierce Biotech Fundr",
+      "source": "FierceBiotech",
+      "url": "https://www.fiercebiotech.com/biotech/fierce-biotech-fundraising-tracker-26",
+      "published": "",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/fierce-biotech-fundraising-tracke"
+    },
+    {
+      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/orsobio-hits-target-midstage-study-metabolic-conditions-stays-silent-deta",
+      "source": "FierceBiotech",
+      "url": "https://www.fiercebiotech.com/biotech/orsobio-hits-target-midstage-study-metabolic-conditions-stays-silent-details",
+      "published": "",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/orsobio-hits-target-midstage-stud"
+    },
+    {
+      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/iliad-biotechnologies-advance-whooping-cough-vaccine-115m-series-b-round\"",
+      "source": "FierceBiotech",
+      "url": "https://www.fiercebiotech.com/biotech/iliad-biotechnologies-advance-whooping-cough-vaccine-115m-series-b-round",
+      "published": "",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/iliad-biotechnologies-advance-who"
+    },
+    {
+      "headline": "Hengrui, Kailera push obesity pill ahead on promising mid-stage China data",
+      "source": "Endpoints News",
+      "url": "https://endpoints.news/hengrui-kailera-push-obesity-pill-ahead-on-promising-mid-stage-china-data/",
+      "published": "2026-02-10T12:00:31+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "Hengrui, Kailera push obesity pill ahead on promising mid-stage China data"
+    },
+    {
+      "headline": "'Bat-sh*t crazy': Biopharma leaders unload on regulatory chaos",
+      "source": "Endpoints News",
+      "url": "https://endpoints.news/bat-sht-crazy-biopharma-leaders-unload-on-regulatory-chaos/",
+      "published": "2026-02-10T12:00:41+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "'Bat-sh*t crazy': Biopharma leaders unload on regulatory chaos"
+    },
+    {
+      "headline": "AstraZeneca\u2019s obesity pill hits in Phase 2, key cancer trials pushed back",
+      "source": "Endpoints News",
+      "url": "https://endpoints.news/astrazenecas-obesity-pill-hits-in-phase-2-key-cancer-trials-pushed-back/",
+      "published": "2026-02-10T12:04:05+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "AstraZeneca\u2019s obesity pill hits in Phase 2, key cancer trials pushed back"
+    },
+    {
+      "headline": "CSL\u2019s Paul McKenzie out, as Gordon Naylor named interim CEO",
+      "source": "Endpoints News",
+      "url": "https://endpoints.news/csls-paul-mckenzie-out-as-gordon-naylor-named-interim-ceo/",
+      "published": "2026-02-10T12:21:35+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "CSL\u2019s Paul McKenzie out, as Gordon Naylor named interim CEO"
+    },
+    {
+      "headline": "STAT+: Evommune reports positive mid-stage data for eczema drug",
+      "source": "STAT News",
+      "url": "https://www.statnews.com/2026/02/10/biotech-news-nektar-and-evommune-eczema-study-results/?utm_campaign=rss",
+      "published": "2026-02-10T14:55:19+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "STAT+: Evommune reports positive mid-stage data for eczema drug"
+    },
+    {
+      "headline": "Nektar posts one-year eczema success; Pfizer ends malnutrition trial",
+      "source": "Endpoints News",
+      "url": "https://endpoints.news/nektar-posts-one-year-eczema-success-pfizer-ends-malnutrition-trial/",
+      "published": "2026-02-10T15:19:31+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "Nektar posts one-year eczema success; Pfizer ends malnutrition trial"
+    },
+    {
+      "headline": "STAT+: TrumpRx: Hype or real savings?",
+      "source": "STAT News",
+      "url": "https://www.statnews.com/2026/02/10/trumprx-hype-or-real-savings-novo-nordisk-hims-compounding/?utm_campaign=rss",
+      "published": "2026-02-10T15:45:41+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "STAT+: TrumpRx: Hype or real savings?"
+    },
+    {
+      "headline": "Shanghai's Cascade gets $72M to pursue MASH, obesity and diabetes drugs",
+      "source": "Endpoints News",
+      "url": "https://endpoints.news/shanghais-cascade-gets-72m-to-pursue-mash-obesity-and-diabetes-drugs/",
+      "published": "2026-02-10T15:50:13+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "Shanghai's Cascade gets $72M to pursue MASH, obesity and diabetes drugs"
+    },
+    {
+      "headline": "The fallout from Novo vs. Hims",
+      "source": "Endpoints News",
+      "url": "https://endpoints.news/the-fallout-from-novo-vs-hims/",
+      "published": "2026-02-10T16:01:29+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "The fallout from Novo vs. Hims"
+    },
+    {
+      "headline": "Is AstraZeneca on track to meet its $80B revenue target?",
+      "source": "Endpoints News",
+      "url": "https://endpoints.news/is-astrazeneca-on-track-to-meet-its-80b-revenue-target/",
+      "published": "2026-02-10T16:34:33+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "Is AstraZeneca on track to meet its $80B revenue target?"
+    },
+    {
+      "headline": "STAT+: Abridge CTO on Epic and what\u2019s after AI scribing",
+      "source": "STAT News",
+      "url": "https://www.statnews.com/2026/02/10/abridge-cto-epic-whats-after-scribing-health-tech/?utm_campaign=rss",
+      "published": "2026-02-10T19:18:50+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "STAT+: Abridge CTO on Epic and what\u2019s after AI scribing"
+    },
+    {
+      "headline": "Landmark settlement could create new protections for harm reduction under disability law",
+      "source": "STAT News",
+      "url": "https://www.statnews.com/2026/02/10/needle-exchanges-protected-by-ada-federal-legal-settlement/?utm_campaign=rss",
+      "published": "2026-02-10T19:21:53+00:00",
+      "category": "other",
+      "tickers": [],
+      "importance": 3,
+      "one_liner": "Landmark settlement could create new protections for harm reduction under disabi"
+    }
+  ]
+}

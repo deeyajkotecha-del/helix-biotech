@@ -315,6 +315,470 @@ def generate_company_card(company, locked=False):
             </a>
             '''
 
+def generate_homepage():
+    """Generate the homepage with news ticker, hero, catalysts, deals, targets, value prop."""
+    from datetime import date as _date
+
+    today = _date.today()
+    today_display = today.strftime("%b %d, %Y")
+
+    # --- Load news ticker data ---
+    ticker_path = Path(__file__).parent.parent / "data" / "homepage" / "news_ticker.json"
+    ticker_items = []
+    if ticker_path.exists():
+        with open(ticker_path) as f:
+            ticker_data = json.load(f)
+            # Pinned first, then regular items
+            ticker_items = ticker_data.get("pinned", []) + ticker_data.get("items", [])
+
+    # Build ticker marquee items
+    ticker_html_items = ""
+    for item in ticker_items[:15]:
+        one_liner = item.get("one_liner", item.get("headline", ""))[:90]
+        cat = item.get("category", "other")
+        cat_colors = {
+            "clinical_data": "#2563eb",
+            "regulatory": "#7c3aed",
+            "deal": "#059669",
+            "ipo_financing": "#d97706",
+            "earnings": "#6b7280",
+            "personnel": "#9333ea",
+            "policy": "#dc2626",
+            "other": "#6b7280",
+        }
+        cat_labels = {
+            "clinical_data": "DATA",
+            "regulatory": "FDA",
+            "deal": "DEAL",
+            "ipo_financing": "IPO",
+            "earnings": "EARNINGS",
+            "personnel": "PEOPLE",
+            "policy": "POLICY",
+            "other": "NEWS",
+        }
+        color = cat_colors.get(cat, "#6b7280")
+        label = cat_labels.get(cat, "NEWS")
+        tickers_str = " ".join(item.get("tickers", []))
+        ticker_prefix = f'<span style="font-weight:700;color:var(--navy)">{tickers_str}</span> ' if tickers_str else ""
+        ticker_html_items += f'''<span class="ticker-item"><span class="ticker-cat" style="background:{color}">{label}</span> {ticker_prefix}{one_liner}</span>'''
+
+    # Duplicate for seamless loop
+    marquee_content = ticker_html_items + ticker_html_items
+
+    # --- Load upcoming catalysts from ALL targets ---
+    targets_dir = Path(__file__).parent.parent / "data" / "targets"
+    upcoming_catalysts = []
+    for cat_file in sorted(targets_dir.glob("*/catalysts.json")):
+        with open(cat_file) as f:
+            cat_data = json.load(f)
+        target_name = cat_data.get("target", cat_file.parent.name)
+        for c in cat_data.get("catalysts", []):
+            date_str = c.get("date", "")
+            parts = date_str.split("-")
+            try:
+                year = int(parts[0])
+                month = int(parts[1]) if len(parts) >= 2 else 1
+                day = int(parts[2]) if len(parts) >= 3 else 1
+                c_date = _date(year, month, day)
+            except (ValueError, IndexError):
+                continue
+            if c_date >= today:
+                upcoming_catalysts.append({
+                    "date": c_date,
+                    "date_display": c.get("date_display", date_str),
+                    "target": target_name,
+                    "company": c.get("company", ""),
+                    "asset": c.get("asset", ""),
+                    "description": c.get("description", ""),
+                })
+
+    upcoming_catalysts.sort(key=lambda x: x["date"])
+    upcoming_catalysts = upcoming_catalysts[:8]
+
+    catalyst_rows = ""
+    for c in upcoming_catalysts:
+        catalyst_rows += f'''
+        <tr>
+            <td class="cal-date">{c["date_display"]}</td>
+            <td class="cal-company">{c["company"]}</td>
+            <td class="cal-desc">{c["description"][:100]}{"..." if len(c["description"]) > 100 else ""}</td>
+        </tr>'''
+
+    # --- Load targets for spotlight ---
+    targets, categories = load_targets_index()
+    full_page_targets = [t for t in targets if t.get("has_full_page")]
+
+    target_cards = ""
+    for t in full_page_targets[:7]:
+        slug = t.get("slug", "")
+        legacy_slug = t.get("legacy_slug", slug)
+        name = t.get("name", slug)
+        desc = t.get("description", "")[:80]
+        cat = t.get("category", "")
+        cat_info = categories.get(cat, {})
+        cat_color = cat_info.get("color", "#6b7280")
+        cat_name = cat_info.get("name", cat.title())
+        hot = ' <span class="hot-badge">HOT</span>' if t.get("hot_target") else ""
+
+        lead_html = ""
+        leads = t.get("lead_companies", [])[:3]
+        if leads:
+            lead_html = '<div class="target-leads">' + " ".join([f'<span class="lead-pill">{l}</span>' for l in leads]) + '</div>'
+
+        stats_html = ""
+        if t.get("total_assets"):
+            stats_html += f'<span class="target-stat">{t["total_assets"]} assets</span>'
+        if t.get("phase_3_assets"):
+            stats_html += f'<span class="target-stat">P3: {t["phase_3_assets"]}</span>'
+        if t.get("approved_assets"):
+            stats_html += f'<span class="target-stat">Approved: {t["approved_assets"]}</span>'
+
+        target_cards += f'''
+        <a href="/targets/{legacy_slug}" class="spotlight-card">
+            <div class="spotlight-header">
+                <span class="spotlight-cat" style="background:{cat_color}">{cat_name}</span>
+                {hot}
+            </div>
+            <h3 class="spotlight-name">{name}</h3>
+            <p class="spotlight-desc">{desc}</p>
+            <div class="spotlight-stats">{stats_html}</div>
+            {lead_html}
+        </a>'''
+
+    # --- Recent deals (hardcoded — curated) ---
+    deals_html = """
+        <tr><td class="deal-date">Feb 9</td><td class="deal-parties">Lilly / Orna</td><td class="deal-value">$2.4B</td><td class="deal-desc">In vivo CAR-T for autoimmune</td></tr>
+        <tr><td class="deal-date">Jan 29</td><td class="deal-parties">Formation / CTFH</td><td class="deal-value">$500M</td><td class="deal-desc">miR-124 activator license</td></tr>
+        <tr><td class="deal-date">Dec 2025</td><td class="deal-parties">Sanofi / Recludix</td><td class="deal-value">$1.3B</td><td class="deal-desc">STAT6 inhibitor REX-2787</td></tr>
+        <tr><td class="deal-date">Oct 2025</td><td class="deal-parties">BMS / Orbital</td><td class="deal-value">$1.5B</td><td class="deal-desc">Circular RNA in vivo cell therapy</td></tr>
+        <tr><td class="deal-date">Oct 2025</td><td class="deal-parties">Gilead / Interius</td><td class="deal-value">Undiscl.</td><td class="deal-desc">In vivo CAR-T</td></tr>
+        <tr><td class="deal-date">Jun 2025</td><td class="deal-parties">AbbVie / Capstan</td><td class="deal-value">$2.1B</td><td class="deal-desc">LNP in vivo CAR-T</td></tr>
+        <tr><td class="deal-date">Jan 2025</td><td class="deal-parties">Gilead / LEO</td><td class="deal-value">$1.7B</td><td class="deal-desc">Oral STAT6 degraders</td></tr>
+        <tr><td class="deal-date">2025</td><td class="deal-parties">Roche / Zealand</td><td class="deal-value">$5.3B</td><td class="deal-desc">Petrelintide (amylin)</td></tr>
+    """
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satya Bio | Biotech Intelligence for the Buy Side</title>
+    <meta name="description" content="Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals.">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {{
+            --navy: #1B2838;
+            --navy-light: #2d4a5e;
+            --accent: #D4654A;
+            --accent-hover: #c05a42;
+            --accent-light: #fef5f3;
+            --bg: #FAFAF8;
+            --surface: #ffffff;
+            --surface-alt: #f5f5f3;
+            --border: #e5e5e0;
+            --border-light: #eeeeea;
+            --text: #1a1d21;
+            --text-secondary: #5f6368;
+            --text-muted: #9aa0a6;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{ font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }}
+
+        /* ===== NAV ===== */
+        .header {{ position: sticky; top: 0; z-index: 100; background: rgba(250,250,248,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); padding: 0 32px; height: 64px; }}
+        .header-inner {{ max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }}
+        .logo {{ font-family: 'DM Sans', sans-serif; font-size: 1.35rem; font-weight: 800; color: var(--navy); text-decoration: none; }}
+        .logo span {{ color: var(--accent); }}
+        .nav-links {{ display: flex; gap: 28px; }}
+        .nav-links a {{ color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }}
+        .nav-links a:hover {{ color: var(--navy); }}
+        .nav-cta a {{ padding: 9px 20px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; font-size: 0.88rem; transition: all 0.2s; }}
+        .nav-cta a:hover {{ background: var(--accent-hover); }}
+
+        /* ===== NEWS TICKER BAR ===== */
+        .ticker-bar {{ background: var(--navy); color: rgba(255,255,255,0.9); overflow: hidden; height: 36px; display: flex; align-items: center; position: relative; }}
+        .ticker-label {{ background: var(--accent); color: white; padding: 0 14px; height: 100%; display: flex; align-items: center; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; z-index: 2; flex-shrink: 0; }}
+        .ticker-track {{ display: flex; animation: tickerScroll 60s linear infinite; white-space: nowrap; }}
+        .ticker-track:hover {{ animation-play-state: paused; }}
+        .ticker-item {{ display: inline-flex; align-items: center; gap: 6px; padding: 0 28px; font-size: 0.8rem; color: rgba(255,255,255,0.85); }}
+        .ticker-cat {{ display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 0.6rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px; }}
+        @keyframes tickerScroll {{
+            0% {{ transform: translateX(0); }}
+            100% {{ transform: translateX(-50%); }}
+        }}
+
+        /* ===== HERO ===== */
+        .hero {{ padding: 80px 32px 64px; text-align: center; position: relative; overflow: hidden; background: linear-gradient(180deg, var(--bg) 0%, #f0ede8 100%); }}
+        .hero-content {{ position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }}
+        .hero h1 {{
+            font-family: 'Fraunces', serif;
+            font-size: 3.8rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 20px;
+            letter-spacing: -0.04em;
+            line-height: 1.08;
+        }}
+        .hero-subtitle {{ color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 36px; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto; }}
+        .hero-search {{ max-width: 540px; margin: 0 auto 20px; position: relative; }}
+        .hero-search input {{
+            width: 100%;
+            padding: 18px 24px 18px 52px;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-family: inherit;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            outline: none;
+            transition: all 0.3s;
+        }}
+        .hero-search input:focus {{ border-color: var(--accent); box-shadow: 0 8px 32px rgba(0,0,0,0.1), 0 0 0 3px rgba(212,101,74,0.12); }}
+        .hero-search input::placeholder {{ color: var(--text-muted); }}
+        .hero-search-icon {{ position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--text-muted); }}
+        .hero-meta {{ font-size: 0.82rem; color: var(--text-muted); margin-top: 16px; }}
+        .hero-meta span {{ background: rgba(212,101,74,0.1); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-weight: 600; }}
+
+        /* ===== SECTION HEADERS ===== */
+        .section-wrap {{ max-width: 1200px; margin: 0 auto; padding: 0 32px; }}
+        .hp-section {{ padding: 56px 0; }}
+        .hp-section-header {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }}
+        .hp-section-title {{ font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); }}
+        .hp-section-link {{ color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; }}
+        .hp-section-link:hover {{ text-decoration: underline; }}
+
+        /* ===== TWO-COLUMN GRID (Catalysts + Deals) ===== */
+        .two-col {{ display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }}
+        .col-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }}
+        .col-card-header {{ padding: 16px 20px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }}
+        .col-card-title {{ font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); }}
+        .col-card-badge {{ padding: 3px 10px; background: rgba(212,101,74,0.1); color: var(--accent); font-size: 0.7rem; font-weight: 700; border-radius: 10px; text-transform: uppercase; }}
+
+        /* Catalyst table */
+        .cal-table {{ width: 100%; border-collapse: collapse; }}
+        .cal-table tr {{ border-bottom: 1px solid var(--border-light); }}
+        .cal-table tr:last-child {{ border-bottom: none; }}
+        .cal-table td {{ padding: 10px 16px; font-size: 0.82rem; vertical-align: top; }}
+        .cal-date {{ color: var(--accent); font-weight: 600; white-space: nowrap; width: 80px; }}
+        .cal-company {{ font-weight: 600; color: var(--navy); white-space: nowrap; width: 100px; }}
+        .cal-desc {{ color: var(--text-secondary); }}
+
+        /* Deals table */
+        .deal-table {{ width: 100%; border-collapse: collapse; }}
+        .deal-table tr {{ border-bottom: 1px solid var(--border-light); }}
+        .deal-table tr:last-child {{ border-bottom: none; }}
+        .deal-table td {{ padding: 10px 16px; font-size: 0.82rem; vertical-align: top; }}
+        .deal-date {{ color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; width: 75px; }}
+        .deal-parties {{ font-weight: 600; color: var(--navy); white-space: nowrap; }}
+        .deal-value {{ color: var(--accent); font-weight: 700; white-space: nowrap; width: 70px; }}
+        .deal-desc {{ color: var(--text-secondary); }}
+
+        /* ===== TARGET SPOTLIGHT ===== */
+        .spotlight-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }}
+        .spotlight-card {{
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.25s;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }}
+        .spotlight-card:hover {{ border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-3px); }}
+        .spotlight-header {{ display: flex; align-items: center; gap: 8px; }}
+        .spotlight-cat {{ display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px; }}
+        .hot-badge {{ padding: 2px 7px; background: #fef3c7; color: #92400e; font-size: 0.6rem; font-weight: 700; border-radius: 4px; text-transform: uppercase; }}
+        .spotlight-name {{ font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); }}
+        .spotlight-desc {{ font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; }}
+        .spotlight-stats {{ display: flex; gap: 10px; flex-wrap: wrap; }}
+        .target-stat {{ font-size: 0.72rem; font-weight: 600; color: var(--navy); background: #f3f4f6; padding: 2px 8px; border-radius: 4px; }}
+        .target-leads {{ display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }}
+        .lead-pill {{ font-size: 0.68rem; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border-light); padding: 2px 8px; border-radius: 10px; }}
+
+        /* ===== VALUE PROP ===== */
+        .value-strip {{ background: var(--navy); padding: 56px 32px; }}
+        .value-inner {{ max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }}
+        .value-stat-num {{ font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 800; color: white; letter-spacing: -0.02em; }}
+        .value-stat-label {{ font-size: 0.88rem; color: rgba(255,255,255,0.6); margin-top: 4px; }}
+
+        /* ===== CTA ===== */
+        .cta-section {{ padding: 64px 32px; background: var(--surface-alt); }}
+        .cta-inner {{ max-width: 520px; margin: 0 auto; text-align: center; }}
+        .cta-inner h2 {{ font-family: 'Fraunces', serif; font-size: 1.8rem; color: var(--navy); margin-bottom: 10px; }}
+        .cta-inner p {{ color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 28px; }}
+        .cta-form {{ display: flex; gap: 10px; max-width: 440px; margin: 0 auto 14px; }}
+        .cta-form input {{ flex: 1; padding: 13px 16px; border: 2px solid var(--border); border-radius: 10px; font-size: 0.95rem; font-family: inherit; outline: none; transition: border-color 0.2s; }}
+        .cta-form input:focus {{ border-color: var(--accent); }}
+        .cta-form button {{ padding: 13px 24px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }}
+        .cta-form button:hover {{ background: var(--accent-hover); }}
+        .cta-note {{ font-size: 0.82rem; color: var(--text-muted); }}
+
+        /* ===== FOOTER ===== */
+        .footer {{ background: var(--navy); color: rgba(255,255,255,0.6); padding: 40px 32px; text-align: center; }}
+        .footer p {{ font-size: 0.85rem; }}
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {{
+            .nav-links {{ display: none; }}
+            .hero {{ padding: 56px 20px 44px; }}
+            .hero h1 {{ font-size: 2.4rem; }}
+            .hero-subtitle {{ font-size: 1rem; margin-bottom: 28px; }}
+            .hero-search input {{ padding: 15px 18px 15px 46px; font-size: 0.95rem; }}
+            .two-col {{ grid-template-columns: 1fr; }}
+            .spotlight-grid {{ grid-template-columns: 1fr; }}
+            .value-inner {{ grid-template-columns: 1fr; gap: 24px; }}
+            .value-stat-num {{ font-size: 2rem; }}
+            .section-wrap {{ padding: 0 16px; }}
+            .hp-section {{ padding: 40px 0; }}
+            .cta-form {{ flex-direction: column; }}
+            .ticker-bar {{ height: 32px; }}
+            .ticker-item {{ font-size: 0.72rem; padding: 0 20px; }}
+        }}
+    </style>
+</head>
+<body>
+    <!-- NAV -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="/" class="logo">Satya<span>Bio</span></a>
+            <nav class="nav-links">
+                <a href="/targets">Targets</a>
+                <a href="/companies">Companies</a>
+                <a href="/extract/">Extract</a>
+                <a href="/about">About</a>
+            </nav>
+            <div class="nav-cta">
+                <a href="#cta">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- NEWS TICKER BAR -->
+    <div class="ticker-bar">
+        <div class="ticker-label">Live</div>
+        <div class="ticker-track">{marquee_content}</div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Biotech Intelligence<br>for the Buy Side</h1>
+            <p class="hero-subtitle">Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals</p>
+            <form class="hero-search" onsubmit="handleSearch(event)">
+                <svg class="hero-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input type="text" id="hero-search-input" placeholder="Search targets, companies, or therapeutic areas...">
+            </form>
+            <div class="hero-meta">Data updated <span>{today_display}</span></div>
+        </div>
+    </section>
+
+    <!-- TWO-COLUMN: Catalyst Calendar + Deal Tracker -->
+    <section class="hp-section">
+        <div class="section-wrap">
+            <div class="two-col">
+                <div class="col-card">
+                    <div class="col-card-header">
+                        <span class="col-card-title">Upcoming Catalysts</span>
+                        <span class="col-card-badge">Live</span>
+                    </div>
+                    <table class="cal-table">
+                        {catalyst_rows}
+                    </table>
+                </div>
+                <div class="col-card">
+                    <div class="col-card-header">
+                        <span class="col-card-title">Recent Deals</span>
+                        <span class="col-card-badge">2025-26</span>
+                    </div>
+                    <table class="deal-table">
+                        {deals_html}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TARGET SPOTLIGHT -->
+    <section class="hp-section" style="background:var(--surface)">
+        <div class="section-wrap">
+            <div class="hp-section-header">
+                <span class="hp-section-title">Featured Target Landscapes</span>
+                <a href="/targets" class="hp-section-link">View all targets &rarr;</a>
+            </div>
+            <div class="spotlight-grid">
+                {target_cards}
+            </div>
+        </div>
+    </section>
+
+    <!-- VALUE PROP / AT A GLANCE -->
+    <section class="value-strip">
+        <div class="value-inner">
+            <div>
+                <div class="value-stat-num">145+</div>
+                <div class="value-stat-label">public biotechs tracked</div>
+            </div>
+            <div>
+                <div class="value-stat-num">14</div>
+                <div class="value-stat-label">target landscapes</div>
+            </div>
+            <div>
+                <div class="value-stat-num">$30B+</div>
+                <div class="value-stat-label">deal value tracked</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="cta">
+        <div class="cta-inner">
+            <h2>Request Access</h2>
+            <p>Currently in private beta with select funds</p>
+            <form class="cta-form" id="subscribe-form" onsubmit="handleSubscribe(event)">
+                <input type="email" id="subscribe-email" placeholder="work@fund.com" required>
+                <button type="submit">Request Access</button>
+            </form>
+            <p class="cta-note" id="subscribe-note">We'll be in touch within 24 hours</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+
+    <script>
+    function handleSearch(e) {{
+        e.preventDefault();
+        var q = document.getElementById('hero-search-input').value.trim().toLowerCase();
+        if (!q) {{ window.location.href = '/companies'; return; }}
+        var targetTerms = ['glp', 'tl1a', 'kras', 'b7', 'tigit', 'stat6', 'cell', 'car-t', 'mir', 'fcrn', 'kit', 'menin', 'dmd'];
+        var isTarget = targetTerms.some(function(t) {{ return q.includes(t); }});
+        window.location.href = isTarget ? '/targets' : '/companies';
+    }}
+    function handleSubscribe(e) {{
+        e.preventDefault();
+        var email = document.getElementById('subscribe-email').value.trim();
+        if (!email) return;
+        fetch('/api/subscribe', {{
+            method: 'POST',
+            headers: {{'Content-Type': 'application/json'}},
+            body: JSON.stringify({{email: email}})
+        }}).then(function(r) {{ return r.json(); }}).then(function(d) {{
+            document.getElementById('subscribe-note').textContent = 'Subscribed! We\\'ll be in touch.';
+            document.getElementById('subscribe-email').value = '';
+        }}).catch(function() {{
+            document.getElementById('subscribe-note').textContent = 'Something went wrong. Try again.';
+        }});
+    }}
+    </script>
+</body>
+</html>'''
+
+
 def generate_companies_page():
     # Load companies from index.json - SINGLE SOURCE OF TRUTH
     companies = load_companies_from_index()
