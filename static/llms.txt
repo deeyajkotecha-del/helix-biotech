@@ -1,0 +1,22 @@
+# Satya Bio
+
+> Biotech intelligence platform for buy-side investors
+
+Satya Bio is a biotech competitive intelligence platform built for buy-side healthcare investors. The platform tracks 60+ public biotechs, 200+ pipeline assets, and $30B+ in deal value across the biotech sector.
+
+## Core Capabilities
+
+- **Competitive Landscapes**: Deep-dive target reports covering GLP-1/obesity, TL1A/IBD, B7-H3/ADC, KRAS, cell therapy, STAT6, and more
+- **Catalyst Tracking**: Upcoming FDA decisions, clinical data readouts, and regulatory milestones
+- **Pipeline Analytics**: Phase-by-phase pipeline tracking across 200+ assets with trial-level clinical data
+- **Deal Tracker**: M&A, licensing, and partnership deals across the biotech sector
+- **Company Profiles**: Detailed profiles for 60+ public biotechs with ownership data, pipeline status, and investment theses
+
+## Key Pages
+
+- [Homepage](https://satyabio.com/): News ticker, catalyst calendar, deal tracker, target spotlight
+- [Targets](https://satyabio.com/targets): Competitive landscape reports by therapeutic target
+- [Companies](https://satyabio.com/companies): Directory of 60+ tracked public biotechs
+- [Extract](https://satyabio.com/extract/): Clinical data extraction tools
+- [About](https://satyabio.com/about): Platform overview and methodology
+- [GLP-1 Report](https://satyabio.com/api/report/target/GLP-1/html): Example target landscape report

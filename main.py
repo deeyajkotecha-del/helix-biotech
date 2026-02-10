@@ -329,6 +329,21 @@ async def refresh_news(request: Request):
 # Health Check
 # =============================================================================
 
+@app.get("/sitemap.xml", include_in_schema=False)
+async def serve_sitemap():
+    """Serve sitemap.xml at site root."""
+    return FileResponse(BASE_DIR / "static" / "sitemap.xml", media_type="application/xml")
+
+@app.get("/robots.txt", include_in_schema=False)
+async def serve_robots():
+    """Serve robots.txt at site root."""
+    return FileResponse(BASE_DIR / "static" / "robots.txt", media_type="text/plain")
+
+@app.get("/llms.txt", include_in_schema=False)
+async def serve_llms():
+    """Serve llms.txt at site root."""
+    return FileResponse(BASE_DIR / "static" / "llms.txt", media_type="text/plain")
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
