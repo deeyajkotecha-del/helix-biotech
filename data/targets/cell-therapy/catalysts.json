@@ -1,0 +1,169 @@
+{
+  "target": "Cell Therapy",
+  "slug": "cell-therapy",
+  "last_reviewed": "2026-02-10",
+  "catalysts": [
+    {
+      "date": "2017-10",
+      "date_display": "Oct 2017",
+      "company": "Novartis",
+      "asset": "Kymriah (tisagenlecleucel)",
+      "description": "First-ever FDA approval of a CAR-T therapy — for pediatric ALL",
+      "outcome": "Approved. Priced at $475K."
+    },
+    {
+      "date": "2017-10",
+      "date_display": "Oct 2017",
+      "company": "Gilead/Kite",
+      "asset": "Yescarta (axicabtagene ciloleucel)",
+      "description": "FDA approval for relapsed/refractory DLBCL",
+      "outcome": "Approved. Priced at $373K."
+    },
+    {
+      "date": "2021-02",
+      "date_display": "Feb 2021",
+      "company": "BMS/Juno",
+      "asset": "Breyanzi (lisocabtagene maraleucel)",
+      "description": "FDA approval for relapsed/refractory LBCL",
+      "outcome": "Approved"
+    },
+    {
+      "date": "2021-03",
+      "date_display": "Mar 2021",
+      "company": "BMS/bluebird",
+      "asset": "Abecma (idecabtagene vicleucel)",
+      "description": "First CAR-T for multiple myeloma (BCMA-targeting)",
+      "outcome": "Approved"
+    },
+    {
+      "date": "2024-03",
+      "date_display": "Mar 2024",
+      "company": "J&J/Legend",
+      "asset": "Carvykti (ciltacabtagene autoleucel)",
+      "description": "FDA approval expanded to 2L+ multiple myeloma (CARTITUDE-4)",
+      "outcome": "Blockbuster trajectory — strongest MM CAR-T"
+    },
+    {
+      "date": "2024-11",
+      "date_display": "Nov 2024",
+      "company": "Takeda",
+      "asset": "Cell therapy programs",
+      "description": "Takeda divests from cell therapy, returning rights to partner",
+      "outcome": "Divestment signal"
+    },
+    {
+      "date": "2024-12",
+      "date_display": "Dec 2024",
+      "company": "Novo Nordisk",
+      "asset": "Cell therapy unit",
+      "description": "Novo Nordisk exits cell therapy development",
+      "outcome": "Divestment signal"
+    },
+    {
+      "date": "2025-01",
+      "date_display": "Jan 2025",
+      "company": "Galapagos",
+      "asset": "Cell therapy programs",
+      "description": "Galapagos steps back from cell therapy pipeline",
+      "outcome": "Divestment signal"
+    },
+    {
+      "date": "2025-02",
+      "date_display": "Early 2025",
+      "company": "AstraZeneca",
+      "asset": "EsoBiotec",
+      "description": "AZ acquires in vivo CAR-T company EsoBiotec for $1B ($425M upfront)",
+      "outcome": "First major in vivo CAR-T acquisition"
+    },
+    {
+      "date": "2025-06",
+      "date_display": "Jun 2025",
+      "company": "AbbVie",
+      "asset": "Capstan Therapeutics",
+      "description": "AbbVie acquires LNP-based in vivo CAR-T company for $2.1B",
+      "outcome": "Validates in vivo approach for autoimmune"
+    },
+    {
+      "date": "2025-09",
+      "date_display": "Q3 2025",
+      "company": "Gilead/Kite",
+      "asset": "Yescarta + Tecartus",
+      "description": "Gilead reports ~10-15% YoY sales decline for Yescarta and Tecartus vs Q3 2024",
+      "outcome": "Ex vivo CAR-T commercial headwinds"
+    },
+    {
+      "date": "2025-10",
+      "date_display": "Oct 2025",
+      "company": "BMS",
+      "asset": "Orbital Therapeutics",
+      "description": "BMS acquires circular RNA in vivo cell therapy company for $1.5B",
+      "outcome": "Third major in vivo deal in 2025"
+    },
+    {
+      "date": "2025-10",
+      "date_display": "Oct 2025",
+      "company": "Gilead",
+      "asset": "Interius BioTherapeutics",
+      "description": "Gilead acquires in vivo CAR-T company (terms undisclosed)",
+      "outcome": "Even ex vivo leader pivoting to in vivo"
+    },
+    {
+      "date": "2025-12",
+      "date_display": "Dec 2025",
+      "company": "Orna Therapeutics",
+      "asset": "ORN-252",
+      "description": "Preclinical data at ASH 2025 showing B-cell and plasma cell depletion with circular RNA in vivo CAR-T",
+      "outcome": "Positive — supported clinical entry"
+    },
+    {
+      "date": "2026-02-09",
+      "date_display": "Feb 9, 2026",
+      "company": "Eli Lilly",
+      "asset": "Orna Therapeutics",
+      "description": "Lilly acquires Orna for up to $2.4B — circular RNA + LNP in vivo CAR-T for autoimmune diseases. ORN-252 (CD19) described as 'clinical-trial ready'.",
+      "outcome": "Fifth major in vivo deal. ~$7B+ total in vivo M&A in 12 months."
+    },
+    {
+      "date": "2026-06",
+      "date_display": "H1 2026",
+      "company": "Eli Lilly / Orna",
+      "asset": "ORN-252",
+      "description": "IND filing and Phase 1 initiation expected — in vivo CD19 CAR-T for autoimmune diseases"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "2026",
+      "company": "AstraZeneca / EsoBiotec",
+      "asset": "In vivo CAR-T",
+      "description": "Clinical data expected from early-stage in vivo CAR-T programs"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "2026",
+      "company": "AbbVie / Capstan",
+      "asset": "In vivo CAR-T",
+      "description": "IND-enabling studies and potential clinical entry"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "2026",
+      "company": "Umoja Biopharma",
+      "asset": "UB-VV111",
+      "description": "Phase 1 data for lentiviral in vivo CAR-T in r/r NHL"
+    },
+    {
+      "date": "2026-12",
+      "date_display": "H2 2026",
+      "company": "BMS / Orbital",
+      "asset": "Circular RNA programs",
+      "description": "Preclinical/IND-enabling data for in vivo cell therapy programs"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027",
+      "company": "Multiple",
+      "asset": "In vivo CAR-T",
+      "description": "First wave of Phase 1 clinical data from acquired in vivo programs (Lilly/Orna, AbbVie/Capstan, AZ/EsoBiotec)"
+    }
+  ]
+}

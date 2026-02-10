@@ -2808,6 +2808,568 @@ def generate_kras_report(admin: bool = False):
 </html>'''
 
 
+def generate_cell_therapy_report(admin: bool = False):
+    """Generate the Cell Therapy / In Vivo CAR-T landscape report — analyst-grade."""
+
+    # Catalyst section from shared system
+    catalyst_html = render_catalyst_section("cell-therapy", admin=admin)
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Therapy: Ex Vivo vs In Vivo | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
+        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
+        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
+        tr:hover {{ background: var(--bg); }}
+        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
+
+        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
+        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .bio-box-green {{ background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-green h3 {{ color: #065f46; margin-top: 0; }}
+        .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .bio-box-amber {{ background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-amber h3 {{ color: #92400e; margin-top: 0; }}
+        .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .bio-box-red {{ background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-red h3 {{ color: #991b1b; margin-top: 0; }}
+        .bio-box-red p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; }}
+        .bear-box h3 {{ color: #1a2b3c; }}
+        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+
+        .deal-table td:nth-child(4) {{ font-weight: 600; color: var(--accent); }}
+
+        .catalyst-timeline {{ margin-top: 20px; }}
+        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
+        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+        .catalyst-content strong {{ color: var(--navy); }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
+        .back-link:hover {{ text-decoration: underline; }}
+
+        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
+        .source-list a {{ color: var(--accent); }}
+
+        .callout-box {{ background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .callout-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .callout-box strong {{ color: var(--accent); }}
+    </style>
+</head>
+<body>
+    {get_nav_html("targets")}
+    <main class="main">
+
+        <!-- Header -->
+        <div class="report-header">
+            <h1>Cell Therapy: The In Vivo Revolution</h1>
+            <p>Five Big Pharma companies have spent $7B+ acquiring in vivo cell therapy companies in 12 months. Ex vivo CAR-T economics are broken for chronic disease. The modality is shifting.</p>
+            <div class="report-meta">
+                <div class="meta-item">
+                    <div class="label">In Vivo M&amp;A (12mo)</div>
+                    <div class="value">~$7B+</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">Approved Ex Vivo CAR-Ts</div>
+                    <div class="value">6 products</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">Key Inflection</div>
+                    <div class="value">Lilly&ndash;Orna $2.4B</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">Latest Deal</div>
+                    <div class="value">Feb 9, 2026</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: The Modality Shift -->
+        <div class="section">
+            <h2>1. The Modality Shift: Why Big Pharma Is Abandoning Ex Vivo and Betting $7B+ on In Vivo</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                In the past 12 months, the cell therapy field has undergone a dramatic inflection. Three companies &mdash; Takeda, Novo Nordisk, and Galapagos &mdash; divested from cell therapy programs entirely. Gilead, the commercial leader in ex vivo CAR-T, reported declining sales for Yescarta and Tecartus. And yet, in the same period, <strong>five Big Pharma companies collectively spent over $7 billion acquiring in vivo cell therapy companies</strong>.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                This is not a rejection of cell therapy. It is a rejection of the <em>ex vivo modality&rsquo;s economics and logistics</em> for chronic disease. The therapeutic principle &mdash; targeted depletion of pathogenic cell populations &mdash; remains powerful. What&rsquo;s changing is <strong>how</strong> that depletion is achieved.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                The pattern is unmistakable: AstraZeneca&ndash;EsoBiotec ($1B, Jan 2025), AbbVie&ndash;Capstan ($2.1B, Jun 2025), Gilead&ndash;Interius (2025), BMS&ndash;Orbital ($1.5B, Oct 2025), and Eli Lilly&ndash;Orna ($2.4B, Feb 9, 2026). Every deal targets the same thesis: <em>in vivo</em> genetic reprogramming of a patient&rsquo;s own T-cells, bypassing the manufacturing bottleneck that has constrained ex vivo CAR-T since its inception.
+            </p>
+
+            <div class="callout-box">
+                <p><strong>Yesterday&rsquo;s deal (Feb 9, 2026):</strong> Eli Lilly announced the acquisition of Orna Therapeutics for up to $2.4 billion. Orna&rsquo;s platform uses engineered circular RNA (oRNA) delivered via lipid nanoparticles to transiently express CAR constructs on a patient&rsquo;s T-cells <em>in vivo</em>. Lead asset ORN-252 (CD19) is described as &ldquo;clinical-trial ready&rdquo; for B-cell-mediated autoimmune diseases. This is Lilly&rsquo;s first major move into cell therapy &mdash; and the fifth in vivo deal in 12 months.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Ex Vivo CAR-T Broken Economics -->
+        <div class="section">
+            <h2>2. Ex Vivo CAR-T: Transformative Science, Broken Economics</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Approved ex vivo CAR-T products have transformed hematologic oncology. Six FDA-approved products are now on the market, delivering complete response rates of 40&ndash;70% in malignancies that previously had no effective options. For patients with relapsed/refractory large B-cell lymphoma or multiple myeloma, CAR-T therapy has been genuinely curative in a meaningful fraction.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                But the modality is fundamentally constrained by four interlocking problems:
+            </p>
+
+            <div class="bio-box-red">
+                <h3>Manufacturing</h3>
+                <p>Each treatment is a bespoke, patient-specific manufacturing process. Leukapheresis &rarr; shipping &rarr; viral vector transduction &rarr; expansion &rarr; quality testing &rarr; shipping back &rarr; infusion. Vein-to-vein time: <strong>3&ndash;6 weeks</strong>. Some patients progress and die while waiting for their cells.</p>
+            </div>
+            <div class="bio-box-red">
+                <h3>Cost</h3>
+                <p>$373K&ndash;$475K per treatment for the CAR-T product alone. Add hospitalization, lymphodepleting chemotherapy, CRS/ICANS management, and the total cost often exceeds <strong>$500K per patient</strong>. Payers are reluctant to expand coverage beyond last-line hematologic malignancies.</p>
+            </div>
+            <div class="bio-box-red">
+                <h3>Safety</h3>
+                <p>Cytokine release syndrome (CRS) in 60&ndash;90% of patients. Immune effector cell-associated neurotoxicity syndrome (ICANS) in 20&ndash;60%. Grade 3+ CRS in 5&ndash;20%. Requires inpatient monitoring, often ICU-level. In November 2023, <strong>FDA added a boxed warning</strong> for secondary T-cell malignancies across all approved CAR-T products.</p>
+            </div>
+            <div class="bio-box-amber">
+                <h3>Scalability &amp; Commercial Reality</h3>
+                <p>Manufacturing infrastructure cannot scale to meet demand. Treatment slots are rationed. Total ex vivo CAR-T market is ~$4&ndash;5B globally in 2025, well below initial projections. Gilead&rsquo;s Yescarta/Tecartus are declining ~10&ndash;15% YoY. BMS&rsquo;s Abecma is being cannibalized by J&amp;J&rsquo;s Carvykti. <strong>Carvykti is the only product with strong growth trajectory.</strong></p>
+            </div>
+        </div>
+
+        <!-- Section 3: The Autoimmune Opportunity -->
+        <div class="section">
+            <h2>3. The Autoimmune Opportunity Changes Everything</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                The catalyst for the in vivo revolution came from an unexpected direction: autoimmune disease. In 2022, Mackensen et al. published landmark data in the <em>New England Journal of Medicine</em> showing that CD19 CAR-T therapy achieved <strong>complete B-cell depletion and drug-free remission</strong> in patients with severe systemic lupus erythematosus. Patients went off all immunosuppressive medication &mdash; unprecedented in rheumatology.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Subsequent studies confirmed the same pattern in systemic sclerosis, myasthenia gravis, and inflammatory myopathy. The immunological reset provided by deep B-cell depletion appeared to break the cycle of autoimmunity in ways that chronic immunosuppression never could.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                But the risk-benefit calculus is entirely different in autoimmune disease vs. oncology. Cancer patients accept lymphodepleting chemotherapy, weeks of hospitalization, CRS risk, and T-cell malignancy warnings because the alternative is death. Autoimmune patients have chronic, manageable disease. <strong>They will not accept $500K, 3&ndash;6 weeks inpatient, chemotherapy conditioning, and T-cell malignancy risk for a disease they can manage with existing drugs.</strong>
+            </p>
+
+            <div class="bio-box-green">
+                <h3>Why In Vivo CAR-T Is Essential for Autoimmune</h3>
+                <p>The autoimmune market is <strong>10&ndash;100x larger</strong> than hematologic malignancies. Lupus alone: ~200K patients in the US. Rheumatoid arthritis: 1.3M. Multiple sclerosis: 1M. But this market is only addressable with a modality that is: off-the-shelf, outpatient, requires no lymphodepletion or leukapheresis, is redosable, and is affordable. Total addressable autoimmune market for cell therapies: estimated <strong>$50&ndash;100B+</strong> if the modality works.</p>
+            </div>
+        </div>
+
+        <!-- Section 4: In Vivo CAR-T How It Works -->
+        <div class="section">
+            <h2>4. In Vivo CAR-T: How It Works</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Three main approaches to in vivo cell therapy are being pursued, each with distinct trade-offs:
+            </p>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Approach</th>
+                            <th>How It Works</th>
+                            <th>Key Companies</th>
+                            <th>Advantages</th>
+                            <th>Risks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>LNP + mRNA/circRNA</strong></td>
+                            <td>Lipid nanoparticles deliver mRNA or circular RNA encoding CAR construct. Patient&rsquo;s own T-cells transiently express CAR.</td>
+                            <td>Orna (Lilly), Capstan (AbbVie), Orbital (BMS)</td>
+                            <td>Off-the-shelf, no genomic integration, redosable, transient expression (safety advantage)</td>
+                            <td>Transient = may need redosing. LNP tropism challenges (getting to T-cells, not liver).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lentiviral in vivo</strong></td>
+                            <td>Engineered lentiviral vectors delivered IV that selectively transduce T-cells in vivo, integrating CAR gene permanently.</td>
+                            <td>Umoja Biopharma, EsoBiotec (AZ)</td>
+                            <td>Permanent integration (one-shot potential), proven vector biology</td>
+                            <td>Insertional mutagenesis risk (like ex vivo). Manufacturing complexity of viral vectors.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>T-cell engagers (alternative)</strong></td>
+                            <td>Bispecific antibodies that redirect T-cells to target (e.g., CD19&times;CD3) without any genetic modification.</td>
+                            <td>Regeneron, multiple companies</td>
+                            <td>Off-the-shelf, simple IV infusion, no genetic modification, proven modality</td>
+                            <td>Continuous dosing required, no T-cell memory, CRS still occurs, not true cell therapy.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bio-box">
+                <h3>Circular RNA: Orna&rsquo;s Key Differentiator</h3>
+                <p>Orna&rsquo;s platform uses engineered circular RNA (oRNA), which forms a covalently closed loop that is significantly more stable than linear mRNA. Linear mRNA is degraded by exonucleases within hours; circular RNA lacks free 5&prime; and 3&prime; ends, making it resistant to this degradation. This means <strong>longer protein expression from each dose</strong> &mdash; potentially bridging the gap between transient mRNA (hours-to-days) and permanent viral integration (forever). For autoimmune disease, where the goal is a transient B-cell depletion that allows immune reconstitution, this &ldquo;Goldilocks&rdquo; duration may be ideal.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: M&A Deal Landscape -->
+        <div class="section">
+            <h2>5. The $7B+ In Vivo M&amp;A Wave &mdash; Deal Landscape</h2>
+            <div style="overflow-x: auto;">
+                <table class="deal-table">
+                    <thead>
+                        <tr>
+                            <th>Deal</th>
+                            <th>Buyer</th>
+                            <th>Target</th>
+                            <th>Value</th>
+                            <th>Date</th>
+                            <th>Technology</th>
+                            <th>Lead Program</th>
+                            <th>Target Indication</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AZ&ndash;EsoBiotec</td>
+                            <td>AstraZeneca</td>
+                            <td>EsoBiotec</td>
+                            <td>~$1B ($425M upfront)</td>
+                            <td>Early 2025</td>
+                            <td>Lentiviral in vivo</td>
+                            <td>CD19 CAR-T</td>
+                            <td>Autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td>AbbVie&ndash;Capstan</td>
+                            <td>AbbVie</td>
+                            <td>Capstan Therapeutics</td>
+                            <td>$2.1B</td>
+                            <td>Jun 2025</td>
+                            <td>LNP-delivered in vivo CAR-T</td>
+                            <td>CD19 in vivo CAR-T</td>
+                            <td>Autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td>Gilead&ndash;Interius</td>
+                            <td>Gilead</td>
+                            <td>Interius BioTherapeutics</td>
+                            <td>Undisclosed</td>
+                            <td>2025</td>
+                            <td>In vivo CAR-T</td>
+                            <td>Undisclosed</td>
+                            <td>Autoimmune (likely)</td>
+                        </tr>
+                        <tr>
+                            <td>BMS&ndash;Orbital</td>
+                            <td>BMS</td>
+                            <td>Orbital Therapeutics</td>
+                            <td>$1.5B</td>
+                            <td>Oct 2025</td>
+                            <td>Circular RNA platform</td>
+                            <td>Engineered RNA cell therapies</td>
+                            <td>Autoimmune + Oncology</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lilly&ndash;Orna</strong></td>
+                            <td><strong>Eli Lilly</strong></td>
+                            <td><strong>Orna Therapeutics</strong></td>
+                            <td><strong>Up to $2.4B</strong></td>
+                            <td><strong>Feb 9, 2026</strong></td>
+                            <td><strong>Circular RNA + LNP</strong></td>
+                            <td><strong>ORN-252 (CD19 in vivo CAR-T)</strong></td>
+                            <td><strong>B-cell autoimmune</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-footnote">Every major pharma is now placing a bet in this space. AstraZeneca, AbbVie, Gilead, BMS, and Lilly have collectively deployed ~$7B+ in 12 months on in vivo cell therapy acquisitions. Notably, Gilead &mdash; the largest ex vivo CAR-T commercial player (Yescarta, Tecartus) &mdash; also acquired an in vivo company, signaling that even the incumbent recognizes the modality shift.</p>
+        </div>
+
+        <!-- Section 6: Competitive Landscape -->
+        <div class="section">
+            <h2>6. Competitive Landscape &mdash; Who Has What</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Approach</th>
+                            <th>Key Asset</th>
+                            <th>Target</th>
+                            <th>Stage</th>
+                            <th>RNA Type</th>
+                            <th>Delivery</th>
+                            <th>Autoimmune Focus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Eli Lilly (Orna)</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>ORN-252</td>
+                            <td>CD19</td>
+                            <td>Phase 1-ready (IND exp H1 2026)</td>
+                            <td>Circular RNA (oRNA)</td>
+                            <td>Proprietary LNP</td>
+                            <td>Yes &mdash; B-cell autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AbbVie (Capstan)</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>Undisclosed</td>
+                            <td>CD19 (likely)</td>
+                            <td>Preclinical/IND-enabling</td>
+                            <td>mRNA</td>
+                            <td>LNP</td>
+                            <td>Yes &mdash; autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AstraZeneca (EsoBiotec)</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>Undisclosed</td>
+                            <td>CD19 (likely)</td>
+                            <td>Early clinical</td>
+                            <td>Lentiviral</td>
+                            <td>Lentiviral vector</td>
+                            <td>Yes &mdash; autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BMS (Orbital)</strong></td>
+                            <td>Engineered RNA</td>
+                            <td>Undisclosed</td>
+                            <td>Multiple</td>
+                            <td>Preclinical</td>
+                            <td>Circular RNA</td>
+                            <td>TBD</td>
+                            <td>Yes + Oncology</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gilead (Interius)</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>Undisclosed</td>
+                            <td>Undisclosed</td>
+                            <td>Preclinical</td>
+                            <td>TBD</td>
+                            <td>TBD</td>
+                            <td>Likely autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Umoja Biopharma</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>UB-VV111</td>
+                            <td>CD19</td>
+                            <td>Phase 1 (r/r NHL)</td>
+                            <td>N/A</td>
+                            <td>Lentiviral (VivoVec)</td>
+                            <td>Oncology first, autoimmune planned</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sana Biotechnology</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>Multiple</td>
+                            <td>CD19</td>
+                            <td>Preclinical</td>
+                            <td>Fusogen-delivered</td>
+                            <td>Engineered fusogens</td>
+                            <td>Yes &mdash; autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kelonia Therapeutics</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>Undisclosed</td>
+                            <td>Multiple</td>
+                            <td>Preclinical</td>
+                            <td>N/A</td>
+                            <td>Retroviral</td>
+                            <td>Oncology + autoimmune</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-footnote">Nearly every approach converges on CD19 as the initial target &mdash; the same antigen used in approved ex vivo CAR-T products. This de-risks the biology (CD19 depletion is well-characterized) and focuses competition on the delivery modality itself.</p>
+        </div>
+
+        <!-- Section 7: Approved Ex Vivo CAR-T Products -->
+        <div class="section">
+            <h2>7. Ex Vivo CAR-T &mdash; Approved Products and Commercial Reality</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Company</th>
+                            <th>Target</th>
+                            <th>Indication</th>
+                            <th>Year Approved</th>
+                            <th>List Price</th>
+                            <th>2025 Revenue Est</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Kymriah</strong></td>
+                            <td>Novartis</td>
+                            <td>CD19</td>
+                            <td>ALL, DLBCL</td>
+                            <td>2017</td>
+                            <td>$475K</td>
+                            <td>~$500M (declining)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Yescarta</strong></td>
+                            <td>Gilead/Kite</td>
+                            <td>CD19</td>
+                            <td>LBCL, FL</td>
+                            <td>2017</td>
+                            <td>$373K</td>
+                            <td>~$1.2B (declining)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tecartus</strong></td>
+                            <td>Gilead/Kite</td>
+                            <td>CD19</td>
+                            <td>MCL, ALL</td>
+                            <td>2020</td>
+                            <td>$373K</td>
+                            <td>~$200M (declining)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Breyanzi</strong></td>
+                            <td>BMS</td>
+                            <td>CD19</td>
+                            <td>LBCL</td>
+                            <td>2021</td>
+                            <td>$410K</td>
+                            <td>~$600M</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Abecma</strong></td>
+                            <td>BMS</td>
+                            <td>BCMA</td>
+                            <td>Multiple myeloma</td>
+                            <td>2021</td>
+                            <td>$419K</td>
+                            <td>~$400M (losing to Carvykti)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Carvykti</strong></td>
+                            <td>J&amp;J/Legend</td>
+                            <td>BCMA</td>
+                            <td>Multiple myeloma</td>
+                            <td>2022</td>
+                            <td>$465K</td>
+                            <td>~$1.5B (growing)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-footnote">Total ex vivo CAR-T market ~$4&ndash;5B globally in 2025. Carvykti is the only product with strong growth trajectory. The others are flat or declining, constrained by manufacturing capacity, high cost, and competition from bispecific T-cell engagers.</p>
+        </div>
+
+        <!-- Section 8: The Debate -->
+        <div class="section">
+            <h2>8. The Debate: In Vivo CAR-T vs. T-Cell Engagers vs. Ex Vivo CAR-T</h2>
+
+            <h3>Ex vivo CAR-T advocates say:</h3>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 16px;">
+                Proven deep and durable responses in cancer. Permanent genomic integration means true one-shot potential. Growing autoimmune data &mdash; Mackensen&rsquo;s lupus data showed drug-free remission, and Kyverna&rsquo;s KYV-101 is in clinical trials for myasthenia gravis. Manufacturing will improve over time with automation and allogeneic approaches.
+            </p>
+
+            <h3>T-cell engager advocates say:</h3>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 16px;">
+                Already commercial &mdash; Tecvayli, Elrexfio, and Columvi are approved bispecific T-cell engagers in hematologic malignancies. Off-the-shelf, no genetic modification, simpler manufacturing. Growing autoimmune pipeline (CD19&times;CD3 bispecifics). But: require continuous dosing, produce no T-cell memory, and CRS still occurs. Not true cell therapy &mdash; they redirect existing T-cells rather than reprogram them.
+            </p>
+
+            <h3>In vivo CAR-T advocates say:</h3>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 16px;">
+                Combines the best of both &mdash; the genetic programming of CAR-T with the off-the-shelf convenience of engagers. No leukapheresis, no lymphodepletion, outpatient administration, potentially redosable. But: <strong>completely unproven in humans</strong> for RNA-based approaches. No Phase 1 data yet. The LNP delivery challenge &mdash; getting RNA into T-cells rather than liver &mdash; is unsolved at scale.
+            </p>
+
+            <div class="bio-box">
+                <h3>The Honest Answer</h3>
+                <p>One size does not fit all. Different indications may require different modalities. Deep B-cell depletion for severe lupus may need permanent ex vivo CAR-T. Mild-to-moderate autoimmune disease may be better served by transient in vivo approaches. Cancer may continue to favor ex vivo for its proven durability. <strong>The companies that match the right modality to the right indication will win.</strong></p>
+            </div>
+        </div>
+
+        <!-- Section 9: Bull/Bear -->
+        <div class="section">
+            <h2>9. Bull/Bear Case for In Vivo CAR-T</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">
+                        <li>$7B+ in Big Pharma M&amp;A validates the thesis &mdash; five acquirers in 12 months</li>
+                        <li>Autoimmune market is 10&ndash;100x larger than hematologic oncology (lupus, RA, MS = millions of patients)</li>
+                        <li>Off-the-shelf + outpatient + redosable = commercially scalable modality</li>
+                        <li>Circular RNA provides longer expression than mRNA, potentially solving the durability gap</li>
+                        <li>First-mover advantage: Lilly/Orna&rsquo;s ORN-252 could be first-in-class in vivo CAR-T in humans</li>
+                    </ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case</h3>
+                    <ul class="thesis-list">
+                        <li>Zero human clinical data for RNA-based in vivo CAR-T &mdash; entirely preclinical</li>
+                        <li>LNP delivery to T-cells (not liver) is an unsolved problem at scale</li>
+                        <li>Transient expression means repeated dosing &mdash; cost advantage over ex vivo unclear</li>
+                        <li>T-cell engagers (bispecifics) may be &ldquo;good enough&rdquo; and are years ahead clinically</li>
+                        <li>Insertional mutagenesis risk for lentiviral approaches (same concern as ex vivo)</li>
+                        <li>Regulatory path unclear &mdash; FDA has no precedent for in vivo genetic modification for autoimmune disease</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 10: Catalysts (shared system) -->
+        {catalyst_html}
+
+        <!-- Section 11: Sources -->
+        <div class="section">
+            <h2>Key Sources</h2>
+            <ol class="source-list">
+                <li>Mackensen A et al. &ldquo;Anti-CD19 CAR T cells for refractory systemic lupus erythematosus.&rdquo; <em>NEJM</em> 2022; 387:2055-2064. <a href="https://pubmed.ncbi.nlm.nih.gov/36507686/" target="_blank">PubMed</a></li>
+                <li>Eli Lilly press release. &ldquo;Lilly to Acquire Orna Therapeutics.&rdquo; Feb 9, 2026.</li>
+                <li>AbbVie press release. &ldquo;AbbVie to Acquire Capstan Therapeutics.&rdquo; Jun 2025.</li>
+                <li>BMS press release. &ldquo;BMS to Acquire Orbital Therapeutics.&rdquo; Oct 2025.</li>
+                <li>Gilead Sciences. Q3 2025 Earnings Report &mdash; Yescarta and Tecartus sales decline.</li>
+                <li>FDA Safety Communication. &ldquo;Risk of T-cell Malignancy Following BCMA- and CD19-Directed Autologous CAR T-cell Therapies.&rdquo; Nov 2023.</li>
+                <li>MedCity News. &ldquo;Eli Lilly Expands Its In Vivo Ambitions with Orna Therapeutics Acquisition.&rdquo; Feb 2026.</li>
+                <li>STAT News. &ldquo;Eli Lilly to buy Orna Therapeutics in $2.4B deal.&rdquo; Feb 2026.</li>
+            </ol>
+        </div>
+
+        <a href="/targets" class="back-link">&larr; Back to Target Landscapes</a>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+</body>
+</html>'''
+
+
 def generate_company_detail(ticker: str):
     # Load companies from index.json
     companies = load_companies_from_index()

@@ -91,6 +91,18 @@
       "total_assets": 3,
       "lead_companies": ["Mineralys", "Idorsia"],
       "description": "HTN without hyperkalemia risk."
+    },
+    {
+      "slug": "Cell-Therapy",
+      "name": "Cell Therapy",
+      "full_name": "In Vivo CAR-T / Cell Therapy Evolution",
+      "category": "modality",
+      "market_status": "emerging",
+      "total_assets": 8,
+      "lead_companies": ["Eli Lilly/Orna", "AbbVie/Capstan", "AstraZeneca/EsoBiotec"],
+      "hot_target": true,
+      "description": "$7B+ in vivo M&A wave. Ex vivo economics broken for autoimmune.",
+      "legacy_slug": "cell-therapy"
     }
   ],
   "categories": {
@@ -112,6 +124,11 @@
     "cardiovascular": {
       "name": "Cardiovascular",
       "color": "#0284c7",
+      "count": 1
+    },
+    "modality": {
+      "name": "Modality",
+      "color": "#9333ea",
       "count": 1
     }
   }
