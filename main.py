@@ -127,6 +127,7 @@ from app.pages import (
     generate_kras_report,
     generate_cell_therapy_report,
     generate_stat6_report,
+    generate_mir124_report,
 )
 from fastapi.responses import RedirectResponse
 
@@ -174,6 +175,11 @@ async def serve_cell_therapy_report(admin: bool = False):
 async def serve_stat6_report(admin: bool = False):
     """Serve STAT6 degrader/inhibitor landscape report."""
     return HTMLResponse(generate_stat6_report(admin=admin))
+
+@app.get("/targets/mir-124", response_class=HTMLResponse)
+async def serve_mir124_report(admin: bool = False):
+    """Serve miR-124 / obefazimod landscape report."""
+    return HTMLResponse(generate_mir124_report(admin=admin))
 
 @app.get("/targets/{slug}", response_class=HTMLResponse)
 async def serve_target_detail(slug: str):

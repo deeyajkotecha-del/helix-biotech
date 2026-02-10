@@ -117,6 +117,19 @@
       "hot_target": true,
       "description": "Undruggable no more. Oral PROTAC matches dupilumab.",
       "legacy_slug": "stat6"
+    },
+    {
+      "slug": "miR-124",
+      "name": "miR-124",
+      "full_name": "MicroRNA-124 (miR-124)",
+      "category": "immunology",
+      "market_status": "race_to_first",
+      "total_assets": 2,
+      "phase_3_assets": 1,
+      "lead_companies": ["Abivax", "Formation Bio/Kenmare"],
+      "hot_target": true,
+      "description": "MicroRNA that resets immune balance. Obefazimod Phase 3 positive in UC.",
+      "legacy_slug": "mir-124"
     }
   ],
   "categories": {
@@ -128,7 +141,7 @@
     "immunology": {
       "name": "I&I",
       "color": "#7c3aed",
-      "count": 4
+      "count": 5
     },
     "metabolic": {
       "name": "Metabolic",

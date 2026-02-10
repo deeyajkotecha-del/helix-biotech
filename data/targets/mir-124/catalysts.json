@@ -1,0 +1,136 @@
+{
+  "target": "miR-124",
+  "slug": "mir-124",
+  "last_reviewed": "2026-02-10",
+  "catalysts": [
+    {
+      "date": "2020-06",
+      "date_display": "2020",
+      "company": "Abivax",
+      "asset": "Obefazimod (ABX464)",
+      "description": "Phase 2a positive results in UC — first clinical evidence that miR-124 enhancement reduces intestinal inflammation",
+      "outcome": "Proof of concept established"
+    },
+    {
+      "date": "2023-03",
+      "date_display": "Mar 2023",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "Phase 2b results: obefazimod 50mg showed statistically significant clinical remission at Week 8 in moderate-to-severe UC, with sustained response through 48 weeks maintenance",
+      "outcome": "Strong Phase 2b — supported Phase 3 design"
+    },
+    {
+      "date": "2024-10",
+      "date_display": "Oct 2024",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "First patient dosed in ENHANCE-CD Phase 2b trial of obefazimod in moderate-to-severe Crohn's disease",
+      "outcome": "Crohn's expansion initiated"
+    },
+    {
+      "date": "2025-05",
+      "date_display": "May 2025",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "Phase 2b 96-week open-label maintenance data published in JCC — continued improvement in clinical symptoms with consistent safety over 2 years",
+      "outcome": "Long-term durability signal"
+    },
+    {
+      "date": "2025-06",
+      "date_display": "Jun 2025",
+      "company": "Abivax",
+      "asset": "ABTECT trials",
+      "description": "Enrollment completed for ABTECT-1 and ABTECT-2 Phase 3 induction trials: 1,275 patients across 600+ sites in 36 countries — one of largest Phase 3 UC programs ever",
+      "outcome": "Enrollment exceeded target by 4%"
+    },
+    {
+      "date": "2025-07-22",
+      "date_display": "Jul 22, 2025",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "ABTECT Phase 3 induction results: 50mg achieved pooled 16.4% placebo-adjusted clinical remission at Week 8 (ABTECT-1: 19.3%, p<0.0001; ABTECT-2: 13.4%, p=0.0001). All key secondary endpoints met. Safety clean.",
+      "outcome": "Both trials positive — stock surged. NDA-track."
+    },
+    {
+      "date": "2025-09",
+      "date_display": "Sep 2025",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "Patient-reported outcomes data: 37% of 50mg patients reported no bowel urgency at Week 8 vs 18.1% placebo (p<0.0001). Significant improvements in quality of life, sleep, work productivity.",
+      "outcome": "Positive PRO data strengthen NDA package"
+    },
+    {
+      "date": "2025-12-17",
+      "date_display": "Dec 17, 2025",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "22 abstracts accepted at ECCO 2026 including oral presentation on anti-fibrotic activity in preclinical IBD models — first evidence obefazimod may address fibrosis in Crohn's",
+      "outcome": "Anti-fibrotic signal is novel and unexpected"
+    },
+    {
+      "date": "2025-12-18",
+      "date_display": "Dec 18, 2025",
+      "company": "Abivax",
+      "asset": "ABTECT maintenance",
+      "description": "DSMB review found no new safety signals with >80% of maintenance trial participants having completed 44-week double-blind treatment",
+      "outcome": "Clean safety through maintenance — positive signal"
+    },
+    {
+      "date": "2026-01-29",
+      "date_display": "Jan 29, 2026",
+      "company": "Formation Bio / CTFH",
+      "asset": "FHND5032",
+      "description": "Formation Bio licenses miR-124 activator FHND5032 from Chia Tai Feng Hai for up to $500M. Created new subsidiary Kenmare Bio. Plans to enter clinic in 2026.",
+      "outcome": "Second company enters miR-124 space"
+    },
+    {
+      "date": "2026-02-21",
+      "date_display": "Feb 21, 2026",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "ECCO 2026: Oral presentation on preclinical anti-fibrotic findings in IBD + 21 additional abstracts with expanded ABTECT data"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "Q2 2026",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "ABTECT Phase 3 maintenance trial topline results — THE make-or-break readout. 678 patients in 44-week maintenance. If positive, NDA filing follows."
+    },
+    {
+      "date": "2026-12",
+      "date_display": "H2 2026",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "NDA submission to FDA planned (contingent on positive maintenance data)"
+    },
+    {
+      "date": "2026-12",
+      "date_display": "Late 2026",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "ENHANCE-CD Phase 2b induction data in Crohn's disease expected"
+    },
+    {
+      "date": "2026-12",
+      "date_display": "2026",
+      "company": "Formation Bio / Kenmare Bio",
+      "asset": "FHND5032",
+      "description": "Phase 1 clinical trial entry planned for autoimmune diseases"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "2027",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "Potential FDA approval for UC (if maintenance data positive and NDA filed H2 2026)"
+    },
+    {
+      "date": "2027-12",
+      "date_display": "2027-2028",
+      "company": "Abivax",
+      "asset": "Obefazimod",
+      "description": "Potential Crohn's disease Phase 3 program initiation"
+    }
+  ]
+}

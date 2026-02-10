@@ -2808,6 +2808,463 @@ def generate_kras_report(admin: bool = False):
 </html>'''
 
 
+def generate_mir124_report(admin: bool = False):
+    """Generate the miR-124 / obefazimod landscape report — analyst-grade."""
+
+    # Catalyst section from shared system
+    catalyst_html = render_catalyst_section("mir-124", admin=admin)
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>miR-124: Obefazimod &amp; the MicroRNA Reset | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
+        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
+        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
+        tr:hover {{ background: var(--bg); }}
+        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
+
+        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
+        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .bio-box-green {{ background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-green h3 {{ color: #065f46; margin-top: 0; }}
+        .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .bio-box-amber {{ background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-amber h3 {{ color: #92400e; margin-top: 0; }}
+        .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; }}
+        .bear-box h3 {{ color: #1a2b3c; }}
+        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+
+        .catalyst-timeline {{ margin-top: 20px; }}
+        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
+        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+        .catalyst-content strong {{ color: var(--navy); }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
+        .back-link:hover {{ text-decoration: underline; }}
+
+        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
+        .source-list a {{ color: var(--accent); }}
+
+        .callout-box {{ background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .callout-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .callout-box strong {{ color: var(--accent); }}
+
+        .highlight-row {{ background: #fef5f3 !important; }}
+    </style>
+</head>
+<body>
+    {get_nav_html("targets")}
+    <main class="main">
+
+        <!-- Header -->
+        <div class="report-header">
+            <h1>miR-124 &mdash; The MicroRNA Reset</h1>
+            <p>Obefazimod hit in both Phase 3 UC induction trials. Formation Bio licensed a second miR-124 activator 12 days ago. A novel mechanism that resets immune balance rather than blocking a single cytokine.</p>
+            <div class="report-meta">
+                <div class="meta-item">
+                    <div class="label">Lead Asset</div>
+                    <div class="value">Obefazimod (Ph3)</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">ABTECT Pooled Remission</div>
+                    <div class="value">16.4% pbo-adj</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">Pivotal Readout</div>
+                    <div class="value">Maintenance Q2 2026</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">UC Market (2030E)</div>
+                    <div class="value">&gt;$15B</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: The MicroRNA That Resets Immune Balance -->
+        <div class="section">
+            <h2>1. miR-124 &mdash; The MicroRNA That Resets Immune Balance</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                MicroRNA-124 (miR-124) is a small non-coding RNA that acts as a natural anti-inflammatory brake in the body. miR-124 levels are reduced in patients with inflammatory bowel disease, rheumatoid arthritis, multiple sclerosis, and other chronic inflammatory conditions. When miR-124 is depleted, pro-inflammatory pathways run unchecked.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Unlike drugs that block individual cytokines (anti-TNF, anti-IL-23, anti-IL-4R&alpha;), miR-124 operates upstream &mdash; it simultaneously downregulates multiple pro-inflammatory pathways including IL-6/STAT3, AREG, and CDK6, while promoting anti-inflammatory regulatory T-cell function. As David Rubin, MD (University of Chicago) described obefazimod&rsquo;s mechanism: <em>&ldquo;Rather than targeting specific active inflammation, it shuts it off at the source, resetting a balance of the immune system.&rdquo;</em>
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                This makes miR-124 enhancers fundamentally different from every other drug in the IBD landscape. They don&rsquo;t block one pathway &mdash; they restore the body&rsquo;s natural regulatory machinery.
+            </p>
+
+            <div class="bio-box-green">
+                <h3>Obefazimod (ABX464) &mdash; First-in-Class</h3>
+                <p>Obefazimod is a first-in-class oral small molecule that enhances miR-124 expression by binding the cap-binding complex (CBC/ARS2), promoting the biogenesis of miR-124 from its precursor. Originally discovered in HIV research, Abivax pivoted to IBD after observing potent anti-inflammatory effects. It is the <strong>only miR-124-directed drug to have completed Phase 3 clinical trials</strong>.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: The Phase 3 Story -->
+        <div class="section">
+            <h2>2. Obefazimod &mdash; The Phase 3 Story</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Obefazimod&rsquo;s clinical journey has been methodical: a positive Phase 2a (2020), a strong Phase 2b with 48-week durability (2023), and then two massive parallel Phase 3 induction trials &mdash; ABTECT-1 and ABTECT-2 &mdash; enrolling 1,275 patients across 600+ sites in 36 countries. This was one of the largest Phase 3 UC programs ever conducted.
+            </p>
+
+            <h3>ABTECT Phase 3 Induction Results (Jul 22, 2025)</h3>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 12px;">
+                The 50mg dose met the primary endpoint of clinical remission at Week 8 in both trials:
+            </p>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Endpoint</th>
+                            <th>ABTECT-1</th>
+                            <th>ABTECT-2</th>
+                            <th>Pooled</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Clinical remission (pbo-adj)</strong></td>
+                            <td><strong>19.3%</strong> (p&lt;0.0001)</td>
+                            <td><strong>13.4%</strong> (p=0.0001)</td>
+                            <td><strong>16.4%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Endoscopic improvement</td>
+                            <td>Met (p&lt;0.0001)</td>
+                            <td>Met</td>
+                            <td>Met</td>
+                        </tr>
+                        <tr>
+                            <td>Clinical response</td>
+                            <td>Met</td>
+                            <td>Met</td>
+                            <td>Met</td>
+                        </tr>
+                        <tr>
+                            <td>Symptomatic remission</td>
+                            <td>Met</td>
+                            <td>Met</td>
+                            <td>Met</td>
+                        </tr>
+                        <tr>
+                            <td>Prior advanced therapy failure</td>
+                            <td colspan="3">47.3% of patients had failed prior advanced therapy including JAK inhibitors</td>
+                        </tr>
+                        <tr>
+                            <td>Safety</td>
+                            <td colspan="3">Adverse events comparable to placebo. No new safety signals at any dose.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Patient-Reported Outcomes (Sep 2025)</h3>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 16px;">
+                37% of 50mg patients reported <strong>no bowel urgency</strong> at Week 8 vs 18.1% placebo (p&lt;0.0001). Significant improvements in quality of life, sleep, and work productivity. For UC patients, bowel urgency resolution is among the most meaningful outcomes.
+            </p>
+
+            <div class="bio-box">
+                <h3>Safety &mdash; The Competitive Edge</h3>
+                <p>The most important feature of obefazimod may be its safety. Across all studies &mdash; Phase 1 through Phase 3, including 96-week open-label extension &mdash; adverse events were comparable to placebo. No new safety signals at any dose or duration. The Dec 2025 DSMB review of the maintenance trial (&gt;80% completion) confirmed no safety concerns. For a field where JAK inhibitors carry <strong>boxed warnings for cardiovascular events, malignancy, and thrombosis</strong>, a clean safety profile is a major competitive advantage.</p>
+            </div>
+
+            <h3>What&rsquo;s Next: Maintenance (Q2 2026)</h3>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 16px;">
+                678 patients are enrolled in the 44-week ABTECT maintenance trial. Topline results expected Q2 2026 &mdash; this is the <strong>make-or-break readout</strong>. If positive, Abivax plans NDA submission in H2 2026 with potential FDA approval in 2027.
+            </p>
+        </div>
+
+        <!-- Section 3: miR-124 Competitive Landscape -->
+        <div class="section">
+            <h2>3. Competitive Landscape &mdash; miR-124 Activators</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Drug</th>
+                            <th>Company</th>
+                            <th>Mechanism</th>
+                            <th>Phase</th>
+                            <th>Lead Indication</th>
+                            <th>Key Data</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="highlight-row">
+                            <td><strong>Obefazimod (ABX464)</strong></td>
+                            <td>Abivax</td>
+                            <td>Oral miR-124 enhancer (binds CBC/ARS2 complex)</td>
+                            <td>Phase 3 (UC), Phase 2b (CD)</td>
+                            <td>UC (NDA-track), Crohn&rsquo;s disease</td>
+                            <td>Phase 3 induction positive. Maintenance data Q2 2026.</td>
+                            <td>First-in-class. NDA planned H2 2026.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FHND5032</strong></td>
+                            <td>Formation Bio / Kenmare Bio (licensed from CTFH)</td>
+                            <td>Oral miR-124 activator (small molecule)</td>
+                            <td>Preclinical &rarr; Phase 1 planned 2026</td>
+                            <td>Autoimmune diseases (UC studied preclinically)</td>
+                            <td>Preclinical only. &ldquo;Well-characterized molecule with compelling preclinical profile.&rdquo;</td>
+                            <td>Licensed Jan 29, 2026 for up to $500M. AI-driven development via Forge platform.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-footnote">The miR-124 space is currently a two-company landscape. Abivax is 5+ years ahead clinically with Phase 3 data in hand. Formation Bio&rsquo;s FHND5032 provides competitive validation of the mechanism and may eventually expand the market if it differentiates on indication, dosing, or combination potential.</p>
+        </div>
+
+        <!-- Section 4: IBD Competitive Landscape -->
+        <div class="section">
+            <h2>4. The IBD Competitive Landscape &mdash; Where miR-124 Fits</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Drug</th>
+                            <th>Company</th>
+                            <th>Mechanism</th>
+                            <th>Route</th>
+                            <th>Status in UC</th>
+                            <th>Key Advantage</th>
+                            <th>Key Limitation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Infliximab (Remicade)</td>
+                            <td>J&amp;J &rarr; biosimilars</td>
+                            <td>Anti-TNF</td>
+                            <td>IV</td>
+                            <td>Approved (generic)</td>
+                            <td>Long track record, cheap biosimilars</td>
+                            <td>Loss of response, immunogenicity, infections</td>
+                        </tr>
+                        <tr>
+                            <td>Adalimumab (Humira)</td>
+                            <td>AbbVie &rarr; biosimilars</td>
+                            <td>Anti-TNF</td>
+                            <td>SC</td>
+                            <td>Approved (generic)</td>
+                            <td>Convenient SC, cheap biosimilars</td>
+                            <td>Same anti-TNF limitations</td>
+                        </tr>
+                        <tr>
+                            <td>Vedolizumab (Entyvio)</td>
+                            <td>Takeda</td>
+                            <td>&alpha;4&beta;7 integrin</td>
+                            <td>IV/SC</td>
+                            <td>Approved</td>
+                            <td>Gut-selective, clean safety</td>
+                            <td>Slower onset, modest efficacy vs newer agents</td>
+                        </tr>
+                        <tr>
+                            <td>Tofacitinib (Xeljanz)</td>
+                            <td>Pfizer</td>
+                            <td>JAK inhibitor (pan-JAK)</td>
+                            <td>Oral</td>
+                            <td>Approved</td>
+                            <td>Oral, fast onset</td>
+                            <td>Boxed warning: CV, malignancy, thrombosis</td>
+                        </tr>
+                        <tr>
+                            <td>Upadacitinib (Rinvoq)</td>
+                            <td>AbbVie</td>
+                            <td>JAK1-selective inhibitor</td>
+                            <td>Oral</td>
+                            <td>Approved</td>
+                            <td>Oral, highest remission rates in UC</td>
+                            <td>Same JAK class safety concerns</td>
+                        </tr>
+                        <tr>
+                            <td>Risankizumab (Skyrizi)</td>
+                            <td>AbbVie</td>
+                            <td>Anti-IL-23 (p19)</td>
+                            <td>IV &rarr; SC</td>
+                            <td>Approved</td>
+                            <td>Strong efficacy, clean safety</td>
+                            <td>Injectable</td>
+                        </tr>
+                        <tr>
+                            <td>Guselkumab (Tremfya)</td>
+                            <td>J&amp;J</td>
+                            <td>Anti-IL-23 (p19)</td>
+                            <td>SC</td>
+                            <td>Approved UC 2025</td>
+                            <td>Dual mechanism (IL-23 + CD64)</td>
+                            <td>Injectable</td>
+                        </tr>
+                        <tr>
+                            <td>Mirikizumab (Omvoh)</td>
+                            <td>Eli Lilly</td>
+                            <td>Anti-IL-23 (p19)</td>
+                            <td>IV &rarr; SC</td>
+                            <td>Approved</td>
+                            <td>Strong maintenance data</td>
+                            <td>Injectable, IV induction</td>
+                        </tr>
+                        <tr>
+                            <td>Tulisokibart</td>
+                            <td>Merck</td>
+                            <td>Anti-TL1A</td>
+                            <td>SC</td>
+                            <td>Phase 3</td>
+                            <td>Novel mechanism (TL1A), strong Phase 2</td>
+                            <td>Injectable, still in Phase 3</td>
+                        </tr>
+                        <tr>
+                            <td>Duvakitug</td>
+                            <td>Sanofi/Teva</td>
+                            <td>Anti-TL1A</td>
+                            <td>SC</td>
+                            <td>Phase 3</td>
+                            <td>Novel mechanism, Phase 3 enrolling</td>
+                            <td>Injectable, still in Phase 3</td>
+                        </tr>
+                        <tr class="highlight-row">
+                            <td><strong>Obefazimod</strong></td>
+                            <td><strong>Abivax</strong></td>
+                            <td><strong>miR-124 enhancer</strong></td>
+                            <td><strong>Oral</strong></td>
+                            <td><strong>Phase 3 (NDA planned H2 2026)</strong></td>
+                            <td><strong>Novel MOA, oral, clean safety, works post-JAKi failure</strong></td>
+                            <td><strong>Moderate remission rates vs JAKi; maintenance data pending</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-footnote">Obefazimod&rsquo;s competitive advantage is the combination of oral administration, novel mechanism (works in JAK-failure patients &mdash; 47.3% of ABTECT population), and an exceptionally clean safety profile. In a field where the two best oral options (tofacitinib, upadacitinib) carry boxed warnings, a safe oral therapy with efficacy in advanced-therapy-experienced patients fills a clear unmet need.</p>
+        </div>
+
+        <!-- Section 5: Formation Bio -->
+        <div class="section">
+            <h2>5. Formation Bio &amp; Kenmare Bio &mdash; The AI-Pharma Entrant</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Formation Bio is a $1.7B AI-native pharmaceutical company backed by Sanofi and a16z. Their model: license clinical-stage or near-clinical assets, then develop them faster using AI &mdash; the Forge platform for trial design and operations, and Muse (in partnership with OpenAI) for drug candidate selection.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                On January 29, 2026, Formation licensed FHND5032 from Chia Tai Feng Hai (CTFH) for worldwide rights ex-China. They created a new subsidiary, <strong>Kenmare Bio</strong>, to house the asset. Deal terms include an undisclosed upfront payment, an equity stake to CTFH, milestones up to $500M, and royalties.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                FHND5032 is an oral small molecule miR-124 activator studied preclinically in ulcerative colitis models. Formation plans to enter the clinic in 2026 across &ldquo;a range of autoimmune diseases&rdquo; &mdash; potentially expanding the miR-124 thesis beyond IBD.
+            </p>
+
+            <div class="bio-box-amber">
+                <h3>What This Deal Validates</h3>
+                <p>The Formation Bio deal validates two things: (1) the miR-124 mechanism has value beyond Abivax &mdash; a $1.7B company with sophisticated drug-picking AI chose this mechanism, and (2) Formation sees enough whitespace to develop a second-in-class, potentially in indications beyond IBD where Abivax has not yet ventured.</p>
+            </div>
+        </div>
+
+        <!-- Section 6: Anti-Fibrotic Signal -->
+        <div class="section">
+            <h2>6. The Anti-Fibrotic Signal &mdash; A Potential Game-Changer for Crohn&rsquo;s</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                At ECCO 2026 (February 21 &mdash; 11 days from now), Abivax is presenting an oral presentation titled <em>&ldquo;Obefazimod shows first evidence of anti-fibrotic activity in preclinical models of inflammatory bowel disease.&rdquo;</em> This is accompanied by 21 additional abstracts with expanded ABTECT data.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Intestinal fibrosis is a major complication of Crohn&rsquo;s disease that <strong>no current therapy adequately addresses</strong>. Fibrosis leads to strictures, bowel obstruction, and the need for surgery. Anti-TNFs, IL-23 inhibitors, and JAK inhibitors all reduce active inflammation but do not reverse established fibrosis. If obefazimod has anti-fibrotic properties on top of its anti-inflammatory activity, it would be meaningfully differentiated from every other IBD drug on the market or in development.
+            </p>
+
+            <div class="callout-box">
+                <p><strong>Important caveat:</strong> This is a preclinical finding and must be confirmed in human studies. The ENHANCE-CD Phase 2b trial in Crohn&rsquo;s disease (initiated Oct 2024) may provide the first clinical signal. But if the anti-fibrotic effect translates, it opens a potentially massive additional market in stricturing Crohn&rsquo;s disease &mdash; a population with no effective medical therapy today.</p>
+            </div>
+        </div>
+
+        <!-- Section 7: Bull/Bear -->
+        <div class="section">
+            <h2>7. Bull/Bear Case</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">
+                        <li>Phase 3 induction data positive in both ABTECT-1 and ABTECT-2. NDA-track.</li>
+                        <li>Novel mechanism &mdash; works in patients who failed JAK inhibitors (47.3% of trial population)</li>
+                        <li>Oral administration with placebo-like safety profile across all studies</li>
+                        <li>Anti-fibrotic signal could differentiate in Crohn&rsquo;s disease</li>
+                        <li>Maintenance DSMB review clean (&gt;80% completion, no safety signals) &mdash; positive predictor</li>
+                        <li>Formation Bio deal validates mechanism beyond a single company</li>
+                        <li>IBD market expanding rapidly: UC market projected &gt;$15B by 2030</li>
+                    </ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case</h3>
+                    <ul class="thesis-list">
+                        <li>Abivax is severely cash-constrained (~$71M as of Jun 2025). Required fundraising to reach maintenance data. Dilution risk ongoing.</li>
+                        <li>16.4% placebo-adjusted remission is modest vs. upadacitinib (26.1% in U-ACHIEVE-1) and risankizumab (~20% in INSPIRE)</li>
+                        <li>ABTECT-2 50mg (13.4%) was weaker than ABTECT-1 (19.3%) &mdash; inconsistency raises questions about true effect size</li>
+                        <li>Maintenance data Q2 2026 is existential &mdash; if negative, entire program collapses</li>
+                        <li>Crohn&rsquo;s disease Phase 2b hasn&rsquo;t read out. Crohn&rsquo;s is historically harder to treat than UC.</li>
+                        <li>Competitive landscape is fierce: AbbVie (Rinvoq + Skyrizi), J&amp;J (Tremfya), Merck (tulisokibart), Sanofi (duvakitug) all advancing</li>
+                        <li>miRNA-based therapies have a troubled history (MRX34 withdrawn). While obefazimod upregulates endogenous miR-124 (not a mimic), the association may concern investors.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Catalysts (shared system) -->
+        {catalyst_html}
+
+        <!-- Section 9: Sources -->
+        <div class="section">
+            <h2>Key Sources</h2>
+            <ol class="source-list">
+                <li>Abivax. &ldquo;ABTECT Phase 3 Induction Results in Ulcerative Colitis.&rdquo; Press release, Jul 22, 2025.</li>
+                <li>Abivax. 2026 Corporate Outlook. Press release, Jan 2026.</li>
+                <li>Abivax. &ldquo;22 Abstracts Accepted at ECCO 2026.&rdquo; Press release, Dec 17, 2025.</li>
+                <li>Formation Bio. &ldquo;Formation Bio Licenses FHND5032 miR-124 Activator.&rdquo; Press release, Jan 29, 2026.</li>
+                <li>FierceBiotech. &ldquo;Abivax aces pair of phase 3 ulcerative colitis trials.&rdquo; Jul 2025.</li>
+                <li>FierceBiotech. &ldquo;Formation Bio&rsquo;s China shopping spree continues with miR-124 deal.&rdquo; Feb 2026.</li>
+                <li>Vermeire S et al. &ldquo;Obefazimod 96-week open-label maintenance data in UC.&rdquo; <em>JCC</em> 2025.</li>
+                <li>BioSpace. &ldquo;6 Biotechs That Could Be Big Pharma&rsquo;s Next M&amp;A Target.&rdquo; Dec 2025 (Abivax profile).</li>
+            </ol>
+        </div>
+
+        <a href="/targets" class="back-link">&larr; Back to Target Landscapes</a>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+</body>
+</html>'''
+
+
 def generate_stat6_report(admin: bool = False):
     """Generate the STAT6 degrader/inhibitor landscape report — analyst-grade."""
 
