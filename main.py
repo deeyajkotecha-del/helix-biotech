@@ -208,10 +208,10 @@ async def serve_arwr_thesis():
     """Redirect legacy ARWR thesis URL to new clinical company page."""
     return RedirectResponse(url="/api/clinical/companies/ARWR/html", status_code=301)
 
-@app.get("/api/company/{ticker}/html", response_class=HTMLResponse)
-async def serve_company_detail(ticker: str):
-    """Serve individual company detail page."""
-    return HTMLResponse(generate_company_detail(ticker))
+@app.get("/api/company/{ticker}/html")
+async def redirect_old_company_url(ticker: str):
+    """301 redirect legacy /api/company/ URLs to /api/clinical/companies/."""
+    return RedirectResponse(url=f"/api/clinical/companies/{ticker}/html", status_code=301)
 
 # =============================================================================
 # Email Subscription (Gate)
