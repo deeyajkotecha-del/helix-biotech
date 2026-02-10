@@ -103,6 +103,20 @@
       "hot_target": true,
       "description": "$7B+ in vivo M&A wave. Ex vivo economics broken for autoimmune.",
       "legacy_slug": "cell-therapy"
+    },
+    {
+      "slug": "STAT6",
+      "name": "STAT6",
+      "full_name": "Signal Transducer and Activator of Transcription 6",
+      "category": "immunology",
+      "market_status": "race_to_first",
+      "total_assets": 6,
+      "phase_3_assets": 0,
+      "total_committed": 3830,
+      "lead_companies": ["Kymera Therapeutics", "Sanofi/Nurix", "Gilead/LEO"],
+      "hot_target": true,
+      "description": "Undruggable no more. Oral PROTAC matches dupilumab.",
+      "legacy_slug": "stat6"
     }
   ],
   "categories": {
@@ -114,7 +128,7 @@
     "immunology": {
       "name": "I&I",
       "color": "#7c3aed",
-      "count": 3
+      "count": 4
     },
     "metabolic": {
       "name": "Metabolic",

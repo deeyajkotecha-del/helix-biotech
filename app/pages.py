@@ -2808,6 +2808,497 @@ def generate_kras_report(admin: bool = False):
 </html>'''
 
 
+def generate_stat6_report(admin: bool = False):
+    """Generate the STAT6 degrader/inhibitor landscape report — analyst-grade."""
+
+    # Catalyst section from shared system
+    catalyst_html = render_catalyst_section("stat6", admin=admin)
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STAT6 Degraders &amp; Inhibitors | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .report-header {{
+            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
+            color: white;
+            padding: 48px 32px;
+            margin: -32px -32px 32px;
+            border-radius: 0 0 24px 24px;
+        }}
+        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
+        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
+        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
+        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
+        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
+        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+
+        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
+        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+
+        table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
+        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
+        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
+        tr:hover {{ background: var(--bg); }}
+        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
+
+        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
+        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .bio-box-green {{ background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-green h3 {{ color: #065f46; margin-top: 0; }}
+        .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .bio-box-amber {{ background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-amber h3 {{ color: #92400e; margin-top: 0; }}
+        .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+
+        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
+        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
+        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
+        .bull-box {{ border-left: 3px solid #e07a5f; }}
+        .bear-box {{ border-left: 3px solid #1a2b3c; }}
+        .bull-box h3 {{ color: #e07a5f; }}
+        .bear-box h3 {{ color: #1a2b3c; }}
+        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
+        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
+        .thesis-list li:last-child {{ border-bottom: none; }}
+        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+
+        .deal-table td:nth-child(4) {{ font-weight: 600; color: var(--accent); }}
+
+        .catalyst-timeline {{ margin-top: 20px; }}
+        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
+        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+        .catalyst-content strong {{ color: var(--navy); }}
+
+        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
+        .back-link:hover {{ text-decoration: underline; }}
+
+        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
+        .source-list a {{ color: var(--accent); }}
+
+        .callout-box {{ background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .callout-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .callout-box strong {{ color: var(--accent); }}
+
+        .data-table td:first-child {{ font-weight: 600; color: var(--navy); }}
+    </style>
+</head>
+<body>
+    {get_nav_html("targets")}
+    <main class="main">
+
+        <!-- Header -->
+        <div class="report-header">
+            <h1>STAT6 Degraders &amp; Inhibitors</h1>
+            <p>The &ldquo;undruggable&rdquo; transcription factor that targeted protein degradation cracked open. Kymera&rsquo;s KT-621 matched dupilumab biomarkers from an oral pill. Sanofi, Gilead, and J&amp;J have all placed bets.</p>
+            <div class="report-meta">
+                <div class="meta-item">
+                    <div class="label">Total Deal Value</div>
+                    <div class="value">~$3.8B+</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">Lead Asset</div>
+                    <div class="value">KT-621 (Phase 2b)</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">Dupilumab Revenue</div>
+                    <div class="value">$13.6B (2024)</div>
+                </div>
+                <div class="meta-item">
+                    <div class="label">Pivotal Readout</div>
+                    <div class="value">Mid-2027</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: The Undruggable Target -->
+        <div class="section">
+            <h2>1. STAT6 &mdash; The Undruggable Target That Targeted Protein Degradation Cracked Open</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                STAT6 (Signal Transducer and Activator of Transcription 6) is the specific transcription factor downstream of IL-4 and IL-13 signaling &mdash; the central driver of Type 2 (Th2) inflammation. When IL-4 or IL-13 binds its receptor, JAK1/JAK3 or JAK1/TYK2 phosphorylate STAT6, which dimerizes, translocates to the nucleus, and drives transcription of the genes responsible for IgE class-switching, mucus production, eosinophil recruitment, and fibrosis. <strong>STAT6 is the bottleneck of the entire Type 2 pathway.</strong>
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Unlike JAK inhibitors (which block JAK1/2/3 broadly, affecting dozens of cytokine pathways and carrying boxed warnings for cardiovascular events, malignancy, and thrombosis), STAT6 is <strong>only used by IL-4 and IL-13</strong>. No other cytokines signal through STAT6. This means a STAT6-targeted drug could deliver the specificity of dupilumab (which blocks IL-4R&alpha;) but in an oral pill &mdash; without the broad immunosuppression that limits JAK inhibitors.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                For decades, STAT6 was considered &ldquo;undruggable.&rdquo; Transcription factors lack the deep hydrophobic pockets that small molecule inhibitors need. There is no enzymatic active site to block. The SH2 domain &mdash; the critical dimerization interface &mdash; is shallow and electrostatically charged, resisting conventional drug design.
+            </p>
+
+            <div class="bio-box-green">
+                <h3>The Breakthrough: Targeted Protein Degradation</h3>
+                <p>PROTACs (proteolysis-targeting chimeras) and molecular glues don&rsquo;t need to <em>inhibit</em> a protein &mdash; they just need to <em>bind</em> it and recruit an E3 ubiquitin ligase (such as cereblon/CRBN) to tag it for destruction by the proteasome. This opened STAT6 to drug development for the first time. Kymera&rsquo;s KT-621 is the <strong>first STAT6-directed drug to ever enter human clinical testing</strong>. Its Phase 1b data in December 2025 showed biologics-like activity from an oral pill &mdash; a potential paradigm shift for the $13.6B dupilumab franchise and the entire Type 2 inflammation field.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: The Dupilumab Benchmark -->
+        <div class="section">
+            <h2>2. The Dupilumab Benchmark &mdash; What STAT6 Drugs Are Trying to Replace</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                Dupilumab (Dupixent, Sanofi/Regeneron) blocks IL-4R&alpha; upstream of STAT6. It is the most successful biologic in immunology: <strong>$13.6B+ revenue in 2024</strong>, approved across six indications &mdash; atopic dermatitis, asthma, CRSwNP, EoE, prurigo nodularis, and COPD. The COPD approval in 2024 alone added millions of potential patients. Dupilumab&rsquo;s clinical track record over 8+ years is exceptional: clean safety, durable efficacy, broad label expansion.
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                But dupilumab is an injectable biologic: subcutaneous injection every 2 weeks, cold-chain storage, $36K+/year list price, and injection-site reactions in ~10% of patients. An oral STAT6 degrader with comparable efficacy would be transformative: easier administration, better patient adherence, lower manufacturing cost, no cold chain, and potential for broader market penetration &mdash; especially in pediatric populations, elderly patients, and developing markets where cold-chain biologics are impractical.
+            </p>
+
+            <div class="bio-box-amber">
+                <h3>The Addressable Market Is Enormous</h3>
+                <p>Type 2 inflammatory diseases affect <strong>&gt;140 million patients globally</strong>. Atopic dermatitis: ~230M globally. Asthma: ~300M (25M+ moderate-to-severe). CRSwNP: 30M+. EoE: growing recognition. Many of these patients are managed with topical steroids, inhalers, or no treatment at all. Only a fraction currently receive biologics. An oral pill with dupilumab-like efficacy could unlock the vast undertreated population that injectables cannot reach.</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Competitive Landscape -->
+        <div class="section">
+            <h2>3. Competitive Landscape</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Drug</th>
+                            <th>Company</th>
+                            <th>Modality</th>
+                            <th>Target</th>
+                            <th>Phase</th>
+                            <th>Key Data</th>
+                            <th>Differentiator</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>KT-621</strong></td>
+                            <td>Kymera Therapeutics</td>
+                            <td>Oral PROTAC degrader</td>
+                            <td>STAT6 (via CRBN E3 ligase)</td>
+                            <td>Phase 2b (AD + asthma)</td>
+                            <td>Phase 1b: 94% STAT6 degradation skin, 98% blood; 63% EASI reduction; TARC &minus;74%; dupilumab-comparable at 4 wks. FDA Fast Track.</td>
+                            <td><strong>FIRST-IN-CLASS.</strong> Only STAT6 drug with human clinical data. Oral once-daily. Two parallel Phase 2b trials.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NX-3911</strong></td>
+                            <td>Nurix / Sanofi</td>
+                            <td>Oral PROTAC degrader</td>
+                            <td>STAT6</td>
+                            <td>Preclinical</td>
+                            <td>Undisclosed</td>
+                            <td>Sanofi partnership ($465M milestones). Nurix has multiple STAT6 candidates.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>REX-2787</strong></td>
+                            <td>Recludix / Sanofi</td>
+                            <td>Oral inhibitor (not degrader)</td>
+                            <td>STAT6 (SH2 domain)</td>
+                            <td>Preclinical &rarr; Phase 1 planned</td>
+                            <td>Undisclosed. Uses phosphotyrosine mimetic chemistry.</td>
+                            <td>$125M upfront, $1.2B milestones. Inhibitor approach (different from degrader). Sanofi takes over at Phase 2.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gilead / LEO program</strong></td>
+                            <td>Gilead (systemic) + LEO (derm)</td>
+                            <td>Oral degrader + inhibitor</td>
+                            <td>STAT6</td>
+                            <td>Preclinical</td>
+                            <td>Undisclosed</td>
+                            <td>$250M upfront, $1.7B total. Gilead gets systemic (asthma, COPD), LEO gets dermatology.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>KP-723</strong></td>
+                            <td>J&amp;J / Kaken Pharmaceuticals</td>
+                            <td>Oral inhibitor</td>
+                            <td>STAT6</td>
+                            <td>Preclinical/Phase 1</td>
+                            <td>Undisclosed</td>
+                            <td>J&amp;J licensed from Kaken. Inhibitor, not degrader.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AK-1690</strong></td>
+                            <td>Arkuda Therapeutics (tool)</td>
+                            <td>Heterobifunctional degrader</td>
+                            <td>STAT6</td>
+                            <td>Research tool</td>
+                            <td>Published in <em>J Med Chem</em> 2025 as highly potent, selective tool compound</td>
+                            <td>Academic/tool &mdash; validates degrader approach</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-footnote">Kymera is the only company with human clinical data. All competitors are preclinical or early Phase 1 at best. This ~2-year lead is significant in a field where Sanofi, Gilead, J&amp;J, and multiple biotechs are racing to enter.</p>
+        </div>
+
+        <!-- Section 4: Deal Landscape -->
+        <div class="section">
+            <h2>4. Deal Landscape &mdash; Big Pharma All-In on STAT6</h2>
+            <div style="overflow-x: auto;">
+                <table class="deal-table">
+                    <thead>
+                        <tr>
+                            <th>Deal</th>
+                            <th>Parties</th>
+                            <th>Date</th>
+                            <th>Value</th>
+                            <th>Structure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gilead&ndash;LEO Pharma</td>
+                            <td>Gilead + LEO Pharma</td>
+                            <td>Jan 2025</td>
+                            <td>Up to $1.7B ($250M upfront)</td>
+                            <td>Gilead: systemic indications. LEO: dermatology. Both degraders and inhibitors.</td>
+                        </tr>
+                        <tr>
+                            <td>Nurix&ndash;Sanofi</td>
+                            <td>Nurix + Sanofi</td>
+                            <td>Jun 2025</td>
+                            <td>$15M upfront + $465M milestones</td>
+                            <td>Sanofi funds NX-3911 development. Nurix retains other STAT6 candidates.</td>
+                        </tr>
+                        <tr>
+                            <td>Sanofi&ndash;Recludix</td>
+                            <td>Sanofi + Recludix</td>
+                            <td>Oct 2025</td>
+                            <td>$125M upfront + $1.2B milestones + royalties</td>
+                            <td>Sanofi gets STAT6 inhibitor. Recludix develops through Phase 2, then Sanofi takes over.</td>
+                        </tr>
+                        <tr>
+                            <td>J&amp;J&ndash;Kaken</td>
+                            <td>J&amp;J + Kaken Pharmaceuticals</td>
+                            <td>2025</td>
+                            <td>Undisclosed</td>
+                            <td>J&amp;J licenses KP-723 STAT6 inhibitor from Kaken.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout-box">
+                <p><strong>Sanofi&rsquo;s dual hedge:</strong> Sanofi has placed TWO separate STAT6 bets &mdash; a degrader (Nurix, $465M milestones) and an inhibitor (Recludix, $1.2B+ milestones) &mdash; totaling up to <strong>$1.68B</strong> in potential milestones. This is the clearest signal of conviction: Sanofi makes dupilumab ($13.6B/year) and is hedging against its own franchise by investing in the oral small molecule that could replace it. Gilead and J&amp;J have also entered. Only Kymera has clinical data.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Degrader vs Inhibitor -->
+        <div class="section">
+            <h2>5. Degrader vs. Inhibitor &mdash; The Modality Debate</h2>
+
+            <div class="bio-box-green">
+                <h3>Degraders (KT-621, NX-3911, Gilead program)</h3>
+                <p>Destroy the entire STAT6 protein via the proteasome. Act catalytically &mdash; one drug molecule can degrade multiple STAT6 proteins before being recycled. Don&rsquo;t need high-affinity binding to a functional pocket; they just need enough affinity to form a ternary complex with an E3 ligase. Result: potentially <strong>more complete pathway blockade</strong> than occupancy-based inhibition.</p>
+            </div>
+
+            <div class="bio-box">
+                <h3>Inhibitors (REX-2787, KP-723)</h3>
+                <p>Block STAT6&rsquo;s SH2 domain to prevent phosphorylation and dimerization. Must maintain high occupancy to be effective &mdash; the drug must continuously outcompete the natural phosphotyrosine ligand. STAT6&rsquo;s SH2 domain is shallow and electrostatically charged, historically resisting conventional small molecule design. Recludix used phosphotyrosine mimetic chemistry to overcome this challenge.</p>
+            </div>
+
+            <h3>Why Degraders May Win</h3>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 16px;">
+                STAT6 exists in large unphosphorylated pools in the cell. Inhibitors only block signaling when STAT6 is actively phosphorylated &mdash; they cannot address the reservoir of inactive protein that can be rapidly activated upon cytokine stimulation. Degraders eliminate <strong>all STAT6 &mdash; active and inactive pools</strong> &mdash; for more complete pathway shutdown. KT-621&rsquo;s clinical data support this thesis: 94&ndash;98% protein elimination is extraordinarily difficult to achieve with occupancy-based inhibition alone.
+            </p>
+
+            <h3>Why Inhibitors May Still Matter</h3>
+            <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 16px;">
+                Simpler medicinal chemistry. Potentially faster development timelines. No dependence on cereblon (CRBN) E3 ligase biology &mdash; avoiding theoretical risks of cereblon modulation with chronic dosing. If partial STAT6 blockade is sufficient for clinical efficacy, inhibitors could have a better therapeutic window. The field will ultimately be settled by clinical data.
+            </p>
+        </div>
+
+        <!-- Section 6: KT-621 Deep Dive -->
+        <div class="section">
+            <h2>6. KT-621 Deep Dive &mdash; The Data That Changed the Field</h2>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
+                On December 8, 2025, Kymera reported BroADen Phase 1b results in patients with moderate-to-severe atopic dermatitis. The data exceeded expectations and triggered a stock surge, an upsized $602M offering, and FDA Fast Track designation within 3 days.
+            </p>
+            <div style="overflow-x: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Endpoint</th>
+                            <th>KT-621 (100mg + 200mg pooled)</th>
+                            <th>Context vs. Dupilumab at 4 Weeks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>STAT6 degradation (skin)</td>
+                            <td><strong>94%</strong> median reduction</td>
+                            <td>N/A &mdash; dupilumab does not degrade STAT6</td>
+                        </tr>
+                        <tr>
+                            <td>STAT6 degradation (blood)</td>
+                            <td><strong>98%</strong> median reduction</td>
+                            <td>N/A</td>
+                        </tr>
+                        <tr>
+                            <td>TARC (key Type 2 biomarker)</td>
+                            <td><strong>&minus;74%</strong> median</td>
+                            <td>Comparable to dupilumab at 4 weeks</td>
+                        </tr>
+                        <tr>
+                            <td>Eotaxin-3</td>
+                            <td>Significant reduction</td>
+                            <td>Comparable</td>
+                        </tr>
+                        <tr>
+                            <td>IgE</td>
+                            <td>Significant reduction</td>
+                            <td>Comparable</td>
+                        </tr>
+                        <tr>
+                            <td>IL-31 (itch mediator)</td>
+                            <td>First-ever demonstration of IL-31 reduction via IL-4/13 pathway blockade in AD</td>
+                            <td>Novel finding</td>
+                        </tr>
+                        <tr>
+                            <td>FeNO (comorbid asthma)</td>
+                            <td><strong>&minus;56%</strong> median in asthma patients</td>
+                            <td>Comparable to dupilumab</td>
+                        </tr>
+                        <tr>
+                            <td>EASI score</td>
+                            <td><strong>&minus;63%</strong> mean reduction</td>
+                            <td>In line with dupilumab at 4 weeks</td>
+                        </tr>
+                        <tr>
+                            <td>Peak pruritus NRS (itch)</td>
+                            <td><strong>&minus;40%</strong> mean reduction</td>
+                            <td>In line</td>
+                        </tr>
+                        <tr>
+                            <td>Safety</td>
+                            <td>Favorable, no new signals</td>
+                            <td>Safety profile undifferentiated from placebo in Phase 1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-footnote">Cross-trial comparisons are directionally informative only. KT-621 BroADen was a small, open-label Phase 1b study &mdash; not a randomized controlled trial. The true test is BROADEN2 (Phase 2b, randomized, placebo-controlled, ~200 patients, 16 weeks, data expected mid-2027).</p>
+        </div>
+
+        <!-- Section 7: Market Opportunity -->
+        <div class="section">
+            <h2>7. Market Opportunity</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Indication</th>
+                            <th>Global Prevalence</th>
+                            <th>Current SOC</th>
+                            <th>KT-621 Status</th>
+                            <th>Peak Sales Potential</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Atopic Dermatitis</strong></td>
+                            <td>~230M globally</td>
+                            <td>Dupilumab, JAKi (upadacitinib), topicals</td>
+                            <td>Phase 2b (BROADEN2, data mid-2027)</td>
+                            <td>$5&ndash;10B+ (oral dupilumab equivalent)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Asthma (moderate-severe)</strong></td>
+                            <td>~300M globally, ~25M moderate-severe</td>
+                            <td>Dupilumab, tezepelumab, mepolizumab</td>
+                            <td>Phase 2b (BREADTH, data late 2027)</td>
+                            <td>$3&ndash;5B+</td>
+                        </tr>
+                        <tr>
+                            <td><strong>COPD (Type 2 high)</strong></td>
+                            <td>~380M globally</td>
+                            <td>Dupilumab (approved 2024)</td>
+                            <td>Planned</td>
+                            <td>$2&ndash;4B+</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EoE</strong></td>
+                            <td>~160K diagnosed US</td>
+                            <td>Dupilumab</td>
+                            <td>Planned</td>
+                            <td>$1&ndash;2B</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CRSwNP</strong></td>
+                            <td>~30M globally</td>
+                            <td>Dupilumab</td>
+                            <td>Planned</td>
+                            <td>$1&ndash;2B</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CSU, PN, BP</strong></td>
+                            <td>Millions combined</td>
+                            <td>Various biologics</td>
+                            <td>Planned</td>
+                            <td>$1&ndash;3B combined</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="table-footnote">Kymera has stated its strategy is to select doses from BROADEN2 and BREADTH for subsequent PARALLEL Phase 3 registration studies across multiple indications simultaneously. A single Phase 2b readout could unlock 3&ndash;5 indications in parallel &mdash; the leverage is enormous.</p>
+        </div>
+
+        <!-- Section 8: Bull/Bear -->
+        <div class="section">
+            <h2>8. Bull/Bear Case</h2>
+            <div class="thesis-grid">
+                <div class="bull-box">
+                    <h3>Bull Case</h3>
+                    <ul class="thesis-list">
+                        <li>KT-621 Phase 1b data matched dupilumab at 4 weeks &mdash; from an oral pill</li>
+                        <li>Only company with human clinical data. 2+ year lead over all competitors.</li>
+                        <li>$602M raised Dec 2025, funded through mid-2027 data readouts</li>
+                        <li>FDA Fast Track granted</li>
+                        <li>Sanofi&rsquo;s dual STAT6 bets ($1.68B in milestones) validate the target and the opportunity</li>
+                        <li>If BROADEN2 confirms Phase 1b signal, KT-621 becomes the most valuable oral immunology asset in development. Peak sales potential &gt;$10B across indications.</li>
+                    </ul>
+                </div>
+                <div class="bear-box">
+                    <h3>Bear Case</h3>
+                    <ul class="thesis-list">
+                        <li>Phase 1b was open-label, small (n=~30&ndash;40), 28-day dosing only. Phase 2b (randomized, 16-week, placebo-controlled) is the real test.</li>
+                        <li>STAT6 degradation &ne; clinical efficacy. Need to prove dose-response and durability.</li>
+                        <li>Safety over longer exposure is unknown. PROTAC degraders are a new modality &mdash; long-term effects of chronic STAT6 elimination are unstudied.</li>
+                        <li>Dupilumab&rsquo;s safety record over 8+ years is extremely clean. KT-621 must match this bar.</li>
+                        <li>Competition is real: Sanofi, Gilead, J&amp;J all developing STAT6 drugs. First-mover advantage may erode.</li>
+                        <li>Kymera market cap ~$7&ndash;8B &mdash; significant de-rating risk if BROADEN2 disappoints.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: Catalysts (shared system) -->
+        {catalyst_html}
+
+        <!-- Section 10: Sources -->
+        <div class="section">
+            <h2>Key Sources</h2>
+            <ol class="source-list">
+                <li>Kymera Therapeutics. &ldquo;BroADen Phase 1b Positive Results in Atopic Dermatitis.&rdquo; Press release, Dec 8, 2025.</li>
+                <li>Kymera Therapeutics. &ldquo;FDA Grants Fast Track Designation for KT-621 in Moderate-to-Severe Atopic Dermatitis.&rdquo; Press release, Dec 11, 2025.</li>
+                <li>Kymera Therapeutics. &ldquo;BREADTH Phase 2b Trial in Asthma &mdash; First Patient Dosed.&rdquo; Press release, Jan 29, 2026.</li>
+                <li>Kymera Therapeutics. 2026 Corporate Outlook. Jan 2026.</li>
+                <li>Gilead Sciences &amp; LEO Pharma. &ldquo;Global Agreement for Oral STAT6 Degraders and Inhibitors.&rdquo; Jan 2025.</li>
+                <li>Sanofi &amp; Recludix Pharma. &ldquo;License Agreement for REX-2787 Oral STAT6 Inhibitor.&rdquo; Oct 2025.</li>
+                <li>&ldquo;Turning Off STAT6 with a Targeted Degrader&rdquo; (AK-1690 tool compound). <em>J Med Chem</em> 2025.</li>
+                <li>Labiotech.eu. &ldquo;From undruggable to oral therapy: The rise of STAT6 degraders.&rdquo; Jun 2025.</li>
+            </ol>
+        </div>
+
+        <a href="/targets" class="back-link">&larr; Back to Target Landscapes</a>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+    </footer>
+</body>
+</html>'''
+
+
 def generate_cell_therapy_report(admin: bool = False):
     """Generate the Cell Therapy / In Vivo CAR-T landscape report — analyst-grade."""
 

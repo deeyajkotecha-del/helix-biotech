@@ -1,0 +1,130 @@
+{
+  "target": "STAT6",
+  "slug": "stat6",
+  "last_reviewed": "2026-02-10",
+  "catalysts": [
+    {
+      "date": "2024-06",
+      "date_display": "Jun 2024",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "Phase 1 SAD/MAD trial initiated in healthy volunteers — first-ever STAT6-directed drug in humans",
+      "outcome": "First patient dosed"
+    },
+    {
+      "date": "2025-01",
+      "date_display": "Jan 2025",
+      "company": "Gilead / LEO Pharma",
+      "asset": "STAT6 program",
+      "description": "Gilead strikes deal with LEO Pharma worth up to $1.7B ($250M upfront) for oral STAT6 degraders and inhibitors",
+      "outcome": "Major validation deal"
+    },
+    {
+      "date": "2025-06",
+      "date_display": "Jun 2025",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "Phase 1 HV SAD/MAD data: complete STAT6 degradation in blood and skin at low oral doses, safety undifferentiated from placebo",
+      "outcome": "Positive — exceeded expectations"
+    },
+    {
+      "date": "2025-06",
+      "date_display": "Jun 2025",
+      "company": "Nurix / Sanofi",
+      "asset": "NX-3911",
+      "description": "Sanofi expands collaboration with Nurix around preclinical oral STAT6 degrader for $15M upfront, up to $465M milestones",
+      "outcome": "Deal expanded"
+    },
+    {
+      "date": "2025-09",
+      "date_display": "Sep 2025",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "Late-breaking oral presentations at EADV and ERS congresses — Phase 1 data showed biomarker reductions comparable to dupilumab",
+      "outcome": "Oral matches injectable biologic"
+    },
+    {
+      "date": "2025-10",
+      "date_display": "Oct 2025",
+      "company": "Sanofi / Recludix",
+      "asset": "REX-2787",
+      "description": "Sanofi licenses STAT6 inhibitor from Recludix for $125M upfront + up to $1.2B milestones + royalties",
+      "outcome": "Largest STAT6 inhibitor deal"
+    },
+    {
+      "date": "2025-11",
+      "date_display": "Nov 2025",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "BROADEN2 Phase 2b trial initiated in moderate-to-severe atopic dermatitis (~200 patients, 16 weeks)",
+      "outcome": "First patient dosed in Phase 2b"
+    },
+    {
+      "date": "2025-12-08",
+      "date_display": "Dec 8, 2025",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "BroADen Phase 1b positive results in AD patients: 94% STAT6 degradation in skin, 98% in blood, 63% EASI reduction, 74% TARC reduction — in line with or exceeding dupilumab at 4 weeks",
+      "outcome": "Exceeded expectations — stock surged"
+    },
+    {
+      "date": "2025-12-08",
+      "date_display": "Dec 8, 2025",
+      "company": "Kymera Therapeutics",
+      "asset": "KYMR (company)",
+      "description": "Kymera announces $602M public offering (upsized) to fund Phase 2b/3 development",
+      "outcome": "Raised $602M"
+    },
+    {
+      "date": "2025-12-11",
+      "date_display": "Dec 11, 2025",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "FDA grants Fast Track designation for KT-621 in moderate-to-severe atopic dermatitis",
+      "outcome": "Fast Track granted"
+    },
+    {
+      "date": "2026-01-29",
+      "date_display": "Jan 29, 2026",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "BREADTH Phase 2b trial in asthma — first patient dosed (~200 patients)",
+      "outcome": "Second Phase 2b launched"
+    },
+    {
+      "date": "2026-06",
+      "date_display": "2026",
+      "company": "J&J / Kaken",
+      "asset": "KP-723",
+      "description": "Clinical development updates expected for STAT6 inhibitor (not degrader)"
+    },
+    {
+      "date": "2026-12",
+      "date_display": "Late 2026",
+      "company": "Sanofi / Recludix",
+      "asset": "REX-2787",
+      "description": "Recludix responsible for advancing through Phase 2; clinical updates expected"
+    },
+    {
+      "date": "2027-06",
+      "date_display": "Mid-2027",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "BROADEN2 Phase 2b data readout in atopic dermatitis — THE pivotal readout for STAT6 field"
+    },
+    {
+      "date": "2027-12",
+      "date_display": "Late 2027",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "BREADTH Phase 2b data readout in asthma"
+    },
+    {
+      "date": "2028-06",
+      "date_display": "2028+",
+      "company": "Kymera Therapeutics",
+      "asset": "KT-621",
+      "description": "Parallel Phase 3 registration studies planned across AD, asthma, and additional indications (EoE, CRSwNP, COPD)"
+    }
+  ]
+}
