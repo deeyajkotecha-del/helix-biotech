@@ -3,7 +3,7 @@
     "version": "2.0",
     "type": "targets_index",
     "last_updated": "2026-02-10",
-    "total_targets": 12
+    "total_targets": 14
   },
   "targets": [
     {
@@ -133,6 +133,30 @@
       "has_full_page": false
     },
     {
+      "slug": "il18",
+      "name": "IL-18",
+      "full_name": "Interleukin-18",
+      "category": "immunology",
+      "badge": "Race to First",
+      "frontrunner": "EVO301 (Evommune)",
+      "fast_follower": "Tadekinig alfa (AB2 Bio)",
+      "companies_pursuing": 3,
+      "tagline": "IL-18 neutralization for AD — Phase 2a hit primary endpoint today (Feb 10). Stock +50%.",
+      "has_full_page": false
+    },
+    {
+      "slug": "treg",
+      "name": "Treg Stimulation",
+      "full_name": "Regulatory T-Cell Stimulation",
+      "category": "immunology",
+      "badge": "Race to First",
+      "frontrunner": "Rezpegaldesleukin (Nektar)",
+      "fast_follower": "TBD",
+      "companies_pursuing": 3,
+      "tagline": "First-in-class Treg biologic — Phase 2b maintenance showed 83% EASI-75 at week 52. Phase 3 planned.",
+      "has_full_page": false
+    },
+    {
       "slug": "menin-mll",
       "name": "Menin-MLL",
       "full_name": "Menin-MLL Interaction Inhibitors",
@@ -178,7 +202,7 @@
     "immunology": {
       "name": "I&I",
       "color": "#7c3aed",
-      "count": 4
+      "count": 6
     },
     "metabolic": {
       "name": "Metabolic",
