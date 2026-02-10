@@ -1528,17 +1528,67 @@ def generate_glp1_report():
 </html>'''
 
 
+def _build_catalyst_timeline_html(catalysts):
+    """Build completed + upcoming catalyst timeline sections from JSON data."""
+    completed = [c for c in catalysts if c.get("status") == "completed"]
+    upcoming = [c for c in catalysts if c.get("status") == "upcoming"]
+
+    completed_html = ""
+    if completed:
+        items = ""
+        for c in completed:
+            outcome = f'<div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px;">{c["outcome"]}</div>' if c.get("outcome") else ""
+            asset_label = f' ({c["asset"]})' if c.get("asset") else ""
+            items += f'''
+                <div class="catalyst-item">
+                    <div class="catalyst-date" style="color: var(--text-muted);">{c["date"]}</div>
+                    <div>
+                        <strong>{c["company"]}{asset_label}:</strong> {c["description"]}
+                        {outcome}
+                    </div>
+                </div>'''
+        completed_html = f'''
+        <div class="section">
+            <h2>Completed Catalysts</h2>
+            <div class="catalyst-timeline">{items}
+            </div>
+        </div>'''
+
+    upcoming_html = ""
+    if upcoming:
+        items = ""
+        for c in upcoming:
+            asset_label = f' ({c["asset"]})' if c.get("asset") else ""
+            items += f'''
+                <div class="catalyst-item">
+                    <div class="catalyst-date">{c["date"]}</div>
+                    <div><strong>{c["company"]}{asset_label}:</strong> {c["description"]}</div>
+                </div>'''
+        upcoming_html = f'''
+        <div class="section">
+            <h2>Upcoming Catalysts</h2>
+            <div class="catalyst-timeline">{items}
+            </div>
+        </div>'''
+
+    return completed_html + upcoming_html
+
+
 def generate_tl1a_report():
     """Generate the TL1A / IBD competitive landscape report."""
 
+    # Load catalyst data from JSON
+    tl1a_data = load_target_data("TL1A")
+    catalysts = tl1a_data.get("catalysts", []) if tl1a_data else []
+
     # TL1A Assets data
     assets = [
-        {"asset": "Tulisokibart (PRA023)", "company": "Merck (via Prometheus)", "ticker": "MRK", "phase": "Phase 3", "indication": "UC, CD", "deal": "$10.8B acquisition", "efficacy": "26% remission (TL1A-high)", "catalyst": "ARTEMIS-CD Ph3 H2 2025"},
-        {"asset": "Duvakitug (TEV-48574)", "company": "Sanofi / Teva", "ticker": "SNY", "phase": "Phase 3", "indication": "UC, CD", "deal": "$1B+ partnership", "efficacy": "47.8% remission (1000mg)", "catalyst": "Ph3 UC initiation Q1 2025"},
+        {"asset": "Tulisokibart (PRA023)", "company": "Merck (via Prometheus)", "ticker": "MRK", "phase": "Phase 3", "indication": "UC, CD", "deal": "$10.8B acquisition", "efficacy": "26% remission (TL1A-high)", "catalyst": "ATLAS-UC Ph3 data H2 2026"},
+        {"asset": "Duvakitug (TEV-48574)", "company": "Sanofi / Teva", "ticker": "SNY", "phase": "Phase 3", "indication": "UC, CD", "deal": "$500M+ partnership", "efficacy": "47.8% remission (1000mg)", "catalyst": "SUNSCAPE Ph3 enrolling 2026"},
         {"asset": "Afimkibart (RVT-3101)", "company": "Roche (via Telavant)", "ticker": "RHHBY", "phase": "Phase 3", "indication": "UC, CD", "deal": "$7.25B acquisition", "efficacy": "35% remission", "catalyst": "Ph3 UC data 2026"},
-        {"asset": "SAR443765", "company": "Sanofi", "ticker": "SNY", "phase": "Phase 2", "indication": "UC, CD", "deal": "Internal", "efficacy": "Bispecific (TL1A + IL-23)", "catalyst": "Ph2 data 2025"},
-        {"asset": "PF-07258669", "company": "Pfizer", "ticker": "PFE", "phase": "Phase 1", "indication": "IBD", "deal": "Internal", "efficacy": "Early stage", "catalyst": "Ph1 data 2025"},
-        {"asset": "ABBV-261", "company": "AbbVie", "ticker": "ABBV", "phase": "Phase 1", "indication": "IBD", "deal": "Internal", "efficacy": "Early stage", "catalyst": "Ph1 data 2025"},
+        {"asset": "SAR443765", "company": "Sanofi", "ticker": "SNY", "phase": "Phase 2", "indication": "UC, CD", "deal": "Internal", "efficacy": "Bispecific (TL1A + IL-23)", "catalyst": "Ph2 data ongoing"},
+        {"asset": "PF-07258669", "company": "Pfizer", "ticker": "PFE", "phase": "Phase 1", "indication": "IBD", "deal": "Internal", "efficacy": "Early stage", "catalyst": "Ph1 data ongoing"},
+        {"asset": "ABBV-261", "company": "AbbVie", "ticker": "ABBV", "phase": "Phase 1", "indication": "IBD", "deal": "Internal", "efficacy": "Early stage", "catalyst": "Ph1 data ongoing"},
     ]
 
     # Efficacy comparison data
@@ -1738,32 +1788,8 @@ def generate_tl1a_report():
             </div>
         </div>
 
-        <!-- Catalysts -->
-        <div class="section">
-            <h2>Upcoming Catalysts</h2>
-            <div class="catalyst-timeline">
-                <div class="catalyst-item">
-                    <div class="catalyst-date">Q1 2025</div>
-                    <div><strong>Sanofi/Teva:</strong> Duvakitug Phase 3 initiation in UC</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">H2 2025</div>
-                    <div><strong>Merck:</strong> Tulisokibart ARTEMIS-CD Phase 3 readout (Crohn's Disease)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">H2 2025</div>
-                    <div><strong>Sanofi/Teva:</strong> Duvakitug Phase 2 data in Crohn's Disease</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">H1 2026</div>
-                    <div><strong>Merck:</strong> Tulisokibart ARTEMIS-UC Phase 3 readout (Ulcerative Colitis)</div>
-                </div>
-                <div class="catalyst-item">
-                    <div class="catalyst-date">2026</div>
-                    <div><strong>Roche:</strong> Afimkibart Phase 3 readout in UC</div>
-                </div>
-            </div>
-        </div>
+        <!-- Catalysts (data-driven from TL1A.json) -->
+        {_build_catalyst_timeline_html(catalysts)}
 
         <a href="/targets" class="back-link">← Back to Target Landscapes</a>
     </main>

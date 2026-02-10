@@ -57,28 +57,84 @@
   ],
   "catalysts": [
     {
-      "event": "ARTEMIS-CD Phase 3 readout (Crohn's Disease)",
-      "timing": "H2 2025",
-      "drug": "Tulisokibart",
-      "significance": "High"
+      "date": "2025-02",
+      "status": "completed",
+      "company": "Sanofi/Teva",
+      "asset": "Duvakitug",
+      "description": "Phase 2b detailed results presented at ECCO 2025",
+      "outcome": "Positive — met primary endpoints in UC (47.8% remission high-dose) and CD"
     },
     {
-      "event": "ARTEMIS-UC Phase 3 readout (Ulcerative Colitis)",
-      "timing": "H1 2026",
-      "drug": "Tulisokibart",
-      "significance": "High"
+      "date": "2025-05",
+      "status": "completed",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "APOLLO-CD Phase 2 trial completed",
+      "outcome": "Completed enrollment and dosing"
     },
     {
-      "event": "Phase 3 initiation in UC",
-      "timing": "Q1 2025",
-      "drug": "Duvakitug",
-      "significance": "High"
+      "date": "2025-H2",
+      "status": "completed",
+      "company": "Sanofi/Teva",
+      "asset": "Duvakitug",
+      "description": "Phase 3 programs initiated: SUNSCAPE (UC) and STARSCAPE (CD)",
+      "outcome": "Phase 3 enrollment underway"
     },
     {
-      "event": "Phase 3 readout in UC",
-      "timing": "2026",
-      "drug": "Afimkibart",
-      "significance": "High"
+      "date": "2025-H2",
+      "status": "completed",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "Expanded into Phase 2b trials for HS, r-axSpA, and RA",
+      "outcome": "Indication expansion trials initiated"
+    },
+    {
+      "date": "2025-Q4",
+      "status": "completed",
+      "company": "Sanofi/Teva",
+      "asset": "Duvakitug",
+      "description": "$500M development milestone triggered by Phase 3 initiation",
+      "outcome": "Milestone paid"
+    },
+    {
+      "date": "2026-Q1",
+      "status": "upcoming",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "ATLAS-UC Phase 3 primary completion expected (~Mar 2026)",
+      "outcome": null
+    },
+    {
+      "date": "2026",
+      "status": "upcoming",
+      "company": "Roche",
+      "asset": "Afimkibart",
+      "description": "Phase 3 readout in UC",
+      "outcome": null
+    },
+    {
+      "date": "2026-H2",
+      "status": "upcoming",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "ATLAS-UC Phase 3 preliminary results expected (~Nov 2026)",
+      "outcome": null
+    },
+    {
+      "date": "2027+",
+      "status": "upcoming",
+      "company": "Sanofi/Teva",
+      "asset": "Duvakitug",
+      "description": "SUNSCAPE & STARSCAPE Phase 3 data readouts",
+      "outcome": null
+    },
+    {
+      "date": "2029",
+      "status": "upcoming",
+      "company": "Merck",
+      "asset": "Tulisokibart",
+      "description": "ARES-CD Phase 3 primary completion expected (~Jun 2029)",
+      "outcome": null
     }
   ],
   "assets": [
@@ -154,7 +210,7 @@
       "modality": "mAb",
       "owner": "Teva",
       "partner": "Sanofi",
-      "phase": "Phase 2",
+      "phase": "Phase 3",
       "status": "Active",
       "lead_indication": "Ulcerative Colitis",
       "other_indications": ["Crohn's Disease"],
