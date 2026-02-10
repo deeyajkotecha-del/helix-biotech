@@ -2571,6 +2571,184 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         </div>'''
 
     # =======================================================================
+    # GENERIC TRIAL HANDLER — any dict in clinical_data with a trial_name
+    # Handles phase3_registration, phase2_pivotal, etc.
+    # =======================================================================
+    _handled_keys = {"phase1_healthy_volunteer", "phase1b_ad", "ongoing_trials", "trials"}
+    for _trial_key, _trial_obj in clinical_data.items():
+        if _trial_key in _handled_keys or not isinstance(_trial_obj, dict):
+            continue
+        if not _trial_obj.get("trial_name"):
+            continue
+
+        _t_name = _trial_obj.get("trial_name", _trial_key)
+        _t_phase = _trial_obj.get("phase", "")
+        _t_status = _trial_obj.get("status", "")
+        _t_design = _trial_obj.get("design", {})
+        _t_design_type = _t_design.get("type", "") if isinstance(_t_design, dict) else str(_t_design)
+        _t_pop = _t_design.get("population", "") if isinstance(_t_design, dict) else ""
+        _t_n = _t_design.get("n_enrolled", _t_design.get("n_target", "?")) if isinstance(_t_design, dict) else "?"
+        _t_duration = _t_design.get("duration", "") if isinstance(_t_design, dict) else ""
+        _t_badge = generate_citation_badge(_trial_obj.get("source"), ticker) if _trial_obj.get("source") else ""
+
+        _status_class = "completed" if "completed" in str(_t_status).lower() or "approved" in str(_t_status).lower() else "ongoing"
+
+        # Build efficacy table — flexible format
+        _eff_endpoints = _trial_obj.get("efficacy_endpoints", {})
+        _eff_rows = ""
+        if isinstance(_eff_endpoints, dict):
+            for _ek, _ev in _eff_endpoints.items():
+                if not isinstance(_ev, dict):
+                    continue
+                _e_name = _ev.get("full_name", _ek.replace("_", " ").title())
+                _e_what = _ev.get("what_it_measures", "")
+                _e_results = _ev.get("results", {})
+                _e_source = generate_citation_badge(_ev.get("source"), ticker) if _ev.get("source") else ""
+
+                # Flexible result extraction: try common patterns
+                _e_main = ""
+                _e_comp = ""
+                if isinstance(_e_results, dict):
+                    # Pattern 1: named drug result (tenapanor, kt621, etc.)
+                    for rk, rv in _e_results.items():
+                        rk_l = rk.lower()
+                        if rk_l in ("placebo", "delta", "p_value", "vs_dupilumab", "vs_dupilumab_day28_ph3", "vs_dupilumab_week16"):
+                            continue
+                        if not _e_main:
+                            _e_main = str(rv)
+                            break
+                    # Pattern 2: standard KT-621 format
+                    if not _e_main:
+                        _e_main = (_e_results.get("mean_change_overall_day29", "") or
+                                   _e_results.get("mean_change_overall", "") or
+                                   _e_results.get("responders_overall", ""))
+
+                    # Comparator: placebo or dupilumab
+                    placebo_val = _e_results.get("placebo", "")
+                    delta_val = _e_results.get("delta", "")
+                    p_val = _e_results.get("p_value", "")
+                    vs_dup = (_e_results.get("vs_dupilumab", "") or
+                              _e_results.get("vs_dupilumab_day28_ph3", "") or
+                              _e_results.get("vs_dupilumab_week16", ""))
+                    if placebo_val:
+                        _e_comp = f"Placebo: {placebo_val}"
+                        if delta_val:
+                            _e_comp += f" (delta: {delta_val})"
+                        if p_val:
+                            _e_comp += f" <em>{p_val}</em>"
+                    elif vs_dup:
+                        _e_comp = f"vs Dupilumab: {vs_dup}"
+                elif isinstance(_e_results, str):
+                    _e_main = _e_results
+
+                _eff_rows += f'''
+                <tr>
+                    <td>
+                        <div class="endpoint-name">{_e_name}{_e_source}</div>
+                        <div class="endpoint-def">{_e_what}</div>
+                    </td>
+                    <td class="result"><strong>{_e_main}</strong></td>
+                    <td class="comparator">{_e_comp}</td>
+                </tr>'''
+        elif isinstance(_eff_endpoints, list):
+            for _ev in _eff_endpoints:
+                if not isinstance(_ev, dict):
+                    continue
+                _e_name = _ev.get("endpoint", "")
+                _e_result = _ev.get("result", "")
+                _e_comp = _ev.get("comparator", "")
+                _e_source_str = _ev.get("source", "")
+                _eff_rows += f'''
+                <tr>
+                    <td><div class="endpoint-name">{_e_name}</div></td>
+                    <td class="result"><strong>{_e_result}</strong></td>
+                    <td class="comparator">{_e_comp} {f"<em>{_ev.get('p_value', '')}</em>" if _ev.get('p_value') else ''}</td>
+                </tr>'''
+
+        _eff_html = ""
+        if _eff_rows:
+            _eff_html = f'''
+            <div class="endpoints-section">
+                <h5>Efficacy Endpoints</h5>
+                <table class="data-table">
+                    <thead><tr><th>Endpoint</th><th>Result</th><th>vs Comparator</th></tr></thead>
+                    <tbody>{_eff_rows}</tbody>
+                </table>
+            </div>'''
+
+        # Key findings
+        _findings = _trial_obj.get("key_findings", [])
+        _findings_html = ""
+        if _findings:
+            _f_items = "".join(f"<li>{f}</li>" for f in _findings)
+            _findings_html = f'<div class="key-findings"><h5>Key Findings</h5><ul>{_f_items}</ul></div>'
+
+        # Safety
+        _safety_html = build_safety_html(_trial_obj.get("safety", {}))
+
+        # Baseline
+        _baseline = _trial_obj.get("baseline_characteristics", {})
+        _baseline_html = ""
+        if isinstance(_baseline, dict) and any(k for k in _baseline.keys() if k not in ("source", "analyst_note")):
+            _b_rows = ""
+            _b_source = generate_citation_badge(_baseline.get("source"), ticker) if _baseline.get("source") else ""
+            for bk, bv in _baseline.items():
+                if bk in ("source", "analyst_note", "dose_groups_balanced", "prior_therapy_detail", "comorbid_combined_pct"):
+                    continue
+                if isinstance(bv, dict):
+                    continue
+                label = bk.replace("_", " ").replace("pct", "%").replace("mean", "(mean)").title()
+                _b_rows += f"<tr><td>{label}</td><td><strong>{bv}</strong></td></tr>"
+            if _b_rows:
+                _baseline_html = f'''
+                <div class="baseline-section">
+                    <h5>Baseline Characteristics{_b_source}</h5>
+                    <table class="data-table compact"><tbody>{_b_rows}</tbody></table>
+                </div>'''
+
+        # Commercial performance (for approved assets)
+        _commercial = asset.get("commercial_performance", {})
+        _commercial_html = ""
+        if _commercial and _commercial.get("revenue_history"):
+            _c_rows = ""
+            for rev in _commercial["revenue_history"]:
+                _c_source = generate_citation_badge(rev.get("source"), ticker) if rev.get("source") else ""
+                period = rev.get("period", rev.get("year", ""))
+                revenue = rev.get("revenue", "")
+                growth = rev.get("growth", "")
+                _c_rows += f"<tr><td>{period}</td><td class='result'><strong>{revenue}</strong></td><td>{growth}</td><td>{_c_source}</td></tr>"
+            if _c_rows:
+                _commercial_html = f'''
+                <div class="commercial-section" style="margin-top:24px">
+                    <h5>Commercial Performance</h5>
+                    <table class="data-table">
+                        <thead><tr><th>Period</th><th>Revenue</th><th>Growth</th><th>Source</th></tr></thead>
+                        <tbody>{_c_rows}</tbody>
+                    </table>
+                    {f'<p class="meta-note" style="margin-top:8px;font-size:0.82rem;color:var(--gray-text)">Patent expiration: {_commercial.get("patent_expiration", "")}</p>' if _commercial.get("patent_expiration") else ""}
+                </div>'''
+
+        trials_html += f'''
+        <div class="trial-card {'featured' if _status_class == 'completed' else ''}">
+            <div class="trial-header">
+                <h4>{_t_name}{_t_badge}</h4>
+                <span class="badge {_status_class}">{_t_phase}</span>
+                <span class="badge {_status_class}">{_t_status}</span>
+                <span class="n-enrolled">n={_t_n}</span>
+            </div>
+            <div class="trial-meta">
+                <p><strong>Design:</strong> {_t_design_type}</p>
+                <p><strong>Population:</strong> {_t_pop}</p>
+                {f"<p><strong>Duration:</strong> {_t_duration}</p>" if _t_duration else ""}
+            </div>
+            {_baseline_html}
+            {_eff_html}
+            {_findings_html}
+            {_safety_html}
+            {_commercial_html}
+        </div>'''
+
+    # =======================================================================
     # COMPREHENSIVE CLINICAL DATA (EWTX/HCM-style with tabs and sections)
     # =======================================================================
     if not trials_html and clinical_data.get("trial_name"):

@@ -1,0 +1,412 @@
+{
+  "_metadata": {
+    "version": "2.2",
+    "ticker": "ARDX",
+    "asset_name": "IBSRELA",
+    "last_updated": "2026-02-10",
+    "sources": [
+      {
+        "id": "ardx_corporate_2025",
+        "type": "corporate_presentation",
+        "title": "Ardelyx Corporate Presentation October 2025",
+        "date": "2025-10",
+        "slides": 30,
+        "url": "https://ir.ardelyx.com/static-files/c7dbc807-a5f9-43cb-84bb-dd48702af607"
+      }
+    ]
+  },
+  "asset": {
+    "name": "IBSRELA",
+    "generic_name": "tenapanor",
+    "company": "Ardelyx",
+    "ticker": "ARDX",
+    "stage": "Commercial (FDA Approved)",
+    "modality": "Small molecule (locally acting NHE3 inhibitor)",
+    "ownership": "Wholly-owned (US)",
+    "one_liner": "First-in-class NHE3 inhibitor for IBS-C — 92% YoY revenue growth, on track for >$1B peak",
+    "regulatory_designations": []
+  },
+  "target": {
+    "name": "NHE3",
+    "full_name": "Sodium-Hydrogen Exchanger 3",
+    "class": "Ion Transporter",
+    "pathway": "Intestinal sodium absorption → fluid balance and phosphate-mediated visceral pain signaling",
+    "biology": {
+      "simple_explanation": "NHE3 is the major sodium-absorbing transporter on the apical membrane of intestinal epithelial cells. It is responsible for absorbing the majority of ingested sodium from the GI tract. Inhibiting NHE3 reduces sodium (and consequently water) absorption, increasing fluid in the intestinal lumen. Additionally, NHE3 inhibition reduces intestinal phosphate absorption, which through a TRPV1-mediated mechanism reduces visceral pain signaling.",
+      "pathway_detail": "NHE3 sits on the brush border of enterocytes and exchanges luminal Na+ for intracellular H+. Blocking NHE3 retains sodium and water in the lumen, accelerating transit. Separately, reduced phosphate absorption lowers tight junction permeability and attenuates TRPV1-mediated visceral afferent firing, reducing abdominal pain.",
+      "downstream_effects": [
+        "Increased intestinal fluid secretion and accelerated transit",
+        "Reduced visceral hypersensitivity (phosphate-mediated TRPV1 mechanism)",
+        "Addresses both constipation AND abdominal pain in IBS-C",
+        "Reduced intestinal phosphate absorption (basis for XPHOZAH indication)"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "IBSRELA (tenapanor) FDA-approved for IBS-C; XPHOZAH (tenapanor) FDA-approved for hyperphosphatemia. Same target validated across two distinct indications.",
+      "unmet_need": "77% of patients on prescription IBS-C treatment (secretagogues) continue to experience residual abdominal and stool-related symptoms [Corp '25 S6]",
+      "source": {
+        "id": "ardx_corporate_2025",
+        "slide": 8,
+        "verified": false
+      }
+    },
+    "why_previous_approaches_incomplete": {
+      "challenge": "Existing IBS-C therapies (secretagogues like linaclotide, plecanatide, lubiprostone) work by stimulating fluid secretion via guanylate cyclase-C or chloride channels, but 77% of patients on these treatments continue to experience residual symptoms",
+      "secretagogue_limitation": "Secretagogues only address the constipation component — they stimulate fluid secretion but do not directly address abdominal pain through a distinct mechanism",
+      "nhe3_solution": "NHE3 inhibition works through a fundamentally different pathway — targeting absorption rather than secretion — and has a dual mechanism that addresses both constipation AND pain",
+      "source": {
+        "id": "ardx_corporate_2025",
+        "slide": 6,
+        "verified": false
+      }
+    }
+  },
+  "mechanism": {
+    "type": "Small molecule — locally acting NHE3 inhibitor",
+    "how_it_works": "IBSRELA inhibits NHE3 (sodium-hydrogen exchanger 3) on the apical surface of the intestinal epithelium. By blocking sodium absorption, it increases intestinal fluid secretion and accelerates transit, while also reducing visceral hypersensitivity through a phosphate-mediated mechanism. This addresses both the constipation AND the abdominal pain of IBS-C.",
+    "why_this_approach": "IBSRELA is NOT a secretagogue (unlike Linzess/linaclotide and Trulance/plecanatide which stimulate chloride/fluid secretion via guanylate cyclase-C). Different MOA means it works through a distinct pathway, providing an option for the 77% of IBS-C patients who still have residual symptoms on existing therapies.",
+    "differentiation": "Only non-secretagogue approved for IBS-C. Locally acting (minimally absorbed <1%), so minimal systemic exposure. Dual mechanism: addresses both constipation and abdominal pain.",
+    "locally_acting": {
+      "absorption": "<1% systemically absorbed",
+      "advantage": "Minimal systemic exposure reduces off-target effects",
+      "distribution": "Acts locally in the GI tract"
+    },
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": 8,
+      "verified": false
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Irritable Bowel Syndrome with Constipation (IBS-C)",
+      "patient_population": "Millions of adults in the US",
+      "current_penetration": "Growing rapidly — 92% YoY TRx growth in Q3 2025",
+      "rationale": "Only non-secretagogue in a $4B+ market where 77% of patients remain symptomatic on existing therapies"
+    },
+    "expansion": [],
+    "total_addressable_patients": "Large — IBS-C affects millions of US adults",
+    "development_strategy": "Focused commercial execution in IBS-C with same molecule (tenapanor) also approved as XPHOZAH for hyperphosphatemia",
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": 7,
+      "verified": false
+    }
+  },
+  "market_opportunity": {
+    "total_addressable_market": "$4.0B U.S. IBS-C indicated net product sales in 2024 (+16% YoY) [Corp '25 S7]",
+    "total_rxs": "6.3M U.S. TRxs in 2024 (+11% YoY) for IBS-C indicated products [Corp '25 S7]",
+    "trx_growth": "TRxs for IBS-C indicated products have grown 21% from 2020 to 2024 [Corp '25 S7]",
+    "unmet_need": "77% of patients on prescription IBS-C treatment continue to experience residual symptoms [Corp '25 S6]",
+    "peak_sales_estimate": {
+      "bull_case": ">$1B annually before patent expiration",
+      "base_case": "$800M-$1B",
+      "bear_case": "$500M"
+    },
+    "competitive_advantage": "Only non-secretagogue — different mechanism means additive market growth, not just share theft",
+    "market_dynamic": "No 'one-size-fits-all' treatment — need for multiple mechanisms drives expansion of IBSRELA market share alongside overall market growth [Corp '25 S7]",
+    "patent_expiration": "August 2033 [Corp '25 S24]",
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": 7,
+      "verified": false
+    }
+  },
+  "clinical_data": {
+    "phase3_registration": {
+      "trial_name": "T3MPO-2",
+      "phase": "Phase 3",
+      "status": "Completed (registration trial)",
+      "design": {
+        "type": "Randomized, double-blind, placebo-controlled",
+        "population": "Adults with IBS-C",
+        "n_enrolled": 593,
+        "dosing": "Tenapanor 50mg BID vs placebo for 26 weeks",
+        "duration": "26 weeks"
+      },
+      "arms": [
+        {
+          "name": "Tenapanor 50mg BID",
+          "dose": "50mg twice daily",
+          "n": 293
+        },
+        {
+          "name": "Placebo",
+          "dose": "Placebo BID",
+          "n": 300
+        }
+      ],
+      "baseline_characteristics": {
+        "age_mean": 45,
+        "female_pct": 82,
+        "baseline_csbm_per_week": 0.1,
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": 9,
+          "verified": false
+        }
+      },
+      "efficacy_endpoints": {
+        "overall_responder": {
+          "full_name": "Overall Responders (FDA Composite Endpoint)",
+          "what_it_measures": "Proportion achieving both >=30% reduction in worst abdominal pain AND >=1 CSBM/week increase in >=6 of 12 weeks",
+          "regulatory_status": "FDA primary endpoint for IBS-C approval",
+          "results": {
+            "tenapanor": "36.5%",
+            "placebo": "23.7%",
+            "delta": "12.8%",
+            "p_value": "Significant"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 9,
+            "verified": false
+          }
+        },
+        "abdominal_pain_responder": {
+          "full_name": "Abdominal Pain Responders",
+          "what_it_measures": ">=30% reduction in worst abdominal pain in >=6 of 12 weeks",
+          "results": {
+            "tenapanor": "49.8%",
+            "placebo": "38.3%",
+            "delta": "11.5%",
+            "p_value": "Significant"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 9,
+            "verified": false
+          }
+        },
+        "csbm_responder": {
+          "full_name": "CSBM Responders",
+          "what_it_measures": ">=1 CSBM/week increase in >=6 of 12 weeks",
+          "results": {
+            "tenapanor": "47.4%",
+            "placebo": "33.3%",
+            "delta": "14.1%",
+            "p_value": "Significant"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 9,
+            "verified": false
+          }
+        },
+        "csbm_weekly": {
+          "full_name": "Complete Spontaneous Bowel Movements per Week",
+          "what_it_measures": "Weekly frequency of CSBMs over 26-week treatment period",
+          "results": {
+            "tenapanor": "Significantly improved vs placebo through Week 26",
+            "placebo": "—",
+            "delta": "Sustained improvement over full 26-week trial"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 9,
+            "verified": false
+          }
+        }
+      },
+      "key_findings": [
+        "Quick onset — relief from constipation, bloating, and pain typically within 1 week [Corp '25 S9]",
+        "Additional improvement in abdominal pain over first 3-4 months [Corp '25 S9]",
+        "Improvements maintained with continued use through end of 26-week trial [Corp '25 S9]"
+      ],
+      "safety": {
+        "summary": "Most common adverse reactions (>=2% and > placebo) [Corp '25 S9]",
+        "key_findings": [
+          "Diarrhea: 16% vs 4% placebo — most common AE, mechanism-related",
+          "Abdominal distention: 3% vs <1% placebo",
+          "Flatulence: 3% vs 1% placebo",
+          "Dizziness: 2% vs <1% placebo",
+          "Severe diarrhea: 2.5% of IBSRELA-treated patients"
+        ],
+        "adverse_events_table": [
+          {"event": "Diarrhea", "drug_pct": "16%", "placebo_pct": "4%"},
+          {"event": "Abdominal distention", "drug_pct": "3%", "placebo_pct": "<1%"},
+          {"event": "Flatulence", "drug_pct": "3%", "placebo_pct": "1%"},
+          {"event": "Dizziness", "drug_pct": "2%", "placebo_pct": "<1%"}
+        ],
+        "notes": "Severe diarrhea reported in 2.5% of IBSRELA-treated patients. Diarrhea is mechanism-related (NHE3 inhibition increases intestinal fluid).",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": 9,
+          "verified": false
+        }
+      }
+    }
+  },
+  "commercial_performance": {
+    "description": "IBSRELA revenue trajectory shows exceptional commercial execution",
+    "revenue_history": [
+      {"period": "FY2022", "revenue": "$15.6M", "growth": "Launch year ramp", "source": {"id": "ardx_corporate_2025", "slide": 10}},
+      {"period": "FY2023", "revenue": "$80.1M", "growth": "+414% YoY", "source": {"id": "ardx_corporate_2025", "slide": 10}},
+      {"period": "FY2024", "revenue": "$158.3M", "growth": "+98% YoY", "source": {"id": "ardx_corporate_2025", "slide": 10}},
+      {"period": "Q3 2025", "revenue": "$78.2M", "growth": "+92% YoY", "source": {"id": "ardx_corporate_2025", "slide": 6}},
+      {"period": "YTD 2025 (9mo)", "revenue": "$187.6M", "growth": "+80% YoY", "source": {"id": "ardx_corporate_2025", "slide": 10}},
+      {"period": "FY2025 Guidance", "revenue": "$270-275M", "growth": ">70% YoY", "source": {"id": "ardx_corporate_2025", "slide": 10}},
+      {"period": "Peak (pre-patent expiry)", "revenue": ">$1B", "growth": "—", "source": {"id": "ardx_corporate_2025", "slide": 10}}
+    ],
+    "patent_expiration": "August 2033 [Corp '25 S24]",
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": 10,
+      "verified": false
+    }
+  },
+  "competitive_landscape": [
+    {
+      "competitor": "Linzess (linaclotide)",
+      "company": "AbbVie/Ironwood",
+      "mechanism": "GC-C agonist (secretagogue)",
+      "stage": "Approved",
+      "sales": "Market leader in IBS-C",
+      "limitation": "Secretagogue — 77% of patients still symptomatic; diarrhea AE; same-class as Trulance",
+      "differentiation": {
+        "mechanism": "IBSRELA targets sodium absorption (NHE3); Linzess stimulates fluid secretion (GC-C)",
+        "positioning": "Complementary not competitive — different MOA provides option for Linzess partial responders"
+      },
+      "threat_level": "Low — different mechanism; market is growing for both"
+    },
+    {
+      "competitor": "Trulance (plecanatide)",
+      "company": "Salix/Bausch",
+      "mechanism": "GC-C agonist (secretagogue)",
+      "stage": "Approved",
+      "limitation": "Same class as Linzess with limited differentiation; declining share",
+      "differentiation": {
+        "mechanism": "Same GC-C class; IBSRELA's NHE3 mechanism is fundamentally different"
+      },
+      "threat_level": "Low — declining market share"
+    },
+    {
+      "competitor": "Amitiza (lubiprostone)",
+      "company": "Takeda (now generic)",
+      "mechanism": "Chloride channel activator (secretagogue)",
+      "stage": "Approved (generic available)",
+      "limitation": "Nausea common; now generic; declining market share; secretagogue",
+      "differentiation": {
+        "mechanism": "Different mechanism; IBSRELA is newer with better tolerability profile"
+      },
+      "threat_level": "Minimal — generic, declining"
+    }
+  ],
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "Revenue trajectory is exceptional — 92% YoY growth in Q3 2025",
+        "evidence": "Q3 2025 $78.2M vs Q3 2024 $40.7M; FY2025 guidance $270-275M [Corp '25 S6, S10]",
+        "confidence": "High — Multiple quarters of accelerating growth",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": "6, 10",
+          "verified": false
+        }
+      },
+      {
+        "point": "Only non-secretagogue in IBS-C gives durable differentiation",
+        "evidence": "77% of patients on existing Rx still symptomatic; different MOA means complementary not competitive [Corp '25 S6]",
+        "confidence": "High — Structural market positioning",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": 6,
+          "verified": false
+        }
+      },
+      {
+        "point": ">$1B peak revenue achievable before Aug 2033 patent expiry",
+        "evidence": "Current run-rate ~$350M+ annualized and accelerating; 10+ years of growth runway [Corp '25 S10]",
+        "confidence": "Medium — Depends on sustained penetration growth",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": 10,
+          "verified": false
+        }
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Patent cliff in August 2033 limits total value capture",
+        "evidence": "Even at >$1B peak, only ~5 years of peak revenue before generic entry [Corp '25 S24]",
+        "counter_argument": "RDX10531 (next-gen NHE3 inhibitor) in development could extend franchise",
+        "probability": "Material risk"
+      },
+      {
+        "point": "Single indication — limited expansion optionality",
+        "evidence": "IBSRELA is only approved for IBS-C; no CIC indication (unlike Linzess)",
+        "counter_argument": "Focused strategy may actually drive deeper IBS-C penetration; XPHOZAH separately covers CKD",
+        "probability": "Low — focus is a feature not a bug"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Can IBSRELA sustain >50% annual growth through 2027?",
+        "bull_view": "Yes — still early penetration; 77% of patients unsatisfied with secretagogues; GI specialists increasingly prescribing",
+        "bear_view": "No — growth deceleration inevitable as comparisons get harder; Linzess franchise is dominant",
+        "what_resolves_it": "Quarterly TRx trends and FY2026 guidance"
+      },
+      {
+        "question": "Does differentiated MOA translate to durable market share?",
+        "bull_view": "Yes — structurally different mechanism means patients who fail secretagogues switch to IBSRELA",
+        "bear_view": "No — GI docs may not distinguish mechanisms in practice; payer pushback on non-preferred formulary",
+        "what_resolves_it": "NBRx share trends and payer coverage expansion"
+      }
+    ],
+    "probability_of_success": {
+      "note": "Already approved and commercial — no clinical risk",
+      "commercial_execution_risk": "Low — demonstrated strong commercial trajectory",
+      "peak_sales_confidence": "Medium — >$1B achievable but depends on sustained growth"
+    }
+  },
+  "catalysts": [
+    {
+      "event": "FY2025 revenue report",
+      "timing": "Q1 2026",
+      "importance": "High",
+      "what_to_watch": "Final FY2025 revenue vs $270-275M guidance; Q4 trajectory",
+      "consensus_expectation": "$270-275M guided"
+    },
+    {
+      "event": "FY2026 revenue guidance",
+      "timing": "Q1 2026",
+      "importance": "High",
+      "what_to_watch": "Growth rate guidance; path to >$1B peak visibility",
+      "consensus_expectation": "—"
+    },
+    {
+      "event": "International expansion updates",
+      "timing": "Ongoing 2026",
+      "importance": "Medium",
+      "what_to_watch": "EU/ROW partnering for IBS-C; Canada performance [Corp '25 S23]",
+      "consensus_expectation": "—"
+    }
+  ],
+  "regulatory_path": {
+    "fda_designations": [],
+    "approval_status": "FDA Approved — September 2019",
+    "label": "Treatment of IBS-C in adults",
+    "dosing": "50mg taken orally twice daily, immediately prior to breakfast or the first meal of the day, and immediately prior to dinner",
+    "patent_expiration": "August 2033 [Corp '25 S24]"
+  },
+  "sources": [
+    {
+      "id": "ardx_corporate_2025",
+      "type": "corporate_presentation",
+      "title": "Ardelyx Corporate Presentation October 2025",
+      "date": "2025-10",
+      "key_slides": {
+        "5": "Pipeline overview",
+        "6": "IBSRELA growth metrics and unmet need",
+        "7": "IBS-C market size and dynamics",
+        "8": "NHE3 mechanism of action",
+        "9": "T3MPO-2 Phase 3 clinical data",
+        "10": "IBSRELA revenue trajectory",
+        "14": "Hyperphosphatemia market (XPHOZAH)",
+        "23": "International expansion",
+        "24": "Patent and IP portfolio"
+      },
+      "url": "https://ir.ardelyx.com/static-files/c7dbc807-a5f9-43cb-84bb-dd48702af607"
+    }
+  ]
+}

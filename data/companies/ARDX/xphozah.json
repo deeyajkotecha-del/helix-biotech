@@ -1,0 +1,530 @@
+{
+  "_metadata": {
+    "version": "2.2",
+    "ticker": "ARDX",
+    "asset_name": "XPHOZAH",
+    "last_updated": "2026-02-10",
+    "sources": [
+      {
+        "id": "ardx_corporate_2025",
+        "type": "corporate_presentation",
+        "title": "Ardelyx Corporate Presentation October 2025",
+        "date": "2025-10",
+        "slides": 30,
+        "url": "https://ir.ardelyx.com/static-files/c7dbc807-a5f9-43cb-84bb-dd48702af607"
+      }
+    ]
+  },
+  "asset": {
+    "name": "XPHOZAH",
+    "generic_name": "tenapanor",
+    "company": "Ardelyx",
+    "ticker": "ARDX",
+    "stage": "Commercial (FDA Approved)",
+    "modality": "Small molecule (phosphate absorption inhibitor)",
+    "ownership": "Wholly-owned (US)",
+    "one_liner": "First-in-class phosphate absorption inhibitor for CKD dialysis — $750M peak revenue potential in a market where 70% of patients fail existing therapy",
+    "regulatory_designations": []
+  },
+  "target": {
+    "name": "NHE3",
+    "full_name": "Sodium-Hydrogen Exchanger 3",
+    "class": "Ion Transporter",
+    "pathway": "Intestinal phosphate absorption via paracellular tight junction regulation",
+    "biology": {
+      "simple_explanation": "In CKD patients on dialysis, the kidneys can no longer excrete phosphorus adequately. Hyperphosphatemia (serum phosphorus >5.5 mg/dL) is associated with vascular calcification, cardiovascular events, and increased mortality. NHE3 on the intestinal epithelium maintains tight junction permeability — inhibiting NHE3 tightens these junctions and blocks the paracellular pathway, which is the primary route of dietary phosphate absorption.",
+      "pathway_detail": "NHE3 inhibition reduces intracellular sodium in enterocytes, which tightens the tight junctions between cells. This blocks the paracellular (between-cell) pathway — the primary route of passive phosphate absorption from the diet. This mechanism is fundamentally different from phosphate binders, which work by chemically binding phosphate in the gut lumen.",
+      "downstream_effects": [
+        "Tightens intestinal tight junctions",
+        "Blocks paracellular phosphate absorption (the primary absorption pathway)",
+        "Reduces serum phosphorus levels by -0.7 mg/dL vs placebo (consistent across 3 Phase 3 trials)",
+        "More patients achieve target serum phosphorus <5.5 mg/dL"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "XPHOZAH (tenapanor) FDA-approved for hyperphosphatemia; IBSRELA (tenapanor) FDA-approved for IBS-C. NHE3 validated across two distinct GI indications.",
+      "unmet_need": "~70% of patients on phosphate binders are unable to consistently achieve and maintain target serum phosphorus levels over a 6-month period [Corp '25 S12, S13]",
+      "epidemiology": {
+        "dialysis_patients_us": "550,000+ patients with CKD on dialysis in the US [Corp '25 S13]",
+        "on_binders": "80% of hyperphosphatemia patients on dialysis are on a phosphate binder [Corp '25 S13]",
+        "binder_failure_rate": "~70% fail to maintain target over 6 months [Corp '25 S12, S13]",
+        "above_target": "~42% of patients on dialysis had serum phosphorus >5.5 mg/dL in most recent month [Corp '25 S13]"
+      },
+      "source": {
+        "id": "ardx_corporate_2025",
+        "slide": "12-14",
+        "verified": false
+      }
+    },
+    "why_previous_approaches_incomplete": {
+      "challenge": "Phosphate binders have been the standard for decades, but they work by chemically binding phosphate in the gut lumen. They require multiple large pills taken with every meal, creating a massive pill burden that undermines adherence.",
+      "binder_limitations": "Despite decades of use, ~70% of patients on binders cannot consistently control phosphorus levels. Single-month data underestimates the problem — tracking over 6 months reveals persistent failure [Corp '25 S12, S13]",
+      "nhe3_solution": "XPHOZAH blocks the primary absorption pathway rather than trying to bind phosphate. Single 30mg tablet BID. Can be used as monotherapy or added on top of binders.",
+      "source": {
+        "id": "ardx_corporate_2025",
+        "slide": "12-14",
+        "verified": false
+      }
+    }
+  },
+  "mechanism": {
+    "type": "Small molecule — first-in-class phosphate absorption inhibitor (PAI)",
+    "how_it_works": "XPHOZAH specifically blocks the primary pathway of phosphate absorption via the paracellular (between-cell) route in the intestine. NHE3 inhibition tightens intestinal tight junctions, reducing passive paracellular phosphate absorption. This is fundamentally different from phosphate binders, which work by binding phosphate in the gut lumen.",
+    "why_this_approach": "Phosphate binders (sevelamer, lanthanum, calcium-based) have been the standard for decades, yet ~70% of patients on binders are unable to consistently achieve and maintain target serum phosphorus levels over a 6-month period. A different mechanism targeting absorption rather than binding offers a new tool.",
+    "differentiation": "NOT a phosphate binder. Single 30mg tablet BID (vs multiple large binder pills with meals). Blocks the primary absorption pathway rather than binding phosphate in the lumen. Can be used as monotherapy or add-on to binders.",
+    "locally_acting": {
+      "absorption": "<1% systemically absorbed",
+      "advantage": "Minimal systemic exposure — acts locally in the GI tract",
+      "distribution": "Intestinal epithelium — tightens tight junctions"
+    },
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": 14,
+      "verified": false
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Hyperphosphatemia in CKD patients on dialysis",
+      "patient_population": "550,000+ CKD patients on dialysis in the US [Corp '25 S13]",
+      "current_penetration": "93% of nephrologists have initiated a patient [Corp '25 S16]",
+      "rationale": "First-in-class phosphate absorption inhibitor in a market where 70% of patients fail existing binder therapy"
+    },
+    "expansion": [],
+    "total_addressable_patients": "550,000+ dialysis patients; 35% identified as candidates by nephrologists [Corp '25 S16]",
+    "development_strategy": "Monotherapy + add-on to binders. International expansion via Kyowa Kirin (Japan), Fosun (China), Knight (Canada).",
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": "13, 16",
+      "verified": false
+    }
+  },
+  "market_opportunity": {
+    "total_addressable_market": "550,000+ US dialysis patients; 80% on phosphate binders [Corp '25 S13]",
+    "binder_failure_rate": "~70% of patients on binders unable to maintain target phosphorus over 6 months [Corp '25 S12, S13]",
+    "candidate_patients": "35% of dialysis patients per nephrologist survey [Corp '25 S16]",
+    "unmet_need": "Despite decades of phosphate binder use, most patients cannot consistently control phosphorus levels. Evaluating single-month data underestimates the magnitude of the problem. [Corp '25 S12]",
+    "peak_sales_estimate": {
+      "bull_case": "$750M+ annually before patent expiration",
+      "base_case": "$500-750M",
+      "bear_case": "$300M"
+    },
+    "competitive_advantage": "Fundamentally different mechanism — blocks absorption pathway rather than binding. Can be added ON TOP of binders for patients who can't reach target.",
+    "patent_expiration": "April 2034 [Corp '25 S24]",
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": 13,
+      "verified": false
+    }
+  },
+  "clinical_data": {
+    "phase3_block": {
+      "trial_name": "BLOCK (Phase 3 — Short-term Monotherapy)",
+      "phase": "Phase 3",
+      "status": "Completed (registration trial)",
+      "design": {
+        "type": "Randomized, placebo-controlled",
+        "population": "CKD patients on dialysis with hyperphosphatemia",
+        "n_enrolled": 219,
+        "duration": "12 weeks"
+      },
+      "arms": [
+        {"name": "Tenapanor 30mg BID", "dose": "30mg twice daily", "n": 110},
+        {"name": "Placebo", "dose": "Placebo BID", "n": 109}
+      ],
+      "efficacy_endpoints": {
+        "full_analysis_set": {
+          "full_name": "LS Mean Serum Phosphorus Change (Full Analysis Set)",
+          "what_it_measures": "Change from baseline in serum phosphorus vs placebo",
+          "results": {
+            "tenapanor": "-0.7 mg/dL vs placebo",
+            "placebo": "Reference",
+            "p_value": "P=0.003"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 15,
+            "verified": false
+          }
+        },
+        "responder_population": {
+          "full_name": "LS Mean Serum Phosphorus Change (Prespecified Responder Population)",
+          "what_it_measures": "Change in patients who responded during run-in",
+          "results": {
+            "tenapanor": "-0.8 mg/dL vs placebo",
+            "placebo": "Reference",
+            "p_value": "P=0.01"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 15,
+            "verified": false
+          }
+        }
+      },
+      "key_findings": [
+        "Consistent -0.7 mg/dL phosphorus reduction in full analysis set [Corp '25 S15]",
+        "Responder population showed -0.8 mg/dL reduction [Corp '25 S15]",
+        "Short-term monotherapy efficacy established"
+      ],
+      "safety": {
+        "summary": "Diarrhea was the most common adverse event, consistent with NHE3 inhibition mechanism",
+        "key_findings": [
+          "Diarrhea is the primary mechanism-related AE",
+          "Generally well-tolerated in dialysis population"
+        ]
+      }
+    },
+    "phase3_phreedom": {
+      "trial_name": "PHREEDOM (Phase 3 — Long-term Monotherapy)",
+      "phase": "Phase 3",
+      "status": "Completed (registration trial)",
+      "design": {
+        "type": "Randomized, placebo-controlled (with run-in and randomized withdrawal)",
+        "population": "CKD patients on dialysis with hyperphosphatemia",
+        "n_enrolled": 564,
+        "duration": "52 weeks"
+      },
+      "arms": [
+        {"name": "Tenapanor 30mg BID", "dose": "30mg twice daily", "n": 282},
+        {"name": "Placebo", "dose": "Placebo BID", "n": 282}
+      ],
+      "efficacy_endpoints": {
+        "full_analysis_set": {
+          "full_name": "LS Mean Serum Phosphorus Change at Weeks 26-38 (Full Analysis Set)",
+          "what_it_measures": "Sustained phosphorus reduction over long-term treatment",
+          "results": {
+            "tenapanor": "-0.7 mg/dL vs placebo",
+            "placebo": "Reference",
+            "p_value": "P=0.002"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 15,
+            "verified": false
+          }
+        },
+        "responder_population_wk38": {
+          "full_name": "LS Mean Serum Phosphorus Change at Week 38 (Prespecified Responder Population)",
+          "what_it_measures": "Sustained reduction in patients who responded during run-in",
+          "results": {
+            "tenapanor": "-1.4 mg/dL vs placebo",
+            "placebo": "Reference",
+            "p_value": "P<0.001"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 15,
+            "verified": false
+          }
+        }
+      },
+      "key_findings": [
+        "Durable efficacy maintained through 52 weeks [Corp '25 S15]",
+        "Responder population showed robust -1.4 mg/dL reduction at Week 38 [Corp '25 S15]",
+        "Confirms long-term monotherapy viability"
+      ],
+      "safety": {
+        "summary": "Acceptable safety profile maintained over 52 weeks of treatment",
+        "key_findings": [
+          "Long-term safety consistent with short-term data",
+          "Diarrhea remained the most common AE",
+          "No new safety signals over 52 weeks"
+        ]
+      }
+    },
+    "phase3_amplify": {
+      "trial_name": "AMPLIFY (Phase 3 — Add-on to Binders)",
+      "phase": "Phase 3",
+      "status": "Completed",
+      "design": {
+        "type": "Randomized, controlled (XPHOZAH + binder vs binder alone)",
+        "population": "CKD patients on dialysis with hyperphosphatemia on existing binder therapy",
+        "n_enrolled": 236,
+        "duration": "4 weeks"
+      },
+      "arms": [
+        {"name": "XPHOZAH + binder", "dose": "Tenapanor 30mg BID + existing binder", "n": 118},
+        {"name": "Binder alone", "dose": "Existing binder only", "n": 118}
+      ],
+      "efficacy_endpoints": {
+        "primary_phosphorus": {
+          "full_name": "LS Mean Serum Phosphorus Change vs Binder Alone",
+          "what_it_measures": "Incremental benefit of adding XPHOZAH on top of existing binder",
+          "results": {
+            "xphozah_plus_binder": "-0.7 mg/dL vs binder alone",
+            "binder_alone": "Reference",
+            "p_value": "P=0.0004"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 15,
+            "verified": false
+          }
+        },
+        "target_achievement": {
+          "full_name": "Patients Achieving Serum Phosphorus <5.5 mg/dL",
+          "what_it_measures": "Proportion reaching guideline-recommended target",
+          "results": {
+            "xphozah_plus_binder": "Significantly more patients achieved target",
+            "binder_alone": "Reference",
+            "p_value": "P<0.01"
+          },
+          "source": {
+            "id": "ardx_corporate_2025",
+            "slide": 15,
+            "verified": false
+          }
+        }
+      },
+      "key_findings": [
+        "XPHOZAH adds -0.7 mg/dL ON TOP of existing binder therapy [Corp '25 S15]",
+        "Significantly more patients achieved target phosphorus <5.5 mg/dL [Corp '25 S15]",
+        "Establishes add-on use case — critical for patients failing binders alone"
+      ],
+      "safety": {
+        "summary": "Acceptable safety when added to existing binder therapy",
+        "key_findings": [
+          "No unexpected safety signals when combined with binders",
+          "Diarrhea rates consistent with monotherapy"
+        ]
+      }
+    }
+  },
+  "nephrologist_adoption": {
+    "description": "Exceptional physician reception data from Spherix survey [Corp '25 S16]",
+    "awareness_metrics": [
+      {"metric": "Nephrologists who have initiated a patient on XPHOZAH", "value": "93%", "source": {"id": "ardx_corporate_2025", "slide": 16}},
+      {"metric": "Rate XPHOZAH as moderate/substantial advancement", "value": "96%", "source": {"id": "ardx_corporate_2025", "slide": 16}},
+      {"metric": "Users reporting moderate/high satisfaction", "value": "97%", "source": {"id": "ardx_corporate_2025", "slide": 16}},
+      {"metric": "Nephrologists indicating patients are candidates", "value": "35%", "source": {"id": "ardx_corporate_2025", "slide": 16}}
+    ],
+    "perceived_advantages_vs_binders": [
+      {"attribute": "Dosing and administration", "better_or_much_better": "51%"},
+      {"attribute": "Patient adherence", "better_or_much_better": "65%"},
+      {"attribute": "Mechanism of action", "better_or_much_better": "74%"},
+      {"attribute": "Efficacy", "better_or_much_better": "75%"},
+      {"attribute": "Tolerability", "better_or_much_better": "80%"}
+    ]
+  },
+  "commercial_performance": {
+    "description": "XPHOZAH commercial ramp — first full year $160.9M with $750M peak potential",
+    "revenue_history": [
+      {"period": "FY2024", "revenue": "$160.9M", "growth": "First full year", "source": {"id": "ardx_corporate_2025", "slide": 17}},
+      {"period": "Q3 2025", "revenue": "$27.4M", "growth": "+9% QoQ", "source": {"id": "ardx_corporate_2025", "slide": 12}},
+      {"period": "Peak (pre-patent expiry)", "revenue": "$750M", "growth": "—", "source": {"id": "ardx_corporate_2025", "slide": 17}}
+    ],
+    "patent_expiration": "April 2034 [Corp '25 S24]",
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": 17,
+      "verified": false
+    }
+  },
+  "international_expansion": {
+    "partners": [
+      {
+        "partner": "Kyowa Kirin",
+        "territory": "Japan",
+        "brand_name": "PHOZEVEL",
+        "status": "Approved September 2023; launched February 2024",
+        "indication": "Hyperphosphatemia",
+        "source": {"id": "ardx_corporate_2025", "slide": 23}
+      },
+      {
+        "partner": "Fosun Pharma",
+        "territory": "China / Hong Kong / Macao",
+        "brand_name": "Wan Ti Le",
+        "status": "Approved for hyperphosphatemia in China February 2025",
+        "indication": "Hyperphosphatemia and IBS-C",
+        "source": {"id": "ardx_corporate_2025", "slide": 23}
+      },
+      {
+        "partner": "Knight Therapeutics",
+        "territory": "Canada",
+        "status": "IBSRELA launched Q4 2021; XPHOZAH partnered",
+        "indication": "Both IBS-C and Hyperphosphatemia",
+        "source": {"id": "ardx_corporate_2025", "slide": 23}
+      },
+      {
+        "partner": "Available",
+        "territory": "EU and ROW",
+        "status": "Option to partner and launch both products",
+        "indication": "Both IBS-C and Hyperphosphatemia"
+      }
+    ]
+  },
+  "competitive_landscape": [
+    {
+      "competitor": "Sevelamer (Renvela/Renagel)",
+      "company": "Sanofi (now generic)",
+      "mechanism": "Phosphate binder (non-calcium)",
+      "stage": "Approved (generic available)",
+      "limitation": "Multiple large pills with every meal; 70% of patients still above target; GI side effects; high pill burden reduces adherence",
+      "differentiation": {
+        "mechanism": "XPHOZAH blocks absorption pathway; sevelamer binds phosphate in lumen",
+        "pill_burden": "XPHOZAH: single 30mg tablet BID; Sevelamer: multiple large pills with every meal"
+      },
+      "threat_level": "Low — different mechanism, can be combined"
+    },
+    {
+      "competitor": "Lanthanum carbonate (Fosrenol)",
+      "company": "Shire (now generic)",
+      "mechanism": "Phosphate binder (lanthanum-based)",
+      "stage": "Approved (generic available)",
+      "limitation": "Chewable tablets with meals; GI AEs; concerns about lanthanum accumulation",
+      "differentiation": {
+        "mechanism": "Different mechanism; XPHOZAH has no metal accumulation concerns"
+      },
+      "threat_level": "Low — declining use, accumulation concerns"
+    },
+    {
+      "competitor": "Calcium-based binders",
+      "company": "Various (generic)",
+      "mechanism": "Phosphate binder (calcium-based)",
+      "stage": "Approved (generic)",
+      "limitation": "Risk of hypercalcemia; vascular calcification concerns in CKD; limited by calcium load",
+      "differentiation": {
+        "mechanism": "XPHOZAH has no calcium load; no vascular calcification risk"
+      },
+      "threat_level": "Minimal — guideline-limited use due to calcification concerns"
+    },
+    {
+      "competitor": "Velphoro (sucroferric oxyhydroxide)",
+      "company": "Fresenius",
+      "mechanism": "Phosphate binder (iron-based)",
+      "stage": "Approved",
+      "limitation": "Chewable tablets; dark stools; iron-related GI AEs",
+      "differentiation": {
+        "mechanism": "Different mechanism; XPHOZAH has no iron-related AEs"
+      },
+      "threat_level": "Low — niche usage"
+    }
+  ],
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "First-in-class in a market where 70% of patients fail existing therapy",
+        "evidence": "70% of dialysis patients on binders can't maintain target phosphorus; XPHOZAH offers a completely different mechanism [Corp '25 S12, S13]",
+        "confidence": "High — Structural unmet need + differentiated MOA",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": "12, 13",
+          "verified": false
+        }
+      },
+      {
+        "point": "Exceptional physician reception — 96% rate as advancement, 93% have prescribed",
+        "evidence": "Spherix survey Feb 2025: 96% moderate/substantial advancement; 97% satisfaction [Corp '25 S16]",
+        "confidence": "High — Real-world adoption data",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": 16,
+          "verified": false
+        }
+      },
+      {
+        "point": "$750M peak is conservative if add-on use expands",
+        "evidence": "AMPLIFY trial proved efficacy as add-on to binders; 35% of patients are candidates per nephrologists [Corp '25 S15, S16]",
+        "confidence": "Medium — Depends on payer coverage and adherence",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": "15, 16",
+          "verified": false
+        }
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Q3 2025 sequential growth slowed to 9% QoQ",
+        "evidence": "Q2 to Q3 growth modest after strong launch year; needs to reaccelerate to reach $750M peak",
+        "counter_argument": "Seasonal effects in dialysis; still early in launch curve; add-on use expanding",
+        "probability": "Medium risk"
+      },
+      {
+        "point": "Payer coverage challenges could limit access",
+        "evidence": "Initial CMS coverage issues created uncertainty in 2024 (since resolved)",
+        "counter_argument": "Coverage now established; 93% of nephrologists have initiated patients [Corp '25 S16]",
+        "probability": "Low — largely resolved"
+      },
+      {
+        "point": "Patent expires April 2034 — need to reach peak quickly",
+        "evidence": "~8 years of exclusivity remaining; $750M peak requires significant ramp",
+        "counter_argument": "International expansion (Japan, China already approved) adds incremental revenue",
+        "probability": "Material risk"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Can XPHOZAH growth reaccelerate after modest Q3 2025 sequential growth?",
+        "bull_view": "Yes — seasonal effects; add-on use still expanding; payer coverage improving",
+        "bear_view": "No — launch curve is plateauing; nephrologists already aware, issue is patient access",
+        "what_resolves_it": "Q4 2025 and Q1 2026 sequential revenue trends"
+      },
+      {
+        "question": "Will add-on use (AMPLIFY data) materially expand the addressable market?",
+        "bull_view": "Yes — 70% of patients on binders still above target; huge add-on opportunity",
+        "bear_view": "No — payers will push back on two phosphate therapies; limited incremental benefit justification",
+        "what_resolves_it": "Real-world add-on prescription data and payer coverage decisions"
+      }
+    ],
+    "probability_of_success": {
+      "note": "Already approved and commercial — no clinical risk",
+      "commercial_execution_risk": "Medium — Q3 growth deceleration needs monitoring",
+      "peak_sales_confidence": "Medium — $750M achievable but depends on add-on expansion and sustained growth"
+    }
+  },
+  "catalysts": [
+    {
+      "event": "FY2025 XPHOZAH revenue report",
+      "timing": "Q1 2026",
+      "importance": "High",
+      "what_to_watch": "Full-year revenue trajectory; growth reacceleration signal",
+      "consensus_expectation": "—"
+    },
+    {
+      "event": "International revenue contribution",
+      "timing": "Ongoing 2026",
+      "importance": "Medium",
+      "what_to_watch": "Japan (PHOZEVEL) and China (Wan Ti Le) revenue ramp",
+      "consensus_expectation": "—"
+    },
+    {
+      "event": "Add-on utilization data",
+      "timing": "Ongoing 2026",
+      "importance": "Medium",
+      "what_to_watch": "% of XPHOZAH Rx as add-on to binders vs monotherapy; expansion of addressable market",
+      "consensus_expectation": "—"
+    }
+  ],
+  "regulatory_path": {
+    "fda_designations": [],
+    "approval_status": "FDA Approved — October 2023 (relaunched after initial approval and CMS coverage resolution)",
+    "label": "Control of serum phosphorus in adults with CKD on dialysis",
+    "dosing": "30mg taken orally twice daily",
+    "patent_expiration": "April 2034 [Corp '25 S24]",
+    "international_approvals": [
+      "Japan: PHOZEVEL (Kyowa Kirin) — approved Sep 2023, launched Feb 2024",
+      "China: Wan Ti Le (Fosun Pharma) — approved Feb 2025"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ardx_corporate_2025",
+      "type": "corporate_presentation",
+      "title": "Ardelyx Corporate Presentation October 2025",
+      "date": "2025-10",
+      "key_slides": {
+        "12": "Hyperphosphatemia unmet need and XPHOZAH positioning",
+        "13": "Epidemiology and market opportunity",
+        "14": "NHE3 mechanism for phosphate absorption",
+        "15": "Phase 3 clinical data (BLOCK, PHREEDOM, AMPLIFY)",
+        "16": "Nephrologist adoption survey data",
+        "17": "XPHOZAH revenue trajectory and peak potential",
+        "23": "International expansion and partnerships",
+        "24": "Patent and IP portfolio"
+      },
+      "url": "https://ir.ardelyx.com/static-files/c7dbc807-a5f9-43cb-84bb-dd48702af607"
+    }
+  ]
+}

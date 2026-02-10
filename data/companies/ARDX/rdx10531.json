@@ -1,0 +1,258 @@
+{
+  "_metadata": {
+    "version": "2.2",
+    "ticker": "ARDX",
+    "asset_name": "RDX10531",
+    "last_updated": "2026-02-10",
+    "sources": [
+      {
+        "id": "ardx_corporate_2025",
+        "type": "corporate_presentation",
+        "title": "Ardelyx Corporate Presentation October 2025",
+        "date": "2025-10",
+        "slides": 30,
+        "url": "https://ir.ardelyx.com/static-files/c7dbc807-a5f9-43cb-84bb-dd48702af607"
+      }
+    ]
+  },
+  "asset": {
+    "name": "RDX10531",
+    "company": "Ardelyx",
+    "ticker": "ARDX",
+    "stage": "Preclinical (IND-enabling)",
+    "modality": "Small molecule (next-generation NHE3 inhibitor)",
+    "ownership": "Wholly-owned",
+    "one_liner": "Next-generation NHE3 inhibitor — highly potent, highly soluble, with potential for broad multi-therapeutic application beyond 2033 patent cliff",
+    "regulatory_designations": []
+  },
+  "target": {
+    "name": "NHE3",
+    "full_name": "Sodium-Hydrogen Exchanger 3",
+    "class": "Ion Transporter",
+    "pathway": "Intestinal sodium absorption → fluid balance, phosphate absorption, and oxalate excretion",
+    "biology": {
+      "simple_explanation": "NHE3 is the major sodium-absorbing transporter on the intestinal epithelium. Ardelyx has validated NHE3 as a therapeutic target across two approved products: IBSRELA (IBS-C) and XPHOZAH (hyperphosphatemia). RDX10531 is a next-generation NHE3 inhibitor designed with improved pharmacological properties — higher potency, higher solubility — to potentially address additional indications beyond the current tenapanor franchise.",
+      "pathway_detail": "NHE3 sits on the brush border of enterocytes and exchanges luminal Na+ for intracellular H+. Blocking NHE3 retains sodium and water in the lumen (addressing constipation), tightens tight junctions to block paracellular phosphate absorption (addressing hyperphosphatemia), and increases intestinal oxalate excretion (potential for hyperoxaluria). RDX10531 achieves this with substantially higher potency than tenapanor.",
+      "downstream_effects": [
+        "Increased intestinal fluid secretion (constipation relief)",
+        "Reduced paracellular phosphate absorption (hyperphosphatemia)",
+        "Increased intestinal oxalate excretion (potential hyperoxaluria/kidney stone prevention)",
+        "Potentially broader therapeutic applications due to improved potency and solubility"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "NHE3 is the most clinically validated GI ion transporter target — two approved products (IBSRELA, XPHOZAH) generating >$400M combined annual revenue prove the target works in humans across multiple indications.",
+      "unmet_need": "Tenapanor patent expires Aug 2033 (IBSRELA) and Apr 2034 (XPHOZAH). A next-gen molecule with improved properties and new IP extends the franchise and potentially expands the addressable market to new indications [Corp '25 S19-20].",
+      "source": {
+        "id": "ardx_corporate_2025",
+        "slide": "19-20",
+        "verified": false
+      }
+    }
+  },
+  "mechanism": {
+    "type": "Small molecule — next-generation NHE3 inhibitor",
+    "how_it_works": "RDX10531 inhibits NHE3 on the apical surface of the intestinal epithelium, the same target as tenapanor (IBSRELA/XPHOZAH). It has been engineered with substantially higher potency and higher aqueous solubility compared to tenapanor, while maintaining the locally-acting (minimally absorbed) profile.",
+    "why_this_approach": "Ardelyx has deep expertise in NHE3 biology and commercialization from tenapanor. Rather than pursuing an entirely new target, they are applying their platform knowledge to create a superior next-gen molecule that extends IP protection beyond 2033 and potentially addresses additional indications (e.g., hyperoxaluria).",
+    "differentiation": "vs tenapanor: Higher potency, higher aqueous solubility, new composition of matter IP. Maintains locally-acting profile (<1% absorption). Potential for broader multi-therapeutic application.",
+    "preclinical_properties": {
+      "potency": "Substantially higher NHE3 inhibitory potency vs tenapanor in preclinical models [Corp '25 S19]",
+      "solubility": "Significantly improved aqueous solubility enabling potential new formulations [Corp '25 S19]",
+      "absorption": "Minimally absorbed — maintains locally-acting profile [Corp '25 S19]",
+      "selectivity": "Selective NHE3 inhibitor"
+    },
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": "19-20",
+      "verified": false
+    }
+  },
+  "indications": {
+    "lead": {
+      "name": "Multi-therapeutic NHE3 franchise extension",
+      "patient_population": "Potential indications include IBS-C, hyperphosphatemia, hyperoxaluria, and potentially additional GI/renal conditions",
+      "rationale": "Higher potency + higher solubility may enable applications beyond tenapanor's current indications, while also providing lifecycle management for the existing franchise"
+    },
+    "expansion": [
+      {
+        "name": "IBS-C (lifecycle management)",
+        "rationale": "Extend NHE3 franchise beyond tenapanor Aug 2033 patent expiry with improved molecule"
+      },
+      {
+        "name": "Hyperphosphatemia (lifecycle management)",
+        "rationale": "Extend NHE3 franchise beyond tenapanor Apr 2034 patent expiry"
+      },
+      {
+        "name": "Hyperoxaluria / Kidney stone prevention",
+        "rationale": "NHE3 inhibition increases intestinal oxalate excretion — potential new indication not addressable by tenapanor"
+      }
+    ],
+    "development_strategy": "IND-enabling studies underway; IND submission planned for 2026. Initial indication selection will be informed by preclinical data and commercial strategy.",
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": "19-20",
+      "verified": false
+    }
+  },
+  "market_opportunity": {
+    "total_addressable_market": "Combined tenapanor franchise addressing >$2B peak revenue (IBSRELA >$1B + XPHOZAH $750M). RDX10531 extends this franchise post-patent expiry AND potentially expands TAM with new indications.",
+    "strategic_value": "Without RDX10531, Ardelyx faces a patent cliff in Aug 2033 (IBSRELA) and Apr 2034 (XPHOZAH). With RDX10531, the NHE3 franchise can potentially continue with new IP through the 2040s+.",
+    "new_indication_opportunity": "Hyperoxaluria and recurrent kidney stones represent a significant unmet need with no approved NHE3-based therapies — potential greenfield opportunity.",
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": "19-20",
+      "verified": false
+    }
+  },
+  "preclinical_data": {
+    "summary": "RDX10531 demonstrates substantially higher potency and improved aqueous solubility vs tenapanor while maintaining the locally-acting (minimally absorbed) profile.",
+    "key_findings": [
+      "Substantially higher NHE3 inhibitory potency compared to tenapanor in vitro [Corp '25 S19]",
+      "Significantly improved aqueous solubility vs tenapanor [Corp '25 S19]",
+      "Minimally absorbed — maintains locally-acting profile in preclinical models [Corp '25 S19]",
+      "Potential for multi-therapeutic applications across GI and renal indications [Corp '25 S20]"
+    ],
+    "source": {
+      "id": "ardx_corporate_2025",
+      "slide": "19-20",
+      "verified": false
+    }
+  },
+  "clinical_data": {},
+  "competitive_landscape": [
+    {
+      "competitor": "Tenapanor (IBSRELA/XPHOZAH)",
+      "company": "Ardelyx (own product)",
+      "mechanism": "NHE3 inhibitor (first-generation)",
+      "stage": "Approved (2 indications)",
+      "limitation": "Patent expiry Aug 2033 (IBSRELA) / Apr 2034 (XPHOZAH); lower potency and solubility",
+      "differentiation": {
+        "mechanism": "RDX10531 is next-gen with higher potency, higher solubility, new IP"
+      },
+      "threat_level": "N/A — internal lifecycle management"
+    },
+    {
+      "competitor": "Generic tenapanor (post-2033)",
+      "company": "Generic manufacturers",
+      "mechanism": "NHE3 inhibitor (generic)",
+      "stage": "Expected post-Aug 2033",
+      "limitation": "Will erode IBSRELA/XPHOZAH revenue",
+      "differentiation": {
+        "mechanism": "RDX10531 provides new IP protection; improved properties may enable new formulations/indications"
+      },
+      "threat_level": "High — this is the primary driver for RDX10531 development"
+    }
+  ],
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "Extends NHE3 franchise beyond 2033 patent cliff — critical for long-term value",
+        "evidence": "Tenapanor patents expire Aug 2033/Apr 2034; RDX10531 provides new composition of matter IP [Corp '25 S19, S24]",
+        "confidence": "Medium — preclinical, but target is fully validated",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": "19-20",
+          "verified": false
+        }
+      },
+      {
+        "point": "Higher potency + solubility could unlock new indications (hyperoxaluria, kidney stones)",
+        "evidence": "Improved pharmacological properties in preclinical models; potential to address conditions not feasible with tenapanor [Corp '25 S19-20]",
+        "confidence": "Low-Medium — preclinical only, indication selection not finalized",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": "19-20",
+          "verified": false
+        }
+      },
+      {
+        "point": "De-risked target — NHE3 validated across 2 approved products and 3 Phase 3 trials",
+        "evidence": "IBSRELA and XPHOZAH collectively prove NHE3 inhibition is safe and effective in humans across GI and renal indications",
+        "confidence": "High — target validation is bulletproof",
+        "source": {
+          "id": "ardx_corporate_2025",
+          "slide": "19",
+          "verified": false
+        }
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Still preclinical — years away from any revenue contribution",
+        "evidence": "IND-enabling stage with IND planned 2026; earliest approval likely 2030+ even with accelerated development",
+        "counter_argument": "Not intended to contribute revenue near-term; value is in extending franchise post-2033",
+        "probability": "Certain — timeline risk is inherent"
+      },
+      {
+        "point": "No guarantee improved properties translate to clinical superiority",
+        "evidence": "Higher potency in vitro does not always translate to better clinical outcomes; development risk remains",
+        "counter_argument": "Target biology is proven; main risk is optimization, not target validation",
+        "probability": "Medium"
+      },
+      {
+        "point": "Could be leapfrogged by competitors targeting NHE3 or alternative mechanisms",
+        "evidence": "Other companies could develop NHE3 inhibitors or novel approaches to IBS-C/hyperphosphatemia",
+        "counter_argument": "Ardelyx has deepest NHE3 know-how and first-mover advantage; no known NHE3 competitors in development",
+        "probability": "Low — significant barriers to entry"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Is RDX10531 a lifecycle extension or a genuinely new franchise opportunity?",
+        "bull_view": "Genuinely new — higher potency + solubility enable new indications (hyperoxaluria) that tenapanor cannot address",
+        "bear_view": "Lifecycle extension only — will primarily serve to maintain existing IBS-C and hyperphosphatemia revenue post-patent expiry",
+        "what_resolves_it": "IND-enabling data and initial indication selection (expected 2026)"
+      }
+    ],
+    "probability_of_success": {
+      "note": "Preclinical stage — validated target but new molecule",
+      "preclinical_to_approval": "~15-20% historical base rate for preclinical compounds",
+      "target_validation_adjustment": "Higher than base rate — NHE3 is the most clinically validated target in its class (2 approved products)",
+      "estimated_pos": "30-40% (adjusted for validated target)"
+    }
+  },
+  "catalysts": [
+    {
+      "event": "IND submission for RDX10531",
+      "timing": "2026",
+      "importance": "High",
+      "what_to_watch": "On-track IND filing confirms development timeline and initial indication selection",
+      "consensus_expectation": "IND planned for 2026 per corporate presentation [Corp '25 S20]"
+    },
+    {
+      "event": "Initial clinical trial design / Phase 1 initiation",
+      "timing": "2026-2027",
+      "importance": "High",
+      "what_to_watch": "Indication selection, dose selection, and first-in-human safety data",
+      "consensus_expectation": "—"
+    },
+    {
+      "event": "Preclinical data presentations",
+      "timing": "2026",
+      "importance": "Medium",
+      "what_to_watch": "Additional potency/solubility data; new indication preclinical proof-of-concept",
+      "consensus_expectation": "—"
+    }
+  ],
+  "regulatory_path": {
+    "fda_designations": [],
+    "current_status": "IND-enabling studies",
+    "next_milestone": "IND submission planned 2026 [Corp '25 S20]",
+    "development_timeline": "IND 2026 → Phase 1 2026-2027 → Phase 2 2028+ → Phase 3 2030+",
+    "regulatory_strategy": "Leverage extensive tenapanor safety database and NHE3 mechanism knowledge to accelerate development"
+  },
+  "sources": [
+    {
+      "id": "ardx_corporate_2025",
+      "type": "corporate_presentation",
+      "title": "Ardelyx Corporate Presentation October 2025",
+      "date": "2025-10",
+      "key_slides": {
+        "19": "RDX10531 preclinical profile — potency and solubility",
+        "20": "RDX10531 development strategy and multi-therapeutic potential",
+        "24": "Patent and IP portfolio — tenapanor expiry dates"
+      },
+      "url": "https://ir.ardelyx.com/static-files/c7dbc807-a5f9-43cb-84bb-dd48702af607"
+    }
+  ]
+}

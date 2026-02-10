@@ -1,0 +1,177 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "Ardelyx Corporate Presentation October 2025",
+    "extraction_date": "2026-02-10",
+    "analyst_reviewed": true
+  },
+
+  "ticker": "ARDX",
+  "name": "Ardelyx",
+
+  "company": {
+    "name": "Ardelyx, Inc.",
+    "ticker": "ARDX",
+    "exchange": "NASDAQ",
+    "headquarters": "Fremont, CA",
+    "website": "https://www.ardelyx.com",
+    "ir_contact": "ir@ardelyx.com",
+
+    "one_liner": "Commercial-stage GI and nephrology company with two approved products growing >70% YoY — IBSRELA (IBS-C) and XPHOZAH (hyperphosphatemia)",
+
+    "company_description": "Ardelyx is a commercial-stage biopharmaceutical company focused on developing and commercializing medicines for gastrointestinal and cardiorenal diseases. The company's two approved products — IBSRELA (tenapanor) for IBS-C and XPHOZAH (tenapanor) for hyperphosphatemia in CKD on dialysis — are both based on the same NHE3 inhibitor platform. Both products are experiencing rapid commercial uptake."
+  },
+
+  "investment_thesis_summary": {
+    "core_thesis": "Ardelyx is a rare commercial-stage biotech with two approved products generating >70% annual revenue growth. IBSRELA is the only non-secretagogue for IBS-C, and XPHOZAH is the first new phosphate binder mechanism in decades. Combined peak revenue potential exceeds $2B.",
+
+    "key_value_drivers": [
+      "IBSRELA: 92% YoY Q3 growth, FY2025 guidance $270-275M, >$1B peak",
+      "XPHOZAH: Rapid uptake since relaunch, addressing $4B+ phosphate binder market",
+      "Same molecule (tenapanor) with two approved indications = capital efficiency",
+      "Next-gen NHE3 inhibitor RDX10531 extends franchise beyond 2033 patent cliff",
+      "Clean balance sheet with growing profitability inflection"
+    ]
+  },
+
+  "platform": {
+    "name": "NHE3 Inhibition Platform",
+    "description": "Ardelyx's platform is built around locally-acting inhibitors of the sodium-hydrogen exchanger 3 (NHE3) on the intestinal epithelium. By blocking sodium absorption in the gut, these molecules increase intestinal fluid (addressing constipation) and reduce phosphate absorption (addressing hyperphosphatemia) with minimal systemic exposure (<1% absorbed).",
+
+    "unique_capabilities": [
+      {
+        "capability": "Locally Acting",
+        "description": "Minimally absorbed (<1%) — acts in the GI tract with minimal systemic exposure, reducing off-target effects"
+      },
+      {
+        "capability": "Dual Mechanism",
+        "description": "NHE3 inhibition addresses both constipation (fluid secretion) and pain (phosphate-mediated TRPV1 mechanism) in IBS-C"
+      },
+      {
+        "capability": "Platform Extension",
+        "description": "Same target (NHE3) validated in two distinct indications (IBS-C and hyperphosphatemia) from a single molecule"
+      }
+    ],
+    "source": {"id": "ardx_corporate_2025", "slide": "8", "verified": false}
+  },
+
+  "pipeline_summary": {
+    "total_programs": 3,
+    "commercial_stage": 2,
+    "preclinical_stage": 1,
+    "wholly_owned": 3,
+
+    "assets": [
+      {
+        "name": "IBSRELA",
+        "generic_name": "tenapanor",
+        "target": "NHE3",
+        "stage": "Commercial",
+        "indication": "Irritable Bowel Syndrome with Constipation (IBS-C)",
+        "status": "FDA approved; rapid commercial growth",
+        "file": "ibsrela.json"
+      },
+      {
+        "name": "XPHOZAH",
+        "generic_name": "tenapanor",
+        "target": "NHE3",
+        "stage": "Commercial",
+        "indication": "Hyperphosphatemia in CKD on dialysis",
+        "status": "FDA approved; relaunched with expanded label",
+        "file": "xphozah.json"
+      },
+      {
+        "name": "RDX10531",
+        "target": "NHE3",
+        "stage": "Preclinical",
+        "indication": "Next-generation NHE3 inhibitor",
+        "status": "IND-enabling studies; IND planned 2026",
+        "file": "rdx10531.json"
+      }
+    ],
+    "source": {"id": "ardx_corporate_2025", "slide": "5", "verified": false}
+  },
+
+  "investment_analysis": {
+    "bull_case": [
+      {
+        "point": "Revenue acceleration — both products growing >70% YoY",
+        "evidence": "IBSRELA Q3 $78.2M (+92% YoY); combined FY2025 guidance implies >70% growth [Corp '25 S6, S10]",
+        "confidence": "High"
+      },
+      {
+        "point": "Only non-secretagogue in IBS-C — structurally differentiated",
+        "evidence": "77% of patients on secretagogues still symptomatic [Corp '25 S6]",
+        "confidence": "High"
+      },
+      {
+        "point": "XPHOZAH addresses massive unmet need in hyperphosphatemia",
+        "evidence": "50% of dialysis patients have uncontrolled phosphorus despite existing binders [Corp '25 S14]",
+        "confidence": "High"
+      }
+    ],
+    "bear_case": [
+      {
+        "point": "Patent cliff in August 2033 limits peak value capture",
+        "evidence": "Tenapanor composition of matter patent expires Aug 2033 [Corp '25 S24]",
+        "counter_argument": "RDX10531 next-gen NHE3 inhibitor in development to extend franchise"
+      },
+      {
+        "point": "Single molecule risk — both products are tenapanor",
+        "evidence": "Any safety signal would affect both products simultaneously",
+        "counter_argument": "Locally acting with <1% systemic absorption reduces systemic safety risk"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Can IBSRELA reach >$1B peak before Aug 2033 patent expiry?",
+        "bull_view": "Yes — at current trajectory, $1B+ achievable by 2029-2030",
+        "bear_view": "No — market growth may slow; generic Linzess competition",
+        "what_resolves_it": "FY2026 revenue trajectory and TRx growth rates"
+      }
+    ]
+  },
+
+  "catalysts_2026": [
+    {
+      "event": "FY2025 earnings and FY2026 guidance",
+      "timing": "Q1 2026",
+      "importance": "High",
+      "details": "Final FY2025 revenue vs $270-275M guidance; FY2026 growth outlook"
+    },
+    {
+      "event": "Quarterly revenue updates",
+      "timing": "Throughout 2026",
+      "importance": "High",
+      "details": "Tracking IBSRELA and XPHOZAH commercial momentum"
+    },
+    {
+      "event": "RDX10531 development update",
+      "timing": "2026",
+      "importance": "Medium",
+      "details": "Next-gen NHE3 inhibitor progress — key to extending beyond 2033 patent cliff"
+    }
+  ],
+
+  "financials": {
+    "cash_position": "Growing; approaching profitability inflection",
+    "revenue_trajectory": {
+      "FY2022": "$22.1M",
+      "FY2023": "$122.3M",
+      "FY2024": "$222.6M",
+      "FY2025_guidance": "$370-385M combined"
+    },
+    "source": {"id": "ardx_corporate_2025", "slide": "10", "verified": false}
+  },
+
+  "sources": [
+    {
+      "id": "ardx_corporate_2025",
+      "type": "corporate_presentation",
+      "title": "Ardelyx Corporate Presentation October 2025",
+      "date": "2025-10",
+      "slides": 30,
+      "url": "https://ir.ardelyx.com/static-files/c7dbc807-a5f9-43cb-84bb-dd48702af607"
+    }
+  ]
+}
