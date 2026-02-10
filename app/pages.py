@@ -104,8 +104,8 @@ def get_base_styles():
             --text: #1a1d21;
             --text-secondary: #5f6368;
             --text-muted: #9aa0a6;
-            --catalyst-bg: #fef9c3;
-            --catalyst-border: #fde047;
+            --catalyst-bg: #f5f3f0;
+            --catalyst-border: #e0ddd8;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
@@ -160,8 +160,8 @@ def get_base_styles():
         .stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
 
         .catalyst-box { background: var(--catalyst-bg); border: 1px solid var(--catalyst-border); border-radius: 6px; padding: 8px 12px; margin-bottom: 12px; }
-        .catalyst-label { font-size: 0.65rem; font-weight: 600; color: #92400e; text-transform: uppercase; margin-bottom: 2px; }
-        .catalyst-text { font-size: 0.8rem; color: #78350f; font-weight: 500; }
+        .catalyst-label { font-size: 0.65rem; font-weight: 600; color: #1B2838; text-transform: uppercase; margin-bottom: 2px; }
+        .catalyst-text { font-size: 0.8rem; color: #374151; font-weight: 500; }
 
         .tags-row { display: flex; flex-wrap: wrap; gap: 6px; }
         .tag { padding: 4px 10px; background: #f3f4f6; color: var(--text-secondary); font-size: 0.75rem; border-radius: 12px; }
@@ -337,14 +337,14 @@ def generate_homepage():
         one_liner = item.get("one_liner", item.get("headline", ""))[:90]
         cat = item.get("category", "other")
         cat_colors = {
-            "clinical_data": "#2563eb",
-            "regulatory": "#7c3aed",
-            "deal": "#059669",
-            "ipo_financing": "#d97706",
-            "earnings": "#6b7280",
-            "personnel": "#9333ea",
-            "policy": "#dc2626",
-            "other": "#6b7280",
+            "clinical_data": "#1B2838",
+            "regulatory": "#1B2838",
+            "deal": "#1B2838",
+            "ipo_financing": "#1B2838",
+            "earnings": "#1B2838",
+            "personnel": "#1B2838",
+            "policy": "#1B2838",
+            "other": "#1B2838",
         }
         cat_labels = {
             "clinical_data": "DATA",
@@ -590,7 +590,7 @@ def generate_homepage():
         .spotlight-card:hover {{ border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-3px); }}
         .spotlight-header {{ display: flex; align-items: center; gap: 8px; }}
         .spotlight-cat {{ display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px; }}
-        .hot-badge {{ padding: 2px 7px; background: #fef3c7; color: #92400e; font-size: 0.6rem; font-weight: 700; border-radius: 4px; text-transform: uppercase; }}
+        .hot-badge {{ padding: 2px 7px; background: #D4654A; color: #ffffff; font-size: 0.6rem; font-weight: 700; border-radius: 4px; text-transform: uppercase; }}
         .spotlight-name {{ font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); }}
         .spotlight-desc {{ font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; }}
         .spotlight-stats {{ display: flex; gap: 10px; flex-wrap: wrap; }}
@@ -922,8 +922,8 @@ def generate_companies_page():
         .gate-modal .gate-btn:disabled {{ opacity: 0.6; cursor: not-allowed; }}
         .gate-modal .gate-fine {{ color: var(--text-muted); font-size: 0.8rem; margin-top: 16px; }}
         .gate-modal .gate-close {{ position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer; }}
-        .gate-modal .gate-error {{ color: #dc2626; font-size: 0.85rem; margin-top: 8px; display: none; }}
-        .gate-modal .gate-success {{ color: #16a34a; font-size: 0.85rem; margin-top: 8px; display: none; }}
+        .gate-modal .gate-error {{ color: #D4654A; font-size: 0.85rem; margin-top: 8px; display: none; }}
+        .gate-modal .gate-success {{ color: #1B2838; font-size: 0.85rem; margin-top: 8px; display: none; }}
 
         /* Unlocked state - applied via JS when user is subscribed */
         body.unlocked .locked-card {{ cursor: default; }}
@@ -1486,12 +1486,12 @@ def generate_target_detail_page(slug: str):
 
     # Category styling
     category_styles = {
-        "oncology": {"bg": "#fef2f2", "color": "#dc2626", "label": "Oncology"},
-        "immunology": {"bg": "#f0fdf4", "color": "#16a34a", "label": "I&I"},
-        "metabolic": {"bg": "#fef9c3", "color": "#ca8a04", "label": "Metabolic"},
-        "cardiovascular": {"bg": "#eff6ff", "color": "#2563eb", "label": "Cardiovascular"},
-        "rare": {"bg": "#faf5ff", "color": "#7c3aed", "label": "Rare Disease"},
-        "neuro": {"bg": "#fef3c7", "color": "#92400e", "label": "Neuro"},
+        "oncology": {"bg": "#f0eeeb", "color": "#1B2838", "label": "Oncology"},
+        "immunology": {"bg": "#f0eeeb", "color": "#1B2838", "label": "I&I"},
+        "metabolic": {"bg": "#f0eeeb", "color": "#1B2838", "label": "Metabolic"},
+        "cardiovascular": {"bg": "#f0eeeb", "color": "#1B2838", "label": "Cardiovascular"},
+        "rare": {"bg": "#f0eeeb", "color": "#1B2838", "label": "Rare Disease"},
+        "neuro": {"bg": "#f0eeeb", "color": "#1B2838", "label": "Neuro"},
     }
     cat_style = category_styles.get(category, {"bg": "#f3f4f6", "color": "#4b5563", "label": category.title()})
 
@@ -1564,7 +1564,7 @@ def generate_target_detail_page(slug: str):
         .company-link {{ color: var(--navy); text-decoration: none; font-weight: 500; }}
         .company-link:hover {{ color: var(--accent); }}
         .ticker {{ color: var(--text-muted); font-size: 0.8rem; }}
-        .deal-value {{ color: #059669; font-weight: 600; }}
+        .deal-value {{ color: var(--navy); font-weight: 600; }}
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
         @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
@@ -1795,8 +1795,8 @@ def generate_glp1_report(admin: bool = False):
         .pipeline-flow {{ display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 6px 0; font-size: 0.85rem; }}
         .pipeline-flow .arrow {{ color: var(--text-secondary); }}
         .pipeline-flow .drug {{ background: var(--bg); padding: 3px 10px; border-radius: 6px; border: 1px solid var(--border); }}
-        .pipeline-flow .drug.approved {{ background: #dcfce7; border-color: #86efac; }}
-        .pipeline-flow .drug.filing {{ background: #fef3c7; border-color: #fcd34d; }}
+        .pipeline-flow .drug.approved {{ background: #f0eeeb; border-color: #1B2838; }}
+        .pipeline-flow .drug.filing {{ background: #f5f3f0; border-color: #e0ddd8; }}
 
         .catalyst-timeline {{ margin-top: 20px; }}
         .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
@@ -1972,9 +1972,9 @@ def generate_glp1_report(admin: bool = False):
         <!-- Weight Regain & Durability -->
         <div class="section">
             <h2>Weight Regain &amp; Durability</h2>
-            <div class="bio-box" style="background: #fef3c7; border-color: #f59e0b;">
-                <h3 style="color: #92400e;">THE key question for revenue modeling</h3>
-                <p style="color: #78350f;">If patients must stay on therapy permanently, peak sales estimates roughly double. Weight regain data is therefore the most commercially significant dataset in the class.</p>
+            <div class="bio-box" style="background: #f5f3f0; border-color: #e0ddd8;">
+                <h3 style="color: #1B2838;">THE key question for revenue modeling</h3>
+                <p style="color: #374151;">If patients must stay on therapy permanently, peak sales estimates roughly double. Weight regain data is therefore the most commercially significant dataset in the class.</p>
             </div>
             <div style="margin-top: 16px;">
                 <div class="bio-point"><strong>STEP 1 extension data:</strong> ~2/3 of weight lost was regained within 1 year of stopping semaglutide 2.4mg. Cardiometabolic improvements also reversed.</div>
@@ -2266,7 +2266,7 @@ def render_catalyst_section(slug: str, admin: bool = False) -> str:
             days_ago = (today - reviewed_date).days
             if days_ago > 30:
                 staleness_html = f'''
-        <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.85rem; color: #92400e;">
+        <div style="background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.85rem; color: #1B2838;">
             Catalysts last verified {last_reviewed} ({days_ago} days ago). Some dates may have changed.
         </div>'''
         except ValueError:
@@ -2282,7 +2282,7 @@ def render_catalyst_section(slug: str, admin: bool = False) -> str:
             asset_label = f' ({c["asset"]})' if c.get("asset") else ""
             items += f'''
                 <div class="catalyst-item">
-                    <div class="catalyst-date" style="color: #16a34a;">{display}</div>
+                    <div class="catalyst-date" style="color: #D4654A;">{display}</div>
                     <div>
                         <strong>{c["company"]}{asset_label}:</strong> {c["description"]}
                         {outcome}
@@ -2611,9 +2611,9 @@ def generate_b7h3_report(admin: bool = False):
         .thesis-list li:last-child {{ border-bottom: none; }}
         .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
 
-        .highlight-box {{ background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; margin: 20px 0; }}
-        .highlight-box h4 {{ color: #92400e; margin-bottom: 8px; }}
-        .highlight-box p {{ color: #78350f; font-size: 0.9rem; }}
+        .highlight-box {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 20px; margin: 20px 0; }}
+        .highlight-box h4 {{ color: #1B2838; margin-bottom: 8px; }}
+        .highlight-box p {{ color: #374151; font-size: 0.9rem; }}
 
         .note-box {{ background: var(--bg); border-left: 3px solid var(--accent); padding: 16px 20px; margin-top: 16px; border-radius: 0 8px 8px 0; }}
         .note-box p {{ color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin: 0; }}
@@ -2621,7 +2621,7 @@ def generate_b7h3_report(admin: bool = False):
         .bio-point {{ display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }}
         .bio-point:last-child {{ border-bottom: none; }}
         .bio-icon {{ min-width: 28px; height: 28px; background: var(--navy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }}
-        .bio-icon.risk {{ background: #dc2626; }}
+        .bio-icon.risk {{ background: #D4654A; }}
         .bio-text {{ font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }}
         .bio-text strong {{ color: var(--text); }}
 
@@ -2980,14 +2980,14 @@ def generate_kras_report(admin: bool = False):
                 <h3>OFF-State Inhibitors</h3>
                 <p>OFF-state inhibitors (sotorasib, adagrasib, divarasib, olomorasib, calderasib) bind a pocket that only exists when KRAS is GDP-bound (OFF). They must wait for the GTPase cycle to bring KRAS back to the inactive state. This creates a vulnerability: upstream RTK signaling pushes KRAS to the ON state, reducing target engagement.</p>
             </div>
-            <div class="bio-box" style="background: #fef3c7; border-color: #f59e0b;">
-                <h3 style="color: #92400e;">ON-State Inhibitors (Revolution Medicines Platform)</h3>
-                <p style="color: #78350f;">ON-state inhibitors (daraxonrasib, elironrasib, zoldonrasib) use a novel <strong>tri-complex mechanism</strong>. The drug binds to cyclophilin A (a ubiquitous human protein), and this drug&ndash;cyclophilin complex then selectively recognizes and locks active GTP-bound KRAS. This is mechanistically analogous to how immunomodulatory drugs (lenalidomide) work through cereblon &mdash; a molecular chaperone recruitment approach.</p>
-                <p style="color: #78350f; margin-top: 12px;"><strong>Why ON-state matters:</strong> Because they target active KRAS directly, ON-state inhibitors don&rsquo;t depend on the GDP/GTP cycle and may be inherently more resistant to adaptive resistance (which pushes KRAS toward the GTP state).</p>
+            <div class="bio-box" style="background: #f5f3f0; border-color: #e0ddd8;">
+                <h3 style="color: #1B2838;">ON-State Inhibitors (Revolution Medicines Platform)</h3>
+                <p style="color: #374151;">ON-state inhibitors (daraxonrasib, elironrasib, zoldonrasib) use a novel <strong>tri-complex mechanism</strong>. The drug binds to cyclophilin A (a ubiquitous human protein), and this drug&ndash;cyclophilin complex then selectively recognizes and locks active GTP-bound KRAS. This is mechanistically analogous to how immunomodulatory drugs (lenalidomide) work through cereblon &mdash; a molecular chaperone recruitment approach.</p>
+                <p style="color: #374151; margin-top: 12px;"><strong>Why ON-state matters:</strong> Because they target active KRAS directly, ON-state inhibitors don&rsquo;t depend on the GDP/GTP cycle and may be inherently more resistant to adaptive resistance (which pushes KRAS toward the GTP state).</p>
             </div>
-            <div class="bio-box" style="background: #f0fdf4; border-color: #86efac;">
-                <h3 style="color: #166534;">Degraders: A Third Modality</h3>
-                <p style="color: #166534;">Degraders (Astellas setidegrasib/ASP3082) destroy the KRAS G12D protein entirely via targeted protein degradation using a VHL E3 ligase. The protein is eliminated rather than inhibited. Astellas is also developing ASP4396, a backup degrader using cereblon as the E3 ligase.</p>
+            <div class="bio-box" style="background: #f5f3f0; border-color: #e0ddd8;">
+                <h3 style="color: #1B2838;">Degraders: A Third Modality</h3>
+                <p style="color: #374151;">Degraders (Astellas setidegrasib/ASP3082) destroy the KRAS G12D protein entirely via targeted protein degradation using a VHL E3 ligase. The protein is eliminated rather than inhibited. Astellas is also developing ASP4396, a backup degrader using cereblon as the E3 ligase.</p>
             </div>
             <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 16px;">
                 <strong>Pan-KRAS vs. Pan-RAS:</strong> Pan-KRAS inhibitors target multiple KRAS mutations (G12C, G12D, G12V, etc.) but not NRAS or HRAS. Pan-RAS inhibitors (like daraxonrasib) additionally block wild-type NRAS and HRAS, which matters for resistance since cancer cells can escape through WT RAS activation.
@@ -3094,9 +3094,9 @@ def generate_kras_report(admin: bool = False):
                 </tbody>
             </table>
             </div>
-            <div class="bio-box" style="background: #fef3c7; border-color: #f59e0b; margin-top: 20px;">
-                <h3 style="color: #92400e;">The Merck Saga (January 2026)</h3>
-                <p style="color: #78350f; line-height: 1.7;">
+            <div class="bio-box" style="background: #f5f3f0; border-color: #e0ddd8; margin-top: 20px;">
+                <h3 style="color: #1B2838;">The Merck Saga (January 2026)</h3>
+                <p style="color: #374151; line-height: 1.7;">
                     <strong>Jan 7:</strong> WSJ reports AbbVie in acquisition talks (&gt;$20B). RVMD +30%. AbbVie denies.<br>
                     <strong>Jan 8:</strong> Zoldonrasib receives BTD for G12D NSCLC &mdash; RVMD&rsquo;s 3rd BTD.<br>
                     <strong>Jan 9:</strong> FT reports Merck in talks at $28-32B. Multiple outlets confirm.<br>
@@ -3215,9 +3215,9 @@ def generate_kras_report(admin: bool = False):
             </table>
             </div>
             <p class="table-footnote">Total KRAS-mutant cancer worldwide: ~3.4 million new patients per year. KRAS inhibitors market projected to grow from ~$526M (2025) to ~$7.8B by 2034 at 35% CAGR.</p>
-            <div class="bio-box" style="background: #fef3c7; border-color: #f59e0b; margin-top: 20px;">
-                <h3 style="color: #92400e;">Pancreatic Cancer Context</h3>
-                <p style="color: #78350f; line-height: 1.7;">5-year survival ~12%. Third leading cause of cancer death in the US. Despite 40+ years of trials, the standard of care remains cytotoxic chemotherapy. There has <strong>never</strong> been a successful targeted therapy in PDAC. If daraxonrasib or zoldonrasib show meaningful Phase 3 activity, it would be the first time any targeted drug works in this disease. This is why the market prices RVMD at $24B pre-revenue.</p>
+            <div class="bio-box" style="background: #f5f3f0; border-color: #e0ddd8; margin-top: 20px;">
+                <h3 style="color: #1B2838;">Pancreatic Cancer Context</h3>
+                <p style="color: #374151; line-height: 1.7;">5-year survival ~12%. Third leading cause of cancer death in the US. Despite 40+ years of trials, the standard of care remains cytotoxic chemotherapy. There has <strong>never</strong> been a successful targeted therapy in PDAC. If daraxonrasib or zoldonrasib show meaningful Phase 3 activity, it would be the first time any targeted drug works in this disease. This is why the market prices RVMD at $24B pre-revenue.</p>
             </div>
         </div>
 
@@ -3315,12 +3315,12 @@ def generate_mir124_report(admin: bool = False):
         .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
         .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
-        .bio-box-green {{ background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-green h3 {{ color: #065f46; margin-top: 0; }}
+        .bio-box-green {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-green h3 {{ color: #1B2838; margin-top: 0; }}
         .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
-        .bio-box-amber {{ background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-amber h3 {{ color: #92400e; margin-top: 0; }}
+        .bio-box-amber {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-amber h3 {{ color: #1B2838; margin-top: 0; }}
         .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
@@ -3772,12 +3772,12 @@ def generate_stat6_report(admin: bool = False):
         .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
         .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
-        .bio-box-green {{ background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-green h3 {{ color: #065f46; margin-top: 0; }}
+        .bio-box-green {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-green h3 {{ color: #1B2838; margin-top: 0; }}
         .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
-        .bio-box-amber {{ background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-amber h3 {{ color: #92400e; margin-top: 0; }}
+        .bio-box-amber {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-amber h3 {{ color: #1B2838; margin-top: 0; }}
         .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
@@ -4263,16 +4263,16 @@ def generate_cell_therapy_report(admin: bool = False):
         .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
         .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
-        .bio-box-green {{ background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-green h3 {{ color: #065f46; margin-top: 0; }}
+        .bio-box-green {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-green h3 {{ color: #1B2838; margin-top: 0; }}
         .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
-        .bio-box-amber {{ background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-amber h3 {{ color: #92400e; margin-top: 0; }}
+        .bio-box-amber {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-amber h3 {{ color: #1B2838; margin-top: 0; }}
         .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
-        .bio-box-red {{ background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-red h3 {{ color: #991b1b; margin-top: 0; }}
+        .bio-box-red {{ background: #f5f3f0; border: 1px solid #D4654A; border-radius: 12px; padding: 24px; margin: 20px 0; }}
+        .bio-box-red h3 {{ color: #1B2838; margin-top: 0; }}
         .bio-box-red p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
 
         .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}

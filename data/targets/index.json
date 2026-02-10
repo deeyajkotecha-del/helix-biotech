@@ -196,27 +196,27 @@
   "categories": {
     "oncology": {
       "name": "Oncology",
-      "color": "#dc2626",
+      "color": "#1B2838",
       "count": 4
     },
     "immunology": {
       "name": "I&I",
-      "color": "#7c3aed",
+      "color": "#1B2838",
       "count": 6
     },
     "metabolic": {
       "name": "Metabolic",
-      "color": "#059669",
+      "color": "#1B2838",
       "count": 1
     },
     "modality": {
       "name": "Modality",
-      "color": "#9333ea",
+      "color": "#1B2838",
       "count": 1
     },
     "rare_disease": {
       "name": "Rare Disease",
-      "color": "#d97706",
+      "color": "#1B2838",
       "count": 1
     }
   }
