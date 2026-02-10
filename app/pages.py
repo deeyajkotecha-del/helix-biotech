@@ -2415,57 +2415,6 @@ def generate_b7h3_report(admin: bool = False):
 def generate_kras_report(admin: bool = False):
     """Generate the KRAS competitive landscape report — analyst-grade."""
 
-    # G12C Competitive Landscape
-    g12c_assets = [
-        {"asset": "Sotorasib (Lumakras)", "company": "Amgen", "ticker": "AMGN", "phase": "Approved", "type": "Covalent OFF", "indication": "2L NSCLC, CRC", "orr": "37% (NSCLC), 26% (CRC combo)", "pfs": "6.8mo (NSCLC)", "key_trial": "CodeBreaK 100/300", "notes": "First KRAS inhibitor. CRC combo w/panitumumab approved Jan 2025."},
-        {"asset": "Adagrasib (Krazati)", "company": "BMS (Mirati)", "ticker": "BMY", "phase": "Approved", "type": "Covalent OFF", "indication": "2L NSCLC", "orr": "43%", "pfs": "6.9mo", "key_trial": "KRYSTAL-1", "notes": "Longer t1/2 (23h vs 5h soto). CNS penetration. Ph3 1L (KRYSTAL-7) ongoing."},
-        {"asset": "Divarasib (GDC-6036)", "company": "Roche", "ticker": "RHHBY", "phase": "Phase 3", "type": "Covalent OFF", "indication": "NSCLC, CRC", "orr": "53% (NSCLC)", "pfs": "13.1mo", "key_trial": "KRASCENDO-1", "notes": "Best-in-class G12C ORR+PFS. Ph3 vs soto/adagrasib delayed to ~2027."},
-        {"asset": "Glecirasib (JAB-21822)", "company": "Jacobio / AZ", "ticker": "Private", "phase": "Phase 3", "type": "Covalent OFF", "indication": "NSCLC, CRC", "orr": "50%+", "pfs": "~12mo", "key_trial": "Phase 2 (China)", "notes": "China leader. AZ licensed pan-KRAS (JAB-23E73) Jan 2026."},
-        {"asset": "Olomorasib (LY3537982)", "company": "Eli Lilly", "ticker": "LLY", "phase": "Phase 3", "type": "Covalent OFF", "indication": "1L NSCLC", "orr": "58% (mono)", "pfs": "TBD", "key_trial": "SUNRAY-01", "notes": "1L NSCLC combo w/pembro. Potentially best G12C OFF data."},
-        {"asset": "Opnurasib (RMC-6291)", "company": "Revolution Medicines", "ticker": "RVMD", "phase": "Phase 2", "type": "Active-state ON", "indication": "Solid tumors", "orr": "48%", "pfs": "~8mo", "key_trial": "RAS-201", "notes": "ON-state inhibitor. Active post-soto/adagrasib resistance."},
-    ]
-
-    # G12D/Pan-RAS Landscape
-    g12d_assets = [
-        {"asset": "Zoldonrasib (RMC-9805)", "company": "Revolution Medicines", "ticker": "RVMD", "phase": "Phase 1/2", "type": "Active-state ON (G12D)", "indication": "NSCLC, PDAC", "orr": "61% NSCLC (n=18), 30% PDAC (n=40)", "key_trial": "RAS-108", "notes": "First-ever BTD for G12D (Jan 2026). Best G12D data to date."},
-        {"asset": "MRTX1133", "company": "BMS (Mirati)", "ticker": "BMY", "phase": "Phase 1/2", "type": "Non-covalent OFF (G12D)", "indication": "PDAC", "orr": "Early", "key_trial": "Phase 1", "notes": "First G12D inhibitor in clinic. Non-covalent approach. Limited data disclosed."},
-        {"asset": "Setidegrasib (ASP3082)", "company": "Astellas", "ticker": "ASGLY", "phase": "Phase 1/2", "type": "KRAS G12D degrader", "indication": "PDAC, NSCLC", "orr": "23% mono NSCLC; 58% combo 1L PDAC (n=12)", "key_trial": "Phase 1", "notes": "Novel degrader. ASCO-GI 2026: strong combo signal in PDAC w/mFOLFIRINOX."},
-        {"asset": "Calderasib (MK-1084)", "company": "Merck/Daiichi", "ticker": "MRK", "phase": "Phase 1 / Phase 3", "type": "Active-state ON (G12D)", "indication": "NSCLC, CRC, PDAC", "orr": "38% NSCLC, 38% CRC, 34% other", "key_trial": "KANDLELIT-001/007", "notes": "Ph3 KANDLELIT-007 initiated Jan 2026: calderasib + Keytruda Qlex in 1L NSCLC."},
-        {"asset": "Daraxonrasib (RMC-6236)", "company": "Revolution Medicines", "ticker": "RVMD", "phase": "Phase 3", "type": "Pan-RAS(ON) multi-target", "indication": "PDAC", "orr": "~20% PDAC (mono)", "key_trial": "RASolute-302/303", "notes": "THE most-watched KRAS readout of 2026. Pan-RAS covers G12D/V/R + NRAS/HRAS."},
-        {"asset": "JAB-23E73", "company": "AstraZeneca / Jacobio", "ticker": "AZN", "phase": "Preclinical/Phase 1", "type": "Pan-KRAS", "indication": "Broad", "orr": "Preclinical", "key_trial": "IND-enabling", "notes": "AZ licensed Jan 2026 for $100M upfront (ex-China). Validates pan-KRAS."},
-        {"asset": "ARV-806", "company": "Arvinas", "ticker": "ARVN", "phase": "Phase 1", "type": "KRAS G12D PROTAC degrader", "indication": "PDAC, NSCLC", "orr": "TBD", "key_trial": "Phase 1", "notes": "Degrader approach — distinct MOA from inhibitors. Data expected 2026."},
-        {"asset": "Avutometinib + defactinib", "company": "Verastem", "ticker": "VSTM", "phase": "Approved", "type": "RAF/MEK + FAK combo", "indication": "KRAS-mut LGSOC", "orr": "32% (LGSOC)", "key_trial": "RAMP 201", "notes": "Approved May 2025. First KRAS-directed therapy in gyn onc. Pathway approach."},
-    ]
-
-    # Build G12C table
-    g12c_rows = ""
-    for a in g12c_assets:
-        g12c_rows += f'''
-        <tr>
-            <td><strong>{a["asset"]}</strong></td>
-            <td>{a["company"]}<br><span class="ticker-small">{a["ticker"]}</span></td>
-            <td><span class="phase-badge">{a["phase"]}</span></td>
-            <td>{a["type"]}</td>
-            <td class="data-highlight">{a["orr"]}</td>
-            <td>{a["pfs"]}</td>
-            <td class="notes-text">{a["notes"]}</td>
-        </tr>
-        '''
-
-    # Build G12D/Pan-RAS table
-    g12d_rows = ""
-    for a in g12d_assets:
-        g12d_rows += f'''
-        <tr>
-            <td><strong>{a["asset"]}</strong></td>
-            <td>{a["company"]}<br><span class="ticker-small">{a["ticker"]}</span></td>
-            <td><span class="phase-badge">{a["phase"]}</span></td>
-            <td>{a["type"]}</td>
-            <td class="data-highlight">{a["orr"]}</td>
-            <td class="notes-text">{a["notes"]}</td>
-        </tr>
-        '''
-
     # Catalyst section from shared system
     catalyst_html = render_catalyst_section("kras", admin=admin)
 
@@ -2554,303 +2503,299 @@ def generate_kras_report(admin: bool = False):
             </div>
         </div>
 
-        <!-- KRAS Biology & Druggability -->
+        <!-- Section 1: RAS Biology & the OFF vs. ON Paradigm -->
         <div class="section">
-            <h2>Target Biology: Why KRAS Was "Undruggable" for 40 Years</h2>
-            <div class="bio-box">
-                <p>KRAS is a small GTPase that acts as a molecular switch in the RAS-MAPK signaling pathway, cycling between an active GTP-bound (ON) state and an inactive GDP-bound (OFF) state.
-                Oncogenic mutations lock KRAS in the ON state, constitutively driving proliferation and survival signaling.</p>
-                <div style="margin-top: 16px;">
-                    <div class="bio-point"><strong>The 40-year problem:</strong> KRAS has picomolar GTP affinity (no competitive inhibitor can displace it), a smooth protein surface (no obvious drug-binding pockets), and high intracellular GTP concentrations. Traditional drug design failed repeatedly.</div>
-                    <div class="bio-point"><strong>The G12C breakthrough (2013):</strong> Shokat lab discovered that the G12C mutation introduces a cysteine near the Switch II pocket. Covalent inhibitors that trap KRAS-G12C in the inactive GDP-bound (OFF) state became possible. This led to sotorasib (Amgen, 2021) and adagrasib (Mirati/BMS, 2022).</div>
-                    <div class="bio-point"><strong>The G12D challenge:</strong> G12D (aspartate) has no cysteine to exploit. Requires non-covalent or active-state approaches. Revolution Medicines' tri-complex strategy (drug + KRAS + cyclophilin A) and Astellas' degrader approach are leading solutions.</div>
-                    <div class="bio-point"><strong>ON vs. OFF inhibitors:</strong> First-gen drugs (sotorasib, adagrasib) target the OFF state. But resistance mutations reactivate KRAS cycling. Revolution's ON-state inhibitors (opnurasib, zoldonrasib) bind active KRAS, potentially addressing this resistance mechanism.</div>
-                    <div class="bio-point"><strong>Pan-RAS concept:</strong> Daraxonrasib (RMC-6236) inhibits multiple KRAS mutations (G12D, G12V, G12R, G13D) plus NRAS and HRAS. This "mutation-agnostic" approach could treat PDAC (~95% KRAS-mutant) regardless of specific allele.</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- KRAS Mutation Overview -->
-        <div class="section">
-            <h2>KRAS Mutations in Cancer</h2>
-            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
-                KRAS is mutated in approximately <strong>25% of all human cancers</strong> and is the most frequently mutated oncogene. Mutation prevalence varies dramatically by tumor type, which determines the addressable market for each inhibitor class.
+            <h2>RAS Biology &amp; the OFF vs. ON Paradigm</h2>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+                KRAS (Kirsten Rat Sarcoma viral oncogene) is the most frequently mutated oncogene in human cancer, present in ~20% of all cancers. KRAS mutations are particularly prevalent in pancreatic (&gt;90%), colorectal (~40%), and lung (~25%) cancers.
             </p>
-            <div class="mutation-grid">
-                <div class="mutation-card">
-                    <h4>KRAS G12C</h4>
-                    <div class="pct">~13%</div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">of NSCLC (~30K US patients/yr). 3 approved drugs. Crowded but proven.</p>
-                </div>
-                <div class="mutation-card">
-                    <h4>KRAS G12D</h4>
-                    <div class="pct">~40%</div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">of PDAC, ~13% CRC. ~25K US PDAC patients/yr. THE next frontier.</p>
-                </div>
-                <div class="mutation-card">
-                    <h4>KRAS G12V</h4>
-                    <div class="pct">~30%</div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">of PDAC, ~8% NSCLC. Only targetable via pan-RAS approach (RMC-6236).</p>
-                </div>
-                <div class="mutation-card">
-                    <h4>Pan-KRAS/RAS</h4>
-                    <div class="pct">~95%</div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">of PDAC has some KRAS mutation. Pan-RAS could address nearly all.</p>
-                </div>
-                <div class="mutation-card">
-                    <h4>KRAS G12R</h4>
-                    <div class="pct">~15%</div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary);">of PDAC. No dedicated inhibitor. Addressed by pan-RAS only.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- G12C Competitive Landscape -->
-        <div class="section">
-            <h2>G12C Competitive Landscape (Solved Target)</h2>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Asset</th>
-                            <th>Company</th>
-                            <th>Phase</th>
-                            <th>Inhibitor Type</th>
-                            <th>ORR</th>
-                            <th>mPFS</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {g12c_rows}
-                    </tbody>
-                </table>
-            </div>
-            <p class="table-footnote">G12C is increasingly a solved problem. Differentiation now depends on 1L combos (olomorasib + pembro), CNS penetration (adagrasib), and post-resistance ON-state activity (opnurasib). The real investment upside has shifted to G12D and pan-RAS.</p>
-        </div>
-
-        <!-- G12D / Pan-RAS Landscape -->
-        <div class="section">
-            <h2>G12D / Pan-RAS Landscape (The Investment Frontier)</h2>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Asset</th>
-                            <th>Company</th>
-                            <th>Phase</th>
-                            <th>Inhibitor Type</th>
-                            <th>ORR</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {g12d_rows}
-                    </tbody>
-                </table>
-            </div>
-            <p class="table-footnote">G12D is now where G12C was in 2019: early clinical proof-of-concept with zoldonrasib (61% ORR NSCLC), multiple competing approaches (ON-state, OFF-state, degraders), and the potential for transformative impact in pancreatic cancer. RASolute-302 (daraxonrasib in PDAC) is the single most important readout in the KRAS space for 2026.</p>
-        </div>
-
-        <!-- Resistance Mechanisms -->
-        <div class="section">
-            <h2>Resistance Biology &amp; Combination Rationale</h2>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+                KRAS cycles between an active GTP-bound &ldquo;ON&rdquo; state and an inactive GDP-bound &ldquo;OFF&rdquo; state. GEFs (mainly SOS1) activate KRAS by loading GTP. GAPs (mainly NF1) inactivate it by stimulating GTP hydrolysis. Oncogenic mutations impair GTP hydrolysis, locking KRAS in the ON state.
+            </p>
             <div class="bio-box">
-                <h3>Why monotherapy durability is limited (~6-8 months)</h3>
-                <div class="bio-point"><strong>Acquired KRAS mutations:</strong> Secondary mutations (G12C/R68S, G12C/Y96D, G12C/A59T) restore GTP cycling and prevent OFF-state inhibitor binding. ON-state inhibitors (RVMD) may overcome this.</div>
-                <div class="bio-point"><strong>Bypass pathway activation:</strong> Upregulation of RTKs (EGFR, FGFR, MET), SHP2, SOS1, or PI3K can reactivate MAPK signaling independent of KRAS. Rationale for combo strategies.</div>
-                <div class="bio-point"><strong>KRAS amplification:</strong> Increased KRAS copy number overwhelms stoichiometric inhibitors. Pan-RAS or degrader approaches may have advantage.</div>
-                <div class="bio-point"><strong>Histologic transformation:</strong> Rare (~3-5%) but clinically devastating. NSCLC-to-SCLC transformation renders KRAS inhibitors irrelevant.</div>
+                <h3>OFF-State Inhibitors</h3>
+                <p>OFF-state inhibitors (sotorasib, adagrasib, divarasib, olomorasib, calderasib) bind a pocket that only exists when KRAS is GDP-bound (OFF). They must wait for the GTPase cycle to bring KRAS back to the inactive state. This creates a vulnerability: upstream RTK signaling pushes KRAS to the ON state, reducing target engagement.</p>
             </div>
-            <h3>Key Combination Strategies in Development</h3>
+            <div class="bio-box" style="background: #fef3c7; border-color: #f59e0b;">
+                <h3 style="color: #92400e;">ON-State Inhibitors (Revolution Medicines Platform)</h3>
+                <p style="color: #78350f;">ON-state inhibitors (daraxonrasib, elironrasib, zoldonrasib) use a novel <strong>tri-complex mechanism</strong>. The drug binds to cyclophilin A (a ubiquitous human protein), and this drug&ndash;cyclophilin complex then selectively recognizes and locks active GTP-bound KRAS. This is mechanistically analogous to how immunomodulatory drugs (lenalidomide) work through cereblon &mdash; a molecular chaperone recruitment approach.</p>
+                <p style="color: #78350f; margin-top: 12px;"><strong>Why ON-state matters:</strong> Because they target active KRAS directly, ON-state inhibitors don&rsquo;t depend on the GDP/GTP cycle and may be inherently more resistant to adaptive resistance (which pushes KRAS toward the GTP state).</p>
+            </div>
+            <div class="bio-box" style="background: #f0fdf4; border-color: #86efac;">
+                <h3 style="color: #166534;">Degraders: A Third Modality</h3>
+                <p style="color: #166534;">Degraders (Astellas setidegrasib/ASP3082) destroy the KRAS G12D protein entirely via targeted protein degradation using a VHL E3 ligase. The protein is eliminated rather than inhibited. Astellas is also developing ASP4396, a backup degrader using cereblon as the E3 ligase.</p>
+            </div>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 16px;">
+                <strong>Pan-KRAS vs. Pan-RAS:</strong> Pan-KRAS inhibitors target multiple KRAS mutations (G12C, G12D, G12V, etc.) but not NRAS or HRAS. Pan-RAS inhibitors (like daraxonrasib) additionally block wild-type NRAS and HRAS, which matters for resistance since cancer cells can escape through WT RAS activation.
+            </p>
+        </div>
+
+        <!-- Section 2: Competitive Pipeline by Mutation -->
+        <div class="section">
+            <h2>Competitive Pipeline by Mutation</h2>
+
+            <!-- G12C -->
+            <h3>KRAS G12C (NSCLC-dominant: ~12% NSCLC, ~3-4% CRC, ~1-2% PDAC)</h3>
             <div style="overflow-x: auto;">
             <table>
                 <thead>
-                    <tr><th>Combination</th><th>Rationale</th><th>Key Program</th><th>Status</th></tr>
+                    <tr><th>Drug</th><th>Company</th><th>Mechanism</th><th>Phase</th><th>Key Efficacy</th><th>Differentiator</th><th>Next Catalyst</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><strong>KRAS + Anti-PD-1/PD-L1</strong></td><td>Immune reactivation post-KRAS inhibition</td><td>Olomorasib + pembro (SUNRAY-01); Calderasib + Keytruda Qlex (KANDLELIT-007)</td><td>Phase 3</td></tr>
-                    <tr><td><strong>KRAS + Anti-EGFR</strong></td><td>Block bypass signaling through EGFR</td><td>Sotorasib + panitumumab (CRC — approved); Divarasib + cetuximab</td><td>Approved (CRC)</td></tr>
-                    <tr><td><strong>KRAS + SHP2</strong></td><td>Block upstream adapter signaling</td><td>Multiple early combos</td><td>Phase 1/2</td></tr>
-                    <tr><td><strong>KRAS + SOS1</strong></td><td>Block KRAS reactivation via nucleotide exchange</td><td>BI-1701963 combos (Boehringer)</td><td>Phase 1</td></tr>
-                    <tr><td><strong>KRAS degrader + chemo</strong></td><td>Deeper tumor kill via orthogonal mechanisms</td><td>Setidegrasib + mFOLFIRINOX (1L PDAC)</td><td>Phase 1 (58% ORR)</td></tr>
+                    <tr><td><strong>Sotorasib (Lumakras)</strong></td><td>Amgen</td><td>G12C OFF covalent</td><td>Approved</td><td>41% ORR, 6.3mo PFS (NSCLC)</td><td>First-in-class. Now approved + panitumumab in CRC</td><td>Mature product &mdash; limited expansion</td></tr>
+                    <tr><td><strong>Adagrasib (Krazati)</strong></td><td>BMS</td><td>G12C OFF covalent</td><td>Approved</td><td>43% ORR, 6.9mo PFS (NSCLC)</td><td>23hr half-life, BBB penetration</td><td>KRYSTAL-10 (CRC, H1 2026), KRYSTAL-7 (1L NSCLC, 2028)</td></tr>
+                    <tr><td><strong>Divarasib</strong></td><td>Roche</td><td>G12C OFF covalent (next-gen)</td><td>Phase 3</td><td>59% ORR, 15.3mo PFS (NSCLC)</td><td>5-20x more potent than sotorasib</td><td>KRASCENDO-1 (vs soto/ada, ~2027), KRASCENDO-2 (1L + pembro)</td></tr>
+                    <tr><td><strong>Olomorasib</strong></td><td>Eli Lilly</td><td>G12C OFF covalent (next-gen)</td><td>Phase 3</td><td>35% ORR (solid tumors), 41% ORR post-G12Ci</td><td>Activity AFTER prior G12C failure (unique)</td><td>SUNRAY-01 (1L + pembro), SUNRAY-02 (resectable)</td></tr>
+                    <tr><td><strong>Calderasib (MK-1084)</strong></td><td>Merck</td><td>G12C OFF covalent (next-gen)</td><td>Phase 3</td><td>38% ORR NSCLC, 38% CRC (Ph1)</td><td>Combo with Keytruda Qlex</td><td>KANDLELIT-007 (1L + Keytruda, just started Jan 2026)</td></tr>
+                    <tr><td><strong>Glecirasib</strong></td><td>Jacobio / Innovent</td><td>G12C OFF covalent</td><td>Phase 3 (China)</td><td>China-focused development</td><td>Regional play</td><td>China data expected 2026</td></tr>
+                    <tr><td><strong>Elironrasib (RMC-6291)</strong></td><td>Revolution Medicines</td><td>G12C ON tri-complex</td><td>Phase 1/2</td><td>BTD granted</td><td>Only ON-state G12C inhibitor. Designed for post-G12Ci relapse.</td><td>Combo with daraxonrasib (NCT06128551)</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <!-- G12D -->
+            <h3 style="margin-top: 32px;">KRAS G12D (PDAC-dominant: ~40% PDAC, ~12% CRC, ~4% NSCLC) &mdash; ZERO APPROVED DRUGS</h3>
+            <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Drug</th><th>Company</th><th>Mechanism</th><th>Phase</th><th>Key Efficacy</th><th>Differentiator</th><th>Next Catalyst</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Zoldonrasib (RMC-9805)</strong></td><td>Revolution Medicines</td><td>G12D ON tri-complex</td><td>Phase 1 (pivotal-enabling)</td><td>61% ORR NSCLC (n=18), 30% ORR PDAC (n=40)</td><td>First-ever BTD for G12D (Jan 2026). Tri-complex with cyclophilin A.</td><td>Pivotal data; potential accelerated filing</td></tr>
+                    <tr><td><strong>Setidegrasib (ASP3082)</strong></td><td>Astellas</td><td>G12D degrader (VHL E3 ligase)</td><td>Phase 1 &rarr; Phase 3 planned</td><td>58% ORR + chemo in 1L PDAC (n=12); 23% ORR mono NSCLC</td><td>First-in-class degrader. Eliminates protein entirely.</td><td>Phase 3 1L PDAC (setidegrasib + mFOLFIRINOX) starting 2026</td></tr>
+                    <tr><td><strong>ASP4396</strong></td><td>Astellas</td><td>G12D degrader (cereblon ligase)</td><td>Phase 1</td><td>Early</td><td>Backup degrader with different E3 ligase</td><td>Phase 1 data</td></tr>
+                    <tr><td><strong>HRS-4642</strong></td><td>Jiangsu HengRui</td><td>G12D inhibitor</td><td>Phase 3 (China)</td><td>China-focused</td><td>Regional play</td><td>Pivotal study China</td></tr>
+                    <tr><td><strong>VS-7375 (GFH375)</strong></td><td>Verastem / GenFleet</td><td>G12D inhibitor</td><td>Phase 3 (China)</td><td>China 2L PDAC</td><td>Verastem-partnered</td><td>Ph3 China data</td></tr>
+                    <tr><td><strong>ARV-806</strong></td><td>Arvinas</td><td>G12D degrader</td><td>Phase 1</td><td>Early &mdash; data expected 2026</td><td>Third degrader entrant</td><td>Ph1 data 2026</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <!-- Pan-KRAS / Pan-RAS -->
+            <h3 style="margin-top: 32px;">Pan-KRAS / Pan-RAS (Broadest Coverage &mdash; All KRAS Mutations)</h3>
+            <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Drug</th><th>Company</th><th>Mechanism</th><th>Phase</th><th>Key Efficacy</th><th>Differentiator</th><th>Next Catalyst</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Daraxonrasib (RMC-6236)</strong></td><td>Revolution Medicines</td><td>Pan-RAS ON multi-selective</td><td>Phase 3</td><td>~35% ORR PDAC (Ph1/2). BTD for PDAC.</td><td>Only pan-RAS(ON) inhibitor. Covers G12C/D/V, G13, Q61 + WT NRAS/HRAS.</td><td>RASolute-302 (2L PDAC, late 2026) &mdash; THE event of the year. RASolute-303 (1L PDAC, enrolling 2026).</td></tr>
+                    <tr><td><strong>JAB-23E73</strong></td><td>AstraZeneca / Jacobio</td><td>Pan-KRAS (not pan-RAS)</td><td>Phase 1/2</td><td>Early</td><td>AZ paid $100M upfront Jan 2026. 600+ patients enrolling.</td><td>Ph1/2 data 2026-2027</td></tr>
+                    <tr><td><strong>ERAS-4001</strong></td><td>Erasca / Joyo</td><td>Pan-KRAS</td><td>Phase 1</td><td>Early</td><td>$12.5M upfront deal</td><td>Ph1 data</td></tr>
+                    <tr><td><strong>GFH276</strong></td><td>GenFleet</td><td>Pan-RAS</td><td>Phase 1</td><td>Early</td><td>One of few pan-RAS after RVMD</td><td>Ph1 data</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <!-- Other Mutations -->
+            <h3 style="margin-top: 32px;">Other Mutations (Expanding the Addressable Market)</h3>
+            <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Drug</th><th>Company</th><th>Mutation</th><th>Phase</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>RMC-5127</strong></td><td>Revolution Medicines</td><td>G12V ON</td><td>Phase 1</td><td>Covers ~30% PDAC, ~7% NSCLC</td></tr>
+                    <tr><td><strong>RMC-0708</strong></td><td>Revolution Medicines</td><td>Q61H ON</td><td>Preclinical</td><td>Expanding mutation coverage</td></tr>
+                    <tr><td><strong>RMC-8839</strong></td><td>Revolution Medicines</td><td>G13C ON</td><td>Preclinical</td><td>Expanding mutation coverage</td></tr>
                 </tbody>
             </table>
             </div>
         </div>
 
-        <!-- RVMD Deep Dive -->
+        <!-- Section 3: Revolution Medicines Platform Deep-Dive -->
         <div class="section">
-            <h2>Revolution Medicines (RVMD): The Central Name</h2>
-            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
-                RVMD is the most important single-stock in the KRAS space. It has 4 clinical-stage RAS programs spanning G12C, G12D, and pan-RAS, with 3 Breakthrough Therapy Designations. The Merck acquisition saga (Jan 2026) valued the company at $28-32B before talks collapsed.
+            <h2>Revolution Medicines Platform Deep-Dive</h2>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+                RVMD is unique in oncology: the <strong>only company with an ON-state RAS platform</strong> covering 6+ mutations across clinical and preclinical stages. It holds 3 FDA Breakthrough Therapy Designations across 3 different drugs (daraxonrasib for PDAC, elironrasib for G12C NSCLC, zoldonrasib for G12D NSCLC) &mdash; unprecedented for a pre-revenue company.
+            </p>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+                <strong>Platform economics:</strong> The tri-complex technology is modular. The same cyclophilin A chaperone recruitment mechanism is used with different warheads for different mutations. Each new drug leverages existing chemistry and manufacturing knowledge, compressing development timelines.
+            </p>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;">
+                <strong>Financial position:</strong> ~$2B cash, pre-revenue, $24B market cap post-Merck collapse. The stock was ~$16B pre-M&amp;A speculation, spiked to ~$28B during talks, and settled ~$24B after collapse.
             </p>
             <div style="overflow-x: auto;">
             <table>
                 <thead>
-                    <tr><th>Asset</th><th>Target</th><th>Phase</th><th>Key Data</th><th>Next Catalyst</th></tr>
+                    <tr><th>Asset</th><th>Target</th><th>Phase</th><th>Key Data</th><th>BTD</th><th>Next Catalyst</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Daraxonrasib (RMC-6236)</strong></td>
-                        <td>Pan-RAS(ON)</td>
-                        <td>Phase 3</td>
-                        <td>~20% ORR PDAC mono; unprecedented in PDAC</td>
-                        <td>RASolute-302 data late 2026</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Zoldonrasib (RMC-9805)</strong></td>
-                        <td>KRAS G12D(ON)</td>
-                        <td>Phase 1/2</td>
-                        <td>61% ORR NSCLC; 30% ORR PDAC. BTD Jan 2026.</td>
-                        <td>Dose expansion + registration path</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Opnurasib (RMC-6291)</strong></td>
-                        <td>KRAS G12C(ON)</td>
-                        <td>Phase 2</td>
-                        <td>48% ORR post-covalent resistance</td>
-                        <td>Registration-enabling data</td>
-                    </tr>
-                    <tr>
-                        <td><strong>RMC-5552</strong></td>
-                        <td>mTORC1 (RAS pathway)</td>
-                        <td>Phase 1</td>
-                        <td>Combination backbone</td>
-                        <td>Combo data</td>
-                    </tr>
+                    <tr><td><strong>Daraxonrasib (RMC-6236)</strong></td><td>Pan-RAS(ON)</td><td>Phase 3</td><td>~35% ORR PDAC (Ph1/2)</td><td>Yes (PDAC)</td><td>RASolute-302 late 2026</td></tr>
+                    <tr><td><strong>Zoldonrasib (RMC-9805)</strong></td><td>G12D(ON)</td><td>Phase 1 (pivotal)</td><td>61% ORR NSCLC; 30% ORR PDAC</td><td>Yes (G12D NSCLC)</td><td>Pivotal data + accel. filing</td></tr>
+                    <tr><td><strong>Elironrasib (RMC-6291)</strong></td><td>G12C(ON)</td><td>Phase 1/2</td><td>Post-G12Ci activity</td><td>Yes (G12C NSCLC)</td><td>Combo w/ daraxonrasib</td></tr>
+                    <tr><td><strong>RMC-5127</strong></td><td>G12V(ON)</td><td>Phase 1</td><td>Early</td><td>&mdash;</td><td>Ph1 data</td></tr>
+                    <tr><td><strong>RMC-0708</strong></td><td>Q61H(ON)</td><td>Preclinical</td><td>&mdash;</td><td>&mdash;</td><td>IND</td></tr>
+                    <tr><td><strong>RMC-8839</strong></td><td>G13C(ON)</td><td>Preclinical</td><td>&mdash;</td><td>&mdash;</td><td>IND</td></tr>
                 </tbody>
             </table>
             </div>
             <div class="bio-box" style="background: #fef3c7; border-color: #f59e0b; margin-top: 20px;">
-                <h3 style="color: #92400e;">M&amp;A Context</h3>
+                <h3 style="color: #92400e;">The Merck Saga (January 2026)</h3>
                 <p style="color: #78350f; line-height: 1.7;">
                     <strong>Jan 7:</strong> WSJ reports AbbVie in acquisition talks (&gt;$20B). RVMD +30%. AbbVie denies.<br>
+                    <strong>Jan 8:</strong> Zoldonrasib receives BTD for G12D NSCLC &mdash; RVMD&rsquo;s 3rd BTD.<br>
                     <strong>Jan 9:</strong> FT reports Merck in talks at $28-32B. Multiple outlets confirm.<br>
-                    <strong>Jan 26:</strong> Talks collapse. RVMD -20%, settles ~$24B market cap.<br>
-                    <strong>Implication:</strong> The $28-32B bid range established a floor valuation for RVMD's RAS platform. If RASolute-302 succeeds, the company is likely worth &gt;$30B standalone or as an acquisition target. If it fails, ~$10-12B.
+                    <strong>Jan 12:</strong> JPM Healthcare Conference &mdash; intense speculation.<br>
+                    <strong>Jan 26:</strong> Talks collapse. RVMD -20%, settles ~$24B market cap.<br><br>
+                    Management chose independence, signaling confidence that RASolute-302 data will justify a higher valuation. CEO Mark Goldsmith MD/PhD: <em>&ldquo;It&rsquo;s not our goal to build something big. It&rsquo;s our goal to build something impactful.&rdquo;</em>
                 </p>
             </div>
-        </div>
-
-        <!-- Deal Landscape -->
-        <div class="section">
-            <h2>Deal Landscape &amp; M&amp;A Activity</h2>
-            <div style="overflow-x: auto;">
-            <table class="deal-table">
-                <thead>
-                    <tr><th>Date</th><th>Deal</th><th>Value</th><th>Significance</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>2023</td><td>BMS acquires Mirati Therapeutics</td><td>$5.8B</td><td>Adagrasib + MRTX1133 (G12D) pipeline. Brought G12D to BMS.</td></tr>
-                    <tr><td>Jan 2026</td><td>AZ licenses JAB-23E73 from Jacobio</td><td>$100M upfront</td><td>Pan-KRAS inhibitor (ex-China). Validates pan-KRAS approach for big pharma.</td></tr>
-                    <tr><td>Jan 2026</td><td>Merck-RVMD acquisition talks</td><td>$28-32B (failed)</td><td>Established RVMD floor valuation. Merck wanted RAS platform to complement Keytruda Qlex combos.</td></tr>
-                    <tr><td>2024</td><td>Daiichi partners with Merck on calderasib</td><td>Undisclosed</td><td>Merck gains G12D inhibitor for Keytruda combo strategy.</td></tr>
-                    <tr><td>2024</td><td>Verastem licenses avutometinib from Chugai</td><td>$215M deal</td><td>RAF/MEK pathway approach — led to first KRAS-directed LGSOC approval.</td></tr>
-                </tbody>
-            </table>
-            </div>
-        </div>
-
-        <!-- Market Opportunity -->
-        <div class="section">
-            <h2>Market Opportunity by Indication</h2>
-            <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr><th>Indication</th><th>KRAS Mutation Rate</th><th>US Incidence/yr</th><th>Addressable Patients</th><th>Current SOC</th><th>KRAS Inhibitor Impact</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>NSCLC</strong></td>
-                        <td>~25% (G12C ~13%)</td>
-                        <td>~236K</td>
-                        <td>~30K G12C; ~12K G12D</td>
-                        <td>IO + chemo (1L); docetaxel (2L)</td>
-                        <td>G12C approved 2L. 1L combos (SUNRAY, KANDLELIT-007) are the key battleground.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pancreatic (PDAC)</strong></td>
-                        <td>~95% any KRAS; ~40% G12D</td>
-                        <td>~64K</td>
-                        <td>~60K (pan-KRAS); ~25K G12D</td>
-                        <td>FOLFIRINOX / gem-nab-P</td>
-                        <td>Largest unmet need. 5-yr OS ~12%. RASolute-302 could be transformative. Degrader combos promising.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Colorectal (CRC)</strong></td>
-                        <td>~45% any KRAS; ~3% G12C</td>
-                        <td>~153K</td>
-                        <td>~5K G12C; ~20K G12D</td>
-                        <td>Anti-EGFR excluded if KRAS-mut</td>
-                        <td>Soto+pani approved G12C CRC (Jan 2025). KRYSTAL-10 (ada) data H1 2026.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Low-Grade Serous Ovarian</strong></td>
-                        <td>~30% KRAS-mut</td>
-                        <td>~3K</td>
-                        <td>~1K</td>
-                        <td>Hormonal or chemo</td>
-                        <td>Avutometinib+defactinib approved May 2025. Niche but first KRAS therapy in gyn onc.</td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-        </div>
-
-        <!-- Bull/Bear -->
-        <div class="section">
-            <h2>Investment Thesis</h2>
-            <div class="thesis-grid">
+            <div class="thesis-grid" style="margin-top: 20px;">
                 <div class="bull-box">
-                    <h3>Bull Case</h3>
+                    <h3>RVMD Bull Case</h3>
                     <ul class="thesis-list">
-                        <li>KRAS is mutated in 25% of all cancers — largest single oncogene target by patient volume</li>
-                        <li>G12D is the new frontier: zoldonrasib 61% ORR in NSCLC is exceptional for first-in-class</li>
-                        <li>PDAC is a $5B+ unmet need with no targeted therapies — pan-RAS (daraxonrasib) could be transformative</li>
-                        <li>Merck's $28-32B bid for RVMD established a valuation floor; success in RASolute-302 could push &gt;$40B</li>
-                        <li>ON-state inhibitors address resistance to approved OFF-state drugs — sequential therapy model</li>
-                        <li>1L combos (KRAS + anti-PD-1) in NSCLC could 5x the current G12C market</li>
-                        <li>Degraders (Astellas, Arvinas) represent a third modality wave with combo potential</li>
-                        <li>AZ-Jacobio deal validates pan-KRAS for big pharma — more deals likely</li>
+                        <li>If RASolute-302 positive in PDAC, daraxonrasib becomes the first-ever targeted therapy in pancreatic cancer</li>
+                        <li>RVMD re-rates to $40B+ and renewed bidding war from multiple Big Pharma</li>
+                        <li>Platform covers ~3.4M new KRAS-mutant cancer patients/year worldwide</li>
+                        <li>3 BTDs across 3 drugs with modular platform chemistry &mdash; pipeline depth is unmatched</li>
                     </ul>
                 </div>
                 <div class="bear-box">
-                    <h3>Bear Case</h3>
+                    <h3>RVMD Bear Case</h3>
                     <ul class="thesis-list">
-                        <li>Monotherapy durability remains poor: ~6-8 month PFS even with best-in-class agents</li>
-                        <li>PDAC microenvironment may limit any single-agent impact — stromal/immune barriers</li>
-                        <li>Daraxonrasib 20% ORR in PDAC mono is modest; combo data needed to prove the thesis</li>
-                        <li>G12D competition intensifying: zoldonrasib, calderasib, setidegrasib, MRTX1133 all in clinic</li>
-                        <li>RVMD at $24B market cap is pricing in substantial RASolute success; binary risk is high</li>
-                        <li>Checkpoint combo trials (SUNRAY, KANDLELIT-007) may not add enough PFS over IO+chemo alone</li>
-                        <li>Merck acquisition collapse suggests big pharma sees risk in paying peak valuation</li>
-                        <li>G12C market ($1-2B) has disappointed vs. initial $5B+ estimates due to modest durability</li>
+                        <li>PDAC has been a graveyard for targeted therapies &mdash; decades of failures</li>
+                        <li>Pan-RAS inhibition of WT KRAS may have a narrow therapeutic window (WT KRAS is essential for normal development)</li>
+                        <li>Small datasets with unconfirmed responses (6/11 NSCLC responses for zoldonrasib were unconfirmed)</li>
+                        <li>$24B valuation for a pre-revenue company with no approved products</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Catalysts (shared system) -->
+        <!-- Section 4: Resistance Biology -->
+        <div class="section">
+            <h2>Resistance Biology</h2>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+                <strong>Adaptive resistance (hours):</strong> When you inhibit mutant KRAS, ERK-mediated negative feedback is relieved. This reactivates the RAS-MAPK pathway through WT NRAS and HRAS via RTK &rarr; SOS1 signaling. This is the fundamental problem with ALL KRAS inhibitors.
+            </p>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+                <strong>Why OFF-state inhibitors are especially vulnerable:</strong> Adaptive resistance pushes KRAS toward the GTP-bound ON state, which <em>reduces</em> the target available for OFF-state drugs to bind. The drug literally has less target to work with.
+            </p>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+                <strong>Why ON-state inhibitors may be more durable:</strong> They bind GTP-bound KRAS directly. Feedback that pushes KRAS to the ON state may paradoxically <em>increase</em> target engagement (more ON-state KRAS = more binding sites).
+            </p>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px;">
+                <strong>Tissue-specific differences:</strong> CRC has much stronger RTK (especially EGFR) feedback than NSCLC, explaining why KRAS monotherapy ORR is ~30% in CRC vs ~40-55% in NSCLC. This is why sotorasib + panitumumab (anti-EGFR) was developed specifically for CRC.
+            </p>
+            <div class="bio-box">
+                <h3>Acquired Resistance Mutations</h3>
+                <p>Y96D, Y96S alter the Switch II pocket, blocking covalent binding. Some confer cross-resistance to both sotorasib and adagrasib. Others remain sensitive to the alternative G12C inhibitor. Pathway bypass through BRAF amplification, MET amplification, PIK3CA mutation, or histologic transformation (NSCLC &rarr; SCLC) represents a distinct resistance category.</p>
+            </div>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-top: 16px;">
+                <strong>Implication:</strong> Monotherapy will inevitably fail. Combinations that block upstream feedback (SHP2i, SOS1i, EGFRi) or downstream bypass (MEKi, CDK4/6i) are necessary for durable responses.
+            </p>
+        </div>
+
+        <!-- Section 5: Combination Therapy Landscape -->
+        <div class="section">
+            <h2>Combination Therapy Landscape</h2>
+            <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Strategy</th><th>Rationale</th><th>Key Trials</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>G12C + anti-PD-1 (1L NSCLC)</strong></td><td>Expand to frontline, largest commercial market</td><td>Olomorasib+pembro (SUNRAY-01), divarasib+pembro (KRASCENDO-2), calderasib+Keytruda Qlex (KANDLELIT-007)</td><td>Multiple Phase 3s enrolling &mdash; THE commercial prize</td></tr>
+                    <tr><td><strong>G12C + EGFRi (CRC)</strong></td><td>Block EGFR-driven feedback in CRC</td><td>Soto+panitumumab (FDA approved), divarasib+cetuximab (62% ORR Ph1b)</td><td>Validated in CRC &mdash; soto+pani already approved</td></tr>
+                    <tr><td><strong>G12C + SHP2i</strong></td><td>Block convergent RTK feedback upstream of SOS1</td><td>JDQ443+TNO155 (KontRASt-01)</td><td>Tolerability challenges &mdash; some programs discontinued</td></tr>
+                    <tr><td><strong>G12C + SOS1i</strong></td><td>Alternative to SHP2i, block RAS activation directly</td><td>BI-1701963+BI 1823911</td><td>Early clinical; mixed results</td></tr>
+                    <tr><td><strong>G12D + chemo (1L PDAC)</strong></td><td>Frontline PDAC &mdash; highest unmet need</td><td>Setidegrasib+mFOLFIRINOX (Phase 3 planned 2026)</td><td>58% ORR in Phase 1 is attention-getting</td></tr>
+                    <tr><td><strong>Pan-RAS + G12C-selective</strong></td><td>Deep RAS suppression by blocking both mutant AND WT RAS</td><td>Daraxonrasib+elironrasib (NCT06128551)</td><td>Phase 1/2 &mdash; rational but unproven</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- Section 6: Big Pharma Oncology Gaps & KRAS M&A Logic -->
+        <div class="section">
+            <h2>Big Pharma Oncology Gaps &amp; KRAS M&amp;A Logic</h2>
+            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px;">
+                Understanding who needs KRAS assets and why is critical for anticipating M&amp;A. Most large pharma companies face patent cliffs on blockbuster drugs within 2-4 years. KRAS is one of the few areas with sufficient market size ($7-8B by 2034) and clinical momentum to replace lost revenue.
+            </p>
+            <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Company</th><th>Key LOE Drug</th><th>LOE Date</th><th>Revenue at Risk</th><th>KRAS Asset</th><th>Strategic Gap</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Merck</strong></td><td>Keytruda</td><td>2028</td><td>~$30B/yr</td><td>Calderasib (G12C OFF, Ph3)</td><td>No G12D, no pan-RAS. Tried RVMD at $30B &mdash; failed. $70B opportunity target by mid-2030s.</td></tr>
+                    <tr><td><strong>BMS</strong></td><td>Eliquis + Opdivo</td><td>2026/2028</td><td>~$16B combined</td><td>Krazati (G12C OFF, approved)</td><td>Gen 1 product being surpassed. No G12D. Cannot afford mega-deal.</td></tr>
+                    <tr><td><strong>AstraZeneca</strong></td><td>Farxiga</td><td>2026</td><td>~$7.7B</td><td>JAB-23E73 (pan-KRAS, Ph1/2)</td><td>Late entrant, $100M bolt-on. Playing catch-up.</td></tr>
+                    <tr><td><strong>Eli Lilly</strong></td><td>(No major onc LOE)</td><td>&mdash;</td><td>&mdash;</td><td>Olomorasib (G12C OFF, Ph3)</td><td>Strongest position &mdash; can build internally. No G12D or pan-RAS.</td></tr>
+                    <tr><td><strong>Roche</strong></td><td>(Diverse)</td><td>Gradual</td><td>&mdash;</td><td>Divarasib (G12C OFF, Ph3)</td><td>Best-in-class G12C (59% ORR). No G12D or pan-RAS.</td></tr>
+                    <tr><td><strong>Pfizer</strong></td><td>Ibrance/Xtandi</td><td>2027</td><td>~$8B</td><td>None</td><td>Complete KRAS gap. Focused on ADCs post-Seagen.</td></tr>
+                    <tr><td><strong>Astellas</strong></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>Setidegrasib (G12D degrader)</td><td>Only degrader company &mdash; could be acquired itself.</td></tr>
+                </tbody>
+            </table>
+            </div>
+            <div class="bio-box" style="margin-top: 20px;">
+                <p>Every major pharma with a KRAS asset has a G12C OFF-state inhibitor. <strong>None except RVMD has a viable ON-state platform or pan-RAS coverage.</strong> G12D has ZERO approved drugs. This is why RVMD commanded a $30B valuation &mdash; it is the only company with ON-state mechanism + pan-RAS + G12D + G12C + G12V coverage. If RASolute-302 data are positive, expect a renewed bidding war. If data disappoint, the G12C OFF-state companies (Roche, Lilly, Merck) become dominant and RVMD&rsquo;s $24B valuation becomes untenable.</p>
+            </div>
+        </div>
+
+        <!-- Section 7: Market Opportunity by Indication & Mutation -->
+        <div class="section">
+            <h2>Market Opportunity by Indication &amp; Mutation</h2>
+            <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>Cancer Type</th><th>US Annual Incidence</th><th>% KRAS Mutated</th><th>Dominant Mutations</th><th>Addressable Market</th><th>Current SOC</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>NSCLC</strong></td><td>~236,000</td><td>~25%</td><td>G12C (12%), G12V (7%), G12D (4%)</td><td>$10-15B (1L combos)</td><td>Keytruda &plusmn; chemo</td></tr>
+                    <tr><td><strong>PDAC</strong></td><td>~64,000</td><td>&gt;90%</td><td>G12D (40%), G12V (30%), G12R (15%)</td><td>$5-8B</td><td>FOLFIRINOX, gem/nab-P. No targeted therapy EVER worked.</td></tr>
+                    <tr><td><strong>CRC</strong></td><td>~153,000</td><td>~40%</td><td>G12D (12%), G12V (8%), G12C (3-4%), G13D (7%)</td><td>$3-5B</td><td>Chemo + biologics</td></tr>
+                    <tr><td><strong>LGSOC</strong></td><td>Rare subset</td><td>KRAS mutated</td><td>Various</td><td>&lt;$1B</td><td>Avutometinib+defactinib (approved May 2025)</td></tr>
+                </tbody>
+            </table>
+            </div>
+            <p class="table-footnote">Total KRAS-mutant cancer worldwide: ~3.4 million new patients per year. KRAS inhibitors market projected to grow from ~$526M (2025) to ~$7.8B by 2034 at 35% CAGR.</p>
+            <div class="bio-box" style="background: #fef3c7; border-color: #f59e0b; margin-top: 20px;">
+                <h3 style="color: #92400e;">Pancreatic Cancer Context</h3>
+                <p style="color: #78350f; line-height: 1.7;">5-year survival ~12%. Third leading cause of cancer death in the US. Despite 40+ years of trials, the standard of care remains cytotoxic chemotherapy. There has <strong>never</strong> been a successful targeted therapy in PDAC. If daraxonrasib or zoldonrasib show meaningful Phase 3 activity, it would be the first time any targeted drug works in this disease. This is why the market prices RVMD at $24B pre-revenue.</p>
+            </div>
+        </div>
+
+        <!-- Section 8: Deal Landscape -->
+        <div class="section">
+            <h2>Deal Landscape</h2>
+            <div style="overflow-x: auto;">
+            <table class="deal-table">
+                <thead>
+                    <tr><th>Deal</th><th>Parties</th><th>Date</th><th>Value</th><th>Significance</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Merck-RVMD (collapsed)</strong></td><td>Merck + Revolution Medicines</td><td>Jan 2026</td><td>$28-32B range</td><td>Largest attempted biotech deal of 2026. Collapsed Jan 26 &mdash; RVMD chose independence.</td></tr>
+                    <tr><td><strong>AZ-Jacobio</strong></td><td>AstraZeneca + Jacobio</td><td>Jan 2026</td><td>$100M upfront</td><td>Pan-KRAS bolt-on. Signals Big Pharma consensus on KRAS.</td></tr>
+                    <tr><td><strong>BMS-Mirati</strong></td><td>BMS acquired Mirati</td><td>2024</td><td>$4.8B</td><td>For adagrasib (Krazati). Now looks modest vs RVMD valuations.</td></tr>
+                    <tr><td><strong>RVMD-Royalty Pharma</strong></td><td>Revolution Medicines + RP</td><td>2025</td><td>$2B</td><td>Royalty financing &mdash; RVMD monetized future royalties to fund pipeline.</td></tr>
+                    <tr><td><strong>Bayer-Kumquat</strong></td><td>Bayer + Kumquat Biosciences</td><td>2025</td><td>Undisclosed</td><td>KRAS G12D partnership.</td></tr>
+                    <tr><td><strong>Verastem-GenFleet</strong></td><td>Verastem + GenFleet</td><td>2024</td><td>Undisclosed</td><td>VS-7375 G12D partnership.</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- Section 9: Catalysts (shared system) -->
         {catalyst_html}
 
-        <!-- Key Sources -->
+        <!-- Section 10: Sources -->
         <div class="section">
             <h2>Key Sources</h2>
             <ol class="source-list">
-                <li>Skoulidis F et al. "Sotorasib for Lung Cancers with KRAS p.G12C Mutation." <em>NEJM</em> 2021; 384:2371-2381. <a href="https://pubmed.ncbi.nlm.nih.gov/34096690/" target="_blank">PubMed</a></li>
-                <li>Janne PA et al. "Adagrasib in Non-Small-Cell Lung Cancer Harboring a KRAS G12C Mutation." <em>NEJM</em> 2022; 387:120-131. <a href="https://pubmed.ncbi.nlm.nih.gov/35658005/" target="_blank">PubMed</a></li>
-                <li>Sacher A et al. "Single-Agent Divarasib (GDC-6036) in Solid Tumors with a KRAS G12C Mutation." <em>NEJM</em> 2023; 389:710-721. <a href="https://pubmed.ncbi.nlm.nih.gov/37611121/" target="_blank">PubMed</a></li>
-                <li>Ostrem JM, Shokat KM. "Direct small-molecule inhibitors of KRAS: from structural insights to mechanism-based design." <em>Nat Rev Drug Discov</em> 2016; 15:771-785. <a href="https://pubmed.ncbi.nlm.nih.gov/27469033/" target="_blank">PubMed</a></li>
-                <li>Fakih MG et al. "Sotorasib plus Panitumumab in KRAS G12C CRC" (CodeBreaK 300). <em>NEJM</em> 2023; 389:2125-2139. <a href="https://pubmed.ncbi.nlm.nih.gov/37870976/" target="_blank">PubMed</a></li>
-                <li>Vortala E et al. "Daraxonrasib (RMC-6236) in KRAS-mutant PDAC." ASCO 2024 Abstract. <a href="https://meetings.asco.org/" target="_blank">ASCO</a></li>
-                <li>Revolution Medicines. "Zoldonrasib AACR 2025 Data — 61% ORR in G12D NSCLC." Press release, Apr 2025.</li>
-                <li>Verastem Oncology. "FDA Approval of Avutometinib + Defactinib in LGSOC." Press release, May 2025.</li>
-                <li>Merck. "KANDLELIT-001 Phase 1 Data at ESMO 2025." Conference presentation, Sep 2025.</li>
-                <li>Astellas. "Setidegrasib + mFOLFIRINOX ASCO-GI 2026 Data." Conference presentation, Jan 2026.</li>
-                <li>AstraZeneca. "AZ licenses JAB-23E73 pan-KRAS inhibitor from Jacobio." Press release, Jan 2026.</li>
-                <li>Wall Street Journal. "AbbVie in Talks to Acquire Revolution Medicines." Jan 7, 2026.</li>
-                <li>Financial Times. "Merck in Acquisition Talks with Revolution Medicines at $28-32B." Jan 9, 2026.</li>
+                <li>Sacher A et al. &ldquo;Single-Agent Divarasib (GDC-6036) in Solid Tumors with a KRAS G12C Mutation.&rdquo; <em>NEJM</em> 2023; 389:710-721. <a href="https://clinicaltrials.gov/ct2/show/NCT04449874" target="_blank">NCT04449874</a></li>
+                <li>Skoulidis F et al. &ldquo;Sotorasib for Lung Cancers with KRAS p.G12C Mutation.&rdquo; (CodeBreaK 100) <em>NEJM</em> 2021; 384:2371-2381. <a href="https://pubmed.ncbi.nlm.nih.gov/34096690/" target="_blank">PubMed</a></li>
+                <li>Li BT et al. &ldquo;Adagrasib in Patients with KRAS G12C-Mutated NSCLC.&rdquo; (KRYSTAL-1 updated) <em>NEJM</em> 2024. <a href="https://pubmed.ncbi.nlm.nih.gov/35658005/" target="_blank">PubMed</a></li>
+                <li>Strickler JH et al. &ldquo;Sotorasib plus Panitumumab in KRAS G12C CRC.&rdquo; (CodeBreaK 300) <em>NEJM</em> 2023; 389:2125-2139. <a href="https://pubmed.ncbi.nlm.nih.gov/37870976/" target="_blank">PubMed</a></li>
+                <li>Revolution Medicines. &ldquo;Zoldonrasib AACR 2025 &mdash; 61% ORR in G12D NSCLC.&rdquo; <a href="https://doi.org/10.1158/1538-7445.AM2025-CT019" target="_blank">doi:10.1158/1538-7445.AM2025-CT019</a></li>
+                <li>Astellas. &ldquo;Setidegrasib + mFOLFIRINOX in 1L PDAC.&rdquo; ASCO-GI 2026 presentation.</li>
+                <li>&ldquo;Emerging landscape of KRAS inhibitors.&rdquo; (Comprehensive review) <em>Cancer Cell</em> Jan 2026.</li>
+                <li>Hofmann MH et al. &ldquo;Expanding biology of SOS1 in KRAS-driven cancers.&rdquo; <em>Nature Cancer</em> 2024.</li>
+                <li>&ldquo;Astra enters the pan-KRAS game.&rdquo; ApexOnco / OncologyPipeline, Jan 2026.</li>
+                <li>KANDLELIT-007 Phase 3 design. <a href="https://clinicaltrials.gov/ct2/show/NCT07190248" target="_blank">NCT07190248</a></li>
+                <li>RASolute-302 Phase 3. <a href="https://clinicaltrials.gov/" target="_blank">ClinicalTrials.gov</a></li>
+                <li>Sacher A et al. &ldquo;Divarasib long-term follow-up &mdash; 59% ORR, 15.3mo PFS.&rdquo; <em>JCO</em> 2025.</li>
             </ol>
         </div>
 
