@@ -41,5 +41,8 @@ tenacity==8.2.3  # Retry logic
 # LLM integration
 anthropic==0.39.0
 
+# Testing
+pytest>=7.0.0
+
 # Date handling
 python-dateutil==2.8.2

@@ -53,7 +53,7 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://satyabio.com", "https://www.satyabio.com", "http://localhost:8000", "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -191,6 +191,74 @@ async def serve_arwr_thesis():
 async def serve_company_detail(ticker: str):
     """Serve individual company detail page."""
     return HTMLResponse(generate_company_detail(ticker))
+
+# =============================================================================
+# Email Subscription (Gate)
+# =============================================================================
+
+import re
+import time
+from datetime import datetime
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+
+class SubscribeRequest(BaseModel):
+    email: str
+
+# Simple in-memory rate limiter: { ip: [timestamp, ...] }
+_subscribe_rate: dict[str, list[float]] = {}
+_RATE_LIMIT = 5       # max requests
+_RATE_WINDOW = 60.0   # per 60 seconds
+
+def _check_rate_limit(ip: str) -> bool:
+    """Return True if request is allowed, False if rate-limited."""
+    now = time.time()
+    timestamps = _subscribe_rate.get(ip, [])
+    # Prune old entries
+    timestamps = [t for t in timestamps if now - t < _RATE_WINDOW]
+    if len(timestamps) >= _RATE_LIMIT:
+        _subscribe_rate[ip] = timestamps
+        return False
+    timestamps.append(now)
+    _subscribe_rate[ip] = timestamps
+    return True
+
+@app.post("/api/subscribe")
+async def subscribe(req: SubscribeRequest, request: Request):
+    """Save subscriber email for gated company access."""
+    # Rate limit
+    client_ip = request.client.host if request.client else "unknown"
+    if not _check_rate_limit(client_ip):
+        return JSONResponse(status_code=429, content={"detail": "Too many requests. Please try again later."})
+
+    email = req.email.strip().lower()
+
+    # Validate: no spaces, has @, has dot after @, under 254 chars
+    if (len(email) > 254
+        or ' ' in email
+        or not re.match(r'^[^@\s]+@[^@\s]+\.[^@\s]+$', email)):
+        return JSONResponse(status_code=400, content={"detail": "Invalid email address."})
+
+    subs_path = BASE_DIR / "data" / "subscribers.json"
+    subs_path.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        subs = []
+        if subs_path.exists():
+            with open(subs_path) as f:
+                subs = json.load(f)
+
+        # Deduplicate
+        existing_emails = {s["email"] for s in subs}
+        if email not in existing_emails:
+            print(f"NEW_SUBSCRIBER: {email}")
+            subs.append({"email": email, "subscribed_at": datetime.utcnow().isoformat() + "Z"})
+            with open(subs_path, "w") as f:
+                json.dump(subs, f, indent=2)
+    except (IOError, OSError) as e:
+        return JSONResponse(status_code=500, content={"detail": "Could not save subscription. Please try again."})
+
+    return {"status": "ok", "message": "Subscribed successfully."}
 
 # =============================================================================
 # Health Check

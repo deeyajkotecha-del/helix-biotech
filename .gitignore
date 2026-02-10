@@ -57,3 +57,6 @@ htmlcov/
 cli/.env
 cli/.env
 data/companies/*/sources/*/original.pdf
+
+# Subscriber emails (user data — never commit)
+data/subscribers.json

@@ -185,7 +185,7 @@ def get_base_styles():
     </style>
     '''
 
-def generate_company_card(company):
+def generate_company_card(company, locked=False):
     """Generate a company card - supports both legacy format and index.json format."""
     ticker = company.get("ticker", "")
     name = company.get("name", ticker)
@@ -201,8 +201,10 @@ def generate_company_card(company):
         acquired_badge = '<span class="acquired-badge">Acquired</span>' if is_acquired else ""
         acquisition_details = f'<div class="acquisition-details">{company.get("acquisition", "")}</div>' if is_acquired and company.get("acquisition") else ""
 
-        return f'''
-        <a href="/api/clinical/companies/{ticker}/html" class="{card_class}">
+        if locked:
+            card_class += " locked-card"
+
+        inner = f'''
             <div class="card-header">
                 <div>
                     <div class="card-ticker-row">
@@ -226,8 +228,24 @@ def generate_company_card(company):
                 <div class="catalyst-text">{company["catalyst"]}</div>
             </div>
             <div class="tags-row">{tags_html}</div>
-        </a>
         '''
+
+        if locked:
+            return f'''
+            <div class="{card_class}" onclick="showGateModal(event)">
+                <div class="locked-blur">{inner}</div>
+                <div class="locked-overlay">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span>Unlock Profile</span>
+                </div>
+            </div>
+            '''
+        else:
+            return f'''
+            <a href="/api/clinical/companies/{ticker}/html" class="{card_class}">
+                {inner}
+            </a>
+            '''
     else:
         # index.json format - simpler card
         stage = company.get("development_stage", "")
@@ -257,8 +275,11 @@ def generate_company_card(company):
             tags.append(therapeutic_label)
         tags_html = ''.join([f'<span class="tag">{tag}</span>' for tag in tags[:3]])
 
-        return f'''
-        <a href="/api/clinical/companies/{ticker}/html" class="company-card">
+        card_class = "company-card"
+        if locked:
+            card_class += " locked-card"
+
+        inner = f'''
             <div class="card-header">
                 <div>
                     <div class="card-ticker-row">
@@ -275,8 +296,24 @@ def generate_company_card(company):
                 {priority_badge}
             </div>
             <div class="tags-row">{tags_html}</div>
-        </a>
         '''
+
+        if locked:
+            return f'''
+            <div class="{card_class}" onclick="showGateModal(event)">
+                <div class="locked-blur">{inner}</div>
+                <div class="locked-overlay">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span>Unlock Profile</span>
+                </div>
+            </div>
+            '''
+        else:
+            return f'''
+            <a href="/api/clinical/companies/{ticker}/html" class="{card_class}">
+                {inner}
+            </a>
+            '''
 
 def generate_companies_page():
     # Load companies from index.json - SINGLE SOURCE OF TRUTH
@@ -336,10 +373,10 @@ def generate_companies_page():
     # Build sections starting with "Has Detailed Data" at top
     sections_html = ""
 
-    # FIRST: Featured section for companies with detailed data
+    # FIRST: Featured section for companies with detailed data (always unlocked)
     detailed_companies = [c for c in companies if c.get("has_data", False)]
     if detailed_companies:
-        cards_html = ''.join([generate_company_card(c) for c in detailed_companies])
+        cards_html = ''.join([generate_company_card(c, locked=False) for c in detailed_companies])
         sections_html += f'''
         <section class="section" id="has-detailed-data">
             <div class="section-header">
@@ -350,14 +387,14 @@ def generate_companies_page():
         </section>
         '''
 
-    # THEN: Regular sections by stage
+    # THEN: Regular sections by stage (gated - locked by default, unlocked via JS if subscribed)
     for stage_id, stage_name in stage_categories.items():
         stage_companies = by_stage.get(stage_id, [])
         if not stage_companies:
             continue
-        cards_html = ''.join([generate_company_card(c) for c in stage_companies])
+        cards_html = ''.join([generate_company_card(c, locked=True) for c in stage_companies])
         sections_html += f'''
-        <section class="section" id="{stage_id}">
+        <section class="section gated-section" id="{stage_id}">
             <div class="section-header">
                 <h2 class="section-title">{stage_name}</h2>
                 <span class="section-count">{len(stage_companies)}</span>
@@ -366,12 +403,12 @@ def generate_companies_page():
         </section>
         '''
 
-    # Add "other" section for companies without a stage
+    # Add "other" section for companies without a stage (also gated)
     other_companies = by_stage.get("other", []) + by_stage.get("", [])
     if other_companies:
-        cards_html = ''.join([generate_company_card(c) for c in other_companies])
+        cards_html = ''.join([generate_company_card(c, locked=True) for c in other_companies])
         sections_html += f'''
-        <section class="section" id="other">
+        <section class="section gated-section" id="other">
             <div class="section-header">
                 <h2 class="section-title">Other</h2>
                 <span class="section-count">{len(other_companies)}</span>
@@ -400,6 +437,34 @@ def generate_companies_page():
         .priority-badge.priority-high {{ background: var(--navy); color: white; }}
         .priority-badge.priority-medium {{ background: #e5e7eb; color: #374151; }}
         .priority-badge.priority-low {{ background: #f3f4f6; color: #6b7280; }}
+
+        /* Email gate - locked card styles */
+        .locked-card {{ display: block; position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; overflow: hidden; }}
+        .locked-card:hover {{ border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }}
+        .locked-blur {{ filter: blur(4px); pointer-events: none; user-select: none; }}
+        .locked-overlay {{ position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(255,255,255,0.6); color: var(--navy); font-weight: 600; font-size: 0.85rem; }}
+        .locked-overlay svg {{ opacity: 0.7; }}
+
+        /* Gate modal */
+        .gate-backdrop {{ display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }}
+        .gate-backdrop.visible {{ display: flex; }}
+        .gate-modal {{ background: white; border-radius: 16px; padding: 40px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.15); position: relative; }}
+        .gate-modal h2 {{ font-size: 1.35rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }}
+        .gate-modal .gate-sub {{ color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; }}
+        .gate-modal input[type="email"] {{ width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; margin-bottom: 12px; }}
+        .gate-modal input[type="email"]:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }}
+        .gate-modal .gate-btn {{ width: 100%; padding: 14px; background: var(--accent); color: white; font-weight: 700; font-size: 1rem; border: none; border-radius: 10px; cursor: pointer; transition: background 0.2s; }}
+        .gate-modal .gate-btn:hover {{ background: var(--accent-hover); }}
+        .gate-modal .gate-btn:disabled {{ opacity: 0.6; cursor: not-allowed; }}
+        .gate-modal .gate-fine {{ color: var(--text-muted); font-size: 0.8rem; margin-top: 16px; }}
+        .gate-modal .gate-close {{ position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer; }}
+        .gate-modal .gate-error {{ color: #dc2626; font-size: 0.85rem; margin-top: 8px; display: none; }}
+        .gate-modal .gate-success {{ color: #16a34a; font-size: 0.85rem; margin-top: 8px; display: none; }}
+
+        /* Unlocked state - applied via JS when user is subscribed */
+        body.unlocked .locked-card {{ cursor: default; }}
+        body.unlocked .locked-blur {{ filter: none; pointer-events: auto; user-select: auto; }}
+        body.unlocked .locked-overlay {{ display: none; }}
     </style>
 </head>
 <body>
@@ -422,7 +487,118 @@ def generate_companies_page():
         <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
     </footer>
 
+    <!-- Email gate modal -->
+    <div class="gate-backdrop" id="gate-backdrop">
+        <div class="gate-modal">
+            <button class="gate-close" onclick="hideGateModal()">&times;</button>
+            <h2>Get Full Access to 180+ Company Profiles</h2>
+            <p class="gate-sub">Free during beta. Enter your email for instant access.</p>
+            <form id="gate-form" onsubmit="submitGateEmail(event)">
+                <input type="email" id="gate-email" placeholder="you@example.com" required>
+                <button type="submit" class="gate-btn" id="gate-btn">Get Free Access</button>
+            </form>
+            <p class="gate-error" id="gate-error"></p>
+            <p class="gate-success" id="gate-success"></p>
+            <p class="gate-fine">No spam. Unsubscribe anytime.</p>
+        </div>
+    </div>
+
     <script>
+        // --- Email gate logic ---
+        function isUnlocked() {{
+            const ts = localStorage.getItem('satyabio_unlocked');
+            if (!ts) return false;
+            const expires = parseInt(ts, 10);
+            if (Date.now() > expires) {{
+                localStorage.removeItem('satyabio_unlocked');
+                localStorage.removeItem('satyabio_email');
+                return false;
+            }}
+            return true;
+        }}
+
+        function unlockPage() {{
+            document.body.classList.add('unlocked');
+            // Convert locked divs to proper links
+            document.querySelectorAll('.locked-card').forEach(card => {{
+                const ticker = card.querySelector('.card-ticker');
+                if (ticker) {{
+                    const link = document.createElement('a');
+                    link.href = '/api/clinical/companies/' + ticker.textContent.trim() + '/html';
+                    link.className = 'company-card';
+                    link.innerHTML = card.querySelector('.locked-blur').innerHTML;
+                    card.replaceWith(link);
+                }}
+            }});
+        }}
+
+        function showGateModal(e) {{
+            if (isUnlocked()) return;
+            e.preventDefault();
+            e.stopPropagation();
+            document.getElementById('gate-backdrop').classList.add('visible');
+            document.getElementById('gate-email').focus();
+        }}
+
+        function hideGateModal() {{
+            document.getElementById('gate-backdrop').classList.remove('visible');
+            document.getElementById('gate-error').style.display = 'none';
+            document.getElementById('gate-success').style.display = 'none';
+        }}
+
+        async function submitGateEmail(e) {{
+            e.preventDefault();
+            const email = document.getElementById('gate-email').value.trim();
+            const btn = document.getElementById('gate-btn');
+            const errorEl = document.getElementById('gate-error');
+            const successEl = document.getElementById('gate-success');
+
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            try {{
+                const resp = await fetch('/api/subscribe', {{
+                    method: 'POST',
+                    headers: {{ 'Content-Type': 'application/json' }},
+                    body: JSON.stringify({{ email }})
+                }});
+                const data = await resp.json();
+                if (resp.ok) {{
+                    // Store unlock for 30 days
+                    const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+                    localStorage.setItem('satyabio_unlocked', String(Date.now() + thirtyDays));
+                    localStorage.setItem('satyabio_email', email);
+                    successEl.textContent = 'You\\'re in! Unlocking all profiles...';
+                    successEl.style.display = 'block';
+                    setTimeout(() => {{
+                        hideGateModal();
+                        unlockPage();
+                    }}, 800);
+                }} else {{
+                    errorEl.textContent = data.detail || 'Something went wrong. Please try again.';
+                    errorEl.style.display = 'block';
+                }}
+            }} catch (err) {{
+                errorEl.textContent = 'Network error. Please try again.';
+                errorEl.style.display = 'block';
+            }} finally {{
+                btn.disabled = false;
+                btn.textContent = 'Get Free Access';
+            }}
+        }}
+
+        // Close modal on backdrop click
+        document.getElementById('gate-backdrop').addEventListener('click', function(e) {{
+            if (e.target === this) hideGateModal();
+        }});
+
+        // Check unlock on page load
+        if (isUnlocked()) {{
+            unlockPage();
+        }}
+
         let activeCategory = 'all';
 
         function filterCompanies() {{
