@@ -1,0 +1,171 @@
+{
+  "_schema_meta": {
+    "version": "2.1",
+    "description": "Company data schema for SatyaBio biotech company data management",
+    "required_fields": [
+      "_metadata.version",
+      "ticker",
+      "name",
+      "company.name",
+      "company.ticker"
+    ],
+    "sections": [
+      "_metadata",
+      "ticker",
+      "name",
+      "company",
+      "investment_thesis_summary",
+      "investment_analysis",
+      "pipeline_summary",
+      "platform",
+      "financials",
+      "catalysts",
+      "management_track_record",
+      "sources",
+      "market_opportunity",
+      "competitive_positioning",
+      "risks"
+    ],
+    "recommended_sections": [
+      "investment_thesis_summary",
+      "investment_analysis",
+      "pipeline_summary",
+      "platform",
+      "financials",
+      "catalysts",
+      "sources"
+    ],
+    "banned_fields": ["source_slide"]
+  },
+  "_template": {
+    "_metadata": {
+      "version": "string",
+      "ticker": "string|null",
+      "company_name": "string|null",
+      "extracted_from": "string|null",
+      "extraction_date": "string|null",
+      "data_source": "string|null",
+      "analyst_reviewed": "boolean|null"
+    },
+    "ticker": "string",
+    "name": "string",
+    "company": {
+      "name": "string",
+      "ticker": "string",
+      "exchange": "string|null",
+      "headquarters": "string|null",
+      "website": "string|null",
+      "ir_contact": "string|null",
+      "one_liner": "string|null",
+      "company_description": "string|null"
+    },
+    "investment_thesis_summary": {
+      "core_thesis": "string|null",
+      "key_value_drivers": ["string"]
+    },
+    "investment_analysis": {
+      "bull_case": ["string"],
+      "bear_case": ["string"],
+      "key_debates": [
+        {
+          "question": "string",
+          "bull_view": "string|null",
+          "bear_view": "string|null",
+          "what_resolves_it": "string|null"
+        }
+      ],
+      "valuation_framework": "object|null"
+    },
+    "pipeline_summary": {
+      "total_programs": "number|null",
+      "clinical_stage": "number|null",
+      "partnered": "number|null",
+      "wholly_owned": "number|null",
+      "programs": [
+        {
+          "asset": "string",
+          "target": "string|null",
+          "stage": "string|null",
+          "indications": "string|null",
+          "ownership": "string|null",
+          "next_catalyst": "string|null",
+          "market_opportunity": "string|null"
+        }
+      ],
+      "source": {
+        "id": "string",
+        "slide": "number|null",
+        "verified": "boolean"
+      }
+    },
+    "platform": {
+      "name": "string|null",
+      "description": "string|null",
+      "unique_capabilities": [
+        {
+          "capability": "string",
+          "description": "string|null"
+        }
+      ],
+      "source": {
+        "id": "string",
+        "slide": "number|null",
+        "verified": "boolean"
+      }
+    },
+    "financials": {
+      "cash_position": "string|null",
+      "cash_runway": "string|null",
+      "partnerships_value": "object|null",
+      "note": "string|null"
+    },
+    "catalysts": [
+      {
+        "asset": "string|null",
+        "event": "string",
+        "timing": "string|null",
+        "importance": "string|null",
+        "program": "string|null"
+      }
+    ],
+    "management_track_record": {
+      "ceo": {
+        "name": "string|null",
+        "background": "string|null"
+      },
+      "key_hires": ["object"],
+      "note": "string|null"
+    },
+    "market_opportunity": {
+      "total_immunology_patients": "string|null",
+      "advanced_therapy_market": "string|null",
+      "key_insight": "string|null",
+      "source": {
+        "id": "string",
+        "slide": "number|null",
+        "verified": "boolean"
+      }
+    },
+    "competitive_positioning": {
+      "moat": ["string"],
+      "differentiation": ["string"]
+    },
+    "risks": [
+      {
+        "risk": "string",
+        "description": "string|null",
+        "mitigation": "string|null"
+      }
+    ],
+    "sources": [
+      {
+        "title": "string",
+        "type": "string|null",
+        "date": "string|null",
+        "url": "string|null",
+        "total_slides": "number|null",
+        "key_sections": "object|null"
+      }
+    ]
+  }
+}

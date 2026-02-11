@@ -1949,6 +1949,299 @@ def _generate_company_overview_html(data: dict) -> str:
 </html>'''
 
 
+def _render_generic_section(key: str, data, ticker: str = "", _depth: int = 0) -> str:
+    """
+    Auto-render an arbitrary JSON section as HTML.
+    Handles dicts (key-value cards), arrays (tables or lists), strings (paragraphs).
+    Max recursion depth = 4 to prevent runaway nesting.
+    """
+    if data is None or data == {} or data == [] or data == "":
+        return ""
+    if _depth > 4:
+        return ""
+
+    # Format title from key: "ip_landscape" -> "IP Landscape"
+    title = key.replace("_", " ").title()
+    # Fix common acronyms in titles
+    for abbr in ["Ip", "Pk", "Id"]:
+        title = title.replace(abbr, abbr.upper())
+
+    html_parts = []
+
+    if isinstance(data, str):
+        truncated = data[:500] + "..." if len(data) > 500 else data
+        html_parts.append(f'<p>{truncated}</p>')
+    elif isinstance(data, (int, float, bool)):
+        html_parts.append(f'<p>{data}</p>')
+    elif isinstance(data, list):
+        if not data:
+            return ""
+        # Array of dicts -> table
+        if all(isinstance(item, dict) for item in data):
+            # Collect all keys across items for table headers
+            all_keys = []
+            for item in data:
+                for k in item.keys():
+                    if k not in all_keys and k != "source":
+                        all_keys.append(k)
+            if all_keys:
+                headers = "".join(f'<th>{k.replace("_", " ").title()}</th>' for k in all_keys)
+                rows = ""
+                for item in data:
+                    cells = ""
+                    for k in all_keys:
+                        val = item.get(k, "")
+                        if isinstance(val, dict):
+                            # Render source badges inline
+                            if "id" in val and "slide" in val:
+                                badge = generate_citation_badge(val, ticker)
+                                cells += f'<td>{badge}</td>'
+                            else:
+                                cells += f'<td>{", ".join(f"{sk}: {sv}" for sk, sv in val.items() if sv)}</td>'
+                        elif isinstance(val, list):
+                            cells += f'<td>{", ".join(str(v) for v in val)}</td>'
+                        else:
+                            display = str(val) if val is not None else ""
+                            if len(display) > 500:
+                                display = display[:500] + "..."
+                            cells += f'<td>{display}</td>'
+                    rows += f'<tr>{cells}</tr>'
+                html_parts.append(f'''<table class="data-table">
+                    <thead><tr>{headers}</tr></thead>
+                    <tbody>{rows}</tbody>
+                </table>''')
+        # Array of strings -> bulleted list
+        elif all(isinstance(item, str) for item in data):
+            items = "".join(f'<li>{item}</li>' for item in data)
+            html_parts.append(f'<ul class="generic-list">{items}</ul>')
+        # Mixed array
+        else:
+            for item in data:
+                if isinstance(item, str):
+                    html_parts.append(f'<li>{item}</li>')
+                elif isinstance(item, dict):
+                    html_parts.append(_render_generic_section("item", item, ticker, _depth + 1))
+    elif isinstance(data, dict):
+        # Render as key-value pairs in a card layout
+        for k, v in data.items():
+            if k == "source" and isinstance(v, dict):
+                badge = generate_citation_badge(v, ticker)
+                if badge:
+                    html_parts.append(f'<div class="detail-row">{badge}</div>')
+                continue
+            if v is None or v == "" or v == {} or v == []:
+                continue
+            label = k.replace("_", " ").title()
+            if isinstance(v, str):
+                display = v[:500] + "..." if len(v) > 500 else v
+                html_parts.append(f'<div class="detail-row"><strong>{label}</strong>{display}</div>')
+            elif isinstance(v, (int, float, bool)):
+                html_parts.append(f'<div class="detail-row"><strong>{label}</strong>{v}</div>')
+            elif isinstance(v, (dict, list)) and _depth < 4:
+                sub = _render_generic_section(k, v, ticker, _depth + 1)
+                if sub:
+                    html_parts.append(f'<div style="margin-top: 8px;"><strong>{label}</strong><div style="margin-left: 12px;">{sub}</div></div>')
+
+    content = "\n".join(html_parts)
+    if not content.strip():
+        return ""
+
+    # At top level (depth 0), wrap in a full section
+    if _depth == 0:
+        section_id = key.replace("_", "-").lower()
+        return f'''
+        <section id="{section_id}" class="section">
+            <h2 class="section-header">{title}</h2>
+            <div class="card">
+                <div class="card-content">
+                    {content}
+                </div>
+            </div>
+        </section>'''
+    return content
+
+
+def _render_pharmacology_section(data: dict, ticker: str) -> str:
+    """Purpose-built renderer for pharmacology data with PK tables."""
+    if not data or not isinstance(data, dict):
+        return ""
+
+    pk = data.get("pk_parameters", {})
+    dose_response = data.get("dose_response", [])
+    target_engagement = data.get("target_engagement", {})
+    pk_summary = data.get("pk_summary", "")
+    source_badge = generate_citation_badge(data.get("source"), ticker) if data.get("source") else ""
+
+    # PK Parameters table
+    pk_rows = ""
+    if pk and isinstance(pk, dict):
+        pk_labels = {
+            "half_life": "Half-Life (t½)",
+            "cmax": "Cmax",
+            "auc": "AUC",
+            "tmax": "Tmax",
+            "bioavailability": "Bioavailability",
+            "food_effect": "Food Effect",
+        }
+        for key, label in pk_labels.items():
+            val = pk.get(key)
+            if val:
+                pk_rows += f'<tr><td><strong>{label}</strong></td><td>{val}</td></tr>'
+
+    pk_table = ""
+    if pk_rows:
+        pk_table = f'''<div class="pharmacology-card">
+            <h4>PK Parameters</h4>
+            <table class="data-table"><tbody>{pk_rows}</tbody></table>
+        </div>'''
+
+    # Dose-response table
+    dose_table = ""
+    if dose_response and isinstance(dose_response, list):
+        dose_rows = ""
+        for entry in dose_response:
+            if isinstance(entry, dict):
+                dose = entry.get("dose", "")
+                exposure = entry.get("exposure", "")
+                measure = entry.get("efficacy_measure", "")
+                result = entry.get("result", "")
+                dose_rows += f'<tr><td>{dose}</td><td>{exposure}</td><td>{measure}</td><td>{result}</td></tr>'
+        if dose_rows:
+            dose_table = f'''<div class="pharmacology-card">
+                <h4>Dose-Response</h4>
+                <table class="data-table">
+                    <thead><tr><th>Dose</th><th>Exposure</th><th>Efficacy Measure</th><th>Result</th></tr></thead>
+                    <tbody>{dose_rows}</tbody>
+                </table>
+            </div>'''
+
+    # Target engagement
+    te_html = ""
+    if target_engagement and isinstance(target_engagement, dict):
+        te_rows = ""
+        for k, v in target_engagement.items():
+            if v and k != "source":
+                label = k.replace("_", " ").title()
+                te_rows += f'<div class="detail-row"><strong>{label}</strong>{v}</div>'
+        if te_rows:
+            te_html = f'''<div class="pharmacology-card">
+                <h4>Target Engagement</h4>
+                {te_rows}
+            </div>'''
+
+    # PK Summary callout
+    summary_html = ""
+    if pk_summary:
+        summary_html = f'<div class="unmet-need-callout" style="margin-top: 12px; padding: 12px;"><strong>PK Summary:</strong> {pk_summary}</div>'
+
+    content = pk_table + dose_table + te_html + summary_html
+    if not content.strip():
+        return ""
+
+    return f'''
+        <section id="pharmacology" class="section">
+            <h2 class="section-header">Pharmacology{source_badge}</h2>
+            <div class="card">
+                <div class="card-content">
+                    <div class="pharmacology-grid">{content}</div>
+                </div>
+            </div>
+        </section>'''
+
+
+def _render_ip_landscape_section(data: dict, ticker: str) -> str:
+    """Purpose-built renderer for IP landscape data."""
+    if not data or not isinstance(data, dict):
+        return ""
+
+    cards = []
+    ip_categories = {
+        "composition_of_matter": "Composition of Matter",
+        "method_of_use": "Method of Use",
+        "regulatory_exclusivity": "Regulatory Exclusivity",
+    }
+    for key, title in ip_categories.items():
+        section = data.get(key)
+        if section and isinstance(section, dict):
+            rows = ""
+            for k, v in section.items():
+                if v and k != "source":
+                    label = k.replace("_", " ").title()
+                    rows += f'<div class="detail-row"><strong>{label}</strong>{v}</div>'
+            if rows:
+                badge = generate_citation_badge(section.get("source"), ticker) if section.get("source") else ""
+                cards.append(f'''<div class="ip-card">
+                    <h4>{title}{badge}</h4>
+                    {rows}
+                </div>''')
+
+    fto = data.get("freedom_to_operate")
+    fto_html = ""
+    if fto:
+        fto_html = f'<div class="unmet-need-callout" style="margin-top: 12px; padding: 12px;"><strong>Freedom to Operate:</strong> {fto}</div>'
+
+    content = "\n".join(cards) + fto_html
+    if not content.strip():
+        return ""
+
+    source_badge = generate_citation_badge(data.get("source"), ticker) if data.get("source") else ""
+    return f'''
+        <section id="ip" class="section">
+            <h2 class="section-header">IP Landscape{source_badge}</h2>
+            <div class="card">
+                <div class="card-content">
+                    <div class="ip-grid">{content}</div>
+                </div>
+            </div>
+        </section>'''
+
+
+def _render_extraction_quality(data: dict) -> str:
+    """Compact callout box showing extraction completeness."""
+    if not data or not isinstance(data, dict):
+        return ""
+
+    score = data.get("completeness_score")
+    missing = data.get("missing_fields", [])
+    notes = data.get("data_quality_notes", "")
+    extraction_date = data.get("extraction_date", "")
+    reviewer = data.get("reviewer", "")
+
+    parts = []
+    if score is not None:
+        pct = int(score * 100) if isinstance(score, float) and score <= 1 else score
+        parts.append(f'<span style="font-size: 1.1em; font-weight: 600;">Completeness: {pct}%</span>')
+    if extraction_date:
+        parts.append(f'<span>Extracted: {extraction_date}</span>')
+    if reviewer:
+        parts.append(f'<span>Reviewer: {reviewer}</span>')
+
+    missing_html = ""
+    if missing and isinstance(missing, list):
+        items = ", ".join(missing[:10])
+        remaining = len(missing) - 10 if len(missing) > 10 else 0
+        suffix = f" (+{remaining} more)" if remaining else ""
+        missing_html = f'<div style="margin-top: 6px; color: var(--text-muted); font-size: 0.85em;">Missing: {items}{suffix}</div>'
+
+    notes_html = ""
+    if notes:
+        notes_html = f'<div style="margin-top: 6px; color: var(--text-muted); font-size: 0.85em;">{notes}</div>'
+
+    if not parts and not missing_html and not notes_html:
+        return ""
+
+    meta_line = " · ".join(parts) if parts else ""
+    return f'''
+        <div class="extraction-quality-callout" style="margin-top: 24px; padding: 12px 16px; background: var(--gray-light, #f8f9fa); border-left: 3px solid var(--text-muted, #6c757d); border-radius: 4px; font-size: 0.9em;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="opacity: 0.7;">Data Quality</span>
+                {meta_line}
+            </div>
+            {missing_html}
+            {notes_html}
+        </div>'''
+
+
 def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict, next_asset: dict) -> str:
     """Generate individual asset page HTML with sidebar navigation - supports v2.0 schema."""
     ticker = company_data.get("ticker", "")
@@ -1976,6 +2269,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     competitive_landscape = asset.get("competitive_landscape", {})
     regulatory_path = asset.get("regulatory_path", {})
     abbreviations = asset.get("abbreviations", {})
+
+    # v2.1 fields
+    pharmacology_data = asset.get("pharmacology", {})
+    ip_landscape_data = asset.get("ip_landscape", {})
+    extraction_quality_data = asset.get("_extraction_quality", {})
 
     # Extract citation badges from source objects
     def get_badge(data_obj, key="source"):
@@ -3461,6 +3759,47 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             </div>
         </section>'''
 
+    # =======================================================================
+    # BUILD v2.1 SECTION HTML (pharmacology, ip_landscape, extraction quality)
+    # =======================================================================
+    pharmacology_html = _render_pharmacology_section(pharmacology_data, ticker)
+    ip_landscape_html = _render_ip_landscape_section(ip_landscape_data, ticker)
+    extraction_quality_html = _render_extraction_quality(extraction_quality_data)
+
+    # =======================================================================
+    # GENERIC FALLBACK RENDERER for unknown sections
+    # =======================================================================
+    # Sections that already have bespoke renderers — skip these
+    _bespoke_sections = {
+        "_metadata", "asset", "target", "mechanism", "indications",
+        "clinical_data", "investment_analysis", "catalysts",
+        "market_opportunity", "competitive_landscape", "differentiation_claims",
+        "preclinical_data", "disease_background", "current_treatment_landscape",
+        "regulatory_path", "regulatory", "sources", "abbreviations",
+        "pharmacology", "ip_landscape", "_extraction_quality",
+        "partnership", "biomarker_strategy", "safety_summary",
+        "edg7500_differentiation", "differentiation", "name", "stage",
+        "modality", "one_liner", "ownership",
+    }
+    generic_sections_html = ""
+    generic_nav_items = ""
+    for key, value in asset.items():
+        if key in _bespoke_sections:
+            continue
+        # Skip internal metadata keys (start with _) except _extraction_quality
+        if key.startswith("_"):
+            continue
+        if value is None or value == {} or value == [] or value == "":
+            continue
+        section_html = _render_generic_section(key, value, ticker)
+        if section_html:
+            generic_sections_html += section_html
+            section_id = key.replace("_", "-").lower()
+            section_title = key.replace("_", " ").title()
+            for abbr in ["Ip", "Pk", "Id"]:
+                section_title = section_title.replace(abbr, abbr.upper())
+            generic_nav_items += f'<li><a href="#{section_id}">{section_title}</a></li>'
+
     # Generate abbreviations JSON for JavaScript
     import json as json_module
     abbr_json = json_module.dumps(abbreviations) if abbreviations else "{}"
@@ -3776,6 +4115,49 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         }}
         .advantages-list li::before {{
             content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--coral);
+        }}
+
+        /* Pharmacology & IP Landscape */
+        .pharmacology-grid, .ip-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }}
+        @media (max-width: 900px) {{
+            .pharmacology-grid, .ip-grid {{ grid-template-columns: 1fr; }}
+        }}
+        .pharmacology-card, .ip-card {{
+            background: var(--white);
+            padding: 16px;
+            border: 1px solid var(--gray-border);
+        }}
+        .pharmacology-card h4, .ip-card h4 {{
+            color: var(--navy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--gray-border);
+        }}
+
+        /* Generic section list styling */
+        .generic-list {{
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }}
+        .generic-list li {{
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+            font-size: 0.85rem;
+        }}
+        .generic-list li::before {{
+            content: "•";
             position: absolute;
             left: 0;
             color: var(--coral);
@@ -4685,6 +5067,9 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 {'<li><a href="#preclinical">Preclinical Data</a></li>' if preclinical_data else ''}
                 <li><a href="#investment">Investment Analysis</a></li>
                 <li><a href="#market">Market Opportunity</a></li>
+                {'<li><a href="#pharmacology">Pharmacology</a></li>' if pharmacology_data else ''}
+                {'<li><a href="#ip">IP Landscape</a></li>' if ip_landscape_data else ''}
+                {generic_nav_items}
                 <li><a href="#catalysts">Catalysts</a></li>
             </ul>
             {f'<h3 style="margin-top: 24px;">{ticker} Assets</h3><ul class="sidebar-nav">{other_assets_html}</ul>' if other_assets_html else ''}
@@ -4767,10 +5152,18 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 </div>
             </section>
 
+            {pharmacology_html}
+
+            {ip_landscape_html}
+
+            {generic_sections_html}
+
             <section id="catalysts" class="section research-section">
                 <h2 class="section-header">Catalysts & Upcoming Events</h2>
                 {catalysts_html if catalysts_html else '<p class="no-data">No catalyst data available.</p>'}
             </section>
+
+            {extraction_quality_html}
 
             <nav class="asset-nav">
                 <a href="/api/clinical/companies/{ticker}/assets/{prev_slug}/html" class="nav-link {'disabled' if not prev_asset else ''}">

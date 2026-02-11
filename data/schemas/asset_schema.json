@@ -1,0 +1,369 @@
+{
+  "_schema_meta": {
+    "version": "2.1",
+    "description": "Asset data schema for SatyaBio biotech company data management",
+    "required_fields": [
+      "_metadata.version",
+      "_metadata.ticker",
+      "_metadata.asset_name",
+      "asset.name",
+      "asset.company",
+      "asset.ticker",
+      "asset.stage",
+      "asset.one_liner",
+      "target.name",
+      "target.biology.simple_explanation"
+    ],
+    "sections": [
+      "_metadata",
+      "asset",
+      "target",
+      "mechanism",
+      "indications",
+      "clinical_data",
+      "catalysts",
+      "investment_analysis",
+      "market_opportunity",
+      "competitive_landscape",
+      "differentiation_claims",
+      "regulatory",
+      "partnership",
+      "pharmacology",
+      "ip_landscape",
+      "preclinical_data",
+      "disease_background",
+      "current_treatment_landscape",
+      "biomarker_strategy",
+      "safety_summary",
+      "sources",
+      "abbreviations",
+      "_extraction_quality"
+    ],
+    "banned_fields": ["source_slide"],
+    "v21_new_sections": ["pharmacology", "ip_landscape", "_extraction_quality"]
+  },
+  "_template": {
+    "_metadata": {
+      "version": "string",
+      "ticker": "string",
+      "asset_name": "string",
+      "last_updated": "string|null",
+      "sources": [
+        {
+          "id": "string",
+          "type": "string",
+          "title": "string",
+          "date": "string|null",
+          "slides": "number|null",
+          "url": "string|null"
+        }
+      ]
+    },
+    "asset": {
+      "name": "string",
+      "company": "string",
+      "ticker": "string",
+      "stage": "string",
+      "modality": "string|null",
+      "ownership": "string|null",
+      "one_liner": "string"
+    },
+    "target": {
+      "name": "string",
+      "full_name": "string|null",
+      "class": "string|null",
+      "pathway": "string|null",
+      "biology": {
+        "simple_explanation": "string",
+        "pathway_detail": "string|null",
+        "downstream_effects": ["string"]
+      },
+      "why_good_target": {
+        "clinical_validation": "string|null",
+        "genetic_validation": {
+          "gain_of_function": "string|null",
+          "loss_of_function": "string|null"
+        },
+        "unmet_need": ["string"],
+        "source": {
+          "id": "string",
+          "slide": "number|null",
+          "verified": "boolean"
+        }
+      },
+      "why_undruggable_before": {
+        "challenge": "string|null",
+        "previous_attempts": "string|null",
+        "degrader_solution": "string|null"
+      }
+    },
+    "mechanism": {
+      "type": "string|null",
+      "e3_ligase": "string|null",
+      "how_it_works": "string|null",
+      "catalytic_advantage": "string|null",
+      "potency": {
+        "dc90": "string|null",
+        "interpretation": "string|null"
+      },
+      "selectivity": "string|null",
+      "tissue_distribution": "object|null",
+      "source": {
+        "id": "string",
+        "slide": "number|null",
+        "verified": "boolean"
+      }
+    },
+    "indications": {
+      "lead": {
+        "name": "string",
+        "patient_population": "string|null",
+        "current_penetration": "string|null",
+        "rationale": "string|null",
+        "stage": "string|null"
+      },
+      "expansion": [
+        {
+          "name": "string",
+          "patient_population": "string|null",
+          "status": "string|null",
+          "rationale": "string|null"
+        }
+      ],
+      "total_addressable_patients": "string|null",
+      "development_strategy": "string|null",
+      "source": {
+        "id": "string",
+        "slide": "number|null",
+        "verified": "boolean"
+      }
+    },
+    "clinical_data": {
+      "_note": "Flexible structure: named trial sections (phase1_healthy_volunteer, phase1b_ad, etc.) OR flat structure (trial_name, trial_design, etc.) OR trials[] array. All formats accepted.",
+      "_format_a_named_sections": {
+        "<trial_key>": {
+          "trial_name": "string",
+          "design": {
+            "type": "string|null",
+            "population": "string|null",
+            "n": "number|null",
+            "dosing": "string|null"
+          },
+          "efficacy_results": "object|null",
+          "safety": {
+            "summary": "string|null",
+            "key_findings": ["string"]
+          },
+          "source": {
+            "id": "string",
+            "slide": "number|null",
+            "verified": "boolean"
+          }
+        }
+      },
+      "_format_b_flat": {
+        "trial_name": "string",
+        "trial_design": "object|null",
+        "populations": "object|null",
+        "efficacy_results": "object|null",
+        "safety": "object|null"
+      },
+      "_format_c_array": {
+        "trials": [
+          {
+            "trial_name": "string",
+            "phase": "string|null",
+            "design": "object|null",
+            "results": "object|null",
+            "safety": "object|null"
+          }
+        ]
+      }
+    },
+    "catalysts": [
+      {
+        "event": "string",
+        "timing": "string",
+        "importance": "string|null",
+        "what_to_watch": "string|null",
+        "bull_scenario": "string|null",
+        "bear_scenario": "string|null"
+      }
+    ],
+    "investment_analysis": {
+      "probability_of_success": "string|object|null",
+      "peak_sales_estimate": "string|object|null",
+      "bull_case": ["string"],
+      "bear_case": ["string"],
+      "key_risks": ["string"],
+      "key_debates": [
+        {
+          "question": "string",
+          "bull_view": "string|null",
+          "bear_view": "string|null",
+          "what_resolves_it": "string|null"
+        }
+      ],
+      "valuation_framework": "object|null"
+    },
+    "market_opportunity": {
+      "tam": "string|null",
+      "total_addressable_market": "string|null",
+      "patient_population": "string|null",
+      "current_penetration": "string|null",
+      "oral_preference": "string|null",
+      "peak_sales_estimate": {
+        "bull_case": "string|null",
+        "base_case": "string|null",
+        "bear_case": "string|null"
+      },
+      "competitive_advantage": "string|null",
+      "unmet_need": "string|null",
+      "source": {
+        "id": "string",
+        "slide": "number|null",
+        "verified": "boolean"
+      }
+    },
+    "competitive_landscape": {
+      "competitors": [
+        {
+          "drug": "string",
+          "company": "string|null",
+          "stage": "string|null",
+          "limitation": "string|null",
+          "mechanism": "string|null"
+        }
+      ],
+      "our_advantages": ["string"]
+    },
+    "differentiation_claims": [
+      {
+        "claim": "string",
+        "evidence": "string|null",
+        "source": {
+          "id": "string",
+          "slide": "number|null",
+          "verified": "boolean"
+        }
+      }
+    ],
+    "regulatory": {
+      "designations": [
+        {
+          "designation": "string",
+          "indication": "string|null",
+          "date": "string|null",
+          "source": {
+            "id": "string",
+            "slide": "number|null",
+            "verified": "boolean"
+          }
+        }
+      ],
+      "planned_pathway": "string|null",
+      "filing_timeline": "string|null"
+    },
+    "partnership": {
+      "partner": "string|null",
+      "type": "string|null",
+      "economics": {
+        "upfront": "string|null",
+        "milestones": "string|null",
+        "royalties": "string|null"
+      },
+      "status": "string|null"
+    },
+    "pharmacology": {
+      "pk_parameters": {
+        "half_life": "string|null",
+        "cmax": "string|null",
+        "auc": "string|null",
+        "tmax": "string|null",
+        "bioavailability": "string|null",
+        "food_effect": "string|null"
+      },
+      "dose_response": [
+        {
+          "dose": "string",
+          "exposure": "string|null",
+          "efficacy_measure": "string|null",
+          "result": "string|null"
+        }
+      ],
+      "target_engagement": {
+        "method": "string|null",
+        "results": "string|null",
+        "tissue_penetration": "string|null"
+      },
+      "pk_summary": "string|null"
+    },
+    "ip_landscape": {
+      "composition_of_matter": {
+        "patent": "string|null",
+        "expiry": "string|null",
+        "coverage": "string|null"
+      },
+      "method_of_use": {
+        "patent": "string|null",
+        "expiry": "string|null"
+      },
+      "regulatory_exclusivity": {
+        "type": "string|null",
+        "expiry": "string|null"
+      },
+      "freedom_to_operate": "string|null"
+    },
+    "preclinical_data": {
+      "potency": "object|null",
+      "selectivity": "object|null",
+      "in_vivo_efficacy": "object|null",
+      "safety_pharmacology": "object|null",
+      "source": {
+        "id": "string",
+        "slide": "number|null",
+        "verified": "boolean"
+      }
+    },
+    "disease_background": {
+      "description": "string|null",
+      "prevalence": "string|null",
+      "pathophysiology": "string|null"
+    },
+    "current_treatment_landscape": {
+      "standard_of_care": "string|null",
+      "limitations": ["string"],
+      "emerging_therapies": ["string"]
+    },
+    "biomarker_strategy": {
+      "primary_pd": "string|null",
+      "secondary_biomarkers": ["string"],
+      "companion_diagnostic": "string|null"
+    },
+    "safety_summary": {
+      "overview": "string|null",
+      "key_findings": ["string"],
+      "monitoring_requirements": ["string"]
+    },
+    "sources": [
+      {
+        "id": "string|null",
+        "title": "string",
+        "type": "string|null",
+        "date": "string|null",
+        "url": "string|null",
+        "slides": "number|null"
+      }
+    ],
+    "abbreviations": {
+      "<acronym>": "string"
+    },
+    "_extraction_quality": {
+      "completeness_score": "number|null",
+      "missing_fields": ["string"],
+      "data_quality_notes": "string|null",
+      "extraction_date": "string|null",
+      "reviewer": "string|null"
+    }
+  }
+}
