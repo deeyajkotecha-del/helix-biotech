@@ -1999,7 +1999,7 @@ def _generate_company_overview_html(data: dict) -> str:
             position: relative;
         }
         .thesis-column li::before {
-            content: '\2022';
+            content: '\\2022';
             position: absolute;
             left: 0;
         }
@@ -6049,7 +6049,7 @@ def _generate_company_html_v2(data: dict) -> str:
             font-size: 1.2rem;
             color: var(--text-muted);
         }
-        .collapsible.active::after { content: '\2212'; }
+        .collapsible.active::after { content: '\\2212'; }
         .asset-content, .trial-content {
             display: none;
             padding: 20px;

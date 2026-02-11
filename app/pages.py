@@ -1934,7 +1934,7 @@ def generate_glp1_report(admin: bool = False):
         .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
         .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
         .thesis-list li:last-child { border-bottom: none; }
-        .thesis-list li::before { content: "\2192"; font-weight: bold; }
+        .thesis-list li::before { content: "\\2192"; font-weight: bold; }
 
         .bio-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }
         .bio-box h3 { color: #1e40af; margin-top: 0; }
@@ -2553,7 +2553,7 @@ def generate_tl1a_report(admin: bool = False):
         .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
         .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
         .thesis-list li:last-child { border-bottom: none; }
-        .thesis-list li::before { content: "\2192"; font-weight: bold; }
+        .thesis-list li::before { content: "\\2192"; font-weight: bold; }
 
         .mechanism-box { background: var(--bg); padding: 20px; border-radius: 12px; margin-top: 16px; }
         .mechanism-box h4 { color: var(--navy); margin-bottom: 8px; }
@@ -2746,7 +2746,7 @@ def generate_b7h3_report(admin: bool = False):
         .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
         .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
         .thesis-list li:last-child { border-bottom: none; }
-        .thesis-list li::before { content: "\2192"; font-weight: bold; }
+        .thesis-list li::before { content: "\\2192"; font-weight: bold; }
 
         .highlight-box { background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 20px; margin: 20px 0; }
         .highlight-box h4 { color: #1B2838; margin-bottom: 8px; }
@@ -3067,7 +3067,7 @@ def generate_kras_report(admin: bool = False):
         .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
         .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
         .thesis-list li:last-child { border-bottom: none; }
-        .thesis-list li::before { content: "\2192"; font-weight: bold; }
+        .thesis-list li::before { content: "\\2192"; font-weight: bold; }
 
         .deal-table td:nth-child(3) { font-weight: 600; color: var(--accent); }
 
@@ -3456,7 +3456,7 @@ def generate_mir124_report(admin: bool = False):
         .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
         .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
         .thesis-list li:last-child { border-bottom: none; }
-        .thesis-list li::before { content: "\2192"; font-weight: bold; }
+        .thesis-list li::before { content: "\\2192"; font-weight: bold; }
 
         .catalyst-timeline { margin-top: 20px; }
         .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
@@ -3906,7 +3906,7 @@ def generate_stat6_report(admin: bool = False):
         .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
         .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
         .thesis-list li:last-child { border-bottom: none; }
-        .thesis-list li::before { content: "\2192"; font-weight: bold; }
+        .thesis-list li::before { content: "\\2192"; font-weight: bold; }
 
         .deal-table td:nth-child(4) { font-weight: 600; color: var(--accent); }
 
@@ -4394,7 +4394,7 @@ def generate_cell_therapy_report(admin: bool = False):
         .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
         .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
         .thesis-list li:last-child { border-bottom: none; }
-        .thesis-list li::before { content: "\2192"; font-weight: bold; }
+        .thesis-list li::before { content: "\\2192"; font-weight: bold; }
 
         .deal-table td:nth-child(4) { font-weight: 600; color: var(--accent); }
 
