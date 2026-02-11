@@ -71,6 +71,128 @@ CATEGORIES = {
     "commercial": "Commercial Stage",
 }
 
+def _render_nav(active=""):
+    """Canonical nav bar used on every page. Uses f-strings with triple double quotes
+    for Python 3.11 compat (can be called from f'''...''' templates)."""
+    def _cls(name):
+        return 'class="active"' if active == name else ''
+    return f"""
+    <header class="header">
+        <div class="header-inner">
+            <a href="/" class="logo">Satya<span>Bio</span></a>
+            <button class="hamburger" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open');" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="nav-links">
+                <a href="/targets" {_cls("targets")}>Targets</a>
+                <a href="/companies" {_cls("companies")}>Companies</a>
+                <a href="/extract/" {_cls("extract")}>Extract</a>
+                <a href="/about" {_cls("about")}>About</a>
+                <a href="mailto:contact@satyabio.com?subject=Early%20Access%20Request" class="btn-primary nav-cta-mobile">Get Started</a>
+            </nav>
+            <div class="nav-cta">
+                <a href="mailto:contact@satyabio.com?subject=Early%20Access%20Request" class="btn-primary">Get Started</a>
+            </div>
+        </div>
+    </header>
+    """
+
+
+def _render_head(title, extra_styles="", extra_head=""):
+    """Canonical <head> used on every page. Returns <!DOCTYPE html> through <body>.
+    Uses f-strings with triple double quotes for Python 3.11 compat."""
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    {extra_head}
+    <style>
+        :root {{
+            --navy: #1a2b3c;
+            --navy-light: #2d4a5e;
+            --accent: #e07a5f;
+            --accent-hover: #d06a4f;
+            --accent-light: #fef5f3;
+            --bg: #fdfcfa;
+            --surface: #ffffff;
+            --border: #e5e5e0;
+            --text: #1a2b3c;
+            --text-secondary: #5f6368;
+            --text-muted: #9aa0a6;
+            --highlight: #fef08a;
+            --secondary: #a8d5e5;
+            /* Legacy aliases for clinical.py compat */
+            --primary: var(--navy);
+            --primary-light: var(--navy-light);
+            --coral: var(--accent);
+            --catalyst-bg: #f5f5f0;
+            --catalyst-border: #e0ddd8;
+            --card-bg: var(--surface);
+            --white: #ffffff;
+            --gray-light: var(--bg);
+            --gray-border: var(--border);
+            --gray-text: var(--text-muted);
+            --text-primary: var(--text-secondary);
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }}
+        h1, h2, h3, h4 {{ font-family: 'Fraunces', serif; }}
+
+        /* Nav */
+        .header {{ background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px; position: sticky; top: 0; z-index: 100; }}
+        .header-inner {{ max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }}
+        .logo {{ font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 700; color: var(--navy); text-decoration: none; }}
+        .logo span {{ color: var(--accent); }}
+        .nav-links {{ display: flex; gap: 28px; align-items: center; }}
+        .nav-links a {{ color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; }}
+        .nav-links a:hover, .nav-links a.active {{ color: var(--navy); }}
+        .nav-cta {{ display: flex; gap: 12px; }}
+        .btn-primary {{ padding: 8px 18px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 6px; font-size: 0.9rem; }}
+        .btn-primary:hover {{ background: var(--accent-hover); }}
+
+        /* Hamburger */
+        .hamburger {{ display: none; background: none; border: none; cursor: pointer; padding: 4px; }}
+        .hamburger span {{ display: block; width: 22px; height: 2px; background: var(--navy); margin: 5px 0; transition: 0.3s; }}
+        .hamburger.open span:nth-child(1) {{ transform: rotate(45deg) translate(5px, 5px); }}
+        .hamburger.open span:nth-child(2) {{ opacity: 0; }}
+        .hamburger.open span:nth-child(3) {{ transform: rotate(-45deg) translate(5px, -5px); }}
+        .nav-cta-mobile {{ display: none; }}
+
+        /* Layout */
+        .main {{ max-width: 1400px; margin: 0 auto; padding: 32px; }}
+        .page-header {{ margin-bottom: 24px; }}
+        .page-title {{ font-size: 1.75rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }}
+        .page-subtitle {{ color: var(--text-secondary); font-size: 0.95rem; }}
+        .footer {{ background: var(--navy); color: rgba(255,255,255,0.7); padding: 32px; text-align: center; margin-top: 64px; }}
+        .footer p {{ font-size: 0.85rem; }}
+
+        /* Mobile */
+        @media (max-width: 768px) {{
+            .hamburger {{ display: block; }}
+            .nav-links {{ display: none; position: absolute; top: 64px; left: 0; right: 0; background: var(--surface); flex-direction: column; padding: 16px 32px; gap: 16px; border-bottom: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.08); z-index: 99; }}
+            .nav-links.open {{ display: flex; }}
+            .nav-cta {{ display: none; }}
+            .nav-cta-mobile {{ display: inline-block !important; align-self: flex-start; }}
+            .main {{ padding: 20px 16px; }}
+            .header {{ padding: 0 16px; }}
+        }}
+
+        {extra_styles}
+    </style>
+</head>
+<body>
+"""
+
+
+# DEPRECATED — use _render_head/_render_nav
 def get_nav_html(active=""):
     return f'''
     <header class="header">
@@ -83,7 +205,7 @@ def get_nav_html(active=""):
                 <a href="/about" {"class='active'" if active == "about" else ""}>About</a>
             </nav>
             <div class="nav-cta">
-                <a href="mailto:hello@satyabio.com?subject=Early%20Access%20Request" class="btn-primary">Get Started</a>
+                <a href="mailto:contact@satyabio.com?subject=Early%20Access%20Request" class="btn-primary">Get Started</a>
             </div>
         </div>
     </header>
@@ -443,16 +565,7 @@ def generate_homepage():
         })
     search_index_json = json.dumps(search_index, separators=(',', ':'))
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Satya Bio | Biotech Intelligence for the Buy Side</title>
-    <meta name="description" content="Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals.">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script type="application/ld+json">
-    {{
+    hp_structured_data = json.dumps({
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Satya Bio",
@@ -461,58 +574,32 @@ def generate_homepage():
       "description": "Biotech intelligence platform for buy-side investment professionals. Competitive landscapes, catalyst tracking, and pipeline analytics across 181 public biotechs.",
       "foundingDate": "2025",
       "sameAs": [],
-      "contactPoint": {{
+      "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "sales",
         "url": "https://satyabio.com/#cta"
-      }}
-    }}
-    </script>
-    <style>
-        :root {{
-            --navy: #1B2838;
-            --navy-light: #2d4a5e;
-            --accent: #D4654A;
-            --accent-hover: #c05a42;
-            --accent-light: #fef5f3;
-            --bg: #FAFAF8;
-            --surface: #ffffff;
-            --surface-alt: #f5f5f3;
-            --border: #e5e5e0;
-            --border-light: #eeeeea;
-            --text: #1a1d21;
-            --text-secondary: #5f6368;
-            --text-muted: #9aa0a6;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{ font-family: 'DM Sans', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }}
+      }
+    }, indent=2)
+    hp_extra_head = f'<meta name="description" content="Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals.">\n    <script type="application/ld+json">\n    {hp_structured_data}\n    </script>'
 
-        /* ===== NAV ===== */
-        .header {{ position: sticky; top: 0; z-index: 100; background: rgba(250,250,248,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); padding: 0 32px; height: 64px; }}
-        .header-inner {{ max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 100%; }}
-        .logo {{ font-family: 'DM Sans', sans-serif; font-size: 1.35rem; font-weight: 800; color: var(--navy); text-decoration: none; }}
-        .logo span {{ color: var(--accent); }}
-        .nav-links {{ display: flex; gap: 28px; }}
-        .nav-links a {{ color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }}
-        .nav-links a:hover {{ color: var(--navy); }}
-        .nav-cta a {{ padding: 9px 20px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; font-size: 0.88rem; transition: all 0.2s; }}
-        .nav-cta a:hover {{ background: var(--accent-hover); }}
+    hp_extra_styles = """
+        /* Homepage additions */
+        :root { --surface-alt: #f5f5f3; --border-light: #eeeeea; }
 
         /* ===== HERO ===== */
-        .hero {{ padding: 80px 32px 64px; text-align: center; position: relative; overflow: visible; background: linear-gradient(180deg, var(--bg) 0%, #f0ede8 100%); }}
-        .hero-content {{ position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }}
-        .hero h1 {{
-            font-family: 'Fraunces', serif;
+        .hero { padding: 80px 32px 64px; text-align: center; position: relative; overflow: visible; background: linear-gradient(180deg, var(--bg) 0%, #f0ede8 100%); }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+        .hero h1 {
             font-size: 3.8rem;
             font-weight: 800;
             color: var(--navy);
             margin-bottom: 20px;
             letter-spacing: -0.04em;
             line-height: 1.08;
-        }}
-        .hero-subtitle {{ color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 36px; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto; }}
-        .hero-search {{ max-width: 540px; margin: 0 auto 20px; position: relative; }}
-        .hero-search input {{
+        }
+        .hero-subtitle { color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 36px; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .hero-search { max-width: 540px; margin: 0 auto 20px; position: relative; }
+        .hero-search input {
             width: 100%;
             padding: 18px 24px 18px 52px;
             border: 2px solid var(--border);
@@ -523,65 +610,65 @@ def generate_homepage():
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             outline: none;
             transition: all 0.3s;
-        }}
-        .hero-search input:focus {{ border-color: var(--accent); box-shadow: 0 8px 32px rgba(0,0,0,0.1), 0 0 0 3px rgba(212,101,74,0.12); }}
-        .hero-search input::placeholder {{ color: var(--text-muted); }}
-        .hero-search-icon {{ position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--text-muted); }}
-        .search-dropdown {{ position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.12); max-height: 380px; overflow-y: auto; z-index: 200; display: none; }}
-        .search-dropdown.open {{ display: block; }}
-        .hero-search.dropdown-open input {{ border-radius: 14px 14px 0 0; }}
-        .search-result {{ display: flex; align-items: center; gap: 12px; padding: 12px 20px; text-decoration: none; color: var(--text); transition: background 0.15s; cursor: pointer; border-bottom: 1px solid var(--border-light); }}
-        .search-result:last-child {{ border-bottom: none; }}
-        .search-result:hover, .search-result.active {{ background: var(--accent-light); }}
-        .search-result-type {{ font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }}
-        .search-result-type.company {{ background: var(--navy); color: white; }}
-        .search-result-type.target {{ background: var(--accent); color: white; }}
-        .search-result-info {{ flex: 1; min-width: 0; }}
-        .search-result-name {{ font-weight: 600; font-size: 0.92rem; color: var(--text); }}
-        .search-result-name .ticker {{ color: var(--accent); font-weight: 700; margin-right: 4px; }}
-        .search-result-detail {{ font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
-        .search-result-arrow {{ color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; }}
-        .search-no-results {{ padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.9rem; }}
-        .hero-meta {{ font-size: 0.82rem; color: var(--text-muted); margin-top: 16px; }}
-        .hero-meta span {{ background: rgba(212,101,74,0.1); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-weight: 600; }}
+        }
+        .hero-search input:focus { border-color: var(--accent); box-shadow: 0 8px 32px rgba(0,0,0,0.1), 0 0 0 3px rgba(212,101,74,0.12); }
+        .hero-search input::placeholder { color: var(--text-muted); }
+        .hero-search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--text-muted); }
+        .search-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.12); max-height: 380px; overflow-y: auto; z-index: 200; display: none; }
+        .search-dropdown.open { display: block; }
+        .hero-search.dropdown-open input { border-radius: 14px 14px 0 0; }
+        .search-result { display: flex; align-items: center; gap: 12px; padding: 12px 20px; text-decoration: none; color: var(--text); transition: background 0.15s; cursor: pointer; border-bottom: 1px solid var(--border-light); }
+        .search-result:last-child { border-bottom: none; }
+        .search-result:hover, .search-result.active { background: var(--accent-light); }
+        .search-result-type { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+        .search-result-type.company { background: var(--navy); color: white; }
+        .search-result-type.target { background: var(--accent); color: white; }
+        .search-result-info { flex: 1; min-width: 0; }
+        .search-result-name { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+        .search-result-name .ticker { color: var(--accent); font-weight: 700; margin-right: 4px; }
+        .search-result-detail { font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .search-result-arrow { color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; }
+        .search-no-results { padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
+        .hero-meta { font-size: 0.82rem; color: var(--text-muted); margin-top: 16px; }
+        .hero-meta span { background: rgba(212,101,74,0.1); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-weight: 600; }
 
-        /* ===== SECTION HEADERS ===== */
-        .section-wrap {{ max-width: 1200px; margin: 0 auto; padding: 0 32px; }}
-        .hp-section {{ padding: 56px 0; }}
-        .hp-section-header {{ display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }}
-        .hp-section-title {{ font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); }}
-        .hp-section-link {{ color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; }}
-        .hp-section-link:hover {{ text-decoration: underline; }}
+        /* Section headers */
+        .section-wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+        .hp-section { padding: 56px 0; }
+        .hp-section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
+        .hp-section-title { font-size: 1.5rem; font-weight: 700; color: var(--navy); }
+        .hp-section-link { color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+        .hp-section-link:hover { text-decoration: underline; }
 
-        /* ===== TWO-COLUMN GRID (Catalysts + Deals) ===== */
-        .two-col {{ display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }}
-        .col-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }}
-        .col-card-header {{ padding: 16px 20px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }}
-        .col-card-title {{ font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); }}
-        .col-card-badge {{ padding: 3px 10px; background: rgba(212,101,74,0.1); color: var(--accent); font-size: 0.7rem; font-weight: 700; border-radius: 10px; text-transform: uppercase; }}
+        /* Two-column grid */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        .col-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+        .col-card-header { padding: 16px 20px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
+        .col-card-title { font-size: 1.15rem; font-weight: 700; color: var(--navy); }
+        .col-card-badge { padding: 3px 10px; background: rgba(212,101,74,0.1); color: var(--accent); font-size: 0.7rem; font-weight: 700; border-radius: 10px; text-transform: uppercase; }
 
         /* Catalyst table */
-        .cal-table {{ width: 100%; border-collapse: collapse; }}
-        .cal-table tr {{ border-bottom: 1px solid var(--border-light); }}
-        .cal-table tr:last-child {{ border-bottom: none; }}
-        .cal-table td {{ padding: 10px 16px; font-size: 0.82rem; vertical-align: top; }}
-        .cal-date {{ color: var(--accent); font-weight: 600; white-space: nowrap; width: 80px; }}
-        .cal-company {{ font-weight: 600; color: var(--navy); white-space: nowrap; width: 100px; }}
-        .cal-desc {{ color: var(--text-secondary); }}
+        .cal-table { width: 100%; border-collapse: collapse; }
+        .cal-table tr { border-bottom: 1px solid var(--border-light); }
+        .cal-table tr:last-child { border-bottom: none; }
+        .cal-table td { padding: 10px 16px; font-size: 0.82rem; vertical-align: top; }
+        .cal-date { color: var(--accent); font-weight: 600; white-space: nowrap; width: 80px; }
+        .cal-company { font-weight: 600; color: var(--navy); white-space: nowrap; width: 100px; }
+        .cal-desc { color: var(--text-secondary); }
 
         /* Deals table */
-        .deal-table {{ width: 100%; border-collapse: collapse; }}
-        .deal-table tr {{ border-bottom: 1px solid var(--border-light); }}
-        .deal-table tr:last-child {{ border-bottom: none; }}
-        .deal-table td {{ padding: 10px 16px; font-size: 0.82rem; vertical-align: top; }}
-        .deal-date {{ color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; width: 75px; }}
-        .deal-parties {{ font-weight: 600; color: var(--navy); white-space: nowrap; }}
-        .deal-value {{ color: var(--accent); font-weight: 700; white-space: nowrap; width: 70px; }}
-        .deal-desc {{ color: var(--text-secondary); }}
+        .deal-table { width: 100%; border-collapse: collapse; }
+        .deal-table tr { border-bottom: 1px solid var(--border-light); }
+        .deal-table tr:last-child { border-bottom: none; }
+        .deal-table td { padding: 10px 16px; font-size: 0.82rem; vertical-align: top; }
+        .deal-date { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; width: 75px; }
+        .deal-parties { font-weight: 600; color: var(--navy); white-space: nowrap; }
+        .deal-value { color: var(--accent); font-weight: 700; white-space: nowrap; width: 70px; }
+        .deal-desc { color: var(--text-secondary); }
 
-        /* ===== TARGET SPOTLIGHT ===== */
-        .spotlight-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }}
-        .spotlight-card {{
+        /* Target spotlight */
+        .spotlight-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .spotlight-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 14px;
@@ -592,73 +679,54 @@ def generate_homepage():
             display: flex;
             flex-direction: column;
             gap: 8px;
-        }}
-        .spotlight-card:hover {{ border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-3px); }}
-        .spotlight-header {{ display: flex; align-items: center; gap: 8px; }}
-        .spotlight-cat {{ display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px; }}
-        .hot-badge {{ padding: 2px 7px; background: #D4654A; color: #ffffff; font-size: 0.6rem; font-weight: 700; border-radius: 4px; text-transform: uppercase; }}
-        .spotlight-name {{ font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); }}
-        .spotlight-desc {{ font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; }}
-        .spotlight-stats {{ display: flex; gap: 10px; flex-wrap: wrap; }}
-        .target-stat {{ font-size: 0.72rem; font-weight: 600; color: var(--navy); background: #f3f4f6; padding: 2px 8px; border-radius: 4px; }}
-        .target-leads {{ display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }}
-        .lead-pill {{ font-size: 0.68rem; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border-light); padding: 2px 8px; border-radius: 10px; }}
+        }
+        .spotlight-card:hover { border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-3px); }
+        .spotlight-header { display: flex; align-items: center; gap: 8px; }
+        .spotlight-cat { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hot-badge { padding: 2px 7px; background: var(--accent); color: #ffffff; font-size: 0.6rem; font-weight: 700; border-radius: 4px; text-transform: uppercase; }
+        .spotlight-name { font-size: 1.15rem; font-weight: 700; color: var(--navy); }
+        .spotlight-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; }
+        .spotlight-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+        .target-stat { font-size: 0.72rem; font-weight: 600; color: var(--navy); background: #f3f4f6; padding: 2px 8px; border-radius: 4px; }
+        .target-leads { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+        .lead-pill { font-size: 0.68rem; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border-light); padding: 2px 8px; border-radius: 10px; }
 
-        /* ===== VALUE PROP ===== */
-        .value-strip {{ background: var(--navy); padding: 56px 32px; }}
-        .value-inner {{ max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }}
-        .value-stat-num {{ font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 800; color: white; letter-spacing: -0.02em; }}
-        .value-stat-label {{ font-size: 0.88rem; color: rgba(255,255,255,0.6); margin-top: 4px; }}
+        /* Value prop */
+        .value-strip { background: var(--navy); padding: 56px 32px; }
+        .value-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; text-align: center; }
+        .value-stat-num { font-size: 2.5rem; font-weight: 800; color: white; letter-spacing: -0.02em; }
+        .value-stat-label { font-size: 0.88rem; color: rgba(255,255,255,0.6); margin-top: 4px; }
 
-        /* ===== CTA ===== */
-        .cta-section {{ padding: 64px 32px; background: var(--surface-alt); }}
-        .cta-inner {{ max-width: 520px; margin: 0 auto; text-align: center; }}
-        .cta-inner h2 {{ font-family: 'Fraunces', serif; font-size: 1.8rem; color: var(--navy); margin-bottom: 10px; }}
-        .cta-inner p {{ color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 28px; }}
-        .cta-form {{ display: flex; gap: 10px; max-width: 440px; margin: 0 auto 14px; }}
-        .cta-form input {{ flex: 1; padding: 13px 16px; border: 2px solid var(--border); border-radius: 10px; font-size: 0.95rem; font-family: inherit; outline: none; transition: border-color 0.2s; }}
-        .cta-form input:focus {{ border-color: var(--accent); }}
-        .cta-form button {{ padding: 13px 24px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }}
-        .cta-form button:hover {{ background: var(--accent-hover); }}
-        .cta-note {{ font-size: 0.82rem; color: var(--text-muted); }}
+        /* CTA */
+        .cta-section { padding: 64px 32px; background: var(--surface-alt); }
+        .cta-inner { max-width: 520px; margin: 0 auto; text-align: center; }
+        .cta-inner h2 { font-size: 1.8rem; color: var(--navy); margin-bottom: 10px; }
+        .cta-inner p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 28px; }
+        .cta-form { display: flex; gap: 10px; max-width: 440px; margin: 0 auto 14px; }
+        .cta-form input { flex: 1; padding: 13px 16px; border: 2px solid var(--border); border-radius: 10px; font-size: 0.95rem; font-family: inherit; outline: none; transition: border-color 0.2s; }
+        .cta-form input:focus { border-color: var(--accent); }
+        .cta-form button { padding: 13px 24px; background: var(--accent); color: white; border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .cta-form button:hover { background: var(--accent-hover); }
+        .cta-note { font-size: 0.82rem; color: var(--text-muted); }
 
-        /* ===== FOOTER ===== */
-        .footer {{ background: var(--navy); color: rgba(255,255,255,0.6); padding: 40px 32px; text-align: center; }}
-        .footer p {{ font-size: 0.85rem; }}
+        /* Mobile homepage */
+        @media (max-width: 768px) {
+            .hero { padding: 56px 20px 44px; }
+            .hero h1 { font-size: 2.4rem; }
+            .hero-subtitle { font-size: 1rem; margin-bottom: 28px; }
+            .hero-search input { padding: 15px 18px 15px 46px; font-size: 0.95rem; }
+            .two-col { grid-template-columns: 1fr; }
+            .spotlight-grid { grid-template-columns: 1fr; }
+            .value-inner { grid-template-columns: 1fr; gap: 24px; }
+            .value-stat-num { font-size: 2rem; }
+            .section-wrap { padding: 0 16px; }
+            .hp-section { padding: 40px 0; }
+            .cta-form { flex-direction: column; }
+        }
+    """
 
-        /* ===== MOBILE ===== */
-        @media (max-width: 768px) {{
-            .nav-links {{ display: none; }}
-            .hero {{ padding: 56px 20px 44px; }}
-            .hero h1 {{ font-size: 2.4rem; }}
-            .hero-subtitle {{ font-size: 1rem; margin-bottom: 28px; }}
-            .hero-search input {{ padding: 15px 18px 15px 46px; font-size: 0.95rem; }}
-            .two-col {{ grid-template-columns: 1fr; }}
-            .spotlight-grid {{ grid-template-columns: 1fr; }}
-            .value-inner {{ grid-template-columns: 1fr; gap: 24px; }}
-            .value-stat-num {{ font-size: 2rem; }}
-            .section-wrap {{ padding: 0 16px; }}
-            .hp-section {{ padding: 40px 0; }}
-            .cta-form {{ flex-direction: column; }}
-        }}
-    </style>
-</head>
-<body>
-    <!-- NAV -->
-    <header class="header">
-        <div class="header-inner">
-            <a href="/" class="logo">Satya<span>Bio</span></a>
-            <nav class="nav-links">
-                <a href="/targets">Targets</a>
-                <a href="/companies">Companies</a>
-                <a href="/extract/">Extract</a>
-                <a href="/about">About</a>
-            </nav>
-            <div class="nav-cta">
-                <a href="#cta">Get Started</a>
-            </div>
-        </div>
-    </header>
+    return f'''{_render_head("Satya Bio | Biotech Intelligence for the Buy Side", hp_extra_styles, hp_extra_head)}
+    {_render_nav()}
 
     <!-- HERO -->
     <section class="hero">
@@ -977,58 +1045,42 @@ def generate_companies_page():
         </section>
         '''
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Companies | Satya Bio</title>
-    <meta name="description" content="Browse {total_count} biotech companies with pipeline data and catalyst tracking.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .search-box {{ margin-bottom: 16px; }}
-        .search-input {{ width: 100%; max-width: 500px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }}
-        .search-input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }}
-        .results-count {{ color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }}
-        /* Badges - consistent neutral styling */
-        .data-badge {{ background: var(--navy); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-left: 8px; }}
-        .priority-badge {{ padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: #e5e7eb; color: #374151; }}
-        .priority-badge.priority-high {{ background: var(--navy); color: white; }}
-        .priority-badge.priority-medium {{ background: #e5e7eb; color: #374151; }}
-        .priority-badge.priority-low {{ background: #f3f4f6; color: #6b7280; }}
-
-        /* Email gate - locked card styles */
-        .locked-card {{ display: block; position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; overflow: hidden; }}
-        .locked-card:hover {{ border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }}
-        .locked-blur {{ filter: blur(4px); pointer-events: none; user-select: none; }}
-        .locked-overlay {{ position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(255,255,255,0.6); color: var(--navy); font-weight: 600; font-size: 0.85rem; }}
-        .locked-overlay svg {{ opacity: 0.7; }}
-
-        /* Gate modal */
-        .gate-backdrop {{ display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }}
-        .gate-backdrop.visible {{ display: flex; }}
-        .gate-modal {{ background: white; border-radius: 16px; padding: 40px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.15); position: relative; }}
-        .gate-modal h2 {{ font-size: 1.35rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }}
-        .gate-modal .gate-sub {{ color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; }}
-        .gate-modal input[type="email"] {{ width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; margin-bottom: 12px; }}
-        .gate-modal input[type="email"]:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }}
-        .gate-modal .gate-btn {{ width: 100%; padding: 14px; background: var(--accent); color: white; font-weight: 700; font-size: 1rem; border: none; border-radius: 10px; cursor: pointer; transition: background 0.2s; }}
-        .gate-modal .gate-btn:hover {{ background: var(--accent-hover); }}
-        .gate-modal .gate-btn:disabled {{ opacity: 0.6; cursor: not-allowed; }}
-        .gate-modal .gate-fine {{ color: var(--text-muted); font-size: 0.8rem; margin-top: 16px; }}
-        .gate-modal .gate-close {{ position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer; }}
-        .gate-modal .gate-error {{ color: #D4654A; font-size: 0.85rem; margin-top: 8px; display: none; }}
-        .gate-modal .gate-success {{ color: #1B2838; font-size: 0.85rem; margin-top: 8px; display: none; }}
-
-        /* Unlocked state - applied via JS when user is subscribed */
-        body.unlocked .locked-card {{ cursor: default; }}
-        body.unlocked .locked-blur {{ filter: none; pointer-events: auto; user-select: auto; }}
-        body.unlocked .locked-overlay {{ display: none; }}
-    </style>
-</head>
-<body>
-    {get_nav_html("companies")}
+    companies_extra_head = f'<meta name="description" content="Browse {total_count} biotech companies with pipeline data and catalyst tracking.">'
+    companies_styles = """
+        .search-box { margin-bottom: 16px; }
+        .search-input { width: 100%; max-width: 500px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }
+        .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }
+        .results-count { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px; }
+        .data-badge { background: var(--navy); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-left: 8px; }
+        .priority-badge { padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: #e5e7eb; color: #374151; }
+        .priority-badge.priority-high { background: var(--navy); color: white; }
+        .priority-badge.priority-medium { background: #e5e7eb; color: #374151; }
+        .priority-badge.priority-low { background: #f3f4f6; color: #6b7280; }
+        .locked-card { display: block; position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s; overflow: hidden; }
+        .locked-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .locked-blur { filter: blur(4px); pointer-events: none; user-select: none; }
+        .locked-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: rgba(255,255,255,0.6); color: var(--navy); font-weight: 600; font-size: 0.85rem; }
+        .locked-overlay svg { opacity: 0.7; }
+        .gate-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .gate-backdrop.visible { display: flex; }
+        .gate-modal { background: white; border-radius: 16px; padding: 40px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.15); position: relative; }
+        .gate-modal h2 { font-size: 1.35rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }
+        .gate-modal .gate-sub { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; }
+        .gate-modal input[type="email"] { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; margin-bottom: 12px; }
+        .gate-modal input[type="email"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }
+        .gate-modal .gate-btn { width: 100%; padding: 14px; background: var(--accent); color: white; font-weight: 700; font-size: 1rem; border: none; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
+        .gate-modal .gate-btn:hover { background: var(--accent-hover); }
+        .gate-modal .gate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .gate-modal .gate-fine { color: var(--text-muted); font-size: 0.8rem; margin-top: 16px; }
+        .gate-modal .gate-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer; }
+        .gate-modal .gate-error { color: #D4654A; font-size: 0.85rem; margin-top: 8px; display: none; }
+        .gate-modal .gate-success { color: #1B2838; font-size: 0.85rem; margin-top: 8px; display: none; }
+        body.unlocked .locked-card { cursor: default; }
+        body.unlocked .locked-blur { filter: none; pointer-events: auto; user-select: auto; }
+        body.unlocked .locked-overlay { display: none; }
+    """
+    return f'''{_render_head("Companies | Satya Bio", companies_styles, companies_extra_head)}
+    {_render_nav("companies")}
     <main class="main">
         <div class="page-header">
             <h1 class="page-title">Companies</h1>
@@ -1402,69 +1454,46 @@ def generate_targets_page():
         </div>
         '''
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Drug Targets | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .targets-layout {{ display: grid; grid-template-columns: 240px 1fr; gap: 32px; }}
-        @media (max-width: 900px) {{ .targets-layout {{ grid-template-columns: 1fr; }} }}
-
-        /* Sidebar */
-        .filters-sidebar {{ position: sticky; top: 80px; height: fit-content; }}
-        .filter-section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }}
-        .filter-section h4 {{ font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }}
-        .filter-option {{ display: flex; align-items: center; gap: 8px; padding: 8px 0; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary); }}
-        .filter-option:hover {{ color: var(--navy); }}
-        .filter-option input {{ display: none; }}
-        .filter-dot {{ width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--border); }}
-        .filter-option.active .filter-dot {{ background: var(--accent); border-color: var(--accent); }}
-        .filter-option.active {{ color: var(--navy); font-weight: 500; }}
-
-        /* Search */
-        .search-box {{ margin-bottom: 24px; }}
-        .search-input {{ width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }}
-        .search-input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }}
-
-        /* Targets grid */
-        .targets-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }}
-        .targets-meta {{ color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }}
-
-        /* Target card */
-        .target-card {{ background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: all 0.2s; }}
-        .target-card:hover {{ border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }}
-        .target-header {{ display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }}
-        .target-name {{ font-size: 1.1rem; font-weight: 700; color: var(--navy); }}
-        /* Category badge - consistent neutral styling */
-        .area-badge {{ padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 500; background: transparent; border: 1px solid #d1d5db; color: #6b7280; }}
-        /* Status pill - navy background for all statuses */
-        .market-status {{ display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; background: #1a2b3c; color: #ffffff; }}
-
-        .competitor-section {{ margin-bottom: 12px; }}
-        .competitor-row {{ display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }}
-        .competitor-row:last-child {{ border-bottom: none; }}
-        .competitor-label {{ color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; min-width: 90px; }}
-        .competitor-info {{ display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; text-align: right; }}
-        .competitor-text {{ color: var(--text-secondary); }}
-        .competitor-text .company {{ color: var(--navy); font-weight: 500; }}
-        /* Ticker - subtle gray, not coral */
-        .competitor-text .ticker {{ color: #6b7280; font-size: 0.85em; }}
-        /* Phase pill - consistent neutral gray for ALL phases */
-        .stage-pill {{ padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; }}
-
-        .target-footer {{ padding-top: 12px; }}
-        .companies-count {{ font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }}
-        .target-desc {{ font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }}
-        .view-btn {{ display: inline-block; color: var(--accent); font-weight: 600; font-size: 0.85rem; text-decoration: none; }}
-        .view-btn:hover {{ text-decoration: underline; }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+    targets_styles = """
+        .targets-layout { display: grid; grid-template-columns: 240px 1fr; gap: 32px; }
+        @media (max-width: 900px) { .targets-layout { grid-template-columns: 1fr; } }
+        .filters-sidebar { position: sticky; top: 80px; height: fit-content; }
+        .filter-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+        .filter-section h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
+        .filter-option { display: flex; align-items: center; gap: 8px; padding: 8px 0; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary); }
+        .filter-option:hover { color: var(--navy); }
+        .filter-option input { display: none; }
+        .filter-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--border); }
+        .filter-option.active .filter-dot { background: var(--accent); border-color: var(--accent); }
+        .filter-option.active { color: var(--navy); font-weight: 500; }
+        .search-box { margin-bottom: 24px; }
+        .search-input { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }
+        .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }
+        .targets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+        .targets-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+        .target-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: all 0.2s; }
+        .target-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .target-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .target-name { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+        .area-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 500; background: transparent; border: 1px solid #d1d5db; color: #6b7280; }
+        .market-status { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; background: #1a2b3c; color: #ffffff; }
+        .competitor-section { margin-bottom: 12px; }
+        .competitor-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+        .competitor-row:last-child { border-bottom: none; }
+        .competitor-label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; min-width: 90px; }
+        .competitor-info { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; text-align: right; }
+        .competitor-text { color: var(--text-secondary); }
+        .competitor-text .company { color: var(--navy); font-weight: 500; }
+        .competitor-text .ticker { color: #6b7280; font-size: 0.85em; }
+        .stage-pill { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; }
+        .target-footer { padding-top: 12px; }
+        .companies-count { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }
+        .target-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }
+        .view-btn { display: inline-block; color: var(--accent); font-weight: 600; font-size: 0.85rem; text-decoration: none; }
+        .view-btn:hover { text-decoration: underline; }
+    """
+    return f'''{_render_head("Explore Drug Targets | Satya Bio", targets_styles)}
+    {_render_nav("targets")}
     <main class="main">
         <div class="page-header">
             <h1 class="page-title">Explore Drug Targets</h1>
@@ -1626,60 +1655,45 @@ def generate_target_detail_page(slug: str):
     phase_3_assets = data.get("phase_3_assets", 0)
     approved_assets = data.get("approved_assets", 0)
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{target_name} Target Landscape | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
+    detail_styles = """
+        .report-header {
             background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
-            color: white;
-            padding: 48px 32px;
-            margin: -32px -32px 32px;
-            border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header .subtitle {{ opacity: 0.85; font-size: 1rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.7; max-width: 700px; font-size: 0.95rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
-        .category-badge {{ display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; }}
-
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
-
-        .assets-table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
-        .assets-table th {{ background: var(--navy); color: white; padding: 12px; text-align: left; }}
-        .assets-table td {{ padding: 12px; border-bottom: 1px solid var(--border); }}
-        .assets-table tr:hover {{ background: var(--bg); }}
-        .phase-badge {{ padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }}
-        .company-link {{ color: var(--navy); text-decoration: none; font-weight: 500; }}
-        .company-link:hover {{ color: var(--accent); }}
-        .ticker {{ color: var(--text-muted); font-size: 0.8rem; }}
-        .deal-value {{ color: var(--navy); font-weight: 600; }}
-
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; margin-bottom: 16px; }}
-        .bear-box h3 {{ color: #1a2b3c; margin-bottom: 16px; }}
-        .thesis-list {{ list-style: none; padding: 0; margin: 0; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-bottom: 24px; font-weight: 500; }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+            color: white; padding: 48px 32px; margin: -32px -32px 32px; border-radius: 0 0 24px 24px;
+        }
+        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
+        .report-header .subtitle { opacity: 0.85; font-size: 1rem; margin-bottom: 8px; }
+        .report-header p { opacity: 0.7; max-width: 700px; font-size: 0.95rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
+        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
+        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
+        .category-badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 12px; }
+        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+        .assets-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .assets-table th { background: var(--navy); color: white; padding: 12px; text-align: left; }
+        .assets-table td { padding: 12px; border-bottom: 1px solid var(--border); }
+        .assets-table tr:hover { background: var(--bg); }
+        .phase-badge { padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: white; }
+        .company-link { color: var(--navy); text-decoration: none; font-weight: 500; }
+        .company-link:hover { color: var(--accent); }
+        .ticker { color: var(--text-muted); font-size: 0.8rem; }
+        .deal-value { color: var(--navy); font-weight: 600; }
+        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
+        .bull-box { border-left: 3px solid #e07a5f; }
+        .bear-box { border-left: 3px solid #1a2b3c; }
+        .bull-box h3 { color: #e07a5f; margin-bottom: 16px; }
+        .bear-box h3 { color: #1a2b3c; margin-bottom: 16px; }
+        .thesis-list { list-style: none; padding: 0; margin: 0; }
+        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; }
+        .thesis-list li:last-child { border-bottom: none; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-bottom: 24px; font-weight: 500; }
+    """
+    detail_title = f"{target_name} Target Landscape | Satya Bio"
+    return f'''{_render_head(detail_title, detail_styles)}
+    {_render_nav("targets")}
     <main class="main">
         <a href="/targets" class="back-link">← Back to All Targets</a>
 
@@ -1729,26 +1743,17 @@ def generate_target_detail_page(slug: str):
 </html>'''
 
 def generate_about_page():
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .about-content {{ max-width: 700px; margin: 0 auto; }}
-        .about-content h1 {{ font-size: 2.5rem; margin-bottom: 24px; }}
-        .about-content p {{ font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px; color: var(--text-secondary); }}
-        .about-content h2 {{ font-size: 1.5rem; margin: 48px 0 16px; color: var(--navy); }}
-        .feature-list {{ list-style: none; padding: 0; }}
-        .feature-list li {{ padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }}
-        .feature-list li::before {{ content: "✓"; color: var(--accent); font-weight: bold; }}
-    </style>
-</head>
-<body>
-    {get_nav_html("about")}
+    about_styles = """
+        .about-content { max-width: 700px; margin: 0 auto; }
+        .about-content h1 { font-size: 2.5rem; margin-bottom: 24px; }
+        .about-content p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px; color: var(--text-secondary); }
+        .about-content h2 { font-size: 1.5rem; margin: 48px 0 16px; color: var(--navy); }
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+        .feature-list li::before { content: "\\2713"; color: var(--accent); font-weight: bold; }
+    """
+    return f'''{_render_head("About | Satya Bio", about_styles)}
+    {_render_nav("about")}
     <main class="main">
         <div class="about-content">
             <h1>Biotech Intelligence for the Buy Side</h1>
@@ -1756,7 +1761,7 @@ def generate_about_page():
 
             <h2>What We Track</h2>
             <ul class="feature-list">
-                <li>Pipeline data for 145+ biotech companies</li>
+                <li>Pipeline data for 181 biotech companies</li>
                 <li>Real-time catalyst monitoring and alerts</li>
                 <li>Competitive landscapes for hot targets (GLP-1, TL1A, KRAS, etc.)</li>
                 <li>Key Opinion Leader identification via PubMed</li>
@@ -1765,7 +1770,7 @@ def generate_about_page():
             </ul>
 
             <h2>Contact</h2>
-            <p>For early access or inquiries: <a href="mailto:hello@satyabio.com" style="color: var(--accent);">hello@satyabio.com</a></p>
+            <p>For early access or inquiries: <a href="mailto:contact@satyabio.com" style="color: var(--accent);">contact@satyabio.com</a></p>
         </div>
     </main>
     <footer class="footer">
@@ -1835,83 +1840,75 @@ def generate_glp1_report(admin: bool = False):
     # Catalyst section from shared system
     catalyst_html = render_catalyst_section("glp1-obesity", admin=admin)
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLP-1 / Obesity Competitive Landscape | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
+    glp1_styles = """
+        .report-header {
             background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
             color: white;
             padding: 48px 32px;
             margin: -32px -32px 32px;
             border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+        }
+        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
+        .report-header p { opacity: 0.85; max-width: 700px; font-size: 1.1rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
+        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
+        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
 
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
-        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+        .section h3 { color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }
 
-        .market-stats {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 24px 0; }}
-        .market-stat {{ background: var(--bg); padding: 24px; border-radius: 12px; text-align: center; }}
-        .market-stat .value {{ font-size: 2rem; font-weight: 700; color: var(--accent); }}
-        .market-stat .label {{ color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px; }}
+        .market-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 24px 0; }
+        .market-stat { background: var(--bg); padding: 24px; border-radius: 12px; text-align: center; }
+        .market-stat .value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .market-stat .label { color: var(--text-secondary); font-size: 0.85rem; margin-top: 4px; }
 
-        table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
-        th {{ background: var(--navy); color: white; padding: 14px 12px; text-align: left; font-weight: 600; }}
-        td {{ padding: 14px 12px; border-bottom: 1px solid var(--border); }}
-        tr:hover {{ background: var(--bg); }}
-        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { background: var(--navy); color: white; padding: 14px 12px; text-align: left; font-weight: 600; }
+        td { padding: 14px 12px; border-bottom: 1px solid var(--border); }
+        tr:hover { background: var(--bg); }
+        .table-footnote { font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }
 
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; }}
-        .bear-box h3 {{ color: #1a2b3c; }}
-        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
+        .bull-box { border-left: 3px solid #e07a5f; }
+        .bear-box { border-left: 3px solid #1a2b3c; }
+        .bull-box h3 { color: #e07a5f; }
+        .bear-box h3 { color: #1a2b3c; }
+        .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
+        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .thesis-list li:last-child { border-bottom: none; }
+        .thesis-list li::before { content: "\2192"; font-weight: bold; }
 
-        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
-        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
-        .bio-point {{ padding: 8px 0; border-bottom: 1px solid #dbeafe; font-size: 0.9rem; color: #374151; }}
-        .bio-point:last-child {{ border-bottom: none; }}
-        .bio-point strong {{ color: #1e40af; }}
+        .bio-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box h3 { color: #1e40af; margin-top: 0; }
+        .bio-box p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
+        .bio-point { padding: 8px 0; border-bottom: 1px solid #dbeafe; font-size: 0.9rem; color: #374151; }
+        .bio-point:last-child { border-bottom: none; }
+        .bio-point strong { color: #1e40af; }
 
-        .pipeline-flow {{ display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 6px 0; font-size: 0.85rem; }}
-        .pipeline-flow .arrow {{ color: var(--text-secondary); }}
-        .pipeline-flow .drug {{ background: var(--bg); padding: 3px 10px; border-radius: 6px; border: 1px solid var(--border); }}
-        .pipeline-flow .drug.approved {{ background: #f0eeeb; border-color: #1B2838; }}
-        .pipeline-flow .drug.filing {{ background: #f5f3f0; border-color: #e0ddd8; }}
+        .pipeline-flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 6px 0; font-size: 0.85rem; }
+        .pipeline-flow .arrow { color: var(--text-secondary); }
+        .pipeline-flow .drug { background: var(--bg); padding: 3px 10px; border-radius: 6px; border: 1px solid var(--border); }
+        .pipeline-flow .drug.approved { background: #f0eeeb; border-color: #1B2838; }
+        .pipeline-flow .drug.filing { background: #f5f3f0; border-color: #e0ddd8; }
 
-        .catalyst-timeline {{ margin-top: 20px; }}
-        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
-        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
-        .catalyst-content strong {{ color: var(--navy); }}
+        .catalyst-timeline { margin-top: 20px; }
+        .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .catalyst-date { min-width: 100px; font-weight: 700; color: var(--accent); }
+        .catalyst-content strong { color: var(--navy); }
 
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
-        .back-link:hover {{ text-decoration: underline; }}
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
 
-        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
-        .source-list a {{ color: var(--accent); }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+        .source-list { list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }
+        .source-list a { color: var(--accent); }
+    """
+
+    return f'''{_render_head("GLP-1 / Obesity Competitive Landscape | Satya Bio", glp1_styles)}
+    {_render_nav("targets")}
     <main class="main">
         <div class="report-header">
             <h1>GLP-1 / Obesity Competitive Landscape</h1>
@@ -2469,63 +2466,55 @@ def generate_tl1a_report(admin: bool = False):
         </tr>
         '''
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TL1A / IBD Competitive Landscape | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
+    tl1a_styles = """
+        .report-header {
             background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
             color: white;
             padding: 48px 32px;
             margin: -32px -32px 32px;
             border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+        }
+        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
+        .report-header p { opacity: 0.85; max-width: 700px; font-size: 1.1rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
+        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
+        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
 
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
+        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
 
-        table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
-        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
-        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
-        tr:hover {{ background: var(--bg); }}
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        tr:hover { background: var(--bg); }
 
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; }}
-        .bear-box h3 {{ color: #1a2b3c; }}
-        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
+        .bull-box { border-left: 3px solid #e07a5f; }
+        .bear-box { border-left: 3px solid #1a2b3c; }
+        .bull-box h3 { color: #e07a5f; }
+        .bear-box h3 { color: #1a2b3c; }
+        .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
+        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .thesis-list li:last-child { border-bottom: none; }
+        .thesis-list li::before { content: "\2192"; font-weight: bold; }
 
-        .mechanism-box {{ background: var(--bg); padding: 20px; border-radius: 12px; margin-top: 16px; }}
-        .mechanism-box h4 {{ color: var(--navy); margin-bottom: 8px; }}
-        .mechanism-box p {{ color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }}
+        .mechanism-box { background: var(--bg); padding: 20px; border-radius: 12px; margin-top: 16px; }
+        .mechanism-box h4 { color: var(--navy); margin-bottom: 8px; }
+        .mechanism-box p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
 
-        .catalyst-timeline {{ margin-top: 20px; }}
-        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
-        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+        .catalyst-timeline { margin-top: 20px; }
+        .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .catalyst-date { min-width: 100px; font-weight: 700; color: var(--accent); }
 
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
-        .back-link:hover {{ text-decoration: underline; }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
+    """
+
+    return f'''{_render_head("TL1A / IBD Competitive Landscape | Satya Bio", tl1a_styles)}
+    {_render_nav("targets")}
     <main class="main">
         <div class="report-header">
             <h1>TL1A / IBD Competitive Landscape</h1>
@@ -2669,74 +2658,66 @@ def generate_b7h3_report(admin: bool = False):
         </tr>
         '''
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B7-H3 / ADC Competitive Landscape | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
+    b7h3_styles = """
+        .report-header {
             background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
             color: white;
             padding: 48px 32px;
             margin: -32px -32px 32px;
             border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+        }
+        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
+        .report-header p { opacity: 0.85; max-width: 700px; font-size: 1.1rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
+        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
+        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
 
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
-        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 20px 0 12px; }}
+        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+        .section h3 { color: var(--navy); font-size: 1.1rem; margin: 20px 0 12px; }
 
-        table {{ width: 100%; border-collapse: collapse; font-size: 0.85rem; }}
-        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
-        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
-        tr:hover {{ background: var(--bg); }}
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        tr:hover { background: var(--bg); }
 
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; }}
-        .bear-box h3 {{ color: #1a2b3c; }}
-        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
+        .bull-box { border-left: 3px solid #e07a5f; }
+        .bear-box { border-left: 3px solid #1a2b3c; }
+        .bull-box h3 { color: #e07a5f; }
+        .bear-box h3 { color: #1a2b3c; }
+        .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
+        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .thesis-list li:last-child { border-bottom: none; }
+        .thesis-list li::before { content: "\2192"; font-weight: bold; }
 
-        .highlight-box {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 20px; margin: 20px 0; }}
-        .highlight-box h4 {{ color: #1B2838; margin-bottom: 8px; }}
-        .highlight-box p {{ color: #374151; font-size: 0.9rem; }}
+        .highlight-box { background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 20px; margin: 20px 0; }
+        .highlight-box h4 { color: #1B2838; margin-bottom: 8px; }
+        .highlight-box p { color: #374151; font-size: 0.9rem; }
 
-        .note-box {{ background: var(--bg); border-left: 3px solid var(--accent); padding: 16px 20px; margin-top: 16px; border-radius: 0 8px 8px 0; }}
-        .note-box p {{ color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin: 0; }}
+        .note-box { background: var(--bg); border-left: 3px solid var(--accent); padding: 16px 20px; margin-top: 16px; border-radius: 0 8px 8px 0; }
+        .note-box p { color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6; margin: 0; }
 
-        .bio-point {{ display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }}
-        .bio-point:last-child {{ border-bottom: none; }}
-        .bio-icon {{ min-width: 28px; height: 28px; background: var(--navy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }}
-        .bio-icon.risk {{ background: #D4654A; }}
-        .bio-text {{ font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }}
-        .bio-text strong {{ color: var(--text); }}
+        .bio-point { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .bio-point:last-child { border-bottom: none; }
+        .bio-icon { min-width: 28px; height: 28px; background: var(--navy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+        .bio-icon.risk { background: #D4654A; }
+        .bio-text { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+        .bio-text strong { color: var(--text); }
 
-        .catalyst-timeline {{ margin-top: 20px; }}
-        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
-        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
+        .catalyst-timeline { margin-top: 20px; }
+        .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .catalyst-date { min-width: 100px; font-weight: 700; color: var(--accent); }
 
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
-        .back-link:hover {{ text-decoration: underline; }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
+    """
+
+    return f'''{_render_head("B7-H3 / ADC Competitive Landscape | Satya Bio", b7h3_styles)}
+    {_render_nav("targets")}
     <main class="main">
         <div class="report-header">
             <h1>B7-H3 / ADC Competitive Landscape</h1>
@@ -2985,79 +2966,71 @@ def generate_kras_report(admin: bool = False):
     # Catalyst section from shared system
     catalyst_html = render_catalyst_section("kras", admin=admin)
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KRAS Inhibitor Landscape | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
+    kras_styles = """
+        .report-header {
             background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
             color: white;
             padding: 48px 32px;
             margin: -32px -32px 32px;
             border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+        }
+        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
+        .report-header p { opacity: 0.85; max-width: 700px; font-size: 1.1rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
+        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
+        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
 
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
-        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+        .section h3 { color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }
 
-        table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
-        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
-        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
-        tr:hover {{ background: var(--bg); }}
-        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        th { background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        tr:hover { background: var(--bg); }
+        .table-footnote { font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }
 
-        .mutation-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 24px 0; }}
-        .mutation-card {{ background: var(--bg); padding: 20px; border-radius: 12px; border-left: 4px solid var(--accent); }}
-        .mutation-card h4 {{ color: var(--navy); margin-bottom: 8px; }}
-        .mutation-card .pct {{ font-size: 1.5rem; font-weight: 700; color: var(--accent); }}
+        .mutation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 24px 0; }
+        .mutation-card { background: var(--bg); padding: 20px; border-radius: 12px; border-left: 4px solid var(--accent); }
+        .mutation-card h4 { color: var(--navy); margin-bottom: 8px; }
+        .mutation-card .pct { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
 
-        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
-        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
-        .bio-point {{ padding: 8px 0; border-bottom: 1px solid #dbeafe; font-size: 0.9rem; color: #374151; }}
-        .bio-point:last-child {{ border-bottom: none; }}
-        .bio-point strong {{ color: #1e40af; }}
+        .bio-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box h3 { color: #1e40af; margin-top: 0; }
+        .bio-box p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
+        .bio-point { padding: 8px 0; border-bottom: 1px solid #dbeafe; font-size: 0.9rem; color: #374151; }
+        .bio-point:last-child { border-bottom: none; }
+        .bio-point strong { color: #1e40af; }
 
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; }}
-        .bear-box h3 {{ color: #1a2b3c; }}
-        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
+        .bull-box { border-left: 3px solid #e07a5f; }
+        .bear-box { border-left: 3px solid #1a2b3c; }
+        .bull-box h3 { color: #e07a5f; }
+        .bear-box h3 { color: #1a2b3c; }
+        .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
+        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .thesis-list li:last-child { border-bottom: none; }
+        .thesis-list li::before { content: "\2192"; font-weight: bold; }
 
-        .deal-table td:nth-child(3) {{ font-weight: 600; color: var(--accent); }}
+        .deal-table td:nth-child(3) { font-weight: 600; color: var(--accent); }
 
-        .catalyst-timeline {{ margin-top: 20px; }}
-        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
-        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
-        .catalyst-content strong {{ color: var(--navy); }}
+        .catalyst-timeline { margin-top: 20px; }
+        .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .catalyst-date { min-width: 100px; font-weight: 700; color: var(--accent); }
+        .catalyst-content strong { color: var(--navy); }
 
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
-        .back-link:hover {{ text-decoration: underline; }}
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
 
-        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
-        .source-list a {{ color: var(--accent); }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+        .source-list { list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }
+        .source-list a { color: var(--accent); }
+    """
+
+    return f'''{_render_head("KRAS Inhibitor Landscape | Satya Bio", kras_styles)}
+    {_render_nav("targets")}
     <main class="main">
         <div class="report-header">
             <h1>KRAS Inhibitor Landscape</h1>
@@ -3382,83 +3355,75 @@ def generate_mir124_report(admin: bool = False):
     # Catalyst section from shared system
     catalyst_html = render_catalyst_section("mir-124", admin=admin)
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>miR-124: Obefazimod &amp; the MicroRNA Reset | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
+    mir124_styles = """
+        .report-header {
             background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
             color: white;
             padding: 48px 32px;
             margin: -32px -32px 32px;
             border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+        }
+        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
+        .report-header p { opacity: 0.85; max-width: 700px; font-size: 1.1rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
+        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
+        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
 
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
-        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+        .section h3 { color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }
 
-        table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
-        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
-        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
-        tr:hover {{ background: var(--bg); }}
-        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        th { background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        tr:hover { background: var(--bg); }
+        .table-footnote { font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }
 
-        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
-        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box h3 { color: #1e40af; margin-top: 0; }
+        .bio-box p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .bio-box-green {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-green h3 {{ color: #1B2838; margin-top: 0; }}
-        .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box-green { background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box-green h3 { color: #1B2838; margin-top: 0; }
+        .bio-box-green p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .bio-box-amber {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-amber h3 {{ color: #1B2838; margin-top: 0; }}
-        .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box-amber { background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box-amber h3 { color: #1B2838; margin-top: 0; }
+        .bio-box-amber p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; }}
-        .bear-box h3 {{ color: #1a2b3c; }}
-        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
+        .bull-box { border-left: 3px solid #e07a5f; }
+        .bear-box { border-left: 3px solid #1a2b3c; }
+        .bull-box h3 { color: #e07a5f; }
+        .bear-box h3 { color: #1a2b3c; }
+        .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
+        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .thesis-list li:last-child { border-bottom: none; }
+        .thesis-list li::before { content: "\2192"; font-weight: bold; }
 
-        .catalyst-timeline {{ margin-top: 20px; }}
-        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
-        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
-        .catalyst-content strong {{ color: var(--navy); }}
+        .catalyst-timeline { margin-top: 20px; }
+        .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .catalyst-date { min-width: 100px; font-weight: 700; color: var(--accent); }
+        .catalyst-content strong { color: var(--navy); }
 
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
-        .back-link:hover {{ text-decoration: underline; }}
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
 
-        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
-        .source-list a {{ color: var(--accent); }}
+        .source-list { list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }
+        .source-list a { color: var(--accent); }
 
-        .callout-box {{ background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .callout-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
-        .callout-box strong {{ color: var(--accent); }}
+        .callout-box { background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .callout-box p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
+        .callout-box strong { color: var(--accent); }
 
-        .highlight-row {{ background: #fef5f3 !important; }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+        .highlight-row { background: #fef5f3 !important; }
+    """
+
+    return f'''{_render_head("miR-124: Obefazimod &amp; the MicroRNA Reset | Satya Bio", mir124_styles)}
+    {_render_nav("targets")}
     <main class="main">
 
         <!-- Header -->
@@ -3840,85 +3805,77 @@ def generate_stat6_report(admin: bool = False):
     # Catalyst section from shared system
     catalyst_html = render_catalyst_section("stat6", admin=admin)
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STAT6 Degraders &amp; Inhibitors | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
+    stat6_styles = """
+        .report-header {
             background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
             color: white;
             padding: 48px 32px;
             margin: -32px -32px 32px;
             border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+        }
+        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
+        .report-header p { opacity: 0.85; max-width: 700px; font-size: 1.1rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
+        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
+        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
 
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
-        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+        .section h3 { color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }
 
-        table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
-        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
-        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
-        tr:hover {{ background: var(--bg); }}
-        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        th { background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        tr:hover { background: var(--bg); }
+        .table-footnote { font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }
 
-        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
-        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box h3 { color: #1e40af; margin-top: 0; }
+        .bio-box p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .bio-box-green {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-green h3 {{ color: #1B2838; margin-top: 0; }}
-        .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box-green { background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box-green h3 { color: #1B2838; margin-top: 0; }
+        .bio-box-green p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .bio-box-amber {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-amber h3 {{ color: #1B2838; margin-top: 0; }}
-        .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box-amber { background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box-amber h3 { color: #1B2838; margin-top: 0; }
+        .bio-box-amber p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; }}
-        .bear-box h3 {{ color: #1a2b3c; }}
-        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
+        .bull-box { border-left: 3px solid #e07a5f; }
+        .bear-box { border-left: 3px solid #1a2b3c; }
+        .bull-box h3 { color: #e07a5f; }
+        .bear-box h3 { color: #1a2b3c; }
+        .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
+        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .thesis-list li:last-child { border-bottom: none; }
+        .thesis-list li::before { content: "\2192"; font-weight: bold; }
 
-        .deal-table td:nth-child(4) {{ font-weight: 600; color: var(--accent); }}
+        .deal-table td:nth-child(4) { font-weight: 600; color: var(--accent); }
 
-        .catalyst-timeline {{ margin-top: 20px; }}
-        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
-        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
-        .catalyst-content strong {{ color: var(--navy); }}
+        .catalyst-timeline { margin-top: 20px; }
+        .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .catalyst-date { min-width: 100px; font-weight: 700; color: var(--accent); }
+        .catalyst-content strong { color: var(--navy); }
 
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
-        .back-link:hover {{ text-decoration: underline; }}
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
 
-        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
-        .source-list a {{ color: var(--accent); }}
+        .source-list { list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }
+        .source-list a { color: var(--accent); }
 
-        .callout-box {{ background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .callout-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
-        .callout-box strong {{ color: var(--accent); }}
+        .callout-box { background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .callout-box p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
+        .callout-box strong { color: var(--accent); }
 
-        .data-table td:first-child {{ font-weight: 600; color: var(--navy); }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+        .data-table td:first-child { font-weight: 600; color: var(--navy); }
+    """
+
+    return f'''{_render_head("STAT6 Degraders &amp; Inhibitors | Satya Bio", stat6_styles)}
+    {_render_nav("targets")}
     <main class="main">
 
         <!-- Header -->
@@ -4332,87 +4289,79 @@ def generate_cell_therapy_report(admin: bool = False):
     # Catalyst section from shared system
     catalyst_html = render_catalyst_section("cell-therapy", admin=admin)
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cell Therapy: Ex Vivo vs In Vivo | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .report-header {{
+    cell_therapy_styles = """
+        .report-header {
             background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
             color: white;
             padding: 48px 32px;
             margin: -32px -32px 32px;
             border-radius: 0 0 24px 24px;
-        }}
-        .report-header h1 {{ font-size: 2.25rem; margin-bottom: 8px; }}
-        .report-header p {{ opacity: 0.85; max-width: 700px; font-size: 1.1rem; }}
-        .report-meta {{ display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }}
-        .meta-item {{ background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }}
-        .meta-item .label {{ font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }}
-        .meta-item .value {{ font-size: 1.25rem; font-weight: 700; }}
+        }
+        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
+        .report-header p { opacity: 0.85; max-width: 700px; font-size: 1.1rem; }
+        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
+        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
+        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
 
-        .section {{ background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }}
-        .section h2 {{ color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }}
-        .section h3 {{ color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }}
+        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
+        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+        .section h3 { color: var(--navy); font-size: 1.1rem; margin: 24px 0 16px; }
 
-        table {{ width: 100%; border-collapse: collapse; font-size: 0.82rem; }}
-        th {{ background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }}
-        td {{ padding: 12px 10px; border-bottom: 1px solid var(--border); }}
-        tr:hover {{ background: var(--bg); }}
-        .table-footnote {{ font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }}
+        table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        th { background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
+        tr:hover { background: var(--bg); }
+        .table-footnote { font-size: 0.8rem; color: var(--text-secondary); margin-top: 12px; font-style: italic; line-height: 1.5; }
 
-        .bio-box {{ background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box h3 {{ color: #1e40af; margin-top: 0; }}
-        .bio-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box h3 { color: #1e40af; margin-top: 0; }
+        .bio-box p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .bio-box-green {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-green h3 {{ color: #1B2838; margin-top: 0; }}
-        .bio-box-green p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box-green { background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box-green h3 { color: #1B2838; margin-top: 0; }
+        .bio-box-green p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .bio-box-amber {{ background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-amber h3 {{ color: #1B2838; margin-top: 0; }}
-        .bio-box-amber p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box-amber { background: #f5f3f0; border: 1px solid #e0ddd8; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box-amber h3 { color: #1B2838; margin-top: 0; }
+        .bio-box-amber p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .bio-box-red {{ background: #f5f3f0; border: 1px solid #D4654A; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .bio-box-red h3 {{ color: #1B2838; margin-top: 0; }}
-        .bio-box-red p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
+        .bio-box-red { background: #f5f3f0; border: 1px solid #D4654A; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .bio-box-red h3 { color: #1B2838; margin-top: 0; }
+        .bio-box-red p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
 
-        .thesis-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }}
-        @media (max-width: 768px) {{ .thesis-grid {{ grid-template-columns: 1fr; }} }}
-        .bull-box, .bear-box {{ padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }}
-        .bull-box {{ border-left: 3px solid #e07a5f; }}
-        .bear-box {{ border-left: 3px solid #1a2b3c; }}
-        .bull-box h3 {{ color: #e07a5f; }}
-        .bear-box h3 {{ color: #1a2b3c; }}
-        .thesis-list {{ list-style: none; padding: 0; margin-top: 16px; }}
-        .thesis-list li {{ padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }}
-        .thesis-list li:last-child {{ border-bottom: none; }}
-        .thesis-list li::before {{ content: "\\2192"; font-weight: bold; }}
+        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
+        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
+        .bull-box { border-left: 3px solid #e07a5f; }
+        .bear-box { border-left: 3px solid #1a2b3c; }
+        .bull-box h3 { color: #e07a5f; }
+        .bear-box h3 { color: #1a2b3c; }
+        .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
+        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .thesis-list li:last-child { border-bottom: none; }
+        .thesis-list li::before { content: "\2192"; font-weight: bold; }
 
-        .deal-table td:nth-child(4) {{ font-weight: 600; color: var(--accent); }}
+        .deal-table td:nth-child(4) { font-weight: 600; color: var(--accent); }
 
-        .catalyst-timeline {{ margin-top: 20px; }}
-        .catalyst-item {{ display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }}
-        .catalyst-date {{ min-width: 100px; font-weight: 700; color: var(--accent); }}
-        .catalyst-content strong {{ color: var(--navy); }}
+        .catalyst-timeline { margin-top: 20px; }
+        .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+        .catalyst-date { min-width: 100px; font-weight: 700; color: var(--accent); }
+        .catalyst-content strong { color: var(--navy); }
 
-        .back-link {{ display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }}
-        .back-link:hover {{ text-decoration: underline; }}
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
 
-        .source-list {{ list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }}
-        .source-list a {{ color: var(--accent); }}
+        .source-list { list-style: decimal; padding-left: 24px; font-size: 0.85rem; color: var(--text-secondary); line-height: 2; }
+        .source-list a { color: var(--accent); }
 
-        .callout-box {{ background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }}
-        .callout-box p {{ color: #374151; font-size: 0.9rem; line-height: 1.7; }}
-        .callout-box strong {{ color: var(--accent); }}
-    </style>
-</head>
-<body>
-    {get_nav_html("targets")}
+        .callout-box { background: #fef5f3; border: 1px solid #e07a5f; border-radius: 12px; padding: 24px; margin: 20px 0; }
+        .callout-box p { color: #374151; font-size: 0.9rem; line-height: 1.7; }
+        .callout-box strong { color: var(--accent); }
+    """
+
+    return f'''{_render_head("Cell Therapy: Ex Vivo vs In Vivo | Satya Bio", cell_therapy_styles)}
+    {_render_nav("targets")}
     <main class="main">
 
         <!-- Header -->
@@ -4917,29 +4866,21 @@ def generate_company_detail(ticker: str):
         </div>
         '''
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{company["ticker"]} - {company["name"]} | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .company-header {{ background: linear-gradient(135deg, var(--navy), #2d4a6f); color: white; padding: 48px 32px; margin: -32px -32px 32px; }}
-        .company-header h1 {{ font-size: 2rem; margin-bottom: 8px; }}
-        .company-header .ticker {{ background: var(--accent); padding: 8px 16px; border-radius: 8px; font-weight: 700; display: inline-block; margin-bottom: 16px; }}
-        .company-header p {{ opacity: 0.9; max-width: 600px; }}
-        .stats-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 24px 0; }}
-        .stat-box {{ background: rgba(255,255,255,0.15); padding: 20px; border-radius: 12px; text-align: center; }}
-        .stat-box .value {{ font-size: 2rem; font-weight: 700; }}
-        .stat-box .label {{ font-size: 0.85rem; opacity: 0.8; }}
-        .detail-section {{ background: var(--surface); border-radius: 16px; padding: 24px; margin-bottom: 24px; border: 1px solid var(--border); }}
-        .detail-section h2 {{ color: var(--navy); margin-bottom: 16px; }}
-    </style>
-</head>
-<body>
-    {get_nav_html()}
+    company_detail_styles = """
+        .company-header { background: linear-gradient(135deg, var(--navy), #2d4a6f); color: white; padding: 48px 32px; margin: -32px -32px 32px; }
+        .company-header h1 { font-size: 2rem; margin-bottom: 8px; }
+        .company-header .ticker { background: var(--accent); padding: 8px 16px; border-radius: 8px; font-weight: 700; display: inline-block; margin-bottom: 16px; }
+        .company-header p { opacity: 0.9; max-width: 600px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin: 24px 0; }
+        .stat-box { background: rgba(255,255,255,0.15); padding: 20px; border-radius: 12px; text-align: center; }
+        .stat-box .value { font-size: 2rem; font-weight: 700; }
+        .stat-box .label { font-size: 0.85rem; opacity: 0.8; }
+        .detail-section { background: var(--surface); border-radius: 16px; padding: 24px; margin-bottom: 24px; border: 1px solid var(--border); }
+        .detail-section h2 { color: var(--navy); margin-bottom: 16px; }
+    """
+    company_detail_title = f'{company["ticker"]} - {company["name"]} | Satya Bio'
+    return f'''{_render_head(company_detail_title, company_detail_styles)}
+    {_render_nav()}
     <main class="main">
         <div class="company-header">
             <span class="ticker">{company["ticker"]}</span>
@@ -4986,25 +4927,16 @@ def generate_company_detail(ticker: str):
 
 
 def generate_terms_page():
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .legal-content {{ max-width: 700px; margin: 0 auto; font-family: 'DM Sans', -apple-system, sans-serif; }}
-        .legal-content h1 {{ font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 8px; color: var(--navy); }}
-        .legal-content .effective {{ font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }}
-        .legal-content h2 {{ font-size: 1.1rem; font-weight: 600; color: var(--navy); margin: 28px 0 10px; }}
-        .legal-content p {{ font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }}
-        .legal-content ul {{ margin: 0 0 14px 20px; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.75; }}
-    </style>
-</head>
-<body>
-    {get_nav_html()}
+    legal_styles = """
+        .legal-content { max-width: 700px; margin: 0 auto; }
+        .legal-content h1 { font-size: 2rem; margin-bottom: 8px; color: var(--navy); }
+        .legal-content .effective { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }
+        .legal-content h2 { font-size: 1.1rem; font-weight: 600; color: var(--navy); margin: 28px 0 10px; }
+        .legal-content p { font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+        .legal-content ul { margin: 0 0 14px 20px; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.75; }
+    """
+    return f'''{_render_head("Terms of Service | Satya Bio", legal_styles)}
+    {_render_nav()}
     <main class="main">
         <div class="legal-content">
             <h1>Terms of Service</h1>
@@ -5049,25 +4981,16 @@ def generate_terms_page():
 
 
 def generate_privacy_page():
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    {get_base_styles()}
-    <style>
-        .legal-content {{ max-width: 700px; margin: 0 auto; font-family: 'DM Sans', -apple-system, sans-serif; }}
-        .legal-content h1 {{ font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 8px; color: var(--navy); }}
-        .legal-content .effective {{ font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }}
-        .legal-content h2 {{ font-size: 1.1rem; font-weight: 600; color: var(--navy); margin: 28px 0 10px; }}
-        .legal-content p {{ font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }}
-        .legal-content ul {{ margin: 0 0 14px 20px; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.75; }}
-    </style>
-</head>
-<body>
-    {get_nav_html()}
+    legal_styles = """
+        .legal-content { max-width: 700px; margin: 0 auto; }
+        .legal-content h1 { font-size: 2rem; margin-bottom: 8px; color: var(--navy); }
+        .legal-content .effective { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }
+        .legal-content h2 { font-size: 1.1rem; font-weight: 600; color: var(--navy); margin: 28px 0 10px; }
+        .legal-content p { font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }
+        .legal-content ul { margin: 0 0 14px 20px; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.75; }
+    """
+    return f'''{_render_head("Privacy Policy | Satya Bio", legal_styles)}
+    {_render_nav()}
     <main class="main">
         <div class="legal-content">
             <h1>Privacy Policy</h1>

@@ -3,6 +3,7 @@ import re
 from typing import Optional
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import HTMLResponse
+from app.pages import _render_head, _render_nav
 
 # =============================================================================
 # GLOBAL MEDICAL ACRONYM CAPITALIZATION
@@ -782,48 +783,20 @@ def _generate_clinical_html(data: dict) -> str:
     indications = clinical_dev.get("indications_in_development", [])
     indications_html = "".join(f'<span class="indication-badge">{ind}</span>' for ind in indications[:6])
 
-    return f"""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{asset.get('name', 'Asset')} Clinical Data | Satya Bio</title>
-    <style>
-        :root {{
-            --primary: #1a365d;
-            --primary-light: #2c5282;
-            --accent: #3182ce;
-            --success: #38a169;
-            --warning: #d69e2e;
-            --danger: #e53e3e;
-            --bg: #f7fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text: #2d3748;
-            --text-muted: #718096;
-        }}
-        * {{ box-sizing: border-box; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            padding: 20px;
-            line-height: 1.6;
-            color: var(--text);
-            margin: 0;
-        }}
-        .container {{ max-width: 1100px; margin: 0 auto; }}
+    _clinical_title = f"{asset.get('name', 'Asset')} Clinical Data | Satya Bio"
+    _clinical_styles = """
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
-        .header {{
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        .clinical-hero {
+            background: linear-gradient(135deg, #1a365d, #2c5282);
             color: white;
             padding: 30px;
             border-radius: 12px;
             margin-bottom: 20px;
-        }}
-        .header h1 {{ margin: 0 0 8px 0; font-size: 2rem; }}
-        .header-meta {{ opacity: 0.9; margin-bottom: 12px; }}
-        .badge {{
+        }
+        .clinical-hero h1 { margin: 0 0 8px 0; font-size: 2rem; }
+        .header-meta { opacity: 0.9; margin-bottom: 12px; }
+        .badge {
             display: inline-block;
             padding: 4px 12px;
             border-radius: 20px;
@@ -831,19 +804,19 @@ def _generate_clinical_html(data: dict) -> str:
             background: rgba(255,255,255,0.2);
             margin-right: 8px;
             margin-bottom: 4px;
-        }}
-        .badge-active {{ background: var(--success); }}
+        }
+        .badge-active { background: #38a169; }
 
-        .card {{
-            background: var(--card-bg);
+        .card {
+            background: var(--surface);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             margin-bottom: 16px;
             overflow: hidden;
-        }}
-        .collapsible {{
+        }
+        .collapsible {
             width: 100%;
-            background: var(--card-bg);
+            background: var(--surface);
             border: none;
             padding: 16px 20px;
             text-align: left;
@@ -854,36 +827,36 @@ def _generate_clinical_html(data: dict) -> str:
             align-items: center;
             gap: 12px;
             transition: background 0.2s;
-        }}
-        .collapsible:hover {{ background: var(--bg); }}
-        .collapsible::after {{
+        }
+        .collapsible:hover { background: var(--bg); }
+        .collapsible::after {
             content: '+';
             margin-left: auto;
             font-size: 1.2rem;
             color: var(--text-muted);
-        }}
-        .collapsible.active::after {{ content: '-'; }}
-        .content {{
+        }
+        .collapsible.active::after { content: '-'; }
+        .content {
             padding: 0 20px 20px;
             display: none;
             border-top: 1px solid var(--border);
-        }}
-        .content.show {{ display: block; }}
+        }
+        .content.show { display: block; }
 
-        .trial-meta {{ background: var(--bg); padding: 12px; border-radius: 8px; margin-bottom: 12px; }}
-        .trial-meta p {{ margin: 4px 0; }}
-        .safety-note {{ background: #f0fff4; border-left: 3px solid var(--success); padding: 10px 12px; margin: 12px 0; border-radius: 0 8px 8px 0; }}
-        .comparison-note {{ background: #ebf8ff; border-left: 3px solid var(--accent); padding: 10px 12px; margin: 12px 0; border-radius: 0 8px 8px 0; }}
+        .trial-meta { background: var(--bg); padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+        .trial-meta p { margin: 4px 0; }
+        .safety-note { background: #f0fff4; border-left: 3px solid #38a169; padding: 10px 12px; margin: 12px 0; border-radius: 0 8px 8px 0; }
+        .comparison-note { background: #ebf8ff; border-left: 3px solid #3182ce; padding: 10px 12px; margin: 12px 0; border-radius: 0 8px 8px 0; }
 
-        .endpoints-table {{ width: 100%; border-collapse: collapse; margin-top: 12px; }}
-        .endpoints-table th, .endpoints-table td {{ padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }}
-        .endpoints-table th {{ background: var(--bg); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); }}
-        .endpoints-table tr:hover {{ background: #fafafa; }}
-        .result-cell strong {{ color: var(--primary); }}
-        .benchmark {{ font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }}
+        .endpoints-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        .endpoints-table th, .endpoints-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .endpoints-table th { background: var(--bg); font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); }
+        .endpoints-table tr:hover { background: #fafafa; }
+        .result-cell strong { color: #1a365d; }
+        .benchmark { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
 
-        .endpoint-name {{ border-bottom: 1px dotted var(--text-muted); cursor: help; }}
-        .method-badge {{
+        .endpoint-name { border-bottom: 1px dotted var(--text-muted); cursor: help; }
+        .method-badge {
             display: inline-block;
             font-size: 0.7rem;
             background: var(--bg);
@@ -891,24 +864,24 @@ def _generate_clinical_html(data: dict) -> str:
             padding: 2px 6px;
             border-radius: 4px;
             margin-left: 6px;
-        }}
+        }
 
-        .thesis-item {{ background: #ebf8ff; border-left: 4px solid var(--accent); padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }}
-        .risk-item {{ background: #fff5f5; border-left: 4px solid var(--danger); padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }}
-        .catalyst-item {{ background: #fffff0; border-left: 4px solid var(--warning); padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }}
+        .thesis-item { background: #ebf8ff; border-left: 4px solid #3182ce; padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }
+        .risk-item { background: #fff5f5; border-left: 4px solid #e53e3e; padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }
+        .catalyst-item { background: #fffff0; border-left: 4px solid #d69e2e; padding: 12px 16px; margin: 8px 0; border-radius: 0 8px 8px 0; }
 
-        .definitions-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }}
-        .definition-card {{ background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--border); }}
-        .definition-card h4 {{ margin: 0 0 8px 0; color: var(--primary); }}
-        .definition-card .full-name {{ font-style: italic; color: var(--text-muted); margin: 0 0 8px 0; }}
-        .definition-card .pathway {{ font-size: 0.9rem; margin: 4px 0; }}
-        .definition-card .significance {{ font-size: 0.9rem; margin: 8px 0; }}
-        .type-badge {{ font-size: 0.75rem; background: var(--accent); color: white; padding: 2px 8px; border-radius: 4px; }}
-        .methods {{ margin-top: 12px; }}
-        .method-item {{ background: white; padding: 8px; margin: 4px 0; border-radius: 4px; font-size: 0.9rem; }}
-        .method-detail {{ display: block; color: var(--text-muted); font-size: 0.8rem; }}
+        .definitions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+        .definition-card { background: var(--bg); padding: 16px; border-radius: 8px; border: 1px solid var(--border); }
+        .definition-card h4 { margin: 0 0 8px 0; color: #1a365d; }
+        .definition-card .full-name { font-style: italic; color: var(--text-muted); margin: 0 0 8px 0; }
+        .definition-card .pathway { font-size: 0.9rem; margin: 4px 0; }
+        .definition-card .significance { font-size: 0.9rem; margin: 8px 0; }
+        .type-badge { font-size: 0.75rem; background: #3182ce; color: white; padding: 2px 8px; border-radius: 4px; }
+        .methods { margin-top: 12px; }
+        .method-item { background: white; padding: 8px; margin: 4px 0; border-radius: 4px; font-size: 0.9rem; }
+        .method-detail { display: block; color: var(--text-muted); font-size: 0.8rem; }
 
-        .indication-badge {{
+        .indication-badge {
             display: inline-block;
             background: var(--bg);
             border: 1px solid var(--border);
@@ -916,12 +889,13 @@ def _generate_clinical_html(data: dict) -> str:
             border-radius: 16px;
             font-size: 0.8rem;
             margin: 4px 4px 4px 0;
-        }}
-    </style>
-</head>
-<body>
+        }
+    """
+
+    return f'''{_render_head(_clinical_title, _clinical_styles)}
+    {_render_nav()}
     <div class="container">
-        <div class="header">
+        <div class="clinical-hero">
             <h1>{asset.get('name', 'Unknown')}</h1>
             <div class="header-meta">
                 {asset.get('company', '')} ({asset.get('ticker', '')})
@@ -968,8 +942,7 @@ def _generate_clinical_html(data: dict) -> str:
         }});
     </script>
 </body>
-</html>
-"""
+</html>'''
 
 
 def _build_tooltip_content(endpoint_name: str, definition: dict) -> str:
@@ -1065,77 +1038,50 @@ def _generate_companies_list_html(companies: list, taxonomy: dict, filters: dict
     with_data = sum(1 for c in companies if c.get("has_data"))
     high_priority = sum(1 for c in companies if c.get("priority") == "high")
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Companies | Clinical Data Platform</title>
-    <style>
-        :root {{
-            --primary: #1a365d;
-            --primary-light: #2c5282;
-            --accent: #3182ce;
-            --bull: #38a169;
-            --bear: #e53e3e;
-            --warning: #d69e2e;
-            --bg: #f7fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text: #2d3748;
-            --text-muted: #718096;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }}
-
-        .header {{
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    _companies_list_styles = """
+        .companies-hero {
+            background: linear-gradient(135deg, #1a365d, #2c5282);
             color: white;
             padding: 32px 24px;
-        }}
-        .header-content {{
+        }
+        .companies-hero-content {
             max-width: 1400px;
             margin: 0 auto;
-        }}
-        .header h1 {{
+        }
+        .companies-hero h1 {
             font-size: 2rem;
             margin-bottom: 8px;
-        }}
-        .header p {{
+        }
+        .companies-hero p {
             opacity: 0.9;
-        }}
+        }
 
-        .stats {{
+        .stats {
             display: flex;
             gap: 24px;
             margin-top: 20px;
-        }}
-        .stat-item {{
+        }
+        .stat-item {
             background: rgba(255,255,255,0.15);
             padding: 12px 20px;
             border-radius: 8px;
-        }}
-        .stat-item .value {{
+        }
+        .stat-item .value {
             font-size: 1.5rem;
             font-weight: 600;
-        }}
-        .stat-item .label {{
+        }
+        .stat-item .label {
             font-size: 0.8rem;
             opacity: 0.8;
-        }}
+        }
 
-        .container {{
+        .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 24px;
-        }}
+        }
 
-        .filters {{
+        .filters {
             background: white;
             padding: 20px;
             border-radius: 12px;
@@ -1145,59 +1091,59 @@ def _generate_companies_list_html(companies: list, taxonomy: dict, filters: dict
             flex-wrap: wrap;
             gap: 16px;
             align-items: flex-end;
-        }}
-        .filter-group {{
+        }
+        .filter-group {
             display: flex;
             flex-direction: column;
             gap: 4px;
-        }}
-        .filter-group label {{
+        }
+        .filter-group label {
             font-size: 0.8rem;
             color: var(--text-muted);
             text-transform: uppercase;
-        }}
-        .filter-group select {{
+        }
+        .filter-group select {
             padding: 8px 12px;
             border: 1px solid var(--border);
             border-radius: 6px;
             font-size: 0.9rem;
             min-width: 160px;
             background: white;
-        }}
-        .filter-group select:focus {{
+        }
+        .filter-group select:focus {
             outline: none;
-            border-color: var(--accent);
-        }}
-        .filter-btn {{
+            border-color: #3182ce;
+        }
+        .filter-btn {
             padding: 8px 20px;
-            background: var(--accent);
+            background: #3182ce;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
-        }}
-        .filter-btn:hover {{
-            background: var(--primary-light);
-        }}
-        .clear-btn {{
+        }
+        .filter-btn:hover {
+            background: #2c5282;
+        }
+        .clear-btn {
             background: transparent;
             color: var(--text-muted);
             border: 1px solid var(--border);
-        }}
-        .clear-btn:hover {{
+        }
+        .clear-btn:hover {
             background: var(--bg);
             color: var(--text);
-        }}
+        }
 
-        .active-filters {{
+        .active-filters {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
             margin-bottom: 16px;
-        }}
-        .active-filter {{
-            background: var(--accent);
+        }
+        .active-filter {
+            background: #3182ce;
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
@@ -1205,22 +1151,22 @@ def _generate_companies_list_html(companies: list, taxonomy: dict, filters: dict
             display: flex;
             align-items: center;
             gap: 6px;
-        }}
-        .active-filter .remove {{
+        }
+        .active-filter .remove {
             cursor: pointer;
             opacity: 0.8;
-        }}
-        .active-filter .remove:hover {{
+        }
+        .active-filter .remove:hover {
             opacity: 1;
-        }}
+        }
 
-        .companies-grid {{
+        .companies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
-        }}
+        }
 
-        .company-card {{
+        .company-card {
             background: white;
             border-radius: 12px;
             padding: 20px;
@@ -1230,104 +1176,105 @@ def _generate_companies_list_html(companies: list, taxonomy: dict, filters: dict
             transition: all 0.2s;
             display: block;
             border: 2px solid transparent;
-        }}
-        .company-card:hover {{
+        }
+        .company-card:hover {
             box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-            border-color: var(--accent);
+            border-color: #3182ce;
             transform: translateY(-2px);
-        }}
-        .company-card.priority-high {{
-            border-left: 4px solid var(--bull);
-        }}
-        .company-card.priority-medium {{
-            border-left: 4px solid var(--warning);
-        }}
-        .company-card.priority-low {{
+        }
+        .company-card.priority-high {
+            border-left: 4px solid #38a169;
+        }
+        .company-card.priority-medium {
+            border-left: 4px solid #d69e2e;
+        }
+        .company-card.priority-low {
             border-left: 4px solid var(--border);
-        }}
+        }
 
-        .company-header {{
+        .company-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 8px;
-        }}
-        .ticker {{
+        }
+        .ticker {
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--primary);
-        }}
-        .badges {{
+            color: #1a365d;
+        }
+        .badges {
             display: flex;
             gap: 6px;
-        }}
-        .badge {{
+        }
+        .badge {
             display: inline-block;
             padding: 2px 8px;
             border-radius: 12px;
             font-size: 0.7rem;
             text-transform: uppercase;
-        }}
-        .badge.stage {{
+        }
+        .badge.stage {
             background: var(--bg);
             color: var(--text-muted);
-        }}
-        .badge.has-data {{
+        }
+        .badge.has-data {
             background: #c6f6d5;
-            color: var(--bull);
-        }}
-        .badge.no-data {{
+            color: #38a169;
+        }
+        .badge.no-data {
             background: var(--bg);
             color: var(--text-muted);
-        }}
-        .badge.high {{
+        }
+        .badge.high {
             background: #c6f6d5;
-            color: var(--bull);
-        }}
-        .badge.medium {{
+            color: #38a169;
+        }
+        .badge.medium {
             background: #fefcbf;
             color: #975a16;
-        }}
-        .badge.low {{
+        }
+        .badge.low {
             background: var(--bg);
             color: var(--text-muted);
-        }}
+        }
 
-        .company-name {{
+        .company-name {
             font-size: 1rem;
             font-weight: 500;
             margin-bottom: 4px;
-        }}
-        .company-meta {{
+        }
+        .company-meta {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-bottom: 12px;
-        }}
-        .separator {{
+        }
+        .separator {
             margin: 0 4px;
-        }}
-        .company-notes {{
+        }
+        .company-notes {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-bottom: 12px;
             line-height: 1.4;
-        }}
-        .company-footer {{
+        }
+        .company-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-top: 12px;
             border-top: 1px solid var(--border);
-        }}
-        .market-cap {{
+        }
+        .market-cap {
             font-weight: 600;
-            color: var(--primary);
-        }}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="header-content">
+            color: #1a365d;
+        }
+    """
+
+    return f'''{_render_head("Companies | Clinical Data Platform", _companies_list_styles)}
+    {_render_nav("companies")}
+    <div class="companies-hero">
+        <div class="companies-hero-content">
             <h1>Companies</h1>
             <p>Biotech and pharma companies with clinical data analysis</p>
             <div class="stats">
@@ -1507,69 +1454,42 @@ def _generate_company_fallback_html(entry: dict) -> str:
     if ir_url:
         ir_html = f'<a href="{ir_url}" target="_blank" class="ir-link">Investor Relations →</a>'
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{ticker} - {name} | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {{
-            --navy: #1B2838;
-            --navy-light: #2d4a5e;
-            --accent: #D4654A;
-            --accent-hover: #c05a42;
-            --accent-light: #fef5f3;
-            --bg: #FAFAF8;
-            --surface: #ffffff;
-            --border: #e5e5e0;
-            --text: #1a1d21;
-            --text-secondary: #5f6368;
-            --text-muted: #9aa0a6;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            font-family: 'DM Sans', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }}
-
+    _fallback_title = f"{ticker} - {name} | Satya Bio"
+    _fallback_styles = """
         /* Breadcrumb */
-        .breadcrumb {{
+        .breadcrumb {
             background: var(--surface);
             padding: 12px 24px;
             border-bottom: 1px solid var(--border);
             font-size: 0.9rem;
-        }}
-        .breadcrumb a {{
+        }
+        .breadcrumb a {
             color: var(--accent);
             text-decoration: none;
-        }}
-        .breadcrumb a:hover {{ text-decoration: underline; }}
-        .breadcrumb span {{ color: var(--text-muted); margin: 0 8px; }}
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: var(--text-muted); margin: 0 8px; }
 
-        .container {{
+        .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 48px 24px;
-        }}
+        }
 
         /* Header */
-        .company-header {{
+        .company-header {
             text-align: center;
             margin-bottom: 40px;
-        }}
-        .company-header h1 {{
+        }
+        .company-header h1 {
             font-family: 'Fraunces', serif;
             font-size: 2.5rem;
             font-weight: 800;
             color: var(--navy);
             margin-bottom: 4px;
             letter-spacing: -0.02em;
-        }}
-        .company-header .ticker-badge {{
+        }
+        .company-header .ticker-badge {
             display: inline-block;
             font-family: 'DM Sans', sans-serif;
             font-size: 0.95rem;
@@ -1577,17 +1497,17 @@ def _generate_company_fallback_html(entry: dict) -> str:
             color: var(--accent);
             letter-spacing: 0.05em;
             margin-bottom: 12px;
-        }}
+        }
 
         /* Tags */
-        .tags {{
+        .tags {
             display: flex;
             gap: 8px;
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 16px;
-        }}
-        .tag {{
+        }
+        .tag {
             background: var(--surface);
             border: 1px solid var(--border);
             padding: 4px 14px;
@@ -1595,80 +1515,80 @@ def _generate_company_fallback_html(entry: dict) -> str:
             font-size: 0.8rem;
             color: var(--text-secondary);
             font-weight: 500;
-        }}
+        }
 
         /* Info grid */
-        .info-grid {{
+        .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px;
             margin-bottom: 32px;
-        }}
-        .info-item {{
+        }
+        .info-item {
             background: var(--surface);
             border: 1px solid var(--border);
             padding: 20px;
             text-align: center;
-        }}
-        .info-label {{
+        }
+        .info-label {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: var(--text-muted);
             margin-bottom: 6px;
             font-weight: 600;
-        }}
-        .info-value {{
+        }
+        .info-value {
             font-family: 'Fraunces', serif;
             font-size: 1.15rem;
             font-weight: 700;
             color: var(--navy);
-        }}
+        }
 
         /* Notes */
-        .notes-section {{
+        .notes-section {
             background: var(--surface);
             border: 1px solid var(--border);
             padding: 24px;
             margin-bottom: 32px;
-        }}
-        .notes-label {{
+        }
+        .notes-label {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: var(--text-muted);
             margin-bottom: 8px;
             font-weight: 600;
-        }}
-        .notes-section p {{
+        }
+        .notes-section p {
             color: var(--text);
             font-size: 1rem;
             line-height: 1.7;
-        }}
+        }
 
         /* CTA box */
-        .cta-box {{
+        .cta-box {
             background: var(--navy);
             color: white;
             padding: 40px;
             text-align: center;
             margin-bottom: 32px;
-        }}
-        .cta-box h2 {{
+        }
+        .cta-box h2 {
             font-family: 'Fraunces', serif;
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 8px;
-        }}
-        .cta-box p {{
+        }
+        .cta-box p {
             opacity: 0.85;
             font-size: 0.95rem;
             margin-bottom: 24px;
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
-        }}
-        .cta-btn {{
+        }
+        .cta-btn {
             display: inline-block;
             background: var(--accent);
             color: white;
@@ -1678,34 +1598,35 @@ def _generate_company_fallback_html(entry: dict) -> str:
             font-size: 1rem;
             letter-spacing: 0.02em;
             transition: background 0.2s;
-        }}
-        .cta-btn:hover {{
+        }
+        .cta-btn:hover {
             background: var(--accent-hover);
-        }}
+        }
 
         /* IR link */
-        .ir-link {{
+        .ir-link {
             display: inline-block;
             color: var(--accent);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.9rem;
             margin-bottom: 32px;
-        }}
-        .ir-link:hover {{ text-decoration: underline; }}
+        }
+        .ir-link:hover { text-decoration: underline; }
 
         /* Back link */
-        .back-link {{
+        .back-link {
             display: inline-block;
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.9rem;
             margin-top: 16px;
-        }}
-        .back-link:hover {{ color: var(--accent); }}
-    </style>
-</head>
-<body>
+        }
+        .back-link:hover { color: var(--accent); }
+    """
+
+    return f'''{_render_head(_fallback_title, _fallback_styles)}
+    {_render_nav("companies")}
     <div class="breadcrumb">
         <a href="/companies">Companies</a>
         <span>›</span>
@@ -1883,120 +1804,88 @@ def _generate_company_overview_html(data: dict) -> str:
             seen_tags.add(tag)
             tags_html += f'<span class="badge">{_format_tag_label(tag)}</span>'
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{ticker} - {name} | Company Overview</title>
-    <style>
-        /* Satya Bio color palette - matches asset pages */
-        :root {{
-            --navy: #1a2b3c;
-            --coral: #e07a5f;
-            --white: #ffffff;
-            --gray-light: #f8f9fa;
-            --gray-border: #e2e5e9;
-            --gray-text: #6b7280;
-            --text-primary: #374151;
-            /* Legacy aliases */
-            --primary: var(--navy);
-            --primary-light: #2d4a5e;
-            --accent: var(--coral);
-            --bg: var(--gray-light);
-            --card-bg: var(--white);
-            --border: var(--gray-border);
-            --text: var(--text-primary);
-            --text-muted: var(--gray-text);
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }}
-
+    _overview_title = f"{ticker} - {name} | Company Overview"
+    _overview_styles = """
         /* Breadcrumb */
-        .breadcrumb {{
+        .breadcrumb {
             background: white;
             padding: 12px 24px;
             border-bottom: 1px solid var(--border);
             font-size: 0.9rem;
-        }}
-        .breadcrumb a {{
+        }
+        .breadcrumb a {
             color: var(--accent);
             text-decoration: none;
-        }}
-        .breadcrumb a:hover {{
+        }
+        .breadcrumb a:hover {
             text-decoration: underline;
-        }}
-        .breadcrumb span {{
+        }
+        .breadcrumb span {
             color: var(--text-muted);
             margin: 0 8px;
-        }}
+        }
 
-        .container {{
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 24px;
-        }}
+        }
 
         /* Header - clean navy, no gradients */
-        .header {{
+        .co-header {
             background: var(--navy);
-            color: var(--white);
+            color: white;
             padding: 32px;
             border-radius: 0;
             margin-bottom: 24px;
-        }}
-        .header-top {{
+        }
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 16px;
-        }}
-        .header h1 {{
+        }
+        .co-header h1 {
             font-size: 2rem;
             margin-bottom: 4px;
-        }}
-        .header .ticker {{
+        }
+        .co-header .ticker {
             font-size: 1rem;
             opacity: 0.8;
-        }}
-        .header .description {{
+        }
+        .co-header .description {
             opacity: 0.9;
             max-width: 700px;
             line-height: 1.5;
-        }}
-        .snapshot {{
+        }
+        .snapshot {
             display: flex;
             gap: 24px;
             margin-top: 20px;
             flex-wrap: wrap;
-        }}
-        .snapshot-item {{
+        }
+        .snapshot-item {
             background: rgba(255,255,255,0.15);
             padding: 12px 20px;
             border-radius: 8px;
-        }}
-        .snapshot-item .label {{
+        }
+        .snapshot-item .label {
             font-size: 0.75rem;
             text-transform: uppercase;
             opacity: 0.7;
-        }}
-        .snapshot-item .value {{
+        }
+        .snapshot-item .value {
             font-size: 1.25rem;
             font-weight: 600;
-        }}
+        }
 
         /* Tags - subtle pills */
-        .tags {{
+        .tags {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-        }}
-        .badge {{
+        }
+        .badge {
             display: inline-block;
             padding: 3px 10px;
             border-radius: 3px;
@@ -2004,29 +1893,29 @@ def _generate_company_overview_html(data: dict) -> str:
             background: rgba(255,255,255,0.15);
             border: 1px solid rgba(255,255,255,0.25);
             color: rgba(255,255,255,0.9);
-        }}
+        }
 
         /* Cards */
-        .card {{
+        .card {
             background: var(--card-bg);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             margin-bottom: 24px;
             overflow: hidden;
-        }}
-        .card-header {{
+        }
+        .card-header {
             padding: 16px 24px;
             border-bottom: 1px solid var(--border);
             font-weight: 600;
             font-size: 1.1rem;
             color: var(--primary);
-        }}
-        .card-content {{
+        }
+        .card-content {
             padding: 24px;
-        }}
+        }
 
         /* Thesis */
-        .thesis-btn {{
+        .thesis-btn {
             float: right;
             background: var(--accent, #e07a5f);
             color: white;
@@ -2035,12 +1924,12 @@ def _generate_company_overview_html(data: dict) -> str:
             font-size: 0.85rem;
             font-weight: 500;
             text-decoration: none;
-        }}
-        .thesis-btn:hover {{
+        }
+        .thesis-btn:hover {
             opacity: 0.9;
-        }}
-        .core-thesis {{
-            background: var(--white);
+        }
+        .core-thesis {
+            background: white;
             border: 1px solid var(--gray-border);
             border-left: 3px solid var(--coral);
             border-radius: 0;
@@ -2048,148 +1937,149 @@ def _generate_company_overview_html(data: dict) -> str:
             margin-bottom: 20px;
             font-size: 0.95rem;
             line-height: 1.6;
-            color: var(--text-primary);
-        }}
-        .thesis-grid {{
+            color: var(--text-secondary);
+        }
+        .thesis-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-        }}
-        @media (max-width: 768px) {{
-            .thesis-grid {{ grid-template-columns: 1fr; }}
-        }}
-        .thesis-column {{
+        }
+        @media (max-width: 768px) {
+            .thesis-grid { grid-template-columns: 1fr; }
+        }
+        .thesis-column {
             padding: 20px;
             border-radius: 0;
-            background: var(--white);
+            background: white;
             border: 1px solid var(--gray-border);
-        }}
-        .thesis-column.bull {{
+        }
+        .thesis-column.bull {
             border-left: 2px solid var(--coral);
-        }}
-        .thesis-column.bear {{
+        }
+        .thesis-column.bear {
             border-left: 2px solid var(--navy);
-        }}
-        .thesis-column h3 {{
+        }
+        .thesis-column h3 {
             font-size: 1rem;
             margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 8px;
-        }}
-        .thesis-column.bull h3 {{ color: var(--coral); }}
-        .thesis-column.bear h3 {{ color: var(--navy); }}
-        .thesis-column ul {{
+        }
+        .thesis-column.bull h3 { color: var(--coral); }
+        .thesis-column.bear h3 { color: var(--navy); }
+        .thesis-column ul {
             list-style: none;
-        }}
-        .thesis-column li {{
+        }
+        .thesis-column li {
             margin-bottom: 12px;
             padding-left: 16px;
             position: relative;
-        }}
-        .thesis-column li::before {{
-            content: '•';
+        }
+        .thesis-column li::before {
+            content: '\2022';
             position: absolute;
             left: 0;
-        }}
-        .thesis-column.bull li::before {{ color: var(--coral); }}
-        .thesis-column.bear li::before {{ color: var(--navy); }}
-        .thesis-column li strong {{
+        }
+        .thesis-column.bull li::before { color: var(--coral); }
+        .thesis-column.bear li::before { color: var(--navy); }
+        .thesis-column li strong {
             display: block;
             margin-bottom: 4px;
-        }}
-        .thesis-column .evidence {{
+        }
+        .thesis-column .evidence {
             font-size: 0.85rem;
             color: var(--text-muted);
-        }}
+        }
 
         /* Pipeline Table - Bloomberg style */
-        .pipeline-table {{
+        .pipeline-table {
             width: 100%;
             border-collapse: collapse;
-        }}
-        .pipeline-table th, .pipeline-table td {{
+        }
+        .pipeline-table th, .pipeline-table td {
             padding: 12px 16px;
             text-align: left;
             border-bottom: 1px solid var(--gray-border);
-        }}
-        .pipeline-table th {{
+        }
+        .pipeline-table th {
             background: var(--navy);
-            color: var(--white);
+            color: white;
             font-size: 0.75rem;
             text-transform: uppercase;
             font-weight: 600;
             letter-spacing: 0.3px;
-        }}
-        .pipeline-table tbody tr:nth-child(even) {{
+        }
+        .pipeline-table tbody tr:nth-child(even) {
             background: var(--gray-light);
-        }}
-        .pipeline-table tr:hover {{
+        }
+        .pipeline-table tr:hover {
             background: #f0f4f8;
-        }}
-        .pipeline-table .badge.stage {{
+        }
+        .pipeline-table .badge.stage {
             background: var(--gray-light);
             color: var(--navy);
             border: 1px solid var(--gray-border);
             font-size: 0.75rem;
             padding: 3px 10px;
             border-radius: 3px;
-        }}
-        .asset-link {{
+        }
+        .asset-link {
             color: var(--accent);
             text-decoration: none;
             font-weight: 600;
-        }}
-        .asset-link:hover {{
+        }
+        .asset-link:hover {
             text-decoration: underline;
-        }}
-        .target-link {{
+        }
+        .target-link {
             color: #805ad5;
             text-decoration: none;
-        }}
-        .target-link:hover {{
+        }
+        .target-link:hover {
             text-decoration: underline;
-        }}
-        .catalyst-cell {{
+        }
+        .catalyst-cell {
             font-size: 0.9rem;
-        }}
-        .no-data {{
+        }
+        .no-data {
             color: var(--text-muted);
-        }}
+        }
 
         /* Partnerships */
-        .partnership-row {{
+        .partnership-row {
             display: grid;
             grid-template-columns: 1fr 1fr 2fr auto;
             gap: 16px;
             padding: 16px 0;
             border-bottom: 1px solid var(--border);
             align-items: center;
-        }}
-        .partnership-row:last-child {{
+        }
+        .partnership-row:last-child {
             border-bottom: none;
-        }}
-        .partner {{
+        }
+        .partner {
             font-weight: 600;
-        }}
-        .terms {{
+        }
+        .terms {
             color: var(--text-muted);
             font-size: 0.9rem;
-        }}
-        .status {{
+        }
+        .status {
             font-size: 0.85rem;
             padding: 4px 12px;
             background: var(--bg);
             border-radius: 20px;
-        }}
+        }
 
-        h2 {{
+        h2 {
             color: var(--primary);
             margin-bottom: 16px;
-        }}
-    </style>
-</head>
-<body>
+        }
+    """
+
+    return f'''{_render_head(_overview_title, _overview_styles)}
+    {_render_nav("companies")}
     <div class="breadcrumb">
         <a href="/companies">Companies</a>
         <span>›</span>
@@ -2197,7 +2087,7 @@ def _generate_company_overview_html(data: dict) -> str:
     </div>
 
     <div class="container">
-        <div class="header">
+        <div class="co-header">
             <div class="header-top">
                 <div>
                     <h1>{name}</h1>
@@ -4130,69 +4020,49 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     import json as json_module
     abbr_json = json_module.dumps(abbreviations) if abbreviations else "{}"
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{asset_name} - {ticker} | Asset Analysis</title>
-    <style>
+    _asset_title = f"{asset_name} - {ticker} | Asset Analysis"
+    _asset_styles = """
         /* Bloomberg Terminal Style - Clean, Data-Dense, Professional */
-        :root {{
-            --navy: #1a2b3c;
-            --coral: #e07a5f;
-            --white: #ffffff;
-            --gray-light: #f8f9fa;
-            --gray-border: #e2e5e9;
-            --gray-text: #6b7280;
-            --text-primary: #374151;
+        :root {
             --green: #4ade80;
             --red: #ef4444;
             --sidebar-width: 200px;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--white);
-            color: var(--text-primary);
-            line-height: 1.5;
-            font-size: 0.875rem;
-        }}
+        }
 
         /* Sticky Header */
-        .sticky-header {{
+        .sticky-header {
             position: sticky;
-            top: 0;
-            background: var(--white);
+            top: 64px;
+            background: var(--surface);
             border-bottom: 1px solid var(--gray-border);
-            z-index: 100;
+            z-index: 90;
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }}
-        .breadcrumb {{
+        }
+        .breadcrumb {
             font-size: 0.85rem;
-        }}
-        .breadcrumb a {{
+        }
+        .breadcrumb a {
             color: var(--coral);
             text-decoration: none;
-        }}
-        .breadcrumb a:hover {{
+        }
+        .breadcrumb a:hover {
             text-decoration: underline;
-        }}
-        .breadcrumb span {{
+        }
+        .breadcrumb span {
             color: var(--gray-text);
             margin: 0 6px;
-        }}
-        .breadcrumb strong {{
+        }
+        .breadcrumb strong {
             color: var(--navy);
-        }}
-        .header-badges {{
+        }
+        .header-badges {
             display: flex;
             gap: 6px;
-        }}
-        .badge {{
+        }
+        .badge {
             display: inline-block;
             padding: 3px 10px;
             border-radius: 3px;
@@ -4200,69 +4070,69 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             background: var(--gray-light);
             border: 1px solid var(--gray-border);
             color: var(--navy);
-        }}
-        .badge.ongoing {{ background: var(--gray-light); color: var(--navy); border-color: var(--gray-border); }}
-        .badge.completed {{ background: var(--gray-light); color: var(--navy); border-color: var(--gray-border); }}
-        .badge.timing {{ background: var(--gray-light); color: var(--gray-text); }}
-        .badge.importance.critical {{ background: var(--gray-light); color: var(--red); border-color: var(--red); }}
-        .badge.importance.high {{ background: var(--gray-light); color: var(--navy); }}
-        .badge-link {{
+        }
+        .badge.ongoing { background: var(--gray-light); color: var(--navy); border-color: var(--gray-border); }
+        .badge.completed { background: var(--gray-light); color: var(--navy); border-color: var(--gray-border); }
+        .badge.timing { background: var(--gray-light); color: var(--gray-text); }
+        .badge.importance.critical { background: var(--gray-light); color: var(--red); border-color: var(--red); }
+        .badge.importance.high { background: var(--gray-light); color: var(--navy); }
+        .badge-link {
             text-decoration: none;
-        }}
-        .badge-link:hover .badge {{
+        }
+        .badge-link:hover .badge {
             border-color: var(--coral);
             color: var(--coral);
-        }}
+        }
 
         /* Citation Badges */
-        .citation-badge {{
+        .citation-badge {
             font-size: 0.7em;
             color: var(--gray-text);
             text-decoration: none;
             margin-left: 6px;
             font-family: 'SF Mono', 'Consolas', monospace;
             vertical-align: super;
-        }}
-        .citation-badge:hover {{
+        }
+        .citation-badge:hover {
             color: var(--coral);
             text-decoration: underline;
-        }}
-        .verified-check {{
+        }
+        .verified-check {
             color: var(--green);
             font-size: 0.7em;
             margin-left: 2px;
-        }}
+        }
 
         /* Layout */
-        .layout {{
+        .layout {
             display: flex;
             max-width: 1200px;
             margin: 0 auto;
-        }}
+        }
 
         /* Sidebar */
-        .sidebar {{
+        .sidebar {
             width: var(--sidebar-width);
             padding: 20px 12px;
             position: sticky;
-            top: 50px;
-            height: calc(100vh - 50px);
+            top: 114px;
+            height: calc(100vh - 114px);
             overflow-y: auto;
             border-right: 1px solid var(--gray-border);
             background: var(--white);
-        }}
-        .sidebar h3 {{
+        }
+        .sidebar h3 {
             font-size: 0.7rem;
             text-transform: uppercase;
             color: var(--gray-text);
             margin-bottom: 10px;
             padding-left: 10px;
             letter-spacing: 0.5px;
-        }}
-        .sidebar-nav {{
+        }
+        .sidebar-nav {
             list-style: none;
-        }}
-        .sidebar-nav a {{
+        }
+        .sidebar-nav a {
             display: block;
             padding: 6px 10px;
             color: var(--text-primary);
@@ -4270,28 +4140,28 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             border-radius: 3px;
             font-size: 0.8rem;
             margin-bottom: 1px;
-        }}
-        .sidebar-nav a:hover {{
+        }
+        .sidebar-nav a:hover {
             background: var(--gray-light);
-        }}
-        .sidebar-nav a.active {{
+        }
+        .sidebar-nav a.active {
             background: var(--navy);
             color: var(--white);
-        }}
+        }
 
         /* Main Content */
-        .main {{
+        .main {
             flex: 1;
             padding: 20px 28px;
             max-width: calc(100% - var(--sidebar-width));
-        }}
+        }
 
         /* Sections */
-        .section {{
+        .section {
             margin-bottom: 36px;
-            scroll-margin-top: 70px;
-        }}
-        .section-header {{
+            scroll-margin-top: 134px;
+        }
+        .section-header {
             font-size: 1.25rem;
             font-weight: 600;
             color: var(--navy);
@@ -4301,209 +4171,209 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-        }}
-        .section-header .citation-badge {{
+        }
+        .section-header .citation-badge {
             margin-left: auto;
             font-size: 0.7rem;
-        }}
+        }
 
         /* Asset Header */
-        .asset-header {{
+        .asset-header {
             background: var(--navy);
             color: var(--white);
             padding: 24px;
             border-radius: 0;
             margin-bottom: 24px;
-        }}
-        .asset-header h1 {{
+        }
+        .asset-header h1 {
             font-size: 1.5rem;
             margin-bottom: 6px;
             font-weight: 600;
-        }}
-        .asset-header .subtitle {{
+        }
+        .asset-header .subtitle {
             opacity: 0.85;
             font-size: 0.95rem;
-        }}
-        .asset-header .tags {{
+        }
+        .asset-header .tags {
             margin-top: 12px;
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-        }}
-        .asset-header .badge {{
+        }
+        .asset-header .badge {
             background: rgba(255,255,255,0.15);
             border: 1px solid rgba(255,255,255,0.3);
             color: var(--white);
             border-radius: 3px;
-        }}
-        .asset-header .badge.fda-designation {{
+        }
+        .asset-header .badge.fda-designation {
             background: rgba(78, 205, 196, 0.25);
             border: 1px solid rgba(78, 205, 196, 0.5);
             color: #4ecdc4;
-        }}
+        }
 
         /* Executive Summary */
-        .exec-summary-box {{
+        .exec-summary-box {
             background: var(--white);
             border: 1px solid var(--gray-border);
             border-left: 3px solid var(--coral);
             border-radius: 0;
             padding: 16px 20px;
             margin-bottom: 24px;
-        }}
-        .exec-header {{
+        }
+        .exec-header {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 12px;
-        }}
-        .exec-icon {{
+        }
+        .exec-icon {
             font-size: 1.1rem;
             color: var(--coral);
-        }}
-        .exec-header h3 {{
+        }
+        .exec-header h3 {
             color: var(--navy);
             font-size: 1rem;
             font-weight: 600;
             margin: 0;
-        }}
-        .exec-one-liner {{
+        }
+        .exec-one-liner {
             font-size: 0.95rem;
             line-height: 1.5;
             color: var(--text-primary);
             margin-bottom: 12px;
-        }}
-        .exec-differentiators h4 {{
+        }
+        .exec-differentiators h4 {
             font-size: 0.75rem;
             color: var(--gray-text);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
-        }}
-        .exec-bullets {{
+        }
+        .exec-bullets {
             list-style: none;
             padding: 0;
             margin: 0;
-        }}
-        .exec-bullets li {{
+        }
+        .exec-bullets li {
             position: relative;
             padding-left: 18px;
             margin-bottom: 5px;
             line-height: 1.4;
             font-size: 0.85rem;
-        }}
-        .exec-bullets li::before {{
+        }
+        .exec-bullets li::before {
             content: "•";
             position: absolute;
             left: 0;
             color: var(--coral);
             font-weight: bold;
-        }}
+        }
 
         /* Competitive Landscape */
-        .competitive-grid {{
+        .competitive-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-        }}
-        @media (max-width: 900px) {{
-            .competitive-grid {{ grid-template-columns: 1fr; }}
-        }}
-        .comp-card {{
+        }
+        @media (max-width: 900px) {
+            .competitive-grid { grid-template-columns: 1fr; }
+        }
+        .comp-card {
             background: var(--white);
             border-radius: 0;
             padding: 16px;
             border: 1px solid var(--gray-border);
-        }}
-        .comp-card h4 {{
+        }
+        .comp-card h4 {
             color: var(--navy);
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 12px;
             padding-bottom: 6px;
             border-bottom: 1px solid var(--gray-border);
-        }}
-        .comp-card.advantages {{
+        }
+        .comp-card.advantages {
             background: var(--white);
             border-left: 2px solid var(--coral);
-        }}
-        .advantages-list {{
+        }
+        .advantages-list {
             list-style: none;
             padding: 0;
             margin: 0;
-        }}
-        .advantages-list li {{
+        }
+        .advantages-list li {
             position: relative;
             padding-left: 16px;
             margin-bottom: 6px;
             line-height: 1.4;
             font-size: 0.85rem;
-        }}
-        .advantages-list li::before {{
+        }
+        .advantages-list li::before {
             content: "→";
             position: absolute;
             left: 0;
             color: var(--coral);
-        }}
+        }
 
         /* Pharmacology & IP Landscape */
-        .pharmacology-grid, .ip-grid {{
+        .pharmacology-grid, .ip-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-        }}
-        @media (max-width: 900px) {{
-            .pharmacology-grid, .ip-grid {{ grid-template-columns: 1fr; }}
-        }}
-        .pharmacology-card, .ip-card {{
+        }
+        @media (max-width: 900px) {
+            .pharmacology-grid, .ip-grid { grid-template-columns: 1fr; }
+        }
+        .pharmacology-card, .ip-card {
             background: var(--white);
             padding: 16px;
             border: 1px solid var(--gray-border);
-        }}
-        .pharmacology-card h4, .ip-card h4 {{
+        }
+        .pharmacology-card h4, .ip-card h4 {
             color: var(--navy);
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 12px;
             padding-bottom: 6px;
             border-bottom: 1px solid var(--gray-border);
-        }}
+        }
 
         /* Generic section list styling */
-        .generic-list {{
+        .generic-list {
             list-style: none;
             padding: 0;
             margin: 0;
-        }}
-        .generic-list li {{
+        }
+        .generic-list li {
             position: relative;
             padding-left: 16px;
             margin-bottom: 6px;
             line-height: 1.4;
             font-size: 0.85rem;
-        }}
-        .generic-list li::before {{
+        }
+        .generic-list li::before {
             content: "•";
             position: absolute;
             left: 0;
             color: var(--coral);
-        }}
+        }
 
         /* Comprehensive Clinical Data */
-        .comprehensive-clinical {{
+        .comprehensive-clinical {
             background: var(--white);
             border-radius: 0;
             border: 1px solid var(--gray-border);
             overflow: hidden;
-        }}
-        .clinical-subsection {{
+        }
+        .clinical-subsection {
             padding: 16px;
             border-bottom: 1px solid var(--gray-border);
-        }}
-        .clinical-subsection:last-child {{
+        }
+        .clinical-subsection:last-child {
             border-bottom: none;
-        }}
-        .clinical-subsection h4 {{
+        }
+        .clinical-subsection h4 {
             color: var(--navy);
             font-size: 1rem;
             font-weight: 600;
@@ -4511,55 +4381,55 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             display: flex;
             align-items: center;
             gap: 6px;
-        }}
+        }
 
         /* Trial Overview */
-        .trial-overview-header {{
+        .trial-overview-header {
             display: flex;
             align-items: center;
             gap: 12px;
             margin-bottom: 12px;
-        }}
-        .trial-overview-header h3 {{
+        }
+        .trial-overview-header h3 {
             margin: 0;
             color: var(--navy);
             font-size: 1.1rem;
             font-weight: 600;
-        }}
-        .trial-overview-grid {{
+        }
+        .trial-overview-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 8px;
-        }}
-        .overview-item {{
+        }
+        .overview-item {
             padding: 6px 10px;
             background: var(--gray-light);
             border-radius: 0;
             font-size: 0.85rem;
-        }}
+        }
 
         /* Populations Table */
-        .populations-table {{
+        .populations-table {
             width: 100%;
-        }}
-        .populations-table .n-value {{
+        }
+        .populations-table .n-value {
             font-weight: 600;
             color: var(--coral);
             text-align: center;
-        }}
+        }
 
         /* Tabs */
-        .tabs-container {{
+        .tabs-container {
             margin-top: 10px;
-        }}
-        .tab-buttons {{
+        }
+        .tab-buttons {
             display: flex;
             gap: 4px;
             margin-bottom: 12px;
             border-bottom: 1px solid var(--gray-border);
             padding-bottom: 0;
-        }}
-        .tab-btn {{
+        }
+        .tab-btn {
             padding: 8px 16px;
             border: none;
             background: transparent;
@@ -4570,39 +4440,39 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             border-bottom: 2px solid transparent;
             margin-bottom: -1px;
             transition: all 0.2s;
-        }}
-        .tab-btn:hover {{
+        }
+        .tab-btn:hover {
             color: var(--navy);
-        }}
-        .tab-btn.active {{
+        }
+        .tab-btn.active {
             color: var(--navy);
             border-bottom-color: var(--coral);
-        }}
-        .tab-pane {{
+        }
+        .tab-pane {
             display: none;
-        }}
-        .tab-pane.active {{
+        }
+        .tab-pane.active {
             display: block;
-        }}
+        }
 
         /* Baseline Characteristics */
-        .baseline-table {{
+        .baseline-table {
             width: 100%;
-        }}
-        .baseline-table .baseline-value {{
+        }
+        .baseline-table .baseline-value {
             text-align: right;
             font-family: 'SF Mono', 'Consolas', monospace;
             font-size: 0.8rem;
-        }}
-        .tooltip-icon {{
+        }
+        .tooltip-icon {
             color: var(--coral);
             cursor: help;
             font-size: 0.8rem;
             margin-left: 3px;
-        }}
+        }
 
         /* Enhanced Tooltips */
-        .enhanced-tooltip {{
+        .enhanced-tooltip {
             color: var(--gray-text);
             cursor: help;
             font-size: 0.75rem;
@@ -4616,13 +4486,13 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             text-align: center;
             line-height: 14px;
             border: 1px solid var(--gray-border);
-        }}
-        .enhanced-tooltip:hover {{
+        }
+        .enhanced-tooltip:hover {
             background: var(--navy);
             color: var(--white);
             border-color: var(--navy);
-        }}
-        .enhanced-tooltip:hover::after {{
+        }
+        .enhanced-tooltip:hover::after {
             content: attr(data-tooltip);
             position: absolute;
             bottom: calc(100% + 8px);
@@ -4641,8 +4511,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             font-weight: normal;
             text-align: left;
-        }}
-        .enhanced-tooltip:hover::before {{
+        }
+        .enhanced-tooltip:hover::before {
             content: '';
             position: absolute;
             bottom: calc(100% + 2px);
@@ -4651,22 +4521,22 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             border: 5px solid transparent;
             border-top-color: var(--navy);
             z-index: 1001;
-        }}
-        .var-cell {{
+        }
+        .var-cell {
             position: relative;
-        }}
+        }
 
         /* Global Abbreviation Tooltips */
-        .abbr-tooltip {{
+        .abbr-tooltip {
             border-bottom: 1px dotted var(--gray-text);
             cursor: help;
             position: relative;
-        }}
-        .abbr-tooltip:hover {{
+        }
+        .abbr-tooltip:hover {
             border-bottom-color: var(--coral);
             color: var(--coral);
-        }}
-        .abbr-tooltip:hover::after {{
+        }
+        .abbr-tooltip:hover::after {
             content: attr(data-abbr);
             position: absolute;
             bottom: calc(100% + 6px);
@@ -4680,8 +4550,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             white-space: nowrap;
             z-index: 1000;
             font-weight: normal;
-        }}
-        .abbr-tooltip:hover::before {{
+        }
+        .abbr-tooltip:hover::before {
             content: '';
             position: absolute;
             bottom: calc(100% + 2px);
@@ -4690,38 +4560,38 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             border: 4px solid transparent;
             border-top-color: var(--navy);
             z-index: 1001;
-        }}
+        }
 
         /* Efficacy Grid */
-        .efficacy-grid {{
+        .efficacy-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 12px;
-        }}
-        .efficacy-card {{
+        }
+        .efficacy-card {
             background: var(--gray-light);
             border-radius: 0;
             padding: 12px;
             border-left: 2px solid var(--coral);
-        }}
-        .efficacy-card h5 {{
+        }
+        .efficacy-card h5 {
             color: var(--navy);
             margin: 0 0 8px 0;
             font-size: 0.85rem;
             font-weight: 600;
-        }}
-        .efficacy-item {{
+        }
+        .efficacy-item {
             margin-bottom: 6px;
             line-height: 1.4;
             font-size: 0.8rem;
-        }}
-        .efficacy-label {{
+        }
+        .efficacy-label {
             color: var(--gray-text);
             font-size: 0.8rem;
-        }}
+        }
 
         /* Safety Section */
-        .safety-key-finding {{
+        .safety-key-finding {
             background: var(--white);
             border: 1px solid var(--gray-border);
             border-left: 2px solid var(--green);
@@ -4731,140 +4601,140 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             display: flex;
             align-items: flex-start;
             gap: 10px;
-        }}
-        .safety-key-finding .check-icon {{
+        }
+        .safety-key-finding .check-icon {
             color: var(--green);
             font-size: 1rem;
             font-weight: bold;
-        }}
-        .ae-table {{
+        }
+        .ae-table {
             width: 100%;
             max-width: 450px;
-        }}
-        .ae-section {{
+        }
+        .ae-section {
             margin-bottom: 12px;
-        }}
-        .ae-section h5 {{
+        }
+        .ae-section h5 {
             color: var(--navy);
             margin-bottom: 8px;
             font-size: 0.85rem;
             font-weight: 600;
-        }}
-        .discontinuation {{
+        }
+        .discontinuation {
             margin-top: 12px;
             padding: 10px;
             background: var(--gray-light);
             border-radius: 0;
-        }}
-        .other-safety {{
+        }
+        .other-safety {
             margin-top: 10px;
             padding-left: 18px;
             color: var(--gray-text);
             font-size: 0.8rem;
-        }}
-        .other-safety li {{
+        }
+        .other-safety li {
             margin-bottom: 4px;
-        }}
+        }
 
         /* Cards */
-        .card {{
+        .card {
             background: var(--white);
             border-radius: 0;
             border: 1px solid var(--gray-border);
             margin-bottom: 20px;
             overflow: hidden;
-        }}
-        .card-content {{
+        }
+        .card-content {
             padding: 16px;
-        }}
+        }
 
         /* Target/Mechanism Grid */
-        .overview-grid {{
+        .overview-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
             margin-bottom: 20px;
-        }}
-        @media (max-width: 900px) {{
-            .overview-grid {{ grid-template-columns: 1fr; }}
-        }}
-        .overview-card {{
+        }
+        @media (max-width: 900px) {
+            .overview-grid { grid-template-columns: 1fr; }
+        }
+        .overview-card {
             background: var(--white);
             border-radius: 0;
             padding: 16px;
             border: 1px solid var(--gray-border);
-        }}
-        .overview-card.target {{
+        }
+        .overview-card.target {
             background: var(--white);
             border-left: 2px solid var(--navy);
-        }}
-        .overview-card.mechanism {{
+        }
+        .overview-card.mechanism {
             background: var(--white);
             border-left: 2px solid var(--coral);
-        }}
-        .overview-card h3 {{
+        }
+        .overview-card h3 {
             margin-bottom: 12px;
             padding-bottom: 8px;
             border-bottom: 1px solid var(--gray-border);
             font-size: 0.95rem;
             font-weight: 600;
-        }}
-        .overview-card.target h3 {{ color: var(--navy); }}
-        .overview-card.mechanism h3 {{ color: var(--navy); }}
-        .detail-row {{
+        }
+        .overview-card.target h3 { color: var(--navy); }
+        .overview-card.mechanism h3 { color: var(--navy); }
+        .detail-row {
             margin-bottom: 10px;
             font-size: 0.85rem;
-        }}
-        .detail-row strong {{
+        }
+        .detail-row strong {
             display: block;
             font-size: 0.7rem;
             text-transform: uppercase;
             color: var(--gray-text);
             margin-bottom: 3px;
             letter-spacing: 0.3px;
-        }}
-        .genetic-highlight {{
+        }
+        .genetic-highlight {
             background: var(--gray-light);
             border-left: 2px solid var(--green);
             padding: 10px;
             border-radius: 0;
             margin-top: 12px;
             font-size: 0.85rem;
-        }}
+        }
 
         /* Market */
-        .market-grid {{
+        .market-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-        }}
-        .market-item {{
+        }
+        .market-item {
             background: var(--gray-light);
             padding: 12px;
             border-radius: 0;
-        }}
-        .market-item.full {{ grid-column: 1 / -1; }}
-        .market-item.highlight {{
+        }
+        .market-item.full { grid-column: 1 / -1; }
+        .market-item.highlight {
             background: var(--white);
             border-left: 2px solid var(--coral);
-        }}
-        .market-item .label {{
+        }
+        .market-item .label {
             font-size: 0.7rem;
             text-transform: uppercase;
             color: var(--gray-text);
             margin-bottom: 3px;
             letter-spacing: 0.3px;
-        }}
-        .market-item .value {{
+        }
+        .market-item .value {
             font-weight: 500;
             font-size: 0.85rem;
-        }}
+        }
 
         /* Indications */
-        .indications {{
+        .indications {
             margin-bottom: 20px;
-        }}
-        .indication-badge {{
+        }
+        .indication-badge {
             display: inline-block;
             background: var(--gray-light);
             border: 1px solid var(--gray-border);
@@ -4872,152 +4742,152 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             border-radius: 3px;
             font-size: 0.8rem;
             margin: 3px 3px 3px 0;
-        }}
+        }
 
         /* Trials */
-        .trial-card {{
+        .trial-card {
             background: var(--white);
             border: 1px solid var(--gray-border);
             border-radius: 0;
             padding: 16px;
             margin-bottom: 16px;
-        }}
-        .trial-header {{
+        }
+        .trial-header {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 12px;
             flex-wrap: wrap;
-        }}
-        .trial-header h4 {{
+        }
+        .trial-header h4 {
             margin: 0;
             color: var(--navy);
             font-size: 1rem;
             font-weight: 600;
-        }}
-        .n-enrolled {{
+        }
+        .n-enrolled {
             color: var(--gray-text);
             font-size: 0.8rem;
-        }}
-        .trial-meta {{
+        }
+        .trial-meta {
             background: var(--gray-light);
             padding: 12px;
             border-radius: 0;
             margin-bottom: 16px;
             font-size: 0.85rem;
-        }}
-        .trial-meta p {{
+        }
+        .trial-meta p {
             margin-bottom: 6px;
-        }}
-        .trial-meta p:last-child {{
+        }
+        .trial-meta p:last-child {
             margin-bottom: 0;
-        }}
-        .limitation-text {{
+        }
+        .limitation-text {
             color: var(--gray-text);
             font-style: italic;
-        }}
+        }
 
         /* Data Tables - Compact Bloomberg Style */
-        .data-table {{
+        .data-table {
             width: auto;
             max-width: 100%;
             border-collapse: collapse;
             margin: 12px 0;
             font-size: 0.8rem;
-        }}
-        .data-table th, .data-table td {{
+        }
+        .data-table th, .data-table td {
             padding: 6px 10px;
             text-align: left;
             border: 1px solid var(--gray-border);
-        }}
-        .data-table th {{
+        }
+        .data-table th {
             background: var(--navy);
             color: var(--white);
             font-size: 0.7rem;
             text-transform: uppercase;
             font-weight: 600;
             letter-spacing: 0.3px;
-        }}
-        .data-table td {{
+        }
+        .data-table td {
             color: var(--text-primary);
             font-weight: 400;
-        }}
-        .data-table td:first-child {{
+        }
+        .data-table td:first-child {
             font-weight: 500;
-        }}
-        .data-table tbody tr:nth-child(even) {{
+        }
+        .data-table tbody tr:nth-child(even) {
             background: var(--gray-light);
-        }}
-        .endpoint-name, .biomarker-name {{
+        }
+        .endpoint-name, .biomarker-name {
             font-weight: 600;
             color: var(--navy);
-        }}
-        .endpoint-def, .method {{
+        }
+        .endpoint-def, .method {
             font-size: 0.75rem;
             color: var(--gray-text);
-        }}
+        }
         /* Table data: regular weight, dark gray by default */
-        .result {{
+        .result {
             color: var(--text-primary);
-        }}
-        .result strong {{
+        }
+        .result strong {
             color: var(--text-primary);
             font-size: 0.95rem;
             font-weight: 500;
-        }}
+        }
         /* Use .key-result or .highlight for winning/headline numbers only */
         .result.key-result strong,
         .result.highlight strong,
         td.key-result,
-        td.highlight {{
+        td.highlight {
             color: var(--coral);
             font-weight: 600;
-        }}
-        .comparator {{
+        }
+        .comparator {
             font-size: 0.75rem;
             color: var(--gray-text);
-        }}
-        .source {{
+        }
+        .source {
             font-size: 0.75rem;
             color: var(--gray-text);
-        }}
+        }
 
         /* Safety */
-        .safety-box {{
+        .safety-box {
             background: var(--white);
             border: 1px solid var(--gray-border);
             border-left: 2px solid var(--green);
             padding: 12px;
             border-radius: 0;
             margin: 12px 0;
-        }}
-        .safety-box h5 {{
+        }
+        .safety-box h5 {
             color: var(--navy);
             margin-bottom: 6px;
             font-size: 0.9rem;
             font-weight: 600;
-        }}
-        .ae-badges {{
+        }
+        .ae-badges {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
             margin-top: 10px;
-        }}
-        .ae-badge {{
+        }
+        .ae-badge {
             background: var(--gray-light);
             padding: 3px 8px;
             border-radius: 0;
             font-size: 0.75rem;
-        }}
-        .safety-diff {{
+        }
+        .safety-diff {
             margin-top: 10px;
             font-style: italic;
             color: var(--gray-text);
             font-size: 0.85rem;
-        }}
+        }
 
         /* Limitations / Warnings - no red, subtle styling */
-        .limitations-box {{
+        .limitations-box {
             background: var(--white);
             border: 1px solid var(--gray-border);
             border-left: 2px solid var(--coral);
@@ -5026,30 +4896,30 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             font-size: 0.85rem;
             color: var(--text-primary);
             margin-bottom: 12px;
-        }}
-        .limitations-box strong {{
+        }
+        .limitations-box strong {
             color: var(--navy);
-        }}
-        .limitations-box ul {{
+        }
+        .limitations-box ul {
             margin-top: 6px;
             padding-left: 18px;
-        }}
-        .limitations-box li {{
+        }
+        .limitations-box li {
             margin-bottom: 4px;
             line-height: 1.4;
-        }}
+        }
 
         /* Catalysts - now using research-table styling */
 
         /* Navigation */
-        .asset-nav {{
+        .asset-nav {
             display: flex;
             justify-content: space-between;
             margin-top: 36px;
             padding-top: 20px;
             border-top: 1px solid var(--gray-border);
-        }}
-        .nav-link {{
+        }
+        .nav-link {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -5060,17 +4930,17 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             text-decoration: none;
             color: var(--text-primary);
             font-size: 0.85rem;
-        }}
-        .nav-link:hover {{
+        }
+        .nav-link:hover {
             border-color: var(--coral);
             color: var(--coral);
-        }}
-        .nav-link.disabled {{
+        }
+        .nav-link.disabled {
             opacity: 0.5;
             pointer-events: none;
-        }}
+        }
 
-        h5 {{
+        h5 {
             color: var(--navy);
             margin-bottom: 10px;
             font-size: 0.9rem;
@@ -5078,42 +4948,42 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             display: flex;
             justify-content: space-between;
             align-items: baseline;
-        }}
-        h5 .citation-badge {{
+        }
+        h5 .citation-badge {
             margin-left: auto;
             font-size: 0.7rem;
-        }}
+        }
 
         /* v2.0 Schema: Head-to-Head Comparison Table */
-        .h2h-section {{
+        .h2h-section {
             margin: 16px 0;
             padding: 16px;
             background: var(--white);
             border-radius: 0;
             border: 1px solid var(--gray-border);
             border-left: 2px solid var(--coral);
-        }}
-        .h2h-section h5 {{
+        }
+        .h2h-section h5 {
             color: var(--navy);
             margin-bottom: 6px;
-        }}
-        .h2h-section .caveat {{
+        }
+        .h2h-section .caveat {
             font-size: 0.75rem;
             color: var(--gray-text);
             font-style: italic;
             margin-bottom: 12px;
-        }}
-        .h2h-table .winner-kt621 {{
+        }
+        .h2h-table .winner-kt621 {
             background: var(--gray-light);
-        }}
-        .h2h-table .winner {{
+        }
+        .h2h-table .winner {
             font-weight: 600;
             color: var(--coral);
-        }}
-        .h2h-table .winner-tie .winner {{
+        }
+        .h2h-table .winner-tie .winner {
             color: var(--gray-text);
-        }}
-        .cross-trial-disclaimer {{
+        }
+        .cross-trial-disclaimer {
             font-size: 0.75rem;
             color: var(--gray-text);
             font-style: italic;
@@ -5122,14 +4992,14 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             background: var(--gray-light);
             border-radius: 4px;
             line-height: 1.4;
-        }}
-        .data-approximation-note {{
+        }
+        .data-approximation-note {
             font-size: 0.75rem;
             color: var(--gray-text);
             font-style: italic;
             margin-top: 8px;
-        }}
-        .editorial-disclaimer {{
+        }
+        .editorial-disclaimer {
             font-size: 0.8rem;
             color: var(--gray-text);
             background: var(--gray-light);
@@ -5137,19 +5007,19 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             border-radius: 4px;
             margin-bottom: 16px;
             border-left: 3px solid var(--coral);
-        }}
-        .editorial-disclaimer strong {{
+        }
+        .editorial-disclaimer strong {
             color: var(--coral);
-        }}
+        }
 
         /* Wall Street Research Style: Investment Analysis */
-        .research-section {{
+        .research-section {
             background: var(--white);
-        }}
-        .research-subsection {{
+        }
+        .research-subsection {
             margin-bottom: 24px;
-        }}
-        .research-subsection h4 {{
+        }
+        .research-subsection h4 {
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--navy);
@@ -5158,15 +5028,15 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             letter-spacing: 0.4px;
             border-bottom: 1px solid var(--gray-border);
             padding-bottom: 6px;
-        }}
-        .research-table {{
+        }
+        .research-table {
             width: auto;
             max-width: 100%;
             border-collapse: collapse;
             font-size: 0.8rem;
             background: var(--white);
-        }}
-        .research-table th {{
+        }
+        .research-table th {
             background: var(--navy);
             color: var(--white);
             font-weight: 500;
@@ -5176,53 +5046,53 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-        }}
-        .research-table td {{
+        }
+        .research-table td {
             padding: 6px 10px;
             border: 1px solid var(--gray-border);
             vertical-align: top;
             color: var(--text-primary);
             line-height: 1.4;
-        }}
-        .research-table tbody tr:nth-child(even) {{
+        }
+        .research-table tbody tr:nth-child(even) {
             background: var(--gray-light);
-        }}
+        }
         .research-table .point-cell,
-        .research-table .event-cell {{
+        .research-table .event-cell {
             font-weight: 600;
             width: 25%;
             color: var(--navy);
-        }}
-        .research-table .conf-cell {{
+        }
+        .research-table .conf-cell {
             width: 90px;
             text-align: center;
             font-weight: 500;
-        }}
-        .research-table .debate-q {{
+        }
+        .research-table .debate-q {
             font-weight: 600;
             width: 20%;
-        }}
+        }
         .debates-table th:nth-child(2),
-        .debates-table th:nth-child(3) {{
+        .debates-table th:nth-child(3) {
             width: 25%;
-        }}
-        .catalysts-table .event-cell {{
+        }
+        .catalysts-table .event-cell {
             width: 22%;
-        }}
-        .catalysts-table td:nth-child(2) {{
+        }
+        .catalysts-table td:nth-child(2) {
             width: 12%;
             white-space: nowrap;
-        }}
-        .catalysts-table td:nth-child(3) {{
+        }
+        .catalysts-table td:nth-child(3) {
             width: 10%;
             font-weight: 500;
-        }}
+        }
 
         /* Probability of Success */
-        .pos-section {{
+        .pos-section {
             margin-top: 24px;
-        }}
-        .pos-section h4 {{
+        }
+        .pos-section h4 {
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--navy);
@@ -5231,140 +5101,141 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             letter-spacing: 0.4px;
             border-bottom: 1px solid var(--gray-border);
             padding-bottom: 6px;
-        }}
-        .pos-table {{
+        }
+        .pos-table {
             max-width: 350px;
-        }}
-        .pos-table .label-cell {{
+        }
+        .pos-table .label-cell {
             font-weight: 500;
             width: 160px;
-        }}
-        .pos-table .value-cell {{
+        }
+        .pos-table .value-cell {
             font-weight: 600;
             text-align: right;
             color: var(--coral);
-        }}
-        .pos-table .total-row {{
+        }
+        .pos-table .total-row {
             background: var(--gray-light);
-        }}
-        .pos-table .total-row td {{
+        }
+        .pos-table .total-row td {
             border-top: 1px solid var(--navy);
-        }}
-        .pos-methodology {{
+        }
+        .pos-methodology {
             font-size: 0.75rem;
             color: var(--gray-text);
             font-style: italic;
             margin-top: 6px;
-        }}
+        }
 
         /* v2.0 Schema: Trial Cards */
-        .trial-card.featured {{
+        .trial-card.featured {
             border: 1px solid var(--coral);
             border-left: 3px solid var(--coral);
-        }}
-        .trial-card.ongoing {{
+        }
+        .trial-card.ongoing {
             border-left: 3px solid var(--gray-text);
-        }}
-        .key-findings {{
+        }
+        .key-findings {
             background: var(--gray-light);
             padding: 12px;
             border-radius: 0;
             margin: 12px 0;
             border-left: 2px solid var(--coral);
-        }}
-        .key-findings ul {{
+        }
+        .key-findings ul {
             margin: 6px 0 0 18px;
             font-size: 0.85rem;
-        }}
-        .findings-list {{
+        }
+        .findings-list {
             margin: 10px 0 0 18px;
             font-size: 0.85rem;
-        }}
-        .success-criteria, .failure-criteria {{
+        }
+        .success-criteria, .failure-criteria {
             padding: 12px;
             border-radius: 0;
             margin: 10px 0;
             font-size: 0.85rem;
-        }}
-        .success-criteria {{
+        }
+        .success-criteria {
             background: var(--white);
             border: 1px solid var(--gray-border);
             border-left: 2px solid var(--green);
-        }}
-        .failure-criteria {{
+        }
+        .failure-criteria {
             background: var(--white);
             border: 1px solid var(--gray-border);
             border-left: 2px solid var(--red);
-        }}
-        .success-criteria ul, .failure-criteria ul {{
+        }
+        .success-criteria ul, .failure-criteria ul {
             margin: 8px 0 0 20px;
-        }}
+        }
 
         /* Catalyst enhancements */
-        .consensus {{
+        .consensus {
             margin-top: 12px;
             padding: 10px;
             background: var(--gray-light);
             border-radius: 0;
             font-size: 0.8rem;
-        }}
-        .impact {{
+        }
+        .impact {
             display: block;
             font-size: 0.8rem;
             font-weight: 600;
             margin-top: 3px;
-        }}
-        .scenario.bull .impact {{ color: var(--green); }}
-        .scenario.bear .impact {{ color: var(--red); }}
+        }
+        .scenario.bull .impact { color: var(--green); }
+        .scenario.bear .impact { color: var(--red); }
 
         /* Additional compact styles */
-        .analyst-note {{
+        .analyst-note {
             background: var(--gray-light);
             border-left: 2px solid var(--coral);
             padding: 8px 12px;
             font-size: 0.8rem;
             margin-top: 10px;
-        }}
-        .comorbid-section {{
+        }
+        .comorbid-section {
             background: var(--gray-light);
             border-left: 2px solid var(--navy);
             padding: 12px;
             margin-top: 12px;
-        }}
-        .comorbid-section h5 {{
+        }
+        .comorbid-section h5 {
             margin-bottom: 8px;
-        }}
-        .baseline-section {{
+        }
+        .baseline-section {
             margin-top: 12px;
-        }}
-        .baseline-section h5 {{
+        }
+        .baseline-section h5 {
             margin-bottom: 8px;
-        }}
-        .preclin-item {{
+        }
+        .preclin-item {
             margin-bottom: 10px;
             font-size: 0.85rem;
-        }}
-        .preclin-item ul {{
+        }
+        .preclin-item ul {
             margin: 4px 0 0 16px;
-        }}
-        .skin-transcriptomics {{
+        }
+        .skin-transcriptomics {
             background: var(--gray-light);
             border-left: 2px solid var(--green);
-        }}
-        .unmet-need-callout {{
+        }
+        .unmet-need-callout {
             background: var(--gray-light) !important;
             border-left: 2px solid var(--coral) !important;
             border-radius: 0 !important;
             padding: 12px !important;
-        }}
-        .peak-sales-highlight {{
+        }
+        .peak-sales-highlight {
             background: var(--gray-light) !important;
             border-left: 2px solid var(--coral) !important;
             border-radius: 0 !important;
-        }}
-    </style>
-</head>
-<body>
+        }
+    """
+
+    return f'''{_render_head(_asset_title, _asset_styles)}
+    {_render_nav("companies")}
     <div class="sticky-header">
         <div class="breadcrumb">
             <a href="/companies">Companies</a>
@@ -6001,87 +5872,62 @@ def _generate_company_html_v2(data: dict) -> str:
                 <div class="strategic-value">{p.get('strategic_value', '')}</div>
             </div>'''
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{ticker} - {name} | PhD Analysis</title>
-    <style>
-        :root {{
-            --primary: #1a365d;
-            --primary-light: #2c5282;
-            --accent: #3182ce;
-            --bull: #38a169;
-            --bear: #e53e3e;
-            --warning: #d69e2e;
-            --bg: #f7fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text: #2d3748;
-            --text-muted: #718096;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }}
-        .container {{ max-width: 1200px; margin: 0 auto; padding: 20px; }}
+    _v2_title = f"{ticker} - {name} | PhD Analysis"
+    _v2_styles = """
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
         /* Header */
-        .header {{
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        .v2-hero {
+            background: linear-gradient(135deg, #1a365d, #2c5282);
             color: white;
             padding: 30px;
             border-radius: 12px;
             margin-bottom: 24px;
-        }}
-        .header h1 {{ font-size: 2rem; margin-bottom: 8px; }}
-        .header .one-liner {{ opacity: 0.9; font-size: 1.1rem; margin-bottom: 16px; }}
-        .header .tags {{ display: flex; gap: 8px; flex-wrap: wrap; }}
+        }
+        .v2-hero h1 { font-size: 2rem; margin-bottom: 8px; }
+        .v2-hero .one-liner { opacity: 0.9; font-size: 1.1rem; margin-bottom: 16px; }
+        .v2-hero .tags { display: flex; gap: 8px; flex-wrap: wrap; }
 
         /* Badges */
-        .badge {{
+        .badge {
             display: inline-block;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             background: rgba(255,255,255,0.2);
-        }}
-        .badge.stage {{ background: var(--accent); color: white; }}
-        .badge.target {{ background: var(--primary); color: white; }}
-        .badge.phase {{ background: #4a5568; color: white; }}
-        .badge.status {{ background: #718096; }}
-        .badge.status.ongoing {{ background: var(--bull); color: white; }}
-        .badge.status.completed {{ background: var(--accent); color: white; }}
-        .badge.Critical, .badge.critical {{ background: var(--bear); color: white; }}
-        .badge.High, .badge.high {{ background: var(--warning); color: black; }}
+        }
+        .badge.stage { background: #3182ce; color: white; }
+        .badge.target { background: #1a365d; color: white; }
+        .badge.phase { background: #4a5568; color: white; }
+        .badge.status { background: #718096; }
+        .badge.status.ongoing { background: #38a169; color: white; }
+        .badge.status.completed { background: #3182ce; color: white; }
+        .badge.Critical, .badge.critical { background: #e53e3e; color: white; }
+        .badge.High, .badge.high { background: #d69e2e; color: black; }
 
         /* Cards */
-        .card {{
-            background: var(--card-bg);
+        .card {
+            background: var(--surface);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             margin-bottom: 20px;
             overflow: hidden;
-        }}
-        .card-header {{
+        }
+        .card-header {
             padding: 16px 20px;
             font-weight: 600;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }}
+        }
 
         /* Tabs */
-        .tabs {{
+        .tabs {
             display: flex;
             border-bottom: 2px solid var(--border);
-        }}
-        .tab {{
+        }
+        .tab {
             padding: 12px 24px;
             cursor: pointer;
             border: none;
@@ -6091,22 +5937,22 @@ def _generate_company_html_v2(data: dict) -> str:
             color: var(--text-muted);
             border-bottom: 2px solid transparent;
             margin-bottom: -2px;
-        }}
-        .tab:hover {{ color: var(--text); }}
-        .tab.active {{ color: var(--primary); border-bottom-color: var(--primary); }}
-        .tab.bull.active {{ color: var(--bull); border-bottom-color: var(--bull); }}
-        .tab.bear.active {{ color: var(--bear); border-bottom-color: var(--bear); }}
-        .tab-content {{ display: none; padding: 20px; }}
-        .tab-content.active {{ display: block; }}
+        }
+        .tab:hover { color: var(--text); }
+        .tab.active { color: #1a365d; border-bottom-color: #1a365d; }
+        .tab.bull.active { color: #38a169; border-bottom-color: #38a169; }
+        .tab.bear.active { color: #e53e3e; border-bottom-color: #e53e3e; }
+        .tab-content { display: none; padding: 20px; }
+        .tab-content.active { display: block; }
 
         /* Wall Street Research Style Tables */
-        .research-table {{
+        .research-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
             background: white;
-        }}
-        .research-table th {{
+        }
+        .research-table th {
             background: #f8f9fa;
             font-weight: 700;
             text-align: left;
@@ -6116,39 +5962,39 @@ def _generate_company_html_v2(data: dict) -> str:
             text-transform: uppercase;
             letter-spacing: 0.3px;
             color: #1a1a1a;
-        }}
-        .research-table td {{
+        }
+        .research-table td {
             padding: 10px 12px;
             border: 1px solid #dee2e6;
             vertical-align: top;
             color: #1a1a1a;
             line-height: 1.5;
-        }}
-        .research-table tbody tr:nth-child(even) {{
+        }
+        .research-table tbody tr:nth-child(even) {
             background: #fafafa;
-        }}
-        .research-table .point-cell {{
+        }
+        .research-table .point-cell {
             font-weight: 600;
             width: 25%;
-        }}
-        .research-table .conf-cell {{
+        }
+        .research-table .conf-cell {
             width: 100px;
             text-align: center;
             font-weight: 500;
-        }}
-        .research-table .debate-q {{
+        }
+        .research-table .debate-q {
             font-weight: 600;
             width: 20%;
-        }}
+        }
         .debates-table th:nth-child(2),
-        .debates-table th:nth-child(3) {{
+        .debates-table th:nth-child(3) {
             width: 25%;
-        }}
+        }
 
         /* Collapsible */
-        .collapsible {{
+        .collapsible {
             width: 100%;
-            background: var(--card-bg);
+            background: var(--surface);
             border: none;
             padding: 16px 20px;
             text-align: left;
@@ -6159,198 +6005,198 @@ def _generate_company_html_v2(data: dict) -> str:
             align-items: center;
             gap: 12px;
             transition: background 0.2s;
-        }}
-        .collapsible:hover {{ background: var(--bg); }}
-        .collapsible::after {{
+        }
+        .collapsible:hover { background: var(--bg); }
+        .collapsible::after {
             content: '+';
             margin-left: auto;
             font-size: 1.2rem;
             color: var(--text-muted);
-        }}
-        .collapsible.active::after {{ content: '−'; }}
-        .asset-content, .trial-content {{
+        }
+        .collapsible.active::after { content: '\2212'; }
+        .asset-content, .trial-content {
             display: none;
             padding: 20px;
             border-top: 1px solid var(--border);
-        }}
-        .asset-content.show, .trial-content.show {{ display: block; }}
+        }
+        .asset-content.show, .trial-content.show { display: block; }
 
         /* Tables */
-        table {{
+        table {
             width: 100%;
             border-collapse: collapse;
             margin: 16px 0;
             font-size: 0.9rem;
-        }}
-        th, td {{
+        }
+        th, td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border);
-        }}
-        th {{
+        }
+        th {
             background: var(--bg);
             font-size: 0.8rem;
             text-transform: uppercase;
             color: var(--text-muted);
-        }}
-        .endpoint-name {{ font-weight: 600; cursor: help; border-bottom: 1px dotted var(--text-muted); }}
-        .endpoint-def {{ font-size: 0.8rem; color: var(--text-muted); }}
-        .category {{ text-transform: capitalize; }}
-        .result strong {{ color: var(--primary); font-size: 1.1rem; }}
-        .comparator {{ font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }}
-        .interp {{ font-style: italic; }}
-        .caveats {{ font-size: 0.8rem; color: var(--bear); margin-top: 4px; font-style: italic; }}
+        }
+        .endpoint-name { font-weight: 600; cursor: help; border-bottom: 1px dotted var(--text-muted); }
+        .endpoint-def { font-size: 0.8rem; color: var(--text-muted); }
+        .category { text-transform: capitalize; }
+        .result strong { color: #1a365d; font-size: 1.1rem; }
+        .comparator { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+        .interp { font-style: italic; }
+        .caveats { font-size: 0.8rem; color: #e53e3e; margin-top: 4px; font-style: italic; }
 
         /* Safety */
-        .safety-section {{
+        .safety-section {
             background: #f0fff4;
             padding: 16px;
             border-radius: 8px;
             margin: 16px 0;
-        }}
-        .safety-summary {{ margin-bottom: 8px; }}
-        .safety-stats {{ font-size: 0.9rem; color: var(--text-muted); }}
-        .aes-of-interest {{ display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; }}
-        .ae-item {{ background: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; }}
-        .safety-diff {{ color: var(--bull); font-style: italic; }}
+        }
+        .safety-summary { margin-bottom: 8px; }
+        .safety-stats { font-size: 0.9rem; color: var(--text-muted); }
+        .aes-of-interest { display: flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; }
+        .ae-item { background: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; }
+        .safety-diff { color: #38a169; font-style: italic; }
 
         /* Limitations */
-        .limitations {{
+        .limitations {
             background: #fff5f5;
             padding: 12px 16px;
             border-radius: 8px;
             margin: 16px 0;
-        }}
-        .limitations ul {{ margin-left: 20px; }}
-        .design-limitation {{ color: var(--bear); font-style: italic; }}
+        }
+        .limitations ul { margin-left: 20px; }
+        .design-limitation { color: #e53e3e; font-style: italic; }
 
         /* Catalysts */
-        .catalyst-card {{
+        .catalyst-card {
             background: #fffff0;
-            border-left: 4px solid var(--warning);
+            border-left: 4px solid #d69e2e;
             padding: 16px;
             margin-bottom: 12px;
             border-radius: 0 8px 8px 0;
-        }}
-        .catalyst-header {{ display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }}
-        .catalyst-event {{ font-weight: 600; }}
-        .what-to-watch ul {{ margin-left: 20px; }}
-        .scenarios {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }}
-        .bull-scenario {{ background: #f0fff4; padding: 12px; border-radius: 8px; }}
-        .bear-scenario {{ background: #fff5f5; padding: 12px; border-radius: 8px; }}
-        .rationale {{ font-size: 0.9rem; color: var(--text-muted); margin-top: 4px; }}
+        }
+        .catalyst-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .catalyst-event { font-weight: 600; }
+        .what-to-watch ul { margin-left: 20px; }
+        .scenarios { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+        .bull-scenario { background: #f0fff4; padding: 12px; border-radius: 8px; }
+        .bear-scenario { background: #fff5f5; padding: 12px; border-radius: 8px; }
+        .rationale { font-size: 0.9rem; color: var(--text-muted); margin-top: 4px; }
 
         /* Partnerships */
-        .partnership-card {{
+        .partnership-card {
             padding: 16px;
             border-bottom: 1px solid var(--border);
-        }}
-        .partner-name {{ font-weight: 600; margin-bottom: 8px; }}
-        .deal-terms {{ display: flex; gap: 16px; margin-bottom: 8px; font-size: 0.9rem; }}
-        .strategic-value {{ color: var(--text-muted); font-style: italic; }}
+        }
+        .partner-name { font-weight: 600; margin-bottom: 8px; }
+        .deal-terms { display: flex; gap: 16px; margin-bottom: 8px; font-size: 0.9rem; }
+        .strategic-value { color: var(--text-muted); font-style: italic; }
 
         /* Asset sections */
-        .asset-section {{
-            background: var(--card-bg);
+        .asset-section {
+            background: var(--surface);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             margin-bottom: 16px;
             overflow: hidden;
-        }}
-        .asset-header {{ border-radius: 12px 12px 0 0; }}
-        .asset-overview {{
+        }
+        .asset-header { border-radius: 12px 12px 0 0; }
+        .asset-overview {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
             margin-bottom: 24px;
-        }}
-        @media (max-width: 768px) {{
-            .asset-overview {{ grid-template-columns: 1fr; }}
-        }}
-        .no-data {{ color: var(--text-muted); font-style: italic; padding: 16px; }}
+        }
+        @media (max-width: 768px) {
+            .asset-overview { grid-template-columns: 1fr; }
+        }
+        .no-data { color: var(--text-muted); font-style: italic; padding: 16px; }
 
         /* Target card */
-        .target-card {{
+        .target-card {
             background: linear-gradient(135deg, #ebf8ff, #e6fffa);
             border: 1px solid #bee3f8;
             border-radius: 12px;
             padding: 20px;
-        }}
-        .target-header {{
+        }
+        .target-header {
             margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 1px solid #bee3f8;
-        }}
-        .target-name {{
+        }
+        .target-name {
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--primary);
-        }}
-        .target-full-name {{
+            color: #1a365d;
+        }
+        .target-full-name {
             font-size: 0.9rem;
             color: var(--text-muted);
             margin-left: 8px;
-        }}
-        .target-row {{
+        }
+        .target-row {
             margin-bottom: 12px;
             line-height: 1.5;
-        }}
-        .target-row strong {{
-            color: var(--primary);
+        }
+        .target-row strong {
+            color: #1a365d;
             display: block;
             font-size: 0.85rem;
             text-transform: uppercase;
             margin-bottom: 4px;
-        }}
-        .target-row.genetic {{
+        }
+        .target-row.genetic {
             background: #f0fff4;
             padding: 12px;
             border-radius: 8px;
-            border-left: 3px solid var(--bull);
-        }}
-        .target-row.degrader {{
+            border-left: 3px solid #38a169;
+        }
+        .target-row.degrader {
             background: #fef3c7;
             padding: 12px;
             border-radius: 8px;
-            border-left: 3px solid var(--warning);
-        }}
+            border-left: 3px solid #d69e2e;
+        }
 
         /* Mechanism card */
-        .mechanism-card {{
+        .mechanism-card {
             background: linear-gradient(135deg, #faf5ff, #f3e8ff);
             border: 1px solid #e9d8fd;
             border-radius: 12px;
             padding: 20px;
-        }}
-        .mechanism-header {{
+        }
+        .mechanism-header {
             font-size: 1rem;
             font-weight: 700;
             color: #6b46c1;
             margin-bottom: 16px;
             padding-bottom: 12px;
             border-bottom: 1px solid #e9d8fd;
-        }}
-        .mechanism-type {{
+        }
+        .mechanism-type {
             font-size: 0.9rem;
             margin-bottom: 12px;
-        }}
-        .mechanism-desc {{
+        }
+        .mechanism-desc {
             line-height: 1.6;
             margin-bottom: 12px;
-        }}
-        .mechanism-diff {{
+        }
+        .mechanism-diff {
             background: white;
             padding: 12px;
             border-radius: 8px;
             font-size: 0.9rem;
-        }}
+        }
 
         /* Indications */
-        .indications {{
+        .indications {
             padding: 12px 0;
             margin-bottom: 16px;
-        }}
-        .indication-badge {{
+        }
+        .indication-badge {
             display: inline-block;
             background: var(--bg);
             border: 1px solid var(--border);
@@ -6358,143 +6204,144 @@ def _generate_company_html_v2(data: dict) -> str:
             border-radius: 20px;
             font-size: 0.85rem;
             margin: 4px 4px 4px 0;
-        }}
+        }
 
         /* Market Section */
-        .market-section {{
+        .market-section {
             background: linear-gradient(135deg, #f0fff4, #e6fffa);
             border: 1px solid #9ae6b4;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 24px;
-        }}
-        .market-section h4 {{
-            color: var(--bull);
+        }
+        .market-section h4 {
+            color: #38a169;
             margin: 0 0 16px 0;
-        }}
-        .market-grid {{
+        }
+        .market-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-        }}
-        .market-item {{
+        }
+        .market-item {
             background: white;
             padding: 12px;
             border-radius: 8px;
-        }}
-        .market-item.full-width {{
+        }
+        .market-item.full-width {
             grid-column: 1 / -1;
-        }}
-        .market-item .label {{
+        }
+        .market-item .label {
             display: block;
             font-size: 0.8rem;
             text-transform: uppercase;
             color: var(--text-muted);
             margin-bottom: 4px;
-        }}
-        .market-item .value {{
+        }
+        .market-item .value {
             font-weight: 500;
-        }}
-        .market-item.unmet-need {{
-            border-left: 3px solid var(--bull);
-        }}
+        }
+        .market-item.unmet-need {
+            border-left: 3px solid #38a169;
+        }
 
         /* Analysis Sections */
-        .analysis-section {{
-            background: var(--card-bg);
+        .analysis-section {
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 24px;
-        }}
-        .analysis-section h4 {{
-            color: var(--primary);
+        }
+        .analysis-section h4 {
+            color: #1a365d;
             margin: 0 0 16px 0;
             padding-bottom: 12px;
             border-bottom: 1px solid var(--border);
-        }}
-        .analysis-content {{
+        }
+        .analysis-content {
             display: flex;
             flex-direction: column;
             gap: 16px;
-        }}
-        .sig-item {{
+        }
+        .sig-item {
             padding: 12px;
             background: var(--bg);
             border-radius: 8px;
-        }}
-        .sig-item strong {{
-            color: var(--primary);
+        }
+        .sig-item strong {
+            color: #1a365d;
             display: block;
             margin-bottom: 8px;
-        }}
-        .sig-item p {{
+        }
+        .sig-item p {
             margin: 0;
             line-height: 1.6;
-        }}
-        .sig-item ul {{
+        }
+        .sig-item ul {
             margin: 0;
             padding-left: 20px;
-        }}
-        .sig-item li {{
+        }
+        .sig-item li {
             margin-bottom: 4px;
-        }}
-        .genetic-box {{
+        }
+        .genetic-box {
             background: #f0fff4;
-            border-left: 4px solid var(--bull);
-        }}
+            border-left: 4px solid #38a169;
+        }
 
         /* Key Questions */
-        .key-questions {{
+        .key-questions {
             background: #fffbeb;
-            border-color: var(--warning);
-        }}
-        .key-questions h4 {{
+            border-color: #d69e2e;
+        }
+        .key-questions h4 {
             color: #b7791f;
-        }}
-        .questions-grid {{
+        }
+        .questions-grid {
             display: grid;
             gap: 16px;
-        }}
-        .question-item {{
+        }
+        .question-item {
             background: white;
             padding: 16px;
             border-radius: 8px;
-            border-left: 3px solid var(--warning);
-        }}
-        .question {{
+            border-left: 3px solid #d69e2e;
+        }
+        .question {
             font-weight: 600;
             margin-bottom: 8px;
             color: var(--text);
-        }}
-        .data-needed {{
+        }
+        .data-needed {
             font-size: 0.9rem;
             color: var(--text-muted);
-        }}
+        }
 
-        .trial-card {{
+        .trial-card {
             background: var(--bg);
             border-radius: 8px;
             margin-bottom: 12px;
             overflow: hidden;
-        }}
-        .trial-header {{ border-radius: 8px 8px 0 0; }}
-        .trial-meta {{
+        }
+        .trial-header { border-radius: 8px 8px 0 0; }
+        .trial-meta {
             background: white;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 16px;
-        }}
-        .trial-meta p {{ margin-bottom: 8px; }}
-        .n-enrolled {{ color: var(--text-muted); font-size: 0.9rem; }}
+        }
+        .trial-meta p { margin-bottom: 8px; }
+        .n-enrolled { color: var(--text-muted); font-size: 0.9rem; }
 
-        h2 {{ color: var(--primary); margin: 24px 0 16px; }}
-        h4 {{ color: var(--primary); margin: 16px 0 8px; }}
-    </style>
-</head>
-<body>
+        h2 { color: #1a365d; margin: 24px 0 16px; }
+        h4 { color: #1a365d; margin: 16px 0 8px; }
+    """
+
+    return f'''{_render_head(_v2_title, _v2_styles)}
+    {_render_nav("companies")}
     <div class="container">
-        <div class="header">
+        <div class="v2-hero">
             <h1>{ticker} - {name}</h1>
             <p class="one-liner">{company.get('description', '')}</p>
             <div class="tags">
@@ -6617,97 +6464,70 @@ def _generate_targets_list_html(targets: dict) -> str:
             </div>
         </a>'''
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Targets | Clinical Data Platform</title>
-    <style>
-        :root {{
-            --primary: #1a365d;
-            --primary-light: #2c5282;
-            --accent: #3182ce;
-            --bull: #38a169;
-            --bear: #e53e3e;
-            --warning: #d69e2e;
-            --bg: #f7fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text: #2d3748;
-            --text-muted: #718096;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }}
-
-        .header {{
+    _targets_list_styles = """
+        .targets-hero {
             background: linear-gradient(135deg, #553c9a, #805ad5);
             color: white;
             padding: 32px 24px;
-        }}
-        .header-content {{
+        }
+        .targets-hero-content {
             max-width: 1400px;
             margin: 0 auto;
-        }}
-        .header h1 {{
+        }
+        .targets-hero h1 {
             font-size: 2rem;
             margin-bottom: 8px;
-        }}
-        .header p {{
+        }
+        .targets-hero p {
             opacity: 0.9;
-        }}
+        }
 
-        .stats {{
+        .stats {
             display: flex;
             gap: 24px;
             margin-top: 20px;
-        }}
-        .stat-item {{
+        }
+        .stat-item {
             background: rgba(255,255,255,0.15);
             padding: 12px 20px;
             border-radius: 8px;
-        }}
-        .stat-item .value {{
+        }
+        .stat-item .value {
             font-size: 1.5rem;
             font-weight: 600;
-        }}
-        .stat-item .label {{
+        }
+        .stat-item .label {
             font-size: 0.8rem;
             opacity: 0.8;
-        }}
+        }
 
-        .breadcrumb {{
+        .breadcrumb {
             background: white;
             padding: 12px 24px;
             border-bottom: 1px solid var(--border);
             font-size: 0.9rem;
-        }}
-        .breadcrumb a {{
-            color: var(--accent);
+        }
+        .breadcrumb a {
+            color: #3182ce;
             text-decoration: none;
-        }}
-        .breadcrumb a:hover {{
+        }
+        .breadcrumb a:hover {
             text-decoration: underline;
-        }}
+        }
 
-        .container {{
+        .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 24px;
-        }}
+        }
 
-        .targets-grid {{
+        .targets-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 20px;
-        }}
+        }
 
-        .target-card {{
+        .target-card {
             background: white;
             border-radius: 12px;
             padding: 20px;
@@ -6717,118 +6537,119 @@ def _generate_targets_list_html(targets: dict) -> str:
             transition: all 0.2s;
             display: block;
             border: 2px solid transparent;
-        }}
-        .target-card:hover {{
+        }
+        .target-card:hover {
             box-shadow: 0 4px 16px rgba(0,0,0,0.12);
             border-color: #805ad5;
             transform: translateY(-2px);
-        }}
+        }
 
-        .target-header {{
+        .target-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 8px;
-        }}
-        .target-name {{
+        }
+        .target-name {
             font-size: 1.25rem;
             font-weight: 700;
             color: #553c9a;
-        }}
+        }
 
-        .full-name {{
+        .full-name {
             font-size: 0.85rem;
             color: var(--text-muted);
             font-style: italic;
             margin-bottom: 8px;
-        }}
-        .pathway {{
+        }
+        .pathway {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-bottom: 12px;
-        }}
-        .companies {{
+        }
+        .companies {
             font-size: 0.9rem;
             font-weight: 500;
             margin-bottom: 12px;
-            color: var(--primary);
-        }}
+            color: var(--navy);
+        }
 
-        .badge {{
+        .badge {
             display: inline-block;
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 0.75rem;
             text-transform: uppercase;
-        }}
-        .competitive-high {{
+        }
+        .competitive-high {
             background: #fed7d7;
-            color: var(--bear);
-        }}
-        .competitive-medium {{
+            color: #e53e3e;
+        }
+        .competitive-medium {
             background: #fefcbf;
             color: #975a16;
-        }}
-        .competitive-low {{
+        }
+        .competitive-low {
             background: #c6f6d5;
-            color: var(--bull);
-        }}
+            color: #38a169;
+        }
 
-        .assets-preview {{
+        .assets-preview {
             margin: 12px 0;
             padding: 12px;
             background: var(--bg);
             border-radius: 8px;
-        }}
-        .asset-preview {{
+        }
+        .asset-preview {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 6px 0;
             border-bottom: 1px solid var(--border);
-        }}
-        .asset-preview:last-child {{
+        }
+        .asset-preview:last-child {
             border-bottom: none;
-        }}
-        .asset-link {{
-            color: var(--accent);
+        }
+        .asset-link {
+            color: #3182ce;
             text-decoration: none;
             font-weight: 500;
-        }}
-        .asset-link:hover {{
+        }
+        .asset-link:hover {
             text-decoration: underline;
-        }}
-        .asset-meta {{
+        }
+        .asset-meta {
             font-size: 0.8rem;
             color: var(--text-muted);
-        }}
-        .more-assets {{
+        }
+        .more-assets {
             font-size: 0.85rem;
             color: var(--text-muted);
             padding-top: 8px;
-        }}
+        }
 
-        .target-footer {{
+        .target-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-top: 12px;
             border-top: 1px solid var(--border);
             margin-top: 12px;
-        }}
-        .asset-count {{
+        }
+        .asset-count {
             font-weight: 600;
             color: #553c9a;
-        }}
-    </style>
-</head>
-<body>
+        }
+    """
+
+    return f'''{_render_head("Targets | Clinical Data Platform", _targets_list_styles)}
+    {_render_nav("targets")}
     <div class="breadcrumb">
         <a href="/companies">Companies</a> · <strong>Targets</strong>
     </div>
 
-    <div class="header">
-        <div class="header-content">
+    <div class="targets-hero">
+        <div class="targets-hero-content">
             <h1>Targets</h1>
             <p>Drug targets across the portfolio with competitive landscape</p>
             <div class="stats">
@@ -7277,467 +7098,443 @@ def _generate_target_page_html(target: dict) -> str:
     if rich_data:
         rich_sections_html = _build_rich_target_sections(rich_data)
 
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{target_name} | Target Analysis</title>
-    <style>
-        :root {{
-            --primary: #553c9a;
-            --primary-light: #805ad5;
-            --accent: #3182ce;
-            --bull: #38a169;
-            --bear: #e53e3e;
-            --warning: #d69e2e;
-            --bg: #f7fafc;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text: #2d3748;
-            --text-muted: #718096;
-        }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }}
-
-        .sticky-header {{
+    _target_page_styles = """
+        .sticky-header {
             position: sticky;
-            top: 0;
+            top: 64px;
             background: white;
             border-bottom: 1px solid var(--border);
-            z-index: 100;
+            z-index: 90;
             padding: 12px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }}
-        .breadcrumb {{
+        }
+        .breadcrumb {
             font-size: 0.9rem;
-        }}
-        .breadcrumb a {{
-            color: var(--accent);
+        }
+        .breadcrumb a {
+            color: #3182ce;
             text-decoration: none;
-        }}
-        .breadcrumb a:hover {{
+        }
+        .breadcrumb a:hover {
             text-decoration: underline;
-        }}
-        .breadcrumb span {{
+        }
+        .breadcrumb span {
             color: var(--text-muted);
             margin: 0 8px;
-        }}
+        }
 
-        .container {{
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 24px;
-        }}
+        }
 
-        .target-header {{
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        .target-header {
+            background: linear-gradient(135deg, #553c9a, #805ad5);
             color: white;
             padding: 32px;
             border-radius: 12px;
             margin-bottom: 24px;
-        }}
-        .target-header h1 {{
+        }
+        .target-header h1 {
             font-size: 2rem;
             margin-bottom: 8px;
-        }}
-        .target-header .full-name {{
+        }
+        .target-header .full-name {
             font-size: 1.1rem;
             opacity: 0.9;
             font-style: italic;
             margin-bottom: 12px;
-        }}
-        .target-header .pathway {{
+        }
+        .target-header .pathway {
             opacity: 0.85;
             font-size: 0.95rem;
-        }}
-        .target-header .stats {{
+        }
+        .target-header .stats {
             display: flex;
             gap: 24px;
             margin-top: 20px;
-        }}
-        .target-header .stat {{
+        }
+        .target-header .stat {
             background: rgba(255,255,255,0.15);
             padding: 12px 20px;
             border-radius: 8px;
-        }}
-        .target-header .stat .value {{
+        }
+        .target-header .stat .value {
             font-size: 1.5rem;
             font-weight: 600;
-        }}
-        .target-header .stat .label {{
+        }
+        .target-header .stat .label {
             font-size: 0.8rem;
             opacity: 0.8;
-        }}
+        }
 
-        .section {{
+        .section {
             margin-bottom: 32px;
-        }}
-        .section-header {{
+        }
+        .section-header {
             font-size: 1.25rem;
-            color: var(--primary);
+            color: #553c9a;
             margin-bottom: 16px;
             padding-bottom: 8px;
             border-bottom: 2px solid var(--border);
-        }}
+        }
 
-        .card {{
-            background: var(--card-bg);
+        .card {
+            background: var(--surface);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             padding: 24px;
             margin-bottom: 20px;
-        }}
+        }
 
-        .biology-section {{
+        .biology-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 24px;
-        }}
-        @media (max-width: 768px) {{
-            .biology-section {{ grid-template-columns: 1fr; }}
-        }}
+        }
+        @media (max-width: 768px) {
+            .biology-section { grid-template-columns: 1fr; }
+        }
 
-        .biology-card {{
+        .biology-card {
             background: linear-gradient(135deg, #ebf8ff, #e6fffa);
             border: 1px solid #bee3f8;
             padding: 20px;
             border-radius: 12px;
-        }}
-        .biology-card h3 {{
-            color: var(--accent);
+        }
+        .biology-card h3 {
+            color: #3182ce;
             margin-bottom: 12px;
             font-size: 1rem;
-        }}
-        .biology-card p {{
+        }
+        .biology-card p {
             font-size: 0.95rem;
             line-height: 1.6;
-        }}
+        }
 
-        .genetic-card {{
+        .genetic-card {
             background: linear-gradient(135deg, #f0fff4, #c6f6d5);
             border: 1px solid #9ae6b4;
             padding: 20px;
             border-radius: 12px;
-        }}
-        .genetic-card h3 {{
-            color: var(--bull);
+        }
+        .genetic-card h3 {
+            color: #38a169;
             margin-bottom: 12px;
             font-size: 1rem;
-        }}
+        }
 
-        .undruggable-card {{
+        .undruggable-card {
             background: linear-gradient(135deg, #faf5ff, #e9d8fd);
             border: 1px solid #d6bcfa;
             padding: 20px;
             border-radius: 12px;
             grid-column: 1 / -1;
-        }}
-        .undruggable-card h3 {{
+        }
+        .undruggable-card h3 {
             color: #6b46c1;
             margin-bottom: 12px;
             font-size: 1rem;
-        }}
+        }
 
-        .landscape-table {{
+        .landscape-table {
             width: 100%;
             border-collapse: collapse;
-        }}
-        .landscape-table th, .landscape-table td {{
+        }
+        .landscape-table th, .landscape-table td {
             padding: 12px 16px;
             text-align: left;
             border-bottom: 1px solid var(--border);
-        }}
-        .landscape-table th {{
+        }
+        .landscape-table th {
             background: var(--bg);
             font-size: 0.8rem;
             text-transform: uppercase;
             color: var(--text-muted);
-        }}
-        .landscape-table tr:hover {{
+        }
+        .landscape-table tr:hover {
             background: #fafafa;
-        }}
-        .asset-link {{
-            color: var(--accent);
+        }
+        .asset-link {
+            color: #3182ce;
             text-decoration: none;
             font-weight: 600;
-        }}
-        .asset-link:hover {{
+        }
+        .asset-link:hover {
             text-decoration: underline;
-        }}
-        .company-link {{
-            color: var(--primary);
+        }
+        .company-link {
+            color: #553c9a;
             text-decoration: none;
             font-weight: 500;
-        }}
-        .company-link:hover {{
+        }
+        .company-link:hover {
             text-decoration: underline;
-        }}
+        }
 
-        .badge {{
+        .badge {
             display: inline-block;
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 0.75rem;
-        }}
-        .stage-approved {{
+        }
+        .stage-approved {
             background: #c6f6d5;
-            color: var(--bull);
-        }}
-        .stage-late {{
+            color: #38a169;
+        }
+        .stage-late {
             background: #bee3f8;
-            color: var(--accent);
-        }}
-        .stage-mid {{
+            color: #3182ce;
+        }
+        .stage-mid {
             background: #fefcbf;
             color: #975a16;
-        }}
-        .stage-early {{
+        }
+        .stage-early {
             background: #e2e8f0;
             color: var(--text-muted);
-        }}
+        }
 
-        .companies-grid {{
+        .companies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 16px;
-        }}
-        .company-card {{
-            background: var(--card-bg);
+        }
+        .company-card {
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
-        }}
-        .company-card .company-header {{
+        }
+        .company-card .company-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
-        }}
-        .company-card .ticker {{
+        }
+        .company-card .ticker {
             font-size: 1.1rem;
             font-weight: 700;
-            color: var(--primary);
+            color: #553c9a;
             text-decoration: none;
-        }}
-        .company-card .ticker:hover {{
+        }
+        .company-card .ticker:hover {
             text-decoration: underline;
-        }}
-        .company-card .asset-count {{
+        }
+        .company-card .asset-count {
             font-size: 0.8rem;
             color: var(--text-muted);
-        }}
-        .company-card .company-assets {{
+        }
+        .company-card .company-assets {
             font-size: 0.9rem;
             margin-bottom: 8px;
-        }}
-        .company-card .company-assets a {{
-            color: var(--accent);
+        }
+        .company-card .company-assets a {
+            color: #3182ce;
             text-decoration: none;
-        }}
-        .company-card .company-assets a:hover {{
+        }
+        .company-card .company-assets a:hover {
             text-decoration: underline;
-        }}
-        .company-card .company-stages {{
+        }
+        .company-card .company-stages {
             font-size: 0.8rem;
             color: var(--text-muted);
-        }}
+        }
 
-        .back-link {{
+        .back-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--accent);
+            color: #3182ce;
             text-decoration: none;
             font-size: 0.9rem;
             margin-bottom: 16px;
-        }}
-        .back-link:hover {{
+        }
+        .back-link:hover {
             text-decoration: underline;
-        }}
+        }
 
         /* --- Rich target section styles --- */
-        .section-subtitle {{
+        .section-subtitle {
             font-size: 0.9rem;
             color: var(--text-muted);
             margin-bottom: 16px;
             font-style: italic;
-        }}
-        .footnote {{
+        }
+        .footnote {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 12px;
             font-style: italic;
-        }}
-        .footnotes, .safety-notes {{
+        }
+        .footnotes, .safety-notes {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 12px;
             padding-left: 20px;
-        }}
-        .footnotes li, .safety-notes li {{
+        }
+        .footnotes li, .safety-notes li {
             margin-bottom: 4px;
-        }}
-        .result {{
-            color: var(--bull);
-        }}
-        .highlight-row {{
+        }
+        .result {
+            color: #38a169;
+        }
+        .highlight-row {
             background: #fffff0;
-        }}
-        .highlight-row:hover {{
+        }
+        .highlight-row:hover {
             background: #fefce8 !important;
-        }}
-        .warning-cell {{
-            color: var(--bear);
+        }
+        .warning-cell {
+            color: #e53e3e;
             font-weight: 600;
-        }}
-        .bull-text {{
-            color: var(--bull);
-        }}
-        .bear-text {{
-            color: var(--bear);
-        }}
-        .key-points {{
+        }
+        .bull-text {
+            color: #38a169;
+        }
+        .bear-text {
+            color: #e53e3e;
+        }
+        .key-points {
             padding-left: 20px;
             margin-bottom: 16px;
-        }}
-        .key-points li {{
+        }
+        .key-points li {
             margin-bottom: 6px;
             line-height: 1.6;
-        }}
-        .full-text p {{
+        }
+        .full-text p {
             margin-bottom: 12px;
-        }}
-        .market-stats {{
+        }
+        .market-stats {
             display: flex;
             gap: 24px;
             margin-top: 16px;
-        }}
-        .mstat {{
+        }
+        .mstat {
             background: linear-gradient(135deg, #f0fff4, #c6f6d5);
             border: 1px solid #9ae6b4;
             padding: 16px 24px;
             border-radius: 12px;
             text-align: center;
-        }}
-        .mstat-value {{
+        }
+        .mstat-value {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--bull);
-        }}
-        .mstat-label {{
+            color: #38a169;
+        }
+        .mstat-label {
             font-size: 0.8rem;
             color: var(--text-muted);
             margin-top: 4px;
-        }}
-        .medicare-box {{
+        }
+        .medicare-box {
             background: linear-gradient(135deg, #ebf8ff, #e6fffa);
             border: 1px solid #bee3f8;
             padding: 20px;
             border-radius: 12px;
             margin-top: 16px;
-        }}
-        .medicare-box h3 {{
-            color: var(--accent);
+        }
+        .medicare-box h3 {
+            color: #3182ce;
             margin-bottom: 12px;
-        }}
-        .medicare-grid {{
+        }
+        .medicare-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-        }}
-        @media (max-width: 768px) {{
-            .medicare-grid {{ grid-template-columns: 1fr; }}
-            .market-stats {{ flex-direction: column; }}
-        }}
-        .medicare-grid ul {{
+        }
+        @media (max-width: 768px) {
+            .medicare-grid { grid-template-columns: 1fr; }
+            .market-stats { flex-direction: column; }
+        }
+        .medicare-grid ul {
             padding-left: 20px;
             margin-top: 8px;
-        }}
-        .medicare-grid li {{
+        }
+        .medicare-grid li {
             margin-bottom: 4px;
-        }}
-        .coverage-list {{
+        }
+        .coverage-list {
             padding-left: 20px;
-        }}
-        .coverage-list li {{
+        }
+        .coverage-list li {
             margin-bottom: 6px;
             line-height: 1.5;
-        }}
-        .catalyst-item-rich {{
-            background: var(--card-bg);
+        }
+        .catalyst-item-rich {
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
-        }}
-        .catalyst-item-rich.critical {{
-            border-left: 4px solid var(--bear);
-        }}
-        .catalyst-item-rich.high {{
-            border-left: 4px solid var(--warning);
-        }}
-        .cat-header {{
+        }
+        .catalyst-item-rich.critical {
+            border-left: 4px solid #e53e3e;
+        }
+        .catalyst-item-rich.high {
+            border-left: 4px solid #d69e2e;
+        }
+        .cat-header {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 8px;
             flex-wrap: wrap;
-        }}
-        .cat-event {{
+        }
+        .cat-event {
             font-weight: 600;
             font-size: 1rem;
-        }}
-        .cat-detail {{
+        }
+        .cat-detail {
             font-size: 0.9rem;
             color: var(--text-muted);
             line-height: 1.5;
-        }}
-        .cat-meta {{
+        }
+        .cat-meta {
             font-size: 0.8rem;
             color: var(--text-muted);
             margin-top: 6px;
-        }}
-        .risk-item {{
-            background: var(--card-bg);
+        }
+        .risk-item {
+            background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
-        }}
-        .risk-header {{
+        }
+        .risk-header {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 8px;
-        }}
-        .risk-mitigation {{
+        }
+        .risk-mitigation {
             font-size: 0.9rem;
             color: var(--text-muted);
             line-height: 1.5;
-        }}
-        .badge.critical {{
+        }
+        .badge.critical {
             background: #fed7d7;
-            color: var(--bear);
-        }}
-        .badge.high {{
+            color: #e53e3e;
+        }
+        .badge.high {
             background: #fefcbf;
             color: #975a16;
-        }}
-        .badge.medium {{
+        }
+        .badge.medium {
             background: #e2e8f0;
             color: var(--text-muted);
-        }}
-    </style>
-</head>
-<body>
+        }
+    """
+
+    _target_page_title = f"{target_name} | Target Analysis"
+
+    return f'''{_render_head(_target_page_title, _target_page_styles)}
+    {_render_nav("targets")}
     <div class="sticky-header">
         <div class="breadcrumb">
             <a href="/companies">Companies</a>

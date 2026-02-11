@@ -5,6 +5,7 @@ import base64
 import traceback
 from fastapi import APIRouter, UploadFile, File, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
+from app.pages import _render_head, _render_nav
 
 router = APIRouter()
 
@@ -666,66 +667,19 @@ async def preview_publish(request: Request):
 
 def _generate_extract_page_html() -> str:
     """Generate the PDF extraction demo page HTML."""
-    return '''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Clinical Data Extraction | Satya Bio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+    extract_styles = """
+        /* Page-specific vars */
         :root {
-            --navy: #1a2b3c;
-            --navy-light: #2d4a5e;
-            --coral: #e07a5f;
-            --coral-hover: #d06a4f;
-            --bg: #fafaf8;
-            --surface: #ffffff;
-            --surface-alt: #f5f5f3;
-            --border: #e5e5e0;
-            --text: #1a1d21;
-            --text-secondary: #5f6368;
-            --text-muted: #9aa0a6;
             --green: #16a34a;
             --green-bg: rgba(22,163,74,0.08);
             --amber: #d97706;
             --amber-bg: rgba(245,158,11,0.08);
             --red: #dc2626;
             --red-bg: rgba(220,38,38,0.08);
+            --coral: var(--accent);
+            --coral-hover: var(--accent-hover);
+            --surface-alt: #f5f5f3;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        /* Navigation */
-        .topnav {
-            background: var(--navy);
-            padding: 16px 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .topnav-brand {
-            font-family: 'Fraunces', serif;
-            color: #fff;
-            font-size: 1.25rem;
-            font-weight: 700;
-            text-decoration: none;
-        }
-        .topnav-brand span { color: var(--coral); }
-        .topnav-links a {
-            color: rgba(255,255,255,0.7);
-            text-decoration: none;
-            margin-left: 24px;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-        .topnav-links a:hover { color: #fff; }
 
         /* Hero section */
         .hero {
@@ -1302,17 +1256,10 @@ def _generate_extract_page_html() -> str:
         .toast.active { transform: translateY(0); opacity: 1; }
         .toast.success { background: var(--green); color: #fff; }
         .toast.error { background: var(--red); color: #fff; }
-    </style>
-</head>
-<body>
-    <nav class="topnav">
-        <a href="/" class="topnav-brand">Satya<span>Bio</span></a>
-        <div class="topnav-links">
-            <a href="/companies">Companies</a>
-            <a href="/targets">Targets</a>
-            <a href="/extract" style="color:#fff;">Extract</a>
-        </div>
-    </nav>
+    """
+    head = _render_head("AI Clinical Data Extraction | Satya Bio", extract_styles)
+    nav = _render_nav("extract")
+    return head + nav + '''
 
     <div class="hero">
         <div class="hero-badge">AI-POWERED EXTRACTION</div>
