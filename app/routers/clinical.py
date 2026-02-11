@@ -1757,19 +1757,20 @@ def _generate_company_overview_html(data: dict) -> str:
     else:
         bear_case = bear_case_raw if isinstance(bear_case_raw, list) else []
 
-    bull_items = ""
-    for item in bull_case[:3]:
+    def _render_thesis_item(item):
+        """Render a single bull/bear item from any format."""
         if isinstance(item, dict):
-            bull_items += f'<li><strong>{item.get("point", "")}</strong><span class="evidence">{item.get("evidence", "")}</span></li>'
-        else:
-            bull_items += f'<li>{item}</li>'
+            text = item.get("thesis") or item.get("point") or item.get("text") or str(item)
+            evidence = item.get("evidence", "")
+            if evidence:
+                return f'<li><strong>{text}</strong><span class="evidence">{evidence}</span></li>'
+            return f'<li>{text}</li>'
+        elif isinstance(item, str) and item:
+            return f'<li>{item}</li>'
+        return ""
 
-    bear_items = ""
-    for item in bear_case[:3]:
-        if isinstance(item, dict):
-            bear_items += f'<li><strong>{item.get("point", "")}</strong><span class="evidence">{item.get("evidence", "")}</span></li>'
-        else:
-            bear_items += f'<li>{item}</li>'
+    bull_items = "".join(_render_thesis_item(item) for item in bull_case[:5])
+    bear_items = "".join(_render_thesis_item(item) for item in bear_case[:5])
 
     # Build partnerships HTML
     partnerships_html = ""
@@ -1991,20 +1992,19 @@ def _generate_company_overview_html(data: dict) -> str:
         .thesis-column.bull h3 { color: var(--coral); }
         .thesis-column.bear h3 { color: var(--navy); }
         .thesis-column ul {
-            list-style: none;
+            list-style: disc;
+            padding-left: 20px;
+            margin: 0;
         }
         .thesis-column li {
             margin-bottom: 12px;
-            padding-left: 16px;
-            position: relative;
+            background: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
-        .thesis-column li::before {
-            content: '\\2022';
-            position: absolute;
-            left: 0;
-        }
-        .thesis-column.bull li::before { color: var(--coral); }
-        .thesis-column.bear li::before { color: var(--navy); }
+        .thesis-column.bull li::marker { color: var(--coral); }
+        .thesis-column.bear li::marker { color: var(--navy); }
         .thesis-column li strong {
             display: block;
             margin-bottom: 4px;
@@ -2142,11 +2142,11 @@ def _generate_company_overview_html(data: dict) -> str:
                 {core_thesis_html}
                 <div class="thesis-grid">
                     <div class="thesis-column bull">
-                        <h3>🐂 Bull Case</h3>
+                        <h3>Bull Case</h3>
                         <ul>{bull_items if bull_items else '<li>No bull case data</li>'}</ul>
                     </div>
                     <div class="thesis-column bear">
-                        <h3>🐻 Bear Case</h3>
+                        <h3>Bear Case</h3>
                         <ul>{bear_items if bear_items else '<li>No bear case data</li>'}</ul>
                     </div>
                 </div>
