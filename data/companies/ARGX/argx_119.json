@@ -1,0 +1,339 @@
+{
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ARGX",
+    "asset_name": "ARGX-119",
+    "extraction_date": "2026-02-11",
+    "source_id": "argx_corporate_2026"
+  },
+
+  "asset": {
+    "name": "ARGX-119",
+    "company": "argenx SE",
+    "ticker": "ARGX",
+    "stage": "Phase 1",
+    "modality": "Monoclonal antibody (SIMPLE Antibody platform)",
+    "ownership": "Wholly-owned",
+    "one_liner": "First-in-class MuSK agonist designed to restore neuromuscular junction function — first dedicated DOK7 CMS study showing proof of biology and clinically meaningful improvements in motor function"
+  },
+
+  "target": {
+    "name": "MuSK",
+    "full_name": "Muscle-Specific Kinase",
+    "class": "Receptor tyrosine kinase",
+    "pathway": "Agrin → LRP4 → MuSK → DOK7 → Rapsyn → AChR clustering at neuromuscular junction",
+    "biology": {
+      "simple_explanation": "MuSK is a key protein at the connection between nerves and muscles (the neuromuscular junction). When a nerve signal arrives, MuSK helps organize the receptors on the muscle side so the signal can be received properly. In diseases like congenital myasthenic syndrome (CMS), this signaling is broken — muscles don't receive nerve signals efficiently, causing weakness and fatigue. ARGX-119 acts like the natural protein agrin to activate MuSK and restore proper receptor clustering.",
+      "pathway_detail": "Agrin is secreted from neurons and binds LRP4, which activates MuSK. MuSK phosphorylation recruits DOK7, which in turn recruits Rapsyn. Rapsyn causes acetylcholine receptors (AChRs) to anchor and cluster on the postsynaptic membrane, enabling neuromuscular transmission.",
+      "downstream_effects": [
+        "AChR clustering at the postsynaptic membrane",
+        "Neuromuscular junction formation and maintenance",
+        "Efficient neuromuscular transmission",
+        "Muscle contraction and motor function"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "Multiple CMS subtypes are caused by mutations in the MuSK signaling pathway (DOK7, AGRN, MUSK, RAPSN, LRP4, COLQ, CHAT, AChR gene family, GFPT1). Restoring MuSK signaling addresses the root cause across these subtypes.",
+      "genetic_validation": {
+        "gain_of_function": "Enhanced MuSK signaling improves NMJ structure and function",
+        "loss_of_function": "DOK7 mutations cause congenital myasthenic syndrome with impaired NMJ formation. DOK7 CM mice show neonatal lethality — rescued by ARGX-119."
+      },
+      "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+    }
+  },
+
+  "mechanism": {
+    "type": "Agonist antibody",
+    "how_it_works": "ARGX-119 is a llama-derived, SIMPLE Antibody platform-engineered MuSK agonist. It binds the Frizzled (Fz) domain of MuSK — the same domain as the natural ligand agrin — and activates MuSK signaling to promote AChR clustering at the neuromuscular junction. Uses hIgG1-LALA backbone to diminish effector functions (no ADCC/CDC).",
+    "differentiation": "Previous approaches using patient-derived MuSK antibodies bound at the wrong domain (Ig-like 1) and caused unexpected lethality in mice. Synthetic MuSK antibodies from NYU had CMC concerns and off-target binding. ARGX-119 binds at the Fz domain (like natural agrin), has no off-target binding, and behaves like agrin — the first to achieve this.",
+    "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+  },
+
+  "regulatory": {
+    "designations": [
+      {
+        "type": "Orphan Drug",
+        "indication": "Congenital myasthenic syndrome",
+        "date_granted": null,
+        "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+      }
+    ],
+    "planned_pathway": {
+      "type": null,
+      "surrogate_endpoint": null,
+      "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+    }
+  },
+
+  "partnership": null,
+
+  "pharmacology": {
+    "pk_parameters": {
+      "half_life": null,
+      "cmax": null,
+      "auc": null,
+      "tmax": null,
+      "bioavailability": null,
+      "volume_of_distribution": null
+    },
+    "dose_response": {
+      "doses_tested": null,
+      "dose_rationale": null,
+      "exposure_response": null,
+      "recommended_dose": {
+        "dose": "IV dosing (dose not disclosed in this presentation)",
+        "rationale": null,
+        "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+      },
+      "by_dose": null
+    },
+    "target_engagement": {
+      "metric": "AChR clustering / NMJ function restoration",
+      "by_dose": null
+    },
+    "pk_summary": "PK parameters are a secondary endpoint in the Phase 1b DOK7-CMS trial. Specific PK data not disclosed in this presentation."
+  },
+
+  "indications": {
+    "lead": {
+      "name": "Congenital Myasthenic Syndrome (CMS) — DOK7 subtype",
+      "patient_population": "~16 patients enrolled in Phase 1b (DOK7-CMS). CMS is an ultra-rare genetic disorder with multiple subtypes: COLQ, AGRN, CHAT, AChR gene family, MUSK, RAPSN, DOK7, LRP4, GFPT1.",
+      "current_penetration": null,
+      "rationale": "First dedicated DOK7 CMS study. No approved therapies specifically targeting the underlying biology. Genetic testing exists to diagnose CMS subtypes, enabling targeted enrollment."
+    },
+    "expansion": [
+      {
+        "name": "ALS (Amyotrophic Lateral Sclerosis)",
+        "stage": "Preclinical / early development",
+        "rationale": "NMJ dysfunction is a feature of ALS. MuSK agonism could restore NMJ function in ALS patients."
+      },
+      {
+        "name": "SMA (Spinal Muscular Atrophy)",
+        "stage": "Preclinical / early development",
+        "rationale": "NMJ dysfunction is a feature of SMA. Complementary approach to existing SMN-targeting therapies."
+      }
+    ]
+  },
+
+  "clinical_data": {
+    "trials": [
+      {
+        "name": "Phase 1b DOK7-CMS Study",
+        "nct_id": null,
+        "phase": "Phase 1",
+        "status": "Completed / reporting",
+        "design": "Randomized, placebo-controlled, 4:1 randomization",
+        "enrollment": "N=~16 participants with DOK7-CMS",
+        "duration": "Screening: up to 4 weeks, Treatment: 12 weeks, Follow-up: 30 weeks (total ~42 weeks)",
+        "arms": [
+          {
+            "name": "ARGX-119 IV",
+            "dose": "IV (dose not disclosed)",
+            "n": null
+          },
+          {
+            "name": "Placebo IV",
+            "dose": "IV placebo",
+            "n": null
+          }
+        ],
+        "primary_endpoint": {
+          "name": "Safety and tolerability",
+          "definition": "Adverse events, clinical laboratory tests, ECGs and vital signs",
+          "result": "Favorable safety and tolerability profile",
+          "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+        },
+        "secondary_endpoints": [
+          {
+            "name": "PK parameters",
+            "result": null,
+            "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+          },
+          {
+            "name": "Immunogenicity (ADA incidence/prevalence)",
+            "result": null,
+            "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+          },
+          {
+            "name": "QMG score key components",
+            "result": null,
+            "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+          },
+          {
+            "name": "MG-ADL score",
+            "result": null,
+            "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+          },
+          {
+            "name": "PROMIS Global Health score",
+            "result": null,
+            "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+          }
+        ],
+        "efficacy_highlights": [
+          {
+            "name": "6-Minute Walk Test (6MWT) distance",
+            "result": "Clinically meaningful increase in 6MWT distance",
+            "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+          },
+          {
+            "name": "Cadence / leg function",
+            "result": "Improvements in cadence and leg function consistent with MoA at neuromuscular junction",
+            "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+          },
+          {
+            "name": "Proof of biology",
+            "result": "Proof of biology established",
+            "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+          }
+        ],
+        "safety": {
+          "summary": "Favorable safety and tolerability profile",
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
+        },
+        "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+      }
+    ],
+    "preclinical": {
+      "models": [
+        {
+          "model": "DOK7 CM mice — neonatal lethality rescue",
+          "result": "ARGX-119 rescued early neonatal lethality. DOK7 CM mice treated with ARGX-119 (Dose 1 at day ~4, Dose 2 at day ~68) gained weight normally (reaching ~22g by day ~140), while control animals (isotype mAb) were sacrificed due to disease progression (reached only ~16g).",
+          "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+        },
+        {
+          "model": "DOK7 CM mice — motor function (rotarod)",
+          "result": "ARGX-119 rescued motor deficits within 1 month of re-injection (Dose 2). Latency to fall on rotating wheel improved from ~25 seconds (prior to re-injection) to ~125-150 seconds by 3-4 weeks, approaching healthy mouse performance (~175-200 seconds). Improvement was statistically significant at 1 week (**p<0.01) and 2 weeks (*p<0.05).",
+          "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+        }
+      ]
+    }
+  },
+
+  "differentiation_claims": [
+    {
+      "claim": "ARGX-119 is the first MuSK agonist to bind the Fz domain (like natural agrin) without off-target binding, overcoming limitations of earlier patient-derived and synthetic MuSK antibodies",
+      "evidence_level": "preclinical_only",
+      "caveat": "Differentiation vs earlier approaches demonstrated in preclinical models. No head-to-head clinical comparison.",
+      "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+    },
+    {
+      "claim": "First dedicated DOK7 CMS clinical study",
+      "evidence_level": "head_to_head",
+      "caveat": "No prior dedicated DOK7 CMS studies exist — this is a first-in-indication trial.",
+      "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+    }
+  ],
+
+  "competitive_landscape": {
+    "competitors": [
+      {
+        "drug": "Patient-derived MuSK antibodies (LUMC)",
+        "company": "Academic (Leiden University Medical Center)",
+        "stage": "Preclinical (discontinued)",
+        "mechanism": "MuSK agonist — patient-derived",
+        "key_data": "Bound at Ig-like 1 domain (wrong domain). Unexpected male mice lethality.",
+        "limitation": "Wrong binding domain, lethal in animal models",
+        "differentiation_vs_us": "ARGX-119 binds Fz domain correctly, no lethality"
+      },
+      {
+        "drug": "Synthetic MuSK antibody (NYU Langone)",
+        "company": "Academic (NYU Langone Health)",
+        "stage": "Preclinical",
+        "mechanism": "MuSK agonist — synthetic-derived",
+        "key_data": "Bound at Fz domain (correct), but had CMC concerns and off-target binding.",
+        "limitation": "CMC concerns, off-target binding",
+        "differentiation_vs_us": "ARGX-119 uses SIMPLE Antibody platform — llama-derived, no off-target binding, behaves like agrin"
+      }
+    ]
+  },
+
+  "ip_landscape": null,
+
+  "market_opportunity": {
+    "tam": null,
+    "patient_population": "CMS is ultra-rare. DOK7 is one of ~9 known CMS subtypes (COLQ, AGRN, CHAT, AChR gene family, MUSK, RAPSN, DOK7, LRP4, GFPT1). Genetic testing enables diagnosis and subtype identification.",
+    "unmet_need": "No approved therapies specifically targeting DOK7-CMS biology. Current management is symptomatic only.",
+    "pricing_benchmark": null,
+    "peak_sales_estimate": null,
+    "source": {"id": "argx_corporate_2026", "slide": null, "verified": false}
+  },
+
+  "catalysts": [
+    {
+      "event": "CMS registrational study initiation",
+      "timing": "2026",
+      "importance": "critical",
+      "what_to_watch": "Trial design, endpoint selection, and regulatory alignment for registrational path in ultra-rare CMS",
+      "bull_scenario": "Registrational study starts on time with clear path to accelerated approval in CMS",
+      "bear_scenario": "Regulatory hurdles in defining primary endpoint for ultra-rare disease delays study start"
+    },
+    {
+      "event": "Full Phase 1b DOK7-CMS data presentation",
+      "timing": null,
+      "importance": "high",
+      "what_to_watch": "Quantitative 6MWT data, durability of response, PK parameters, immunogenicity",
+      "bull_scenario": "Robust, durable improvements in 6MWT and motor function with clean safety",
+      "bear_scenario": "Improvements not maintained during 30-week follow-up or immunogenicity concerns"
+    },
+    {
+      "event": "ALS/SMA indication expansion data or plans",
+      "timing": null,
+      "importance": "medium",
+      "what_to_watch": "Preclinical data in ALS/SMA models or IND-enabling studies",
+      "bull_scenario": "Strong preclinical rationale supports expansion into larger NMJ disease markets",
+      "bear_scenario": "NMJ dysfunction in ALS/SMA not sufficiently addressable by MuSK agonism alone"
+    }
+  ],
+
+  "investment_analysis": {
+    "probability_of_success": null,
+    "key_risks": [
+      "Ultra-rare indication (DOK7-CMS) limits commercial potential unless expanded to broader CMS subtypes and ALS/SMA",
+      "Phase 1b was small (N=16) and open-label efficacy signals need confirmation in larger registrational study",
+      "No PK/PD data disclosed yet — immunogenicity and dosing durability are unknown",
+      "ALS and SMA expansion is preclinical — significant development risk and long timelines"
+    ],
+    "bull_case": [
+      "First-in-class MuSK agonist with proof of biology in DOK7-CMS — no competition in this space",
+      "Clinically meaningful 6MWT improvements in an ultra-rare disease with zero approved therapies — clear regulatory path",
+      "SIMPLE Antibody platform solves the binding domain and off-target problems that stopped earlier MuSK programs",
+      "If CMS works, ALS and SMA expansion represents massive optionality in large neuromuscular markets"
+    ],
+    "bear_case": [
+      "DOK7-CMS is ultra-rare — even with orphan pricing, commercial opportunity is limited unless platform expands",
+      "Only qualitative efficacy descriptors disclosed ('clinically meaningful') — no quantitative data shared publicly yet",
+      "Two-dose preclinical regimen raises questions about dosing frequency and patient convenience in chronic setting",
+      "ALS and SMA are crowded markets with established therapies — MuSK agonism would need to show additive benefit"
+    ],
+    "key_debates": [
+      {
+        "question": "Can ARGX-119 expand beyond ultra-rare CMS into larger neuromuscular diseases like ALS?",
+        "bull_view": "NMJ dysfunction is a core feature of ALS — restoring NMJ function could complement existing SMN and SOD1 therapies",
+        "bear_view": "ALS neurodegeneration is primarily motor neuron death, not NMJ dysfunction — MuSK agonism may be insufficient",
+        "what_resolves_it": "Preclinical data in ALS models showing functional improvement, or early clinical signals in ALS patients"
+      }
+    ]
+  },
+
+  "_extraction_quality": {
+    "completeness_score": "medium",
+    "missing_critical_fields": [
+      "pharmacology.pk_parameters (PK is secondary endpoint but not disclosed)",
+      "market_opportunity.tam",
+      "market_opportunity.pricing_benchmark",
+      "quantitative efficacy data (6MWT distance change, exact p-values)",
+      "safety details (specific AE rates)",
+      "ip_landscape"
+    ],
+    "recommended_supplementary_sources": [
+      "Full Phase 1b data presentation (medical conference poster/oral)",
+      "ClinicalTrials.gov for NCT ID and full trial design",
+      "SEC 10-K filing for IP and financial detail",
+      "argenx R&D Day 2024 deck for additional pipeline context"
+    ]
+  }
+}

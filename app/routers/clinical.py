@@ -636,15 +636,26 @@ async def get_asset_page_html(ticker: str, asset_name: str):
     assets = result.get("assets", [])
     asset_names = [a.get("name", "") for a in assets]
 
-    # Normalize asset name for matching
-    asset_name_normalized = asset_name.lower().replace("-", "").replace("_", "")
+    # Normalize asset name for matching — strip parens, special chars, dashes, underscores
+    def _normalize_for_match(s: str) -> str:
+        s = re.sub(r'\([^)]*\)', '', s)  # strip parenthetical content
+        s = s.lower().replace("-", "").replace("_", "").replace(" ", "")
+        return s
+
+    asset_name_normalized = _normalize_for_match(asset_name)
     matched_asset = None
     matched_index = -1
 
     for i, a in enumerate(assets):
+        # Match against display name, metadata asset_name, or JSON filename
         a_name = a.get("name", "")
-        a_normalized = a_name.lower().replace("-", "").replace("_", "")
-        if a_normalized == asset_name_normalized or asset_name_normalized in a_normalized:
+        a_meta = a.get("_metadata", {}).get("asset_name", "")
+        a_normalized = _normalize_for_match(a_name)
+        a_meta_normalized = _normalize_for_match(a_meta) if a_meta else ""
+        if (a_normalized == asset_name_normalized or
+            a_meta_normalized == asset_name_normalized or
+            asset_name_normalized in a_normalized or
+            asset_name_normalized in a_meta_normalized):
             matched_asset = a
             matched_index = i
             break
@@ -1691,7 +1702,12 @@ def _generate_company_overview_html(data: dict) -> str:
     pipeline_rows = ""
     for asset in assets:
         asset_name = asset.get("name", "Unknown")
-        asset_slug = asset_name.lower().replace("-", "").replace(" ", "_")
+        # Use metadata asset_name (matches JSON filename) for clean URL slugs
+        asset_slug = asset.get("_metadata", {}).get("asset_name", "")
+        if asset_slug:
+            asset_slug = asset_slug.lower().replace("-", "").replace(" ", "_")
+        else:
+            asset_slug = asset_name.lower().replace("-", "").replace(" ", "_")
         target = asset.get("target", {})
         target_name = target.get("name", target) if isinstance(target, dict) else target
         stage = asset.get("stage", "")
@@ -3881,9 +3897,14 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     # Indications badges
     ind_badges = "".join(f'<span class="indication-badge">{ind}</span>' for ind in indications if ind)
 
-    # Prev/Next navigation
-    prev_slug = prev_asset.get("name", "").lower().replace("-", "").replace(" ", "_") if prev_asset else ""
-    next_slug = next_asset.get("name", "").lower().replace("-", "").replace(" ", "_") if next_asset else ""
+    # Prev/Next navigation — use metadata asset_name for clean slugs
+    def _asset_slug(a):
+        meta = a.get("_metadata", {}).get("asset_name", "") if a else ""
+        if meta:
+            return meta.lower().replace("-", "").replace(" ", "_")
+        return a.get("name", "").lower().replace("-", "").replace(" ", "_") if a else ""
+    prev_slug = _asset_slug(prev_asset)
+    next_slug = _asset_slug(next_asset)
     prev_name = prev_asset.get("name", "") if prev_asset else ""
     next_name = next_asset.get("name", "") if next_asset else ""
 
@@ -3897,7 +3918,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         a_name = a.get("name", "")
         if a_name.lower() == asset_name.lower():
             continue  # Skip current asset
-        a_slug = a_name.lower().replace("-", "").replace(" ", "_")
+        a_meta = a.get("_metadata", {}).get("asset_name", "")
+        a_slug = a_meta.lower().replace("-", "").replace(" ", "_") if a_meta else a_name.lower().replace("-", "").replace(" ", "_")
         a_stage = a.get("stage", "")
         # Format stage for display (e.g., "Phase 2" -> "Ph2")
         stage_short = a_stage.replace("Phase ", "Ph").replace("Approved", "✓")

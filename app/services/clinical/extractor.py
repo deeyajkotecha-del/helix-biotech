@@ -716,7 +716,7 @@ def get_all_targets() -> dict:
                 targets[target_key]["assets"].append({
                     "ticker": ticker,
                     "asset_name": asset_name,
-                    "asset_slug": asset_name.lower().replace("-", "").replace(" ", "_"),
+                    "asset_slug": asset_file.stem.lower().replace("-", "").replace(" ", "_"),
                     "stage": clinical_dev.get("current_stage", ""),
                     "mechanism_type": mechanism_type,
                     "mechanism_differentiation": mechanism_diff,
