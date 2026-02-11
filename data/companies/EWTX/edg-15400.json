@@ -1,0 +1,28 @@
+{
+  "_metadata": { "version": "2.1", "ticker": "EWTX", "asset_name": "EDG-15400", "extraction_date": "2026-02-11", "source_id": "ewtx_jpm_2026" },
+  "asset": { "name": "EDG-15400", "company": "Edgewise Therapeutics, Inc.", "ticker": "EWTX", "stage": "Phase 1", "modality": "Small molecule (oral, novel cardiac sarcomere modulator)", "ownership": "Wholly-owned", "one_liner": "EDG-15400 is a novel cardiac sarcomere modulator in Phase 1 for heart failure with preserved ejection fraction (HFpEF), with Phase 1 data expected H1 2026 and Phase 2 initiation and results in H1 2027." },
+  "target": { "name": "Cardiac sarcomere", "full_name": null, "class": "Motor protein (cardiac muscle)", "pathway": "Cardiac contraction", "biology": { "simple_explanation": "EDG-15400 modulates the cardiac sarcomere to improve heart function in patients with heart failure where the heart muscle is stiff and cannot relax properly (HFpEF).", "pathway_detail": null, "downstream_effects": null }, "why_good_target": { "clinical_validation": null, "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} } },
+  "mechanism": { "type": "Novel cardiac sarcomere modulator", "how_it_works": null, "differentiation": "Differentiated from EDG-7500; targeting heart failure rather than HCM", "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
+  "regulatory": { "designations": null, "planned_pathway": null },
+  "partnership": null,
+  "pharmacology": null,
+  "indications": { "lead": { "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)", "patient_population": null, "current_penetration": null, "rationale": null }, "expansion": null },
+  "clinical_data": {
+    "trials": [
+      { "name": "Phase 1 SAD/MAD", "nct_id": null, "phase": "Phase 1", "status": "Initiated; data expected H1 2026", "design": "Randomized, double-blind, placebo-controlled, single and multiple ascending dose in healthy adults", "enrollment": null, "arms": null,
+        "primary_endpoint": { "name": "Safety, PK", "definition": null, "result": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
+        "secondary_endpoints": null, "biomarkers": null, "safety": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }
+    ]
+  },
+  "differentiation_claims": null,
+  "competitive_landscape": null,
+  "ip_landscape": null,
+  "market_opportunity": { "tam": null, "patient_population": null, "unmet_need": "HFpEF has limited treatment options and represents a large patient population", "pricing_benchmark": null, "peak_sales_estimate": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
+  "catalysts": [
+    { "event": "Phase 1 SAD/MAD data in healthy adults", "timing": "H1 2026", "importance": "medium", "what_to_watch": "Safety, PK, dose selection", "bull_scenario": "Clean safety enables rapid Phase 2 entry", "bear_scenario": "Safety signals or unfavorable PK" },
+    { "event": "Phase 2 initiation in HFpEF", "timing": "2026 (after Phase 1)", "importance": "medium", "what_to_watch": null, "bull_scenario": null, "bear_scenario": null },
+    { "event": "Phase 2 results in HFpEF", "timing": "H1 2027", "importance": "high", "what_to_watch": "Efficacy signals in HFpEF", "bull_scenario": "Validates cardiac sarcomere modulation in heart failure — very large market", "bear_scenario": "Insufficient efficacy or safety concerns" }
+  ],
+  "investment_analysis": null,
+  "_extraction_quality": { "completeness_score": "low", "missing_critical_fields": ["PK parameters", "Mechanism details", "Differentiation from EDG-7500", "Market size", "Competitive landscape", "IP/patents"], "recommended_supplementary_sources": ["Phase 1 data presentation (expected H1 2026)", "Edgewise R&D presentations for mechanism details"] }
+}

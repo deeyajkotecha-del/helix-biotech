@@ -88,6 +88,10 @@ def load_asset_data(ticker: str, asset_name: str) -> Optional[dict]:
     asset_file = COMPANIES_DIR / ticker / f"{asset_normalized}.json"
 
     if not asset_file.exists():
+        # Try with original casing/dashes preserved (e.g. edg-15400.json)
+        asset_file = COMPANIES_DIR / ticker / f"{asset_name.lower()}.json"
+
+    if not asset_file.exists():
         return None
 
     return load_json_file(str(asset_file))
