@@ -1047,6 +1047,59 @@ def generate_companies_page():
 
     companies_extra_head = '<meta name="description" content="Browse 181 biotech companies with clinical data, pipeline analysis, and investment thesis. Satya Bio tracks KYMR, ARGX, NUVL, EWTX and more.">'
     companies_styles = """
+        /* Category nav / filter pills */
+        .category-nav { position: sticky; top: 64px; background: var(--bg); padding: 16px 0; z-index: 50; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+        .category-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+        .category-pill { padding: 8px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; text-decoration: none; }
+        .category-pill:hover { border-color: var(--navy); color: var(--navy); }
+        .category-pill.active { background: var(--navy); border-color: var(--navy); color: white; }
+
+        /* Sections */
+        .section { margin-bottom: 48px; scroll-margin-top: 140px; }
+        .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+        .section-title { font-size: 1.25rem; font-weight: 700; color: var(--navy); }
+        .section-count { background: var(--navy); color: white; font-size: 0.75rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+
+        /* Card grid */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+
+        /* Company cards */
+        .company-card { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: all 0.2s; }
+        .company-card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.08); transform: translateY(-2px); }
+        .company-card.acquired { opacity: 0.7; background: #f9fafb; }
+        .company-card.acquired:hover { opacity: 0.85; }
+        .acquired-badge { display: inline-block; padding: 3px 8px; background: #6b7280; color: white; font-size: 0.65rem; font-weight: 600; border-radius: 10px; text-transform: uppercase; margin-left: 8px; }
+        .acquisition-details { font-size: 0.75rem; color: #6b7280; margin-top: 4px; font-style: italic; }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .card-ticker-row { display: flex; align-items: center; gap: 8px; }
+        .card-ticker { font-size: 1rem; font-weight: 700; color: var(--navy); }
+        .card-name { font-size: 0.8rem; color: var(--text-secondary); }
+        .platform-badge { padding: 3px 8px; background: var(--accent-light); color: var(--accent); font-size: 0.65rem; font-weight: 600; border-radius: 10px; text-transform: uppercase; }
+
+        .card-description { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.5; margin-bottom: 12px; }
+
+        .stats-row { display: flex; gap: 12px; margin-bottom: 12px; padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .stat { display: flex; flex-direction: column; }
+        .stat-value { font-weight: 700; font-size: 0.85rem; color: var(--navy); }
+        .stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+
+        .catalyst-box { background: var(--catalyst-bg); border: 1px solid var(--catalyst-border); border-radius: 6px; padding: 8px 12px; margin-bottom: 12px; }
+        .catalyst-label { font-size: 0.65rem; font-weight: 600; color: #1B2838; text-transform: uppercase; margin-bottom: 2px; }
+        .catalyst-text { font-size: 0.8rem; color: #374151; font-weight: 500; }
+
+        .tags-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag { padding: 4px 10px; background: #f3f4f6; color: var(--text-secondary); font-size: 0.75rem; border-radius: 12px; }
+
+        .phase-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; background: #e5e7eb; color: #374151; }
+        .ticker-small { color: #6b7280; font-size: 0.8rem; }
+        .notes-text { font-size: 0.8rem; color: var(--text-secondary); }
+
+        @media (max-width: 768px) {
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Search */
         .search-box { margin-bottom: 16px; }
         .search-input { width: 100%; max-width: 500px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }
         .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }
