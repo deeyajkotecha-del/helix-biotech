@@ -48,84 +48,64 @@
   ],
   "items": [
     {
-      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/nektar-eczema-candidate-checked-all-boxes-long-term-ph-2-data\" hreflang=\"",
+      "headline": "Nektar eczema candidate checked all boxes in long-term Phase 2 data",
       "source": "FierceBiotech",
       "url": "https://www.fiercebiotech.com/biotech/nektar-eczema-candidate-checked-all-boxes-long-term-ph-2-data",
-      "published": "",
-      "category": "other",
-      "tickers": [],
+      "published": "2026-02-10",
+      "category": "clinical_data",
+      "tickers": ["NKTR"],
       "importance": 3,
-      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/nektar-eczema-candidate-checked-a"
+      "one_liner": "NKTR eczema candidate checked all boxes in long-term Phase 2 data"
     },
     {
-      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/astrazeneca-reveals-oral-glp1-scored-phase-2-wins-holds-back-weight-loss-",
+      "headline": "AstraZeneca reveals oral GLP-1 scored Phase 2 wins, holds back weight loss data",
       "source": "FierceBiotech",
       "url": "https://www.fiercebiotech.com/biotech/astrazeneca-reveals-oral-glp1-scored-phase-2-wins-holds-back-weight-loss-data",
-      "published": "",
-      "category": "other",
-      "tickers": [],
-      "importance": 3,
-      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/astrazeneca-reveals-oral-glp1-sco"
+      "published": "2026-02-10",
+      "category": "clinical_data",
+      "tickers": ["AZN"],
+      "importance": 4,
+      "one_liner": "AZN oral GLP-1 scored Phase 2 wins, holds back weight loss data"
     },
     {
-      "headline": "<a href=\"https://www.fiercebiotech.com/medtech/merck-teams-british-medtech-boost-vaginal-therapeutics-delivery-system\" h",
-      "source": "FierceBiotech",
-      "url": "https://www.fiercebiotech.com/medtech/merck-teams-british-medtech-boost-vaginal-therapeutics-delivery-system",
-      "published": "",
-      "category": "other",
-      "tickers": [],
-      "importance": 3,
-      "one_liner": "<a href=\"https://www.fiercebiotech.com/medtech/merck-teams-british-medtech-boost"
-    },
-    {
-      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/evommunes-dupixent-phase-2-eczema-data-drive-75-stock-rally\" hreflang=\"en",
+      "headline": "Evommune's dupixent Phase 2 eczema data drive 75% stock rally",
       "source": "FierceBiotech",
       "url": "https://www.fiercebiotech.com/biotech/evommunes-dupixent-phase-2-eczema-data-drive-75-stock-rally",
-      "published": "",
-      "category": "other",
+      "published": "2026-02-10",
+      "category": "clinical_data",
       "tickers": [],
-      "importance": 3,
-      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/evommunes-dupixent-phase-2-eczema"
+      "importance": 4,
+      "one_liner": "Evommune Phase 2 eczema data drive 75% stock rally"
     },
     {
-      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/kailera-hengrui-tout-promising-mid-stage-results-obesity-pill\" hreflang=\"",
+      "headline": "Kailera, Hengrui tout promising mid-stage results for obesity pill",
       "source": "FierceBiotech",
       "url": "https://www.fiercebiotech.com/biotech/kailera-hengrui-tout-promising-mid-stage-results-obesity-pill",
-      "published": "",
-      "category": "other",
+      "published": "2026-02-10",
+      "category": "clinical_data",
       "tickers": [],
       "importance": 3,
-      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/kailera-hengrui-tout-promising-mi"
+      "one_liner": "Kailera, Hengrui tout promising mid-stage results for obesity pill"
     },
     {
-      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/fierce-biotech-fundraising-tracker-26\" hreflang=\"en\">Fierce Biotech Fundr",
-      "source": "FierceBiotech",
-      "url": "https://www.fiercebiotech.com/biotech/fierce-biotech-fundraising-tracker-26",
-      "published": "",
-      "category": "other",
-      "tickers": [],
-      "importance": 3,
-      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/fierce-biotech-fundraising-tracke"
-    },
-    {
-      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/orsobio-hits-target-midstage-study-metabolic-conditions-stays-silent-deta",
+      "headline": "OrsoBio hits target in mid-stage study for metabolic conditions",
       "source": "FierceBiotech",
       "url": "https://www.fiercebiotech.com/biotech/orsobio-hits-target-midstage-study-metabolic-conditions-stays-silent-details",
-      "published": "",
-      "category": "other",
+      "published": "2026-02-10",
+      "category": "clinical_data",
       "tickers": [],
       "importance": 3,
-      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/orsobio-hits-target-midstage-stud"
+      "one_liner": "OrsoBio hits target in mid-stage study for metabolic conditions"
     },
     {
-      "headline": "<a href=\"https://www.fiercebiotech.com/biotech/iliad-biotechnologies-advance-whooping-cough-vaccine-115m-series-b-round\"",
+      "headline": "Iliad Biotechnologies advance whooping cough vaccine with $115M Series B",
       "source": "FierceBiotech",
       "url": "https://www.fiercebiotech.com/biotech/iliad-biotechnologies-advance-whooping-cough-vaccine-115m-series-b-round",
-      "published": "",
-      "category": "other",
+      "published": "2026-02-10",
+      "category": "ipo_financing",
       "tickers": [],
       "importance": 3,
-      "one_liner": "<a href=\"https://www.fiercebiotech.com/biotech/iliad-biotechnologies-advance-who"
+      "one_liner": "Iliad Biotechnologies advance whooping cough vaccine with $115M Series B"
     },
     {
       "headline": "Hengrui, Kailera push obesity pill ahead on promising mid-stage China data",

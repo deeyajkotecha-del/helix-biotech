@@ -332,9 +332,18 @@ def generate_homepage():
             ticker_items = ticker_data.get("pinned", []) + ticker_data.get("items", [])
 
     # Build ticker marquee items
+    import re as _re
+    def _strip_html(text):
+        """Strip HTML tags and decode entities for safe display."""
+        text = _re.sub(r'<[^>]+>', '', text)
+        text = text.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '"')
+        return text.strip()
+
     ticker_html_items = ""
     for item in ticker_items[:15]:
-        one_liner = item.get("one_liner", item.get("headline", ""))[:90]
+        one_liner = _strip_html(item.get("one_liner", item.get("headline", "")))[:90]
+        if not one_liner or one_liner.startswith('http'):
+            continue
         cat = item.get("category", "other")
         cat_colors = {
             "clinical_data": "#1B2838",
@@ -554,7 +563,7 @@ def generate_homepage():
         }}
 
         /* ===== HERO ===== */
-        .hero {{ padding: 80px 32px 64px; text-align: center; position: relative; overflow: hidden; background: linear-gradient(180deg, var(--bg) 0%, #f0ede8 100%); }}
+        .hero {{ padding: 80px 32px 64px; text-align: center; position: relative; overflow: visible; background: linear-gradient(180deg, var(--bg) 0%, #f0ede8 100%); }}
         .hero-content {{ position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }}
         .hero h1 {{
             font-family: 'Fraunces', serif;
