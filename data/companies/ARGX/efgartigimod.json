@@ -13,7 +13,25 @@
     "stage": "Approved (gMG, CIDP) / Phase 3 (Ocular MG, Myositis, ITP, Sjogren's) / Registrational (Seronegative gMG, Graves')",
     "modality": "Fc fragment (antibody fragment)",
     "ownership": "Wholly-owned",
-    "one_liner": "Efgartigimod is the first-in-class FcRn-blocking Fc fragment approved for gMG and CIDP, with $4.2B in 2025 net sales and 6 upcoming Phase 3 readouts across autoimmune indications."
+    "one_liner": "Efgartigimod is the first-in-class FcRn-blocking Fc fragment approved for gMG and CIDP, with $4.2B in 2025 net sales and 6 upcoming Phase 3 readouts across autoimmune indications.",
+    "commercial_metrics": {
+      "us_prescribers": ">4,700 (20% YoY increase)",
+      "prescriber_trend": "New prescriber and patient growth continuing",
+      "mg_position": "#1 prescribed biologic \u2014 drove 60% growth in overall MG biologics share",
+      "cidp_status": "Achieved blockbuster status as of 3Q 2025",
+      "mg_patient_source": "70% of new patients coming directly from orals (earlier line adoption)",
+      "formulations": [
+        "IV (efgartigimod alfa-fcab)",
+        "SC vial (efgartigimod + hyaluronidase)",
+        "SC PFS (approved US, EU)",
+        "Autoinjector (est. 2027)"
+      ],
+      "source": {
+        "id": "argx_jpm_2026_slides",
+        "slide": 11,
+        "verified": true
+      }
+    }
   },
   "target": {
     "name": "FcRn",
@@ -53,26 +71,14 @@
   },
   "regulatory": {
     "designations": [
-      {
-        "type": null,
-        "indication": "gMG (AChR+)",
-        "date_granted": null,
-        "source": {
-          "id": "argx_corporate_2026",
-          "slide": 23,
-          "verified": false
-        }
-      }
+      "Approved: AChR-Ab+ gMG (US, EU, China, Canada, Japan)",
+      "Approved: CIDP (US, Japan, China, EU)",
+      "Approved: ITP (Japan)",
+      "VYVGART SC PFS approved in US and EU",
+      "sBLA for seronegative gMG \u2014 FDA Priority Review, PDUFA May 10, 2026",
+      "UplighTED TED program discontinued for futility (Dec 2025)"
     ],
-    "planned_pathway": {
-      "type": null,
-      "surrogate_endpoint": null,
-      "source": {
-        "id": "argx_corporate_2026",
-        "slide": null,
-        "verified": false
-      }
-    }
+    "planned_pathway": "Seronegative gMG approval expected May 2026 \u2192 broadest MG label. Ocular MG (ADAPT-OCULUS 1Q26). ITP US submission after ADVANCE-NEXT (4Q26). Myositis (ALKIVIA 3Q26). Sjogren's (UNITY 2H27). Autoinjector launch ~2027."
   },
   "partnership": {
     "_note": "No co-development partner. Delivery technology partnerships only.",
@@ -185,89 +191,82 @@
     "pk_summary": "PK/PD curve on slide 21 shows efgartigimod has cyclical IgG reduction pattern (oscillating between ~-20% and ~-70% from baseline) compared with ARGX-213 which achieves sustained ~-75-80% reduction. No numeric PK values provided."
   },
   "indications": {
-    "lead": {
-      "name": "Generalized Myasthenia Gravis (gMG)",
-      "patient_population": "AChR+ gMG (approved); AChR- gMG including MuSK+, LRP4+, triple seronegative (pending approval by end of 2026)",
-      "current_penetration": "17K addressable at launch; growing to 60K total addressable in US by 2030",
-      "rationale": "Pathogenic IgG autoantibodies against AChR are central to disease; FcRn blockade directly reduces these autoantibodies",
-      "source": {
-        "id": "argx_corporate_2026",
-        "slide": 12,
-        "verified": false
+    "approved": [
+      {
+        "indication": "Generalized MG (AChR-Ab+)",
+        "status": "Approved globally",
+        "regions": "US, EU, Japan, China, Canada"
+      },
+      {
+        "indication": "CIDP",
+        "status": "Approved",
+        "regions": "US, Japan, China, EU"
+      },
+      {
+        "indication": "ITP",
+        "status": "Approved",
+        "regions": "Japan only"
       }
-    },
-    "expansion": [
+    ],
+    "registrational": [
       {
-        "name": "CIDP",
-        "stage": "Approved",
-        "rationale": "IgG autoantibody-mediated; blockbuster status as of 3Q 2025; 12K addressable at launch, 42K total diagnosed",
-        "source": {
-          "id": "argx_corporate_2026",
-          "slide": 13,
-          "verified": false
-        }
+        "indication": "Seronegative gMG (MuSK+, LRP4+, triple sero-)",
+        "status": "sBLA filed, PDUFA May 10, 2026",
+        "trial": "ADAPT-SERON"
       },
       {
-        "name": "Ocular MG",
-        "stage": "Phase 3 (ADAPT Oculus)",
-        "rationale": "First and only development in Ocular MG; adds ~7K patients to US addressable market",
-        "source": {
-          "id": "argx_corporate_2026",
-          "slide": 12,
-          "verified": false
-        }
+        "indication": "Ocular MG",
+        "status": "Phase 3, readout 1Q 2026",
+        "trial": "ADAPT-OCULUS"
       },
       {
-        "name": "Seronegative gMG",
-        "stage": "Registrational (approval pending by end of 2026)",
-        "rationale": "Adds ~11K patients; limited current treatment options",
-        "source": {
-          "id": "argx_corporate_2026",
-          "slide": 12,
-          "verified": false
-        }
+        "indication": "Myositis (IMNM, ASyS, DM)",
+        "status": "Phase 3, readout 3Q 2026",
+        "trial": "ALKIVIA"
       },
       {
-        "name": "Autoimmune Myositis (IIM)",
-        "stage": "Phase 3 (ALKIVIA)",
-        "rationale": "Phase 2 showed significant improvement in muscle strength (TIS); US prevalence 70K; no targeted therapies approved",
-        "source": {
-          "id": "argx_corporate_2026",
-          "slide": 14,
-          "verified": false
-        }
+        "indication": "ITP (US)",
+        "status": "Phase 3, readout 4Q 2026",
+        "trial": "ADVANCE-NEXT"
       },
       {
-        "name": "ITP",
-        "stage": "Phase 3 (ADVANCE NEXT)",
-        "rationale": "IgG autoantibodies against platelets; ADVANCE Phase 3 IV and Japan real world data support development",
-        "source": {
-          "id": "argx_corporate_2026",
-          "slide": 24,
-          "verified": false
-        }
+        "indication": "Sjogren's Disease",
+        "status": "Phase 3, readout 2H 2027",
+        "trial": "UNITY"
       },
       {
-        "name": "Sjogren's Disease",
-        "stage": "Phase 3 (UNITY)",
-        "rationale": "Phase 2 reductions in systemic disease activity; Anti-Ro/SSA and Anti-La/SSB hallmarks; US prevalence 330K, 100K moderate-to-severe; no targeted therapies approved",
-        "source": {
-          "id": "argx_corporate_2026",
-          "slide": 14,
-          "verified": false
-        }
-      },
-      {
-        "name": "Graves' Disease",
-        "stage": "Registrational",
-        "rationale": null,
-        "source": {
-          "id": "argx_corporate_2026",
-          "slide": 23,
-          "verified": false
-        }
+        "indication": "Graves' Disease",
+        "status": "Registrational study initiating 2026",
+        "trial": null
       }
-    ]
+    ],
+    "proof_of_concept": [
+      {
+        "indication": "Systemic Sclerosis",
+        "status": "PoC ongoing, readout 2H 2026"
+      },
+      {
+        "indication": "Antibody Mediated Rejection",
+        "status": "PoC ongoing, readout 2027"
+      },
+      {
+        "indication": "Autoimmune Encephalitis",
+        "status": "PoC ongoing"
+      }
+    ],
+    "discontinued": [
+      {
+        "indication": "Thyroid Eye Disease",
+        "status": "Discontinued for futility Dec 2025",
+        "trial": "UplighTED"
+      }
+    ],
+    "total_indications_studied": "15+ severe autoimmune diseases",
+    "source": {
+      "id": "argx_jpm_2026_slides",
+      "slide": 23,
+      "verified": true
+    }
   },
   "clinical_data": {
     "trials": [
@@ -382,8 +381,151 @@
           "slide": 26,
           "verified": false
         }
+      },
+      {
+        "name": "UplighTED Phase 3 (TED) \u2014 DISCONTINUED",
+        "nct_id": "NCT06307626 / NCT06307613",
+        "phase": "Phase 3",
+        "status": "Discontinued for futility (Dec 15, 2025)",
+        "design": "Two parallel Phase 3 randomized, double-masked, placebo-controlled, multicenter studies. 2:1 randomization (efgartigimod PH20 SC vs placebo PH20 SC). N=123 per study. Adults with active, moderate-to-severe TED associated with Graves' disease or Hashimoto's thyroiditis.",
+        "enrollment": "123 per study (246 total across two studies)",
+        "primary_endpoint": {
+          "name": "Proptosis responders at Week 24",
+          "definition": "Percentage of participants who were proptosis responders at Week 24",
+          "result": "FAILED \u2014 IDMC recommended stopping for futility after pre-specified interim analysis. Treatment unlikely to meet primary endpoint.",
+          "source": {
+            "id": "argx_uplighted_dec2025",
+            "slide": null,
+            "verified": true
+          }
+        },
+        "secondary_endpoints": [
+          {
+            "name": "Change in proptosis measurement from baseline to Week 24",
+            "result": null
+          },
+          {
+            "name": "Change in GO-QoL total score from baseline to Week 24",
+            "result": null
+          },
+          {
+            "name": "Percentage with diplopia resolution at Week 24",
+            "result": null
+          }
+        ],
+        "safety": {
+          "summary": "Favorable safety and tolerability profile. No new safety signals identified.",
+          "source": {
+            "id": "argx_uplighted_dec2025",
+            "slide": null,
+            "verified": true
+          }
+        },
+        "source": {
+          "id": "argx_uplighted_dec2025",
+          "slide": null,
+          "verified": true
+        }
+      },
+      {
+        "name": "ADAPT-SERON (Seronegative gMG)",
+        "nct_id": null,
+        "phase": "Phase 3",
+        "status": "Completed \u2014 positive. sBLA accepted by FDA with Priority Review. PDUFA May 10, 2026.",
+        "design": "Randomized, double-blind, placebo-controlled, multi-center. Part A: 1:1 randomization to 4 weekly IV infusions of efgartigimod or placebo, 5-week follow-up. Part B: open-label extension with fixed 2 cycles then flexible dosing based on clinical status. Sites across North America, Europe, China, Middle East.",
+        "enrollment": "119 (AChR-Ab seronegative gMG: MuSK+, LRP4+, and triple seronegative subtypes)",
+        "arms": [
+          {
+            "name": "Efgartigimod IV",
+            "n": null,
+            "description": "4 once-weekly infusions"
+          },
+          {
+            "name": "Placebo",
+            "n": null,
+            "description": "4 once-weekly infusions"
+          }
+        ],
+        "inclusion": "Confirmed MG diagnosis by independent expert panel. MG-ADL total score >= 5. Stable dose of >= 1 gMG treatment (AChEIs, corticosteroids, or nonsteroidal ISTs). AChR-Ab seronegative (MuSK+, LRP4+, or triple seronegative).",
+        "primary_endpoint": {
+          "name": "MG-ADL total score change from baseline to Day 29 (Part A)",
+          "definition": "MG-ADL is a validated measure evaluating functional impact on daily activities: speaking, chewing, swallowing, breathing, limb strength",
+          "result": "MET \u2014 statistically significant improvement (p=0.0068). Mean improvement of 3.35 points in MG-ADL total score at Week 4 (clinically meaningful).",
+          "source": {
+            "id": "argx_adapt_seron_pr_2026",
+            "slide": null,
+            "verified": true
+          }
+        },
+        "secondary_endpoints": [
+          {
+            "name": "QMG score",
+            "result": "Improvements observed across subsequent treatment cycles in overall population and all subgroups"
+          },
+          {
+            "name": "MG-QoL 15r",
+            "result": null
+          },
+          {
+            "name": "MGC",
+            "result": null
+          },
+          {
+            "name": "EQ-5D-5L VAS",
+            "result": null
+          }
+        ],
+        "subgroup_analyses": [
+          {
+            "subgroup": "MuSK+ patients",
+            "result": "Improvements in MG-ADL and QMG observed"
+          },
+          {
+            "subgroup": "LRP4+ patients",
+            "result": "Improvements in MG-ADL and QMG observed. No prior approved treatments for this subtype."
+          },
+          {
+            "subgroup": "Triple seronegative patients",
+            "result": "Improvements in MG-ADL and QMG observed. Historically excluded from studies. Higher disease burden and unmet need. No prior approved treatments."
+          }
+        ],
+        "safety": {
+          "summary": "Well-tolerated. Safety profile consistent with established VYVGART profile in AChR-Ab seropositive gMG and other indications. No new safety concerns identified.",
+          "common_aes": [
+            "Respiratory tract infection",
+            "Headache",
+            "Urinary tract infection"
+          ],
+          "serious_warnings": [
+            "Infections (UTI, respiratory)",
+            "Hypersensitivity reactions",
+            "Infusion-related reactions"
+          ],
+          "source": {
+            "id": "argx_adapt_seron_pr_2026",
+            "slide": null,
+            "verified": true
+          }
+        },
+        "source": {
+          "id": "argx_adapt_seron_pr_2026",
+          "slide": null,
+          "verified": true
+        }
       }
-    ]
+    ],
+    "de_risking_context": {
+      "ocular_mg": "Supported by ADAPT ocular domain data + real-world case reports. Novel MGII primary endpoint.",
+      "myositis": "ALKIVIA supported by Phase 2 showing significant improvement in muscle strength (TIS). Heterogeneous disease with TIS composite primary endpoint.",
+      "itp": "Supported by ADVANCE Phase 3 IV data + real-world data from Japan. Cumulative platelet count primary endpoint. Targets difficult-to-treat patients.",
+      "mmn": "EMPASSION supported by Phase 2 proof of concept (ARDA study showed sustained improved grip strength). Head-to-head vs IVIg.",
+      "sjogrens": "Supported by RHO and DAHLIAS Phase 2 proof of concept showing reductions in systemic disease activity. Challenging primary endpoint.",
+      "source": {
+        "id": "argx_jpm_2026_slides",
+        "slide": 26,
+        "verified": true
+      }
+    }
   },
   "differentiation_claims": [
     {
@@ -455,18 +597,28 @@
     "freedom_to_operate": null
   },
   "market_opportunity": {
-    "tam": null,
-    "patient_population": "MG: 17K at launch -> 60K US TAM by 2030; CIDP: 12K at launch, 42K total diagnosed; Myositis: 70K US; Sjogren's: 330K US (100K moderate-to-severe); ~19K patients on VYVGART globally",
-    "unmet_need": "No targeted therapies approved for Myositis or Sjogren's; limited options in seronegative and ocular MG",
+    "tam": "gMG: 60K US patients by 2030 (17K at launch); CIDP: 42K diagnosed (12K at launch); ITP: significant Japan market; Myositis, Sjogren's, Ocular MG, seronegative gMG all expansion",
+    "patient_population": "~19,000 patients on VYVGART globally (Jan 2026). 15+ severe autoimmune diseases being studied.",
+    "current_revenue": "$4.15B FY2025 product net sales (+90% YoY). Q4 2025: $1.29B. Q3 2025: $1.13B.",
+    "us_prescribers": ">4,700 US prescribers (20% YoY increase)",
     "pricing_benchmark": null,
-    "peak_sales_estimate": null,
+    "peak_sales_estimate": "UBS estimates $6.1B VYVGART sales in FY2026 ($4.6B MG + $1.5B CIDP). William Blair modeled $550M peak TED (now removed).",
+    "unmet_need": "70% of new MG patients coming directly from orals (earlier treatment paradigm adoption). 12,000 CIDP patients remain inadequately controlled on SOC in US.",
     "source": {
-      "id": "argx_corporate_2026",
-      "slide": 12,
+      "id": "argx_jpm_jan2026",
+      "slide": null,
       "verified": false
     }
   },
   "catalysts": [
+    {
+      "event": "Seronegative gMG PDUFA decision date",
+      "timing": "May 10, 2026",
+      "importance": "critical",
+      "what_to_watch": "FDA Priority Review. ADAPT-SERON met primary (p=0.0068, MG-ADL -3.35pts). If approved: broadest MG label, adds ~20% of gMG population (MuSK+, LRP4+, triple seronegative). First-ever treatment for LRP4+ and triple seronegative patients. Launch expected by end 2026.",
+      "bull_scenario": "Approval expands TAM by ~11K US patients. No competition in seronegative space. Cements VYVGART as definitive MG treatment across all subtypes.",
+      "bear_scenario": "Unexpected FDA concerns or CRL, though unlikely given Priority Review and clean data."
+    },
     {
       "event": "Ocular MG Phase 3 readout (ADAPT Oculus)",
       "timing": "1Q 2026",
@@ -506,6 +658,20 @@
       "what_to_watch": "Challenging primary endpoint; 330K US prevalence",
       "bull_scenario": "Opens largest indication by patient population",
       "bear_scenario": "Historically difficult endpoint in Sjogren's trials"
+    },
+    {
+      "event": "UplighTED Phase 3 TED \u2014 DISCONTINUED for futility",
+      "timing": "Dec 15, 2025 (completed \u2014 FAILED)",
+      "importance": "high",
+      "what_to_watch": "IDMC stopped trials at interim for futility. Proptosis endpoint not met. Removes ~$550M peak sales. Data at future meeting.",
+      "bull_scenario": null,
+      "bear_scenario": "Signals FcRn mechanism may not work in all IgG-mediated diseases; raises questions about other expansion indications"
+    },
+    {
+      "event": "ADAPT-Forward combination study (efgartigimod + empasiprubart) in AChR+ gMG",
+      "timing": "Ongoing (started 2025)",
+      "importance": "medium",
+      "what_to_watch": "First combination study; could show deeper efficacy and differentiate from single-agent FcRn competitors"
     }
   ],
   "investment_analysis": {
@@ -517,13 +683,33 @@
       "Rheumatology commercial expansion requires new prescriber base"
     ],
     "bull_case": [
-      "Market-leading franchise with $4.2B revenue and 90% YoY growth",
-      "Label expansion to 60K US addressable MG patients by 2030",
-      "CIDP blockbuster validates multi-indication strategy"
+      {
+        "thesis": "Market-leading franchise with $4.2B revenue and 90% YoY growth",
+        "evidence": "FY 2025 product net sales (slide 7)",
+        "confidence": "high"
+      },
+      {
+        "thesis": "Label expansion to 60K US addressable MG patients by 2030",
+        "evidence": "US addressable patient waterfall (slide 12)",
+        "confidence": "medium"
+      },
+      {
+        "thesis": "CIDP blockbuster validates multi-indication strategy",
+        "evidence": "Blockbuster status as of 3Q 2025 (slide 11)",
+        "confidence": "high"
+      }
     ],
     "bear_case": [
-      "Novel Phase 3 endpoints create binary risk across 4 readouts in 2026",
-      "Rheumatology expansion requires new commercial infrastructure"
+      {
+        "thesis": "Novel Phase 3 endpoints create binary risk across 4 readouts in 2026",
+        "evidence": "MGII, TIS, cumulative platelet, challenging endpoint (slide 26)",
+        "confidence": "medium"
+      },
+      {
+        "thesis": "Rheumatology expansion requires new commercial infrastructure",
+        "evidence": "Current prescriber base is neurology-focused (slide 11)",
+        "confidence": "medium"
+      }
     ],
     "key_debates": [
       {

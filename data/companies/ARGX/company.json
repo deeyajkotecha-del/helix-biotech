@@ -1,20 +1,88 @@
 {
+  "ticker": "ARGX",
+  "name": "argenx SE",
   "_metadata": {
     "version": "2.1",
     "ticker": "ARGX",
     "company_name": "argenx SE",
     "data_source": "argx_corporate_2026",
-    "extraction_date": "2026-02-11"
+    "extraction_date": "2026-02-11",
+    "sources": [
+      {
+        "id": "argx_jpm_2026_slides",
+        "type": "corporate_presentation",
+        "title": "argenx 2026 JPM Healthcare Conference Corporate Presentation",
+        "date": "2026-01-12",
+        "url": "https://argenx.com/content/dam/argenx-corp/investors/events-presentations/2026_JPM_Slides_argenx_2026_Corp_Presentation.pdf",
+        "slides": 26,
+        "verified": true
+      }
+    ]
   },
-  "ticker": "ARGX",
-  "name": "argenx SE",
   "company": {
     "name": "argenx SE",
     "ticker": "ARGX",
-    "exchange": "NASDAQ",
+    "exchange": "Euronext & Nasdaq",
     "headquarters": null,
     "website": null,
-    "one_liner": "argenx is an immunology company pioneering FcRn-targeting therapies led by VYVGART (efgartigimod), with a broad pipeline of antibody-based medicines across autoimmune diseases in neurology and rheumatology."
+    "one_liner": "argenx is an immunology company pioneering FcRn-targeting therapies led by VYVGART (efgartigimod), with a broad pipeline of antibody-based medicines across autoimmune diseases in neurology and rheumatology.",
+    "market_cap": "$35B",
+    "strategic_vision": {
+      "name": "Vision 2030",
+      "goals": [
+        "Treat 50,000 patients globally",
+        "Secure 10 labeled indications across all approved medicines",
+        "Advance 5 pipeline candidates into Phase 3 by 2030"
+      ],
+      "2026_priorities": [
+        "4 registrational readouts (Ocular MG, Myositis, ITP, MMN)",
+        "Seronegative gMG launch if approved by end 2026",
+        "3 new molecules to enter Phase 1 (10 clinical-stage by year-end)",
+        "VYVGART SC autoinjector preparation for 2027 launch",
+        "ADAPT-Forward combination study (efgartigimod + empasiprubart in gMG)"
+      ],
+      "source": {
+        "id": "argx_jpm_jan2026",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "management_changes": {
+      "incoming_ceo": "Karen Massey (current COO \u2192 CEO, subject to AGM approval May 6, 2026)",
+      "outgoing_ceo": "Tim Van Hauwermeiren (CEO \u2192 non-Executive Director & Chairman)",
+      "new_cco": "Sandrine Piret-G\u00e9rard (Chief Commercialization Officer, ex-Gilead US commercial lead)",
+      "retiring": "Peter Verhaeghe (retiring from Board)",
+      "source": {
+        "id": "argx_jpm_jan2026",
+        "slide": null,
+        "verified": true
+      }
+    },
+    "tam_detail": {
+      "mg_us_addressable_at_launch": "17K patients",
+      "mg_seronegative_expansion": "+11K patients",
+      "mg_ocular_expansion": "+7K patients",
+      "mg_biologics_share_growth": "+25K patients",
+      "mg_total_addressable_2030": "60K patients",
+      "cidp_addressable_at_launch": "12K patients",
+      "cidp_total_treated": "24K patients",
+      "cidp_total_diagnosed": "42K patients",
+      "myositis_us_prevalence": "70K (DM 40K, IMNM 20K, PM 10K)",
+      "sjogrens_us_prevalence": "330K total, 100K moderate-to-severe",
+      "mmn_patients_key_markets": "12K patients",
+      "mmn_market_current": "$750-800M",
+      "mmn_market_2030": "$1B+",
+      "source": {
+        "id": "argx_jpm_2026_slides",
+        "slides": [
+          12,
+          13,
+          14,
+          18
+        ],
+        "verified": true
+      }
+    }
   },
   "investment_thesis_summary": {
     "core_thesis": "argenx is building a dominant, multi-asset immunology franchise anchored by VYVGART, which achieved $4.2B in 2025 product net sales (+90% YoY) and first-year operating profitability. The company has 10 ongoing registrational studies with 6 Phase 3 readouts over the next 24 months, positioning it for significant label expansion and pipeline diversification through Vision 2030.",
@@ -35,7 +103,8 @@
       "CIDP achieved blockbuster status as of 3Q 2025 with clear path to expansion (12K addressable at launch, 42K total diagnosed)"
     ],
     "bear_case": [
-      "Multiple Phase 3 trials carry execution risk — Ocular MG uses novel MGII primary endpoint, Myositis has heterogeneous disease with TIS composite endpoint, Sjogren's has challenging primary endpoint",
+      "UplighTED Phase 3 TED trials discontinued for futility (Dec 15, 2025) \u2014 IDMC recommended stopping after interim analysis showed treatment unlikely to meet proptosis primary endpoint at Week 24. Removes ~$550M peak sales opportunity. Stock fell >5% on announcement.",
+      "Multiple Phase 3 trials carry execution risk \u2014 Ocular MG uses novel MGII primary endpoint, Myositis has heterogeneous disease with TIS composite endpoint, Sjogren's has challenging primary endpoint",
       "ITP trial targets difficult-to-treat patients, potentially limiting broad applicability of results",
       "Empasiprubart MMN Phase 3 (EMPASSION) is a head-to-head trial vs IVIg, a high bar for a registrational study",
       "FcRn class competition may emerge from next-generation molecules from other companies",
@@ -72,8 +141,12 @@
         "stage": "Approved / Phase 3 (multiple indications)",
         "indications": "gMG (AChR+, approved; seronegative pending), Ocular MG, ITP, Myositis, Sjogren's Disease, Graves' Disease",
         "ownership": "Wholly-owned",
-        "next_catalyst": "Ocular MG Phase 3 readout — 1Q 2026",
-        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
+        "next_catalyst": "Ocular MG Phase 3 readout \u2014 1Q 2026",
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 23,
+          "verified": false
+        }
       },
       {
         "asset": "Empasiprubart",
@@ -81,8 +154,12 @@
         "stage": "Phase 3 / PoC",
         "indications": "MMN, CIDP, AMR, Scleroderma, AIE, DGF, ALS, SMA",
         "ownership": null,
-        "next_catalyst": "MMN Phase 3 (EMPASSION) readout — 4Q 2026",
-        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
+        "next_catalyst": "MMN Phase 3 (EMPASSION) readout \u2014 4Q 2026",
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 23,
+          "verified": false
+        }
       },
       {
         "asset": "Adimanebart",
@@ -91,7 +168,11 @@
         "indications": "CMS, ALS, SMA",
         "ownership": null,
         "next_catalyst": null,
-        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 23,
+          "verified": false
+        }
       },
       {
         "asset": "ARGX-213",
@@ -100,7 +181,11 @@
         "indications": "15+ potential indications",
         "ownership": null,
         "next_catalyst": null,
-        "source": {"id": "argx_corporate_2026", "slide": 16, "verified": false}
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 16,
+          "verified": false
+        }
       },
       {
         "asset": "ARGX-121",
@@ -109,7 +194,11 @@
         "indications": "IgA Nephropathy, 3+ potential indications",
         "ownership": null,
         "next_catalyst": null,
-        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 23,
+          "verified": false
+        }
       },
       {
         "asset": "ARGX-109",
@@ -118,7 +207,11 @@
         "indications": null,
         "ownership": null,
         "next_catalyst": null,
-        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 23,
+          "verified": false
+        }
       },
       {
         "asset": "ARGX-118",
@@ -127,7 +220,11 @@
         "indications": null,
         "ownership": null,
         "next_catalyst": "Phase 1 initiation in 2026",
-        "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false}
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 22,
+          "verified": false
+        }
       },
       {
         "asset": "ARGX-124",
@@ -136,7 +233,11 @@
         "indications": null,
         "ownership": null,
         "next_catalyst": null,
-        "source": {"id": "argx_corporate_2026", "slide": 16, "verified": false}
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 16,
+          "verified": false
+        }
       },
       {
         "asset": "ARGX-125",
@@ -145,7 +246,11 @@
         "indications": null,
         "ownership": null,
         "next_catalyst": "Phase 1 initiation in 2026",
-        "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false}
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 22,
+          "verified": false
+        }
       },
       {
         "asset": "Tensegrity (TSP-101)",
@@ -154,21 +259,34 @@
         "indications": null,
         "ownership": null,
         "next_catalyst": "Phase 1 in 2026",
-        "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false}
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 22,
+          "verified": false
+        }
       }
-    ]
+    ],
+    "total_iip_programs": 25,
+    "clinical_stage_molecules": "6 currently, target 10 by end 2026",
+    "phase_3_molecules": "3 currently (efgartigimod, empasiprubart, adimanebart entering), target 4 by end 2026",
+    "registrational_readouts_next_24mo": 6,
+    "ind_target": "1 new IND per year"
   },
   "platform": {
     "name": "Antibody Engineering / Innovation Engine",
     "description": "argenx's innovation engine combines pioneering novel biology, pipeline-in-a-product strategy, and best-in-field antibody engineering including proprietary Fc-ABDEG technology. Sourcing from academic research centers, immunology labs, and biopharma companies. 25 active IIP programs spanning neurology, rheumatology, renal, and skin targets with a target of 1 IND per year.",
-    "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false}
+    "source": {
+      "id": "argx_corporate_2026",
+      "slide": 22,
+      "verified": false
+    }
   },
   "financials": {
     "cash_position": null,
     "cash_runway": null,
-    "market_cap": null,
+    "market_cap": "$35B (approx. Feb 2026)",
     "enterprise_value": null,
-    "revenue": "$4,151 million (FY 2025 product net sales, preliminary/unaudited)",
+    "revenue": "$4,151 million (FY 2025 preliminary product net sales, +90% YoY)",
     "revenue_detail": {
       "fy_2025": "$4,151 million",
       "fy_2024": "$2,186 million",
@@ -180,9 +298,58 @@
       "q4_vs_q3_growth": "+14% (ex-FX)",
       "first_year_operating_profitability": true
     },
-    "source": {"id": "argx_corporate_2026", "slide": 7, "verified": false}
+    "source": {
+      "id": "argx_jpm_2026_slides",
+      "slide": 7,
+      "verified": true
+    },
+    "patients_on_treatment": "~19,000 globally (as of Jan 2026)",
+    "first_operating_profitability": "2025 (first year)",
+    "analyst_consensus": {
+      "ubs_target": "$910 (Dec 2025)",
+      "ubs_2026_vyvgart_estimate": "$6.1B",
+      "oppenheimer_target": "$1,040",
+      "td_cowen_target": "$1,146",
+      "piper_sandler_target": "$930",
+      "source": {
+        "id": "analyst_reports_dec_2025",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "quarterly_revenue": {
+      "Q1_2022": 21,
+      "Q2_2022": 75,
+      "Q3_2022": 131,
+      "Q4_2022": 173,
+      "Q1_2023": 218,
+      "Q2_2023": 269,
+      "Q3_2023": 329,
+      "Q4_2023": 374,
+      "Q1_2024": 398,
+      "Q2_2024": 478,
+      "Q3_2024": 573,
+      "Q4_2024": 737,
+      "Q1_2025": 790,
+      "Q2_2025": 949,
+      "Q3_2025": 1127,
+      "Q4_2025": 1286,
+      "unit": "millions_usd",
+      "source": {
+        "id": "argx_jpm_2026_slides",
+        "slide": 7,
+        "verified": true
+      }
+    }
   },
   "catalysts": [
+    {
+      "asset": "Efgartigimod",
+      "event": "Seronegative gMG sBLA \u2014 FDA Priority Review, PDUFA May 10, 2026",
+      "timing": "PDUFA: May 10, 2026",
+      "importance": "critical",
+      "what_to_watch": "FDA accepted sBLA with Priority Review. ADAPT-SERON met primary endpoint (p=0.0068). MG-ADL improvement of 3.35 points at Week 4. If approved, broadest MG label \u2014 adds ~20% of gMG patients (MuSK+, LRP4+, triple seronegative). No approved treatments exist for LRP4+ or triple seronegative patients. Launch expected by end 2026."
+    },
     {
       "asset": "Efgartigimod",
       "event": "Ocular MG Phase 3 data readout (ADAPT Oculus)",
@@ -213,10 +380,10 @@
     },
     {
       "asset": "Efgartigimod",
-      "event": "AChR- gMG approval decision (MuSK+, LRP4+, triple seronegative)",
-      "timing": "By end of 2026",
+      "event": "Seronegative gMG sBLA \u2014 FDA Priority Review, PDUFA May 10, 2026",
+      "timing": "PDUFA: May 10, 2026",
       "importance": "critical",
-      "what_to_watch": "Broadest MG label; adds ~11K seronegative patients to US addressable market"
+      "what_to_watch": "FDA accepted sBLA with Priority Review. ADAPT-SERON met primary endpoint (p=0.0068). MG-ADL improvement of 3.35 points at Week 4. If approved, broadest MG label \u2014 adds ~20% of gMG patients (MuSK+, LRP4+, triple seronegative). No approved treatments exist for LRP4+ or triple seronegative patients. Launch expected by end 2026."
     },
     {
       "asset": "Efgartigimod",
@@ -238,6 +405,62 @@
       "timing": "Estimated 2027",
       "importance": "medium",
       "what_to_watch": "Further optimization of patient experience beyond PFS"
+    },
+    {
+      "asset": "Efgartigimod",
+      "event": "UplighTED Phase 3 TED \u2014 DISCONTINUED for futility",
+      "timing": "Dec 15, 2025 (completed \u2014 FAILED)",
+      "importance": "high",
+      "what_to_watch": "IDMC recommended stopping after interim futility analysis. Proptosis primary endpoint not met at Week 24. Safety was clean. Removes TED indication from pipeline. Data to be presented at future medical meeting."
+    },
+    {
+      "asset": "Efgartigimod + Empasiprubart",
+      "event": "ADAPT-Forward combination study ongoing in AChR+ gMG",
+      "timing": "Ongoing (started 2025)",
+      "importance": "medium",
+      "what_to_watch": "First study exploring efgartigimod-anchored combination with empasiprubart for deeper efficacy in gMG"
+    },
+    {
+      "asset": "Efgartigimod",
+      "event": "Graves' disease registrational study initiation",
+      "timing": "2026",
+      "importance": "medium",
+      "what_to_watch": "New indication expanding into thyroid-driven autoimmunity. Separate from discontinued TED program \u2014 Graves' targets the underlying thyroid autoimmunity, not orbital disease."
+    },
+    {
+      "asset": "Adimanebart (ARGX-119)",
+      "event": "CMS registrational study initiation",
+      "timing": "3Q 2026",
+      "importance": "high",
+      "what_to_watch": "First-in-class MuSK agonist entering registrational study. Positive PoC data in CMS."
+    },
+    {
+      "asset": "ARGX-121",
+      "event": "Phase 2 study in IgA nephropathy (IgAN) initiation",
+      "timing": "2026",
+      "importance": "medium",
+      "what_to_watch": "First-in-class IgA-targeting molecule. Large market (IgAN affects ~130K US patients)."
+    },
+    {
+      "asset": "ARGX-118, ARGX-125, TSP-101",
+      "event": "Three new molecules entering Phase 1",
+      "timing": "2026",
+      "importance": "medium",
+      "what_to_watch": "ARGX-118 (Galectin-10, first-in-class), ARGX-125 (first-in-class bispecific), TSP-101 (Fn14, via Tensegrity collaboration with acquisition option). Goal: 10 clinical-stage molecules by end 2026."
+    },
+    {
+      "asset": "Empasiprubart",
+      "event": "EMVIGORATE + EMNERGIZE Phase 3 data (CIDP)",
+      "timing": "2H 2027",
+      "importance": "high",
+      "what_to_watch": "Two CIDP studies. Co-positioning with VYVGART to expand beyond 12K current addressable to 42K total diagnosed."
+    },
+    {
+      "asset": "Empasiprubart",
+      "event": "VARVARA Phase 2 DGF decision (52-week efficacy analysis)",
+      "timing": "Mid-2026",
+      "importance": "medium",
+      "what_to_watch": "Delayed graft function in kidney transplant. Decision on further development after full efficacy analysis."
     }
   ]
 }

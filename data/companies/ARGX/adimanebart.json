@@ -1,18 +1,254 @@
 {
-  "_metadata": { "version": "2.1", "ticker": "ARGX", "asset_name": "Adimanebart", "extraction_date": "2026-02-11", "source_id": "argx_corporate_2026" },
-  "asset": { "name": "Adimanebart", "company": "argenx SE", "ticker": "ARGX", "stage": "Registrational (CMS) / PoC (ALS, SMA)", "modality": "Antibody (MuSK agonist antibody)", "ownership": null, "one_liner": "Adimanebart is a first-in-class MuSK agonist antibody being developed in congenital myasthenic syndromes, ALS, and SMA with 3+ indications." },
-  "target": { "name": "MuSK", "full_name": "Muscle-Specific Kinase", "class": "Receptor tyrosine kinase", "pathway": null, "biology": { "simple_explanation": "MuSK is a critical receptor at the neuromuscular junction that helps organize and maintain the connection between nerves and muscles. By activating (agonizing) MuSK, adimanebart aims to strengthen this connection in diseases where it is impaired.", "pathway_detail": null, "downstream_effects": null }, "why_good_target": { "clinical_validation": null, "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "argx_corporate_2026", "slide": 20, "verified": false} } },
-  "mechanism": { "type": "MuSK agonist antibody", "how_it_works": "Agonist antibody that activates MuSK at the neuromuscular junction to strengthen nerve-muscle connections", "differentiation": "First-in-class MuSK agonist approach", "source": {"id": "argx_corporate_2026", "slide": 20, "verified": false} },
-  "regulatory": { "designations": null, "planned_pathway": { "type": null, "surrogate_endpoint": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} } },
-  "partnership": { "_note": "No partnership information provided", "partner": null, "territory": null, "economics": null },
-  "pharmacology": { "pk_parameters": { "half_life": { "value": null, "population": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "cmax": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "auc": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "tmax": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "bioavailability": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "volume_of_distribution": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} } }, "dose_response": null, "target_engagement": null, "pk_summary": null },
-  "indications": { "lead": { "name": "CMS (Congenital Myasthenic Syndromes)", "patient_population": null, "current_penetration": null, "rationale": null }, "expansion": [ { "name": "ALS", "stage": "PoC", "rationale": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} }, { "name": "SMA", "stage": "PoC", "rationale": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} } ] },
-  "clinical_data": { "trials": null },
-  "differentiation_claims": [ { "claim": "First-in-class MuSK agonist antibody", "evidence_level": "management_claim", "caveat": null, "source": {"id": "argx_corporate_2026", "slide": 20, "verified": false} } ],
-  "competitive_landscape": { "competitors": null },
-  "ip_landscape": { "composition_of_matter": { "patent_expiry": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "method_of_use": { "patent_expiry": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "regulatory_exclusivity": { "type": null, "expiry": null }, "freedom_to_operate": null },
-  "market_opportunity": { "tam": null, "patient_population": null, "unmet_need": null, "pricing_benchmark": null, "peak_sales_estimate": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} },
-  "catalysts": null,
-  "investment_analysis": { "probability_of_success": null, "key_risks": null, "bull_case": null, "bear_case": null, "key_debates": null },
-  "_extraction_quality": { "completeness_score": "low", "missing_critical_fields": ["Clinical data", "PK parameters", "Dosing", "Safety", "Market opportunity", "Patient population", "Regulatory designations", "Trial designs", "Catalysts timeline"], "recommended_supplementary_sources": ["argenx 20-F for adimanebart program details", "ClinicalTrials.gov for CMS trial", "Medical conference presentations for efficacy data"] }
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ARGX",
+    "asset_name": "Adimanebart",
+    "extraction_date": "2026-02-11",
+    "source_id": "argx_corporate_2026"
+  },
+  "asset": {
+    "name": "Adimanebart",
+    "company": "argenx SE",
+    "ticker": "ARGX",
+    "stage": "Registrational (CMS) / PoC (ALS, SMA)",
+    "modality": "Antibody (MuSK agonist antibody)",
+    "ownership": null,
+    "one_liner": "Adimanebart is a first-in-class MuSK agonist antibody being developed in congenital myasthenic syndromes, ALS, and SMA with 3+ indications."
+  },
+  "target": {
+    "name": "MuSK",
+    "full_name": "Muscle-Specific Kinase",
+    "class": "Receptor tyrosine kinase",
+    "pathway": null,
+    "biology": {
+      "simple_explanation": "MuSK is a critical receptor at the neuromuscular junction that helps organize and maintain the connection between nerves and muscles. By activating (agonizing) MuSK, adimanebart aims to strengthen this connection in diseases where it is impaired.",
+      "pathway_detail": null,
+      "downstream_effects": null
+    },
+    "why_good_target": {
+      "clinical_validation": null,
+      "genetic_validation": {
+        "gain_of_function": null,
+        "loss_of_function": null
+      },
+      "source": {
+        "id": "argx_corporate_2026",
+        "slide": 20,
+        "verified": false
+      }
+    }
+  },
+  "mechanism": {
+    "type": "MuSK agonist antibody",
+    "how_it_works": "Agonist antibody that activates MuSK at the neuromuscular junction to strengthen nerve-muscle connections",
+    "differentiation": "First-in-class MuSK agonist approach",
+    "source": {
+      "id": "argx_corporate_2026",
+      "slide": 20,
+      "verified": false
+    }
+  },
+  "regulatory": {
+    "designations": null,
+    "planned_pathway": {
+      "type": null,
+      "surrogate_endpoint": null,
+      "source": {
+        "id": "argx_corporate_2026",
+        "slide": null,
+        "verified": false
+      }
+    }
+  },
+  "partnership": {
+    "_note": "No partnership information provided",
+    "partner": null,
+    "territory": null,
+    "economics": null
+  },
+  "pharmacology": {
+    "pk_parameters": {
+      "half_life": {
+        "value": null,
+        "population": null,
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "cmax": {
+        "value": null,
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "auc": {
+        "value": null,
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "tmax": {
+        "value": null,
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "bioavailability": {
+        "value": null,
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "volume_of_distribution": {
+        "value": null,
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": null,
+          "verified": false
+        }
+      }
+    },
+    "dose_response": null,
+    "target_engagement": null,
+    "pk_summary": null
+  },
+  "indications": {
+    "lead": {
+      "name": "CMS (Congenital Myasthenic Syndromes)",
+      "patient_population": null,
+      "current_penetration": null,
+      "rationale": null
+    },
+    "expansion": [
+      {
+        "name": "ALS",
+        "stage": "PoC",
+        "rationale": null,
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 23,
+          "verified": false
+        }
+      },
+      {
+        "name": "SMA",
+        "stage": "PoC",
+        "rationale": null,
+        "source": {
+          "id": "argx_corporate_2026",
+          "slide": 23,
+          "verified": false
+        }
+      }
+    ]
+  },
+  "clinical_data": {
+    "trials": null
+  },
+  "differentiation_claims": [
+    {
+      "claim": "First-in-class MuSK agonist antibody",
+      "evidence_level": "management_claim",
+      "caveat": null,
+      "source": {
+        "id": "argx_corporate_2026",
+        "slide": 20,
+        "verified": false
+      }
+    }
+  ],
+  "competitive_landscape": {
+    "competitors": null
+  },
+  "ip_landscape": {
+    "composition_of_matter": {
+      "patent_expiry": null,
+      "source": {
+        "id": "argx_corporate_2026",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "method_of_use": {
+      "patent_expiry": null,
+      "source": {
+        "id": "argx_corporate_2026",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "regulatory_exclusivity": {
+      "type": null,
+      "expiry": null
+    },
+    "freedom_to_operate": null
+  },
+  "market_opportunity": {
+    "tam": null,
+    "patient_population": null,
+    "unmet_need": null,
+    "pricing_benchmark": null,
+    "peak_sales_estimate": null,
+    "source": {
+      "id": "argx_corporate_2026",
+      "slide": null,
+      "verified": false
+    }
+  },
+  "catalysts": [
+    {
+      "event": "CMS registrational study initiation",
+      "timing": "3Q 2026",
+      "importance": "critical",
+      "what_to_watch": "First-in-class MuSK agonist entering registrational. Positive PoC data in CMS from Phase 1b."
+    },
+    {
+      "event": "ALS Phase 2a PoC readout",
+      "timing": "1H 2026",
+      "importance": "high",
+      "what_to_watch": "Proof-of-concept in ALS. MuSK biology could strengthen neuromuscular junction."
+    },
+    {
+      "event": "SMA PoC study",
+      "timing": "Ongoing (started end 2025)",
+      "importance": "medium",
+      "what_to_watch": "Exploring MuSK agonism in spinal muscular atrophy."
+    }
+  ],
+  "investment_analysis": {
+    "probability_of_success": null,
+    "key_risks": null,
+    "bull_case": null,
+    "bear_case": null,
+    "key_debates": null
+  },
+  "_extraction_quality": {
+    "completeness_score": "low",
+    "missing_critical_fields": [
+      "Clinical data",
+      "PK parameters",
+      "Dosing",
+      "Safety",
+      "Market opportunity",
+      "Patient population",
+      "Regulatory designations",
+      "Trial designs",
+      "Catalysts timeline"
+    ],
+    "recommended_supplementary_sources": [
+      "argenx 20-F for adimanebart program details",
+      "ClinicalTrials.gov for CMS trial",
+      "Medical conference presentations for efficacy data"
+    ]
+  }
 }
