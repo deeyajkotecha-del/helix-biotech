@@ -1835,12 +1835,23 @@ def _generate_company_overview_html(data: dict) -> str:
     partnerships_html = ""
     for p in partnerships:
         if isinstance(p, dict):
+            # Handle both formats: "asset" (string) or "assets" (list)
+            asset_display = p.get('asset', '')
+            if not asset_display and p.get('assets'):
+                asset_display = ', '.join(p['assets'])
+            # Handle both formats: "upfront"/"milestones" or "deal_value"
+            terms_display = p.get('deal_value', '')
+            if not terms_display:
+                upfront = p.get('upfront', '')
+                milestones = p.get('milestones', '')
+                terms_display = f"{upfront}{f' / {milestones}' if milestones else ''}" if upfront else ''
+            status_display = p.get('status', p.get('type', ''))
             partnerships_html += f'''
             <div class="partnership-row">
                 <div class="partner">{p.get('partner', '')}</div>
-                <div class="asset">{p.get('asset', '')}</div>
-                <div class="terms">{p.get('upfront', '')} {f"/ {p.get('milestones', '')}" if p.get('milestones') else ''}</div>
-                <div class="status">{p.get('status', '')}</div>
+                <div class="asset">{asset_display}</div>
+                <div class="terms">{terms_display}</div>
+                <div class="status">{status_display}</div>
             </div>'''
 
     # Build unique, formatted tags - avoid duplicates
@@ -2188,17 +2199,16 @@ def _generate_company_overview_html(data: dict) -> str:
                 </div>
                 <div class="snapshot-item">
                     <div class="label">Cash Runway</div>
-                    <div class="value">{company.get('cash_runway', 'N/A')}</div>
+                    <div class="value">{company.get('cash_runway') or '\u2014'}</div>
                 </div>
                 <div class="snapshot-item">
                     <div class="label">Pipeline</div>
-                    <div class="value">{len(assets)} Assets</div>
+                    <div class="value">{len(assets)} Asset{'s' if len(assets) != 1 else ''}</div>
                 </div>
-                <div class="snapshot-item">
+                {f'''<div class="snapshot-item">
                     <div class="label">Priority</div>
-                    <div class="value">{classification.get('priority', '').title()}</div>
-                </div>
-            </div>
+                    <div class="value">{classification.get("priority", "").title()}</div>
+                </div>''' if classification.get('priority') else ''}
         </div>
 
         <div class="card">

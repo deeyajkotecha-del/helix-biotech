@@ -94,33 +94,13 @@
 
   "investment_analysis": {
     "bull_case": [
-      {
-        "point": "Revenue acceleration — both products growing >70% YoY",
-        "evidence": "IBSRELA Q3 $78.2M (+92% YoY); combined FY2025 guidance implies >70% growth [Corp '25 S6, S10]",
-        "confidence": "High"
-      },
-      {
-        "point": "Only non-secretagogue in IBS-C — structurally differentiated",
-        "evidence": "77% of patients on secretagogues still symptomatic [Corp '25 S6]",
-        "confidence": "High"
-      },
-      {
-        "point": "XPHOZAH addresses massive unmet need in hyperphosphatemia",
-        "evidence": "50% of dialysis patients have uncontrolled phosphorus despite existing binders [Corp '25 S14]",
-        "confidence": "High"
-      }
+      "Revenue acceleration — both products growing >70% YoY; IBSRELA Q3 $78.2M (+92% YoY)",
+      "Only non-secretagogue in IBS-C — 77% of patients on secretagogues still symptomatic",
+      "XPHOZAH addresses massive unmet need — 50% of dialysis patients have uncontrolled phosphorus"
     ],
     "bear_case": [
-      {
-        "point": "Patent cliff in August 2033 limits peak value capture",
-        "evidence": "Tenapanor composition of matter patent expires Aug 2033 [Corp '25 S24]",
-        "counter_argument": "RDX10531 next-gen NHE3 inhibitor in development to extend franchise"
-      },
-      {
-        "point": "Single molecule risk — both products are tenapanor",
-        "evidence": "Any safety signal would affect both products simultaneously",
-        "counter_argument": "Locally acting with <1% systemic absorption reduces systemic safety risk"
-      }
+      "Patent cliff in August 2033 limits peak value capture; RDX10531 next-gen in development",
+      "Single molecule risk — both products are tenapanor; any safety signal affects both"
     ],
     "key_debates": [
       {

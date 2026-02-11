@@ -3,7 +3,7 @@
   "ticker": "ASND",
   "headquarters": "Not specified",
   "website": "https://investors.ascendispharma.com/",
-  "description": "Ascendis Pharma is a leading biopharma company focused on endocrinology rare diseases using their TransCon technology platform. The company has three approved medicines for hypoparathyroidism and growth disorders, with aspirations to drive >\u20ac5B annual revenue by 2030.",
+  "description": "Ascendis Pharma is a leading biopharma company focused on endocrinology rare diseases using their TransCon technology platform. The company has three approved medicines for hypoparathyroidism and growth disorders, with aspirations to drive >€5B annual revenue by 2030.",
   "modalities": [
     "TransCon prodrug platform technology"
   ],
@@ -15,50 +15,47 @@
     "Ophthalmology",
     "Obesity and Metabolic"
   ],
-  "cash_runway": "Expected operating cash flow of ~\u20ac500 million in 2026",
+  "cash_runway": "Expected operating cash flow of ~€500 million in 2026",
   "partnerships": [
     {
       "partner": "Novo Nordisk",
       "asset": "TransCon semaglutide and other obesity/metabolic products",
       "deal_value": "Exclusive global rights, multi-product collaboration",
-      "status": "Active",
-      "source_page": 26
+      "status": "Active"
     },
     {
       "partner": "Eyconis",
       "asset": "TransCon-based ophthalmology products",
       "deal_value": "$150 million commitment from external investors",
-      "status": "Active",
-      "source_page": 26
+      "status": "Active"
     },
     {
       "partner": "Teijin",
       "asset": "TransCon hGH, TransCon PTH, TransCon CNP in Japan",
       "deal_value": "Exclusive rights",
-      "status": "Active",
-      "source_page": 26
+      "status": "Active"
     },
     {
       "partner": "VISEN Pharmaceuticals",
       "asset": "TransCon hGH, TransCon PTH, TransCon CNP in Greater China",
       "deal_value": "Exclusive rights",
-      "status": "Active",
-      "source_page": 26
+      "status": "Active"
     }
   ],
-  "investment_thesis": [
-    "Becoming a leading biopharma company with three approved endocrinology rare disease medicines showing strong revenue growth",
-    "Vision 2030 to achieve >\u20ac5B annual revenue with multiple blockbuster products",
-    "Q4 2025 product revenue of ~\u20ac240 million and FY 2025 product revenue of ~\u20ac683 million demonstrating commercial execution",
-    "TransCon platform enables continuous flow of highly differentiated products with new composition of matter patents",
-    "TransCon CNP is the only achondroplasia treatment to show benefits beyond height compared to placebo in pivotal trial",
-    "Strong cash position with \u20ac616 million and expected operating cash flow of ~\u20ac500 million in 2026"
-  ],
-  "key_risks": [
-    "Forward-looking statements subject to significant uncertainties and risks that could cause actual results to differ materially",
-    "Investigational products limited by law to investigational use with no representations made as to safety or effectiveness",
-    "Regulatory approval timing and success not guaranteed for pipeline assets"
-  ],
+  "investment_thesis": {
+    "bull_case": [
+      "Three approved medicines with strong revenue growth — Q4 2025 product revenue ~€240M, FY 2025 ~€683M",
+      "Vision 2030 to achieve >€5B annual revenue with multiple blockbuster products",
+      "TransCon platform enables differentiated products with new composition of matter patents",
+      "TransCon CNP is the only achondroplasia treatment showing benefits beyond height vs placebo in pivotal trial",
+      "Strong cash position (€616M) with expected operating cash flow of ~€500M in 2026"
+    ],
+    "bear_case": [
+      "Heavy reliance on endocrinology rare disease niche — limited therapeutic diversification",
+      "Regulatory approval timing not guaranteed for pipeline assets including TransCon CNP",
+      "Novo Nordisk obesity partnership creates dependency on partner execution in highly competitive GLP-1 market"
+    ]
+  },
   "_source_pages": [
     1,
     3,
