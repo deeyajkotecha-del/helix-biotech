@@ -783,7 +783,7 @@ def _generate_clinical_html(data: dict) -> str:
     indications = clinical_dev.get("indications_in_development", [])
     indications_html = "".join(f'<span class="indication-badge">{ind}</span>' for ind in indications[:6])
 
-    _clinical_title = f"{asset.get('name', 'Asset')} Clinical Data | Satya Bio"
+    _clinical_title = f"{asset.get('name', 'Asset')} Clinical Data | Satya Bio Analysis"
     _clinical_styles = """
         .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
 
@@ -1271,7 +1271,7 @@ def _generate_companies_list_html(companies: list, taxonomy: dict, filters: dict
         }
     """
 
-    return f'''{_render_head("Companies | Clinical Data Platform", _companies_list_styles)}
+    return f'''{_render_head("Biotech Companies | Satya Bio - Clinical Data Platform", _companies_list_styles)}
     {_render_nav("companies")}
     <div class="companies-hero">
         <div class="companies-hero-content">
@@ -1454,7 +1454,10 @@ def _generate_company_fallback_html(entry: dict) -> str:
     if ir_url:
         ir_html = f'<a href="{ir_url}" target="_blank" class="ir-link">Investor Relations →</a>'
 
-    _fallback_title = f"{ticker} - {name} | Satya Bio"
+    _fallback_title = f"{ticker} - {name} | Satya Bio Analysis"
+    _nt = notes[:140].rsplit(' ', 1)[0] if notes and len(notes) > 140 else (notes or "")
+    _fallback_desc = f"{_nt.rstrip('.')}. Detailed analysis by Satya Bio." if _nt else f"{name} ({ticker}) biotech company profile and clinical pipeline. Detailed analysis by Satya Bio."
+    _fallback_meta = f'<meta name="description" content="{_fallback_desc}">'
     _fallback_styles = """
         /* Breadcrumb */
         .breadcrumb {
@@ -1625,7 +1628,7 @@ def _generate_company_fallback_html(entry: dict) -> str:
         .back-link:hover { color: var(--accent); }
     """
 
-    return f'''{_render_head(_fallback_title, _fallback_styles)}
+    return f'''{_render_head(_fallback_title, _fallback_styles, _fallback_meta)}
     {_render_nav("companies")}
     <div class="breadcrumb">
         <a href="/companies">Companies</a>
@@ -1804,7 +1807,10 @@ def _generate_company_overview_html(data: dict) -> str:
             seen_tags.add(tag)
             tags_html += f'<span class="badge">{_format_tag_label(tag)}</span>'
 
-    _overview_title = f"{ticker} - {name} | Company Overview"
+    _overview_title = f"{ticker} - {name} | Satya Bio Analysis"
+    _ct = core_thesis[:140].rsplit(' ', 1)[0] if core_thesis and len(core_thesis) > 140 else (core_thesis or "")
+    _overview_desc = f"{_ct.rstrip('.')}. Detailed analysis by Satya Bio." if _ct else f"{name} ({ticker}) pipeline analysis, investment thesis, and catalyst timeline. Detailed clinical analysis by Satya Bio."
+    _overview_meta = f'<meta name="description" content="{_overview_desc}">'
     _overview_styles = """
         /* Breadcrumb */
         .breadcrumb {
@@ -2078,7 +2084,7 @@ def _generate_company_overview_html(data: dict) -> str:
         }
     """
 
-    return f'''{_render_head(_overview_title, _overview_styles)}
+    return f'''{_render_head(_overview_title, _overview_styles, _overview_meta)}
     {_render_nav("companies")}
     <div class="breadcrumb">
         <a href="/companies">Companies</a>
@@ -4020,7 +4026,10 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     import json as json_module
     abbr_json = json_module.dumps(abbreviations) if abbreviations else "{}"
 
-    _asset_title = f"{asset_name} - {ticker} | Asset Analysis"
+    _asset_title = f"{asset_name} - {ticker} | Satya Bio Analysis"
+    _ol = one_liner[:140].rsplit(' ', 1)[0] if one_liner and len(one_liner) > 140 else (one_liner or "")
+    _asset_desc = f"{_ol.rstrip('.')}. Detailed analysis by Satya Bio." if _ol else f"{asset_name} by {company_name} ({ticker}). Detailed clinical analysis by Satya Bio."
+    _asset_meta = f'<meta name="description" content="{_asset_desc}">'
     _asset_styles = """
         /* Bloomberg Terminal Style - Clean, Data-Dense, Professional */
         :root {
@@ -5234,7 +5243,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         }
     """
 
-    return f'''{_render_head(_asset_title, _asset_styles)}
+    return f'''{_render_head(_asset_title, _asset_styles, _asset_meta)}
     {_render_nav("companies")}
     <div class="sticky-header">
         <div class="breadcrumb">
@@ -5872,7 +5881,7 @@ def _generate_company_html_v2(data: dict) -> str:
                 <div class="strategic-value">{p.get('strategic_value', '')}</div>
             </div>'''
 
-    _v2_title = f"{ticker} - {name} | PhD Analysis"
+    _v2_title = f"{ticker} - {name} | Satya Bio Analysis"
     _v2_styles = """
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
@@ -6642,7 +6651,7 @@ def _generate_targets_list_html(targets: dict) -> str:
         }
     """
 
-    return f'''{_render_head("Targets | Clinical Data Platform", _targets_list_styles)}
+    return f'''{_render_head("Drug Targets | Satya Bio - Clinical Data Platform", _targets_list_styles)}
     {_render_nav("targets")}
     <div class="breadcrumb">
         <a href="/companies">Companies</a> · <strong>Targets</strong>
@@ -7531,7 +7540,7 @@ def _generate_target_page_html(target: dict) -> str:
         }
     """
 
-    _target_page_title = f"{target_name} | Target Analysis"
+    _target_page_title = f"{target_name} Target Analysis | Satya Bio"
 
     return f'''{_render_head(_target_page_title, _target_page_styles)}
     {_render_nav("targets")}

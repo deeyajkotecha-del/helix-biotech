@@ -580,7 +580,7 @@ def generate_homepage():
         "url": "https://satyabio.com/#cta"
       }
     }, indent=2)
-    hp_extra_head = f'<meta name="description" content="Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals.">\n    <script type="application/ld+json">\n    {hp_structured_data}\n    </script>'
+    hp_extra_head = f'<meta name="description" content="Satya Bio provides biotech competitive intelligence for institutional investors. Track 181 companies, 1000+ clinical assets, and competitive landscapes across drug targets. Built for hedge funds and pharma BD teams.">\n    <meta name="keywords" content="Satya Bio, biotech intelligence, competitive landscape, clinical data, hedge fund biotech, pharma analytics, drug target analysis, TL1A, GLP-1, biotech investment research">\n    <script type="application/ld+json">\n    {hp_structured_data}\n    </script>'
 
     hp_extra_styles = """
         /* Homepage additions */
@@ -1045,7 +1045,7 @@ def generate_companies_page():
         </section>
         '''
 
-    companies_extra_head = f'<meta name="description" content="Browse {total_count} biotech companies with pipeline data and catalyst tracking.">'
+    companies_extra_head = '<meta name="description" content="Browse 181 biotech companies with clinical data, pipeline analysis, and investment thesis. Satya Bio tracks KYMR, ARGX, NUVL, EWTX and more.">'
     companies_styles = """
         .search-box { margin-bottom: 16px; }
         .search-input { width: 100%; max-width: 500px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }
@@ -1079,7 +1079,7 @@ def generate_companies_page():
         body.unlocked .locked-blur { filter: none; pointer-events: auto; user-select: auto; }
         body.unlocked .locked-overlay { display: none; }
     """
-    return f'''{_render_head("Companies | Satya Bio", companies_styles, companies_extra_head)}
+    return f'''{_render_head("Biotech Companies | Satya Bio - 181 Companies Tracked", companies_styles, companies_extra_head)}
     {_render_nav("companies")}
     <main class="main">
         <div class="page-header">
@@ -1492,7 +1492,8 @@ def generate_targets_page():
         .view-btn { display: inline-block; color: var(--accent); font-weight: 600; font-size: 0.85rem; text-decoration: none; }
         .view-btn:hover { text-decoration: underline; }
     """
-    return f'''{_render_head("Explore Drug Targets | Satya Bio", targets_styles)}
+    targets_extra_head = '<meta name="description" content="Competitive landscapes for hot biotech drug targets including TL1A, GLP-1, KRAS, B7-H3. Compare assets, clinical data, and catalysts. By Satya Bio.">'
+    return f'''{_render_head("Drug Target Landscapes | Satya Bio", targets_styles, targets_extra_head)}
     {_render_nav("targets")}
     <main class="main">
         <div class="page-header">
@@ -1691,7 +1692,7 @@ def generate_target_detail_page(slug: str):
         .thesis-list li:last-child { border-bottom: none; }
         .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-bottom: 24px; font-weight: 500; }
     """
-    detail_title = f"{target_name} Target Landscape | Satya Bio"
+    detail_title = f"{target_name} Target Landscape | Satya Bio Analysis"
     return f'''{_render_head(detail_title, detail_styles)}
     {_render_nav("targets")}
     <main class="main">
@@ -3422,7 +3423,7 @@ def generate_mir124_report(admin: bool = False):
         .highlight-row { background: #fef5f3 !important; }
     """
 
-    return f'''{_render_head("miR-124: Obefazimod &amp; the MicroRNA Reset | Satya Bio", mir124_styles)}
+    return f'''{_render_head("miR-124: Obefazimod & the MicroRNA Reset | Satya Bio", mir124_styles)}
     {_render_nav("targets")}
     <main class="main">
 
@@ -3874,7 +3875,7 @@ def generate_stat6_report(admin: bool = False):
         .data-table td:first-child { font-weight: 600; color: var(--navy); }
     """
 
-    return f'''{_render_head("STAT6 Degraders &amp; Inhibitors | Satya Bio", stat6_styles)}
+    return f'''{_render_head("STAT6 Degraders & Inhibitors | Satya Bio", stat6_styles)}
     {_render_nav("targets")}
     <main class="main">
 
@@ -4878,7 +4879,7 @@ def generate_company_detail(ticker: str):
         .detail-section { background: var(--surface); border-radius: 16px; padding: 24px; margin-bottom: 24px; border: 1px solid var(--border); }
         .detail-section h2 { color: var(--navy); margin-bottom: 16px; }
     """
-    company_detail_title = f'{company["ticker"]} - {company["name"]} | Satya Bio'
+    company_detail_title = f'{company["ticker"]} - {company["name"]} | Satya Bio Analysis'
     return f'''{_render_head(company_detail_title, company_detail_styles)}
     {_render_nav()}
     <main class="main">
