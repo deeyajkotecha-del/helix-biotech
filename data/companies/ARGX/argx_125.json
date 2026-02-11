@@ -1,0 +1,10 @@
+{
+  "_metadata": { "version": "2.1", "ticker": "ARGX", "asset_name": "ARGX-125", "extraction_date": "2026-02-11", "source_id": "argx_corporate_2026" },
+  "asset": { "name": "ARGX-125", "company": "argenx SE", "ticker": "ARGX", "stage": "Preclinical (Phase 1 in 2026)", "modality": null, "ownership": null, "one_liner": "ARGX-125 is a preclinical molecule with undisclosed target, planned for Phase 1 initiation in 2026." },
+  "target": { "name": "Not disclosed", "full_name": null, "class": null, "pathway": null, "biology": { "simple_explanation": "Target not yet disclosed by argenx. Phase 1 initiation planned for 2026." }, "why_good_target": null },
+  "mechanism": null, "regulatory": null, "partnership": null, "pharmacology": null,
+  "indications": null, "clinical_data": null, "differentiation_claims": null, "competitive_landscape": null, "ip_landscape": null, "market_opportunity": null,
+  "catalysts": [ { "event": "Phase 1 initiation", "timing": "2026", "importance": "medium", "what_to_watch": "Target disclosure and first-in-human data", "bull_scenario": null, "bear_scenario": null } ],
+  "investment_analysis": null,
+  "_extraction_quality": { "completeness_score": "low", "missing_critical_fields": ["Target not disclosed — all fields missing"], "recommended_supplementary_sources": ["argenx IND filing or R&D Day disclosure"] }
+}

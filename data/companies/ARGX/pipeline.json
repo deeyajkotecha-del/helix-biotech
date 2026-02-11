@@ -6,6 +6,7 @@
   },
   "asset": {
     "name": "Pipeline Assets",
+    "company": "argenx SE",
     "ticker": "ARGX",
     "modality": "Multiple (antibodies, Fc fragments, sweeping antibodies)",
     "stage": "Phase 1 to Registrational",

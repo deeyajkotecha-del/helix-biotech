@@ -1718,7 +1718,7 @@ def _generate_company_overview_html(data: dict) -> str:
         elif isinstance(indications, dict):
             lead = indications.get("lead", {})
             lead_ind = lead.get("name", "") if isinstance(lead, dict) else lead if lead else ""
-        elif isinstance(indications, list) and indications:
+        elif isinstance(indications, list) and indications and indications[0]:
             lead_ind = indications[0] if isinstance(indications[0], str) else indications[0].get("name", "")
         else:
             lead_ind = ""
@@ -2482,36 +2482,41 @@ def _render_extraction_quality(data: dict) -> str:
 
 def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict, next_asset: dict) -> str:
     """Generate individual asset page HTML with sidebar navigation - supports v2.0 schema."""
-    ticker = company_data.get("ticker", "")
-    company_name = capitalize_medical_terms(company_data.get("name", ""))
-    asset_name = capitalize_medical_terms(asset.get("name", "Unknown"))
-    target_data = asset.get("target", {})
-    mechanism_data = asset.get("mechanism", {})
-    stage = capitalize_medical_terms(asset.get("stage", ""))
-    modality = asset.get("modality", "")
+    # Null-safe helpers — extraction JSON has explicit null values
+    def _s(v, default=""): return v if v is not None else default
+    def _d(v): return v if isinstance(v, dict) else {}
+    def _l(v): return v if isinstance(v, list) else []
+
+    ticker = _s(company_data.get("ticker"), "")
+    company_name = capitalize_medical_terms(_s(company_data.get("name"), ""))
+    asset_name = capitalize_medical_terms(_s(asset.get("name"), "Unknown"))
+    target_data = _d(asset.get("target"))
+    mechanism_data = _d(asset.get("mechanism"))
+    stage = capitalize_medical_terms(_s(asset.get("stage"), ""))
+    modality = _s(asset.get("modality"), "")
     drug_class = get_drug_class(modality)
     # Create short modality for header (remove redundant "small molecule" prefix if present)
     short_modality = modality
-    if short_modality.lower().startswith("small molecule "):
+    if short_modality and short_modality.lower().startswith("small molecule "):
         short_modality = short_modality[15:].strip()  # Remove "small molecule "
     short_modality = capitalize_medical_terms(short_modality)
-    indications_data = asset.get("indications", {})
-    market = asset.get("market_opportunity", {})
-    clinical_data = asset.get("clinical_data", {})
-    investment_analysis = asset.get("investment_analysis", {})
+    indications_data = _d(asset.get("indications"))
+    market = _d(asset.get("market_opportunity"))
+    clinical_data = _d(asset.get("clinical_data"))
+    investment_analysis = _d(asset.get("investment_analysis"))
 
     # New v2.0 fields for disease context
-    disease_background = asset.get("disease_background", {})
-    current_treatment = asset.get("current_treatment_landscape", {})
-    asset_differentiation = asset.get("edg7500_differentiation", {}) or asset.get("differentiation", {})
-    competitive_landscape = asset.get("competitive_landscape", {})
-    regulatory_path = asset.get("regulatory_path", {})
-    abbreviations = asset.get("abbreviations", {})
+    disease_background = _d(asset.get("disease_background"))
+    current_treatment = _d(asset.get("current_treatment_landscape"))
+    asset_differentiation = _d(asset.get("edg7500_differentiation")) or _d(asset.get("differentiation"))
+    competitive_landscape = _d(asset.get("competitive_landscape"))
+    regulatory_path = _d(asset.get("regulatory_path"))
+    abbreviations = _d(asset.get("abbreviations"))
 
     # v2.1 fields
-    pharmacology_data = asset.get("pharmacology", {})
-    ip_landscape_data = asset.get("ip_landscape", {})
-    extraction_quality_data = asset.get("_extraction_quality", {})
+    pharmacology_data = _d(asset.get("pharmacology"))
+    ip_landscape_data = _d(asset.get("ip_landscape"))
+    extraction_quality_data = _d(asset.get("_extraction_quality"))
 
     # Extract citation badges from source objects
     def get_badge(data_obj, key="source"):
@@ -2536,8 +2541,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         unmet_need = [unmet_need]
 
     # Get catalysts from both company and asset level, deduplicating by event name
-    company_catalysts = company_data.get("catalysts", [])
-    asset_catalysts_list = asset.get("catalysts", [])
+    company_catalysts = _l(company_data.get("catalysts"))
+    asset_catalysts_list = _l(asset.get("catalysts"))
     asset_catalysts = asset_catalysts_list + [c for c in company_catalysts if c.get("asset", "").lower() == asset_name.lower()]
     # Deduplicate by event name (asset catalysts already included in company-level merged list)
     seen_events = set()
@@ -2551,7 +2556,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
 
     # Build FDA designation badges
     fda_designation_badges = ""
-    fda_designations = regulatory_path.get("fda_designations", [])
+    fda_designations = regulatory_path.get("fda_designations") or []
     if isinstance(fda_designations, list):
         for des in fda_designations:
             if isinstance(des, dict):
@@ -2566,7 +2571,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     if isinstance(indications_data, dict):
         lead = indications_data.get("lead", {})
         lead_name = lead.get("name", "") if isinstance(lead, dict) else ""
-        expansion = indications_data.get("expansion", [])
+        expansion = indications_data.get("expansion") or []
         indications = [lead_name] + [e.get("name", "") if isinstance(e, dict) else e for e in expansion]
     elif isinstance(indications_data, list):
         indications = indications_data
@@ -2642,12 +2647,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     head_to_head_html = ""
 
     # Check for v2.0 schema: phase1_healthy_volunteer, phase1b_ad, ongoing_trials
-    phase1_hv = clinical_data.get("phase1_healthy_volunteer", {})
-    phase1b_ad = clinical_data.get("phase1b_ad", {})
-    ongoing_trials = clinical_data.get("ongoing_trials", [])
+    phase1_hv = _d(clinical_data.get("phase1_healthy_volunteer"))
+    phase1b_ad = _d(clinical_data.get("phase1b_ad"))
+    ongoing_trials = _l(clinical_data.get("ongoing_trials"))
 
     # Also check for v1.0 schema: trials array
-    trials_v1 = clinical_data.get("trials", [])
+    trials_v1 = _l(clinical_data.get("trials"))
 
     def build_efficacy_table_from_dict(efficacy_endpoints: dict, trial_name: str) -> str:
         """Build efficacy table from v2.0 dict format (EASI, PPNRS, etc.)"""
@@ -3628,16 +3633,16 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     # =======================================================================
     investment_html = ""
     if investment_analysis:
-        bull_case = investment_analysis.get("bull_case", [])
+        bull_case = _l(investment_analysis.get("bull_case"))
         # Fallback: use key_risks as bear_case if bear_case doesn't exist
-        bear_case = investment_analysis.get("bear_case", [])
-        key_risks = investment_analysis.get("key_risks", [])
+        bear_case = _l(investment_analysis.get("bear_case"))
+        key_risks = _l(investment_analysis.get("key_risks"))
         if not bear_case and key_risks:
             # Convert key_risks strings to bear_case format
             bear_case = [{"point": risk, "evidence": "", "counter_argument": ""} for risk in key_risks]
-        key_debates = investment_analysis.get("key_debates", [])
-        pos = investment_analysis.get("probability_of_success", {})
-        peak_sales = investment_analysis.get("peak_sales_estimate", "")
+        key_debates = _l(investment_analysis.get("key_debates"))
+        pos = _d(investment_analysis.get("probability_of_success"))
+        peak_sales = investment_analysis.get("peak_sales_estimate") or ""
 
         # Bull Case Table Rows
         bull_rows = ""
@@ -3969,8 +3974,8 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             competitors = competitive_landscape
             our_advantages = []
         else:
-            competitors = competitive_landscape.get("competitors", [])
-            our_advantages = competitive_landscape.get("our_advantages", []) or competitive_landscape.get("vyvgart_advantages", []) or competitive_landscape.get("empasiprubart_advantages", [])
+            competitors = competitive_landscape.get("competitors") or []
+            our_advantages = competitive_landscape.get("our_advantages") or competitive_landscape.get("vyvgart_advantages") or competitive_landscape.get("empasiprubart_advantages") or []
 
         comp_rows = ""
         for comp in competitors:

@@ -1,0 +1,11 @@
+{
+  "_metadata": { "version": "2.1", "ticker": "ARGX", "asset_name": "ARGX-118", "extraction_date": "2026-02-11", "source_id": "argx_corporate_2026" },
+  "asset": { "name": "ARGX-118", "company": "argenx SE", "ticker": "ARGX", "stage": "Phase 1 (entering 2026)", "modality": null, "ownership": null, "one_liner": "ARGX-118 is a Galectin-10 targeting molecule entering Phase 1 in 2026 as part of argenx's three new Phase 1 programs." },
+  "target": { "name": "Galectin-10", "full_name": "Galectin-10", "class": null, "pathway": null, "biology": { "simple_explanation": null, "pathway_detail": null, "downstream_effects": null }, "why_good_target": { "clinical_validation": null, "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false} } },
+  "mechanism": null, "regulatory": null, "partnership": null, "pharmacology": null,
+  "indications": { "lead": { "name": null, "patient_population": null, "current_penetration": null, "rationale": null }, "expansion": null },
+  "clinical_data": null, "differentiation_claims": null, "competitive_landscape": null, "ip_landscape": null, "market_opportunity": null,
+  "catalysts": [ { "event": "Phase 1 initiation", "timing": "2026", "importance": "medium", "what_to_watch": "First-in-human safety and PK data", "bull_scenario": null, "bear_scenario": null } ],
+  "investment_analysis": null,
+  "_extraction_quality": { "completeness_score": "low", "missing_critical_fields": ["All fields — only target name and stage shown"], "recommended_supplementary_sources": ["argenx R&D Day or IND filings for ARGX-118 details"] }
+}

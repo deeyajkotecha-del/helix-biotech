@@ -1,127 +1,70 @@
 {
-  "_metadata": {
-    "version": "2.0",
-    "ticker": "ARGX",
-    "asset_name": "empasiprubart"
-  },
-  "asset": {
-    "name": "empasiprubart",
-    "ticker": "ARGX",
-    "internal_id": "ARGX-117",
-    "modality": "C2 sweeping antibody",
-    "stage": "Phase 3",
-    "one_liner": "First-in-class C2 complement sweeping antibody targeting MMN and CIDP with potential for combination with VYVGART",
-    "ownership": "Wholly-owned"
-  },
-  "target": {
-    "name": "C2 (Complement Component 2)",
-    "full_name": "Complement Component 2",
-    "class": "Complement pathway component",
-    "pathway": "Classical/lectin pathway → C2 cleavage → C3 convertase formation → complement activation",
-    "biology": {
-      "simple_explanation": "C2 is a key component of the classical and lectin complement pathways. Empasiprubart uses a 'sweeping' mechanism to bind C2 and accelerate its clearance, providing sustained inhibition of complement activation upstream of C5 inhibitors.",
-      "mechanism_differentiation": "Upstream C2 inhibition vs downstream C5 blockade (eculizumab, ravulizumab)",
-      "sweeping_mechanism": "Antibody binds C2 and accelerates degradation for sustained complement suppression"
-    },
-    "why_good_target": {
-      "clinical_validation": "Complement activation implicated in MMN, CIDP, and other neurological diseases",
-      "unmet_need": [
-        "MMN has zero approved targeted treatments",
-        "60% of MMN patients progress despite IVIg treatment",
-        "40% of MMN patients initially misdiagnosed (often as ALS)",
-        "C2 deficiency is generally well-tolerated in humans"
-      ]
-    }
+  "_metadata": { "version": "2.1", "ticker": "ARGX", "asset_name": "Empasiprubart", "extraction_date": "2026-02-11", "source_id": "argx_corporate_2026" },
+  "asset": { "name": "Empasiprubart", "company": "argenx SE", "ticker": "ARGX", "stage": "Phase 3 (MMN) / PoC (CIDP, AMR, Scleroderma, AIE, DGF, ALS, SMA)", "modality": "Antibody (C2 sweeping antibody)", "ownership": null, "one_liner": "Empasiprubart is a potent C2 complement sweeping antibody with sustained grip strength improvement in MMN Phase 2, heading into its first Phase 3 readout in a market expected to exceed $1B by 2030." },
+  "target": { "name": "C2", "full_name": "Complement Component 2", "class": "Complement pathway protein", "pathway": "Complement cascade (classical and lectin pathways)", "biology": { "simple_explanation": "C2 is a key component of the complement system, part of the immune system's attack machinery. By sweeping C2 from the blood, empasiprubart blocks the complement cascade that damages nerves and tissues in autoimmune diseases.", "pathway_detail": null, "downstream_effects": null }, "why_good_target": { "clinical_validation": "ARDA Phase 2 showed sustained grip strength improvement in MMN through 64 weeks in OLE", "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "argx_corporate_2026", "slide": 19, "verified": false} } },
+  "mechanism": { "type": "C2 sweeping antibody", "how_it_works": "Potent sweeping antibody that binds C2 and accelerates its clearance, inhibiting classical and lectin complement pathways", "differentiation": "Sweeping antibody technology; first targeted treatment being developed in MMN", "source": {"id": "argx_corporate_2026", "slide": 20, "verified": false} },
+  "regulatory": { "designations": null, "planned_pathway": { "type": null, "surrogate_endpoint": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} } },
+  "partnership": { "_note": "No partnership information provided", "partner": null, "territory": null, "economics": null },
+  "pharmacology": {
+    "pk_parameters": { "half_life": { "value": null, "population": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "cmax": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "auc": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "tmax": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "bioavailability": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "volume_of_distribution": { "value": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} } },
+    "dose_response": { "doses_tested": null, "dose_rationale": null, "exposure_response": null, "recommended_dose": { "dose": null, "rationale": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "by_dose": null },
+    "target_engagement": { "metric": null, "by_dose": null },
+    "pk_summary": null
   },
   "indications": {
-    "lead": {
-      "name": "Multifocal Motor Neuropathy (MMN)",
-      "stage": "Phase 3 EMPASSION",
-      "rationale": "Zero approved targeted treatments; 60% progress on IVIg; >$1B market by 2030"
-    },
+    "lead": { "name": "MMN (Multifocal Motor Neuropathy)", "patient_population": "12K patients across key markets", "current_penetration": "Zero targeted treatments available", "rationale": "High unmet need; 40% initially misdiagnosed; 60% progression despite treatment; severe disability in 20%", "source": {"id": "argx_corporate_2026", "slide": 18, "verified": false} },
     "expansion": [
-      {
-        "name": "CIDP",
-        "stage": "Phase 2/3",
-        "readout": "2H 2027",
-        "rationale": "Second MOA after VYVGART; potential combination or sequential use"
-      },
-      {
-        "name": "MG Combination",
-        "stage": "ADAPT Forward study",
-        "rationale": "Efgartigimod + empasiprubart combination for enhanced efficacy"
-      }
+      { "name": "CIDP", "stage": "Phase 3 (readout 2H 2027)", "rationale": "Co-positioning with VYVGART", "source": {"id": "argx_corporate_2026", "slide": 24, "verified": false} },
+      { "name": "AMR", "stage": "PoC", "rationale": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} },
+      { "name": "Scleroderma", "stage": "PoC", "rationale": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} },
+      { "name": "AIE", "stage": "PoC", "rationale": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} },
+      { "name": "DGF", "stage": "PoC", "rationale": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} },
+      { "name": "ALS", "stage": "PoC", "rationale": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} },
+      { "name": "SMA", "stage": "PoC", "rationale": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} }
     ]
   },
   "clinical_data": {
-    "trial_name": "EMPASSION (Phase 3 MMN)",
-    "trial_design": {
-      "phase": "Phase 3",
-      "design": "Head-to-head trial vs IVIg",
-      "population": "MMN patients"
-    },
-    "phase_2_results": {
-      "trial": "ARDA Phase 2 + ARDA+ Open Label Extension",
-      "endpoint": "Grip strength change from baseline",
-      "key_finding": "Sustained improved grip strength through 64+ weeks",
-      "durability": "Improvements maintained in open-label extension",
-      "cohorts": "EMP-EMP Cohort 1, EMP-EMP Cohort 2, PBO-EMP Cohort 1, PBO-EMP Cohort 2"
-    },
-    "safety": {
-      "profile": "Generally well-tolerated in Phase 2",
-      "note": "Phase 3 safety data pending"
-    }
+    "trials": [
+      { "name": "ARDA Phase 2", "nct_id": null, "phase": "Phase 2", "status": "Completed", "design": "Randomized, placebo-controlled (2 cohorts)", "enrollment": "Cohort 1: EMP N=18, PBO N=9; Cohort 2: EMP N=18, PBO N=9 (at baseline)",
+        "arms": [ { "name": "EMP-EMP Cohort 1", "dose": null, "n": 18 }, { "name": "EMP-EMP Cohort 2", "dose": null, "n": 18 }, { "name": "PBO-EMP Cohort 1", "dose": null, "n": 9 }, { "name": "PBO-EMP Cohort 2", "dose": null, "n": 9 } ],
+        "primary_endpoint": { "name": "Grip strength change from baseline (kPA)", "definition": "Change from baseline in grip strength measured in kiloPascals", "result": "Grip strength curves shown (slide 19): EMP-EMP Cohort 2 ~20-25 kPA improvement at week 16; EMP-EMP Cohort 1 ~15 kPA at week 16; PBO-EMP Cohort 1 ~2-5 kPA; PBO-EMP Cohort 2 ~0 kPA. Numeric values estimated from graph. No p-values provided.", "source": {"id": "argx_corporate_2026", "slide": 19, "verified": false} },
+        "secondary_endpoints": null, "biomarkers": null, "safety": null, "source": {"id": "argx_corporate_2026", "slide": 19, "verified": false} },
+      { "name": "ARDA+ Open Label Extension", "nct_id": null, "phase": "Phase 2 OLE", "status": "Ongoing", "design": "Open-label extension", "enrollment": "EMP-EMP Cohort 1: 15 at wk64; Cohort 2: 12 at wk64; PBO-EMP Cohort 1: 5; Cohort 2: 6",
+        "arms": null,
+        "primary_endpoint": { "name": "Grip strength change from baseline (kPA) — sustained", "definition": null, "result": "Sustained improvement through 64 weeks: EMP-EMP Cohort 2 reached ~35-40 kPA; Cohort 1 ~20 kPA at week 64. PBO-EMP cohorts showed lower improvements after crossover (~15 kPA Cohort 1, ~5 kPA Cohort 2). Numeric values estimated from graph.", "source": {"id": "argx_corporate_2026", "slide": 19, "verified": false} },
+        "secondary_endpoints": null, "biomarkers": null, "safety": null, "source": {"id": "argx_corporate_2026", "slide": 19, "verified": false} },
+      { "name": "EMPASSION", "nct_id": null, "phase": "Phase 3", "status": "Readout expected 4Q 2026", "design": "Head-to-head trial vs IVIg", "enrollment": null, "arms": null,
+        "primary_endpoint": { "name": null, "definition": null, "result": null, "source": {"id": "argx_corporate_2026", "slide": 26, "verified": false} },
+        "secondary_endpoints": null, "biomarkers": null, "safety": null, "source": {"id": "argx_corporate_2026", "slide": 26, "verified": false} },
+      { "name": "CIDP Phase 3", "nct_id": null, "phase": "Phase 3", "status": "Readout expected 2H 2027", "design": null, "enrollment": null, "arms": null,
+        "primary_endpoint": { "name": null, "definition": null, "result": null, "source": {"id": "argx_corporate_2026", "slide": 24, "verified": false} },
+        "secondary_endpoints": null, "biomarkers": null, "safety": null, "source": {"id": "argx_corporate_2026", "slide": 24, "verified": false} },
+      { "name": "ADAPT Forward (combination: efgartigimod + empasiprubart)", "nct_id": null, "phase": "Combination study", "status": "Exploring", "design": "Combination of efgartigimod and empasiprubart in MG", "enrollment": null, "arms": null,
+        "primary_endpoint": { "name": null, "definition": null, "result": null, "source": {"id": "argx_corporate_2026", "slide": 16, "verified": false} },
+        "secondary_endpoints": null, "biomarkers": null, "safety": null, "source": {"id": "argx_corporate_2026", "slide": 16, "verified": false} }
+    ]
   },
-  "catalysts": [
-    {
-      "event": "MMN Phase 3 EMPASSION readout",
-      "timing": "4Q 2026",
-      "importance": "critical",
-      "what_to_watch": "Head-to-head vs IVIg; first Phase 3 for empasiprubart"
-    },
-    {
-      "event": "CIDP Phase 2/3 readout",
-      "timing": "2H 2027",
-      "importance": "high",
-      "what_to_watch": "Second molecule in CIDP; combination potential with VYVGART"
-    }
+  "differentiation_claims": [
+    { "claim": "Zero targeted treatments currently available in MMN", "evidence_level": "management_claim", "caveat": "Current SOC is IVIg", "source": {"id": "argx_corporate_2026", "slide": 18, "verified": false} },
+    { "claim": "Sustained grip strength improvement through 64 weeks in OLE", "evidence_level": "cross_trial", "caveat": "OLE data; small N (12-15 at week 64); no placebo comparison in OLE", "source": {"id": "argx_corporate_2026", "slide": 19, "verified": false} }
   ],
   "competitive_landscape": {
-    "complement_inhibitors": [
-      {
-        "drug": "eculizumab (Soliris)",
-        "company": "Alexion/AstraZeneca",
-        "target": "C5",
-        "limitation": "Downstream inhibition; different mechanism"
-      },
-      {
-        "drug": "ravulizumab (Ultomiris)",
-        "company": "Alexion/AstraZeneca",
-        "target": "C5",
-        "limitation": "Long-acting C5 but still downstream"
-      }
-    ],
-    "empasiprubart_advantages": [
-      "First-in-class C2 sweeping mechanism",
-      "Upstream complement inhibition",
-      "Sustained C2 depletion through sweeping",
-      "Combination potential with FcRn inhibition"
+    "competitors": [
+      { "drug": "IVIg", "company": "Multiple (PPTA, Takeda, CSL)", "stage": "Approved / SOC", "mechanism": "Immunoglobulin replacement", "key_data": null, "limitation": "60% progression despite treatment; not targeted", "differentiation_vs_us": "EMPASSION Phase 3 is head-to-head vs IVIg" }
     ]
   },
+  "ip_landscape": { "composition_of_matter": { "patent_expiry": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "method_of_use": { "patent_expiry": null, "source": {"id": "argx_corporate_2026", "slide": null, "verified": false} }, "regulatory_exclusivity": { "type": null, "expiry": null }, "freedom_to_operate": null },
+  "market_opportunity": { "tam": "$750-800M current, expected >$1B by 2030", "patient_population": "12K across key markets", "unmet_need": "Zero targeted treatments; 40% misdiagnosed; 60% progression; 20% severe disability", "pricing_benchmark": null, "peak_sales_estimate": null, "source": {"id": "argx_corporate_2026", "slide": 18, "verified": false} },
+  "catalysts": [
+    { "event": "MMN Phase 3 readout (EMPASSION)", "timing": "4Q 2026", "importance": "critical", "what_to_watch": "Head-to-head vs IVIg", "bull_scenario": "First targeted treatment in MMN; validates C2 mechanism; >$1B market", "bear_scenario": "High bar head-to-head vs IVIg; small Phase 2 sample sizes" },
+    { "event": "CIDP Phase 3 readout", "timing": "2H 2027", "importance": "high", "what_to_watch": "Co-positioning with VYVGART", "bull_scenario": "Dual MOA in CIDP", "bear_scenario": "Potential VYVGART cannibalization" }
+  ],
   "investment_analysis": {
-    "probability_of_success": "Phase 2 de-risked; Phase 3 head-to-head vs IVIg",
-    "peak_sales_estimate": ">$1B in MMN alone; additional upside from CIDP",
-    "key_risks": [
-      "Novel mechanism without approved precedent",
-      "Head-to-head trial vs IVIg is challenging design",
-      "Compound mutation market may be smaller than total addressable"
-    ]
+    "probability_of_success": null,
+    "key_risks": ["Head-to-head vs IVIg is a high bar", "Small Phase 2 sample sizes", "Graph-only efficacy data (no formal statistics provided)"],
+    "bull_case": [ {"thesis": "First targeted treatment in MMN with >$1B market opportunity", "evidence": "Slide 18 market data", "confidence": "medium"}, {"thesis": "Sustained 64-week grip strength improvement in OLE", "evidence": "ARDA+ data (slide 19)", "confidence": "medium"} ],
+    "bear_case": [ {"thesis": "Phase 3 head-to-head vs IVIg is challenging design", "evidence": "Slide 26 trial description", "confidence": "medium"}, {"thesis": "Phase 2 N=9-18 per arm; clinical significance of grip strength improvement uncertain", "evidence": "Slide 19 sample sizes", "confidence": "medium"} ],
+    "key_debates": [ { "question": "Can empasiprubart beat IVIg head-to-head in MMN?", "bull_view": "IVIg only manages disease; 60% still progress; empasiprubart targets root cause", "bear_view": "IVIg is a proven therapy; head-to-head superiority is a high bar", "what_resolves_it": "EMPASSION Phase 3 readout 4Q 2026" } ]
   },
-  "market_opportunity": {
-    "mmn_global": "12,000 patients across key markets",
-    "mmn_market_today": "$750-800M",
-    "mmn_market_2030": ">$1B",
-    "mmn_unmet_need": "40% misdiagnosed, 0 targeted treatments, 60% progress on IVIg, 20% severe disability",
-    "cidp_opportunity": "42K diagnosed US patients; second MOA after VYVGART"
-  }
+  "_extraction_quality": { "completeness_score": "medium", "missing_critical_fields": ["PK parameters", "Dosing regimen", "Safety data", "Formal statistical results from Phase 2", "NCT IDs", "IP/patents", "Regulatory designations"], "recommended_supplementary_sources": ["ARDA Phase 2 publication for full statistical analysis", "ClinicalTrials.gov for EMPASSION trial details", "ECTRIMS/AAN presentations for full MMN data"] }
 }

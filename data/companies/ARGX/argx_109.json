@@ -1,0 +1,18 @@
+{
+  "_metadata": { "version": "2.1", "ticker": "ARGX", "asset_name": "ARGX-109", "extraction_date": "2026-02-11", "source_id": "argx_corporate_2026" },
+  "asset": { "name": "ARGX-109", "company": "argenx SE", "ticker": "ARGX", "stage": "PoC", "modality": "Antibody (anti-IL-6)", "ownership": null, "one_liner": "ARGX-109 is an IL-6 targeting antibody in proof-of-concept stage, part of argenx's broader immunology pipeline." },
+  "target": { "name": "IL-6", "full_name": "Interleukin-6", "class": "Cytokine", "pathway": "IL-6 signaling", "biology": { "simple_explanation": "IL-6 is a pro-inflammatory cytokine involved in many autoimmune and inflammatory diseases. Blocking IL-6 can reduce inflammation and disease activity.", "pathway_detail": null, "downstream_effects": null }, "why_good_target": { "clinical_validation": null, "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} } },
+  "mechanism": { "type": null, "how_it_works": null, "differentiation": null, "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false} },
+  "regulatory": { "designations": null, "planned_pathway": null },
+  "partnership": null,
+  "pharmacology": null,
+  "indications": { "lead": { "name": null, "patient_population": null, "current_penetration": null, "rationale": null }, "expansion": null },
+  "clinical_data": { "trials": null },
+  "differentiation_claims": null,
+  "competitive_landscape": null,
+  "ip_landscape": null,
+  "market_opportunity": null,
+  "catalysts": null,
+  "investment_analysis": null,
+  "_extraction_quality": { "completeness_score": "low", "missing_critical_fields": ["All fields — only target and stage shown on pipeline slide"], "recommended_supplementary_sources": ["argenx 20-F or R&D Day for ARGX-109 details"] }
+}

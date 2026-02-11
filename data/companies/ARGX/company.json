@@ -1,61 +1,64 @@
 {
   "_metadata": {
-    "version": "2.0",
+    "version": "2.1",
     "ticker": "ARGX",
-    "company_name": "argenx",
-    "data_source": "argenx 2026 JPM Corporate Presentation",
-    "extraction_date": "2026-02-04"
+    "company_name": "argenx SE",
+    "data_source": "argx_corporate_2026",
+    "extraction_date": "2026-02-11"
   },
-
   "ticker": "ARGX",
-  "name": "argenx",
-
+  "name": "argenx SE",
   "company": {
-    "name": "argenx",
+    "name": "argenx SE",
     "ticker": "ARGX",
-    "exchange": "NASDAQ / Euronext Brussels",
-    "headquarters": "Breda, Netherlands",
-    "website": "https://argenx.com",
-    "one_liner": "Commercial-stage immunology leader with $4.2B VYVGART franchise, first-in-class FcRn platform, and 10 clinical-stage molecules targeting 50K patients by 2030"
+    "exchange": "NASDAQ",
+    "headquarters": null,
+    "website": null,
+    "one_liner": "argenx is an immunology company pioneering FcRn-targeting therapies led by VYVGART (efgartigimod), with a broad pipeline of antibody-based medicines across autoimmune diseases in neurology and rheumatology."
   },
   "investment_thesis_summary": {
-    "core_thesis": "argenx has built the leading FcRn inhibitor franchise with VYVGART generating $4.2B in 2025 (90% YoY growth) and achieving first-year operating profitability. The company's Vision 2030 targets 50K patients on treatment, 10 labeled indications, and 5 new molecules in Phase 3, supported by 6 registrational readouts over the next 24 months.",
+    "core_thesis": "argenx is building a dominant, multi-asset immunology franchise anchored by VYVGART, which achieved $4.2B in 2025 product net sales (+90% YoY) and first-year operating profitability. The company has 10 ongoing registrational studies with 6 Phase 3 readouts over the next 24 months, positioning it for significant label expansion and pipeline diversification through Vision 2030.",
     "key_value_drivers": [
-      "VYVGART $4.2B FY2025 revenue with 90% YoY growth, first year of operating profitability",
-      "6 Phase 3 readouts over 24 months: Ocular MG (1Q26), Myositis (3Q26), ITP (4Q26), MMN (4Q26), CIDP (2H27), Sjögren's (2H27)",
-      "MG TAM expanding from 17K to 60K US patients by 2030",
-      "Second pillar with empasiprubart (C2 complement) - MMN Phase 3 readout 4Q 2026"
+      "VYVGART product net sales of $4.2B in 2025 with 90% YoY growth and first-year operating profitability",
+      "6 registrational Phase 3 readouts over next 24 months across efgartigimod and empasiprubart",
+      "Vision 2030 targets: 50K patients on treatment, 10 labeled indications, 5 new molecules in Phase 3"
     ]
   },
   "investment_analysis": {
     "bull_case": [
-      "VYVGART already $4.2B with 90% growth; trajectory toward $10B+ peak across indications",
-      "First mover advantage in FcRn with broadest label and real-world evidence (~19K patients treated)",
-      "#1 prescribed biologic in MG; blockbuster status in CIDP as of 3Q 2025",
-      "6 Phase 3 readouts over 24 months significantly de-risk pipeline",
-      "Multiple mechanisms (FcRn, C2, MuSK, IgA) diversify beyond single target",
-      "Operating profitability achieved in 2025; self-funding growth",
-      "60K addressable MG patients by 2030 (3.5x expansion from launch)"
+      "VYVGART is #1 prescribed biologic in MG, driving 60% growth in overall MG biologics share, with expanding prescriber base (>4,700 US prescribers, 20% YoY increase)",
+      "MG total addressable market expected to grow from 17K at launch to 60K patients in the US by 2030 through seronegative, ocular, and biologics share expansion",
+      "Empasiprubart Phase 3 readout in MMN in 4Q 2026 targets a $750-800M market expected to grow beyond $1B by 2030 with zero targeted treatments currently available",
+      "Diversified FcRn franchise with 3 clinical-stage FcRn molecules (VYVGART, ARGX-213 Phase 3 ready, ARGX-124 Phase 1) providing lifecycle protection",
+      "Deep pipeline with 25 active IIP programs, 10 clinical-stage molecules, and 3 new Phase 1 molecules entering clinic in 2026",
+      "70% of new MG patients coming directly from orals, indicating earlier line treatment adoption and market expansion",
+      "CIDP achieved blockbuster status as of 3Q 2025 with clear path to expansion (12K addressable at launch, 42K total diagnosed)"
     ],
     "bear_case": [
-      "FcRn competition intensifying: UCB RYSTIGGO approved, J&J nipocalimab in Phase 3",
-      "High valuation requires continued execution across multiple programs",
-      "Phase 3 trials in heterogeneous diseases (Myositis, Sjögren's) carry execution risk",
-      "Complement space has established players (Alexion/AstraZeneca C5 inhibitors)",
-      "Large commercial organization requires continued investment"
+      "Multiple Phase 3 trials carry execution risk — Ocular MG uses novel MGII primary endpoint, Myositis has heterogeneous disease with TIS composite endpoint, Sjogren's has challenging primary endpoint",
+      "ITP trial targets difficult-to-treat patients, potentially limiting broad applicability of results",
+      "Empasiprubart MMN Phase 3 (EMPASSION) is a head-to-head trial vs IVIg, a high bar for a registrational study",
+      "FcRn class competition may emerge from next-generation molecules from other companies",
+      "Expansion into rheumatology (Myositis, Sjogren's) represents new therapeutic areas where no targeted therapies are currently approved, creating regulatory pathway uncertainty"
     ],
     "key_debates": [
       {
-        "question": "Can argenx maintain FcRn leadership as competition enters?",
-        "bull_view": "First mover with most experience, broadest program, and next-gen molecules (ARGX-213 monthly dosing)",
-        "bear_view": "FcRn is validated mechanism; competitors may erode share with differentiated profiles",
-        "what_resolves_it": "Market share trends post-RYSTIGGO launch; ARGX-213 Phase 3 data"
+        "question": "Can argenx sustain VYVGART revenue growth as the MG market matures and expand successfully into new indications?",
+        "bull_view": "MG TAM growing from 17K to 60K, with seronegative label expansion pending, ocular MG Phase 3, and combination approaches with empasiprubart driving further growth",
+        "bear_view": "MG growth may plateau as biologics penetration matures; new indications carry Phase 3 execution risk with novel endpoints",
+        "what_resolves_it": "Ocular MG Phase 3 readout in 1Q 2026, seronegative MG approval decision by end of 2026, and sequential Phase 3 readouts through 2027"
       },
       {
-        "question": "Will empasiprubart establish a second commercial pillar?",
-        "bull_view": "First-in-class C2 sweeper with differentiated mechanism; >$1B MMN market",
-        "bear_view": "Novel mechanism without precedent; head-to-head vs IVIg is challenging",
-        "what_resolves_it": "MMN Phase 3 EMPASSION readout 4Q 2026"
+        "question": "Will empasiprubart succeed in Phase 3 and become a meaningful second franchise?",
+        "bull_view": "Phase 2 ARDA data showed sustained grip strength improvement in MMN through 64 weeks in open-label extension; MMN has zero targeted treatments and >$1B market opportunity",
+        "bear_view": "EMPASSION is a head-to-head trial vs IVIg which is a high bar; Phase 2 sample sizes were small (N=9-18 per arm)",
+        "what_resolves_it": "EMPASSION Phase 3 readout in MMN expected 4Q 2026"
+      },
+      {
+        "question": "Can argenx maintain FcRn leadership long-term against emerging competition?",
+        "bull_view": "3 clinical-stage FcRn molecules, autoinjector estimated 2027, partnerships with Elektrofi (small volume delivery) and Unnatural Products (oral peptides) for next-generation delivery",
+        "bear_view": "Competition in FcRn class is increasing; patent cliffs may eventually erode exclusivity",
+        "what_resolves_it": "ARGX-213 Phase 3 readiness and differentiation data vs efgartigimod (sustained IgG reduction shown in Phase 1); ARGX-124 Phase 1 data"
       }
     ]
   },
@@ -64,127 +67,177 @@
     "clinical_stage": 10,
     "programs": [
       {
-        "asset": "efgartigimod (VYVGART)",
+        "asset": "Efgartigimod (VYVGART / VYVGART Hytrulo)",
         "target": "FcRn",
-        "stage": "Approved + Phase 3",
-        "indications": "gMG (approved), CIDP (approved), Ocular MG, ITP, Myositis, Sjögren's",
+        "stage": "Approved / Phase 3 (multiple indications)",
+        "indications": "gMG (AChR+, approved; seronegative pending), Ocular MG, ITP, Myositis, Sjogren's Disease, Graves' Disease",
         "ownership": "Wholly-owned",
-        "next_catalyst": "Ocular MG Phase 3 - 1Q 2026"
+        "next_catalyst": "Ocular MG Phase 3 readout — 1Q 2026",
+        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
       },
       {
-        "asset": "empasiprubart",
-        "target": "C2 (Complement)",
-        "stage": "Phase 3",
-        "indications": "MMN, CIDP",
-        "ownership": "Wholly-owned",
-        "next_catalyst": "MMN Phase 3 - 4Q 2026"
+        "asset": "Empasiprubart",
+        "target": "C2 (complement)",
+        "stage": "Phase 3 / PoC",
+        "indications": "MMN, CIDP, AMR, Scleroderma, AIE, DGF, ALS, SMA",
+        "ownership": null,
+        "next_catalyst": "MMN Phase 3 (EMPASSION) readout — 4Q 2026",
+        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
       },
       {
-        "asset": "adimanebart",
+        "asset": "Adimanebart",
         "target": "MuSK",
-        "stage": "Registrational",
+        "stage": "Registrational / PoC",
         "indications": "CMS, ALS, SMA",
-        "ownership": "Wholly-owned",
-        "next_catalyst": "CMS registrational data"
+        "ownership": null,
+        "next_catalyst": null,
+        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
       },
       {
         "asset": "ARGX-213",
-        "target": "FcRn (sustained)",
-        "stage": "Phase 3 ready",
+        "target": "FcRn (sustained IgG reduction)",
+        "stage": "Phase 3 ready (Registrational)",
         "indications": "15+ potential indications",
-        "ownership": "Wholly-owned",
-        "next_catalyst": "Phase 3 initiation"
+        "ownership": null,
+        "next_catalyst": null,
+        "source": {"id": "argx_corporate_2026", "slide": 16, "verified": false}
       },
       {
         "asset": "ARGX-121",
-        "target": "IgA",
-        "stage": "Phase 1",
-        "indications": "IgA Nephropathy",
-        "ownership": "Wholly-owned",
-        "next_catalyst": "Phase 1 data"
+        "target": "IgA (IgA sweeping antibody)",
+        "stage": "PoC",
+        "indications": "IgA Nephropathy, 3+ potential indications",
+        "ownership": null,
+        "next_catalyst": null,
+        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
       },
       {
         "asset": "ARGX-109",
         "target": "IL-6",
         "stage": "PoC",
-        "indications": "Multiple autoimmune",
-        "ownership": "Wholly-owned",
-        "next_catalyst": "PoC data"
+        "indications": null,
+        "ownership": null,
+        "next_catalyst": null,
+        "source": {"id": "argx_corporate_2026", "slide": 23, "verified": false}
       },
       {
         "asset": "ARGX-118",
         "target": "Galectin-10",
-        "stage": "Phase 1 (2026)",
-        "indications": "TBD",
-        "ownership": "Wholly-owned",
-        "next_catalyst": "Phase 1 initiation 2026"
+        "stage": "Phase 1",
+        "indications": null,
+        "ownership": null,
+        "next_catalyst": "Phase 1 initiation in 2026",
+        "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false}
+      },
+      {
+        "asset": "ARGX-124",
+        "target": "FcRn",
+        "stage": "Phase 1",
+        "indications": null,
+        "ownership": null,
+        "next_catalyst": null,
+        "source": {"id": "argx_corporate_2026", "slide": 16, "verified": false}
+      },
+      {
+        "asset": "ARGX-125",
+        "target": "Not disclosed",
+        "stage": "Preclinical",
+        "indications": null,
+        "ownership": null,
+        "next_catalyst": "Phase 1 initiation in 2026",
+        "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false}
+      },
+      {
+        "asset": "Tensegrity (TSP-101)",
+        "target": "Fn14",
+        "stage": "Phase 1",
+        "indications": null,
+        "ownership": null,
+        "next_catalyst": "Phase 1 in 2026",
+        "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false}
       }
     ]
   },
   "platform": {
-    "name": "Antibody Engineering Platform",
-    "description": "argenx leverages proprietary Fc modifications (Fc-ABDEG) and llama-derived single domain antibodies (VHH) to create differentiated therapeutics. The innovation engine targets 1 IND per year with 25 active IIP programs spanning neurology, rheumatology, renal, and dermatology."
+    "name": "Antibody Engineering / Innovation Engine",
+    "description": "argenx's innovation engine combines pioneering novel biology, pipeline-in-a-product strategy, and best-in-field antibody engineering including proprietary Fc-ABDEG technology. Sourcing from academic research centers, immunology labs, and biopharma companies. 25 active IIP programs spanning neurology, rheumatology, renal, and skin targets with a target of 1 IND per year.",
+    "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false}
   },
   "financials": {
-    "fy_2025_revenue": "$4,151M product net sales",
-    "yoy_growth": "90% (ex-FX)",
-    "q4_2025_revenue": "$1,286M",
-    "profitability": "First year of operating profitability in 2025",
-    "cash_runway": "Self-funding with profitability"
+    "cash_position": null,
+    "cash_runway": null,
+    "market_cap": null,
+    "enterprise_value": null,
+    "revenue": "$4,151 million (FY 2025 product net sales, preliminary/unaudited)",
+    "revenue_detail": {
+      "fy_2025": "$4,151 million",
+      "fy_2024": "$2,186 million",
+      "yoy_growth": "+90% (ex-FX)",
+      "q4_2025": "$1,286 million",
+      "q4_2024": "$737 million",
+      "q4_yoy_growth": "+74% (ex-FX)",
+      "q3_2025": "$1,127 million",
+      "q4_vs_q3_growth": "+14% (ex-FX)",
+      "first_year_operating_profitability": true
+    },
+    "source": {"id": "argx_corporate_2026", "slide": 7, "verified": false}
   },
-  "commercial_performance": {
-    "global_patients": "~19,000 on VYVGART globally",
-    "us_prescribers": ">4,700 prescribers",
-    "prescriber_growth": "20% YoY increase in new prescribers",
-    "mg_position": "#1 prescribed biologic in MG",
-    "cidp_status": "Blockbuster status as of 3Q 2025"
-  },
-  "market_opportunity": {
-    "myasthenia_gravis": {
-      "us_addressable_at_launch": "17K patients",
-      "us_addressable_2030": "60K patients",
-      "expansion_drivers": "Seronegative (+11K), Ocular (+7K), biologics share growth (+25K)"
-    },
-    "cidp": {
-      "us_addressable_at_launch": "12K patients",
-      "us_total_diagnosed": "42K patients"
-    },
-    "autoimmune_myositis": {
-      "us_prevalence": "70K patients (DM 40K, IMNM 20K, PM 10K)"
-    },
-    "sjogrens_disease": {
-      "us_prevalence": "330K total, 100K moderate-to-severe"
-    },
-    "mmn": {
-      "global_patients": "12K across key markets",
-      "market_size": "$750-800M today, >$1B by 2030"
-    }
-  },
-  "catalysts_2026": [
+  "catalysts": [
     {
-      "event": "Ocular MG Phase 3 readout",
+      "asset": "Efgartigimod",
+      "event": "Ocular MG Phase 3 data readout (ADAPT Oculus)",
       "timing": "1Q 2026",
-      "significance": "First and only Ocular MG development; +7K patients"
+      "importance": "critical",
+      "what_to_watch": "MGII novel primary endpoint result; first and only development program in Ocular MG"
     },
     {
-      "event": "Myositis Phase 3 readout (ALKIVIA)",
+      "asset": "Efgartigimod",
+      "event": "Myositis Phase 3 data readout (ALKIVIA)",
       "timing": "3Q 2026",
-      "significance": "Rheumatology expansion; 70K US patients"
+      "importance": "critical",
+      "what_to_watch": "TIS composite primary endpoint in heterogeneous disease; significant improvement in muscle strength shown in Phase 2"
     },
     {
-      "event": "ITP Phase 3 readout (ADVANCE-NEXT)",
+      "asset": "Efgartigimod",
+      "event": "ITP Phase 3 data readout (ADVANCE NEXT)",
       "timing": "4Q 2026",
-      "significance": "Hematology market expansion"
+      "importance": "critical",
+      "what_to_watch": "Cumulative platelet count primary endpoint in difficult-to-treat patients; supported by ADVANCE Phase 3 IV and real world data from Japan"
     },
     {
-      "event": "Empasiprubart MMN Phase 3 (EMPASSION)",
+      "asset": "Empasiprubart",
+      "event": "MMN Phase 3 data readout (EMPASSION)",
       "timing": "4Q 2026",
-      "significance": "First Phase 3 for second molecule; >$1B market"
+      "importance": "critical",
+      "what_to_watch": "Head-to-head trial vs IVIg; first targeted treatment in MMN where 60% of patients progress despite current treatment"
     },
     {
-      "event": "Seronegative MG approval decision",
+      "asset": "Efgartigimod",
+      "event": "AChR- gMG approval decision (MuSK+, LRP4+, triple seronegative)",
       "timing": "By end of 2026",
-      "significance": "Broadest MG label; +11K patients"
+      "importance": "critical",
+      "what_to_watch": "Broadest MG label; adds ~11K seronegative patients to US addressable market"
+    },
+    {
+      "asset": "Efgartigimod",
+      "event": "Sjogren's Disease Phase 3 data readout (UNITY)",
+      "timing": "2H 2027",
+      "importance": "high",
+      "what_to_watch": "Challenging primary endpoint; Phase 2 showed reductions in systemic disease activity; 330K US prevalence, 100K moderate-to-severe"
+    },
+    {
+      "asset": "Empasiprubart",
+      "event": "CIDP Phase 3 data readout",
+      "timing": "2H 2027",
+      "importance": "high",
+      "what_to_watch": "Co-positioning with VYVGART in CIDP; expanding beyond current 12K addressable market toward 42K total diagnosed patients"
+    },
+    {
+      "asset": "VYVGART",
+      "event": "Autoinjector launch (partnership with Ypsomed)",
+      "timing": "Estimated 2027",
+      "importance": "medium",
+      "what_to_watch": "Further optimization of patient experience beyond PFS"
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "_metadata": { "version": "2.1", "ticker": "ARGX", "asset_name": "TSP-101", "extraction_date": "2026-02-11", "source_id": "argx_corporate_2026" },
+  "asset": { "name": "Tensegrity (TSP-101)", "company": "argenx SE (in-licensed from Tensegrity)", "ticker": "ARGX", "stage": "Phase 1", "modality": null, "ownership": null, "one_liner": "TSP-101 is an Fn14-targeting molecule in Phase 1, in-licensed from Tensegrity as part of argenx's strategy to bring in later-stage pipeline candidates from biopharma companies." },
+  "target": { "name": "Fn14", "full_name": "Fibroblast Growth Factor-Inducible 14 (TWEAK receptor)", "class": "Receptor", "pathway": "TWEAK/Fn14 signaling", "biology": { "simple_explanation": null, "pathway_detail": null, "downstream_effects": null }, "why_good_target": { "clinical_validation": null, "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "argx_corporate_2026", "slide": 22, "verified": false} } },
+  "mechanism": null, "regulatory": null,
+  "partnership": { "_note": "In-licensed from Tensegrity — part of strategy to bring in later-stage candidates from biopharma companies", "partner": "Tensegrity", "territory": null, "economics": null },
+  "pharmacology": null, "indications": null, "clinical_data": null, "differentiation_claims": null, "competitive_landscape": null, "ip_landscape": null, "market_opportunity": null,
+  "catalysts": [ { "event": "Phase 1 in 2026", "timing": "2026", "importance": "medium", "what_to_watch": "First-in-human safety and PK data", "bull_scenario": null, "bear_scenario": null } ],
+  "investment_analysis": null,
+  "_extraction_quality": { "completeness_score": "low", "missing_critical_fields": ["All fields — only target, stage, and partner shown"], "recommended_supplementary_sources": ["Tensegrity partnership press release", "argenx R&D Day for TSP-101 details"] }
+}

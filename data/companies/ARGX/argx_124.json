@@ -1,0 +1,9 @@
+{
+  "_metadata": { "version": "2.1", "ticker": "ARGX", "asset_name": "ARGX-124", "extraction_date": "2026-02-11", "source_id": "argx_corporate_2026" },
+  "asset": { "name": "ARGX-124", "company": "argenx SE", "ticker": "ARGX", "stage": "Phase 1", "modality": "FcRn-targeting molecule", "ownership": null, "one_liner": "ARGX-124 is an FcRn-targeting molecule in Phase 1, part of argenx's strategy to build a diversified FcRn franchise with 3 clinical-stage molecules." },
+  "target": { "name": "FcRn", "full_name": "Neonatal Fc Receptor", "class": "Receptor", "pathway": "IgG recycling", "biology": { "simple_explanation": "Third FcRn molecule in argenx portfolio after efgartigimod and ARGX-213, contributing to enduring FcRn leadership strategy.", "pathway_detail": null, "downstream_effects": null }, "why_good_target": { "clinical_validation": "Efgartigimod (same target) approved with $4.2B in 2025 sales", "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "argx_corporate_2026", "slide": 16, "verified": false} } },
+  "mechanism": null, "regulatory": null, "partnership": null, "pharmacology": null,
+  "indications": { "lead": { "name": null, "patient_population": null, "current_penetration": null, "rationale": null }, "expansion": null },
+  "clinical_data": null, "differentiation_claims": null, "competitive_landscape": null, "ip_landscape": null, "market_opportunity": null, "catalysts": null, "investment_analysis": null,
+  "_extraction_quality": { "completeness_score": "low", "missing_critical_fields": ["All fields — only target and stage shown on FcRn franchise slide"], "recommended_supplementary_sources": ["argenx R&D Day or conference presentations for ARGX-124 Phase 1 data"] }
+}

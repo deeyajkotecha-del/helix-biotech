@@ -228,7 +228,7 @@ def get_company_full(ticker: str) -> Optional[dict]:
             assets_full.append(full_asset)
 
             # Collect catalysts
-            for catalyst in asset.get("catalysts", []):
+            for catalyst in (asset.get("catalysts") or []):
                 if isinstance(catalyst, dict):
                     catalyst_copy = catalyst.copy()
                     catalyst_copy["asset"] = asset.get("name", "")
@@ -260,13 +260,13 @@ def get_company_full(ticker: str) -> Optional[dict]:
                 if indications_raw.get("lead"):
                     lead = indications_raw.get("lead", {})
                     indications_list.append(lead.get("name", "") if isinstance(lead, dict) else lead)
-                for exp in indications_raw.get("expansion", []):
+                for exp in (indications_raw.get("expansion") or []):
                     indications_list.append(exp.get("name", "") if isinstance(exp, dict) else exp)
             elif isinstance(indications_raw, list):
                 indications_list = indications_raw
             else:
-                indications_list = clinical_dev.get("indications_in_development", []) or (
-                    [clinical_dev.get("lead_indication")] + clinical_dev.get("expansion_indications", [])
+                indications_list = (clinical_dev.get("indications_in_development") or []) or (
+                    [clinical_dev.get("lead_indication")] + (clinical_dev.get("expansion_indications") or [])
                 )
 
             # Get stage from multiple possible locations
@@ -318,7 +318,7 @@ def get_company_full(ticker: str) -> Optional[dict]:
             assets_full.append(full_asset)
 
             # Collect catalysts from all assets - v2.0 uses "catalysts", v1.0 uses "upcoming_catalysts"
-            asset_catalysts = asset_data.get("catalysts", asset_data.get("upcoming_catalysts", []))
+            asset_catalysts = asset_data.get("catalysts") or asset_data.get("upcoming_catalysts") or []
             for catalyst in asset_catalysts:
                 if isinstance(catalyst, dict):
                     catalyst_copy = catalyst.copy()
@@ -368,9 +368,9 @@ def get_company_full(ticker: str) -> Optional[dict]:
             # v2.0 investment analysis
             inv_analysis = company_data.get("investment_analysis", {})
             result["investment_thesis"] = {
-                "bull_case": inv_analysis.get("bull_case", []),
-                "bear_case": inv_analysis.get("bear_case", []),
-                "key_debates": inv_analysis.get("key_debates", []),
+                "bull_case": inv_analysis.get("bull_case") or [],
+                "bear_case": inv_analysis.get("bear_case") or [],
+                "key_debates": inv_analysis.get("key_debates") or [],
                 "valuation_framework": inv_analysis.get("valuation_framework", {})
             }
             result["investment_thesis_summary"] = company_data.get("investment_thesis_summary", {})
@@ -404,15 +404,15 @@ def get_company_full(ticker: str) -> Optional[dict]:
             if company_data.get("classification"):
                 result["classification"] = company_data.get("classification")
 
-        result["key_risks"] = company_data.get("risks", company_data.get("key_risks", []))
-        result["partnerships"] = company_data.get("partnerships", [])
-        result["targets"] = company_data.get("targets", {})
-        result["catalysts_2026"] = company_data.get("catalysts_2026", [])
-        result["catalysts_2027"] = company_data.get("catalysts_2027", [])
-        result["_metadata"] = company_data.get("_metadata", {})
+        result["key_risks"] = company_data.get("risks") or company_data.get("key_risks") or []
+        result["partnerships"] = company_data.get("partnerships") or []
+        result["targets"] = company_data.get("targets") or {}
+        result["catalysts_2026"] = company_data.get("catalysts_2026") or []
+        result["catalysts_2027"] = company_data.get("catalysts_2027") or []
+        result["_metadata"] = company_data.get("_metadata") or {}
 
         # Merge company-level catalysts into all_catalysts
-        company_catalysts = company_data.get("catalysts", [])
+        company_catalysts = company_data.get("catalysts") or []
         for catalyst in company_catalysts:
             if isinstance(catalyst, dict) and catalyst not in all_catalysts:
                 all_catalysts.append(catalyst)
