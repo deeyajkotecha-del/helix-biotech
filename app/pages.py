@@ -458,7 +458,7 @@ def generate_homepage():
       "name": "Satya Bio",
       "url": "https://satyabio.com",
       "logo": "https://satyabio.com/static/satya-bio-icon.svg",
-      "description": "Biotech intelligence platform for buy-side investment professionals. Competitive landscapes, catalyst tracking, and pipeline analytics across 145+ public biotechs.",
+      "description": "Biotech intelligence platform for buy-side investment professionals. Competitive landscapes, catalyst tracking, and pipeline analytics across 181 public biotechs.",
       "foundingDate": "2025",
       "sameAs": [],
       "contactPoint": {{
@@ -1752,7 +1752,7 @@ def generate_about_page():
     <main class="main">
         <div class="about-content">
             <h1>Biotech Intelligence for the Buy Side</h1>
-            <p>Satya Bio provides institutional investors with comprehensive biotech competitive intelligence. We track 145+ public biotech companies, monitor catalyst timelines, and analyze competitive landscapes across therapeutic areas.</p>
+            <p>Satya Bio provides institutional investors with comprehensive biotech competitive intelligence. We track 181 public biotech companies, monitor catalyst timelines, and analyze competitive landscapes across therapeutic areas.</p>
 
             <h2>What We Track</h2>
             <ul class="feature-list">
