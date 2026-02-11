@@ -204,6 +204,8 @@ from app.services.clinical.extractor import (
     get_taxonomy,
     get_all_companies,
     get_company_full,
+    get_company_from_index,
+    load_company_data,
     get_all_targets,
     get_target_full,
     list_all_targets,
@@ -591,12 +593,27 @@ async def get_company_html(ticker: str):
     - Investment thesis (bull/bear)
     - Pipeline summary table
     - Partnerships
-    """
-    result = get_company_full(ticker)
-    if not result:
-        raise HTTPException(status_code=404, detail=f"Company {ticker} not found")
 
-    html = _generate_company_overview_html(result)
+    Falls back to index-only page if no company.json exists.
+    Returns 404 if ticker is not in index.json at all.
+    """
+    ticker_upper = ticker.upper()
+
+    # Check if company has full data
+    company_data = load_company_data(ticker_upper)
+    if company_data:
+        result = get_company_full(ticker_upper)
+        if result:
+            html = _generate_company_overview_html(result)
+            return HTMLResponse(content=html)
+
+    # No company.json — check if ticker exists in index
+    index_entry = get_company_from_index(ticker_upper)
+    if not index_entry:
+        raise HTTPException(status_code=404, detail=f"Company {ticker_upper} not found")
+
+    # Render fallback page from index data only
+    html = _generate_company_fallback_html(index_entry)
     return HTMLResponse(content=html)
 
 
@@ -1450,6 +1467,282 @@ def _simplify_stage(stage: str) -> str:
         return stage[:20].strip() + "..."
 
     return stage
+
+
+def _generate_company_fallback_html(entry: dict) -> str:
+    """Generate a premium fallback page for companies without full data, using index.json only."""
+    ticker = entry.get("ticker", "")
+    name = entry.get("name", ticker)
+    market_cap = entry.get("market_cap_mm", "")
+    stage = _format_tag_label(entry.get("development_stage", ""))
+    modality = _format_tag_label(entry.get("modality", ""))
+    area = _format_tag_label(entry.get("therapeutic_area", ""))
+    priority = entry.get("priority", "")
+    notes = entry.get("notes", "")
+    has_data = entry.get("has_data", False)
+    ir_url = entry.get("ir_url", "")
+
+    import urllib.parse
+    subject = urllib.parse.quote(f"Coverage Request: {ticker} - {name}")
+    mailto = f"mailto:contact@satyabio.com?subject={subject}"
+
+    # Build info cards
+    info_items = ""
+    if market_cap:
+        info_items += f'<div class="info-item"><div class="info-label">Market Cap</div><div class="info-value">{market_cap}</div></div>'
+    if stage:
+        info_items += f'<div class="info-item"><div class="info-label">Stage</div><div class="info-value">{stage}</div></div>'
+    if modality:
+        info_items += f'<div class="info-item"><div class="info-label">Modality</div><div class="info-value">{modality}</div></div>'
+    if area:
+        info_items += f'<div class="info-item"><div class="info-label">Therapeutic Area</div><div class="info-value">{area}</div></div>'
+    if priority:
+        info_items += f'<div class="info-item"><div class="info-label">Coverage Priority</div><div class="info-value" style="text-transform: capitalize;">{priority}</div></div>'
+
+    notes_html = ""
+    if notes:
+        notes_html = f'<div class="notes-section"><div class="notes-label">About</div><p>{notes}</p></div>'
+
+    ir_html = ""
+    if ir_url:
+        ir_html = f'<a href="{ir_url}" target="_blank" class="ir-link">Investor Relations →</a>'
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{ticker} - {name} | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {{
+            --navy: #1B2838;
+            --navy-light: #2d4a5e;
+            --accent: #D4654A;
+            --accent-hover: #c05a42;
+            --accent-light: #fef5f3;
+            --bg: #FAFAF8;
+            --surface: #ffffff;
+            --border: #e5e5e0;
+            --text: #1a1d21;
+            --text-secondary: #5f6368;
+            --text-muted: #9aa0a6;
+        }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        body {{
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }}
+
+        /* Breadcrumb */
+        .breadcrumb {{
+            background: var(--surface);
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }}
+        .breadcrumb a {{
+            color: var(--accent);
+            text-decoration: none;
+        }}
+        .breadcrumb a:hover {{ text-decoration: underline; }}
+        .breadcrumb span {{ color: var(--text-muted); margin: 0 8px; }}
+
+        .container {{
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }}
+
+        /* Header */
+        .company-header {{
+            text-align: center;
+            margin-bottom: 40px;
+        }}
+        .company-header h1 {{
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }}
+        .company-header .ticker-badge {{
+            display: inline-block;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }}
+
+        /* Tags */
+        .tags {{
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }}
+        .tag {{
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }}
+
+        /* Info grid */
+        .info-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }}
+        .info-item {{
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 20px;
+            text-align: center;
+        }}
+        .info-label {{
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }}
+        .info-value {{
+            font-family: 'Fraunces', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--navy);
+        }}
+
+        /* Notes */
+        .notes-section {{
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 24px;
+            margin-bottom: 32px;
+        }}
+        .notes-label {{
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }}
+        .notes-section p {{
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.7;
+        }}
+
+        /* CTA box */
+        .cta-box {{
+            background: var(--navy);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 32px;
+        }}
+        .cta-box h2 {{
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }}
+        .cta-box p {{
+            opacity: 0.85;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }}
+        .cta-btn {{
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 14px 36px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            transition: background 0.2s;
+        }}
+        .cta-btn:hover {{
+            background: var(--accent-hover);
+        }}
+
+        /* IR link */
+        .ir-link {{
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+        }}
+        .ir-link:hover {{ text-decoration: underline; }}
+
+        /* Back link */
+        .back-link {{
+            display: inline-block;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 16px;
+        }}
+        .back-link:hover {{ color: var(--accent); }}
+    </style>
+</head>
+<body>
+    <div class="breadcrumb">
+        <a href="/companies">Companies</a>
+        <span>›</span>
+        <strong>{ticker}</strong>
+    </div>
+
+    <div class="container">
+        <div class="company-header">
+            <div class="ticker-badge">{ticker}</div>
+            <h1>{name}</h1>
+            <div class="tags">
+                {f'<span class="tag">{stage}</span>' if stage else ''}
+                {f'<span class="tag">{modality}</span>' if modality else ''}
+                {f'<span class="tag">{area}</span>' if area else ''}
+            </div>
+        </div>
+
+        <div class="info-grid">
+            {info_items}
+        </div>
+
+        {notes_html}
+
+        {ir_html}
+
+        <div class="cta-box">
+            <h2>Request Full Coverage</h2>
+            <p>Get detailed pipeline analysis, clinical data breakdowns, competitive landscape, and investment thesis for {name}.</p>
+            <a href="{mailto}" class="cta-btn">Request Coverage</a>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="/companies" class="back-link">← Back to All Companies</a>
+        </div>
+    </div>
+</body>
+</html>'''
 
 
 def _generate_company_overview_html(data: dict) -> str:

@@ -717,12 +717,12 @@ def generate_homepage():
     <section class="value-strip">
         <div class="value-inner">
             <div>
-                <div class="value-stat-num">145+</div>
-                <div class="value-stat-label">public biotechs tracked</div>
+                <div class="value-stat-num">181</div>
+                <div class="value-stat-label">biotech companies</div>
             </div>
             <div>
-                <div class="value-stat-num">14</div>
-                <div class="value-stat-label">target landscapes</div>
+                <div class="value-stat-num">1,000+</div>
+                <div class="value-stat-label">assets tracked</div>
             </div>
             <div>
                 <div class="value-stat-num">$30B+</div>
