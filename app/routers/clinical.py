@@ -130,7 +130,7 @@ def generate_citation_badge(source: dict, ticker: str) -> str:
     # Generate badge HTML
     verified_mark = '<span class="verified-check">✓</span>' if verified else ""
 
-    return f'''<a href="{url}" class="citation-badge" target="_blank" title="{title}">[{label}]</a>{verified_mark}'''
+    return f'''<span class="citation-badge" title="{title}">[{label}]</span>{verified_mark}'''
 
 
 def get_stage_priority(stage: str) -> int:
@@ -3059,25 +3059,29 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             {failure_html}
         </div>'''
 
-    # Fallback to v1.0 trials format - handle both list and dict formats
+    # Fallback to v1.0 / v2.1 trials format - handle both list and dict formats
     trials_list = trials_v1.values() if isinstance(trials_v1, dict) else trials_v1
     for trial in trials_list:
         if not isinstance(trial, dict):
             continue
-        trial_name = trial.get("trial_name", "Trial")
+        trial_name = trial.get("trial_name") or trial.get("name", "Trial")
         phase = trial.get("phase", "")
         status = trial.get("status", "")
-        n = trial.get("n_enrolled", "?")
+        n = trial.get("n_enrolled") or trial.get("enrollment", "")
 
         design = trial.get("design", {})
-        design_str = design.get("description", design) if isinstance(design, dict) else design
+        design_str = design.get("description", design) if isinstance(design, dict) else (design or "")
         limitations = design.get("limitations", "") if isinstance(design, dict) else ""
 
         pop = trial.get("population", {})
-        pop_str = pop.get("description", pop) if isinstance(pop, dict) else pop
+        pop_str = pop.get("description", pop) if isinstance(pop, dict) else (pop or "")
 
+        # Source badge for this trial
+        trial_badge = generate_citation_badge(trial.get("source"), ticker) if trial.get("source") else ""
+
+        # Build efficacy rows — handle v1.0 efficacy_endpoints list AND v2.1 primary_endpoint/secondary_endpoints
         efficacy_rows = ""
-        for e in trial.get("efficacy_endpoints", []):
+        for e in (trial.get("efficacy_endpoints") or []):
             defn = e.get("definition", {})
             vs = e.get("vs_comparator", {})
             vs_str = f"vs {vs.get('comparator', '')}: {vs.get('comparator_result', '')}" if isinstance(vs, dict) and vs.get("comparator") else ""
@@ -3089,25 +3093,70 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 <td class="comparator">{vs_str}</td>
             </tr>'''
 
+        # v2.1: primary_endpoint as a single dict
+        primary_ep = trial.get("primary_endpoint", {})
+        if isinstance(primary_ep, dict) and primary_ep.get("name"):
+            ep_name = primary_ep.get("name", "")
+            ep_def = primary_ep.get("definition", "")
+            ep_result = primary_ep.get("result", "Pending")
+            ep_badge = generate_citation_badge(primary_ep.get("source"), ticker) if primary_ep.get("source") else ""
+            efficacy_rows += f'''
+            <tr>
+                <td><div class="endpoint-name">Primary: {ep_name}{ep_badge}</div>{f'<div class="endpoint-def">{ep_def}</div>' if ep_def else ''}</td>
+                <td class="result" colspan="3"><strong>{ep_result}</strong></td>
+            </tr>'''
+
+        # v2.1: secondary_endpoints as a list
+        for se in (trial.get("secondary_endpoints") or []):
+            if isinstance(se, dict):
+                se_name = se.get("name", "")
+                se_result = se.get("result", "")
+                se_badge = generate_citation_badge(se.get("source"), ticker) if se.get("source") else ""
+                efficacy_rows += f'''
+                <tr>
+                    <td><div class="endpoint-name">{se_name}{se_badge}</div></td>
+                    <td class="result" colspan="3"><strong>{se_result or "Pending"}</strong></td>
+                </tr>'''
+
+        # v2.1: biomarkers as a list
+        biomarker_rows = ""
+        for bm in (trial.get("biomarkers") or []):
+            if isinstance(bm, dict) and bm.get("name"):
+                bm_badge = generate_citation_badge(bm.get("source"), ticker) if bm.get("source") else ""
+                biomarker_rows += f'''
+                <tr>
+                    <td><div class="endpoint-name">{bm.get("name", "")}{bm_badge}</div></td>
+                    <td class="result"><strong>{bm.get("result", "")}</strong></td>
+                    <td>{bm.get("clinical_significance", "")}</td>
+                </tr>'''
+
         safety = trial.get("safety", {})
         safety_html = ""
         if isinstance(safety, dict) and safety.get("summary"):
-            safety_html = f'<div class="safety-box"><h5>Safety</h5><p>{safety.get("summary", "")}</p></div>'
+            ae_rows = ""
+            for ae in (safety.get("key_aes") or []):
+                if isinstance(ae, dict):
+                    ae_rows += f'<li>{ae.get("event", "")}: drug {ae.get("drug_rate", "")} vs placebo {ae.get("placebo_rate", "N/A")}</li>'
+            ae_html = f'<ul style="margin-top:8px;font-size:0.85rem;">{ae_rows}</ul>' if ae_rows else ""
+            safety_html = f'<div class="safety-box"><h5>Safety</h5><p>{safety.get("summary", "")}</p>{ae_html}</div>'
 
-        status_class = "ongoing" if status == "Ongoing" else "completed" if status == "Completed" else ""
+        status_lower = status.lower() if status else ""
+        status_class = "ongoing" if "ongoing" in status_lower or "readout" in status_lower or "initiated" in status_lower else "completed" if "completed" in status_lower or "approved" in status_lower else ""
         trials_html += f'''
         <div class="trial-card">
             <div class="trial-header">
-                <h4>{trial_name}</h4>
+                <h4>{trial_name}{trial_badge}</h4>
                 <span class="badge {status_class}">{phase}</span>
                 <span class="badge {status_class}">{status}</span>
-                <span class="n-enrolled">n={n}</span>
+                {f'<span class="n-enrolled">n={n}</span>' if n else ''}
             </div>
             <div class="trial-meta">
-                <p><strong>Design:</strong> {design_str}</p>
-                <p><strong>Population:</strong> {pop_str}</p>
+                {f'<p><strong>Design:</strong> {design_str}</p>' if design_str else ''}
+                {f'<p><strong>Population:</strong> {pop_str}</p>' if pop_str else ''}
+                {f'<p><strong>Arms:</strong> {", ".join(a.get("name","") for a in trial.get("arms",[]) if isinstance(a, dict))}</p>' if trial.get("arms") else ''}
             </div>
-            {f'<div class="endpoints-section"><h5>Efficacy</h5><table class="data-table"><thead><tr><th>Endpoint</th><th>Result</th><th>Timepoint</th><th>vs Comparator</th></tr></thead><tbody>{efficacy_rows}</tbody></table></div>' if efficacy_rows else ''}
+            {f'<div class="endpoints-section"><h5>Endpoints</h5><table class="data-table"><thead><tr><th>Endpoint</th><th colspan="3">Result</th></tr></thead><tbody>{efficacy_rows}</tbody></table></div>' if efficacy_rows else ''}
+            {f'<div class="endpoints-section"><h5>Biomarkers</h5><table class="data-table"><thead><tr><th>Biomarker</th><th>Result</th><th>Significance</th></tr></thead><tbody>{biomarker_rows}</tbody></table></div>' if biomarker_rows else ''}
             {safety_html}
         </div>'''
 
