@@ -131,6 +131,8 @@ from app.pages import (
     generate_cell_therapy_report,
     generate_stat6_report,
     generate_mir124_report,
+    generate_terms_page,
+    generate_privacy_page,
 )
 from fastapi.responses import RedirectResponse
 
@@ -197,6 +199,16 @@ async def serve_target_detail(slug: str):
 async def serve_about():
     """Serve about page."""
     return HTMLResponse(generate_about_page())
+
+@app.get("/terms", response_class=HTMLResponse)
+async def serve_terms():
+    """Serve terms of service page."""
+    return HTMLResponse(generate_terms_page())
+
+@app.get("/privacy", response_class=HTMLResponse)
+async def serve_privacy():
+    """Serve privacy policy page."""
+    return HTMLResponse(generate_privacy_page())
 
 @app.get("/report/{path:path}", response_class=HTMLResponse)
 async def serve_report():

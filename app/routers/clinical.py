@@ -1740,6 +1740,11 @@ def _generate_company_fallback_html(entry: dict) -> str:
         <div style="text-align: center;">
             <a href="/companies" class="back-link">← Back to All Companies</a>
         </div>
+
+        <div style="margin-top: 48px; padding: 16px 20px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted); line-height: 1.6;">
+            Data sourced exclusively from public filings, corporate presentations, and published clinical data. For informational purposes only. Not investment advice. Satya Bio does not provide recommendations to buy or sell securities.
+            <span style="margin-left: 8px;"><a href="/terms" style="color: inherit; text-decoration: underline;">Terms</a> · <a href="/privacy" style="color: inherit; text-decoration: underline;">Privacy</a></span>
+        </div>
     </div>
 </body>
 </html>'''
@@ -2237,6 +2242,11 @@ def _generate_company_overview_html(data: dict) -> str:
                 {partnerships_html}
             </div>
         </div>""" if partnerships_html else ""}
+
+        <div class="compliance-disclaimer" style="margin-top: 48px; padding: 16px 20px; border-top: 1px solid var(--border, #e2e5e9); font-size: 0.78rem; color: var(--text-muted, #6b7280); line-height: 1.6;">
+            Data sourced exclusively from public filings, corporate presentations, and published clinical data. For informational purposes only. Not investment advice. Satya Bio does not provide recommendations to buy or sell securities.
+            <span style="margin-left: 8px;"><a href="/terms" style="color: inherit; text-decoration: underline;">Terms</a> · <a href="/privacy" style="color: inherit; text-decoration: underline;">Privacy</a></span>
+        </div>
     </div>
 </body>
 </html>'''
@@ -5469,6 +5479,11 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                     {next_name if next_asset else 'Next'} →
                 </a>
             </nav>
+
+            <div class="compliance-disclaimer" style="margin-top: 32px; padding: 14px 16px; border-top: 1px solid var(--gray-border, #e2e5e9); font-size: 0.75rem; color: var(--text-muted, #6b7280); line-height: 1.6;">
+                Data sourced exclusively from public filings, corporate presentations, and published clinical data. For informational purposes only. Not investment advice. Satya Bio does not provide recommendations to buy or sell securities.
+                <span style="margin-left: 6px;"><a href="/terms" style="color: inherit; text-decoration: underline;">Terms</a> · <a href="/privacy" style="color: inherit; text-decoration: underline;">Privacy</a></span>
+            </div>
         </main>
     </div>
 

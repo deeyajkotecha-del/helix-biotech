@@ -747,6 +747,7 @@ def generate_homepage():
     <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 
     <script>
@@ -1043,7 +1044,8 @@ def generate_companies_page():
         {sections_html}
     </main>
     <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 
     <!-- Email gate modal -->
@@ -1518,7 +1520,8 @@ def generate_targets_page():
     </main>
 
     <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 
     <script>
@@ -1719,7 +1722,8 @@ def generate_target_detail_page(slug: str):
         </div>
     </main>
     <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -1765,7 +1769,8 @@ def generate_about_page():
         </div>
     </main>
     <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -2302,6 +2307,7 @@ def generate_glp1_report(admin: bool = False):
     </main>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -2628,7 +2634,8 @@ def generate_tl1a_report(admin: bool = False):
         <a href="/targets" class="back-link">← Back to Target Landscapes</a>
     </main>
     <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -2965,7 +2972,8 @@ def generate_b7h3_report(admin: bool = False):
         <a href="/targets" class="back-link">← Back to Target Landscapes</a>
     </main>
     <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -3362,6 +3370,7 @@ def generate_kras_report(admin: bool = False):
     </main>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -3819,6 +3828,7 @@ def generate_mir124_report(admin: bool = False):
     </main>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -4310,6 +4320,7 @@ def generate_stat6_report(admin: bool = False):
     </main>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -4872,6 +4883,7 @@ def generate_cell_therapy_report(admin: bool = False):
     </main>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
@@ -4963,10 +4975,141 @@ def generate_company_detail(ticker: str):
         <a href="/companies" style="display: inline-block; margin-top: 24px; color: var(--accent);">← Back to Companies</a>
     </main>
     <footer class="footer">
-        <p>© 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
 
 
 # Note: Legacy generate_arwr_thesis function removed - ARWR now uses standard clinical asset rendering via /api/clinical/companies/ARWR/html
+
+
+def generate_terms_page():
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .legal-content {{ max-width: 700px; margin: 0 auto; font-family: 'DM Sans', -apple-system, sans-serif; }}
+        .legal-content h1 {{ font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 8px; color: var(--navy); }}
+        .legal-content .effective {{ font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }}
+        .legal-content h2 {{ font-size: 1.1rem; font-weight: 600; color: var(--navy); margin: 28px 0 10px; }}
+        .legal-content p {{ font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }}
+        .legal-content ul {{ margin: 0 0 14px 20px; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.75; }}
+    </style>
+</head>
+<body>
+    {get_nav_html()}
+    <main class="main">
+        <div class="legal-content">
+            <h1>Terms of Service</h1>
+            <p class="effective">Effective February 2026</p>
+
+            <h2>1. What This Service Is</h2>
+            <p>Satya Bio ("we", "us") provides a biotech intelligence platform that aggregates and presents publicly available information about biotechnology companies, clinical trials, and competitive landscapes. All data is sourced from public filings, corporate presentations, and published clinical data.</p>
+
+            <h2>2. Not Investment Advice</h2>
+            <p>Nothing on this site constitutes investment advice, a recommendation, or a solicitation to buy or sell any security. We are not a registered investment adviser, broker-dealer, or financial planner. You should consult a qualified financial professional before making investment decisions.</p>
+
+            <h2>3. Data Accuracy</h2>
+            <p>We make reasonable efforts to ensure our data is accurate and up to date, but we do not guarantee completeness or accuracy. Biotech data changes rapidly — clinical results are updated, regulatory statuses shift, and company strategies evolve. Always verify critical data points against primary sources (SEC filings, ClinicalTrials.gov, company IR pages).</p>
+
+            <h2>4. Your Use of the Service</h2>
+            <p>You may use Satya Bio for your own research and analysis. You agree not to:</p>
+            <ul>
+                <li>Scrape or bulk-download data for redistribution</li>
+                <li>Misrepresent Satya Bio content as your own original research</li>
+                <li>Use automated tools to overwhelm our servers</li>
+            </ul>
+
+            <h2>5. Intellectual Property</h2>
+            <p>The presentation, analysis, and original commentary on this site are our work. The underlying clinical data, company filings, and public information belong to their respective owners. Our value-add is in aggregation, analysis, and presentation.</p>
+
+            <h2>6. Limitation of Liability</h2>
+            <p>Satya Bio is provided "as is." We are not liable for any losses arising from your use of or reliance on information presented here. This includes but is not limited to investment losses, trading decisions, or actions taken based on our data.</p>
+
+            <h2>7. Changes</h2>
+            <p>We may update these terms as the service evolves. Continued use after changes constitutes acceptance.</p>
+
+            <h2>8. Contact</h2>
+            <p>Questions about these terms? Email <a href="mailto:contact@satyabio.com" style="color: var(--accent);">contact@satyabio.com</a>.</p>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
+    </footer>
+</body>
+</html>'''
+
+
+def generate_privacy_page():
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Satya Bio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    {get_base_styles()}
+    <style>
+        .legal-content {{ max-width: 700px; margin: 0 auto; font-family: 'DM Sans', -apple-system, sans-serif; }}
+        .legal-content h1 {{ font-family: 'Fraunces', serif; font-size: 2rem; margin-bottom: 8px; color: var(--navy); }}
+        .legal-content .effective {{ font-size: 0.85rem; color: var(--text-muted); margin-bottom: 32px; }}
+        .legal-content h2 {{ font-size: 1.1rem; font-weight: 600; color: var(--navy); margin: 28px 0 10px; }}
+        .legal-content p {{ font-size: 0.95rem; line-height: 1.75; color: var(--text-secondary); margin-bottom: 14px; }}
+        .legal-content ul {{ margin: 0 0 14px 20px; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.75; }}
+    </style>
+</head>
+<body>
+    {get_nav_html()}
+    <main class="main">
+        <div class="legal-content">
+            <h1>Privacy Policy</h1>
+            <p class="effective">Effective February 2026</p>
+
+            <h2>1. What We Collect</h2>
+            <p>We keep data collection minimal:</p>
+            <ul>
+                <li><strong>Email address</strong> — if you subscribe for access or request coverage</li>
+                <li><strong>Basic analytics</strong> — page views, referral source, and general usage patterns (no tracking pixels, no fingerprinting)</li>
+                <li><strong>Server logs</strong> — IP address, browser type, and request timestamps, retained for security purposes</li>
+            </ul>
+
+            <h2>2. What We Don't Collect</h2>
+            <p>We do not collect personal financial information, trading data, portfolio holdings, or any information about your investment activities. We do not use third-party advertising trackers.</p>
+
+            <h2>3. How We Use Your Data</h2>
+            <ul>
+                <li>To provide and improve the service</li>
+                <li>To send updates you've opted into (coverage alerts, new features)</li>
+                <li>To respond to your inquiries</li>
+            </ul>
+
+            <h2>4. Data Sharing</h2>
+            <p>We do not sell your personal information. We may share data only when required by law or to protect our rights.</p>
+
+            <h2>5. Cookies</h2>
+            <p>We use minimal, functional cookies to keep the site working (e.g., session management). No third-party tracking cookies.</p>
+
+            <h2>6. Data Retention</h2>
+            <p>We retain your email for as long as you maintain a subscription. Server logs are retained for 90 days. You can request deletion of your data at any time.</p>
+
+            <h2>7. Your Rights</h2>
+            <p>You can request access to, correction of, or deletion of your personal data by emailing us. We will respond within 30 days.</p>
+
+            <h2>8. Contact</h2>
+            <p>Privacy questions? Email <a href="mailto:contact@satyabio.com" style="color: var(--accent);">contact@satyabio.com</a>.</p>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
+    </footer>
+</body>
+</html>'''
