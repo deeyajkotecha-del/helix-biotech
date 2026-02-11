@@ -1702,12 +1702,12 @@ def _generate_company_overview_html(data: dict) -> str:
     pipeline_rows = ""
     for asset in assets:
         asset_name = asset.get("name", "Unknown")
-        # Use metadata asset_name (matches JSON filename) for clean URL slugs
+        # Use metadata asset_name for URL slugs — dashed canonical form
         asset_slug = asset.get("_metadata", {}).get("asset_name", "")
         if asset_slug:
-            asset_slug = asset_slug.lower().replace("-", "").replace(" ", "_")
+            asset_slug = asset_slug.lower().replace(" ", "-").replace("_", "-")
         else:
-            asset_slug = asset_name.lower().replace("-", "").replace(" ", "_")
+            asset_slug = asset_name.lower().replace(" ", "-").replace("_", "-")
         target = asset.get("target", {})
         target_name = target.get("name", target) if isinstance(target, dict) else target
         stage = asset.get("stage", "")
@@ -3951,12 +3951,12 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
     # Indications badges
     ind_badges = "".join(f'<span class="indication-badge">{ind}</span>' for ind in indications if ind)
 
-    # Prev/Next navigation — use metadata asset_name for clean slugs
+    # Prev/Next navigation — use metadata asset_name for dashed slugs
     def _asset_slug(a):
         meta = a.get("_metadata", {}).get("asset_name", "") if a else ""
         if meta:
-            return meta.lower().replace("-", "").replace(" ", "_")
-        return a.get("name", "").lower().replace("-", "").replace(" ", "_") if a else ""
+            return meta.lower().replace(" ", "-").replace("_", "-")
+        return a.get("name", "").lower().replace(" ", "-").replace("_", "-") if a else ""
     prev_slug = _asset_slug(prev_asset)
     next_slug = _asset_slug(next_asset)
     prev_name = prev_asset.get("name", "") if prev_asset else ""
@@ -3973,7 +3973,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         if a_name.lower() == asset_name.lower():
             continue  # Skip current asset
         a_meta = a.get("_metadata", {}).get("asset_name", "")
-        a_slug = a_meta.lower().replace("-", "").replace(" ", "_") if a_meta else a_name.lower().replace("-", "").replace(" ", "_")
+        a_slug = a_meta.lower().replace(" ", "-").replace("_", "-") if a_meta else a_name.lower().replace(" ", "-").replace("_", "-")
         a_stage = a.get("stage", "")
         # Format stage for display (e.g., "Phase 2" -> "Ph2")
         stage_short = a_stage.replace("Phase ", "Ph").replace("Approved", "✓")

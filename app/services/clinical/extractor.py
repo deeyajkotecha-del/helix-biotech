@@ -51,6 +51,11 @@ def clear_cache():
     load_json_file.cache_clear()
 
 
+def asset_to_filename(name: str) -> str:
+    """Canonical filename for an asset: 'ARGX-121' -> 'argx-121.json', 'KT 621' -> 'kt-621.json'."""
+    return name.lower().replace(" ", "-").replace("_", "-") + ".json"
+
+
 def load_company_data(ticker: str) -> Optional[dict]:
     """
     Load company data from data/companies/{ticker}/company.json
@@ -74,7 +79,7 @@ def load_asset_data(ticker: str, asset_name: str) -> Optional[dict]:
     """
     Load asset clinical data from data/companies/{ticker}/{asset}.json
 
-    Asset name is normalized: KT-621 -> kt621.json
+    Asset name is normalized via asset_to_filename: KT-621 -> kt-621.json
 
     Returns full asset data including:
     - asset info (name, target, mechanism)
@@ -83,13 +88,13 @@ def load_asset_data(ticker: str, asset_name: str) -> Optional[dict]:
     - investment_thesis, key_risks, upcoming_catalysts
     """
     ticker = ticker.upper()
-    # Normalize asset name: KT-621 -> kt621, KT-579 -> kt579
-    asset_normalized = asset_name.lower().replace("-", "")
-    asset_file = COMPANIES_DIR / ticker / f"{asset_normalized}.json"
+    # Primary: canonical dashed filename (ARGX-121 -> argx-121.json)
+    asset_file = COMPANIES_DIR / ticker / asset_to_filename(asset_name)
 
     if not asset_file.exists():
-        # Try with original casing/dashes preserved (e.g. edg-15400.json)
-        asset_file = COMPANIES_DIR / ticker / f"{asset_name.lower()}.json"
+        # Legacy fallback: strip dashes (kt621.json)
+        asset_normalized = asset_name.lower().replace("-", "").replace("_", "").replace(" ", "")
+        asset_file = COMPANIES_DIR / ticker / f"{asset_normalized}.json"
 
     if not asset_file.exists():
         return None
@@ -446,21 +451,32 @@ def list_companies() -> list[str]:
 
 
 def list_company_assets(ticker: str) -> list[str]:
-    """List all assets for a company."""
+    """List all assets for a company, using _metadata.asset_name when available."""
     ticker = ticker.upper()
     company_dir = COMPANIES_DIR / ticker
 
     if not company_dir.exists():
         return []
 
+    skip_files = {"company.json", "pipeline.json", "index.json"}
+    seen = set()  # deduplicate by normalized name
     assets = []
-    for f in company_dir.glob("*.json"):
-        if f.name != "company.json":
-            # Convert kt621.json -> KT-621
-            name = f.stem.upper()
-            if name.startswith("KT"):
-                name = f"KT-{name[2:]}"
-            assets.append(name)
+    for f in sorted(company_dir.glob("*.json")):
+        if f.name in skip_files or f.name.startswith("."):
+            continue
+        # Read _metadata.asset_name for canonical name
+        try:
+            data = load_json_file(str(f))
+            meta_name = data.get("_metadata", {}).get("asset_name", "")
+        except Exception:
+            meta_name = ""
+        name = meta_name if meta_name else f.stem
+        # Deduplicate by canonical filename
+        canonical = asset_to_filename(name)
+        if canonical in seen:
+            continue
+        seen.add(canonical)
+        assets.append(name)
 
     return sorted(assets)
 
