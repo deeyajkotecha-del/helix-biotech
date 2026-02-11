@@ -457,6 +457,35 @@ def generate_homepage():
         <tr><td class="deal-date">2025</td><td class="deal-parties">Roche / Zealand</td><td class="deal-value">$5.3B</td><td class="deal-desc">Petrelintide (amylin)</td></tr>
     """
 
+    # --- Build search index for autocomplete ---
+    all_companies = load_companies_from_index()
+    search_index = []
+    for c in all_companies:
+        ta = c.get("therapeutic_area", "")
+        ta_label = {"oncology": "Oncology", "immunology": "I&I", "metabolic": "Metabolic", "rare_disease": "Rare Disease", "mixed": "Multi-area"}.get(ta, ta.title() if ta else "")
+        search_index.append({
+            "t": "company",
+            "ticker": c.get("ticker", ""),
+            "name": c.get("name", ""),
+            "ta": ta_label,
+            "notes": (c.get("notes", "") or "")[:80],
+            "url": f'/api/clinical/companies/{c.get("ticker", "")}/html',
+            "hd": c.get("has_data", False),
+        })
+    for t in targets:
+        slug = t.get("legacy_slug", t.get("slug", ""))
+        search_index.append({
+            "t": "target",
+            "name": t.get("name", ""),
+            "full_name": t.get("full_name", ""),
+            "desc": (t.get("description", "") or t.get("tagline", ""))[:80],
+            "cat": categories.get(t.get("category", ""), {}).get("name", t.get("category", "")),
+            "url": f'/targets/{slug}',
+            "slug": slug,
+            "fp": t.get("has_full_page", False),
+        })
+    search_index_json = json.dumps(search_index, separators=(',', ':'))
+
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -465,6 +494,23 @@ def generate_homepage():
     <title>Satya Bio | Biotech Intelligence for the Buy Side</title>
     <meta name="description" content="Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals.">
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Satya Bio",
+      "url": "https://satyabio.com",
+      "logo": "https://satyabio.com/static/satya-bio-icon.svg",
+      "description": "Biotech intelligence platform for buy-side investment professionals. Competitive landscapes, catalyst tracking, and pipeline analytics across 145+ public biotechs.",
+      "foundingDate": "2025",
+      "sameAs": [],
+      "contactPoint": {{
+        "@type": "ContactPoint",
+        "contactType": "sales",
+        "url": "https://satyabio.com/#cta"
+      }}
+    }}
+    </script>
     <style>
         :root {{
             --navy: #1B2838;
@@ -536,6 +582,21 @@ def generate_homepage():
         .hero-search input:focus {{ border-color: var(--accent); box-shadow: 0 8px 32px rgba(0,0,0,0.1), 0 0 0 3px rgba(212,101,74,0.12); }}
         .hero-search input::placeholder {{ color: var(--text-muted); }}
         .hero-search-icon {{ position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; color: var(--text-muted); }}
+        .search-dropdown {{ position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.12); max-height: 380px; overflow-y: auto; z-index: 200; display: none; }}
+        .search-dropdown.open {{ display: block; }}
+        .hero-search.dropdown-open input {{ border-radius: 14px 14px 0 0; }}
+        .search-result {{ display: flex; align-items: center; gap: 12px; padding: 12px 20px; text-decoration: none; color: var(--text); transition: background 0.15s; cursor: pointer; border-bottom: 1px solid var(--border-light); }}
+        .search-result:last-child {{ border-bottom: none; }}
+        .search-result:hover, .search-result.active {{ background: var(--accent-light); }}
+        .search-result-type {{ font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }}
+        .search-result-type.company {{ background: var(--navy); color: white; }}
+        .search-result-type.target {{ background: var(--accent); color: white; }}
+        .search-result-info {{ flex: 1; min-width: 0; }}
+        .search-result-name {{ font-weight: 600; font-size: 0.92rem; color: var(--text); }}
+        .search-result-name .ticker {{ color: var(--accent); font-weight: 700; margin-right: 4px; }}
+        .search-result-detail {{ font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+        .search-result-arrow {{ color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; }}
+        .search-no-results {{ padding: 20px; text-align: center; color: var(--text-muted); font-size: 0.9rem; }}
         .hero-meta {{ font-size: 0.82rem; color: var(--text-muted); margin-top: 16px; }}
         .hero-meta span {{ background: rgba(212,101,74,0.1); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-weight: 600; }}
 
@@ -667,10 +728,11 @@ def generate_homepage():
         <div class="hero-content">
             <h1>Biotech Intelligence<br>for the Buy Side</h1>
             <p class="hero-subtitle">Competitive landscapes, catalyst tracking, and pipeline analytics — built for investment professionals</p>
-            <form class="hero-search" onsubmit="handleSearch(event)">
+            <div class="hero-search" id="search-container">
                 <svg class="hero-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input type="text" id="hero-search-input" placeholder="Search targets, companies, or therapeutic areas...">
-            </form>
+                <input type="text" id="hero-search-input" placeholder="Search targets, companies, or therapeutic areas..." autocomplete="off">
+                <div class="search-dropdown" id="search-dropdown"></div>
+            </div>
             <div class="hero-meta">Data updated <span>{today_display}</span></div>
         </div>
     </section>
@@ -751,14 +813,110 @@ def generate_homepage():
     </footer>
 
     <script>
-    function handleSearch(e) {{
-        e.preventDefault();
-        var q = document.getElementById('hero-search-input').value.trim().toLowerCase();
-        if (!q) {{ window.location.href = '/companies'; return; }}
-        var targetTerms = ['glp', 'tl1a', 'kras', 'b7', 'tigit', 'stat6', 'cell', 'car-t', 'mir', 'fcrn', 'kit', 'menin', 'dmd'];
-        var isTarget = targetTerms.some(function(t) {{ return q.includes(t); }});
-        window.location.href = isTarget ? '/targets' : '/companies';
+    var _si = {search_index_json};
+    var _dd = document.getElementById('search-dropdown');
+    var _sc = document.getElementById('search-container');
+    var _inp = document.getElementById('hero-search-input');
+    var _activeIdx = -1;
+
+    function doSearch() {{
+        var q = _inp.value.trim().toLowerCase();
+        if (q.length < 1) {{ closeDropdown(); return; }}
+        var results = [];
+        for (var i = 0; i < _si.length; i++) {{
+            var item = _si[i];
+            var haystack = '';
+            if (item.t === 'company') {{
+                haystack = (item.ticker + ' ' + item.name + ' ' + item.ta + ' ' + item.notes).toLowerCase();
+            }} else {{
+                haystack = (item.name + ' ' + item.full_name + ' ' + item.desc + ' ' + item.cat + ' ' + (item.slug || '')).toLowerCase();
+            }}
+            if (haystack.indexOf(q) !== -1) {{
+                // Score: ticker/name exact start gets priority
+                var score = 10;
+                if (item.t === 'company') {{
+                    if (item.ticker.toLowerCase().indexOf(q) === 0) score = 1;
+                    else if (item.name.toLowerCase().indexOf(q) === 0) score = 2;
+                    else if (item.ticker.toLowerCase().indexOf(q) !== -1) score = 3;
+                    if (item.hd) score -= 0.5;
+                }} else {{
+                    if (item.name.toLowerCase().indexOf(q) === 0) score = 1;
+                    else if (item.full_name.toLowerCase().indexOf(q) !== -1) score = 4;
+                    if (item.fp) score -= 0.5;
+                }}
+                results.push({{item: item, score: score}});
+            }}
+        }}
+        results.sort(function(a, b) {{ return a.score - b.score; }});
+        results = results.slice(0, 8);
+        _activeIdx = -1;
+
+        if (results.length === 0) {{
+            _dd.innerHTML = '<div class="search-no-results">No results for &ldquo;' + q.replace(/</g,'&lt;') + '&rdquo;</div>';
+        }} else {{
+            var html = '';
+            for (var j = 0; j < results.length; j++) {{
+                var r = results[j].item;
+                if (r.t === 'company') {{
+                    html += '<a href="' + r.url + '" class="search-result" data-idx="' + j + '">'
+                        + '<span class="search-result-type company">Company</span>'
+                        + '<div class="search-result-info">'
+                        + '<div class="search-result-name"><span class="ticker">' + r.ticker + '</span> ' + r.name + '</div>'
+                        + '<div class="search-result-detail">' + (r.ta || '') + (r.notes ? ' · ' + r.notes : '') + '</div>'
+                        + '</div><span class="search-result-arrow">&rarr;</span></a>';
+                }} else {{
+                    html += '<a href="' + r.url + '" class="search-result" data-idx="' + j + '">'
+                        + '<span class="search-result-type target">Target</span>'
+                        + '<div class="search-result-info">'
+                        + '<div class="search-result-name">' + r.name + (r.full_name && r.full_name !== r.name ? ' <span style="font-weight:400;color:var(--text-secondary)">(' + r.full_name + ')</span>' : '') + '</div>'
+                        + '<div class="search-result-detail">' + (r.cat || '') + (r.desc ? ' · ' + r.desc : '') + '</div>'
+                        + '</div><span class="search-result-arrow">&rarr;</span></a>';
+                }}
+            }}
+            _dd.innerHTML = html;
+        }}
+        _dd.classList.add('open');
+        _sc.classList.add('dropdown-open');
     }}
+
+    function closeDropdown() {{
+        _dd.classList.remove('open');
+        _sc.classList.remove('dropdown-open');
+        _activeIdx = -1;
+    }}
+
+    _inp.addEventListener('input', doSearch);
+    _inp.addEventListener('keydown', function(e) {{
+        var items = _dd.querySelectorAll('.search-result');
+        if (!items.length) return;
+        if (e.key === 'ArrowDown') {{
+            e.preventDefault();
+            _activeIdx = Math.min(_activeIdx + 1, items.length - 1);
+            items.forEach(function(el, i) {{ el.classList.toggle('active', i === _activeIdx); }});
+            items[_activeIdx].scrollIntoView({{block: 'nearest'}});
+        }} else if (e.key === 'ArrowUp') {{
+            e.preventDefault();
+            _activeIdx = Math.max(_activeIdx - 1, 0);
+            items.forEach(function(el, i) {{ el.classList.toggle('active', i === _activeIdx); }});
+            items[_activeIdx].scrollIntoView({{block: 'nearest'}});
+        }} else if (e.key === 'Enter') {{
+            e.preventDefault();
+            if (_activeIdx >= 0 && items[_activeIdx]) {{
+                window.location.href = items[_activeIdx].getAttribute('href');
+            }} else if (items.length > 0) {{
+                window.location.href = items[0].getAttribute('href');
+            }}
+        }} else if (e.key === 'Escape') {{
+            closeDropdown();
+            _inp.blur();
+        }}
+    }});
+    document.addEventListener('click', function(e) {{
+        if (!_sc.contains(e.target)) closeDropdown();
+    }});
+    _inp.addEventListener('focus', function() {{
+        if (_inp.value.trim().length >= 1) doSearch();
+    }});
     function handleSubscribe(e) {{
         e.preventDefault();
         var email = document.getElementById('subscribe-email').value.trim();
