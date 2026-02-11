@@ -281,49 +281,6 @@ async def subscribe(req: SubscribeRequest, request: Request):
 
     return {"status": "ok", "message": "Subscribed successfully."}
 
-# =============================================================================
-# News Ticker API
-# =============================================================================
-
-@app.get("/api/news-ticker")
-async def get_news_ticker():
-    """Public endpoint: return current news ticker data."""
-    ticker_path = BASE_DIR / "data" / "homepage" / "news_ticker.json"
-    if ticker_path.exists():
-        with open(ticker_path) as f:
-            return json.load(f)
-    return {"pinned": [], "items": []}
-
-
-@app.get("/api/refresh-news")
-async def refresh_news(request: Request):
-    """Auth-protected endpoint: trigger RSS fetch and re-classify."""
-    import subprocess
-
-    # Check auth key
-    auth_key = request.query_params.get("key", "")
-    expected_key = os.environ.get("NEWS_REFRESH_KEY", "")
-    if not expected_key or auth_key != expected_key:
-        return JSONResponse(status_code=403, content={"detail": "Invalid or missing refresh key"})
-
-    try:
-        result = subprocess.run(
-            [sys.executable, str(BASE_DIR / "scripts" / "fetch_news.py")],
-            capture_output=True,
-            text=True,
-            timeout=120,
-        )
-        return {
-            "status": "ok",
-            "stdout": result.stdout[-2000:] if result.stdout else "",
-            "stderr": result.stderr[-500:] if result.stderr else "",
-            "returncode": result.returncode,
-        }
-    except subprocess.TimeoutExpired:
-        return JSONResponse(status_code=504, content={"detail": "Fetch timed out"})
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"detail": str(e)})
-
 
 # =============================================================================
 # Health Check

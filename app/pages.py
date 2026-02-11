@@ -316,63 +316,11 @@ def generate_company_card(company, locked=False):
             '''
 
 def generate_homepage():
-    """Generate the homepage with news ticker, hero, catalysts, deals, targets, value prop."""
+    """Generate the homepage with hero, catalysts, deals, targets, value prop."""
     from datetime import date as _date
 
     today = _date.today()
     today_display = today.strftime("%b %d, %Y")
-
-    # --- Load news ticker data ---
-    ticker_path = Path(__file__).parent.parent / "data" / "homepage" / "news_ticker.json"
-    ticker_items = []
-    if ticker_path.exists():
-        with open(ticker_path) as f:
-            ticker_data = json.load(f)
-            # Pinned first, then regular items
-            ticker_items = ticker_data.get("pinned", []) + ticker_data.get("items", [])
-
-    # Build ticker marquee items
-    import re as _re
-    def _strip_html(text):
-        """Strip HTML tags and decode entities for safe display."""
-        text = _re.sub(r'<[^>]+>', '', text)
-        text = text.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '"')
-        return text.strip()
-
-    ticker_html_items = ""
-    for item in ticker_items[:15]:
-        one_liner = _strip_html(item.get("one_liner", item.get("headline", "")))[:90]
-        if not one_liner or one_liner.startswith('http'):
-            continue
-        cat = item.get("category", "other")
-        cat_colors = {
-            "clinical_data": "#1B2838",
-            "regulatory": "#1B2838",
-            "deal": "#1B2838",
-            "ipo_financing": "#1B2838",
-            "earnings": "#1B2838",
-            "personnel": "#1B2838",
-            "policy": "#1B2838",
-            "other": "#1B2838",
-        }
-        cat_labels = {
-            "clinical_data": "DATA",
-            "regulatory": "FDA",
-            "deal": "DEAL",
-            "ipo_financing": "IPO",
-            "earnings": "EARNINGS",
-            "personnel": "PEOPLE",
-            "policy": "POLICY",
-            "other": "NEWS",
-        }
-        color = cat_colors.get(cat, "#6b7280")
-        label = cat_labels.get(cat, "NEWS")
-        tickers_str = " ".join(item.get("tickers", []))
-        ticker_prefix = f'<span style="font-weight:700;color:var(--navy)">{tickers_str}</span> ' if tickers_str else ""
-        ticker_html_items += f'''<span class="ticker-item"><span class="ticker-cat" style="background:{color}">{label}</span> {ticker_prefix}{one_liner}</span>'''
-
-    # Duplicate for seamless loop
-    marquee_content = ticker_html_items + ticker_html_items
 
     # --- Load upcoming catalysts from ALL targets ---
     targets_dir = Path(__file__).parent.parent / "data" / "targets"
@@ -550,18 +498,6 @@ def generate_homepage():
         .nav-cta a {{ padding: 9px 20px; background: var(--accent); color: white; font-weight: 600; text-decoration: none; border-radius: 8px; font-size: 0.88rem; transition: all 0.2s; }}
         .nav-cta a:hover {{ background: var(--accent-hover); }}
 
-        /* ===== NEWS TICKER BAR ===== */
-        .ticker-bar {{ background: var(--navy); color: rgba(255,255,255,0.9); overflow: hidden; height: 36px; display: flex; align-items: center; position: relative; }}
-        .ticker-label {{ background: var(--accent); color: white; padding: 0 14px; height: 100%; display: flex; align-items: center; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; z-index: 2; flex-shrink: 0; }}
-        .ticker-track {{ display: flex; animation: tickerScroll 60s linear infinite; white-space: nowrap; }}
-        .ticker-track:hover {{ animation-play-state: paused; }}
-        .ticker-item {{ display: inline-flex; align-items: center; gap: 6px; padding: 0 28px; font-size: 0.8rem; color: rgba(255,255,255,0.85); }}
-        .ticker-cat {{ display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 0.6rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px; }}
-        @keyframes tickerScroll {{
-            0% {{ transform: translateX(0); }}
-            100% {{ transform: translateX(-50%); }}
-        }}
-
         /* ===== HERO ===== */
         .hero {{ padding: 80px 32px 64px; text-align: center; position: relative; overflow: visible; background: linear-gradient(180deg, var(--bg) 0%, #f0ede8 100%); }}
         .hero-content {{ position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }}
@@ -704,8 +640,6 @@ def generate_homepage():
             .section-wrap {{ padding: 0 16px; }}
             .hp-section {{ padding: 40px 0; }}
             .cta-form {{ flex-direction: column; }}
-            .ticker-bar {{ height: 32px; }}
-            .ticker-item {{ font-size: 0.72rem; padding: 0 20px; }}
         }}
     </style>
 </head>
@@ -725,12 +659,6 @@ def generate_homepage():
             </div>
         </div>
     </header>
-
-    <!-- NEWS TICKER BAR -->
-    <div class="ticker-bar">
-        <div class="ticker-label">Live</div>
-        <div class="ticker-track">{marquee_content}</div>
-    </div>
 
     <!-- HERO -->
     <section class="hero">

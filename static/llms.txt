@@ -14,7 +14,7 @@ Satya Bio is a biotech competitive intelligence platform built for buy-side heal
 
 ## Key Pages
 
-- [Homepage](https://satyabio.com/): News ticker, catalyst calendar, deal tracker, target spotlight
+- [Homepage](https://satyabio.com/): Catalyst calendar, deal tracker, target spotlight
 - [Targets](https://satyabio.com/targets): Competitive landscape reports by therapeutic target
 - [Companies](https://satyabio.com/companies): Directory of 60+ tracked public biotechs
 - [Extract](https://satyabio.com/extract/): Clinical data extraction tools
