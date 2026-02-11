@@ -73,6 +73,18 @@ def capitalize_medical_terms(text: str) -> str:
     return text
 
 
+def render_cell(value) -> str:
+    """Safely render any JSON value into an HTML table cell.
+    Handles None, list, dict, str, and number types."""
+    if value is None:
+        return "—"
+    if isinstance(value, list):
+        return " / ".join(str(v) for v in value if v is not None)
+    if isinstance(value, dict):
+        return value.get("thesis") or value.get("text") or value.get("value") or str(value)
+    return str(value)
+
+
 def generate_citation_badge(source: dict, ticker: str) -> str:
     """
     Generate a citation badge HTML from a source object.
@@ -1738,8 +1750,8 @@ def _generate_company_overview_html(data: dict) -> str:
             <td><a href="/api/clinical/companies/{ticker}/assets/{asset_slug}/html" class="asset-link">{asset_name}</a></td>
             <td><a href="/api/clinical/targets/{target_key}/html" class="target-link">{target_name}</a></td>
             <td><span class="badge stage">{simple_stage}</span></td>
-            <td>{lead_ind}</td>
-            <td class="catalyst-cell">{next_catalyst or '<span class="no-data">—</span>'}</td>
+            <td>{render_cell(lead_ind)}</td>
+            <td class="catalyst-cell">{render_cell(next_catalyst) if next_catalyst else '<span class="no-data">—</span>'}</td>
         </tr>'''
 
     # Build bull/bear HTML
@@ -2324,7 +2336,7 @@ def _render_pharmacology_section(data: dict, ticker: str) -> str:
         for key, label in pk_labels.items():
             val = pk.get(key)
             if val:
-                pk_rows += f'<tr><td><strong>{label}</strong></td><td>{val}</td></tr>'
+                pk_rows += f'<tr><td><strong>{label}</strong></td><td>{render_cell(val)}</td></tr>'
 
     pk_table = ""
     if pk_rows:
@@ -2343,7 +2355,7 @@ def _render_pharmacology_section(data: dict, ticker: str) -> str:
                 exposure = entry.get("exposure", "")
                 measure = entry.get("efficacy_measure", "")
                 result = entry.get("result", "")
-                dose_rows += f'<tr><td>{dose}</td><td>{exposure}</td><td>{measure}</td><td>{result}</td></tr>'
+                dose_rows += f'<tr><td>{render_cell(dose)}</td><td>{render_cell(exposure)}</td><td>{render_cell(measure)}</td><td>{render_cell(result)}</td></tr>'
         if dose_rows:
             dose_table = f'''<div class="pharmacology-card">
                 <h4>Dose-Response</h4>
@@ -3288,7 +3300,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 if isinstance(bv, dict):
                     continue
                 label = bk.replace("_", " ").replace("pct", "%").replace("mean", "(mean)").title()
-                _b_rows += f"<tr><td>{label}</td><td><strong>{bv}</strong></td></tr>"
+                _b_rows += f"<tr><td>{label}</td><td><strong>{render_cell(bv)}</strong></td></tr>"
             if _b_rows:
                 _baseline_html = f'''
                 <div class="baseline-section">
@@ -3461,7 +3473,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 tooltip_text = get_enhanced_tooltip(key)
                 tooltip = f' <span class="enhanced-tooltip" data-tooltip="{tooltip_text}">ⓘ</span>' if tooltip_text else ''
 
-                rows += f'<tr><td class="var-cell">{label}{tooltip}</td><td class="baseline-value"><strong>{value}</strong></td></tr>'
+                rows += f'<tr><td class="var-cell">{label}{tooltip}</td><td class="baseline-value"><strong>{render_cell(value)}</strong></td></tr>'
             return rows
 
         baseline_ohcm_rows = build_baseline_rows(baseline_ohcm)
@@ -3569,7 +3581,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 ae_val = safety_data.get(ae_key, "")
                 if ae_val:
                     ae_label = ae_key.replace("_", " ").title()
-                    ae_rows += f'<tr><td>{ae_label}</td><td><strong>{ae_val}</strong></td></tr>'
+                    ae_rows += f'<tr><td>{ae_label}</td><td><strong>{render_cell(ae_val)}</strong></td></tr>'
 
             ae_table = ""
             if ae_rows:
@@ -3642,7 +3654,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             items = []
             for key, value in comparison.items():
                 label = key.replace("_", " ").title()
-                items.append(f'<li><strong>{label}:</strong> {value}</li>')
+                items.append(f'<li><strong>{label}:</strong> {render_cell(value)}</li>')
             if items:
                 comparison_html = f'<div class="preclin-item"><strong>vs Dupilumab:</strong><ul style="margin: 4px 0 0 16px;">{"".join(items)}</ul></div>'
 
@@ -3697,19 +3709,20 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
         bull_rows = ""
         for item in bull_case:
             if isinstance(item, dict):
-                point = item.get('point', '')
+                point = item.get('thesis') or item.get('point') or item.get('text', '')
                 evidence = item.get('evidence', '')
-                conf = item.get('confidence', 'Medium').title()
+                conf = item.get('confidence', 'Medium')
+                conf = conf.title() if isinstance(conf, str) else str(conf)
                 item_badge = generate_citation_badge(item.get('source'), ticker) if item.get('source') else ""
-                bull_rows += f'<tr><td class="point-cell">{point}{item_badge}</td><td>{evidence}</td><td class="conf-cell">{conf}</td></tr>'
+                bull_rows += f'<tr><td class="point-cell">{render_cell(point)}{item_badge}</td><td>{render_cell(evidence)}</td><td class="conf-cell">{render_cell(conf)}</td></tr>'
             else:
-                bull_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td class="conf-cell">—</td></tr>'
+                bull_rows += f'<tr><td class="point-cell">{render_cell(item)}</td><td>—</td><td class="conf-cell">—</td></tr>'
 
         # Bear Case Table Rows
         bear_rows = ""
         for item in bear_case:
             if isinstance(item, dict):
-                point = item.get('point', '')
+                point = item.get('thesis') or item.get('point') or item.get('text', '')
                 evidence = item.get('evidence', '')
                 counter = item.get('counter_argument', '')
                 prob = item.get('probability', '')
@@ -3718,9 +3731,9 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 mitigant = counter if counter else ''
                 if prob:
                     mitigant += f' (Probability: {prob})' if mitigant else f'Probability: {prob}'
-                bear_rows += f'<tr><td class="point-cell">{point}{item_badge}</td><td>{evidence}</td><td>{mitigant if mitigant else "—"}</td></tr>'
+                bear_rows += f'<tr><td class="point-cell">{render_cell(point)}{item_badge}</td><td>{render_cell(evidence)}</td><td>{mitigant if mitigant else "—"}</td></tr>'
             else:
-                bear_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td>—</td></tr>'
+                bear_rows += f'<tr><td class="point-cell">{render_cell(item)}</td><td>—</td><td>—</td></tr>'
 
         # Key Debates Table Rows
         debates_rows = ""
@@ -3730,7 +3743,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 bull_view = debate.get('bull_view', '')
                 bear_view = debate.get('bear_view', '')
                 resolves = debate.get('what_resolves_it', '')
-                debates_rows += f'<tr><td class="debate-q">{question}</td><td>{bull_view}</td><td>{bear_view}</td><td>{resolves}</td></tr>'
+                debates_rows += f'<tr><td class="debate-q">{render_cell(question)}</td><td>{render_cell(bull_view)}</td><td>{render_cell(bear_view)}</td><td>{render_cell(resolves)}</td></tr>'
 
         # Probability of Success Table
         pos_html = ""
@@ -3934,7 +3947,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
             watch_text = what_to_watch if what_to_watch else "—"
         consensus = c.get("consensus_expectation", "")
 
-        catalysts_rows += f'<tr><td class="event-cell">{event}</td><td>{timing}</td><td>{importance}</td><td>{watch_text}</td><td>{consensus if consensus else "—"}</td></tr>'
+        catalysts_rows += f'<tr><td class="event-cell">{render_cell(event)}</td><td>{render_cell(timing)}</td><td>{render_cell(importance)}</td><td>{watch_text}</td><td>{render_cell(consensus) if consensus else "—"}</td></tr>'
 
     catalysts_html = ""
     if catalysts_rows:
@@ -4032,7 +4045,7 @@ def _generate_asset_page_html(company_data: dict, asset: dict, prev_asset: dict,
                 drug = comp.get("drug", "") or comp.get("competitor", "")
                 company = comp.get("company", "")
                 limitation = comp.get("limitation", "") or comp.get("status", "")
-                comp_rows += f'<tr><td><strong>{drug}</strong></td><td>{company}</td><td>{limitation}</td></tr>'
+                comp_rows += f'<tr><td><strong>{render_cell(drug)}</strong></td><td>{render_cell(company)}</td><td>{render_cell(limitation)}</td></tr>'
 
         adv_items = ""
         if our_advantages:
@@ -5598,23 +5611,24 @@ def _generate_company_html_v2(data: dict) -> str:
     bull_rows = ""
     for item in bull_case:
         if isinstance(item, dict):
-            point = item.get('point', '')
+            point = item.get('thesis') or item.get('point') or item.get('text', '')
             evidence = item.get('evidence', '')
-            conf = item.get('confidence', 'Medium').title()
-            bull_rows += f'<tr><td class="point-cell">{point}</td><td>{evidence}</td><td class="conf-cell">{conf}</td></tr>'
+            conf = item.get('confidence', 'Medium')
+            conf = conf.title() if isinstance(conf, str) else str(conf)
+            bull_rows += f'<tr><td class="point-cell">{render_cell(point)}</td><td>{render_cell(evidence)}</td><td class="conf-cell">{render_cell(conf)}</td></tr>'
         else:
-            bull_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td class="conf-cell">—</td></tr>'
+            bull_rows += f'<tr><td class="point-cell">{render_cell(item)}</td><td>—</td><td class="conf-cell">—</td></tr>'
 
     # Bear Case Table Rows
     bear_rows = ""
     for item in bear_case:
         if isinstance(item, dict):
-            point = item.get('point', '')
+            point = item.get('thesis') or item.get('point') or item.get('text', '')
             evidence = item.get('evidence', '')
             counter = item.get('counter', '') or item.get('counter_argument', '')
-            bear_rows += f'<tr><td class="point-cell">{point}</td><td>{evidence}</td><td>{counter if counter else "—"}</td></tr>'
+            bear_rows += f'<tr><td class="point-cell">{render_cell(point)}</td><td>{render_cell(evidence)}</td><td>{render_cell(counter) if counter else "—"}</td></tr>'
         else:
-            bear_rows += f'<tr><td class="point-cell">{item}</td><td>—</td><td>—</td></tr>'
+            bear_rows += f'<tr><td class="point-cell">{render_cell(item)}</td><td>—</td><td>—</td></tr>'
 
     # Key Debates Table Rows
     debates_rows = ""
@@ -5623,7 +5637,7 @@ def _generate_company_html_v2(data: dict) -> str:
         bull_view = debate.get('bull_view', '')
         bear_view = debate.get('bear_view', '')
         data_watch = debate.get('data_to_watch', '') or debate.get('what_resolves_it', '')
-        debates_rows += f'<tr><td class="debate-q">{question}</td><td>{bull_view}</td><td>{bear_view}</td><td>{data_watch}</td></tr>'
+        debates_rows += f'<tr><td class="debate-q">{render_cell(question)}</td><td>{render_cell(bull_view)}</td><td>{render_cell(bear_view)}</td><td>{render_cell(data_watch)}</td></tr>'
 
     # Build thesis HTML using tables
     bull_html = ""
