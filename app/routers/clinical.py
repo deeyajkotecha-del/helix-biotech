@@ -1854,6 +1854,22 @@ def _generate_company_overview_html(data: dict) -> str:
                 <div class="status">{status_display}</div>
             </div>'''
 
+    # Pre-compute conditional HTML blocks (avoid nested f-strings for Python 3.11 compat)
+    priority_val = classification.get('priority')
+    priority_html = ''
+    if priority_val:
+        priority_html = f'<div class="snapshot-item"><div class="label">Priority</div><div class="value">{priority_val.title()}</div></div>'
+
+    thesis_link_html = ''
+    if thesis_url:
+        thesis_link_html = f' <a href="{thesis_url}" class="thesis-btn">View Full Thesis &rarr;</a>'
+
+    core_thesis_html = ''
+    if core_thesis:
+        core_thesis_html = f'<p class="core-thesis">{core_thesis}</p>'
+
+    cash_runway_val = company.get('cash_runway') or '\u2014'
+
     # Build unique, formatted tags - avoid duplicates
     raw_tags = [
         classification.get('development_stage', ''),
@@ -2199,22 +2215,19 @@ def _generate_company_overview_html(data: dict) -> str:
                 </div>
                 <div class="snapshot-item">
                     <div class="label">Cash Runway</div>
-                    <div class="value">{company.get('cash_runway') or '\u2014'}</div>
+                    <div class="value">{cash_runway_val}</div>
                 </div>
                 <div class="snapshot-item">
                     <div class="label">Pipeline</div>
-                    <div class="value">{len(assets)} Asset{'s' if len(assets) != 1 else ''}</div>
+                    <div class="value">{len(assets)} Asset{"s" if len(assets) != 1 else ""}</div>
                 </div>
-                {f'''<div class="snapshot-item">
-                    <div class="label">Priority</div>
-                    <div class="value">{classification.get("priority", "").title()}</div>
-                </div>''' if classification.get('priority') else ''}
+                {priority_html}
         </div>
 
         <div class="card">
-            <div class="card-header">Investment Thesis{f' <a href="{thesis_url}" class="thesis-btn">View Full Thesis →</a>' if thesis_url else ''}</div>
+            <div class="card-header">Investment Thesis{thesis_link_html}</div>
             <div class="card-content">
-                {f'<p class="core-thesis">{core_thesis}</p>' if core_thesis else ''}
+                {core_thesis_html}
                 <div class="thesis-grid">
                     <div class="thesis-column bull">
                         <h3>🐂 Bull Case</h3>
