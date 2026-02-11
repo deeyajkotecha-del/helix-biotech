@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "transcon_cnp"
+  },
   "asset": {
     "name": "TransCon_CNP",
     "company": "Ascendis Pharma",
@@ -7,7 +12,14 @@
     "mechanism": "CNP therapy that releases the FGFR3-induced brake, enabling complementary effect of growth hormone",
     "modality": "TransCon prodrug technology",
     "partner": null,
-    "stage": "Phase 3"
+    "stage": "Phase 3",
+    "one_liner": "Phase 3 once-weekly TransCon CNP prodrug for achondroplasia that releases the FGFR3-induced growth brake, with tripled efficacy in combination with TransCon hGH"
+  },
+  "target": {
+    "name": "NPR-B (Natriuretic Peptide Receptor B)",
+    "biology": {
+      "simple_explanation": "C-type natriuretic peptide (CNP) signals through the NPR-B receptor on growth plate chondrocytes, counteracting the growth-inhibiting effects of FGFR3 signaling. In achondroplasia, an overactive FGFR3 mutation acts as a brake on bone growth. TransCon CNP provides sustained CNP exposure to release this brake, restoring more normal endochondral bone growth. When combined with growth hormone (which recruits stem cells and increases chondrocyte numbers), the two complementary mechanisms can triple growth efficacy."
+    }
   },
   "clinical_development": {
     "current_stage": "Phase 3",

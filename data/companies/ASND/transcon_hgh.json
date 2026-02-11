@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "transcon_hgh"
+  },
   "asset": {
     "name": "TransCon_hGH",
     "company": "Ascendis Pharma",
@@ -7,7 +12,14 @@
     "mechanism": "Growth hormone therapy that presses the accelerator by recruiting stem cells and increasing chondrocyte numbers",
     "modality": "TransCon prodrug technology",
     "partner": null,
-    "stage": "Phase 2"
+    "stage": "Phase 2",
+    "one_liner": "Phase 2 once-weekly TransCon hGH for achondroplasia combination therapy, acting as the growth accelerator by recruiting stem cells and increasing chondrocyte numbers"
+  },
+  "target": {
+    "name": "Growth Hormone Receptor (GHR)",
+    "biology": {
+      "simple_explanation": "The growth hormone receptor mediates the anabolic effects of human growth hormone on bone and cartilage. In the achondroplasia combination strategy, TransCon hGH acts as the accelerator by recruiting mesenchymal stem cells and increasing chondrocyte proliferation in the growth plate, while TransCon CNP releases the FGFR3 brake. This complementary mechanism has shown tripled efficacy versus CNP monotherapy."
+    }
   },
   "clinical_development": {
     "current_stage": "Phase 2",

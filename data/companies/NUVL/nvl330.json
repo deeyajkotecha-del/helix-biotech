@@ -7,6 +7,7 @@
   "asset": {
     "name": "NVL-330",
     "ticker": "NUVL",
+    "company": "Nuvalent",
     "modality": "Small molecule kinase inhibitor",
     "stage": "Phase 1",
     "one_liner": "HER2-selective, EGFR-sparing TKI designed for superior CNS penetration and tolerability in HER2+ cancers",

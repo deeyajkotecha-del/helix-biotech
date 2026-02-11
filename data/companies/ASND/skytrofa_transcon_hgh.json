@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "skytrofa_transcon_hgh"
+  },
   "asset": {
     "name": "SKYTROFA_TransCon_hGH",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "Once-weekly TransCon prodrug releasing hGH",
     "modality": "TransCon prodrug",
     "partner": null,
-    "stage": "Approved"
+    "stage": "Approved",
+    "one_liner": "Approved once-weekly long-acting growth hormone (SKYTROFA) for pediatric growth hormone deficiency, with label expansions into Turner syndrome, SGA, and additional growth disorders"
+  },
+  "target": {
+    "name": "Growth Hormone Receptor (GHR)",
+    "biology": {
+      "simple_explanation": "The growth hormone receptor mediates the anabolic and growth-promoting effects of human growth hormone (hGH). In pediatric growth hormone deficiency, insufficient GH signaling results in short stature. SKYTROFA is a TransCon prodrug that releases hGH continuously over a week, mimicking physiological GH exposure while requiring only once-weekly injection instead of daily."
+    }
   },
   "clinical_development": {
     "current_stage": "Approved",

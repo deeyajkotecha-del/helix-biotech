@@ -1,9 +1,21 @@
 {
-  "name": "Ascendis Pharma A/S",
+  "_metadata": {
+    "version": "2.1",
+    "extraction_date": "2026-02-04",
+    "analyst_reviewed": false
+  },
+
   "ticker": "ASND",
-  "headquarters": "Not specified",
-  "website": "https://investors.ascendispharma.com/",
-  "description": "Ascendis Pharma is a leading biopharma company focused on endocrinology rare diseases using their TransCon technology platform. The company has three approved medicines for hypoparathyroidism and growth disorders, with aspirations to drive >€5B annual revenue by 2030.",
+  "name": "Ascendis Pharma",
+
+  "company": {
+    "name": "Ascendis Pharma A/S",
+    "ticker": "ASND",
+    "headquarters": "Not specified",
+    "website": "https://investors.ascendispharma.com/",
+    "one_liner": "Leading biopharma company using TransCon prodrug platform to build blockbuster endocrinology rare disease franchise — three approved medicines, targeting >5B EUR revenue by 2030",
+    "company_description": "Ascendis Pharma is a leading biopharma company focused on endocrinology rare diseases using their TransCon technology platform. The company has three approved medicines for hypoparathyroidism and growth disorders, with aspirations to drive >€5B annual revenue by 2030."
+  },
   "modalities": [
     "TransCon prodrug platform technology"
   ],

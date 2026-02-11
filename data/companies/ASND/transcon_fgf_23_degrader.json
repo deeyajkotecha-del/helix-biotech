@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "transcon_fgf_23_degrader"
+  },
   "asset": {
     "name": "TransCon_FGF-23_degrader",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "TransCon protein degrader",
     "modality": "TransCon protein degrader",
     "partner": null,
-    "stage": "Preclinical"
+    "stage": "Preclinical",
+    "one_liner": "Preclinical TransCon protein degrader targeting FGF-23 for X-linked hypophosphatemia, a novel approach to reduce excess FGF-23 that causes phosphate wasting"
+  },
+  "target": {
+    "name": "FGF-23 (Fibroblast Growth Factor 23)",
+    "biology": {
+      "simple_explanation": "FGF-23 is a hormone produced by osteocytes that regulates phosphate and vitamin D metabolism. In X-linked hypophosphatemia (XLH), excess FGF-23 causes the kidneys to waste phosphate and impairs vitamin D activation, leading to bone softening and skeletal deformities. This TransCon protein degrader is designed to reduce circulating FGF-23 levels, potentially restoring normal phosphate homeostasis."
+    }
   },
   "clinical_development": {
     "current_stage": "Preclinical",

@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "transcon_cnp_navepegritide"
+  },
   "asset": {
     "name": "TransCon_CNP_navepegritide",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "Once-weekly TransCon prodrug releasing CNP for continuous exposure",
     "modality": "TransCon prodrug",
     "partner": null,
-    "stage": "NDA Submitted"
+    "stage": "NDA Submitted",
+    "one_liner": "NDA/MAA-accepted once-weekly TransCon CNP (navepegritide) for achondroplasia in children, the only treatment showing benefits beyond height vs placebo in a pivotal trial"
+  },
+  "target": {
+    "name": "NPR-B (Natriuretic Peptide Receptor B)",
+    "biology": {
+      "simple_explanation": "CNP activates NPR-B receptors on growth plate chondrocytes to counteract the overactive FGFR3 signaling that causes achondroplasia. Navepegritide is the TransCon prodrug form of CNP that provides sustained once-weekly CNP exposure, enabling continuous suppression of the FGFR3 growth brake and promoting more normal long bone growth in children with achondroplasia."
+    }
   },
   "clinical_development": {
     "current_stage": "NDA and MAA Accepted",

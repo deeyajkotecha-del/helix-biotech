@@ -1,6 +1,8 @@
 {
   "_metadata": {
     "version": "2.0",
+    "ticker": "ARWR",
+    "asset_name": "plozasiran",
     "extracted_from": "ARWR Investment Thesis, Company Presentations, FDA Database",
     "extraction_date": "2026-02-05",
     "analyst_reviewed": true

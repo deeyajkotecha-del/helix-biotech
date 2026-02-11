@@ -7,6 +7,7 @@
   "asset": {
     "name": "neladalkib",
     "ticker": "NUVL",
+    "company": "Nuvalent",
     "modality": "Small molecule kinase inhibitor",
     "stage": "Phase 2 (NDA planned 1H 2026)",
     "one_liner": "Best-in-class ALK inhibitor with TRK-sparing selectivity designed to overcome lorlatinib resistance",

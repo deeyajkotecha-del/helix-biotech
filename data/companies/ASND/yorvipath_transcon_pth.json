@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "yorvipath_transcon_pth"
+  },
   "asset": {
     "name": "YORVIPATH_TransCon_PTH",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "Once-daily TransCon prodrug releasing PTH",
     "modality": "TransCon prodrug",
     "partner": null,
-    "stage": "Approved"
+    "stage": "Approved",
+    "one_liner": "Approved once-daily TransCon PTH (YORVIPATH) for hypoparathyroidism in adults, with expansion into adolescents underway"
+  },
+  "target": {
+    "name": "PTH Receptor (PTH1R)",
+    "biology": {
+      "simple_explanation": "The PTH1 receptor mediates parathyroid hormone signaling that maintains calcium and phosphate homeostasis. In hypoparathyroidism, insufficient PTH leads to dangerously low calcium and elevated phosphate. YORVIPATH is a TransCon prodrug that provides continuous PTH release to restore physiological calcium regulation, replacing the need for high-dose calcium and vitamin D supplementation."
+    }
   },
   "clinical_development": {
     "current_stage": "Approved",

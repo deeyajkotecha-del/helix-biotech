@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "transcon_il_2_b_g"
+  },
   "asset": {
     "name": "TransCon_IL-2_b_g",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "TransCon prodrug releasing IL-2",
     "modality": "TransCon prodrug",
     "partner": null,
-    "stage": "Phase 2"
+    "stage": "Phase 2",
+    "one_liner": "Phase 2 TransCon IL-2 beta/gamma prodrug in oncology (IL-Believe program), with focus on platinum-resistant ovarian cancer and various solid tumors"
+  },
+  "target": {
+    "name": "IL-2 Receptor beta/gamma",
+    "biology": {
+      "simple_explanation": "Interleukin-2 (IL-2) is a cytokine that stimulates the proliferation and activation of T cells and NK cells through the IL-2 receptor beta/gamma complex. By selectively activating the beta/gamma pathway (rather than the alpha/beta/gamma pathway that preferentially expands regulatory T cells), TransCon IL-2 beta/gamma aims to boost anti-tumor immune responses. The TransCon prodrug approach provides sustained IL-2 exposure to maintain immune activation against tumors."
+    }
   },
   "clinical_development": {
     "current_stage": "Phase 2",

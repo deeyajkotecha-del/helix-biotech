@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "transcon_avegf_eyc_0305"
+  },
   "asset": {
     "name": "TransCon_aVEGF_EYC-0305",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "TransCon anti-VEGF",
     "modality": "TransCon prodrug",
     "partner": "Eyconis",
-    "stage": "Preclinical"
+    "stage": "Preclinical",
+    "one_liner": "Preclinical TransCon anti-VEGF prodrug (EYC-0305) developed with Eyconis for extended-duration treatment of wet AMD, DME, and other retinal vascular diseases"
+  },
+  "target": {
+    "name": "VEGF (Vascular Endothelial Growth Factor)",
+    "biology": {
+      "simple_explanation": "VEGF is a signaling protein that promotes blood vessel growth (angiogenesis). In retinal diseases like wet age-related macular degeneration and diabetic macular edema, excessive VEGF drives abnormal blood vessel formation and leakage in the eye, causing vision loss. Anti-VEGF therapies block this signaling. The TransCon approach aims to extend the duration of anti-VEGF activity in the eye, reducing the frequency of intravitreal injections."
+    }
   },
   "clinical_development": {
     "current_stage": "Preclinical",

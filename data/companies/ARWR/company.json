@@ -7,6 +7,10 @@
   "name": "Arrowhead Pharmaceuticals",
   "ticker": "ARWR",
   "has_data": true,
+  "company": {
+    "name": "Arrowhead Pharmaceuticals",
+    "ticker": "ARWR"
+  },
   "classification": {
     "stage": "Platform/Clinical",
     "modality": "RNA Therapeutics (RNAi)",

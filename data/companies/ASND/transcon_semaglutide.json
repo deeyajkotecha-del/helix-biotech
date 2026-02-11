@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "transcon_semaglutide"
+  },
   "asset": {
     "name": "TransCon_semaglutide",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "Once-monthly TransCon prodrug releasing semaglutide",
     "modality": "TransCon prodrug",
     "partner": "Novo Nordisk",
-    "stage": "Preclinical"
+    "stage": "Preclinical",
+    "one_liner": "Preclinical once-monthly TransCon semaglutide prodrug for obesity and diabetes, developed in exclusive global partnership with Novo Nordisk"
+  },
+  "target": {
+    "name": "GLP-1 Receptor",
+    "biology": {
+      "simple_explanation": "The GLP-1 receptor is expressed in the pancreas, brain, and GI tract, and mediates the incretin effects of glucagon-like peptide-1 including glucose-dependent insulin secretion, appetite suppression, and delayed gastric emptying. Semaglutide is a validated GLP-1 receptor agonist already approved for diabetes and obesity. The TransCon prodrug approach aims to extend semaglutide's duration to once-monthly dosing, improving patient convenience and adherence."
+    }
   },
   "clinical_development": {
     "current_stage": "Preclinical",

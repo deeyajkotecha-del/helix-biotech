@@ -7,6 +7,7 @@
   "asset": {
     "name": "zidesamtinib",
     "ticker": "NUVL",
+    "company": "Nuvalent",
     "modality": "Small molecule kinase inhibitor",
     "stage": "NDA Filed",
     "one_liner": "Best-in-class ROS1 inhibitor with TRK-sparing selectivity for improved safety and broad mutation coverage",

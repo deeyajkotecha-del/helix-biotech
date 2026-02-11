@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "palopegteriparatide_yorvipath_transcon_pth"
+  },
   "asset": {
     "name": "Palopegteriparatide_YORVIPATH_TransCon_PTH",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "Prodrug of PTH (1-34) that provides active PTH within physiological range for 24 hours per day through transient conjugation technology",
     "modality": "Prodrug using TransCon technology",
     "partner": null,
-    "stage": "Approved"
+    "stage": "Approved",
+    "one_liner": "Approved once-daily TransCon PTH prodrug (palopegteriparatide) for hypoparathyroidism in adults, providing physiological PTH levels around the clock"
+  },
+  "target": {
+    "name": "PTH Receptor (PTH1R)",
+    "biology": {
+      "simple_explanation": "The PTH receptor (PTH1R) mediates the effects of parathyroid hormone on calcium and phosphate homeostasis. In hypoparathyroidism, insufficient PTH production leads to low calcium and high phosphate levels. Palopegteriparatide is a TransCon prodrug that continuously releases PTH(1-34) to restore physiological PTH signaling and normalize calcium metabolism."
+    }
   },
   "clinical_development": {
     "current_stage": "Approved",

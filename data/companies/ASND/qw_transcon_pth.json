@@ -1,4 +1,9 @@
 {
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "ASND",
+    "asset_name": "qw_transcon_pth"
+  },
   "asset": {
     "name": "QW_TransCon_PTH",
     "company": "Ascendis Pharma A/S",
@@ -7,7 +12,14 @@
     "mechanism": "Once-weekly TransCon prodrug designed to match YORVIPATH exposure over entire week",
     "modality": "TransCon prodrug",
     "partner": null,
-    "stage": "Preclinical"
+    "stage": "Preclinical",
+    "one_liner": "Preclinical once-weekly TransCon PTH prodrug designed to match YORVIPATH daily exposure over an entire week for improved convenience in hypoparathyroidism"
+  },
+  "target": {
+    "name": "PTH Receptor (PTH1R)",
+    "biology": {
+      "simple_explanation": "The PTH receptor mediates parathyroid hormone signaling that controls calcium and phosphate balance. This once-weekly formulation aims to sustain PTH levels equivalent to daily YORVIPATH dosing, reducing injection burden for patients with hypoparathyroidism who are already stable on TransCon PTH therapy."
+    }
   },
   "clinical_development": {
     "current_stage": "Preclinical",
