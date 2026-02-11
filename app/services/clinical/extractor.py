@@ -365,14 +365,18 @@ def get_company_full(ticker: str) -> Optional[dict]:
                 "cash_runway": company_data.get("financials", {}).get("cash_runway"),
                 "exchange": company_obj.get("exchange"),
             }
-            # v2.0 investment analysis
-            inv_analysis = company_data.get("investment_analysis", {})
-            result["investment_thesis"] = {
-                "bull_case": inv_analysis.get("bull_case") or [],
-                "bear_case": inv_analysis.get("bear_case") or [],
-                "key_debates": inv_analysis.get("key_debates") or [],
-                "valuation_framework": inv_analysis.get("valuation_framework", {})
-            }
+            # v2.0 investment analysis — fallback to investment_thesis if investment_analysis absent
+            inv_analysis = company_data.get("investment_analysis") or company_data.get("investment_thesis") or {}
+            if isinstance(inv_analysis, dict):
+                result["investment_thesis"] = {
+                    "bull_case": inv_analysis.get("bull_case") or [],
+                    "bear_case": inv_analysis.get("bear_case") or [],
+                    "key_debates": inv_analysis.get("key_debates") or [],
+                    "valuation_framework": inv_analysis.get("valuation_framework", {})
+                }
+            else:
+                # inv_analysis is a list (legacy format: list of bull case strings)
+                result["investment_thesis"] = {"bull_case": inv_analysis, "bear_case": [], "key_debates": [], "valuation_framework": {}}
             result["investment_thesis_summary"] = company_data.get("investment_thesis_summary", {})
             result["platform"] = company_data.get("platform", {})
             result["pipeline_summary"] = company_data.get("pipeline_summary", {})
