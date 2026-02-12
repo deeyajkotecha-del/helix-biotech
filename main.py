@@ -315,8 +315,57 @@ async def subscribe(req: SubscribeRequest, request: Request):
 
 @app.get("/sitemap.xml", include_in_schema=False)
 async def serve_sitemap():
-    """Serve sitemap.xml at site root."""
-    return FileResponse(BASE_DIR / "static" / "sitemap.xml", media_type="application/xml")
+    """Generate sitemap.xml dynamically, including insight articles from index."""
+    from fastapi.responses import Response
+    from app.pages import load_insights_index
+
+    # Static entries from the original sitemap
+    static_urls = [
+        {"loc": "https://satyabio.com/", "changefreq": "daily", "priority": "1.0"},
+        {"loc": "https://satyabio.com/targets", "changefreq": "weekly", "priority": "0.9"},
+        {"loc": "https://satyabio.com/companies", "changefreq": "weekly", "priority": "0.9"},
+        {"loc": "https://satyabio.com/extract/", "changefreq": "monthly", "priority": "0.7"},
+        {"loc": "https://satyabio.com/insights", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "https://satyabio.com/about", "changefreq": "monthly", "priority": "0.5"},
+        {"loc": "https://satyabio.com/targets/glp1", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "https://satyabio.com/targets/tl1a", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "https://satyabio.com/targets/b7-h3", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "https://satyabio.com/targets/kras", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "https://satyabio.com/targets/stat6", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "https://satyabio.com/targets/mir-124", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "https://satyabio.com/targets/cell-therapy", "changefreq": "weekly", "priority": "0.8"},
+        {"loc": "https://satyabio.com/api/clinical/companies/html", "changefreq": "weekly", "priority": "0.7"},
+        {"loc": "https://satyabio.com/api/clinical/targets/html", "changefreq": "weekly", "priority": "0.7"},
+        {"loc": "https://satyabio.com/terms", "changefreq": "yearly", "priority": "0.3"},
+        {"loc": "https://satyabio.com/privacy", "changefreq": "yearly", "priority": "0.3"},
+    ]
+
+    today = date.today().isoformat()
+    urls_xml = ""
+    for u in static_urls:
+        urls_xml += f"""  <url>
+    <loc>{u['loc']}</loc>
+    <lastmod>{today}</lastmod>
+    <changefreq>{u['changefreq']}</changefreq>
+    <priority>{u['priority']}</priority>
+  </url>\n"""
+
+    # Dynamically add insight articles
+    articles, _ = load_insights_index()
+    for a in articles:
+        article_date = a.get("date", today)
+        urls_xml += f"""  <url>
+    <loc>https://satyabio.com/insights/{a['slug']}</loc>
+    <lastmod>{article_date}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>\n"""
+
+    xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{urls_xml}</urlset>
+"""
+    return Response(content=xml, media_type="application/xml")
 
 @app.get("/robots.txt", include_in_schema=False)
 async def serve_robots():
