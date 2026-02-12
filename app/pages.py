@@ -2304,24 +2304,82 @@ def generate_about_page():
 
 
 def generate_insights_page():
-    """Generate the insights listing page."""
+    """Generate the insights listing page with featured card layout."""
     articles, categories = load_insights_index()
 
-    # Build article cards
-    cards_html = ""
-    for a in articles:
+    # Build featured card (first article) and grid cards (rest)
+    featured_html = ""
+    grid_html = ""
+
+    for i, a in enumerate(articles):
         cat_key = a.get("category", "regulatory")
-        cat = categories.get(cat_key, {"name": cat_key.title(), "color": "#1b2d45", "bg": "rgba(27,45,69,0.08)"})
-        cards_html += f"""
-            <a href="/insights/{a['slug']}" class="insight-card">
-                <div class="insight-card-meta">
-                    <span class="insight-date">{a.get('date_display', a.get('date', ''))}</span>
-                    <span class="insight-badge" style="color: {cat['color']}; background: {cat['bg']}">{cat['name']}</span>
+        cat = categories.get(cat_key, {"name": cat_key.title()})
+        cat_name = cat.get("name", cat_key.title())
+
+        if i == 0:
+            # Featured card with key data sidebar
+            key_data_rows = ""
+            for kd in a.get("key_data", []):
+                val_class = "data-val data-neg" if kd.get("negative") else "data-val"
+                key_data_rows += f"""
+                    <div class="data-row">
+                        <span class="data-key">{kd['key']}</span>
+                        <span class="{val_class}">{kd['value']}</span>
+                    </div>"""
+
+            label = a.get("label", "")
+            label_html = f'<span class="featured-label">{label}</span>' if label else ""
+
+            data_panel = ""
+            if key_data_rows:
+                data_panel = f"""
+                <div class="featured-data">
+                    <div class="data-label">Key Data</div>
+                    {key_data_rows}
+                </div>"""
+
+            featured_html = f"""
+            <div class="featured-card">
+                <div class="featured-topbar">
+                    <div class="featured-topbar-left">
+                        <span class="featured-badge">{cat_name}</span>
+                        {label_html}
+                    </div>
+                    <span class="featured-date">{a.get('date_display', '')}</span>
                 </div>
-                <h3 class="insight-card-title">{a['title']}</h3>
-                <p class="insight-card-summary">{a.get('summary', '')}</p>
-                <span class="insight-read-more">Read article &rarr;</span>
-            </a>"""
+                <div class="featured-body">
+                    <div class="featured-content">
+                        <h2 class="featured-title">
+                            <a href="/insights/{a['slug']}">{a['title']}</a>
+                        </h2>
+                        <p class="featured-summary">{a.get('summary', '')}</p>
+                        <a href="/insights/{a['slug']}" class="featured-read">Read full analysis &rarr;</a>
+                    </div>
+                    {data_panel}
+                </div>
+            </div>"""
+        else:
+            # Grid card for subsequent articles
+            tickers_html = ""
+            tickers = a.get("tickers", [])
+            if tickers:
+                tags = "".join(f'<span class="ticker-tag">{t}</span>' for t in tickers)
+                tickers_html = f'<div class="card-tickers">{tags}</div>'
+
+            grid_html += f"""
+                <div class="article-card">
+                    <div class="card-topbar">
+                        <span class="card-badge {cat_key}">{cat_name}</span>
+                        <span class="card-date">{a.get('date_display', '')}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3><a href="/insights/{a['slug']}">{a['title']}</a></h3>
+                        <p class="card-summary">{a.get('summary', '')}</p>
+                    </div>
+                    {tickers_html}
+                </div>"""
+
+    grid_section = f'<div class="articles-grid">{grid_html}</div>' if grid_html else ""
 
     insights_extra_head = """
     <meta name="description" content="Original biotech analysis from Satya Bio. Competitive landscapes, regulatory decisions, deal breakdowns, and catalyst previews for healthcare investors and pharma BD teams.">
@@ -2339,83 +2397,147 @@ def generate_insights_page():
             --in-white: #ffffff;
             --in-navy: #1b2d45;
             --in-navy-light: #2c4263;
-            --in-text-body: #8a8f99;
-            --in-text-muted: #aab0b8;
+            --in-text-body: #4a5060;
+            --in-text-muted: #8a8f99;
+            --in-text-light: #aab0b8;
             --in-coral: #d4805a;
             --in-coral-hover: #c06e48;
+            --in-coral-bg: rgba(212, 128, 90, 0.08);
+            --in-coral-border: rgba(212, 128, 90, 0.2);
             --in-border: #e8e2d9;
             --in-border-light: #eee9e1;
-            --in-card-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            --in-card-shadow: 0 2px 8px rgba(0,0,0,0.04);
             color: var(--in-text-body);
             line-height: 1.7;
         }
-        .insights-page .container { max-width: 820px; margin: 0 auto; padding: 0 40px; }
+        .insights-page .page-container { max-width: 1000px; margin: 0 auto; padding: 0 40px; }
 
-        /* Hero */
-        .insights-page .hero { padding: 60px 0 48px; border-bottom: 1px solid var(--in-border); }
-        .insights-page .hero h1 {
+        /* Header */
+        .insights-page .page-header { padding: 40px 0 28px; }
+        .insights-page .page-header h1 {
             font-family: 'Playfair Display', 'Fraunces', serif;
-            font-size: 44px;
-            font-weight: 800;
-            line-height: 1.15;
-            color: var(--in-navy);
-            margin-bottom: 16px;
+            font-size: 36px; font-weight: 700; color: var(--in-navy); margin-bottom: 6px;
         }
-        .insights-page .hero p { font-size: 17px; max-width: 660px; line-height: 1.8; }
+        .insights-page .page-header p { font-size: 15px; color: var(--in-text-muted); max-width: 600px; }
 
-        /* Article cards */
-        .insights-page .articles-list { padding: 16px 0 48px; }
-        .insight-card {
-            display: block;
-            text-decoration: none;
-            padding: 32px 0;
-            border-bottom: 1px solid var(--in-border-light);
-            transition: background 0.15s;
+        /* Featured card */
+        .insights-page .featured-card {
+            background: var(--in-white); border: 1px solid var(--in-border);
+            border-radius: 12px; overflow: hidden; box-shadow: var(--in-card-shadow); margin-bottom: 24px;
         }
-        .insight-card:first-child { padding-top: 24px; }
-        .insight-card:last-child { border-bottom: none; }
-        .insight-card:hover { background: rgba(212, 128, 90, 0.03); margin: 0 -20px; padding-left: 20px; padding-right: 20px; border-radius: 8px; }
-        .insight-card-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-        .insight-date { font-size: 13px; color: var(--in-text-muted); font-weight: 500; }
-        .insight-badge {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 3px 10px;
-            border-radius: 4px;
+        .insights-page .featured-topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 28px; border-bottom: 1px solid var(--in-border-light); background: var(--in-bg);
         }
-        .insight-card-title {
-            font-family: 'Playfair Display', 'Fraunces', serif;
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--in-navy);
-            line-height: 1.35;
-            margin-bottom: 10px;
+        .insights-page .featured-topbar-left { display: flex; align-items: center; gap: 12px; }
+        .insights-page .featured-badge {
+            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px;
+            color: white; background: var(--in-coral); padding: 4px 12px; border-radius: 4px;
         }
-        .insight-card-summary { font-size: 15px; line-height: 1.7; color: var(--in-text-body); margin-bottom: 10px; }
-        .insight-read-more { font-size: 14px; font-weight: 600; color: var(--in-coral); }
+        .insights-page .featured-label {
+            font-size: 11px; font-weight: 600; color: var(--in-text-muted);
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .insights-page .featured-date { font-size: 12px; color: var(--in-text-light); }
+        .insights-page .featured-body { display: grid; grid-template-columns: 1fr 320px; gap: 0; }
+        .insights-page .featured-content { padding: 28px 32px; }
+        .insights-page .featured-title {
+            font-family: 'Playfair Display', 'Fraunces', serif; font-size: 26px; font-weight: 700;
+            color: var(--in-navy); line-height: 1.25; margin-bottom: 14px;
+        }
+        .insights-page .featured-title a { color: var(--in-navy); text-decoration: none; }
+        .insights-page .featured-title a:hover { color: var(--in-coral); }
+        .insights-page .featured-summary { font-size: 14.5px; color: var(--in-text-body); line-height: 1.7; margin-bottom: 18px; }
+        .insights-page .featured-read { font-size: 13px; font-weight: 600; color: var(--in-coral); text-decoration: none; }
+        .insights-page .featured-read:hover { text-decoration: underline; }
+
+        /* Key data sidebar */
+        .insights-page .featured-data {
+            padding: 28px; border-left: 1px solid var(--in-border-light); background: rgba(250, 247, 242, 0.4);
+        }
+        .insights-page .data-label {
+            font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
+            color: var(--in-coral); margin-bottom: 14px;
+        }
+        .insights-page .data-row {
+            display: flex; justify-content: space-between; align-items: baseline;
+            padding: 6px 0; border-bottom: 1px solid var(--in-border-light); font-size: 13px;
+        }
+        .insights-page .data-row:last-child { border-bottom: none; }
+        .insights-page .data-key { color: var(--in-text-muted); font-size: 12px; }
+        .insights-page .data-val { color: var(--in-navy); font-weight: 600; font-size: 13px; text-align: right; }
+        .insights-page .data-neg { color: #c0392b; }
+
+        /* Article grid */
+        .insights-page .articles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .insights-page .article-card {
+            background: var(--in-white); border: 1px solid var(--in-border);
+            border-radius: 10px; overflow: hidden; box-shadow: var(--in-card-shadow);
+        }
+        .insights-page .card-topbar {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 20px; border-bottom: 1px solid var(--in-border-light); background: var(--in-bg);
+        }
+        .insights-page .card-badge {
+            font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            padding: 3px 8px; border-radius: 3px;
+        }
+        .insights-page .card-badge.regulatory { background: var(--in-coral); color: white; }
+        .insights-page .card-badge.landscape { background: var(--in-navy); color: white; }
+        .insights-page .card-badge.deals { background: var(--in-coral-bg); color: var(--in-coral); border: 1px solid var(--in-coral-border); }
+        .insights-page .card-badge.catalyst { background: rgba(27,45,69,0.08); color: var(--in-navy-light); }
+        .insights-page .card-badge.framework { background: rgba(138,143,153,0.1); color: var(--in-text-muted); }
+        .insights-page .card-date { font-size: 11px; color: var(--in-text-light); }
+        .insights-page .card-body { padding: 18px 20px; }
+        .insights-page .card-body h3 {
+            font-family: 'Playfair Display', 'Fraunces', serif; font-size: 18px; font-weight: 700;
+            color: var(--in-navy); line-height: 1.3; margin-bottom: 8px;
+        }
+        .insights-page .card-body h3 a { color: var(--in-navy); text-decoration: none; }
+        .insights-page .card-body h3 a:hover { color: var(--in-coral); }
+        .insights-page .card-summary { font-size: 13px; color: var(--in-text-muted); line-height: 1.6; }
+        .insights-page .card-tickers { padding: 0 20px 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+        .insights-page .ticker-tag {
+            font-size: 10px; font-weight: 600; color: var(--in-navy); background: rgba(27,45,69,0.06);
+            padding: 2px 7px; border-radius: 3px; letter-spacing: 0.3px;
+        }
+
+        /* CTA */
+        .insights-page .insights-cta { text-align: center; padding: 48px 0 60px; }
+        .insights-page .insights-cta p { font-size: 15px; color: var(--in-text-muted); margin-bottom: 16px; }
+        .insights-page .insights-cta a {
+            display: inline-block; font-size: 14px; font-weight: 600; color: white;
+            background: var(--in-coral); border-radius: 8px; padding: 12px 28px; text-decoration: none;
+        }
+        .insights-page .insights-cta a:hover { background: var(--in-coral-hover); }
 
         /* Mobile */
         @media (max-width: 700px) {
-            .insights-page .container { padding: 0 20px; }
-            .insights-page .hero h1 { font-size: 32px; }
-            .insight-card-title { font-size: 19px; }
+            .insights-page .page-container { padding: 0 20px; }
+            .insights-page .page-header h1 { font-size: 28px; }
+            .insights-page .featured-body { grid-template-columns: 1fr; }
+            .insights-page .featured-data { border-left: none; border-top: 1px solid var(--in-border-light); }
+            .insights-page .featured-title { font-size: 22px; }
+            .insights-page .articles-grid { grid-template-columns: 1fr; }
         }
     """
 
     return f"""{_render_head("Insights | Satya Bio &mdash; Biotech Analysis for Investors", insights_styles, insights_extra_head)}
     {_render_nav("insights")}
     <div class="insights-page">
-        <div class="container">
+        <div class="page-container">
 
-            <div class="hero">
+            <div class="page-header">
                 <h1>Insights</h1>
-                <p>Original analysis on competitive landscapes, regulatory decisions, deal activity, and catalyst events in biotech. Written for investment professionals and pharma BD teams who need depth, not headlines.</p>
+                <p>Original analysis on competitive landscapes, regulatory decisions, deal activity, and catalyst events in biotech.</p>
             </div>
 
-            <div class="articles-list">
-                {cards_html}
+            {featured_html}
+            {grid_section}
+
+            <div class="insights-cta">
+                <p>New analysis published weekly. Get alerts for new insights.</p>
+                <a href="mailto:contact@satyabio.com?subject=Insights%20Alerts">Subscribe to Insights</a>
             </div>
 
         </div>
