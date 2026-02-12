@@ -145,28 +145,25 @@ class IRScraper:
         max_results: int,
         keywords: list[str] = None
     ) -> list[dict]:
-        """Scrape Q4 Inc hosted IR pages."""
-        # Q4 pages often have specific structure
+        """Scrape Q4 Inc hosted IR pages with multiple strategies."""
         response = self.client.get(url)
         response.raise_for_status()
 
         soup = BeautifulSoup(response.text, "html.parser")
         results = []
 
-        # Q4 typically uses specific classes for presentation items
-        items = soup.find_all(class_=re.compile(r"(presentation|event|document)", re.I))
-
-        for item in items:
-            pdf_link = item.find("a", href=re.compile(r"\.pdf", re.I))
-            if not pdf_link:
-                continue
-
-            full_url = urljoin(url, pdf_link["href"])
-            title = self._extract_link_title(pdf_link) or item.get_text(strip=True)[:100]
-            date = self._extract_date_near_link(item)
+        # Strategy 1: Find /static-files/{UUID} links (Q4 standard PDF hosting)
+        static_links = soup.find_all("a", href=re.compile(r"/static-files/", re.I))
+        for link in static_links:
+            href = link["href"]
+            full_url = urljoin(url, href)
+            title = self._extract_link_title(link)
+            date = self._extract_date_near_link(link)
 
             if keywords:
-                if not any(kw.lower() in title.lower() for kw in keywords):
+                title_lower = title.lower()
+                href_lower = href.lower()
+                if not any(kw.lower() in title_lower or kw.lower() in href_lower for kw in keywords):
                     continue
 
             results.append({
@@ -175,11 +172,40 @@ class IRScraper:
                 "date": date,
                 "source_page": url
             })
-
             if len(results) >= max_results:
-                break
+                return results
 
-        # Fallback to standard scraping if no Q4-specific items found
+        # Strategy 2: Find Q4 widget containers
+        if not results:
+            widget_classes = re.compile(
+                r"(nir-widget|module-presentations|ir-widget|presentation|event|document)",
+                re.I
+            )
+            items = soup.find_all(class_=widget_classes)
+
+            for item in items:
+                pdf_link = item.find("a", href=lambda h: h and self._is_pdf_link(h))
+                if not pdf_link:
+                    continue
+
+                full_url = urljoin(url, pdf_link["href"])
+                title = self._extract_link_title(pdf_link) or item.get_text(strip=True)[:100]
+                date = self._extract_date_near_link(item)
+
+                if keywords:
+                    if not any(kw.lower() in title.lower() for kw in keywords):
+                        continue
+
+                results.append({
+                    "url": full_url,
+                    "title": title,
+                    "date": date,
+                    "source_page": url
+                })
+                if len(results) >= max_results:
+                    return results
+
+        # Strategy 3: Fall back to standard scraping
         if not results:
             return self._scrape_standard_page(url, max_results, keywords)
 
@@ -200,9 +226,10 @@ class IRScraper:
         """Check if a URL points to a PDF."""
         href_lower = href.lower()
         return (
-            href_lower.endswith(".pdf") or
-            "pdf" in href_lower and "download" in href_lower or
-            "/pdf/" in href_lower
+            href_lower.endswith(".pdf")
+            or ("pdf" in href_lower and "download" in href_lower)
+            or "/pdf/" in href_lower
+            or "/static-files/" in href_lower
         )
 
     def _extract_link_title(self, link) -> str:

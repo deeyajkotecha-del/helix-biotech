@@ -123,6 +123,8 @@ from app.pages import (
     generate_targets_page,
     generate_target_detail_page,
     generate_about_page,
+    generate_insights_page,
+    generate_insight_detail_page,
     generate_company_detail,
     generate_glp1_report,
     generate_tl1a_report,
@@ -199,6 +201,19 @@ async def serve_target_detail(slug: str):
 async def serve_about():
     """Serve about page."""
     return HTMLResponse(generate_about_page())
+
+@app.get("/insights", response_class=HTMLResponse)
+async def serve_insights():
+    """Serve insights listing page."""
+    return HTMLResponse(generate_insights_page())
+
+@app.get("/insights/{slug}", response_class=HTMLResponse)
+async def serve_insight_detail(slug: str):
+    """Serve individual insight article page."""
+    html = generate_insight_detail_page(slug)
+    if html:
+        return HTMLResponse(html)
+    return HTMLResponse(generate_insights_page())
 
 @app.get("/terms", response_class=HTMLResponse)
 async def serve_terms():

@@ -1,0 +1,41 @@
+{
+  "_metadata": {
+    "version": "1.0",
+    "type": "insights_index",
+    "last_updated": "2026-02-11"
+  },
+  "articles": [
+    {
+      "slug": "fda-moderna-mrna-flu-vaccine",
+      "title": "FDA Refuses to File Moderna\u2019s mRNA Influenza Vaccine (mRNA-1010)",
+      "summary": "CBER Director Vinay Prasad overruled career FDA reviewers to reject Moderna\u2019s mRNA flu vaccine application. Analysis of competitive impact across MRNA, PFE, BNTX, NVAX, and implications for CBER regulatory risk.",
+      "category": "regulatory",
+      "date": "2026-02-11",
+      "date_display": "February 11, 2026",
+      "author": "Satya Bio Research",
+      "reading_time": "12 min read"
+    }
+  ],
+  "categories": {
+    "regulatory": {
+      "name": "Regulatory",
+      "color": "#1b2d45",
+      "bg": "rgba(27, 45, 69, 0.08)"
+    },
+    "landscape": {
+      "name": "Landscape",
+      "color": "#1b2d45",
+      "bg": "rgba(27, 45, 69, 0.06)"
+    },
+    "deals": {
+      "name": "Deals",
+      "color": "#d4805a",
+      "bg": "rgba(212, 128, 90, 0.08)"
+    },
+    "catalyst": {
+      "name": "Catalyst",
+      "color": "#2c4263",
+      "bg": "rgba(44, 66, 99, 0.06)"
+    }
+  }
+}

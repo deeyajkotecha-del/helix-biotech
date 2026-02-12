@@ -35,6 +35,25 @@ def load_target_data(slug: str):
             return json.load(f)
     return None
 
+# Load insights from index.json
+def load_insights_index():
+    """Load insights articles and categories from data/insights/index.json"""
+    index_path = Path(__file__).parent.parent / "data" / "insights" / "index.json"
+    if index_path.exists():
+        with open(index_path) as f:
+            data = json.load(f)
+            return data.get("articles", []), data.get("categories", {})
+    return [], {}
+
+def load_insight_article(slug: str):
+    """Load individual insight article from data/insights/{slug}.json"""
+    article_path = Path(__file__).parent.parent / "data" / "insights" / f"{slug}.json"
+    if article_path.exists():
+        with open(article_path) as f:
+            data = json.load(f)
+            return data.get("article", None)
+    return None
+
 # Stage display labels
 STAGE_LABELS = {
     "large_cap_diversified": "Large Cap",
@@ -87,6 +106,7 @@ def _render_nav(active=""):
                 <a href="/targets" {_cls("targets")}>Targets</a>
                 <a href="/companies" {_cls("companies")}>Companies</a>
                 <a href="/extract/" {_cls("extract")}>Extract</a>
+                <a href="/insights" {_cls("insights")}>Insights</a>
                 <a href="/about" {_cls("about")}>About</a>
                 <a href="mailto:contact@satyabio.com?subject=Early%20Access%20Request" class="btn-primary nav-cta-mobile">Get Started</a>
             </nav>
@@ -202,6 +222,7 @@ def get_nav_html(active=""):
                 <a href="/targets" {"class='active'" if active == "targets" else ""}>Targets</a>
                 <a href="/companies" {"class='active'" if active == "companies" else ""}>Companies</a>
                 <a href="/extract/" {"class='active'" if active == "extract" else ""}>Extract</a>
+                <a href="/insights" {"class='active'" if active == "insights" else ""}>Insights</a>
                 <a href="/about" {"class='active'" if active == "about" else ""}>About</a>
             </nav>
             <div class="nav-cta">
@@ -1797,42 +1818,896 @@ def generate_target_detail_page(slug: str):
 </html>'''
 
 def generate_about_page():
-    about_styles = """
-        .about-content { max-width: 700px; margin: 0 auto; }
-        .about-content h1 { font-size: 2.5rem; margin-bottom: 24px; }
-        .about-content p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px; color: var(--text-secondary); }
-        .about-content h2 { font-size: 1.5rem; margin: 48px 0 16px; color: var(--navy); }
-        .feature-list { list-style: none; padding: 0; }
-        .feature-list li { padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-        .feature-list li::before { content: "\\2713"; color: var(--accent); font-weight: bold; }
+    about_extra_head = """
+    <meta name="description" content="Satya Bio is a biotech competitive intelligence platform for buy-side healthcare investors and pharma business development teams. Track hundreds of biotechs across thousands of drugs and millions of data points.">
+    <meta name="keywords" content="biotech competitive intelligence, pharma business development, biotech catalyst tracking, pipeline analytics, buy-side research, healthcare investing, GLP-1 landscape, obesity drug pipeline, TL1A inhibitors, IBD competitive landscape, KRAS G12C, biotech deals, clinical trial data, biotech pipeline tracker, pharma licensing intelligence, biotech M&A tracker, ADC landscape, cell therapy landscape, protein degradation, RNA therapeutics">
+    <meta property="og:title" content="About Satya Bio | Biotech Intelligence Platform">
+    <meta property="og:description" content="Competitive intelligence for buy-side investors and pharma BD teams. Hundreds of biotechs, thousands of drugs, real-time catalyst tracking.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://satyabio.com/about">
+    <meta property="og:site_name" content="Satya Bio">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Satya Bio",
+        "url": "https://satyabio.com",
+        "description": "Biotech competitive intelligence platform for buy-side healthcare investors and pharma business development teams",
+        "email": "contact@satyabio.com",
+        "knowsAbout": ["Biotech competitive intelligence","Pharmaceutical business development","Clinical trial analysis","Biotech catalyst tracking","Pipeline analytics","Healthcare investing","Drug development landscapes","Obesity drug pipeline","IBD competitive landscape","Oncology pipeline","Immunology pipeline","Biotech M&A","SEC filing analysis","Key Opinion Leader identification","Antibody drug conjugates","Cell therapy","Protein degradation","RNA therapeutics"],
+        "areaServed": "Worldwide",
+        "serviceType": "Biotech Intelligence Platform"
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     """
-    return f'''{_render_head("About | Satya Bio", about_styles)}
+
+    about_styles = """
+        /* About page — scoped variables */
+        .about-page {
+            --ab-bg: #faf7f2;
+            --ab-white: #ffffff;
+            --ab-navy: #1b2d45;
+            --ab-navy-light: #2c4263;
+            --ab-text-body: #8a8f99;
+            --ab-text-muted: #aab0b8;
+            --ab-coral: #d4805a;
+            --ab-coral-hover: #c06e48;
+            --ab-coral-bg: rgba(212, 128, 90, 0.08);
+            --ab-coral-border: rgba(212, 128, 90, 0.2);
+            --ab-border: #e8e2d9;
+            --ab-border-light: #eee9e1;
+            --ab-card-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            color: var(--ab-text-body);
+            line-height: 1.7;
+        }
+        .about-page .container { max-width: 820px; margin: 0 auto; padding: 0 40px; }
+
+        /* Hero */
+        .about-page .hero { padding: 60px 0 48px; }
+        .about-page .hero h1 {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--ab-navy);
+            margin-bottom: 24px;
+        }
+        .about-page .hero p { font-size: 17px; max-width: 660px; line-height: 1.8; }
+
+        /* Stats */
+        .about-page .stats-row {
+            display: flex;
+            padding: 28px 0;
+            border-top: 1px solid var(--ab-border);
+            border-bottom: 1px solid var(--ab-border);
+        }
+        .about-page .stat-item { flex: 1; text-align: center; padding: 4px 8px; }
+        .about-page .stat-item + .stat-item { border-left: 1px solid var(--ab-border); }
+        .about-page .stat-value {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--ab-navy);
+        }
+        .about-page .stat-label {
+            font-size: 11px;
+            color: var(--ab-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-top: 2px;
+        }
+
+        /* Sections */
+        .about-page section { padding: 48px 0; border-bottom: 1px solid var(--ab-border); }
+        .about-page section:last-of-type { border-bottom: none; }
+        .about-page h2 {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--ab-navy);
+            margin-bottom: 14px;
+        }
+        .about-page h3 {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ab-navy);
+            margin-bottom: 10px;
+        }
+        .about-page p { font-size: 15.5px; line-height: 1.75; margin-bottom: 14px; }
+        .about-page p:last-child { margin-bottom: 0; }
+
+        /* Audience cards */
+        .about-page .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+        .about-page .audience-card {
+            background: var(--ab-white);
+            border: 1px solid var(--ab-border);
+            border-radius: 12px;
+            padding: 26px;
+            box-shadow: var(--ab-card-shadow);
+        }
+        .about-page .audience-card h3 { font-size: 17px; margin-bottom: 10px; }
+        .about-page .audience-card p { font-size: 14px; line-height: 1.7; }
+
+        /* Checklist */
+        .about-page .check-list { margin-top: 16px; }
+        .about-page .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--ab-border-light);
+        }
+        .about-page .check-item:last-child { border-bottom: none; }
+        .about-page .check-icon { color: var(--ab-coral); font-size: 17px; flex-shrink: 0; margin-top: 1px; font-weight: 600; }
+        .about-page .check-text { font-size: 15px; color: var(--ab-navy); font-weight: 500; line-height: 1.55; }
+        .about-page .check-detail { color: var(--ab-text-body); font-weight: 400; }
+
+        /* Capabilities */
+        .about-page .capabilities-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 22px; }
+        .about-page .capability-card {
+            background: var(--ab-white);
+            border: 1px solid var(--ab-border);
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: var(--ab-card-shadow);
+        }
+        .about-page .capability-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--ab-coral);
+            margin-bottom: 8px;
+        }
+        .about-page .capability-card p { font-size: 14px; line-height: 1.7; }
+
+        /* Landscape tags */
+        .about-page .landscape-group { margin-top: 20px; margin-bottom: 24px; }
+        .about-page .landscape-group:last-child { margin-bottom: 0; }
+        .about-page .landscape-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--ab-coral);
+            margin-bottom: 10px;
+        }
+        .about-page .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .about-page .tag {
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: var(--ab-white);
+            color: var(--ab-navy);
+            border: 1px solid var(--ab-border);
+        }
+
+        /* Data sources */
+        .about-page .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; margin-top: 14px; }
+        .about-page .source-item { font-size: 15px; color: var(--ab-navy); padding: 11px 0; border-bottom: 1px solid var(--ab-border-light); }
+        .about-page .source-detail { color: var(--ab-text-muted); font-size: 13px; }
+
+        /* Insights / blog */
+        .about-page .insights-card {
+            background: var(--ab-white);
+            border: 1px solid var(--ab-border);
+            border-radius: 12px;
+            padding: 28px;
+            margin-top: 22px;
+            box-shadow: var(--ab-card-shadow);
+        }
+        .about-page .blog-item {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            gap: 16px;
+            align-items: start;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--ab-border-light);
+        }
+        .about-page .blog-item:last-child { border-bottom: none; }
+        .about-page .blog-type {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-align: center;
+            margin-top: 2px;
+        }
+        .about-page .type-landscape { background: rgba(27, 45, 69, 0.08); color: var(--ab-navy); }
+        .about-page .type-deal { background: var(--ab-coral-bg); color: var(--ab-coral); border: 1px solid var(--ab-coral-border); }
+        .about-page .type-catalyst { background: rgba(27, 45, 69, 0.06); color: var(--ab-navy-light); }
+        .about-page .type-framework { background: rgba(138, 143, 153, 0.1); color: var(--ab-text-body); }
+        .about-page .blog-item p { font-size: 14px; line-height: 1.6; margin-bottom: 0; }
+
+        /* Access / pricing */
+        .about-page .pricing-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+        .about-page .pricing-option {
+            background: var(--ab-white);
+            border: 1px solid var(--ab-border);
+            border-radius: 10px;
+            padding: 22px;
+            box-shadow: var(--ab-card-shadow);
+        }
+        .about-page .pricing-option.highlighted { border-color: var(--ab-coral); background: var(--ab-coral-bg); }
+        .about-page .pricing-option-name {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--ab-navy);
+            margin-bottom: 6px;
+        }
+        .about-page .pricing-option p { font-size: 13.5px; line-height: 1.6; }
+
+        /* CTA */
+        .about-page .cta-section { text-align: center; padding: 56px 0 68px; }
+        .about-page .cta-section h2 { margin-bottom: 8px; }
+        .about-page .cta-section > p { margin-bottom: 22px; font-size: 16px; }
+        .about-page .cta-button {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            background: var(--ab-coral);
+            border-radius: 10px;
+            padding: 14px 32px;
+            text-decoration: none;
+        }
+        .about-page .cta-button:hover { background: var(--ab-coral-hover); }
+        .about-page .cta-email { margin-top: 12px; font-size: 14px; color: var(--ab-text-muted); }
+        .about-page .cta-email a { color: var(--ab-coral); text-decoration: none; }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+            .about-page .container { padding: 0 20px; }
+            .about-page .hero h1 { font-size: 32px; }
+            .about-page .stats-row { flex-wrap: wrap; }
+            .about-page .stat-item { flex: 1 1 50%; padding: 10px 0; }
+            .about-page .stat-item + .stat-item { border-left: none; }
+            .about-page .audience-grid,
+            .about-page .capabilities-grid,
+            .about-page .pricing-options { grid-template-columns: 1fr; }
+            .about-page .sources-grid { grid-template-columns: 1fr; }
+            .about-page .blog-item { grid-template-columns: 80px 1fr; gap: 10px; }
+        }
+    """
+
+    return f'''{_render_head("About Satya Bio | Biotech Competitive Intelligence for Investors &amp; Pharma BD Teams", about_styles, about_extra_head)}
     {_render_nav("about")}
-    <main class="main">
-        <div class="about-content">
-            <h1>Biotech Intelligence for the Buy Side</h1>
-            <p>Satya Bio provides institutional investors with comprehensive biotech competitive intelligence. We track 181 public biotech companies, monitor catalyst timelines, and analyze competitive landscapes across therapeutic areas.</p>
+    <div class="about-page">
+        <div class="container">
 
-            <h2>What We Track</h2>
-            <ul class="feature-list">
-                <li>Pipeline data for 181 biotech companies</li>
-                <li>Real-time catalyst monitoring and alerts</li>
-                <li>Competitive landscapes for hot targets (GLP-1, TL1A, KRAS, etc.)</li>
-                <li>Key Opinion Leader identification via PubMed</li>
-                <li>SEC filing analysis and ownership tracking</li>
-                <li>Clinical trial data from ClinicalTrials.gov</li>
-            </ul>
+            <div class="hero">
+                <h1>Biotech Competitive Intelligence for Investors &amp; Pharma BD</h1>
+                <p>Satya Bio is a biotech intelligence platform purpose-built for buy-side healthcare investors and pharma business development teams. We consolidate competitive landscapes, catalyst timelines, pipeline data, and deal intelligence across millions of data points &mdash; turning hours of manual research into structured, decision-ready analysis.</p>
+            </div>
 
-            <h2>Contact</h2>
-            <p>For early access or inquiries: <a href="mailto:contact@satyabio.com" style="color: var(--accent);">contact@satyabio.com</a></p>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-value">Hundreds</div>
+                    <div class="stat-label">of Biotech Companies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">Thousands</div>
+                    <div class="stat-label">of Drugs Tracked</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">14+</div>
+                    <div class="stat-label">Target Landscapes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">Millions</div>
+                    <div class="stat-label">of Data Points</div>
+                </div>
+            </div>
+
+            <section>
+                <h2>Who We Serve</h2>
+                <p>Satya Bio is built for two audiences that need the same competitive data but use it differently.</p>
+                <div class="audience-grid">
+                    <div class="audience-card">
+                        <h3>Buy-Side Healthcare Investors</h3>
+                        <p>Hedge fund analysts, portfolio managers, and buy-side teams tracking biotech catalysts, pipeline shifts, and M&amp;A signals across their coverage universe. PDUFA dates, Phase 3 readouts, and competitive positioning updated daily &mdash; so you&rsquo;re never caught off guard by a data readout or deal announcement.</p>
+                    </div>
+                    <div class="audience-card">
+                        <h3>Pharma BD &amp; Licensing Teams</h3>
+                        <p>Business development professionals evaluating competitive landscapes before pursuing inbound or outbound deals. See every asset in a target class, who owns it, what clinical stage it&rsquo;s at, and what comparable deals have closed for &mdash; all in one view. No more assembling landscapes from scratch for every BD committee meeting.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>What We Track</h2>
+                <div class="check-list">
+                    <div class="check-item">
+                        <span class="check-icon">&check;</span>
+                        <span class="check-text">Competitive landscapes across 14+ therapeutic targets <span class="check-detail">&mdash; spanning oncology, immunology, obesity, rare disease, and cardiovascular</span></span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon">&check;</span>
+                        <span class="check-text">Real-time catalyst monitoring and alerts <span class="check-detail">&mdash; PDUFA dates, Phase 3 readouts, regulatory milestones across hundreds of biotechs</span></span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon">&check;</span>
+                        <span class="check-text">Pipeline data across thousands of clinical-stage drugs <span class="check-detail">&mdash; mechanism, trial design, clinical data, and competitive positioning</span></span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon">&check;</span>
+                        <span class="check-text">Deal intelligence covering billions in biotech transactions <span class="check-detail">&mdash; upfront payments, milestones, royalties, and deal comps by target</span></span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon">&check;</span>
+                        <span class="check-text">Key Opinion Leader identification via PubMed <span class="check-detail">&mdash; top researchers by target, therapeutic area, or disease indication</span></span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon">&check;</span>
+                        <span class="check-text">SEC filing analysis and ownership tracking <span class="check-detail">&mdash; 13F filings, insider transactions, and institutional ownership changes</span></span>
+                    </div>
+                    <div class="check-item">
+                        <span class="check-icon">&check;</span>
+                        <span class="check-text">Clinical trial data from ClinicalTrials.gov <span class="check-detail">&mdash; trial status, enrollment, endpoints, and results across all phases</span></span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Platform Capabilities</h2>
+                <p>Unlike legacy platforms that bury you in raw data, Satya Bio delivers curated, analyst-grade intelligence you can act on immediately &mdash; whether you&rsquo;re building a board deck, preparing for a BD committee, or sizing an investment.</p>
+                <div class="capabilities-grid">
+                    <div class="capability-card">
+                        <div class="capability-title">Target Landscapes</div>
+                        <p>Deep-dive competitive landscape reports across high-value therapeutic targets. Side-by-side clinical data comparison, mechanism analysis, and competitive positioning for every asset in the space.</p>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-title">Catalyst Tracking</div>
+                        <p>Upcoming PDUFA dates, Phase 3 readouts, regulatory milestones, and conference presentations across your coverage universe. Automated alerts so nothing slips through.</p>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-title">Deal Intelligence</div>
+                        <p>Biotech deal value tracked with terms, structure, upfront payments, milestones, and strategic context. Understand deal comps and valuations across therapeutic areas.</p>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-title">Pipeline Analytics</div>
+                        <p>Thousands of assets tracked with clinical stage, mechanism of action, trial design, and competitive positioning. Pipeline-level comparison across companies and targets.</p>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-title">KOL Discovery</div>
+                        <p>Key Opinion Leader identification via PubMed publication analysis. Find the most influential researchers and clinicians by target, therapeutic area, or disease indication.</p>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-title">SEC &amp; Ownership</div>
+                        <p>Institutional ownership changes, 13F filings, insider transactions, and proxy filings across your biotech coverage universe. Spot ownership signals before the market moves.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Landscapes We Cover</h2>
+                <p>We build and maintain competitive landscapes across the highest-activity areas in biotech &mdash; from specific molecular targets to broader platform modalities. Each landscape maps every relevant asset, company, clinical stage, and deal in the space.</p>
+
+                <div class="landscape-group">
+                    <div class="landscape-label">By Target</div>
+                    <div class="tags">
+                        <span class="tag">GLP-1 / GIP</span>
+                        <span class="tag">TL1A</span>
+                        <span class="tag">KRAS G12C</span>
+                        <span class="tag">B7-H3</span>
+                        <span class="tag">BCMA</span>
+                        <span class="tag">CLDN18.2</span>
+                        <span class="tag">FcRn</span>
+                        <span class="tag">STAT6</span>
+                        <span class="tag">KIT</span>
+                        <span class="tag">ALK</span>
+                        <span class="tag">Aldosterone Synthase</span>
+                        <span class="tag">miR-124</span>
+                    </div>
+                </div>
+
+                <div class="landscape-group">
+                    <div class="landscape-label">By Modality &amp; Platform</div>
+                    <div class="tags">
+                        <span class="tag">Antibody-Drug Conjugates</span>
+                        <span class="tag">Cell Therapy</span>
+                        <span class="tag">Bispecific Antibodies</span>
+                        <span class="tag">Protein Degradation</span>
+                        <span class="tag">RNA Therapeutics</span>
+                        <span class="tag">Gene Therapy</span>
+                        <span class="tag">Circular RNA</span>
+                    </div>
+                </div>
+
+                <div class="landscape-group">
+                    <div class="landscape-label">By Therapeutic Area</div>
+                    <div class="tags">
+                        <span class="tag">Oncology</span>
+                        <span class="tag">Immunology</span>
+                        <span class="tag">Obesity &amp; Metabolic</span>
+                        <span class="tag">Rare Disease</span>
+                        <span class="tag">Cardiovascular</span>
+                        <span class="tag">Neuroscience</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Data Sources &amp; Methodology</h2>
+                <p>Every data point on Satya Bio is sourced from primary regulatory and corporate filings &mdash; not scraped summaries or third-party aggregators. We verify and cross-reference across sources to ensure accuracy.</p>
+                <div class="sources-grid">
+                    <div class="source-item">SEC EDGAR <span class="source-detail">&mdash; 10-K, 10-Q, 8-K, 13F, DEF 14A</span></div>
+                    <div class="source-item">ClinicalTrials.gov <span class="source-detail">&mdash; trial design &amp; status</span></div>
+                    <div class="source-item">FDA / EMA <span class="source-detail">&mdash; PDUFA dates, approvals</span></div>
+                    <div class="source-item">Company IR Pages <span class="source-detail">&mdash; decks, press releases</span></div>
+                    <div class="source-item">PubMed / NIH <span class="source-detail">&mdash; KOL &amp; publication data</span></div>
+                    <div class="source-item">Medical Conferences <span class="source-detail">&mdash; ASCO, AACR, ASH, ACR, AAN</span></div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Insights &amp; Research</h2>
+                <p>Original analysis on competitive landscapes, biotech deal activity, and catalyst events. Written for investment professionals and pharma BD teams who need depth, not headlines.</p>
+                <div class="insights-card">
+                    <h3>What We Write About</h3>
+                    <div class="blog-item">
+                        <span class="blog-type type-landscape">Landscape</span>
+                        <p>Competitive landscape deep dives &mdash; every asset in a target class, by stage and mechanism. Example: &ldquo;The Obesity Drug Landscape: Beyond GLP-1, What&rsquo;s Next&rdquo;</p>
+                    </div>
+                    <div class="blog-item">
+                        <span class="blog-type type-deal">Deals</span>
+                        <p>Deal breakdowns and valuation analysis &mdash; what recent M&amp;A and licensing deals signal about target valuations and competitive dynamics</p>
+                    </div>
+                    <div class="blog-item">
+                        <span class="blog-type type-catalyst">Catalysts</span>
+                        <p>Weekly catalyst previews &mdash; upcoming PDUFA dates, Phase 3 readouts, and regulatory milestones across the biotech universe</p>
+                    </div>
+                    <div class="blog-item">
+                        <span class="blog-type type-framework">Framework</span>
+                        <p>Analytical frameworks for evaluating clinical data, assessing biotech deal comps, and sizing investment opportunities in competitive target classes</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Access</h2>
+                <p>Satya Bio offers a sample of our competitive intelligence for free. Full access unlocks the complete platform &mdash; every company profile, target landscape, catalyst alert, and deal breakdown.</p>
+                <div class="pricing-options">
+                    <div class="pricing-option">
+                        <div class="pricing-option-name">Sample Access</div>
+                        <p>Browse select company profiles, target landscapes, and platform features. No login required.</p>
+                    </div>
+                    <div class="pricing-option highlighted">
+                        <div class="pricing-option-name">Full Access</div>
+                        <p>Unlock every company profile, complete landscapes, deal intelligence, catalyst alerts, and KOL data. Contact us for pricing.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cta-section">
+                <h2>Get Started</h2>
+                <p>Currently onboarding select funds and pharma BD teams.</p>
+                <a href="mailto:contact@satyabio.com?subject=Early%20Access%20Request" class="cta-button">Get Started</a>
+                <div class="cta-email">or email <a href="mailto:contact@satyabio.com">contact@satyabio.com</a></div>
+            </div>
+
         </div>
-    </main>
+    </div>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
         <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 </body>
 </html>'''
+
+
+def generate_insights_page():
+    """Generate the insights listing page."""
+    articles, categories = load_insights_index()
+
+    # Build article cards
+    cards_html = ""
+    for a in articles:
+        cat_key = a.get("category", "regulatory")
+        cat = categories.get(cat_key, {"name": cat_key.title(), "color": "#1b2d45", "bg": "rgba(27,45,69,0.08)"})
+        cards_html += f"""
+            <a href="/insights/{a['slug']}" class="insight-card">
+                <div class="insight-card-meta">
+                    <span class="insight-date">{a.get('date_display', a.get('date', ''))}</span>
+                    <span class="insight-badge" style="color: {cat['color']}; background: {cat['bg']}">{cat['name']}</span>
+                </div>
+                <h3 class="insight-card-title">{a['title']}</h3>
+                <p class="insight-card-summary">{a.get('summary', '')}</p>
+                <span class="insight-read-more">Read article &rarr;</span>
+            </a>"""
+
+    insights_extra_head = """
+    <meta name="description" content="Original biotech analysis from Satya Bio. Competitive landscapes, regulatory decisions, deal breakdowns, and catalyst previews for healthcare investors and pharma BD teams.">
+    <meta property="og:title" content="Insights | Satya Bio">
+    <meta property="og:description" content="Original biotech analysis: competitive landscapes, regulatory decisions, deal breakdowns, and catalyst previews.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://satyabio.com/insights">
+    <meta property="og:site_name" content="Satya Bio">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    """
+
+    insights_styles = """
+        .insights-page {
+            --in-bg: #faf7f2;
+            --in-white: #ffffff;
+            --in-navy: #1b2d45;
+            --in-navy-light: #2c4263;
+            --in-text-body: #8a8f99;
+            --in-text-muted: #aab0b8;
+            --in-coral: #d4805a;
+            --in-coral-hover: #c06e48;
+            --in-border: #e8e2d9;
+            --in-border-light: #eee9e1;
+            --in-card-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            color: var(--in-text-body);
+            line-height: 1.7;
+        }
+        .insights-page .container { max-width: 820px; margin: 0 auto; padding: 0 40px; }
+
+        /* Hero */
+        .insights-page .hero { padding: 60px 0 48px; border-bottom: 1px solid var(--in-border); }
+        .insights-page .hero h1 {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--in-navy);
+            margin-bottom: 16px;
+        }
+        .insights-page .hero p { font-size: 17px; max-width: 660px; line-height: 1.8; }
+
+        /* Article cards */
+        .insights-page .articles-list { padding: 16px 0 48px; }
+        .insight-card {
+            display: block;
+            text-decoration: none;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--in-border-light);
+            transition: background 0.15s;
+        }
+        .insight-card:first-child { padding-top: 24px; }
+        .insight-card:last-child { border-bottom: none; }
+        .insight-card:hover { background: rgba(212, 128, 90, 0.03); margin: 0 -20px; padding-left: 20px; padding-right: 20px; border-radius: 8px; }
+        .insight-card-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .insight-date { font-size: 13px; color: var(--in-text-muted); font-weight: 500; }
+        .insight-badge {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 3px 10px;
+            border-radius: 4px;
+        }
+        .insight-card-title {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--in-navy);
+            line-height: 1.35;
+            margin-bottom: 10px;
+        }
+        .insight-card-summary { font-size: 15px; line-height: 1.7; color: var(--in-text-body); margin-bottom: 10px; }
+        .insight-read-more { font-size: 14px; font-weight: 600; color: var(--in-coral); }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+            .insights-page .container { padding: 0 20px; }
+            .insights-page .hero h1 { font-size: 32px; }
+            .insight-card-title { font-size: 19px; }
+        }
+    """
+
+    return f"""{_render_head("Insights | Satya Bio &mdash; Biotech Analysis for Investors", insights_styles, insights_extra_head)}
+    {_render_nav("insights")}
+    <div class="insights-page">
+        <div class="container">
+
+            <div class="hero">
+                <h1>Insights</h1>
+                <p>Original analysis on competitive landscapes, regulatory decisions, deal activity, and catalyst events in biotech. Written for investment professionals and pharma BD teams who need depth, not headlines.</p>
+            </div>
+
+            <div class="articles-list">
+                {cards_html}
+            </div>
+
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
+    </footer>
+</body>
+</html>"""
+
+
+def generate_insight_detail_page(slug: str):
+    """Generate a single insight article page. Returns None if slug not found."""
+    article = load_insight_article(slug)
+    if not article:
+        return None
+
+    # Load categories for badge styling
+    _, categories = load_insights_index()
+    cat_key = article.get("category", "regulatory")
+    cat = categories.get(cat_key, {"name": cat_key.title(), "color": "#1b2d45", "bg": "rgba(27,45,69,0.08)"})
+
+    title = article.get("title", "Insight")
+    summary = article.get("summary", "")
+    date_display = article.get("date_display", article.get("date", ""))
+    reading_time = article.get("reading_time", "")
+    content_html = article.get("content_html", "")
+    date_iso = article.get("date", "2026-02-11")
+
+    detail_extra_head = f"""
+    <meta name="description" content="{summary}">
+    <meta property="og:title" content="{title} | Satya Bio">
+    <meta property="og:description" content="{summary}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://satyabio.com/insights/{slug}">
+    <meta property="og:site_name" content="Satya Bio">
+    <meta property="article:published_time" content="{date_iso}">
+    <meta property="article:author" content="Satya Bio Research">
+    <script type="application/ld+json">
+    {{
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "{title}",
+        "description": "{summary}",
+        "datePublished": "{date_iso}",
+        "author": {{
+            "@type": "Organization",
+            "name": "Satya Bio Research",
+            "url": "https://satyabio.com"
+        }},
+        "publisher": {{
+            "@type": "Organization",
+            "name": "Satya Bio",
+            "url": "https://satyabio.com"
+        }},
+        "mainEntityOfPage": "https://satyabio.com/insights/{slug}"
+    }}
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    """
+
+    detail_styles = """
+        .insight-detail {
+            --id-bg: #faf7f2;
+            --id-white: #ffffff;
+            --id-navy: #1b2d45;
+            --id-navy-light: #2c4263;
+            --id-text-body: #4a4f5a;
+            --id-text-muted: #aab0b8;
+            --id-coral: #d4805a;
+            --id-coral-hover: #c06e48;
+            --id-border: #e8e2d9;
+            --id-border-light: #eee9e1;
+            color: var(--id-text-body);
+            line-height: 1.7;
+        }
+        .insight-detail .container { max-width: 740px; margin: 0 auto; padding: 0 40px; }
+
+        /* Back link */
+        .insight-detail .back-link {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--id-coral);
+            text-decoration: none;
+            padding: 24px 0 0;
+        }
+        .insight-detail .back-link:hover { text-decoration: underline; }
+
+        /* Article header */
+        .insight-detail .article-header { padding: 32px 0 36px; border-bottom: 1px solid var(--id-border); }
+        .insight-detail .article-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+        .insight-detail .article-date { font-size: 13px; color: var(--id-text-muted); font-weight: 500; }
+        .insight-detail .article-badge {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 3px 10px;
+            border-radius: 4px;
+            background: rgba(212, 128, 90, 0.08);
+            color: #d4805a;
+            border: 1px solid rgba(212, 128, 90, 0.2);
+        }
+        .insight-detail .article-reading-time { font-size: 13px; color: var(--id-text-muted); }
+        .insight-detail .article-header h1 {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--id-navy);
+            margin-bottom: 16px;
+        }
+        .insight-detail .article-subtitle {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--id-text-muted);
+        }
+
+        /* Article body */
+        .insight-detail .article-body { padding: 40px 0 56px; }
+        .insight-detail .article-body h2 {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--id-navy);
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+        .insight-detail .article-body h2:first-child { margin-top: 0; }
+        .insight-detail .article-body h3 {
+            font-family: 'Playfair Display', 'Fraunces', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--id-navy);
+            margin-top: 28px;
+            margin-bottom: 12px;
+        }
+        .insight-detail .article-body p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+        .insight-detail .article-body ul,
+        .insight-detail .article-body ol {
+            margin: 14px 0 18px 24px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        .insight-detail .article-body li { margin-bottom: 8px; }
+        .insight-detail .article-body strong { color: var(--id-navy); }
+
+        /* Flash banner */
+        .insight-detail .flash-banner {
+            background: var(--id-navy); color: white; padding: 20px 24px; border-radius: 10px;
+            margin: 0 0 28px; font-size: 14px; line-height: 1.7;
+        }
+        .insight-detail .flash-banner .flash-label {
+            font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px;
+            color: #d4805a; margin-bottom: 8px;
+        }
+        .insight-detail .flash-banner strong { color: white; }
+
+        /* Data table */
+        .insight-detail .data-table {
+            width: 100%; border-collapse: collapse; margin: 20px 0 24px;
+            background: #ffffff; border: 1px solid var(--id-border); border-radius: 10px;
+            overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+        .insight-detail .data-table th {
+            background: var(--id-navy); color: white; font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.6px; padding: 10px 16px; text-align: left;
+        }
+        .insight-detail .data-table td {
+            padding: 10px 16px; font-size: 14px; border-bottom: 1px solid var(--id-border-light); vertical-align: top;
+        }
+        .insight-detail .data-table tr:last-child td { border-bottom: none; }
+        .insight-detail .data-table .label-cell { font-weight: 600; color: var(--id-navy); white-space: nowrap; width: 160px; }
+
+        /* Competitive table */
+        .insight-detail .comp-table {
+            width: 100%; border-collapse: collapse; margin: 20px 0 24px;
+            background: #ffffff; border: 1px solid var(--id-border); border-radius: 10px;
+            overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.03); font-size: 13.5px;
+        }
+        .insight-detail .comp-table th {
+            background: var(--id-navy); color: white; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left;
+        }
+        .insight-detail .comp-table td { padding: 10px 14px; border-bottom: 1px solid var(--id-border-light); vertical-align: top; }
+        .insight-detail .comp-table tr:last-child td { border-bottom: none; }
+        .insight-detail .impact-neg { background: rgba(220,60,60,0.06); color: #c0392b; font-weight: 600; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+        .insight-detail .impact-pos { background: rgba(39,174,96,0.06); color: #27ae60; font-weight: 600; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+        .insight-detail .impact-mix { background: rgba(243,156,18,0.06); color: #d4805a; font-weight: 600; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+
+        /* Catalyst table */
+        .insight-detail .catalyst-table {
+            width: 100%; border-collapse: collapse; margin: 20px 0 24px;
+            background: #ffffff; border: 1px solid var(--id-border); border-radius: 10px;
+            overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.03); font-size: 13.5px;
+        }
+        .insight-detail .catalyst-table th {
+            background: var(--id-navy); color: white; font-size: 11px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left;
+        }
+        .insight-detail .catalyst-table td { padding: 10px 14px; border-bottom: 1px solid var(--id-border-light); vertical-align: top; }
+        .insight-detail .catalyst-table tr:last-child td { border-bottom: none; }
+
+        /* Bullet lists */
+        .insight-detail .article-body ul {
+            margin: 12px 0 20px 0; padding: 0; list-style: none;
+        }
+        .insight-detail .article-body ul li {
+            position: relative; padding: 8px 0 8px 20px; font-size: 14.5px; line-height: 1.7;
+            border-bottom: 1px solid var(--id-border-light);
+        }
+        .insight-detail .article-body ul li:last-child { border-bottom: none; }
+        .insight-detail .article-body ul li::before {
+            content: ''; position: absolute; left: 0; top: 16px;
+            width: 6px; height: 6px; border-radius: 50%; background: #d4805a;
+        }
+
+        /* Callout boxes */
+        .insight-detail .callout {
+            background: #ffffff; border-left: 3px solid #d4805a;
+            padding: 18px 22px; margin: 20px 0; border-radius: 0 8px 8px 0;
+            font-size: 14.5px; line-height: 1.7; box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+        .insight-detail .callout strong { color: var(--id-navy); }
+        .insight-detail .callout-bottom {
+            background: var(--id-navy); color: rgba(255,255,255,0.9); padding: 24px 28px;
+            border-radius: 10px; margin: 32px 0; font-size: 14.5px; line-height: 1.8;
+        }
+        .insight-detail .callout-bottom .callout-label {
+            font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px;
+            color: #d4805a; margin-bottom: 10px;
+        }
+        .insight-detail .callout-bottom strong { color: white; }
+
+        /* Sources */
+        .insight-detail .sources { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--id-border); }
+        .insight-detail .sources h3 { font-size: 16px; margin-bottom: 12px; }
+        .insight-detail .sources ol { margin: 0; padding-left: 24px; list-style: decimal; }
+        .insight-detail .sources li { font-size: 12.5px; color: var(--id-text-muted); line-height: 1.6; margin-bottom: 4px; padding: 0; border-bottom: none; }
+        .insight-detail .sources li::before { display: none; }
+
+        /* Disclosures */
+        .insight-detail .disclosures {
+            margin-top: 24px; padding: 16px 20px; background: rgba(0,0,0,0.02);
+            border-radius: 8px; font-size: 12px; color: var(--id-text-muted); line-height: 1.6;
+        }
+
+        /* Mobile */
+        @media (max-width: 700px) {
+            .insight-detail .container { padding: 0 20px; }
+            .insight-detail .article-header h1 { font-size: 28px; }
+            .insight-detail .comp-table, .insight-detail .data-table, .insight-detail .catalyst-table { font-size: 12px; }
+            .insight-detail .comp-table td, .insight-detail .data-table td, .insight-detail .catalyst-table td { padding: 8px 10px; }
+        }
+    """
+
+    return f"""{_render_head(f"{title} | Satya Bio", detail_styles, detail_extra_head)}
+    {_render_nav("insights")}
+    <div class="insight-detail">
+        <div class="container">
+
+            <a href="/insights" class="back-link">&larr; Back to Insights</a>
+
+            <div class="article-header">
+                <div class="article-meta">
+                    <span class="article-date">{date_display}</span>
+                    <span class="article-badge">{cat['name']}</span>
+                    <span class="article-reading-time">{reading_time}</span>
+                </div>
+                <h1>{title}</h1>
+                <p class="article-subtitle">{summary}</p>
+            </div>
+
+            <div class="article-body">
+                {content_html}
+            </div>
+
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
+        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
+    </footer>
+</body>
+</html>"""
+
 
 def generate_glp1_report(admin: bool = False):
     """Generate the GLP-1 / Obesity competitive landscape report."""

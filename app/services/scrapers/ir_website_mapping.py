@@ -69,6 +69,18 @@ IR_WEBSITE_MAP = {
         "sec_filings": "https://ir.edgewisetx.com/sec-filings",
         "presentation_patterns": ["Corporate Presentation", "Investor Presentation"],
         "market_cap": "$1.5B",
+        "platform": "q4",
+        "priority": "HIGH"
+    },
+
+    "ARDX": {
+        "name": "Ardelyx",
+        "ir_url": "https://ir.ardelyx.com",
+        "presentations_url": "https://ir.ardelyx.com/events-and-presentations",
+        "sec_filings": "https://ir.ardelyx.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation"],
+        "market_cap": "$2B",
+        "platform": "q4",
         "priority": "HIGH"
     },
 

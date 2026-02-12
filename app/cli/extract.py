@@ -1,13 +1,14 @@
 """
-CLI for extracting company data from IR presentations.
+CLI for extracting company data from IR presentations (v2.1 schema).
 
 Usage:
-    python -m app.cli.extract --ticker ASND
-    python -m app.cli.extract --ticker ASND --pdf /path/to/presentation.pdf
+    python -m app.cli.extract --ticker EWTX --pdf ~/Downloads/ewtx_jpm_2026.pdf
+    python -m app.cli.extract --ticker EWTX --pdf ~/Downloads/ewtx_jpm_2026.pdf --dry-run -v
+    python -m app.cli.extract --ticker EWTX --pdf ~/Downloads/ewtx_jpm_2026.pdf --force
+    python -m app.cli.extract --ticker EWTX --pdf ~/Downloads/ewtx_jpm_2026.pdf --asset Sevasemten
+    python -m app.cli.extract --ticker ARGX --url https://businesswire.com/news/...
     python -m app.cli.extract --inbox
     python -m app.cli.extract --priority HIGH
-    python -m app.cli.extract --priority HIGH --dry-run
-    python -m app.cli.extract --all
     python -m app.cli.extract --list
 
 Inbox workflow:
@@ -84,6 +85,11 @@ Examples:
         help="Path to existing PDF (skips scraping for --ticker)"
     )
     parser.add_argument(
+        "--url",
+        type=str,
+        help="URL to fetch text from (press release, SEC filing, etc.)"
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Don't save files, just show what would be extracted"
@@ -109,6 +115,16 @@ Examples:
         "--output-json",
         type=str,
         help="Save results to JSON file"
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Force overwrite existing files (skip merge)"
+    )
+    parser.add_argument(
+        "--asset",
+        type=str,
+        help="Extract a single asset only (Pass 2 only, use with --ticker)"
     )
     parser.add_argument(
         "--yes", "-y",
@@ -149,7 +165,8 @@ Examples:
         # Create orchestrator
         orchestrator = ExtractionOrchestrator(
             rate_limit_seconds=args.rate_limit,
-            dry_run=args.dry_run
+            dry_run=args.dry_run,
+            force_overwrite=getattr(args, 'force', False)
         )
 
         # Single ticker
@@ -159,10 +176,23 @@ Examples:
                 logger.warning(f"{ticker} not in IR mapping, will attempt anyway")
 
             pdf_path = Path(args.pdf) if args.pdf else None
+
+            # URL mode: fetch text from URL
+            source_text = None
+            source_name = None
+            if getattr(args, 'url', None):
+                source_text, source_name = _fetch_url_text(args.url)
+                if not source_text:
+                    logger.error("Failed to fetch text from URL")
+                    return 1
+
             result = orchestrator.process_company(
                 ticker=ticker,
                 pdf_path=pdf_path,
-                keywords=args.keywords
+                keywords=args.keywords,
+                asset_name=getattr(args, 'asset', None),
+                source_text=source_text,
+                source_name=source_name
             )
             results = [result]
             _print_result(result)
@@ -213,6 +243,72 @@ Examples:
         return 1
 
 
+def _fetch_url_text(url: str) -> tuple[str | None, str | None]:
+    """Fetch a URL and extract clean text from HTML."""
+    import httpx
+    from bs4 import BeautifulSoup
+    from urllib.parse import urlparse
+
+    logger.info(f"Fetching URL: {url}")
+    try:
+        resp = httpx.get(
+            url,
+            follow_redirects=True,
+            timeout=30.0,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                              "AppleWebKit/537.36 (KHTML, like Gecko) "
+                              "Chrome/120.0.0.0 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.5",
+            }
+        )
+        resp.raise_for_status()
+    except Exception as e:
+        logger.error(f"Failed to fetch URL: {e}")
+        return None, None
+
+    soup = BeautifulSoup(resp.text, "html.parser")
+
+    # Remove script, style, nav, footer, header elements
+    for tag in soup(["script", "style", "nav", "footer", "header", "aside", "iframe"]):
+        tag.decompose()
+
+    # Try to find the main content area (site-specific selectors first)
+    main = (
+        soup.find("div", class_="bw-release-story")       # BusinessWire
+        or soup.find("div", class_="article-body")         # GlobeNewsWire
+        or soup.find("div", id="main-body-container")      # GlobeNewsWire alt
+        or soup.find("article")
+        or soup.find("main")
+        or soup.find(class_=lambda c: c and "article" in c.lower() if isinstance(c, str) else False)
+        or soup.body
+    )
+
+    text = main.get_text(separator="\n", strip=True) if main else soup.get_text(separator="\n", strip=True)
+
+    # Collapse blank lines
+    lines = [line.strip() for line in text.splitlines()]
+    text = "\n".join(line for line in lines if line)
+
+    # Source name from URL
+    parsed = urlparse(url)
+    source_name = f"{parsed.netloc}{parsed.path}"
+    if len(source_name) > 80:
+        source_name = source_name[:80]
+
+    logger.info(f"Extracted {len(text)} chars from {parsed.netloc}")
+
+    # Warn if too little text (likely JS-rendered page)
+    if len(text) < 500:
+        logger.warning(
+            f"Only {len(text)} chars extracted — page may require JavaScript rendering. "
+            f"Try the company's direct IR page or save the page as text/PDF instead."
+        )
+
+    return text, source_name
+
+
 def _print_result(result: dict):
     """Print a single extraction result."""
     ticker = result["ticker"]
@@ -232,12 +328,31 @@ def _print_result(result: dict):
 
     if result.get("extraction_summary"):
         summary = result["extraction_summary"]
-        print(f"    Assets: {summary.get('assets_found', 0)}")
-        print(f"    Trials: {summary.get('trials_found', 0)}")
-        print(f"    Catalysts: {summary.get('catalysts_found', 0)}")
+        assets = summary.get("assets_extracted", [])
+        print(f"    Files: {summary.get('files_generated', 0)}")
+        if assets:
+            print(f"    Assets: {', '.join(assets)}")
+        print(f"    Mode: {summary.get('merge_mode', 'unknown')}")
 
     if result.get("extracted_files"):
         print(f"    Files saved: {len(result['extracted_files'])}")
+
+    # Show validation results
+    if result.get("validation"):
+        valid_count = sum(1 for v in result["validation"] if v["valid"])
+        total_count = len(result["validation"])
+        print(f"    Validation: {valid_count}/{total_count} files valid")
+
+        for v in result["validation"]:
+            score = v.get("completeness_score", 0)
+            status_str = "PASS" if v["valid"] else "FAIL"
+            print(f"      [{status_str}] {v['file']} (completeness: {score:.0%})")
+            for err in v.get("errors", []):
+                print(f"        ERROR: {err}")
+            # Only show warnings in verbose mode
+            if logging.getLogger().level <= logging.DEBUG:
+                for warn in v.get("warnings", []):
+                    print(f"        WARN: {warn}")
 
     if result.get("errors"):
         for error in result["errors"]:
