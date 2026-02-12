@@ -1,28 +1,305 @@
 {
-  "_metadata": { "version": "2.1", "ticker": "EWTX", "asset_name": "EDG-15400", "extraction_date": "2026-02-11", "source_id": "ewtx_jpm_2026" },
-  "asset": { "name": "EDG-15400", "company": "Edgewise Therapeutics, Inc.", "ticker": "EWTX", "stage": "Phase 1", "modality": "Small molecule (oral, novel cardiac sarcomere modulator)", "ownership": "Wholly-owned", "one_liner": "EDG-15400 is a novel cardiac sarcomere modulator in Phase 1 for heart failure with preserved ejection fraction (HFpEF), with Phase 1 data expected H1 2026 and Phase 2 initiation and results in H1 2027." },
-  "target": { "name": "Cardiac sarcomere", "full_name": null, "class": "Motor protein (cardiac muscle)", "pathway": "Cardiac contraction", "biology": { "simple_explanation": "EDG-15400 modulates the cardiac sarcomere to improve heart function in patients with heart failure where the heart muscle is stiff and cannot relax properly (HFpEF).", "pathway_detail": null, "downstream_effects": null }, "why_good_target": { "clinical_validation": null, "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} } },
-  "mechanism": { "type": "Novel cardiac sarcomere modulator", "how_it_works": null, "differentiation": "Differentiated from EDG-7500; targeting heart failure rather than HCM", "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-  "regulatory": { "designations": null, "planned_pathway": null },
-  "partnership": null,
-  "pharmacology": null,
-  "indications": { "lead": { "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)", "patient_population": null, "current_penetration": null, "rationale": null }, "expansion": null },
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "EWTX",
+    "asset_name": "EDG-15400",
+    "extraction_date": "2026-02-11",
+    "source_id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf"
+  },
+  "asset": {
+    "name": "EDG-15400",
+    "company": "Edgewise Therapeutics",
+    "ticker": "EWTX",
+    "stage": "Phase 1",
+    "modality": "Small molecule",
+    "ownership": "Wholly-owned",
+    "one_liner": "EDG-15400 is a small molecule cardiac sarcomere modulator with an undisclosed target intended for future development in heart failure with preserved ejection fraction (HFpEF)."
+  },
+  "target": {
+    "name": "Undisclosed cardiac sarcomeric target",
+    "full_name": "Undisclosed cardiac sarcomeric target",
+    "class": "Cardiac sarcomere protein",
+    "pathway": "Cardiac sarcomere function",
+    "biology": {
+      "simple_explanation": "The cardiac sarcomere is the basic contractile unit of heart muscle. EDG-15400 targets an undisclosed protein within the sarcomere to potentially improve cardiac function in heart failure with preserved ejection fraction.",
+      "pathway_detail": null,
+      "downstream_effects": []
+    },
+    "why_good_target": {
+      "clinical_validation": null,
+      "genetic_validation": {
+        "gain_of_function": null,
+        "loss_of_function": null
+      },
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 5,
+        "verified": false
+      }
+    }
+  },
+  "mechanism": {
+    "type": "Cardiac sarcomere modulator",
+    "how_it_works": "Undisclosed mechanism targeting cardiac sarcomeric proteins",
+    "differentiation": "Part of Edgewise's muscle-focused platform with expertise in sarcomere biology",
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": 5,
+      "verified": false
+    }
+  },
+  "regulatory": {
+    "designations": [],
+    "planned_pathway": {
+      "type": null,
+      "surrogate_endpoint": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    }
+  },
+  "partnership": {
+    "_note": "Wholly-owned; no partnership",
+    "partner": null,
+    "territory": null,
+    "economics": null
+  },
+  "pharmacology": {
+    "pk_parameters": {
+      "half_life": {
+        "value": null,
+        "population": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "cmax": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "auc": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "tmax": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "bioavailability": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "volume_of_distribution": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      }
+    },
+    "dose_response": {
+      "doses_tested": null,
+      "dose_rationale": null,
+      "exposure_response": null,
+      "recommended_dose": {
+        "dose": null,
+        "rationale": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "by_dose": null
+    },
+    "target_engagement": {
+      "metric": null,
+      "by_dose": null
+    },
+    "pk_summary": "No pharmacokinetic data available"
+  },
+  "indications": {
+    "lead": {
+      "name": "Heart Failure with Preserved Ejection Fraction (HFpEF)",
+      "patient_population": "Patients with HFpEF",
+      "current_penetration": null,
+      "rationale": "Part of Edgewise's cardiovascular pipeline expansion",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 4,
+        "verified": false
+      }
+    },
+    "expansion": []
+  },
   "clinical_data": {
     "trials": [
-      { "name": "Phase 1 SAD/MAD", "nct_id": null, "phase": "Phase 1", "status": "Initiated; data expected H1 2026", "design": "Randomized, double-blind, placebo-controlled, single and multiple ascending dose in healthy adults", "enrollment": null, "arms": null,
-        "primary_endpoint": { "name": "Safety, PK", "definition": null, "result": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-        "secondary_endpoints": null, "biomarkers": null, "safety": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }
+      {
+        "name": "Phase 1 study in healthy adults",
+        "nct_id": null,
+        "phase": "Phase 1",
+        "status": "Ongoing",
+        "design": "Phase 1 study in healthy adults",
+        "enrollment": "Healthy adults",
+        "arms": [],
+        "primary_endpoint": {
+          "name": null,
+          "definition": null,
+          "result": null,
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": null,
+            "verified": false
+          }
+        },
+        "secondary_endpoints": [],
+        "biomarkers": [],
+        "safety": {
+          "summary": null,
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
+        },
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 4,
+          "verified": false
+        }
+      }
     ]
   },
-  "differentiation_claims": null,
-  "competitive_landscape": null,
-  "ip_landscape": null,
-  "market_opportunity": { "tam": null, "patient_population": null, "unmet_need": "HFpEF has limited treatment options and represents a large patient population", "pricing_benchmark": null, "peak_sales_estimate": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
+  "differentiation_claims": [],
+  "competitive_landscape": {
+    "competitors": [],
+    "_note": "No competitive landscape information provided for HFpEF indication"
+  },
+  "ip_landscape": {
+    "composition_of_matter": {
+      "patent_expiry": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "method_of_use": {
+      "patent_expiry": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "regulatory_exclusivity": {
+      "type": null,
+      "expiry": null
+    },
+    "freedom_to_operate": null
+  },
+  "market_opportunity": {
+    "tam": null,
+    "patient_population": null,
+    "unmet_need": "Heart failure with preserved ejection fraction represents a significant unmet medical need",
+    "pricing_benchmark": null,
+    "peak_sales_estimate": null,
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": null,
+      "verified": false
+    }
+  },
   "catalysts": [
-    { "event": "Phase 1 SAD/MAD data in healthy adults", "timing": "H1 2026", "importance": "medium", "what_to_watch": "Safety, PK, dose selection", "bull_scenario": "Clean safety enables rapid Phase 2 entry", "bear_scenario": "Safety signals or unfavorable PK" },
-    { "event": "Phase 2 initiation in HFpEF", "timing": "2026 (after Phase 1)", "importance": "medium", "what_to_watch": null, "bull_scenario": null, "bear_scenario": null },
-    { "event": "Phase 2 results in HFpEF", "timing": "H1 2027", "importance": "high", "what_to_watch": "Efficacy signals in HFpEF", "bull_scenario": "Validates cardiac sarcomere modulation in heart failure — very large market", "bear_scenario": "Insufficient efficacy or safety concerns" }
+    {
+      "event": "Phase 1 EDG-15400 healthy volunteer data",
+      "timing": "H1 2026",
+      "importance": "medium",
+      "what_to_watch": "Safety and tolerability profile in healthy volunteers",
+      "bull_scenario": "Clean safety profile enabling progression to Phase 2 in HFpEF",
+      "bear_scenario": "Safety concerns or unfavorable profile delaying development"
+    },
+    {
+      "event": "EDG-15400 Phase 2 initiation in HFpEF",
+      "timing": "H2 2026",
+      "importance": "high",
+      "what_to_watch": "Trial design and patient population selection",
+      "bull_scenario": "Successful initiation of Phase 2 study with appropriate endpoints",
+      "bear_scenario": "Delays in Phase 2 initiation or challenging trial design"
+    },
+    {
+      "event": "EDG-15400 Phase 2 data in HFpEF",
+      "timing": "H1 2027",
+      "importance": "critical",
+      "what_to_watch": "Efficacy signals and safety profile in HFpEF patients",
+      "bull_scenario": "Positive efficacy signals supporting advancement to Phase 3",
+      "bear_scenario": "Lack of efficacy or safety concerns halting development"
+    }
   ],
-  "investment_analysis": null,
-  "_extraction_quality": { "completeness_score": "low", "missing_critical_fields": ["PK parameters", "Mechanism details", "Differentiation from EDG-7500", "Market size", "Competitive landscape", "IP/patents"], "recommended_supplementary_sources": ["Phase 1 data presentation (expected H1 2026)", "Edgewise R&D presentations for mechanism details"] }
+  "investment_analysis": {
+    "probability_of_success": null,
+    "key_risks": [
+      "Very early stage with limited disclosed information about target and mechanism",
+      "HFpEF is a challenging indication with high failure rates",
+      "Competition from established cardiovascular companies"
+    ],
+    "bull_case": [
+      {
+        "thesis": "Edgewise's muscle biology expertise could translate to novel HFpEF approach",
+        "evidence": "Company's successful development of sarcomere modulators in other indications",
+        "confidence": "low"
+      }
+    ],
+    "bear_case": [
+      {
+        "thesis": "Very early stage asset with undisclosed mechanism in competitive HFpEF space",
+        "evidence": "No clinical data available and target/mechanism undisclosed",
+        "confidence": "medium"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Can Edgewise's sarcomere expertise translate to HFpEF success?",
+        "bull_view": "Muscle biology platform provides unique insights for cardiac applications",
+        "bear_view": "HFpEF is fundamentally different from muscular dystrophies",
+        "what_resolves_it": "Phase 1 safety data and Phase 2 efficacy signals"
+      }
+    ]
+  },
+  "_extraction_quality": {
+    "completeness_score": "low",
+    "missing_critical_fields": [
+      "target identity",
+      "mechanism of action details",
+      "clinical trial design",
+      "pharmacology data",
+      "competitive landscape",
+      "market opportunity sizing"
+    ],
+    "recommended_supplementary_sources": [
+      "Edgewise SEC filings for more program details",
+      "Scientific presentations on EDG-15400",
+      "ClinicalTrials.gov for trial protocols"
+    ]
+  }
 }

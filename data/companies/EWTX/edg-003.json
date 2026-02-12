@@ -1,0 +1,245 @@
+{
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "EWTX",
+    "asset_name": "EDG-003",
+    "extraction_date": "2026-02-11",
+    "source_id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf"
+  },
+  "asset": {
+    "name": "EDG-003",
+    "company": "Edgewise Therapeutics",
+    "ticker": "EWTX",
+    "stage": "Preclinical",
+    "modality": "Small molecule",
+    "ownership": "Wholly-owned",
+    "one_liner": "EDG-003 is a preclinical small molecule targeting an undisclosed target for cardiometabolic diseases, part of Edgewise's muscle-focused platform."
+  },
+  "target": {
+    "name": "Undisclosed target",
+    "full_name": "Undisclosed target",
+    "class": "Unknown",
+    "pathway": "Cardiometabolic pathway",
+    "biology": {
+      "simple_explanation": "EDG-003 targets an undisclosed pathway in cardiometabolic diseases. The specific target and mechanism have not been disclosed by Edgewise Therapeutics.",
+      "pathway_detail": null,
+      "downstream_effects": null
+    },
+    "why_good_target": {
+      "clinical_validation": null,
+      "genetic_validation": {
+        "gain_of_function": null,
+        "loss_of_function": null
+      },
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 5,
+        "verified": false
+      }
+    }
+  },
+  "mechanism": {
+    "type": "Unknown",
+    "how_it_works": "Mechanism of action not disclosed",
+    "differentiation": "Differentiation not disclosed at this preclinical stage",
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": 5,
+      "verified": false
+    }
+  },
+  "regulatory": {
+    "designations": [],
+    "planned_pathway": {
+      "type": null,
+      "surrogate_endpoint": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    }
+  },
+  "partnership": {
+    "_note": "Wholly-owned; no partnership",
+    "partner": null,
+    "territory": null,
+    "economics": null
+  },
+  "pharmacology": {
+    "pk_parameters": {
+      "half_life": {
+        "value": null,
+        "population": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "cmax": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "auc": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "tmax": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "bioavailability": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "volume_of_distribution": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      }
+    },
+    "dose_response": {
+      "doses_tested": null,
+      "dose_rationale": null,
+      "exposure_response": null,
+      "recommended_dose": {
+        "dose": null,
+        "rationale": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "by_dose": null
+    },
+    "target_engagement": {
+      "metric": null,
+      "by_dose": null
+    },
+    "pk_summary": "No pharmacology data disclosed for preclinical asset"
+  },
+  "indications": {
+    "lead": {
+      "name": "Cardiometabolic diseases",
+      "patient_population": "Patients with cardiometabolic conditions",
+      "current_penetration": "Not disclosed",
+      "rationale": "Part of Edgewise's muscle-focused platform addressing cardiometabolic conditions",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 5,
+        "verified": false
+      }
+    },
+    "expansion": []
+  },
+  "clinical_data": {
+    "trials": []
+  },
+  "differentiation_claims": [],
+  "competitive_landscape": {
+    "competitors": [],
+    "_note": "No competitive information disclosed for preclinical cardiometabolic program"
+  },
+  "ip_landscape": {
+    "composition_of_matter": {
+      "patent_expiry": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "method_of_use": {
+      "patent_expiry": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "regulatory_exclusivity": {
+      "type": null,
+      "expiry": null
+    },
+    "freedom_to_operate": null
+  },
+  "market_opportunity": {
+    "tam": null,
+    "patient_population": null,
+    "unmet_need": "Cardiometabolic diseases represent significant unmet medical need",
+    "pricing_benchmark": null,
+    "peak_sales_estimate": null,
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": 5,
+      "verified": false
+    }
+  },
+  "catalysts": [],
+  "investment_analysis": {
+    "probability_of_success": null,
+    "key_risks": [
+      "Early stage preclinical asset with significant development risk",
+      "Undisclosed target and mechanism limit assessment"
+    ],
+    "bull_case": [
+      {
+        "thesis": "Edgewise has demonstrated expertise in muscle biology that could translate to cardiometabolic success",
+        "evidence": "Company's proven muscle-focused platform with sevasemten and EDG-7500",
+        "confidence": "low"
+      }
+    ],
+    "bear_case": [
+      {
+        "thesis": "Very early stage asset with no disclosed data or clear development timeline",
+        "evidence": "Preclinical stage with undisclosed target, mechanism, and timeline",
+        "confidence": "high"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Will Edgewise advance EDG-003 or focus resources on more advanced programs?",
+        "bull_view": "Company's muscle expertise could drive rapid development",
+        "bear_view": "Limited disclosure suggests lower priority versus advanced assets",
+        "what_resolves_it": "Future development timeline and data disclosure"
+      }
+    ]
+  },
+  "_extraction_quality": {
+    "completeness_score": "low",
+    "missing_critical_fields": [
+      "target",
+      "mechanism",
+      "clinical_data",
+      "pharmacology",
+      "timeline",
+      "competitive_positioning"
+    ],
+    "recommended_supplementary_sources": [
+      "SEC filings with more detailed pipeline description",
+      "Scientific publications on cardiometabolic targets",
+      "Investor presentations with more EDG-003 detail"
+    ]
+  }
+}

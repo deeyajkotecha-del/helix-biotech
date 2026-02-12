@@ -1,70 +1,532 @@
 {
-  "_metadata": { "version": "2.1", "ticker": "EWTX", "asset_name": "EDG-7500", "extraction_date": "2026-02-11", "source_id": "ewtx_jpm_2026" },
-  "asset": { "name": "EDG-7500", "company": "Edgewise Therapeutics, Inc.", "ticker": "EWTX", "stage": "Phase 2 (CIRRUS-HCM)", "modality": "Small molecule (oral)", "ownership": "Wholly-owned", "one_liner": "EDG-7500 is a novel selective oral cardiac sarcomere modulator in Phase 2 for obstructive and nonobstructive hypertrophic cardiomyopathy, with Phase 3 initiation targeted H2 2026." },
-  "target": { "name": "Cardiac sarcomere", "full_name": "Cardiac sarcomere / cardiac myosin", "class": "Motor protein (cardiac muscle)", "pathway": "Cardiac muscle contraction / sarcomere mechanics", "biology": { "simple_explanation": "In HCM, the heart muscle is abnormally thick and stiff, making it harder for the heart to pump blood. EDG-7500 modulates the cardiac sarcomere to slow the early velocity of contraction, improving the heart's ability to relax and fill with blood.", "pathway_detail": null, "downstream_effects": ["Improved diastolic function", "Reduction in LVOT gradient (oHCM)", "Improvement in cardiac biomarkers (NT-proBNP)"] }, "why_good_target": { "clinical_validation": "CIRRUS-HCM Parts B/C showed improvements in NT-proBNP, KCCQ, NYHA class, and LVOT gradient; no clinically meaningful LVEF declines", "genetic_validation": { "gain_of_function": null, "loss_of_function": null }, "source": {"id": "ewtx_cirrushcm_2025", "slide": null, "verified": false} } },
-  "mechanism": { "type": "Selective cardiac sarcomere modulator", "how_it_works": "Slows early contraction velocity of cardiac muscle to improve diastolic function in HCM", "differentiation": "Selective oral cardiac sarcomere modulator; potential for both obstructive and nonobstructive HCM (nHCM has no approved therapies)", "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-  "regulatory": { "designations": null, "planned_pathway": { "type": null, "surrogate_endpoint": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} } },
-  "partnership": { "_note": "Wholly-owned", "partner": null, "territory": null, "economics": null },
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "EWTX",
+    "asset_name": "EDG-7500",
+    "extraction_date": "2026-02-11",
+    "source_id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf"
+  },
+  "asset": {
+    "name": "EDG-7500",
+    "company": "Edgewise Therapeutics",
+    "ticker": "EWTX",
+    "stage": "Phase 2",
+    "modality": "Small molecule",
+    "ownership": "Wholly-owned",
+    "one_liner": "EDG-7500 is a cardiac sarcomere modulator that slows contraction and enhances relaxation without inhibiting peak myosin contractile force, designed to treat hypertrophic cardiomyopathy while avoiding the heart failure risk associated with cardiac myosin inhibitors."
+  },
+  "target": {
+    "name": "Cardiac sarcomeric target",
+    "full_name": "Undisclosed cardiac sarcomeric target",
+    "class": "Sarcomere modulator",
+    "pathway": "Cardiac contraction and relaxation",
+    "biology": {
+      "simple_explanation": "In hypertrophic cardiomyopathy, the heart muscle becomes abnormally thick and stiff, impairing the heart's ability to relax and fill with blood properly. EDG-7500 modulates the cardiac sarcomere to slow contraction and enhance relaxation, improving overall diastolic function without excessively reducing systolic performance.",
+      "pathway_detail": "EDG-7500 works as a cardiac sarcomere modulator that affects the contractile apparatus of cardiac muscle cells. Unlike cardiac myosin inhibitors that reduce peak contractile force, EDG-7500 is designed to improve diastolic function while maintaining adequate systolic performance.",
+      "downstream_effects": [
+        "Improved diastolic function",
+        "Enhanced cardiac relaxation",
+        "Minimal impact on left ventricular ejection fraction",
+        "Reduction in cardiac biomarkers"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "Cardiac sarcomere modulation has shown clinical benefit in HCM patients with rapid improvements in multiple domains including LVOT gradients, biomarkers, and patient-reported outcomes",
+      "genetic_validation": {
+        "gain_of_function": null,
+        "loss_of_function": null
+      },
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 20,
+        "verified": true
+      }
+    }
+  },
+  "mechanism": {
+    "type": "Cardiac sarcomere modulator",
+    "how_it_works": "EDG-7500 slows contraction and enhances relaxation, without inhibiting peak myosin contractile force, which improves overall diastolic function. This approach is designed to avoid excessive drops in systolic performance that can lead to heart failure risk.",
+    "differentiation": "Unlike cardiac myosin inhibitors (CMIs) that carry black box warnings for heart failure, EDG-7500's mechanism is designed to maintain systolic function while improving diastolic function, potentially avoiding the need for REMS requirements and frequent LVEF monitoring.",
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": 20,
+      "verified": true
+    }
+  },
+  "regulatory": {
+    "designations": [],
+    "planned_pathway": {
+      "type": "Traditional NDA",
+      "surrogate_endpoint": "Planning Phase 3 program in both obstructive and nonobstructive HCM based on positive Phase 2 results",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 29,
+        "verified": true
+      }
+    }
+  },
+  "partnership": {
+    "_note": "Wholly-owned; no partnership",
+    "partner": null,
+    "territory": null,
+    "economics": null
+  },
   "pharmacology": {
-    "pk_parameters": { "half_life": { "value": null, "population": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }, "cmax": { "value": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }, "auc": { "value": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }, "tmax": { "value": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }, "bioavailability": { "value": "Oral", "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }, "volume_of_distribution": { "value": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} } },
-    "dose_response": { "doses_tested": ["25mg", "50mg", "100mg"], "dose_rationale": "Parts B/C evaluated fixed dose cohorts; Part D evaluating optimized dosing", "exposure_response": null, "recommended_dose": { "dose": null, "rationale": "~70% of Part D participants reached >=100mg", "source": {"id": "ewtx_cirrushcm_2025", "slide": null, "verified": false} }, "by_dose": null },
-    "target_engagement": null,
-    "pk_summary": "Oral small molecule. 25mg, 50mg, 100mg doses tested in CIRRUS-HCM Parts B/C. ~70% of Part D participants reached >=100mg dose level."
+    "pk_parameters": {
+      "half_life": {
+        "value": null,
+        "population": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "cmax": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "auc": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "tmax": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "bioavailability": {
+        "value": "Oral",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "volume_of_distribution": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      }
+    },
+    "dose_response": {
+      "doses_tested": "5-300 mg in healthy volunteers, 25-200 mg in HCM patients",
+      "dose_rationale": "Goal-directed dose escalation to optimize efficacy and tolerability",
+      "exposure_response": "No correlation observed between plasma concentration and LVEF change across broad exposure range",
+      "recommended_dose": {
+        "dose": "25-150 mg QD for oHCM, 50-100 mg QD for nHCM",
+        "rationale": "Based on dose optimization using LVOT-G for oHCM or NT-proBNP for nHCM",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 23,
+          "verified": true
+        }
+      },
+      "by_dose": null
+    },
+    "target_engagement": {
+      "metric": null,
+      "by_dose": null
+    },
+    "pk_summary": "EDG-7500 demonstrates dose-proportional exposure across a broad range with no correlation between plasma concentration and LVEF changes, supporting its differentiated safety profile"
   },
   "indications": {
-    "lead": { "name": "Hypertrophic Cardiomyopathy (HCM) — obstructive and nonobstructive", "patient_population": null, "current_penetration": "oHCM: mavacamten (Camzyos) and aficamten approved; nHCM: no approved targeted therapies", "rationale": "Nonobstructive HCM has no approved targeted therapies; EDG-7500 may address both subtypes" },
-    "expansion": null
+    "lead": {
+      "name": "Hypertrophic Cardiomyopathy",
+      "patient_population": "Adults with symptomatic obstructive and nonobstructive hypertrophic cardiomyopathy",
+      "current_penetration": "Current targeted treatments only approved for oHCM with limitations due to heart failure risk; no approved therapies for nHCM",
+      "rationale": "Large unmet need with ~165K symptomatic HCM patients in US including ~125K oHCM and ~40K nHCM patients",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 26,
+        "verified": true
+      }
+    },
+    "expansion": []
   },
   "clinical_data": {
     "trials": [
       {
-        "name": "CIRRUS-HCM Phase 2",
+        "name": "CIRRUS-HCM Part B",
         "nct_id": null,
-        "phase": "Phase 2 (multi-part: Parts B, C, D)",
-        "status": "Parts B/C completed; Part D ongoing, full readout expected 2Q 2026",
-        "design": "Multi-part dose-ranging study in oHCM and nHCM",
-        "enrollment": "Parts B/C: 43 participants across 25mg, 50mg, 100mg; Part D: >40 enrolled, 20 completed 12 weeks (8 oHCM, 12 nHCM) as of Dec 23, 2025 cutoff",
+        "phase": "Phase 2",
+        "status": "Completed",
+        "design": "Fixed dose study in obstructive HCM",
+        "enrollment": "oHCM patients",
         "arms": [
-          { "name": "25mg cohort", "dose": "25mg", "n": null },
-          { "name": "50mg cohort", "dose": "50mg", "n": null },
-          { "name": "100mg cohort", "dose": "100mg", "n": null }
+          {
+            "name": "50 mg",
+            "dose": "50 mg daily",
+            "n": 7
+          },
+          {
+            "name": "100 mg",
+            "dose": "100 mg daily",
+            "n": 9
+          }
         ],
-        "primary_endpoint": { "name": null, "definition": null, "result": "Parts B/C: Improvements in NT-proBNP, KCCQ, NYHA class, and LVOT gradient (oHCM). Part D: No clinically meaningful LVEF declines; no LVEF <50% observed.", "source": {"id": "ewtx_cirrushcm_2025", "slide": null, "verified": false} },
-        "secondary_endpoints": null,
+        "primary_endpoint": {
+          "name": "Safety and tolerability",
+          "definition": "Safety assessments",
+          "result": "Well tolerated",
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": 21,
+            "verified": true
+          }
+        },
+        "secondary_endpoints": [
+          {
+            "name": "LVOT gradient response",
+            "result": "89% of oHCM patients showed complete LVOT-G response at 100 mg (resting and Valsalva gradients <30 mmHg and <50 mmHg respectively)",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 21,
+              "verified": true
+            }
+          },
+          {
+            "name": "NYHA class improvement",
+            "result": "78% achieved \u22651 NYHA class improvement at 100 mg vs 43% at 50 mg",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 21,
+              "verified": true
+            }
+          }
+        ],
         "biomarkers": [
-          { "name": "NT-proBNP", "result": "Improvements observed in Parts B/C at 50mg and 100mg", "clinical_significance": "Cardiac stress biomarker; reduction indicates improved cardiac function", "source": {"id": "ewtx_cirrushcm_2025", "slide": null, "verified": false} },
-          { "name": "LVOT gradient", "result": "Improvement in oHCM patients", "clinical_significance": "Reduction of obstruction in obstructive HCM", "source": {"id": "ewtx_cirrushcm_2025", "slide": null, "verified": false} }
+          {
+            "name": "NT-proBNP",
+            "result": "56% achieved NT-proBNP <150 pg/mL at 100mg",
+            "clinical_significance": "NT-proBNP is a marker of heart failure and cardiac stress; reductions indicate improved cardiac function",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 21,
+              "verified": true
+            }
+          }
         ],
         "safety": {
-          "summary": "Generally well tolerated. >300 ambulatory monitors captured >2,600 patient-days with no AF/flutter detected during monitoring. One AF event reported in Part D deemed not related to study drug by investigator.",
-          "key_aes": [ { "event": "Atrial fibrillation (new onset)", "drug_rate": "1 event in Part D", "placebo_rate": null, "source": {"id": "ewtx_cirrushcm_2025", "slide": null, "verified": false} } ],
-          "discontinuations": null, "saes": null, "deaths": null
+          "summary": "Well tolerated with rapid multi-domain improvements",
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
         },
-        "source": {"id": "ewtx_cirrushcm_2025", "slide": null, "verified": false}
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 21,
+          "verified": true
+        }
+      },
+      {
+        "name": "CIRRUS-HCM Part C",
+        "nct_id": null,
+        "phase": "Phase 2",
+        "status": "Completed",
+        "design": "Fixed dose study in nonobstructive HCM",
+        "enrollment": "nHCM patients",
+        "arms": [
+          {
+            "name": "50 mg",
+            "dose": "50 mg daily",
+            "n": 6
+          },
+          {
+            "name": "100 mg",
+            "dose": "100 mg daily",
+            "n": 2
+          }
+        ],
+        "primary_endpoint": {
+          "name": "Safety and tolerability",
+          "definition": "Safety assessments",
+          "result": "Well tolerated",
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": 22,
+            "verified": true
+          }
+        },
+        "secondary_endpoints": [
+          {
+            "name": "KCCQ-CSS clinical improvement",
+            "result": "88% of nHCM participants had KCCQ-CSS clinical improvement with robust absolute improvements",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 22,
+              "verified": true
+            }
+          }
+        ],
+        "biomarkers": [
+          {
+            "name": "NT-proBNP",
+            "result": "55% reduction by Week 1",
+            "clinical_significance": "Rapid reduction in cardiac stress marker indicating early therapeutic benefit",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 22,
+              "verified": true
+            }
+          },
+          {
+            "name": "e' (diastolic function marker)",
+            "result": "Rapid changes as early as one week",
+            "clinical_significance": "e' measures diastolic function; improvements indicate better cardiac relaxation",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 22,
+              "verified": true
+            }
+          }
+        ],
+        "safety": {
+          "summary": "Well tolerated",
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
+        },
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 22,
+          "verified": true
+        }
+      },
+      {
+        "name": "CIRRUS-HCM Part D",
+        "nct_id": null,
+        "phase": "Phase 2",
+        "status": "Ongoing",
+        "design": "12-week goal-directed dose escalation study in both oHCM and nHCM",
+        "enrollment": "Target 50-60 patients",
+        "arms": [
+          {
+            "name": "oHCM dose escalation",
+            "dose": "25-150 mg QD",
+            "n": null
+          },
+          {
+            "name": "nHCM dose escalation",
+            "dose": "50-100 mg QD",
+            "n": null
+          }
+        ],
+        "primary_endpoint": {
+          "name": "Safety",
+          "definition": "Safety and tolerability assessments",
+          "result": "Favorable interim safety results announced",
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": 23,
+            "verified": true
+          }
+        },
+        "secondary_endpoints": [
+          {
+            "name": "Efficacy assessments",
+            "result": "NT-proBNP, Cardiac Troponin I, KCCQ, NYHA and LVOT-G assessments ongoing",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 23,
+              "verified": true
+            }
+          }
+        ],
+        "biomarkers": [],
+        "safety": {
+          "summary": "Favorable interim safety results; no LVEF drops <50% observed across all studies",
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
+        },
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 23,
+          "verified": true
+        }
       }
     ]
   },
   "differentiation_claims": [
-    { "claim": "Potential for both obstructive and nonobstructive HCM (nHCM has no approved targeted therapies)", "evidence_level": "management_claim", "caveat": "Phase 2 data only; Part D full readout pending", "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }
+    {
+      "claim": "No LVEF drops below 50% across broad exposure range unlike cardiac myosin inhibitors",
+      "evidence_level": "phase_2",
+      "caveat": "Based on pooled data from multiple small studies; head-to-head comparison not available",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 24,
+        "verified": true
+      }
+    },
+    {
+      "claim": "Efficacy in both oHCM and nHCM unlike current approved therapies",
+      "evidence_level": "phase_2",
+      "caveat": "Based on separate small studies in each population; Phase 3 data needed for confirmation",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 26,
+        "verified": true
+      }
+    },
+    {
+      "claim": "Potential to avoid REMS requirements due to favorable LVEF profile",
+      "evidence_level": "management_claim",
+      "caveat": "Regulatory requirements will be determined by FDA based on Phase 3 data",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 26,
+        "verified": true
+      }
+    }
   ],
   "competitive_landscape": {
     "competitors": [
-      { "drug": "Mavacamten (Camzyos)", "company": "Bristol-Myers Squibb", "stage": "Approved", "mechanism": "Cardiac myosin inhibitor", "key_data": null, "limitation": "Approved for oHCM only; REMS program required", "differentiation_vs_us": "EDG-7500 targeting both oHCM and nHCM" },
-      { "drug": "Aficamten", "company": "Cytokinetics", "stage": "Approved", "mechanism": "Cardiac myosin inhibitor", "key_data": null, "limitation": null, "differentiation_vs_us": null }
-    ]
+      {
+        "drug": "mavacamten (CAMZYOS)",
+        "company": "Bristol-Myers Squibb",
+        "stage": "Approved",
+        "mechanism": "Cardiac myosin inhibitor",
+        "key_data": "Approved for oHCM only",
+        "limitation": "Black box warning for heart failure, REMS requirement, frequent LVEF monitoring, only approved for oHCM",
+        "differentiation_vs_us": "EDG-7500 designed to avoid LVEF drops and work in both oHCM and nHCM"
+      },
+      {
+        "drug": "aficamten (MYQORZO)",
+        "company": "Cytokinetics",
+        "stage": "Approved",
+        "mechanism": "Cardiac myosin inhibitor",
+        "key_data": "Recently approved for oHCM",
+        "limitation": "Black box warning for heart failure, REMS requirement",
+        "differentiation_vs_us": "EDG-7500 designed to avoid heart failure risk through different mechanism"
+      }
+    ],
+    "_note": "Current HCM market dominated by cardiac myosin inhibitors with inherent heart failure risk limiting their utility; no approved therapies exist for nHCM"
   },
-  "ip_landscape": { "composition_of_matter": { "patent_expiry": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }, "method_of_use": { "patent_expiry": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }, "regulatory_exclusivity": { "type": null, "expiry": null }, "freedom_to_operate": null },
-  "market_opportunity": { "tam": null, "patient_population": null, "unmet_need": "Nonobstructive HCM has no approved targeted therapies", "pricing_benchmark": null, "peak_sales_estimate": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
+  "ip_landscape": {
+    "composition_of_matter": {
+      "patent_expiry": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "method_of_use": {
+      "patent_expiry": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "regulatory_exclusivity": {
+      "type": null,
+      "expiry": null
+    },
+    "freedom_to_operate": null
+  },
+  "market_opportunity": {
+    "tam": "~$10 Billion total potential HCM market",
+    "patient_population": "~165K symptomatic HCM patients in US (~125K oHCM and ~40K nHCM)",
+    "unmet_need": "High unmet need due to intrinsic mechanistic limitations of current CMIs including heart failure risk, REMS requirements, and lack of approved therapies for nHCM",
+    "pricing_benchmark": null,
+    "peak_sales_estimate": null,
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": 26,
+      "verified": true
+    }
+  },
   "catalysts": [
-    { "event": "CIRRUS-HCM Part D 12-week full data readout", "timing": "H1 2026 (2Q 2026)", "importance": "critical", "what_to_watch": "Full efficacy in oHCM and nHCM; cardiac safety (AF monitoring)", "bull_scenario": "Strong efficacy in both oHCM and nHCM with clean safety supports Phase 3", "bear_scenario": "Safety signals or insufficient efficacy in nHCM" },
-    { "event": "Phase 3 initiation in oHCM and nHCM", "timing": "H2 2026", "importance": "high", "what_to_watch": "Trial design; competitive positioning", "bull_scenario": "Broad HCM program including nHCM differentiates from competition", "bear_scenario": "Competitive landscape with mavacamten and aficamten already approved" }
+    {
+      "event": "CIRRUS-HCM Part D Phase 2 results in oHCM & nHCM",
+      "timing": "H1 2026",
+      "importance": "critical",
+      "what_to_watch": "Efficacy in dose-optimized study, safety profile, biomarker responses",
+      "bull_scenario": "Strong efficacy in both populations with continued favorable LVEF profile supporting Phase 3 initiation",
+      "bear_scenario": "Limited efficacy improvement with dose optimization or emergence of safety signals"
+    },
+    {
+      "event": "EDG-7500 Phase 3 initiation in oHCM & nHCM",
+      "timing": "H2 2026",
+      "importance": "high",
+      "what_to_watch": "Trial design, endpoints, enrollment timelines",
+      "bull_scenario": "Rapid initiation of registration-enabling studies in both populations",
+      "bear_scenario": "Delayed initiation due to regulatory feedback or need for additional Phase 2 work"
+    }
   ],
   "investment_analysis": {
     "probability_of_success": null,
-    "key_risks": ["Competitive HCM landscape (mavacamten, aficamten)", "One AF event in Part D — cardiac safety scrutiny", "Phase 2 data only; Phase 3 not yet started"],
-    "bull_case": [ {"thesis": "nHCM has no approved therapies — large unaddressed market", "evidence": "Part D enrolling both oHCM and nHCM patients", "confidence": "medium"} ],
-    "bear_case": [ {"thesis": "Late entrant in HCM with two approved competitors", "evidence": "Mavacamten and aficamten already marketed", "confidence": "medium"} ],
-    "key_debates": null
+    "key_risks": [
+      "Small Phase 2 studies may not predict Phase 3 success",
+      "Competitive market with established CMIs",
+      "Regulatory path for novel mechanism uncertain"
+    ],
+    "bull_case": [
+      {
+        "thesis": "Differentiated mechanism avoids heart failure risk enabling broader market access",
+        "evidence": "No LVEF drops <50% across studies, efficacy in both oHCM and nHCM, physician enthusiasm for safety profile",
+        "confidence": "medium"
+      },
+      {
+        "thesis": "Large addressable market with significant unmet need",
+        "evidence": "~165K symptomatic HCM patients, no approved nHCM therapies, limitations of current CMIs",
+        "confidence": "high"
+      }
+    ],
+    "bear_case": [
+      {
+        "thesis": "Small Phase 2 studies may not translate to Phase 3 success",
+        "evidence": "Limited patient numbers in proof-of-concept studies, high bar for HCM efficacy",
+        "confidence": "medium"
+      },
+      {
+        "thesis": "Competitive pressure from established CMIs with proven efficacy",
+        "evidence": "mavacamten and aficamten already approved with clinical experience, physician familiarity",
+        "confidence": "medium"
+      }
+    ],
+    "key_debates": [
+      {
+        "question": "Can EDG-7500 demonstrate differentiated efficacy while maintaining safety advantages?",
+        "bull_view": "Novel mechanism provides best-in-class profile with efficacy in both oHCM and nHCM",
+        "bear_view": "Mechanism may limit peak efficacy compared to direct myosin inhibition",
+        "what_resolves_it": "Phase 3 head-to-head or cross-trial comparisons with established CMIs"
+      }
+    ]
   },
-  "_extraction_quality": { "completeness_score": "medium", "missing_critical_fields": ["PK parameters", "Detailed efficacy results by dose", "Patient population size for HCM", "Market TAM", "IP/patents", "Phase 3 trial design"], "recommended_supplementary_sources": ["CIRRUS-HCM Part D full publication (expected H1 2026)", "AHA/ACC presentations", "Edgewise 10-K for IP details"] }
+  "_extraction_quality": {
+    "completeness_score": "high",
+    "missing_critical_fields": [
+      "PK parameters",
+      "Detailed efficacy results by dose",
+      "Patient population size for HCM",
+      "Market TAM",
+      "IP/patents",
+      "Phase 3 trial design"
+    ],
+    "recommended_supplementary_sources": [
+      "SEC filings for patent details",
+      "Scientific publications on mechanism",
+      "Phase 3 trial protocols when available"
+    ]
+  }
 }

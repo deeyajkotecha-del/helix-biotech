@@ -2,59 +2,59 @@
   "_metadata": {
     "version": "2.1",
     "ticker": "EWTX",
-    "company_name": "Edgewise Therapeutics, Inc.",
-    "data_source": "ewtx_jpm_2026",
+    "company_name": "Edgewise Therapeutics",
+    "data_source": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
     "extraction_date": "2026-02-11"
   },
   "ticker": "EWTX",
-  "name": "Edgewise Therapeutics, Inc.",
+  "name": "Edgewise Therapeutics",
   "company": {
-    "name": "Edgewise Therapeutics, Inc.",
+    "name": "Edgewise Therapeutics",
     "ticker": "EWTX",
     "exchange": "NASDAQ",
     "headquarters": "Boulder, Colorado",
     "website": "https://www.edgewisetx.com",
-    "one_liner": "Edgewise is a muscle disease biopharmaceutical company developing first-in-class therapies for muscular dystrophies and serious cardiac conditions, led by sevasemten — an oral fast skeletal myosin inhibitor in a pivotal trial for Becker muscular dystrophy with no FDA-approved therapies."
+    "one_liner": "Global leader in muscle disease therapeutics developing first-in-class treatments for muscular dystrophies and serious cardiac conditions, with sevasemten poised to become the first approved therapy for Becker muscular dystrophy in 2027."
   },
   "investment_thesis_summary": {
-    "core_thesis": "Edgewise is poised for a transformative 2026 with the GRAND CANYON pivotal readout for sevasemten in Becker muscular dystrophy (Q4 2026), targeting the first-ever FDA-approved therapy in a disease with zero approved treatments. If successful, NDA submission is planned for H1 2027 with commercial launch potential that year. The company also has a diversified cardiac pipeline (EDG-7500 in HCM, EDG-15400 in heart failure) providing multiple shots on goal.",
+    "core_thesis": "Edgewise is positioned to become a commercial company in 2027 with sevasemten as the first approved therapy for Becker muscular dystrophy, addressing a ~$5B market opportunity, while EDG-7500's differentiated cardiac mechanism could capture significant share of the ~$10B HCM market without the heart failure risks of current competitors.",
     "key_value_drivers": [
-      "GRAND CANYON pivotal readout in Becker (Q4 2026) — potential first-ever approved therapy in this disease",
-      "NDA submission planned H1 2027 with commercial infrastructure already being built",
-      "EDG-7500 CIRRUS-HCM 12-week data in H1 2026 with Phase 3 start targeted H2 2026",
-      "Strong balance sheet (~$563M cash as of Q3 2025, plus $200M from April 2025 follow-on)"
+      "GRAND CANYON pivotal trial powered at >98% significance with readout expected Q4 2026 for first-in-disease Becker approval",
+      "EDG-7500 shows no LVEF drops below 50% across broad exposure range, avoiding CMI heart failure risks that limit current HCM therapies",
+      "Strong balance sheet with $563M cash providing runway through 2028 to execute multiple value-inflecting catalysts",
+      "Differentiated muscle-focused platform with multiple shots on goal across muscular dystrophy and cardiovascular markets"
     ]
   },
   "investment_analysis": {
     "bull_case": [
       "Sevasemten targets a disease (Becker) with zero FDA-approved therapies and clear regulatory path (FDA Type C meeting confirmed GRAND CANYON as single adequate study for registration)",
       "GRAND CANYON is highly powered (N=175) for NSAA primary endpoint over 18 months; MESA OLE shows sustained stabilization after 3 years of treatment",
-      "CANYON Phase 2 met primary endpoint (CK reduction) and showed NSAA stabilization vs placebo at 12 months — 0.8 point improvement from baseline in MESA rollover",
+      "CANYON Phase 2 met primary endpoint (CK reduction) and showed NSAA stabilization vs placebo at 12 months \u2014 0.8 point improvement from baseline in MESA rollover",
       "Commercial infrastructure being built for potential 2027 launch; Orphan Drug and Fast Track designations secured for both Becker and Duchenne",
       "EDG-7500 HCM data showing improvements in NT-proBNP, KCCQ, NYHA and LVOT gradient; Phase 3 targeted H2 2026",
       "Cash position of ~$563M (Q3 2025) plus $200M follow-on provides substantial runway",
       "Pipeline optionality: Duchenne Phase 3 design planned H2 2026 (10mg dose selected); EDG-15400 in heart failure entering Phase 2"
     ],
     "bear_case": [
-      "GRAND CANYON is a binary event — entire thesis depends on showing statistically significant NSAA difference vs placebo at 18 months",
+      "GRAND CANYON is a binary event \u2014 entire thesis depends on showing statistically significant NSAA difference vs placebo at 18 months",
       "FDA deemed CANYON data alone insufficient for accelerated approval, requiring the larger GRAND CANYON study",
       "Becker is a rare disease (~3,500-5,000 US patients) which may limit peak sales potential",
       "Pre-revenue company with Q3 2025 net loss of $40.7M and no approved products",
-      "EDG-7500 had one AF event in Part D (deemed not drug-related) — cardiac safety monitoring is ongoing concern for sarcomere modulators",
+      "EDG-7500 had one AF event in Part D (deemed not drug-related) \u2014 cardiac safety monitoring is ongoing concern for sarcomere modulators",
       "No commercial revenue or approved products; company substantially dependent on sevasemten and EDG-7500 success"
     ],
     "key_debates": [
       {
-        "question": "Will GRAND CANYON show statistically significant NSAA improvement vs placebo at 18 months?",
-        "bull_view": "Trial is highly powered with N=175; CANYON Phase 2 showed NSAA stabilization at 12 months; MESA OLE shows 3-year durability with NSAA diverging from natural history; FDA supportive of endpoint and trial design",
-        "bear_view": "Becker natural history is variable; NSAA stabilization (not improvement) may be hard to distinguish from placebo in a larger trial; FDA rejected accelerated approval based on CANYON alone",
-        "what_resolves_it": "GRAND CANYON top-line data Q4 2026"
+        "question": "Can sevasemten's mechanism of action translate 3-year stability data into pivotal trial success?",
+        "bull_view": "GRAND CANYON powered at >98% significance with consistent stability vs predicted -4.4 point decline across multiple studies",
+        "bear_view": "Single pivotal trial risk despite encouraging open-label extension data that may not predict placebo-controlled outcomes",
+        "what_resolves_it": "GRAND CANYON 18-month readout expected Q4 2026"
       },
       {
-        "question": "Can EDG-7500 differentiate in HCM and succeed in both obstructive and nonobstructive forms?",
-        "bull_view": "Part D interim safety favorable; improvements across NT-proBNP, KCCQ, NYHA; no clinically meaningful LVEF declines; potential for both oHCM and nHCM (nHCM has no approved therapies)",
-        "bear_view": "One AF event reported; competitive HCM landscape (mavacamten, aficamten); full Part D efficacy data pending",
-        "what_resolves_it": "CIRRUS-HCM Part D 12-week data H1 2026 (specifically 2Q 2026)"
+        "question": "Will EDG-7500's differentiated LVEF profile overcome established CMI market positions?",
+        "bull_view": "No LVEF drops below 50% across broad exposure range could enable broader prescriber adoption without REMS requirements",
+        "bear_view": "Established CMI market presence and physician familiarity may limit uptake despite theoretical safety advantages",
+        "what_resolves_it": "Phase 3 design announcement and CIRRUS-HCM Part D 12-week data in H1 2026"
       }
     ]
   },
@@ -64,64 +64,126 @@
     "programs": [
       {
         "asset": "Sevasemten",
-        "target": "Fast skeletal myosin",
-        "stage": "Pivotal (GRAND CANYON) / Phase 2 (Duchenne)",
+        "target": "Myosin ATPase",
+        "stage": "Pivotal",
         "indications": "Becker muscular dystrophy, Duchenne muscular dystrophy",
         "ownership": "Wholly-owned",
-        "next_catalyst": "GRAND CANYON top-line data — Q4 2026",
-        "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false}
+        "next_catalyst": "GRAND CANYON registrational cohort readout Q4 2026",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 5,
+          "verified": false
+        }
       },
       {
         "asset": "EDG-7500",
-        "target": "Cardiac sarcomere",
-        "stage": "Phase 2 (CIRRUS-HCM)",
-        "indications": "Hypertrophic cardiomyopathy (obstructive and nonobstructive)",
+        "target": "Undisclosed cardiac sarcomeric target",
+        "stage": "Phase 2",
+        "indications": "Hypertrophic Cardiomyopathy",
         "ownership": "Wholly-owned",
-        "next_catalyst": "CIRRUS-HCM Part D 12-week data — H1 2026",
-        "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false}
+        "next_catalyst": "CIRRUS-HCM Part D 12-week data H1 2026",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 5,
+          "verified": false
+        }
       },
       {
         "asset": "EDG-15400",
-        "target": "Cardiac sarcomere",
+        "target": "Undisclosed cardiac sarcomeric target",
         "stage": "Phase 1",
-        "indications": "Heart failure (HFpEF)",
+        "indications": "Heart Failure with Preserved Ejection Fraction",
         "ownership": "Wholly-owned",
-        "next_catalyst": "Phase 1 SAD/MAD data — H1 2026; Phase 2 in HFpEF results H1 2027",
-        "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false}
+        "next_catalyst": "Phase 1 healthy volunteer data H1 2026",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 5,
+          "verified": false
+        }
       },
       {
         "asset": "EDG-003",
-        "target": "Not disclosed",
-        "stage": "Preclinical / undisclosed",
-        "indications": null,
-        "ownership": null,
-        "next_catalyst": null,
-        "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false}
+        "target": "Undisclosed target",
+        "stage": "Preclinical",
+        "indications": "Cardiometabolic",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "IND filing timing not disclosed",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 5,
+          "verified": false
+        }
       }
     ]
   },
   "platform": {
-    "name": "Muscle Physiology Platform",
-    "description": "Edgewise's deep expertise in muscle physiology is driving a new generation of novel therapeutics across both skeletal and cardiac muscle diseases, leveraging sarcomere biology and myosin modulation."
+    "name": "Muscle-focused platform",
+    "description": "Combined expertise in muscle biology and small molecule drug discovery built novel and differentiated muscle-focused platform for muscular dystrophies and serious cardiac conditions."
   },
   "financials": {
-    "cash_position": "$563.3 million (as of September 30, 2025) plus $200M net proceeds from April 2025 follow-on",
-    "cash_runway": null,
+    "cash_position": "$563M as of September 30, 2025",
+    "cash_runway": "through 2028",
     "market_cap": "~$3.1B (as of Feb 3, 2026)",
     "enterprise_value": null,
-    "revenue": "Pre-revenue (no products approved for commercial sale)",
+    "revenue": "Pre-revenue",
     "r_and_d_expense": "$37.5 million (Q3 2025)",
     "net_loss": "$40.7 million (Q3 2025)",
-    "shares_outstanding": "105,761,949 (as of Sep 30, 2025)",
-    "source": {"id": "ewtx_q3_2025", "slide": null, "verified": false}
+    "shares_outstanding": "~105M",
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": 28,
+      "verified": false
+    }
   },
   "catalysts": [
-    { "asset": "EDG-7500", "event": "CIRRUS-HCM Part D 12-week data (oHCM and nHCM)", "timing": "H1 2026 (2Q 2026)", "importance": "critical", "what_to_watch": "Full efficacy data in both obstructive and nonobstructive HCM; cardiac safety including AF/flutter monitoring" },
-    { "asset": "EDG-15400", "event": "Phase 1 SAD/MAD data in healthy adults", "timing": "H1 2026", "importance": "medium", "what_to_watch": "Safety, PK, and dose selection for Phase 2 in HFpEF" },
-    { "asset": "Sevasemten", "event": "Duchenne Phase 3 design finalization and FDA meeting", "timing": "H2 2026", "importance": "high", "what_to_watch": "Phase 3 trial design incorporating 10mg dose from LYNX/FOX Phase 2" },
-    { "asset": "EDG-7500", "event": "Phase 3 initiation in oHCM and nHCM", "timing": "H2 2026", "importance": "high", "what_to_watch": "Trial design, dose selection, and competitive positioning vs mavacamten/aficamten" },
-    { "asset": "Sevasemten", "event": "GRAND CANYON pivotal top-line data in Becker", "timing": "Q4 2026", "importance": "critical", "what_to_watch": "Statistically significant NSAA difference vs placebo at 18 months — binary event for the company" },
-    { "asset": "Sevasemten", "event": "NDA submission to FDA for Becker", "timing": "H1 2027", "importance": "critical", "what_to_watch": "Traditional approval pathway based on NSAA; potential first-ever approved therapy in Becker" },
-    { "asset": "EDG-15400", "event": "Phase 2 results in HFpEF", "timing": "H1 2027", "importance": "high", "what_to_watch": "Efficacy and safety in heart failure with preserved ejection fraction" }
+    {
+      "asset": "EDG-7500",
+      "event": "CIRRUS-HCM Part D 12-week data in oHCM & nHCM",
+      "timing": "H1 2026",
+      "importance": "high",
+      "what_to_watch": "KCCQ-CSS improvement, NT-proBNP reduction, LVEF stability, dose optimization results"
+    },
+    {
+      "asset": "EDG-15400",
+      "event": "Phase 1 healthy volunteer data",
+      "timing": "H1 2026",
+      "importance": "medium",
+      "what_to_watch": "Safety, tolerability, pharmacokinetics, cardiac effects"
+    },
+    {
+      "asset": "EDG-7500",
+      "event": "Phase 3 initiation in oHCM & nHCM",
+      "timing": "H2 2026",
+      "importance": "high",
+      "what_to_watch": "Trial design, primary endpoints, enrollment strategy, regulatory alignment"
+    },
+    {
+      "asset": "Sevasemten",
+      "event": "GRAND CANYON registrational cohort readout",
+      "timing": "Q4 2026",
+      "importance": "critical",
+      "what_to_watch": "18-month NSAA difference vs placebo, statistical significance, safety profile"
+    },
+    {
+      "asset": "Sevasemten",
+      "event": "Duchenne Phase 3 trial planning and initiation",
+      "timing": "H1 2027",
+      "importance": "high",
+      "what_to_watch": "Trial design based on Becker results, regulatory guidance, enrollment strategy"
+    },
+    {
+      "asset": "Sevasemten",
+      "event": "NDA submission for Becker",
+      "timing": "H1 2027",
+      "importance": "critical",
+      "what_to_watch": "FDA filing acceptance, priority review designation, PDUFA date"
+    },
+    {
+      "asset": "EDG-15400",
+      "event": "Phase 2 initiation in HFpEF",
+      "timing": "H1 2027",
+      "importance": "medium",
+      "what_to_watch": "Patient population, primary endpoints, differentiation vs existing HFpEF therapies"
+    }
   ]
 }

@@ -1,192 +1,706 @@
 {
-  "_metadata": { "version": "2.1", "ticker": "EWTX", "asset_name": "Sevasemten", "extraction_date": "2026-02-11", "source_id": "ewtx_jpm_2026" },
-  "asset": { "name": "Sevasemten", "company": "Edgewise Therapeutics, Inc.", "ticker": "EWTX", "stage": "Pivotal (Becker) / Phase 2 (Duchenne)", "modality": "Small molecule (oral)", "ownership": "Wholly-owned", "one_liner": "Sevasemten is an orally administered first-in-class fast skeletal myosin inhibitor designed to protect muscle against contraction-induced damage, in a pivotal trial (GRAND CANYON) for Becker muscular dystrophy — a degenerative neuromuscular disease with zero FDA-approved therapies." },
+  "_metadata": {
+    "version": "2.1",
+    "ticker": "EWTX",
+    "asset_name": "Sevasemten",
+    "extraction_date": "2026-02-11",
+    "source_id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf"
+  },
+  "asset": {
+    "name": "Sevasemten",
+    "company": "Edgewise Therapeutics",
+    "ticker": "EWTX",
+    "stage": "Pivotal",
+    "modality": "Small molecule",
+    "ownership": "Wholly-owned",
+    "one_liner": "Sevasemten is an orally administered first-in-class fast skeletal myosin inhibitor designed to protect dystrophic muscle against contraction-induced injury in Becker muscular dystrophy, potentially becoming the first approved therapy for this devastating disease."
+  },
   "target": {
-    "name": "Fast skeletal myosin",
-    "full_name": "Fast skeletal myosin",
-    "class": "Motor protein (muscle contractile machinery)",
-    "pathway": "Skeletal muscle contraction / sarcomere mechanics",
+    "name": "Fast skeletal myosin ATPase",
+    "full_name": "Fast skeletal muscle myosin ATPase",
+    "class": "Motor protein",
+    "pathway": "Muscle contraction",
     "biology": {
-      "simple_explanation": "In Becker muscular dystrophy, a deficiency in the protein dystrophin makes muscle fibers fragile and susceptible to damage during contraction. Sevasemten inhibits fast skeletal myosin — the molecular motor that powers muscle contraction — to reduce the force of contraction, thereby protecting damaged muscle fibers from further contraction-induced injury.",
-      "pathway_detail": "Fast skeletal myosin is responsible for generating force during muscle contraction. In dystrophin-deficient muscle (Becker/Duchenne), repeated contraction cycles cause progressive mechanical damage. By slowing myosin-driven contraction force, sevasemten reduces this damage.",
-      "downstream_effects": ["Reduced contraction-induced muscle damage", "Stabilization of muscle function (NSAA)", "Reduction in creatine kinase (CK) — a biomarker of muscle damage"]
+      "simple_explanation": "In Becker muscular dystrophy, progressive contraction-induced muscle damage results in loss of skeletal muscle function and severe disability. Sevasemten targets fast myosin to protect dystrophic muscle against this contraction-induced injury, intended to minimize progressive muscle damage that leads to functional impairment.",
+      "pathway_detail": "Fast skeletal myosin ATPase drives muscle contraction. In dystrophic muscle, excessive contraction causes damage and progressive loss of function.",
+      "downstream_effects": [
+        "Reduced contraction-induced muscle damage",
+        "Preservation of muscle function",
+        "Prevention of progressive functional decline"
+      ]
     },
     "why_good_target": {
-      "clinical_validation": "CANYON Phase 2 met primary endpoint (CK reduction); NSAA stabilization vs placebo at 12 months; MESA OLE shows sustained stabilization after 3 years; FDA confirmed NSAA is clinically meaningful endpoint for traditional approval",
-      "genetic_validation": { "gain_of_function": null, "loss_of_function": "Becker is caused by mutations in the dystrophin gene leading to reduced/abnormal dystrophin protein, making muscle vulnerable to contraction-induced damage" },
-      "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false}
+      "clinical_validation": "Significant clinical experience with durable response, well tolerated across multiple trials with longest exposure over 4 years",
+      "genetic_validation": {
+        "gain_of_function": null,
+        "loss_of_function": "Becker is caused by mutations in the dystrophin gene leading to reduced/abnormal dystrophin protein, making muscle vulnerable to contraction-induced damage"
+      },
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 9,
+        "verified": false
+      }
     }
   },
   "mechanism": {
     "type": "Fast skeletal myosin inhibitor",
-    "how_it_works": "Sevasemten selectively inhibits fast skeletal myosin to reduce the force of skeletal muscle contraction, protecting dystrophin-deficient muscle fibers from contraction-induced damage without affecting cardiac muscle",
-    "differentiation": "First-in-class oral fast skeletal myosin inhibitor; only drug in pivotal development for Becker; skeletal-selective (does not affect cardiac myosin)",
-    "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false}
+    "how_it_works": "Sevasemten inhibits fast skeletal myosin ATPase to reduce the force of muscle contractions, thereby protecting dystrophic muscle fibers from contraction-induced damage that leads to progressive muscle breakdown and functional impairment",
+    "differentiation": "First-in-class fast skeletal myosin inhibitor with novel mechanism of action that addresses the root cause of muscle breakdown in Becker muscular dystrophy, with oral administration and generally safe and well tolerated profile",
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": 8,
+      "verified": false
+    }
   },
   "regulatory": {
     "designations": [
-      { "type": "Orphan Drug Designation (FDA)", "indication": "Becker muscular dystrophy", "date_granted": null, "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} },
-      { "type": "Orphan Drug Designation (FDA)", "indication": "Duchenne muscular dystrophy", "date_granted": null, "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} },
-      { "type": "Fast Track Designation (FDA)", "indication": "Becker muscular dystrophy", "date_granted": null, "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} },
-      { "type": "Fast Track Designation (FDA)", "indication": "Duchenne muscular dystrophy", "date_granted": null, "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} },
-      { "type": "Rare Pediatric Disease Designation (FDA)", "indication": "Duchenne muscular dystrophy", "date_granted": null, "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} },
-      { "type": "Orphan Drug Designation (EMA)", "indication": "Becker muscular dystrophy", "date_granted": null, "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} },
-      { "type": "Orphan Drug Designation (EMA)", "indication": "Duchenne muscular dystrophy", "date_granted": null, "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} }
+      {
+        "type": "Orphan Drug Designation (FDA)",
+        "indication": "Becker muscular dystrophy",
+        "date_granted": null,
+        "source": {
+          "id": "ewtx_canyon_2024",
+          "slide": null,
+          "verified": false
+        }
+      },
+      {
+        "type": "Orphan Drug Designation (FDA)",
+        "indication": "Duchenne muscular dystrophy",
+        "date_granted": null,
+        "source": {
+          "id": "ewtx_canyon_2024",
+          "slide": null,
+          "verified": false
+        }
+      },
+      {
+        "type": "Fast Track Designation (FDA)",
+        "indication": "Becker muscular dystrophy",
+        "date_granted": null,
+        "source": {
+          "id": "ewtx_canyon_2024",
+          "slide": null,
+          "verified": false
+        }
+      },
+      {
+        "type": "Fast Track Designation (FDA)",
+        "indication": "Duchenne muscular dystrophy",
+        "date_granted": null,
+        "source": {
+          "id": "ewtx_canyon_2024",
+          "slide": null,
+          "verified": false
+        }
+      },
+      {
+        "type": "Rare Pediatric Disease Designation (FDA)",
+        "indication": "Duchenne muscular dystrophy",
+        "date_granted": null,
+        "source": {
+          "id": "ewtx_canyon_2024",
+          "slide": null,
+          "verified": false
+        }
+      },
+      {
+        "type": "Orphan Drug Designation (EMA)",
+        "indication": "Becker muscular dystrophy",
+        "date_granted": null,
+        "source": {
+          "id": "ewtx_canyon_2024",
+          "slide": null,
+          "verified": false
+        }
+      },
+      {
+        "type": "Orphan Drug Designation (EMA)",
+        "indication": "Duchenne muscular dystrophy",
+        "date_granted": null,
+        "source": {
+          "id": "ewtx_canyon_2024",
+          "slide": null,
+          "verified": false
+        }
+      }
     ],
     "planned_pathway": {
-      "type": "Traditional NDA (standard approval based on NSAA functional endpoint)",
-      "surrogate_endpoint": "FDA deemed CANYON CK data alone insufficient for accelerated approval; confirmed NSAA is a clinically meaningful endpoint for traditional approval; GRAND CANYON as single adequate well-controlled study to support registration",
-      "source": {"id": "ewtx_fda_typec_2025", "slide": null, "verified": false}
+      "type": "Traditional NDA",
+      "surrogate_endpoint": "NDA submission for sevasemten in Becker planned following GRAND CANYON pivotal trial readout",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 29,
+        "verified": false
+      }
     }
   },
-  "partnership": { "_note": "Wholly-owned; no partnership", "partner": null, "territory": null, "economics": null },
+  "partnership": {
+    "_note": "Wholly-owned; no partnership",
+    "partner": null,
+    "territory": null,
+    "economics": null
+  },
   "pharmacology": {
     "pk_parameters": {
-      "half_life": { "value": null, "population": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-      "cmax": { "value": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-      "auc": { "value": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-      "tmax": { "value": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-      "bioavailability": { "value": "Oral (bioavailability not specified)", "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-      "volume_of_distribution": { "value": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }
+      "half_life": {
+        "value": null,
+        "population": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "cmax": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "auc": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "tmax": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "bioavailability": {
+        "value": "Oral (bioavailability not specified)",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      },
+      "volume_of_distribution": {
+        "value": null,
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": null,
+          "verified": false
+        }
+      }
     },
     "dose_response": {
-      "doses_tested": null,
+      "doses_tested": "10mg PO daily in pivotal trial",
       "dose_rationale": null,
       "exposure_response": null,
-      "recommended_dose": { "dose": "10mg oral daily (selected for Duchenne Phase 3 based on LYNX/FOX)", "rationale": "LYNX Phase 2 identified 10mg across functional measures (SV95C, NSAA, 4 stair-climb)", "source": {"id": "ewtx_lynx_2025", "slide": null, "verified": false} },
+      "recommended_dose": {
+        "dose": "10mg PO daily",
+        "rationale": "Dose used in pivotal GRAND CANYON trial",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 14,
+          "verified": false
+        }
+      },
       "by_dose": null
     },
     "target_engagement": {
-      "metric": "CK (creatine kinase) reduction from baseline — biomarker of muscle damage",
+      "metric": "CK (creatine kinase) reduction from baseline \u2014 biomarker of muscle damage",
       "by_dose": null
     },
-    "pk_summary": "Oral small molecule. 10mg dose selected for Duchenne Phase 3. Specific PK parameters not disclosed in reviewed sources."
+    "pk_summary": "Orally administered with daily dosing"
   },
   "indications": {
     "lead": {
-      "name": "Becker Muscular Dystrophy",
-      "patient_population": "Adults with Becker muscular dystrophy; rare X-linked genetic disorder causing progressive muscle weakness mainly in males",
-      "current_penetration": "Zero FDA-approved therapies — completely unmet need",
-      "rationale": "Degenerative neuromuscular disease with progressive loss of mobility and no approved treatments; sevasemten's mechanism directly addresses contraction-induced muscle damage in dystrophin-deficient muscle",
-      "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false}
+      "name": "Becker muscular dystrophy",
+      "patient_population": "Adult individuals with Becker muscular dystrophy with NSAA score 5-32, not taking corticosteroids",
+      "current_penetration": "No FDA approved therapies currently exist for Becker muscular dystrophy",
+      "rationale": "Becker is a rare, genetic, life-shortening, debilitating and degenerative neuromuscular disease with progressive contraction-induced muscle damage resulting in loss of skeletal muscle function and severe disability",
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": 7,
+        "verified": false
+      }
     },
     "expansion": [
-      { "name": "Duchenne Muscular Dystrophy", "stage": "Phase 2 (LYNX, FOX completed; Phase 3 design H2 2026)", "rationale": "Same dystrophin deficiency mechanism as Becker but more severe; 10mg dose selected from LYNX/FOX; potential complementary therapy to gene therapy (FOX data)", "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }
+      {
+        "name": "Duchenne muscular dystrophy",
+        "stage": "Phase 3 planning",
+        "rationale": "Reported positive LYNX and FOX Phase 2 results in Duchenne",
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 4,
+          "verified": false
+        }
+      }
     ]
   },
   "clinical_data": {
     "trials": [
       {
-        "name": "CANYON",
-        "nct_id": "NCT05291091",
+        "name": "Phase 1 24-month Open Label Study",
+        "nct_id": null,
+        "phase": "Phase 1",
+        "status": "Completed",
+        "design": "24-month open label study",
+        "enrollment": "N=12",
+        "arms": [
+          {
+            "name": "Sevasemten",
+            "dose": null,
+            "n": 12
+          }
+        ],
+        "primary_endpoint": {
+          "name": "Safety and tolerability",
+          "definition": "Safety and tolerability assessment",
+          "result": "Durable response, 11 of 12 remain on therapy, longest exposure +4 years, well tolerated",
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": 9,
+            "verified": false
+          }
+        },
+        "secondary_endpoints": [],
+        "biomarkers": [],
+        "safety": {
+          "summary": "Well tolerated with durable response, 11 of 12 patients remain on therapy with longest exposure over 4 years",
+          "key_aes": null,
+          "discontinuations": "1 of 12 patients discontinued",
+          "saes": null,
+          "deaths": null
+        },
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 9,
+          "verified": false
+        }
+      },
+      {
+        "name": "Phase 2 16-week Placebo Controlled Exercise Challenge Study",
+        "nct_id": null,
         "phase": "Phase 2",
-        "status": "Completed (top-line results December 2024)",
-        "design": "Placebo-controlled, 12-month study in adults with Becker",
-        "enrollment": null,
-        "arms": null,
-        "primary_endpoint": { "name": "Change from baseline in CK (creatine kinase)", "definition": "Biomarker of muscle damage", "result": "Met primary endpoint — CK reduction achieved", "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} },
+        "status": "Completed",
+        "design": "16-week placebo controlled exercise challenge study",
+        "enrollment": "N=9",
+        "arms": [
+          {
+            "name": "Sevasemten",
+            "dose": null,
+            "n": null
+          },
+          {
+            "name": "Placebo",
+            "dose": null,
+            "n": null
+          }
+        ],
+        "primary_endpoint": {
+          "name": "Biomarkers of muscle damage",
+          "definition": "Reduction in biomarkers of muscle damage vs placebo",
+          "result": "Significant reduction in biomarkers of muscle damage vs placebo",
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": 9,
+            "verified": false
+          }
+        },
+        "secondary_endpoints": [],
+        "biomarkers": [
+          {
+            "name": "Muscle damage biomarkers",
+            "result": "Significant reduction vs placebo",
+            "clinical_significance": "Indicates reduced muscle damage from contractions",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 9,
+              "verified": false
+            }
+          }
+        ],
+        "safety": {
+          "summary": "Well tolerated",
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
+        },
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 9,
+          "verified": false
+        }
+      },
+      {
+        "name": "Phase 2 12-month Placebo Controlled Study",
+        "nct_id": null,
+        "phase": "Phase 2",
+        "status": "Completed",
+        "design": "12-month placebo controlled study",
+        "enrollment": "N=40 Adults",
+        "arms": [
+          {
+            "name": "Sevasemten",
+            "dose": null,
+            "n": null
+          },
+          {
+            "name": "Placebo",
+            "dose": null,
+            "n": null
+          }
+        ],
+        "primary_endpoint": {
+          "name": "Creatine kinase (CK)",
+          "definition": "Reduction in CK levels",
+          "result": "Met primary endpoint reduction in CK",
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": 9,
+            "verified": false
+          }
+        },
         "secondary_endpoints": [
-          { "name": "NSAA (North Star Ambulatory Assessment)", "result": "Key secondary: sevasemten-treated patients showed stabilization of NSAA with a trend towards improvement at 12 months compared to placebo", "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} }
+          {
+            "name": "NSAA stability",
+            "result": "NSAA stable over time with trend toward improvement vs placebo",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 9,
+              "verified": false
+            }
+          }
         ],
         "biomarkers": [
-          { "name": "CK (creatine kinase)", "result": "Primary endpoint met — reduction in CK", "clinical_significance": "CK is a direct biomarker of muscle damage; reduction indicates reduced contraction-induced damage", "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} }
+          {
+            "name": "Creatine kinase (CK)",
+            "result": "Significant reduction vs placebo",
+            "clinical_significance": "CK is a biomarker of muscle damage; reduction indicates muscle protection",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 9,
+              "verified": false
+            }
+          }
         ],
-        "safety": { "summary": "Well-tolerated; no new safety concerns observed", "key_aes": null, "discontinuations": null, "saes": null, "deaths": null },
-        "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false}
+        "safety": {
+          "summary": "Well tolerated",
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
+        },
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 9,
+          "verified": false
+        }
       },
       {
-        "name": "GRAND CANYON",
-        "nct_id": "NCT05291091",
-        "phase": "Pivotal (Phase 3 equivalent)",
-        "status": "Fully enrolled (Feb 2025); top-line data expected Q4 2026",
-        "design": "Global pivotal placebo-controlled cohort, 18 months, active in 12 countries; expansion of CANYON",
-        "enrollment": "N=175 adults with Becker",
-        "arms": null,
-        "primary_endpoint": { "name": "Change from baseline in NSAA at 18 months", "definition": "North Star Ambulatory Assessment — validated functional measure of motor ability in muscular dystrophy", "result": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-        "secondary_endpoints": [ { "name": "Other functional assessments, biomarkers of muscle damage, MRI, patient-reported outcomes, safety", "result": null, "source": {"id": "ewtx_canyon_2024", "slide": null, "verified": false} } ],
-        "biomarkers": null,
-        "safety": null,
-        "notes": "FDA confirmed GRAND CANYON as potential single adequate well-controlled study to support registration (Type C meeting). Highly powered to show statistically significant NSAA difference vs placebo.",
-        "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false}
-      },
-      {
-        "name": "MESA (Open-Label Extension)",
+        "name": "GRAND CANYON Pivotal Trial",
         "nct_id": null,
-        "phase": "OLE",
-        "status": "Ongoing; 99% of eligible participants enrolled (n=85 as of March 2025)",
-        "design": "Open-label extension providing continued access to sevasemten for Becker participants from ARCH, CANYON, GRAND CANYON, or DUNE",
-        "enrollment": "N=85 (99% of eligible)",
-        "arms": null,
-        "primary_endpoint": { "name": "Long-term safety and efficacy (NSAA)", "definition": null, "result": "CANYON participants showed 0.8 point NSAA improvement from baseline over 18 months; placebo crossover participants showed 0.2 point improvement since starting sevasemten; ARCH participants stable after 3 years of treatment; NSAA scores diverging from natural history decline", "source": {"id": "ewtx_mesa_2025", "slide": null, "verified": false} },
-        "secondary_endpoints": null,
-        "biomarkers": null,
-        "safety": { "summary": "Favorable safety profile after up to 3 years of treatment", "key_aes": null, "discontinuations": null, "saes": null, "deaths": null },
-        "source": {"id": "ewtx_mesa_2025", "slide": null, "verified": false}
+        "phase": "Pivotal",
+        "status": "Ongoing",
+        "design": "18-month placebo controlled global registrational study",
+        "enrollment": "N=175 Adults",
+        "arms": [
+          {
+            "name": "Sevasemten",
+            "dose": "10mg PO daily",
+            "n": null
+          },
+          {
+            "name": "Placebo",
+            "dose": "Placebo",
+            "n": null
+          }
+        ],
+        "primary_endpoint": {
+          "name": "NSAA at 18 months",
+          "definition": "North Star Ambulatory Assessment score at 18 months",
+          "result": "Powered at >98% for observing a significant difference assuming a mean NSAA difference of 1.7 points over placebo at 18 months",
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": 14,
+            "verified": false
+          }
+        },
+        "secondary_endpoints": [
+          {
+            "name": "Timed function tests",
+            "result": "Pending",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 14,
+              "verified": false
+            }
+          },
+          {
+            "name": "Patient reported outcomes",
+            "result": "Pending",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 14,
+              "verified": false
+            }
+          }
+        ],
+        "biomarkers": [
+          {
+            "name": "Biomarkers of muscle damage",
+            "result": "Pending",
+            "clinical_significance": "Will assess muscle protection effects",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 14,
+              "verified": false
+            }
+          }
+        ],
+        "safety": {
+          "summary": "Ongoing assessment",
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
+        },
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 14,
+          "verified": false
+        }
       },
       {
-        "name": "LYNX",
+        "name": "MESA Open Label Extension",
         "nct_id": null,
-        "phase": "Phase 2",
-        "status": "Top-line results reported June 2025",
-        "design": "Multi-center, placebo-controlled, dose-finding; 3-month placebo-controlled dose ranging followed by OLE",
-        "enrollment": "4-9 year-old participants with Duchenne",
-        "arms": null,
-        "primary_endpoint": { "name": "Safety, biomarkers of muscle damage, function", "definition": null, "result": "Encouraging observations across functional measures including SV95C, NSAA, and 4 stair-climb; 10mg dose identified for Phase 3; well-tolerated at target doses", "source": {"id": "ewtx_lynx_2025", "slide": null, "verified": false} },
-        "secondary_endpoints": null,
-        "biomarkers": null,
-        "safety": { "summary": "Well-tolerated at target doses", "key_aes": null, "discontinuations": null, "saes": null, "deaths": null },
-        "source": {"id": "ewtx_lynx_2025", "slide": null, "verified": false}
-      },
-      {
-        "name": "FOX",
-        "nct_id": null,
-        "phase": "Phase 2",
-        "status": "Initial results reported June 2025",
-        "design": "Multi-center, placebo-controlled; 6-14 year-old Duchenne participants previously treated with gene therapy",
-        "enrollment": "Participants avg >10 years old, ~4 years post gene therapy",
-        "arms": null,
-        "primary_endpoint": { "name": "Safety, biomarkers, function in post-gene therapy Duchenne", "definition": null, "result": "Sevasemten 10mg has potential to reduce rate of functional decline in post-gene therapy Duchenne patients", "source": {"id": "ewtx_fox_2025", "slide": null, "verified": false} },
-        "secondary_endpoints": null,
-        "biomarkers": null,
-        "safety": null,
-        "source": {"id": "ewtx_fox_2025", "slide": null, "verified": false}
+        "phase": "Extension",
+        "status": "Ongoing",
+        "design": "Open-label extension study in adults/adolescents with Becker",
+        "enrollment": "99% of eligible Becker trial participants enrolled",
+        "arms": [
+          {
+            "name": "Sevasemten",
+            "dose": null,
+            "n": null
+          }
+        ],
+        "primary_endpoint": {
+          "name": "Long-term safety and efficacy",
+          "definition": "Long-term assessment",
+          "result": "Sustained stability over 3 years vs predicted -4.4 point decline",
+          "source": {
+            "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+            "slide": 11,
+            "verified": false
+          }
+        },
+        "secondary_endpoints": [
+          {
+            "name": "NSAA score maintenance",
+            "result": "NSAA score at 3 years: +0.2 vs predicted decrease of -4.4 points",
+            "source": {
+              "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+              "slide": 11,
+              "verified": false
+            }
+          }
+        ],
+        "biomarkers": [],
+        "safety": {
+          "summary": "Well tolerated long-term with high retention rate",
+          "key_aes": null,
+          "discontinuations": null,
+          "saes": null,
+          "deaths": null
+        },
+        "source": {
+          "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+          "slide": 11,
+          "verified": false
+        }
       }
     ]
   },
   "differentiation_claims": [
-    { "claim": "First-in-class fast skeletal myosin inhibitor", "evidence_level": "management_claim", "caveat": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-    { "claim": "Only drug in pivotal development for Becker muscular dystrophy — zero FDA-approved therapies exist", "evidence_level": "management_claim", "caveat": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-    { "claim": "Sustained NSAA stabilization after 3 years in MESA OLE, diverging from natural history decline", "evidence_level": "cross_trial", "caveat": "Open-label data; comparison to natural history studies, not concurrent placebo; small N (85 participants)", "source": {"id": "ewtx_mesa_2025", "slide": null, "verified": false} },
-    { "claim": "Oral administration — convenient dosing for chronic disease", "evidence_level": "management_claim", "caveat": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} }
+    {
+      "claim": "First-in-class fast skeletal myosin inhibitor",
+      "evidence_level": "management_claim",
+      "caveat": null,
+      "source": {
+        "id": "ewtx_jpm_2026",
+        "slide": null,
+        "verified": false
+      }
+    },
+    {
+      "claim": "Only drug in pivotal development for Becker muscular dystrophy \u2014 zero FDA-approved therapies exist",
+      "evidence_level": "management_claim",
+      "caveat": null,
+      "source": {
+        "id": "ewtx_jpm_2026",
+        "slide": null,
+        "verified": false
+      }
+    },
+    {
+      "claim": "Sustained NSAA stabilization after 3 years in MESA OLE, diverging from natural history decline",
+      "evidence_level": "cross_trial",
+      "caveat": "Open-label data; comparison to natural history studies, not concurrent placebo; small N (85 participants)",
+      "source": {
+        "id": "ewtx_mesa_2025",
+        "slide": null,
+        "verified": false
+      }
+    },
+    {
+      "claim": "Oral administration \u2014 convenient dosing for chronic disease",
+      "evidence_level": "management_claim",
+      "caveat": null,
+      "source": {
+        "id": "ewtx_jpm_2026",
+        "slide": null,
+        "verified": false
+      }
+    }
   ],
-  "competitive_landscape": { "competitors": null, "_note": "No FDA-approved therapies for Becker muscular dystrophy; no named competitors in Becker space in reviewed sources" },
+  "competitive_landscape": {
+    "competitors": [],
+    "_note": "No FDA approved therapies currently exist for Becker muscular dystrophy, representing a first-in-disease opportunity"
+  },
   "ip_landscape": {
-    "composition_of_matter": { "patent_expiry": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-    "method_of_use": { "patent_expiry": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
-    "regulatory_exclusivity": { "type": "Orphan Drug (FDA + EMA for both Becker and Duchenne); Rare Pediatric Disease (Duchenne); Fast Track (Becker + Duchenne)", "expiry": null },
+    "composition_of_matter": {
+      "patent_expiry": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "method_of_use": {
+      "patent_expiry": null,
+      "source": {
+        "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+        "slide": null,
+        "verified": false
+      }
+    },
+    "regulatory_exclusivity": {
+      "type": "Orphan Drug (FDA + EMA for both Becker and Duchenne); Rare Pediatric Disease (Duchenne); Fast Track (Becker + Duchenne)",
+      "expiry": null
+    },
     "freedom_to_operate": null
   },
-  "market_opportunity": { "tam": null, "patient_population": null, "unmet_need": "Zero FDA-approved therapies for Becker; progressive loss of mobility; degenerative neuromuscular disease", "pricing_benchmark": null, "peak_sales_estimate": null, "source": {"id": "ewtx_jpm_2026", "slide": null, "verified": false} },
+  "market_opportunity": {
+    "tam": "~$5 Billion total potential Becker market",
+    "patient_population": "~6,000 Becker patients in the US; >12,000 in major markets",
+    "unmet_need": "Zero FDA approved therapies for a devastating, genetic, life-shortening, debilitating and degenerative neuromuscular disease",
+    "pricing_benchmark": null,
+    "peak_sales_estimate": null,
+    "source": {
+      "id": "ewtx_edgewise_therapeutics_jp_morgan_presentation_2026_vfinal_pdf",
+      "slide": 16,
+      "verified": false
+    }
+  },
   "catalysts": [
-    { "event": "GRAND CANYON pivotal top-line data in Becker", "timing": "Q4 2026", "importance": "critical", "what_to_watch": "Statistically significant NSAA difference vs placebo at 18 months", "bull_scenario": "First-ever approved therapy in Becker; NDA submission H1 2027; potential commercial launch 2027; Orphan Drug exclusivity", "bear_scenario": "Failure to show significant NSAA difference would likely end the Becker program; highly binary event" },
-    { "event": "Duchenne Phase 3 design finalization and FDA meeting", "timing": "H2 2026", "importance": "high", "what_to_watch": "Trial design with 10mg dose; regulatory pathway clarity", "bull_scenario": "Clear Phase 3 path would expand TAM significantly beyond Becker", "bear_scenario": "FDA may require lengthy or complex trial design" },
-    { "event": "NDA submission for Becker", "timing": "H1 2027", "importance": "critical", "what_to_watch": "Traditional approval pathway; Orphan Drug and Fast Track support", "bull_scenario": "Priority review potential; commercial launch in 2027", "bear_scenario": "Complete Response Letter or additional data requirements" }
+    {
+      "event": "GRAND CANYON Pivotal Trial Readout",
+      "timing": "End of year 2026",
+      "importance": "critical",
+      "what_to_watch": "NSAA score difference vs placebo at 18 months, powered at >98% for 1.7 point difference",
+      "bull_scenario": "Statistically significant and clinically meaningful improvement in NSAA score with good safety profile",
+      "bear_scenario": "Failure to meet primary endpoint or significant safety concerns"
+    },
+    {
+      "event": "NDA Submission for Becker",
+      "timing": "H1 2027",
+      "importance": "critical",
+      "what_to_watch": "Successful regulatory filing based on GRAND CANYON results",
+      "bull_scenario": "Smooth NDA submission with potential for accelerated review given unmet need",
+      "bear_scenario": "Regulatory delays or additional requirements from FDA"
+    },
+    {
+      "event": "Phase 3 Trial Planning and Initiation in Duchenne",
+      "timing": "H1 2026",
+      "importance": "high",
+      "what_to_watch": "Trial design and enrollment initiation",
+      "bull_scenario": "Rapid initiation of Phase 3 trial expanding addressable market",
+      "bear_scenario": "Delays in trial initiation or regulatory feedback"
+    }
   ],
   "investment_analysis": {
     "probability_of_success": null,
-    "key_risks": ["Binary GRAND CANYON readout Q4 2026", "Becker is rare — limited addressable market", "Pre-revenue with significant cash burn", "FDA rejected accelerated approval from CANYON alone"],
+    "key_risks": [
+      "Pivotal trial failure to meet primary endpoint",
+      "Small patient population limits commercial opportunity",
+      "Competition from other muscle disease approaches",
+      "Regulatory approval challenges"
+    ],
     "bull_case": [
-      {"thesis": "First-ever therapy in Becker with zero competition and Orphan exclusivity", "evidence": "No FDA-approved therapies; FDA Type C confirmation of registration path", "confidence": "high"},
-      {"thesis": "3 years of durability data from MESA OLE", "evidence": "NSAA stabilization diverging from natural history after 3 years", "confidence": "medium"},
-      {"thesis": "Duchenne expansion represents much larger market (10mg dose selected)", "evidence": "LYNX/FOX Phase 2 data, Phase 3 design H2 2026", "confidence": "medium"}
+      {
+        "thesis": "First-ever therapy in Becker with zero competition and Orphan exclusivity",
+        "evidence": "No FDA-approved therapies; FDA Type C confirmation of registration path",
+        "confidence": "high"
+      },
+      {
+        "thesis": "3 years of durability data from MESA OLE",
+        "evidence": "NSAA stabilization diverging from natural history after 3 years",
+        "confidence": "medium"
+      },
+      {
+        "thesis": "Duchenne expansion represents much larger market (10mg dose selected)",
+        "evidence": "LYNX/FOX Phase 2 data, Phase 3 design H2 2026",
+        "confidence": "medium"
+      }
     ],
     "bear_case": [
-      {"thesis": "Highly binary Q4 2026 readout with limited fallback options", "evidence": "FDA required GRAND CANYON after deeming CANYON insufficient", "confidence": "high"},
-      {"thesis": "Rare disease limits peak commercial potential", "evidence": "Becker prevalence is small", "confidence": "medium"}
+      {
+        "thesis": "NSAA endpoint may not translate to meaningful clinical benefit",
+        "evidence": "Even 1-point NSAA decline can have detrimental effects, but regulatory acceptance uncertain",
+        "confidence": "medium"
+      },
+      {
+        "thesis": "Limited commercial opportunity due to small patient population",
+        "evidence": "Only ~6,000 Becker patients in US limits peak sales potential despite high pricing",
+        "confidence": "medium"
+      }
     ],
     "key_debates": [
-      { "question": "Will NSAA stabilization (not improvement) be enough for a clear win?", "bull_view": "In a progressive degenerative disease, stabilization IS the win; natural history shows steady decline; FDA confirmed NSAA is clinically meaningful", "bear_view": "Placebo effect and variable natural history in Becker may narrow the treatment difference", "what_resolves_it": "GRAND CANYON Q4 2026" }
+      {
+        "question": "Will NSAA functional benefit translate to regulatory approval and commercial success?",
+        "bull_view": "NSAA preservation is clinically meaningful in progressive disease with no alternatives",
+        "bear_view": "Regulatory bar may be higher for functional endpoints in rare disease",
+        "what_resolves_it": "GRAND CANYON pivotal trial results and FDA interactions"
+      },
+      {
+        "question": "Can Edgewise successfully execute first commercial launch?",
+        "bull_view": "Strong commercial preparation, high physician awareness, clear unmet need",
+        "bear_view": "Inexperienced commercial organization in specialized rare disease market",
+        "what_resolves_it": "Commercial execution following potential approval"
+      }
     ]
   },
-  "_extraction_quality": { "completeness_score": "medium", "missing_critical_fields": ["PK parameters", "Specific dosing for Becker", "Detailed safety/AE data", "Patient population size (Becker prevalence)", "Market TAM", "Peak sales estimates", "Trial arm details for CANYON/GRAND CANYON", "IP/patent expiry"], "recommended_supplementary_sources": ["Edgewise 10-K for financials and IP", "CANYON full publication for detailed efficacy/safety", "ClinicalTrials.gov NCT05291091 for GRAND CANYON design", "MDA 2025 conference presentation for MESA data"] }
+  "_extraction_quality": {
+    "completeness_score": "high",
+    "missing_critical_fields": [
+      "PK parameters",
+      "Specific dosing for Becker",
+      "Detailed safety/AE data",
+      "Patient population size (Becker prevalence)",
+      "Market TAM",
+      "Peak sales estimates",
+      "Trial arm details for CANYON/GRAND CANYON",
+      "IP/patent expiry"
+    ],
+    "recommended_supplementary_sources": [
+      "Edgewise 10-K for financials and IP",
+      "CANYON full publication for detailed efficacy/safety",
+      "ClinicalTrials.gov NCT05291091 for GRAND CANYON design",
+      "MDA 2025 conference presentation for MESA data"
+    ]
+  }
 }
