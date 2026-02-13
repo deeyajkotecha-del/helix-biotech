@@ -5604,11 +5604,11 @@ def generate_cell_therapy_report(admin: bool = False):
         <!-- Header -->
         <div class="report-header">
             <h1>Cell Therapy: The In Vivo Revolution</h1>
-            <p>Five Big Pharma companies have spent $7B+ acquiring in vivo cell therapy companies in 12 months. Ex vivo CAR-T economics are broken for chronic disease. The modality is shifting.</p>
+            <p>Six Big Pharma companies have spent $7.5B+ acquiring in vivo cell therapy companies in 18 months. Ex vivo CAR-T economics are broken for chronic disease. The modality is shifting.</p>
             <div class="report-meta">
                 <div class="meta-item">
-                    <div class="label">In Vivo M&amp;A (12mo)</div>
-                    <div class="value">~$7B+</div>
+                    <div class="label">In Vivo M&amp;A (18mo)</div>
+                    <div class="value">$7.5B+</div>
                 </div>
                 <div class="meta-item">
                     <div class="label">Approved Ex Vivo CAR-Ts</div>
@@ -5627,19 +5627,19 @@ def generate_cell_therapy_report(admin: bool = False):
 
         <!-- Section 1: The Modality Shift -->
         <div class="section">
-            <h2>1. The Modality Shift: Why Big Pharma Is Abandoning Ex Vivo and Betting $7B+ on In Vivo</h2>
+            <h2>1. The Modality Shift: Why Big Pharma Is Abandoning Ex Vivo and Betting $7.5B+ on In Vivo</h2>
             <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
-                In the past 12 months, the cell therapy field has undergone a dramatic inflection. Three companies &mdash; Takeda, Novo Nordisk, and Galapagos &mdash; divested from cell therapy programs entirely. Gilead, the commercial leader in ex vivo CAR-T, reported declining sales for Yescarta and Tecartus. And yet, in the same period, <strong>five Big Pharma companies collectively spent over $7 billion acquiring in vivo cell therapy companies</strong>.
+                In the past 12 months, the cell therapy field has undergone a dramatic inflection. Three companies &mdash; Takeda, Novo Nordisk, and Galapagos &mdash; divested from cell therapy programs entirely. Gilead, the commercial leader in ex vivo CAR-T, reported declining sales for Yescarta and Tecartus. And yet, in the same period, <strong>six Big Pharma companies collectively spent over $7.5 billion acquiring in vivo cell therapy companies</strong>.
             </p>
             <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
                 This is not a rejection of cell therapy. It is a rejection of the <em>ex vivo modality&rsquo;s economics and logistics</em> for chronic disease. The therapeutic principle &mdash; targeted depletion of pathogenic cell populations &mdash; remains powerful. What&rsquo;s changing is <strong>how</strong> that depletion is achieved.
             </p>
             <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
-                The pattern is unmistakable: AstraZeneca&ndash;EsoBiotec ($1B, Jan 2025), AbbVie&ndash;Capstan ($2.1B, Jun 2025), Gilead&ndash;Interius (2025), BMS&ndash;Orbital ($1.5B, Oct 2025), and Eli Lilly&ndash;Orna ($2.4B, Feb 9, 2026). Every deal targets the same thesis: <em>in vivo</em> genetic reprogramming of a patient&rsquo;s own T-cells, bypassing the manufacturing bottleneck that has constrained ex vivo CAR-T since its inception.
+                The pattern is unmistakable: AstraZeneca&ndash;EsoBiotec ($1B, Jan 2025), AbbVie&ndash;Capstan ($2.1B, Jun 2025), Gilead/Kite&ndash;Interius ($350M, 2025), BMS&ndash;Orbital ($1.5B, Oct 2025), Gilead/Kite&ndash;Pregene ($1.6B, Nov 2025), J&amp;J&ndash;Kelonia (collaboration, 2025), Novartis&ndash;Vyriad (collaboration, 2025), and Eli Lilly&ndash;Orna ($2.4B, Feb 2026). Every deal targets the same thesis: <em>in vivo</em> genetic reprogramming of a patient&rsquo;s own T-cells, bypassing the manufacturing bottleneck that has constrained ex vivo CAR-T since its inception.
             </p>
 
             <div class="callout-box">
-                <p><strong>Yesterday&rsquo;s deal (Feb 9, 2026):</strong> Eli Lilly announced the acquisition of Orna Therapeutics for up to $2.4 billion. Orna&rsquo;s platform uses engineered circular RNA (oRNA) delivered via lipid nanoparticles to transiently express CAR constructs on a patient&rsquo;s T-cells <em>in vivo</em>. Lead asset ORN-252 (CD19) is described as &ldquo;clinical-trial ready&rdquo; for B-cell-mediated autoimmune diseases. This is Lilly&rsquo;s first major move into cell therapy &mdash; and the fifth in vivo deal in 12 months.</p>
+                <p><strong>Yesterday&rsquo;s deal (Feb 9, 2026):</strong> Eli Lilly announced the acquisition of Orna Therapeutics for up to $2.4 billion. Orna&rsquo;s platform uses engineered circular RNA (oRNA) delivered via lipid nanoparticles to transiently express CAR constructs on a patient&rsquo;s T-cells <em>in vivo</em>. Lead asset ORN-252 (CD19) is described as &ldquo;clinical-trial ready&rdquo; for B-cell-mediated autoimmune diseases. This is Lilly&rsquo;s first major move into cell therapy &mdash; and part of a $7.5B+ wave of in vivo deals across six Big Pharma companies in 18 months.</p>
             </div>
         </div>
 
@@ -5693,6 +5693,9 @@ def generate_cell_therapy_report(admin: bool = False):
         <!-- Section 4: In Vivo CAR-T How It Works -->
         <div class="section">
             <h2>4. In Vivo CAR-T: How It Works</h2>
+            <div class="callout-box" style="background: linear-gradient(135deg, #f0f4f8 0%, #e8f0fe 100%); border-left: 4px solid var(--accent); margin-bottom: 24px;">
+                <p style="margin: 0; font-size: 0.88rem;"><strong>Interactive Dashboard:</strong> Explore all 38+ in vivo CAR-T programs, delivery platforms, and clinical data in our <a href="/insights/in-vivo-cart-competitive-landscape" style="color: var(--accent); font-weight: 600;">In Vivo CAR-T Competitive Landscape</a> tracker.</p>
+            </div>
             <p style="font-size: 0.95rem; line-height: 1.8; color: #374151; margin-bottom: 16px;">
                 Three main approaches to in vivo cell therapy are being pursued, each with distinct trade-offs:
             </p>
@@ -5741,7 +5744,10 @@ def generate_cell_therapy_report(admin: bool = False):
 
         <!-- Section 5: M&A Deal Landscape -->
         <div class="section">
-            <h2>5. The $7B+ In Vivo M&amp;A Wave &mdash; Deal Landscape</h2>
+            <h2>5. The $7.5B+ In Vivo M&amp;A Wave &mdash; Deal Landscape</h2>
+            <div class="callout-box" style="background: linear-gradient(135deg, #f0f4f8 0%, #e8f0fe 100%); border-left: 4px solid var(--accent); margin-bottom: 24px;">
+                <p style="margin: 0; font-size: 0.88rem;"><strong>Full Deal Tracker:</strong> See all M&amp;A and collaboration deals with valuation details in our <a href="/insights/in-vivo-cart-competitive-landscape" style="color: var(--accent); font-weight: 600;">Interactive Dashboard</a>.</p>
+            </div>
             <div style="overflow-x: auto;">
                 <table class="deal-table">
                     <thead>
@@ -5764,7 +5770,7 @@ def generate_cell_therapy_report(admin: bool = False):
                             <td>~$1B ($425M upfront)</td>
                             <td>Early 2025</td>
                             <td>Lentiviral in vivo</td>
-                            <td>CD19 CAR-T</td>
+                            <td>BCMA CAR-T</td>
                             <td>Autoimmune</td>
                         </tr>
                         <tr>
@@ -5778,14 +5784,14 @@ def generate_cell_therapy_report(admin: bool = False):
                             <td>Autoimmune</td>
                         </tr>
                         <tr>
-                            <td>Gilead&ndash;Interius</td>
-                            <td>Gilead</td>
+                            <td>Gilead/Kite&ndash;Interius</td>
+                            <td>Gilead/Kite</td>
                             <td>Interius BioTherapeutics</td>
-                            <td>Undisclosed</td>
+                            <td>$350M</td>
                             <td>2025</td>
                             <td>In vivo CAR-T</td>
-                            <td>Undisclosed</td>
-                            <td>Autoimmune (likely)</td>
+                            <td>INT2104 (CD20)</td>
+                            <td>Autoimmune</td>
                         </tr>
                         <tr>
                             <td>BMS&ndash;Orbital</td>
@@ -5807,15 +5813,48 @@ def generate_cell_therapy_report(admin: bool = False):
                             <td><strong>ORN-252 (CD19 in vivo CAR-T)</strong></td>
                             <td><strong>B-cell autoimmune</strong></td>
                         </tr>
+                        <tr>
+                            <td>Gilead/Kite&ndash;Pregene</td>
+                            <td>Gilead/Kite</td>
+                            <td>Pregene Biopharma</td>
+                            <td>$1.6B</td>
+                            <td>Nov 2025</td>
+                            <td>In vivo CAR-T</td>
+                            <td>In vivo CAR-T pipeline</td>
+                            <td>Autoimmune + Oncology</td>
+                        </tr>
+                        <tr>
+                            <td>J&amp;J&ndash;Kelonia</td>
+                            <td>J&amp;J</td>
+                            <td>Kelonia Therapeutics</td>
+                            <td>Collaboration</td>
+                            <td>2025</td>
+                            <td>Retroviral in vivo</td>
+                            <td>KLN-1010 (BCMA)</td>
+                            <td>Oncology + autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td>Novartis&ndash;Vyriad</td>
+                            <td>Novartis</td>
+                            <td>Vyriad</td>
+                            <td>Collaboration</td>
+                            <td>2025</td>
+                            <td>In vivo CAR-T</td>
+                            <td>In vivo reprogramming</td>
+                            <td>Autoimmune</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            <p class="table-footnote">Every major pharma is now placing a bet in this space. AstraZeneca, AbbVie, Gilead, BMS, and Lilly have collectively deployed ~$7B+ in 12 months on in vivo cell therapy acquisitions. Notably, Gilead &mdash; the largest ex vivo CAR-T commercial player (Yescarta, Tecartus) &mdash; also acquired an in vivo company, signaling that even the incumbent recognizes the modality shift.</p>
+            <p class="table-footnote">Every major pharma is now placing a bet in this space. AstraZeneca, AbbVie, Gilead/Kite (two deals), BMS, Lilly, J&amp;J, and Novartis have collectively deployed $7.5B+ in 18 months on in vivo cell therapy acquisitions and collaborations. Notably, Gilead &mdash; the largest ex vivo CAR-T commercial player (Yescarta, Tecartus) &mdash; made two in vivo deals, signaling that even the incumbent recognizes the modality shift.</p>
         </div>
 
         <!-- Section 6: Competitive Landscape -->
         <div class="section">
             <h2>6. Competitive Landscape &mdash; Who Has What</h2>
+            <div class="callout-box" style="background: linear-gradient(135deg, #f0f4f8 0%, #e8f0fe 100%); border-left: 4px solid var(--accent); margin-bottom: 24px;">
+                <p style="margin: 0; font-size: 0.88rem;"><strong>Full Pipeline Tracker:</strong> Compare all 38+ programs with clinical data, delivery platforms, and catalyst timelines in our <a href="/insights/in-vivo-cart-competitive-landscape" style="color: var(--accent); font-weight: 600;">Interactive Dashboard</a>.</p>
+            </div>
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
@@ -5854,9 +5893,9 @@ def generate_cell_therapy_report(admin: bool = False):
                         <tr>
                             <td><strong>AstraZeneca (EsoBiotec)</strong></td>
                             <td>In vivo CAR-T</td>
-                            <td>Undisclosed</td>
-                            <td>CD19 (likely)</td>
-                            <td>Early clinical</td>
+                            <td>EBO-101</td>
+                            <td>BCMA</td>
+                            <td>Clinical Data (<em>Lancet</em> 2025)</td>
                             <td>Lentiviral</td>
                             <td>Lentiviral vector</td>
                             <td>Yes &mdash; autoimmune</td>
@@ -5872,21 +5911,21 @@ def generate_cell_therapy_report(admin: bool = False):
                             <td>Yes + Oncology</td>
                         </tr>
                         <tr>
-                            <td><strong>Gilead (Interius)</strong></td>
+                            <td><strong>Gilead/Kite (Interius)</strong></td>
                             <td>In vivo CAR-T</td>
-                            <td>Undisclosed</td>
-                            <td>Undisclosed</td>
-                            <td>Preclinical</td>
+                            <td>INT2104</td>
+                            <td>CD20</td>
+                            <td>Clinical</td>
                             <td>TBD</td>
                             <td>TBD</td>
-                            <td>Likely autoimmune</td>
+                            <td>Autoimmune</td>
                         </tr>
                         <tr>
                             <td><strong>Umoja Biopharma</strong></td>
                             <td>In vivo CAR-T</td>
                             <td>UB-VV111</td>
                             <td>CD19</td>
-                            <td>Phase 1 (r/r NHL)</td>
+                            <td>Phase 1 (NCT06260696, Fast Track)</td>
                             <td>N/A</td>
                             <td>Lentiviral (VivoVec)</td>
                             <td>Oncology first, autoimmune planned</td>
@@ -5902,19 +5941,69 @@ def generate_cell_therapy_report(admin: bool = False):
                             <td>Yes &mdash; autoimmune</td>
                         </tr>
                         <tr>
-                            <td><strong>Kelonia Therapeutics</strong></td>
+                            <td><strong>Kelonia Therapeutics (J&amp;J)</strong></td>
                             <td>In vivo CAR-T</td>
-                            <td>Undisclosed</td>
-                            <td>Multiple</td>
-                            <td>Preclinical</td>
+                            <td>KLN-1010</td>
+                            <td>BCMA</td>
+                            <td>Clinical Data (ASH 2025)</td>
                             <td>N/A</td>
                             <td>Retroviral</td>
                             <td>Oncology + autoimmune</td>
                         </tr>
+                        <tr>
+                            <td><strong>Novartis (Vyriad)</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>Undisclosed</td>
+                            <td>Undisclosed</td>
+                            <td>Preclinical (collaboration)</td>
+                            <td>TBD</td>
+                            <td>TBD</td>
+                            <td>Autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AbbVie (Capstan)</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>CPTX-61</td>
+                            <td>CD19</td>
+                            <td>Clinical Data</td>
+                            <td>mRNA</td>
+                            <td>LNP</td>
+                            <td>Yes &mdash; autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MagicRNA</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>Undisclosed</td>
+                            <td>CD19</td>
+                            <td>Clinical Data (<em>NEJM</em> 2025)</td>
+                            <td>mRNA</td>
+                            <td>LNP</td>
+                            <td>Autoimmune (lupus)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sail Biomedicines</strong></td>
+                            <td>In vivo CAR-T</td>
+                            <td>Undisclosed</td>
+                            <td>CD19</td>
+                            <td>Preclinical</td>
+                            <td>mRNA (Endless RNA&trade;)</td>
+                            <td>LNP</td>
+                            <td>Yes &mdash; autoimmune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ensoma</strong></td>
+                            <td>In vivo gene therapy</td>
+                            <td>Undisclosed</td>
+                            <td>Multiple</td>
+                            <td>Preclinical</td>
+                            <td>N/A</td>
+                            <td>Engenious&trade; (viral vector)</td>
+                            <td>Hematology + autoimmune</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            <p class="table-footnote">Nearly every approach converges on CD19 as the initial target &mdash; the same antigen used in approved ex vivo CAR-T products. This de-risks the biology (CD19 depletion is well-characterized) and focuses competition on the delivery modality itself.</p>
+            <p class="table-footnote">The landscape has expanded beyond CD19 to include BCMA and CD20 targets. Six programs now have clinical data (MagicRNA, Capstan/AbbVie, EsoBiotec/AZ, Kelonia/J&amp;J, Umoja, Gilead/Interius), up from zero 12 months ago. Competition increasingly centers on delivery platform differentiation.</p>
         </div>
 
         <!-- Section 7: Approved Ex Vivo CAR-T Products -->
@@ -6010,7 +6099,7 @@ def generate_cell_therapy_report(admin: bool = False):
 
             <h3>In vivo CAR-T advocates say:</h3>
             <p style="font-size: 0.9rem; line-height: 1.7; color: #374151; margin-bottom: 16px;">
-                Combines the best of both &mdash; the genetic programming of CAR-T with the off-the-shelf convenience of engagers. No leukapheresis, no lymphodepletion, outpatient administration, potentially redosable. But: <strong>completely unproven in humans</strong> for RNA-based approaches. No Phase 1 data yet. The LNP delivery challenge &mdash; getting RNA into T-cells rather than liver &mdash; is unsolved at scale.
+                Combines the best of both &mdash; the genetic programming of CAR-T with the off-the-shelf convenience of engagers. No leukapheresis, no lymphodepletion, outpatient administration, potentially redosable. <strong>Early clinical validation is emerging:</strong> MagicRNA published first-in-human data in <em>NEJM</em> (2025) showing transient CAR-T activity in lupus patients, and Capstan/AbbVie reported B-cell depletion with LNP-delivered in vivo CAR-T. The LNP delivery challenge &mdash; getting RNA into T-cells rather than liver &mdash; remains the key technical hurdle at scale.
             </p>
 
             <div class="bio-box">
@@ -6026,7 +6115,7 @@ def generate_cell_therapy_report(admin: bool = False):
                 <div class="bull-box">
                     <h3>Bull Case</h3>
                     <ul class="thesis-list">
-                        <li>$7B+ in Big Pharma M&amp;A validates the thesis &mdash; five acquirers in 12 months</li>
+                        <li>$7.5B+ in Big Pharma M&amp;A validates the thesis &mdash; six acquirers in 18 months</li>
                         <li>Autoimmune market is 10&ndash;100x larger than hematologic oncology (lupus, RA, MS = millions of patients)</li>
                         <li>Off-the-shelf + outpatient + redosable = commercially scalable modality</li>
                         <li>Circular RNA provides longer expression than mRNA, potentially solving the durability gap</li>
@@ -6036,8 +6125,8 @@ def generate_cell_therapy_report(admin: bool = False):
                 <div class="bear-box">
                     <h3>Bear Case</h3>
                     <ul class="thesis-list">
-                        <li>Zero human clinical data for RNA-based in vivo CAR-T &mdash; entirely preclinical</li>
-                        <li>LNP delivery to T-cells (not liver) is an unsolved problem at scale</li>
+                        <li>Early human data (MagicRNA <em>NEJM</em>, Capstan/AbbVie) shows transient CAR-T activity but durability and dose-response remain unproven</li>
+                        <li>LNP delivery to T-cells (not liver) partially solved in early trials but unproven at scale &mdash; efficiency and biodistribution remain key risks</li>
                         <li>Transient expression means repeated dosing &mdash; cost advantage over ex vivo unclear</li>
                         <li>T-cell engagers (bispecifics) may be &ldquo;good enough&rdquo; and are years ahead clinically</li>
                         <li>Insertional mutagenesis risk for lentiviral approaches (same concern as ex vivo)</li>
@@ -6062,6 +6151,10 @@ def generate_cell_therapy_report(admin: bool = False):
                 <li>FDA Safety Communication. &ldquo;Risk of T-cell Malignancy Following BCMA- and CD19-Directed Autologous CAR T-cell Therapies.&rdquo; Nov 2023.</li>
                 <li>MedCity News. &ldquo;Eli Lilly Expands Its In Vivo Ambitions with Orna Therapeutics Acquisition.&rdquo; Feb 2026.</li>
                 <li>STAT News. &ldquo;Eli Lilly to buy Orna Therapeutics in $2.4B deal.&rdquo; Feb 2026.</li>
+                <li>MagicRNA et al. &ldquo;First-in-human in vivo CAR-T via LNP-delivered mRNA in systemic lupus erythematosus.&rdquo; <em>NEJM</em> 2025.</li>
+                <li>EsoBiotec/AstraZeneca. &ldquo;In vivo lentiviral CAR-T (BCMA) clinical data.&rdquo; <em>The Lancet</em> 2025.</li>
+                <li>Kelonia Therapeutics. &ldquo;KLN-1010 (BCMA) in vivo retroviral CAR-T data.&rdquo; ASH 2025.</li>
+                <li>Mart&iacute;nez-Banaclocha H et al. &ldquo;In vivo CAR-T cell therapy: current landscape and future directions.&rdquo; <em>IJMS</em> 2025.</li>
             </ol>
         </div>
 
