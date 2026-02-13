@@ -379,7 +379,7 @@ def generate_company_card(company, locked=False):
                 <div class="locked-blur">{inner}</div>
                 <div class="locked-overlay">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    <span>Unlock Profile</span>
+                    <span>Request Access</span>
                 </div>
             </div>
             '''
@@ -447,7 +447,7 @@ def generate_company_card(company, locked=False):
                 <div class="locked-blur">{inner}</div>
                 <div class="locked-overlay">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    <span>Unlock Profile</span>
+                    <span>Request Access</span>
                 </div>
             </div>
             '''
@@ -1140,7 +1140,7 @@ def generate_companies_page():
         .gate-modal { background: white; border-radius: 16px; padding: 40px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.15); position: relative; }
         .gate-modal h2 { font-size: 1.35rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }
         .gate-modal .gate-sub { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px; }
-        .gate-modal input[type="email"] { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; margin-bottom: 12px; }
+        .gate-modal input[type="email"] { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; margin-bottom: 12px; box-sizing: border-box; }
         .gate-modal input[type="email"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }
         .gate-modal .gate-btn { width: 100%; padding: 14px; background: var(--accent); color: white; font-weight: 700; font-size: 1rem; border: none; border-radius: 10px; cursor: pointer; transition: background 0.2s; }
         .gate-modal .gate-btn:hover { background: var(--accent-hover); }
@@ -1149,9 +1149,6 @@ def generate_companies_page():
         .gate-modal .gate-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.25rem; color: var(--text-muted); cursor: pointer; }
         .gate-modal .gate-error { color: #D4654A; font-size: 0.85rem; margin-top: 8px; display: none; }
         .gate-modal .gate-success { color: #1B2838; font-size: 0.85rem; margin-top: 8px; display: none; }
-        body.unlocked .locked-card { cursor: default; }
-        body.unlocked .locked-blur { filter: none; pointer-events: auto; user-select: auto; }
-        body.unlocked .locked-overlay { display: none; }
     """
     return f'''{_render_head("Biotech Companies | Satya Bio - 181 Companies Tracked", companies_styles, companies_extra_head)}
     {_render_nav("companies")}
@@ -1168,6 +1165,7 @@ def generate_companies_page():
             <div class="category-pills">{pills_html}</div>
         </nav>
         {sections_html}
+        <p style="text-align: center; color: #9ca3af; font-size: 0.85rem; margin-top: 40px; margin-bottom: 8px;">Interested in coverage for a specific company or therapeutic area? Let us know at <a href="mailto:contact@satyabio.com" style="color: #9ca3af; text-decoration: underline;">contact@satyabio.com</a></p>
     </main>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
@@ -1178,51 +1176,24 @@ def generate_companies_page():
     <div class="gate-backdrop" id="gate-backdrop">
         <div class="gate-modal">
             <button class="gate-close" onclick="hideGateModal()">&times;</button>
-            <h2>Get Full Access to 180+ Company Profiles</h2>
-            <p class="gate-sub">Free during beta. Enter your email for instant access.</p>
+            <h2>Request Platform Access</h2>
+            <p class="gate-sub">Get access to 180+ company profiles, pipeline analytics, and real-time catalyst tracking.</p>
             <form id="gate-form" onsubmit="submitGateEmail(event)">
                 <input type="email" id="gate-email" placeholder="you@example.com" required>
-                <button type="submit" class="gate-btn" id="gate-btn">Get Free Access</button>
+                <button type="submit" class="gate-btn" id="gate-btn">Request Access</button>
             </form>
             <p class="gate-error" id="gate-error"></p>
             <p class="gate-success" id="gate-success"></p>
-            <p class="gate-fine">No spam. Unsubscribe anytime.</p>
+            <p class="gate-fine">Currently in private beta. We'll send your login details.</p>
         </div>
     </div>
 
     <script>
-        // --- Email gate logic ---
-        function isUnlocked() {{
-            const ts = localStorage.getItem('satyabio_unlocked');
-            if (!ts) return false;
-            const expires = parseInt(ts, 10);
-            if (Date.now() > expires) {{
-                localStorage.removeItem('satyabio_unlocked');
-                localStorage.removeItem('satyabio_email');
-                return false;
-            }}
-            return true;
-        }}
-
-        function unlockPage() {{
-            document.body.classList.add('unlocked');
-            // Convert locked divs to proper links
-            document.querySelectorAll('.locked-card').forEach(card => {{
-                const ticker = card.querySelector('.card-ticker');
-                if (ticker) {{
-                    const link = document.createElement('a');
-                    link.href = '/api/clinical/companies/' + ticker.textContent.trim() + '/html';
-                    link.className = 'company-card';
-                    link.innerHTML = card.querySelector('.locked-blur').innerHTML;
-                    card.replaceWith(link);
-                }}
-            }});
-        }}
-
+        // --- Access request modal logic ---
         function showGateModal(e) {{
-            if (isUnlocked()) return;
             e.preventDefault();
             e.stopPropagation();
+            document.getElementById('gate-form').style.display = 'block';
             document.getElementById('gate-backdrop').classList.add('visible');
             document.getElementById('gate-email').focus();
         }}
@@ -1231,6 +1202,7 @@ def generate_companies_page():
             document.getElementById('gate-backdrop').classList.remove('visible');
             document.getElementById('gate-error').style.display = 'none';
             document.getElementById('gate-success').style.display = 'none';
+            document.getElementById('gate-form').style.display = 'block';
         }}
 
         async function submitGateEmail(e) {{
@@ -1253,16 +1225,9 @@ def generate_companies_page():
                 }});
                 const data = await resp.json();
                 if (resp.ok) {{
-                    // Store unlock for 30 days
-                    const thirtyDays = 30 * 24 * 60 * 60 * 1000;
-                    localStorage.setItem('satyabio_unlocked', String(Date.now() + thirtyDays));
-                    localStorage.setItem('satyabio_email', email);
-                    successEl.textContent = 'You\\'re in! Unlocking all profiles...';
+                    successEl.textContent = "Thanks! We'll send your access details to " + email + ".";
                     successEl.style.display = 'block';
-                    setTimeout(() => {{
-                        hideGateModal();
-                        unlockPage();
-                    }}, 800);
+                    document.getElementById('gate-form').style.display = 'none';
                 }} else {{
                     errorEl.textContent = data.detail || 'Something went wrong. Please try again.';
                     errorEl.style.display = 'block';
@@ -1272,7 +1237,7 @@ def generate_companies_page():
                 errorEl.style.display = 'block';
             }} finally {{
                 btn.disabled = false;
-                btn.textContent = 'Get Free Access';
+                btn.textContent = 'Request Access';
             }}
         }}
 
@@ -1280,11 +1245,6 @@ def generate_companies_page():
         document.getElementById('gate-backdrop').addEventListener('click', function(e) {{
             if (e.target === this) hideGateModal();
         }});
-
-        // Check unlock on page load
-        if (isUnlocked()) {{
-            unlockPage();
-        }}
 
         let activeCategory = 'all';
 

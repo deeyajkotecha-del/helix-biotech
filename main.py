@@ -207,6 +207,12 @@ async def serve_insights():
     """Serve insights listing page."""
     return HTMLResponse(generate_insights_page())
 
+@app.get("/insights/in-vivo-cart-competitive-landscape", response_class=HTMLResponse)
+async def cart_landscape():
+    """Serve interactive CAR-T landscape dashboard."""
+    with open(BASE_DIR / "static" / "insights" / "in-vivo-cart-competitive-landscape.html") as f:
+        return HTMLResponse(f.read())
+
 @app.get("/insights/{slug}", response_class=HTMLResponse)
 async def serve_insight_detail(slug: str):
     """Serve individual insight article page."""
@@ -252,6 +258,7 @@ from fastapi.responses import JSONResponse
 
 class SubscribeRequest(BaseModel):
     email: str
+    company: str = ""
 
 # Simple in-memory rate limiter: { ip: [timestamp, ...] }
 _subscribe_rate: dict[str, list[float]] = {}
@@ -296,11 +303,16 @@ async def subscribe(req: SubscribeRequest, request: Request):
             with open(subs_path) as f:
                 subs = json.load(f)
 
-        # Deduplicate
-        existing_emails = {s["email"] for s in subs}
-        if email not in existing_emails:
-            print(f"NEW_SUBSCRIBER: {email}")
-            subs.append({"email": email, "subscribed_at": datetime.utcnow().isoformat() + "Z"})
+        company = req.company.strip().upper() if req.company else ""
+
+        # Deduplicate by email+company pair
+        existing = {(s["email"], s.get("company", "")) for s in subs}
+        if (email, company) not in existing:
+            print(f"NEW_SUBSCRIBER: {email}" + (f" (company: {company})" if company else ""))
+            entry = {"email": email, "subscribed_at": datetime.utcnow().isoformat() + "Z"}
+            if company:
+                entry["company"] = company
+            subs.append(entry)
             with open(subs_path, "w") as f:
                 json.dump(subs, f, indent=2)
     except (IOError, OSError) as e:

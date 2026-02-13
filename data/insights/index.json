@@ -2,9 +2,27 @@
   "_metadata": {
     "version": "1.0",
     "type": "insights_index",
-    "last_updated": "2026-02-11"
+    "last_updated": "2026-02-13"
   },
   "articles": [
+    {
+      "slug": "in-vivo-cart-competitive-landscape",
+      "title": "In Vivo CAR-T Competitive Landscape",
+      "summary": "Interactive tracker of 38+ in vivo CAR-T programs across viral and non-viral delivery. $7.5B+ in M&A, clinical data from 6 programs, and catalysts through 2027.",
+      "category": "landscape",
+      "label": "Interactive",
+      "date": "2026-02-13",
+      "date_display": "February 13, 2026",
+      "author": "Satya Bio Research",
+      "reading_time": "Interactive",
+      "tags": ["Landscape", "Interactive"],
+      "key_data": [
+        {"key": "Programs Tracked", "value": "38+"},
+        {"key": "Total M&A", "value": "$7.5B+"},
+        {"key": "Clinical Data", "value": "6 programs"},
+        {"key": "Pharma Acquirers", "value": "6"}
+      ]
+    },
     {
       "slug": "fda-moderna-mrna-flu-vaccine",
       "title": "FDA Refuses to File Moderna\u2019s mRNA Influenza Vaccine (mRNA-1010)",

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In Vivo CAR-T Competitive Landscape | Satya Bio</title>
+<meta name="description" content="Interactive competitive landscape of 38+ in vivo CAR-T programs. Viral and non-viral delivery companies, $7.5B+ in M&A, clinical data tracker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #fdfcfa; }
+#root { min-height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+const S = {
+  bg: "#fdfcfa", bgAlt: "#faf5f0", card: "#ffffff",
+  cardBdr: "rgba(26,43,60,0.10)", cardHov: "rgba(224,122,95,0.06)",
+  cardShadow: "0 1px 3px rgba(26,43,60,0.06), 0 1px 2px rgba(26,43,60,0.04)",
+  cardShadowHov: "0 4px 12px rgba(26,43,60,0.08), 0 2px 4px rgba(26,43,60,0.04)",
+  navy: "#1a2b3c", coral: "#e07a5f",
+  coralDim: "rgba(224,122,95,0.10)", coralBdr: "rgba(224,122,95,0.25)", coralBg: "rgba(224,122,95,0.06)",
+  gold: "#d4a843", goldDim: "rgba(212,168,67,0.12)",
+  red: "#c44536", redDim: "rgba(196,69,54,0.08)",
+  purple: "#6d4c9e", purpleDim: "rgba(109,76,158,0.08)",
+  teal: "#2a7d72", tealDim: "rgba(42,125,114,0.08)",
+  t1: "#1a2b3c", t2: "#3d5266", t3: "#5e7a8f", t4: "#8a9baa", t5: "#b0bcc5", t6: "#d0d7dc",
+  serif: "'Fraunces', 'Georgia', serif",
+  body: "'DM Sans', 'Helvetica Neue', sans-serif",
+  mono: "'Space Mono', monospace",
+  rowBdr: "rgba(26,43,60,0.06)", rowBdrLight: "rgba(26,43,60,0.04)",
+  rowHov: "rgba(224,122,95,0.04)", rowAlt: "rgba(26,43,60,0.015)",
+};
+
+const TARG_C = { BCMA:"#c44536", CD19:"#2a7d72", CD20:"#d4a843", CD22:"#d48a3f", HER2:"#c4366f", "dual CD19/CD20":"#6d4c9e", NR:"#8a9baa", Undisclosed:"#8a9baa", Unknown:"#8a9baa" };
+const stageC = s => s?.includes("Data") ? "#2a7d72" : s === "Clinical" ? "#c4892a" : S.t4;
+const stageBg = s => s?.includes("Data") ? "rgba(42,125,114,0.10)" : s === "Clinical" ? "rgba(196,137,42,0.10)" : "rgba(26,43,60,0.05)";
+const stageBdr = s => s?.includes("Data") ? "rgba(42,125,114,0.25)" : s === "Clinical" ? "rgba(196,137,42,0.25)" : "rgba(26,43,60,0.10)";
+const VIRAL = [
+  { co:"Umoja", del:"LV", gi:"Yes", car:"CD19, CD22, CD20 and NR", cell:"CD3", costim:"Yes", immun:"No", enrich:"Yes", prom:"Yes", stage:"Clinical", asset:"UB-VV111", nct:"NCT06528301", signal:"FDA Fast Track Sep 2025. Phase 1 dose escalation in R/R LBCL + CLL. Anti-CD3 scFv on envelope + RACR system for rapamycin-mediated enrichment. First VivoVec asset in clinic.", partner:"AbbVie (option)" },
+  { co:"Interius / Kite", del:"LV", gi:"Yes", car:"CD20, CD19 and NR", cell:"CD7", costim:"No", immun:"No", enrich:"No", prom:"No", stage:"Clinical", asset:"INT2104", nct:"NCT06539338", signal:"Phase 1 ongoing post-Kite $350M acquisition (Aug 2025). CD7-targeted envelope for T-cell tropism.", partner:"Gilead/Kite ($350M)" },
+  { co:"EsoBiotec / AZ", del:"LV", gi:"Yes", car:"BCMA and NR", cell:"TCR", costim:"No", immun:"Yes (CD47\u1D34\u1D35; MHC-I\u1D37\u1D3C)", enrich:"No", prom:"Yes", stage:"Clinical Data", asset:"ESO-T01", nct:"NCT06691685", signal:"4/4 responses (2 CR, 2 PR) in R/R MM. Lancet Jul 2, 2025. TCR-targeted envelope. Hypoimmune edits (CD47 upregulation, MHC-I knockout) for immune evasion.", partner:"AstraZeneca ($1B)" },
+  { co:"Kelonia", del:"LV", gi:"Yes", car:"BCMA", cell:"CD3", costim:"No", immun:"No", enrich:"No", prom:"No", stage:"Clinical Data", asset:"KLN-1010", nct:"NCT07075185", signal:"4/4 MRD-negative in R/R MM; responses \u22655 months. No grade \u22653 CRS, no ICANS. ASH 2025 late-breaking oral (LBA-1).", partner:"J&J (Nov 2025 collab)" },
+  { co:"Sana", del:"LV", gi:"Yes", car:"CD19", cell:"CD8", costim:"No", immun:"No", enrich:"No", prom:"No", stage:"Preclinical", asset:"SG293", nct:"IND ~2027", signal:"CD8-targeted paramyxovirus fusogen. Deep B-cell depletion in NHP. Avoids liver/gonadal delivery. Nature Biotech Dec 2025. Renamed from SG299.", partner:"\u2014" },
+  { co:"Genocury", del:"LV*", gi:"Yes", car:"CD19", cell:"CD3", costim:"Yes", immun:"No", enrich:"No", prom:"No", stage:"Clinical Data", asset:"GC101", nct:"NCT06181357", signal:"Early clinical data reported; limited public disclosure. *Platform may include non-viral methods.", partner:"\u2014" },
+  { co:"Exuma", del:"LV", gi:"Yes", car:"CD19", cell:"CD3", costim:"No", immun:"No", enrich:"No", prom:"No", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"Lentiviral platform, preclinical stage.", partner:"\u2014" },
+  { co:"Alaya.Bio", del:"LV", gi:"Yes", car:"CD19", cell:"CD3", costim:"No", immun:"No", enrich:"No", prom:"No", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"VSV-G-deficient lentiviral vector enabling repeat IV dosing in mice without neutralizing antibodies.", partner:"\u2014" },
+  { co:"Immunofoco", del:"LV", gi:"Yes", car:"NR", cell:"NR", costim:"NR", immun:"NR", enrich:"NR", prom:"NR", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"Lentiviral platform; details not publicly reported.", partner:"\u2014" },
+  { co:"Vyriad", del:"LV", gi:"Yes", car:"BCMA", cell:"CD3", costim:"No", immun:"No", enrich:"No", prom:"Yes", stage:"Preclinical", asset:"VV169", nct:"FIH planned 2026", signal:"100% tumor elimination in humanized mice. $85M Series B (Dec 2025). Cell-specific promoter for T-cell-restricted expression.", partner:"Novartis (Nov 2024); Regeneron" },
+  { co:"Legend Biotech", del:"LV", gi:"Yes", car:"dual CD19/CD20", cell:"NR", costim:"NR", immun:"NR", enrich:"NR", prom:"NR", stage:"Clinical", asset:"\u2014", nct:"\u2014", signal:"CARVYKTI (cilta-cel) maker enters in vivo space with dual-target approach.", partner:"\u2014" },
+  { co:"Ensoma", del:"VLP", gi:"Yes **", car:"HER2 and NR", cell:"CD46", costim:"N/A", immun:"N/A", enrich:"Yes", prom:"Yes", stage:"Preclinical", asset:"HSC-CAR", nct:"IND H1 2025 (EN-374)", signal:"**SB100X transposase integration. Multi-lineage CAR-M/NK/T from HSC engineering. Tumor control in HER2+ models. SITC 2025 #302.", partner:"Takeda (collab)" },
+  { co:"AAVivo", del:"tAAV", gi:"No", car:"CD19", cell:"NR", costim:"N/A", immun:"N/A", enrich:"N/A", prom:"N/R", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"Truncated AAV-based in vivo CAR delivery. Non-integrating.", partner:"\u2014" },
+  { co:"Azalea", del:"EDV + AAV", gi:"Yes ***", car:"CD19, BCMA and NR", cell:"NR", costim:"N/A", immun:"N/A", enrich:"N/A", prom:"No", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"***CRISPR-Cas9 + HDR template for site-specific CAR integration. Combines enveloped delivery vehicle + AAV.", partner:"\u2014" },
+];
+
+const NONVIRAL = [
+  { co:"Capstan / AbbVie", del:"tLNP / mRNA", car:"CD19", cell:"CD8", ind:"Autoimmune (lupus, MG)", stage:"Clinical", asset:"CPTX2309", nct:"NCT06917742", signal:"First LNP-based in vivo CAR-T dosed in humans. Phase 1 healthy volunteers then autoimmune pts. T-cell-targeted LNP.", partner:"AbbVie ($2.1B)", expr:"Transient" },
+  { co:"MagicRNA", del:"tLNP / mRNA", car:"CD19", cell:"CD8", ind:"Lupus (SLE)", stage:"Clinical Data", asset:"HN2301", nct:"NCT06801119", signal:"5 pts refractory SLE: 60% CD8+ CAR+ reprogramming within 6hr, complete B-cell depletion 7\u201310d, SLEDAI \u219320pts at 3mo. NEJM Sep 17, 2025.", partner:"\u2014", expr:"Transient" },
+  { co:"Orna / Lilly", del:"LNP / circRNA", car:"CD19, BCMA", cell:"T cells", ind:"Autoimmune; Multiple Myeloma", stage:"Preclinical", asset:"ORN-252; panCAR BCMA", nct:"CTA filed Q4 2025", signal:"CD19: deep B-cell depletion in NHP, FIH early 2026. BCMA: tumor elimination in mice, plasma cell depletion in NHP (ASH 2025). circRNA extends expression vs mRNA.", partner:"Eli Lilly ($2.4B)", expr:"Extended transient" },
+  { co:"Orbital / BMS", del:"LNP / circRNA", car:"CD19", cell:"T cells", ind:"Autoimmune / Oncology", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"circRNA platform acquired by BMS for $1.5B in 2025.", partner:"BMS ($1.5B)", expr:"Extended transient" },
+  { co:"Sail Bio", del:"LNP / circRNA", car:"CD19", cell:"CD5", ind:"Autoimmune", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"CD5-targeted LNP. circRNA cargo for extended CAR expression.", partner:"\u2014", expr:"Extended transient" },
+  { co:"Aera", del:"tLNP / mRNA", car:"CD19", cell:"CD8", ind:"Autoimmune", stage:"Preclinical", asset:"AERA-109", nct:"\u2014", signal:"B-cell depletion in mouse & NHP. Novel ionizable lipids for CD8-targeted delivery. ASGCT 2025 #770.", partner:"\u2014", expr:"Transient" },
+  { co:"Stylus Medicine", del:"LNP / mRNA", car:"Undisclosed", cell:"Undisclosed", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"CRISPR + HDR for site-specific CAR insertion via LNP delivery. Combining non-viral delivery with permanent integration.", partner:"\u2014", expr:"Permanent" },
+  { co:"Immorna", del:"LNP / mRNA", car:"CD19", cell:"T cells", ind:"Autoimmune / Oncology", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA platform; multiple preclinical programs.", partner:"\u2014", expr:"Transient" },
+  { co:"Sanofi", del:"LNP / mRNA", car:"CD19", cell:"T cells", ind:"Autoimmune / Oncology", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"Internal in vivo CAR program.", partner:"Internal", expr:"Transient" },
+  { co:"Tessera", del:"LNP + integration", car:"Undisclosed", cell:"Undisclosed", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP platform enabling durable CAR integration technology.", partner:"\u2014", expr:"Permanent" },
+  { co:"Everest", del:"LNP / mRNA", car:"CD19", cell:"T cells", ind:"Autoimmune / Oncology", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA in vivo CAR approach.", partner:"\u2014", expr:"Transient" },
+  { co:"Starna", del:"LNP / mRNA", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA in vivo CAR approach.", partner:"\u2014", expr:"Transient" },
+  { co:"Grit", del:"LNP / mRNA", car:"CD19", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA platform.", partner:"\u2014", expr:"Transient" },
+  { co:"Kernal", del:"LNP / mRNA", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA in vivo CAR approach.", partner:"\u2014", expr:"Transient" },
+  { co:"Nitto Denko", del:"LNP / mRNA", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP delivery technology for in vivo CAR.", partner:"\u2014", expr:"Transient" },
+  { co:"Create", del:"LNP / mRNA", car:"CD19", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA in vivo CAR approach.", partner:"\u2014", expr:"Transient" },
+  { co:"RiboX", del:"LNP / mRNA", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA in vivo CAR approach.", partner:"\u2014", expr:"Transient" },
+  { co:"Strand", del:"LNP / circRNA", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"circRNA delivery platform.", partner:"\u2014", expr:"Extended transient" },
+  { co:"Mote", del:"LNP / mRNA", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA platform.", partner:"\u2014", expr:"Transient" },
+  { co:"NanoCell", del:"LNP / mRNA", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"LNP/mRNA platform.", partner:"\u2014", expr:"Transient" },
+  { co:"Cytiva", del:"LNP / mRNA", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"Enabling technology / CDMO for in vivo CAR.", partner:"\u2014", expr:"Transient" },
+  { co:"Velvet", del:"Polymer NP", car:"Undisclosed", cell:"T cells", ind:"Solid tumors", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"Polymer-based nanoparticle delivery of CAR mRNA.", partner:"\u2014", expr:"Transient" },
+  { co:"Aanstra", del:"Peptide NP", car:"Unknown", cell:"T cells", ind:"Undisclosed", stage:"Preclinical", asset:"\u2014", nct:"\u2014", signal:"Peptide-based nanoparticle delivery.", partner:"\u2014", expr:"Transient" },
+  { co:"Strm.bio", del:"MV", car:"CD19", cell:"T cells", ind:"B-cell malignancies", stage:"Clinical", asset:"\u2014", nct:"\u2014", signal:"Megakaryocyte-derived extracellular vesicle platform. Entered clinical stage.", partner:"\u2014", expr:"Transient" },
+];
+const DEALS = [
+  { b:"Eli Lilly", t:"Orna Therapeutics", v:"$2.4B", d:"Feb 2026", p:"LNP/circRNA", type:"Acquisition" },
+  { b:"AbbVie", t:"Capstan Therapeutics", v:"$2.1B", d:"Jun 2025", p:"LNP/mRNA", type:"Acquisition" },
+  { b:"BMS", t:"Orbital Therapeutics", v:"$1.5B", d:"2025", p:"LNP/circRNA", type:"Acquisition" },
+  { b:"Gilead/Kite", t:"Pregene Biopharma", v:"$1.6B*", d:"Oct 2025", p:"Lentiviral", type:"Acquisition" },
+  { b:"AstraZeneca", t:"EsoBiotec", v:"$1.0B", d:"Mar 2025", p:"Lentiviral", type:"Acquisition" },
+  { b:"Gilead/Kite", t:"Interius BioTherapeutics", v:"$350M", d:"Aug 2025", p:"Lentiviral", type:"Acquisition" },
+  { b:"J&J", t:"Kelonia Therapeutics", v:"Collab", d:"Nov 2025", p:"Lentiviral", type:"Partnership" },
+  { b:"Novartis", t:"Vyriad", v:"Collab", d:"Nov 2024", p:"Lentiviral", type:"Partnership" },
+  { b:"AbbVie", t:"Umoja Biopharma", v:"Option", d:"Jan 2024", p:"Lentiviral", type:"Option" },
+  { b:"Takeda", t:"Ensoma Therapeutics", v:"Collab", d:"\u2014", p:"VLP", type:"Partnership" },
+];
+
+function Fold({ open, toggle, icon, title, sub, count, children }) {
+  return (
+    <div style={{ margin: "0 36px 16px" }}>
+      <button onClick={toggle} style={{
+        width: "100%", textAlign: "left", padding: "16px 18px",
+        borderRadius: open ? "10px 10px 0 0" : 10,
+        border: `1px solid ${S.cardBdr}`, borderBottom: open ? "none" : `1px solid ${S.cardBdr}`,
+        background: "#ffffff", cursor: "pointer",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        color: S.t1, fontFamily: S.body, boxShadow: S.cardShadow, transition: "box-shadow 0.2s",
+      }}
+      onMouseEnter={e => e.currentTarget.style.boxShadow = S.cardShadowHov}
+      onMouseLeave={e => e.currentTarget.style.boxShadow = S.cardShadow}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: 14, color: S.coral }}>{icon}</span>
+          <span style={{ fontSize: 16, fontWeight: 700, fontFamily: S.serif, color: S.navy }}>{title}</span>
+          {count != null && <span style={{ fontSize: 10, padding: "2px 8px", borderRadius: 4, background: S.coralDim, color: S.coral, fontFamily: S.mono, fontWeight: 700, border: "1px solid rgba(224,122,95,0.15)" }}>{count}</span>}
+          {sub && <span style={{ fontSize: 10.5, color: S.t4 }}>{sub}</span>}
+        </div>
+        <span style={{ fontSize: 14, color: S.t4, fontFamily: S.mono, transition: "transform 0.2s", display: "inline-block", transform: open ? "rotate(180deg)" : "none" }}>{"\u25BE"}</span>
+      </button>
+      {open && <div style={{ border: `1px solid ${S.cardBdr}`, borderTop: `1px solid ${S.rowBdrLight}`, borderRadius: "0 0 10px 10px", background: "#ffffff", overflow: "hidden", boxShadow: "0 2px 8px rgba(26,43,60,0.04)" }}>{children}</div>}
+    </div>
+  );
+}
+function YN({ v }) {
+  if (!v) return <span style={{ fontSize: 10.5, color: S.t5 }}>{"\u2014"}</span>;
+  if (v === "Yes") return <span style={{ fontSize: 10.5, fontWeight: 700, color: S.teal }}>{"\u2713"}</span>;
+  if (v.startsWith("Yes")) return <span style={{ fontSize: 10.5, fontWeight: 700, color: S.teal }}>{v}</span>;
+  if (v === "No") return <span style={{ fontSize: 10.5, color: S.t5 }}>{"\u2014"}</span>;
+  return <span style={{ fontSize: 9.5, color: S.t4, fontFamily: S.mono }}>{v}</span>;
+}
+function CARTd({ v }) {
+  if (!v || v === "NR") return <td style={{ padding: "8px 8px", fontSize: 9.5, color: S.t5 }}>NR</td>;
+  const first = v.split(",")[0].split(" ")[0].trim();
+  return <td style={{ padding: "8px 8px", fontSize: 10.5, fontWeight: 600, color: TARG_C[first] || S.t3 }}>{v}</td>;
+}
+function StPill({ s }) {
+  return <span style={{ padding: "2px 8px", borderRadius: 4, fontSize: 9.5, fontFamily: S.mono, fontWeight: 600, background: stageBg(s), color: stageC(s), whiteSpace: "nowrap", border: `1px solid ${stageBdr(s)}` }}>{s}</span>;
+}
+function NCTLink({ v }) {
+  if (!v || v === "\u2014") return <span style={{ fontSize: 9.5, color: S.t5 }}>{"\u2014"}</span>;
+  if (v.startsWith("NCT")) return <a href={`https://clinicaltrials.gov/study/${v}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 9.5, color: S.coral, textDecoration: "none", fontFamily: S.mono, fontWeight: 500 }}>{v}</a>;
+  return <span style={{ fontSize: 9.5, color: S.t4, fontFamily: S.mono }}>{v}</span>;
+}
+function ConsBox({ color, title, children }) {
+  return (
+    <div style={{ padding: 16, borderRadius: 8, border: `1px solid ${S.cardBdr}`, background: "#ffffff", boxShadow: S.cardShadow }}>
+      <div style={{ fontSize: 11.5, fontWeight: 700, color, marginBottom: 10, fontFamily: S.mono, textTransform: "uppercase", letterSpacing: 0.5 }}>{title}</div>
+      <div style={{ fontSize: 11.5, lineHeight: 1.7, color: S.t2 }}>{children}</div>
+    </div>
+  );
+}
+function App() {
+  const [bgOpen, setBgOpen] = useState(false);
+  const [vOpen, setVOpen] = useState(true);
+  const [nOpen, setNOpen] = useState(true);
+  const [cOpen, setCOpen] = useState(true);
+  const [sel, setSel] = useState(null);
+  const [ld, setLd] = useState(false);
+  useEffect(() => { setTimeout(() => setLd(true), 80); }, []);
+
+  const all = [...VIRAL, ...NONVIRAL];
+  const wData = all.filter(p => p.stage?.includes("Data")).length;
+  const clin = all.filter(p => p.stage === "Clinical").length;
+  const thS = { textAlign:"left", padding:"10px 8px", fontFamily:S.mono, fontSize:9.5, letterSpacing:0.8, textTransform:"uppercase", color:S.t3, fontWeight:600, borderBottom:`2px solid ${S.rowBdr}`, background:S.bgAlt };
+  const tdS = { padding:"7px 8px", fontSize:11.5, lineHeight:1.5, color:S.t2, verticalAlign:"top", borderBottom:`1px solid ${S.rowBdrLight}` };
+
+  return (
+    <div style={{ fontFamily:S.body, background:S.bg, color:S.t1, minHeight:"100vh" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400&family=DM+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+      {/* HEADER */}
+      <header style={{ borderBottom:`1px solid ${S.rowBdr}`, padding:"28px 36px 24px", background:"#ffffff" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:10 }}>
+          <span style={{ fontFamily:S.serif, fontSize:18, fontWeight:700, color:S.navy, letterSpacing:-0.3 }}>Satya<span style={{ color:S.coral }}>Bio</span></span>
+          <span style={{ width:1, height:16, background:S.t6, margin:"0 4px" }} />
+          <span style={{ fontFamily:S.mono, fontSize:10, letterSpacing:1.5, color:S.t4, textTransform:"uppercase" }}>Insights</span>
+        </div>
+        <h1 style={{ fontFamily:S.serif, fontSize:32, fontWeight:700, margin:"0 0 6px", color:S.navy, letterSpacing:-0.5, lineHeight:1.15 }}>In Vivo CAR-T Competitive Landscape</h1>
+        <p style={{ fontSize:14, color:S.t3, margin:0, lineHeight:1.5 }}>{all.length} programs tracked · {wData} with clinical data · {clin} in active trials · $7.5B+ total M&A</p>
+      </header>
+
+      {/* STAT CARDS */}
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))", gap:14, padding:"24px 36px" }}>
+        {[{ v:"$7.5B+", l:"TOTAL M&A" },{ v:String(all.length), l:"PROGRAMS TRACKED" },{ v:String(wData), l:"CLINICAL DATA" },{ v:String(clin), l:"IN CLINIC" },{ v:"6", l:"PHARMA ACQUIRERS" }].map((c,i) => (
+          <div key={i} style={{ background:S.card, border:`1px solid ${S.cardBdr}`, borderRadius:8, padding:"16px 14px", textAlign:"center", boxShadow:S.cardShadow, opacity:ld?1:0, transform:ld?"none":"translateY(8px)", transition:`all 0.5s ease ${i*0.07}s` }}>
+            <div style={{ fontSize:26, fontWeight:700, fontFamily:S.serif, color:S.coral }}>{c.v}</div>
+            <div style={{ fontSize:9, fontFamily:S.mono, color:S.t4, letterSpacing:1.5, textTransform:"uppercase", marginTop:4 }}>{c.l}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* BACKGROUND */}
+      <Fold open={bgOpen} toggle={() => setBgOpen(!bgOpen)} icon={"\u25C9"} title="Background: Why In Vivo CAR-T?" sub="Collapsible primer">
+        <div style={{ padding:"24px", fontSize:13.5, lineHeight:1.75, color:S.t2 }}>
+          <h3 style={{ fontFamily:S.serif, color:S.navy, fontSize:17, fontWeight:700, margin:"0 0 10px" }}>The Problem with Ex Vivo CAR-T</h3>
+          <p style={{ margin:"0 0 16px" }}>Current FDA-approved CAR-T therapies (Yescarta, Kymriah, Breyanzi, CARVYKTI, Abecma, Tecartus) require a complex ex vivo manufacturing process. A patient's T cells are collected via leukapheresis, shipped to a GMP facility, genetically modified to express a chimeric antigen receptor, expanded over 2–4 weeks, quality-tested, cryopreserved, shipped back, and infused after lymphodepleting chemotherapy. The result: 3–6 week wait times, $300K–$500K+ per treatment, manufacturing failure rates of 1–5%, and access limited to ~200 specialized centers in the US. Many patients progress or die waiting.</p>
+          <h3 style={{ fontFamily:S.serif, color:S.navy, fontSize:17, fontWeight:700, margin:"0 0 10px" }}>The In Vivo Solution</h3>
+          <p style={{ margin:"0 0 16px" }}>In vivo CAR-T eliminates this bottleneck by engineering a patient's T cells directly inside the body using an off-the-shelf injectable product. No apheresis, no external manufacturing, no weeks of waiting. A single IV infusion could potentially be administered at any hospital — not just academic medical centers — dramatically broadening access and reducing cost to the point where autoimmune diseases (not just cancer) become economically viable indications.</p>
+          <h3 style={{ fontFamily:S.serif, color:S.navy, fontSize:17, fontWeight:700, margin:"0 0 10px" }}>Two Core Approaches: Viral vs. Non-Viral</h3>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16, marginBottom:16 }}>
+            <div style={{ padding:16, borderRadius:8, border:`1px solid ${S.cardBdr}`, background:"#ffffff", boxShadow:S.cardShadow }}>
+              <div style={{ fontSize:12, fontWeight:700, color:S.red, marginBottom:8, fontFamily:S.mono, letterSpacing:0.5 }}>VIRAL VECTORS</div>
+              <div style={{ fontSize:11.5, lineHeight:1.7, color:S.t2 }}>
+                <b style={{ color:S.navy }}>Delivery:</b> Lentivirus (LV), AAV, VLP, EDV<br/><b style={{ color:S.navy }}>Expression:</b> Permanent — integrates into genome<br/><b style={{ color:S.navy }}>Dosing:</b> Single infusion (one-shot cure intent)<br/><b style={{ color:S.navy }}>Manufacturing:</b> Complex viral production at GMP scale<br/><b style={{ color:S.navy }}>Key risk:</b> Insertional mutagenesis; anti-vector immunity limits redosing<br/><b style={{ color:S.navy }}>Best fit:</b> Oncology (need durable tumor killing)<br/><b style={{ color:S.navy }}>Leaders:</b> Kelonia, EsoBiotec, Umoja, Interius, Vyriad, Sana
+              </div>
+            </div>
+            <div style={{ padding:16, borderRadius:8, border:`1px solid ${S.cardBdr}`, background:"#ffffff", boxShadow:S.cardShadow }}>
+              <div style={{ fontSize:12, fontWeight:700, color:S.teal, marginBottom:8, fontFamily:S.mono, letterSpacing:0.5 }}>NON-VIRAL (LNP)</div>
+              <div style={{ fontSize:11.5, lineHeight:1.7, color:S.t2 }}>
+                <b style={{ color:S.navy }}>Delivery:</b> Lipid nanoparticles (LNP) with mRNA or circRNA<br/><b style={{ color:S.navy }}>Expression:</b> Transient — hours to weeks<br/><b style={{ color:S.navy }}>Dosing:</b> Repeatable (re-dose as needed)<br/><b style={{ color:S.navy }}>Manufacturing:</b> mRNA-vaccine-like scalability<br/><b style={{ color:S.navy }}>Key risk:</b> Off-target liver uptake; expression duration limits<br/><b style={{ color:S.navy }}>Best fit:</b> Autoimmune (controlled, repeatable B-cell reset)<br/><b style={{ color:S.navy }}>Leaders:</b> Capstan/AbbVie, MagicRNA, Orna/Lilly, Orbital/BMS
+              </div>
+            </div>
+          </div>
+          <div style={{ padding:14, borderRadius:6, background:S.bgAlt, border:`1px solid ${S.cardBdr}` }}>
+            <div style={{ fontSize:13, fontWeight:600, fontFamily:S.serif, color:S.navy, marginBottom:4 }}>Emerging Hybrid Approaches</div>
+            <div style={{ fontSize:11.5, color:S.t3 }}>Companies like Azalea (EDV+AAV with CRISPR-HDR), Stylus Medicine (LNP+CRISPR), and Tessera (LNP+CAR integration) combine LNP scalability with permanent gene insertion. Ensoma uses VLPs to engineer hematopoietic stem cells in vivo, generating multi-lineage CAR-M/NK/T cells from a single dose.</div>
+          </div>
+          <h3 style={{ fontFamily:S.serif, color:S.navy, fontSize:17, fontWeight:700, margin:"20px 0 10px" }}>Advantages & Limitations by Approach</h3>
+          <div style={{ fontSize:10, color:S.t4, fontFamily:S.mono, marginBottom:8 }}>Adapted from Martínez-Banaclocha et al. IJMS 2025, Table 3</div>
+          <table style={{ width:"100%", borderCollapse:"collapse", fontSize:11.5 }}>
+            <thead><tr><th style={{ ...thS, width:"22%" }}>Approach</th><th style={{ ...thS, width:"39%" }}>Advantages</th><th style={{ ...thS, width:"39%" }}>Limitations</th></tr></thead>
+            <tbody>
+              <tr><td style={{ ...tdS, fontWeight:700, fontFamily:S.serif, color:S.navy }} rowSpan={5}>Ex Vivo CAR-T</td><td style={tdS}>Controlled and well-characterized cell product</td><td style={tdS}>Lymphodepletion required as a part of therapy</td></tr>
+              <tr><td style={tdS}>Proven by clinical data in thousands of patients</td><td style={tdS}>Severe adverse events (CRS, ICANS, cytopenias)</td></tr>
+              <tr><td style={tdS}>No systemic vector exposure</td><td style={tdS}>High requirements for specialized centers and GMP manufacturing</td></tr>
+              <tr><td style={tdS}>Predictable regulatory path with established requirements</td><td style={tdS}>For some patients the therapy cannot be manufactured</td></tr>
+              <tr><td style={tdS}>Allogeneic products aim to reduce cost and improve scalability</td><td style={tdS}>Immunogenicity risk, especially for allogeneic products</td></tr>
+              <tr style={{ borderTop:`2px solid ${S.rowBdr}` }}><td style={{ ...tdS, fontWeight:700, fontFamily:S.serif, color:S.red }} rowSpan={5}>In Vivo: Viral Vectors</td><td style={tdS}>Gene delivery removes the need for cell manufacturing</td><td style={tdS}>Complex in-body biology: less control on CAR-T phenotypes generated</td></tr>
+              <tr><td style={tdS}>Lower per-dose cost potential at scale</td><td style={tdS}>Off-target transduction and insertional mutagenesis risks (LVs)</td></tr>
+              <tr><td style={tdS}>Rapid therapy initiation, even for acute disease</td><td style={tdS}>Anti-vector immunity may limit repeat dosing</td></tr>
+              <tr><td style={tdS}>Long-term expression with integrating vectors</td><td style={tdS}>Difficult dose control and patient-to-patient variability</td></tr>
+              <tr><td style={tdS}>Established vector technology: LV, AAV, adenoviral platforms</td><td style={tdS}></td></tr>
+              <tr style={{ borderTop:`2px solid ${S.rowBdr}` }}><td style={{ ...tdS, fontWeight:700, fontFamily:S.serif, color:S.teal }} rowSpan={5}>In Vivo: LNPs</td><td style={tdS}>Fully non-viral and transient (mRNA or circRNA): better safety profile</td><td style={tdS}>Limited CAR expression duration requires redosing or circRNA extension</td></tr>
+              <tr><td style={tdS}>Simpler manufacturing using mRNA processes</td><td style={tdS}>Fewer in-human data points; clinical validation still early</td></tr>
+              <tr><td style={tdS}>Allows repeat dosing and finer control of CAR expression</td><td style={tdS}>Targeted LNPs (CD8, CD5) partially address but haven't fully solved cell specificity in humans</td></tr>
+              <tr><td style={tdS}>Enable multiplex payloads: CAR, cytokines, switches</td><td style={tdS}>Optimal dosing regimen (frequency, duration, dose) unknown</td></tr>
+              <tr><td style={tdS}>Potentially faster regulatory path and lower immunogenicity</td><td style={tdS}>circRNA vs. mRNA payload selection has major commercial implications but limited comparative data</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </Fold>
+
+      {/* VIRAL TABLE */}
+      <Fold open={vOpen} toggle={() => setVOpen(!vOpen)} icon={"\u2B21"} title="Viral Delivery Companies" sub={`${VIRAL.length} programs · LV, VLP, AAV, EDV`} count={VIRAL.length}>
+        <div style={{ overflowX:"auto" }}>
+          <table style={{ width:"100%", borderCollapse:"collapse", fontSize:11.5, minWidth:1100 }}>
+            <thead><tr>{["Company","Delivery System","Genome Int.","CAR Target","Cell Target","Co-Stim","Immuno./Phago. Mitigation","Enrichment","Promoter","Stage","Asset","NCT ID","Partner / Deal"].map(h=><th key={h} style={{ ...thS, whiteSpace:"nowrap" }}>{h}</th>)}</tr></thead>
+            <tbody>{VIRAL.map((p,i) => { const isSel=sel?.co===p.co&&sel?.asset===p.asset; return (
+              <tr key={i} onClick={()=>setSel(isSel?null:p)} style={{ borderBottom:`1px solid ${S.rowBdrLight}`, cursor:"pointer", background:isSel?S.coralDim:i%2===1?S.rowAlt:"transparent", transition:"background 0.15s" }} onMouseEnter={e=>{if(!isSel)e.currentTarget.style.background=S.rowHov}} onMouseLeave={e=>{if(!isSel)e.currentTarget.style.background=i%2===1?S.rowAlt:"transparent"}}>
+                <td style={{ padding:"8px", fontWeight:600, whiteSpace:"nowrap", color:S.navy }}>{p.co}</td>
+                <td style={{ padding:"8px", fontFamily:S.mono, fontSize:10.5, color:S.t3 }}>{p.del}</td>
+                <td style={{ padding:"8px" }}><YN v={p.gi}/></td>
+                <CARTd v={p.car}/>
+                <td style={{ padding:"8px", fontFamily:S.mono, fontSize:10.5, color:S.t3 }}>{p.cell}</td>
+                <td style={{ padding:"8px" }}><YN v={p.costim}/></td>
+                <td style={{ padding:"8px", fontSize:10.5, color:S.t3, maxWidth:120 }}>{p.immun}</td>
+                <td style={{ padding:"8px" }}><YN v={p.enrich}/></td>
+                <td style={{ padding:"8px" }}><YN v={p.prom}/></td>
+                <td style={{ padding:"8px" }}><StPill s={p.stage}/></td>
+                <td style={{ padding:"8px", fontFamily:S.mono, fontSize:10.5, color:S.t2 }}>{p.asset}</td>
+                <td style={{ padding:"8px" }}><NCTLink v={p.nct}/></td>
+                <td style={{ padding:"8px", fontSize:10.5, color:p.partner?.includes("$")?S.coral:S.t3, fontWeight:p.partner?.includes("$")?700:400, maxWidth:120 }}>{p.partner}</td>
+              </tr>);})}</tbody>
+          </table>
+        </div>
+        <div style={{ padding:"12px 14px", fontSize:9.5, color:S.t4, fontFamily:S.mono, borderTop:`1px solid ${S.rowBdr}`, lineHeight:1.6 }}>NR = not reported · N/A = not applicable · *Platform may include non-viral · **SB100X transposase integration · ***CRISPR-Cas9 + HDR. Source: Martínez-Banaclocha et al. IJMS 2025 Table 1; company disclosures; ClinicalTrials.gov.</div>
+      </Fold>
+
+      {/* NON-VIRAL TABLE */}
+      <Fold open={nOpen} toggle={() => setNOpen(!nOpen)} icon={"\u25C7"} title="Non-Viral Delivery Companies" sub={`${NONVIRAL.length} programs · LNP, circRNA, polymer, peptide`} count={NONVIRAL.length}>
+        <div style={{ overflowX:"auto" }}>
+          <table style={{ width:"100%", borderCollapse:"collapse", fontSize:11.5, minWidth:1000 }}>
+            <thead><tr>{["Company","Delivery","CAR Target","Cell Target","Expression","Indication","Stage","Asset","NCT ID","Partner / Deal","Signal"].map(h=><th key={h} style={{ ...thS, whiteSpace:"nowrap" }}>{h}</th>)}</tr></thead>
+            <tbody>{NONVIRAL.map((p,i) => { const isSel=sel?.co===p.co&&sel?.asset===p.asset; return (
+              <tr key={i} onClick={()=>setSel(isSel?null:p)} style={{ borderBottom:`1px solid ${S.rowBdrLight}`, cursor:"pointer", background:isSel?S.coralDim:i%2===1?S.rowAlt:"transparent", transition:"background 0.15s" }} onMouseEnter={e=>{if(!isSel)e.currentTarget.style.background=S.rowHov}} onMouseLeave={e=>{if(!isSel)e.currentTarget.style.background=i%2===1?S.rowAlt:"transparent"}}>
+                <td style={{ padding:"8px", fontWeight:600, whiteSpace:"nowrap", color:S.navy }}>{p.co}</td>
+                <td style={{ padding:"8px", fontFamily:S.mono, fontSize:10.5, color:S.t3 }}>{p.del}</td>
+                <CARTd v={p.car}/>
+                <td style={{ padding:"8px", fontFamily:S.mono, fontSize:10.5, color:S.t3 }}>{p.cell}</td>
+                <td style={{ padding:"8px", fontSize:10.5, fontWeight:600, color:p.expr?.includes("Permanent")?S.red:p.expr?.includes("Extended")?S.purple:S.teal }}>{p.expr}</td>
+                <td style={{ padding:"8px", fontSize:10.5, color:S.t3, maxWidth:110 }}>{p.ind}</td>
+                <td style={{ padding:"8px" }}><StPill s={p.stage}/></td>
+                <td style={{ padding:"8px", fontFamily:S.mono, fontSize:10.5, color:S.t2 }}>{p.asset}</td>
+                <td style={{ padding:"8px" }}><NCTLink v={p.nct}/></td>
+                <td style={{ padding:"8px", fontSize:10.5, color:p.partner?.includes("$")?S.coral:S.t3, fontWeight:p.partner?.includes("$")?700:400, maxWidth:120 }}>{p.partner}</td>
+                <td style={{ padding:"8px", fontSize:9.5, color:S.t4, maxWidth:200, lineHeight:1.4 }}>{p.signal}</td>
+              </tr>);})}</tbody>
+          </table>
+        </div>
+      </Fold>
+
+      {/* KEY CONSIDERATIONS */}
+      <Fold open={cOpen} toggle={() => setCOpen(!cOpen)} icon={"\u26A0"} title="Key Considerations & Open Questions" sub="What to watch">
+        <div style={{ padding:"24px", fontSize:12.5, lineHeight:1.75, color:S.t2 }}>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16, marginBottom:16 }}>
+            <ConsBox color={S.red} title="The Durability vs. Controllability Trade-off">
+              <b style={{ color:S.navy }}>Is permanent integration actually needed for oncology?</b> Kelonia and EsoBiotec show durable responses with viral integration, but the MagicRNA NEJM data showed complete B-cell depletion from transient mRNA CAR-T in lupus. If redosable LNP approaches can sustain remissions with periodic infusions, the entire rationale for viral integration in hematologic malignancies could be challenged.<br/><br/>
+              <b style={{ color:S.navy }}>What happens when CAR-T cells persist indefinitely without a kill switch?</b> Ex vivo CAR-T already faces prolonged cytopenias and hypogammaglobulinemia from sustained B-cell aplasia. In vivo viral approaches that permanently engineer T cells face the same issue with less ability to control the dose of CAR+ cells generated. Umoja's RACR/rapamycin system is the only platform with a built-in enrichment/control mechanism — this may prove to be a critical differentiator.<br/><br/>
+              <b style={{ color:S.navy }}>circRNA's "Goldilocks" window:</b> Orna/Lilly and Orbital/BMS bet $3.9B combined that circRNA's extended expression (days to weeks vs. hours for mRNA) hits a sweet spot — long enough for therapeutic effect, short enough for controllable dosing. Whether this window is actually clinically meaningful vs. standard mRNA remains unproven in humans.
+            </ConsBox>
+            <ConsBox color={S.teal} title="Translational Gaps From Preclinical to Human">
+              <b style={{ color:S.navy }}>NHP-to-human transduction efficiency:</b> Nearly every program shows robust B-cell depletion in NHP models. But NHP immune systems differ from heavily pre-treated R/R cancer patients with lymphopenic, exhausted T-cell compartments. Will in vivo transduction work in patients who have already failed multiple lines of therapy including prior ex vivo CAR-T?<br/><br/>
+              <b style={{ color:S.navy }}>CAR-naïve vs. CAR-exposed patients:</b> Umoja's Phase 1 explicitly enrolls both cohorts. Whether in vivo CAR-T can rescue patients who relapsed after ex vivo CAR-T (antigen loss, T-cell exhaustion) is one of the highest-value clinical questions. Early data here could redefine the positioning of the entire modality.<br/><br/>
+              <b style={{ color:S.navy }}>Dose predictability:</b> Ex vivo CAR-T delivers a defined number of CAR+ cells. In vivo approaches generate an unpredictable number based on transduction efficiency, patient immune status, and viral/LNP pharmacokinetics. Whether this variability leads to inconsistent efficacy or unexpected toxicity at scale is unknown.<br/><br/>
+              <b style={{ color:S.navy }}>Pre-existing immunity to viral vectors:</b> A meaningful fraction of patients will have neutralizing antibodies to lentiviral envelope components. How this affects real-world dosing remains an open enrollment question for viral programs.
+            </ConsBox>
+          </div>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
+            <ConsBox color={S.coral} title="Competitive Dynamics & Market Questions">
+              <b style={{ color:S.navy }}>Autoimmune is the real prize:</b> The $7.5B M&A wave is overwhelmingly driven by autoimmune potential, not oncology. Lupus, myasthenia gravis, MS, and systemic sclerosis represent patient populations 50–100× larger than R/R hematologic malignancy. The first in vivo CAR-T approved for autoimmune disease could be a $10B+ product. This is why AbbVie paid $2.1B for Capstan and Lilly paid $2.4B for Orna — both are autoimmune-first platforms.<br/><br/>
+              <b style={{ color:S.navy }}>Viral vs. LNP may not compete head-to-head:</b> The field is increasingly bifurcating — viral for oncology (where permanent integration and durable killing matter) and LNP for autoimmune (where controllable, repeatable B-cell depletion is preferred and transient expression is a feature, not a bug). The interesting question is who wins the overlap zone: earlier-line hematologic malignancies and chronic autoimmune conditions that may need years of intermittent treatment.<br/><br/>
+              <b style={{ color:S.navy }}>Ex vivo is not standing still:</b> Novartis (YTE CAR-T, {"<"}2 day manufacture), Gracell/AZ (next-day manufacturing), and point-of-care platforms are compressing ex vivo turnaround from weeks to days. If vein-to-vein drops to 48 hours, the access/speed argument for in vivo weakens. Cost remains the strongest in vivo differentiator.
+            </ConsBox>
+            <ConsBox color={S.purple} title="Catalysts to Watch (2026–2027)">
+              <b style={{ color:S.navy }}>H1 2026:</b> Umoja UB-VV111 dose escalation data (first US in vivo CAR-T human data); Capstan/AbbVie CPTX2309 Phase 1 safety readout (first LNP in vivo CAR-T data in healthy volunteers); Orna/Lilly ORN-252 FIH dosing initiation<br/><br/>
+              <b style={{ color:S.navy }}>H2 2026:</b> Kelonia KLN-1010 expanded cohort + durability data in MM; Interius/Kite INT2104 first efficacy signals; Vyriad VV169 FIH initiation for BCMA; MagicRNA HN2301 longer-term follow-up (12-month durability)<br/><br/>
+              <b style={{ color:S.navy }}>2027:</b> Sana SG293 IND filing; first pivotal trial designs; potential accelerated approval discussions for programs with durable responses; head-to-head positioning vs. approved ex vivo products<br/><br/>
+              <b style={{ color:S.navy }}>M&A:</b> With $7.5B+ deployed and 6 pharma acquirers in, remaining independents with clinical data (Kelonia post-J&J, Genocury) or differentiated platforms (Vyriad with Novartis/Regeneron backing, Sail Bio, Aera) are likely next. Roche, Merck, and Pfizer have no in vivo CAR-T position — expect at least one more major deal in 2026.
+            </ConsBox>
+          </div>
+        </div>
+      </Fold>
+
+      {/* DETAIL PANEL */}
+      {sel && (
+        <div style={{ margin:"0 36px 18px", background:"#ffffff", border:`1px solid ${S.coralBdr}`, borderRadius:10, padding:22, boxShadow:S.cardShadowHov }}>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:14 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+              <div style={{ width:10, height:10, borderRadius:"50%", background:TARG_C[sel.car?.split(",")[0]?.split(" ")[0]?.trim()]||S.t4 }}/>
+              <h2 style={{ margin:0, fontSize:22, fontWeight:700, fontFamily:S.serif, color:S.navy }}>{sel.co}</h2>
+              {sel.partner?.includes("$") && <span style={{ fontSize:9, padding:"2px 8px", borderRadius:4, background:S.coralDim, color:S.coral, fontFamily:S.mono, letterSpacing:0.5, textTransform:"uppercase", fontWeight:700 }}>Acquired</span>}
+            </div>
+            <button onClick={()=>setSel(null)} style={{ background:"none", border:"none", color:S.t4, cursor:"pointer", fontSize:18, fontFamily:S.mono, padding:"4px 8px" }}>×</button>
+          </div>
+          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"3px 24px" }}>
+            {[["Asset",sel.asset],["CAR Target",sel.car],["Cell Target",sel.cell],["Delivery",sel.del],["Stage",sel.stage],["NCT ID",sel.nct],["Partner",sel.partner],...(sel.gi?[["Genome Integration",sel.gi]]:[]),...(sel.expr?[["Expression",sel.expr]]:[]),...(sel.ind?[["Indication",sel.ind]]:[])].filter(([,v])=>v&&v!=="\u2014").map(([k,v],i)=>(
+              <div key={i} style={{ display:"flex", justifyContent:"space-between", padding:"6px 0", borderBottom:`1px solid ${S.rowBdrLight}` }}>
+                <span style={{ fontSize:11, color:S.t4, fontFamily:S.mono, letterSpacing:0.5 }}>{k}</span>
+                {k==="NCT ID"&&v?.startsWith("NCT") ? <a href={`https://clinicaltrials.gov/study/${v}`} target="_blank" rel="noopener noreferrer" style={{ fontSize:12.5, color:S.coral, textDecoration:"none", fontWeight:500 }}>{v} ↗</a> : <span style={{ fontSize:12.5, color:S.t2, fontWeight:500, textAlign:"right", maxWidth:"65%" }}>{v}</span>}
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop:16, padding:"12px 14px", borderRadius:6, background:S.coralBg, border:`1px solid ${S.coralBdr}` }}>
+            <div style={{ fontSize:10, color:S.coral, fontFamily:S.mono, letterSpacing:1, textTransform:"uppercase", marginBottom:4, fontWeight:700 }}>Signal</div>
+            <div style={{ fontSize:13, lineHeight:1.6, color:S.t2 }}>{sel.signal}</div>
+          </div>
+        </div>
+      )}
+
+      {/* DEAL TRACKER */}
+      <div style={{ margin:"0 36px 18px", padding:20, background:"#ffffff", border:`1px solid ${S.cardBdr}`, borderRadius:10, boxShadow:S.cardShadow }}>
+        <div style={{ fontSize:10, color:S.t4, fontFamily:S.mono, letterSpacing:1.5, textTransform:"uppercase", marginBottom:14 }}>M&A Deal Tracker · 2024–2026</div>
+        {DEALS.map((d,i) => (
+          <div key={i} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"7px 0", borderBottom:i<9?`1px solid ${S.rowBdrLight}`:"none" }}>
+            <div style={{ fontSize:12.5, display:"flex", alignItems:"center", gap:6 }}>
+              <span style={{ fontWeight:600, color:S.navy }}>{d.b}</span>
+              <span style={{ color:S.t5 }}>→</span>
+              <span style={{ color:S.t3 }}>{d.t}</span>
+              <span style={{ fontSize:8.5, padding:"2px 6px", borderRadius:3, fontFamily:S.mono, fontWeight:700, background:d.type==="Acquisition"?S.redDim:d.type==="Partnership"?S.purpleDim:S.goldDim, color:d.type==="Acquisition"?S.red:d.type==="Partnership"?S.purple:S.gold, border:`1px solid ${d.type==="Acquisition"?"rgba(196,69,54,0.15)":d.type==="Partnership"?"rgba(109,76,158,0.15)":"rgba(212,168,67,0.2)"}` }}>{d.type}</span>
+            </div>
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              <span style={{ fontSize:9.5, color:S.t4, fontFamily:S.mono }}>{d.p}</span>
+              <span style={{ fontSize:9.5, color:S.t4, fontFamily:S.mono }}>{d.d}</span>
+              <span style={{ fontSize:14, fontWeight:700, fontFamily:S.mono, color:d.v.includes("$")?S.coral:S.t4, minWidth:55, textAlign:"right" }}>{d.v}</span>
+            </div>
+          </div>
+        ))}
+        <div style={{ fontSize:9.5, color:S.t4, marginTop:10, fontFamily:S.mono }}>* biobucks (upfront + milestones)</div>
+      </div>
+
+      {/* FOOTER */}
+      <div style={{ padding:"20px 36px", borderTop:`1px solid ${S.rowBdr}`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:8 }}>
+        <div style={{ fontSize:10, color:S.t4, fontFamily:S.mono }}>Source: Company press releases, ClinicalTrials.gov, ASH/ASGCT/SITC abstracts, SEC filings, The Lancet, NEJM. Tables adapted from Martínez-Banaclocha et al. IJMS 2025.</div>
+        <div style={{ display:"flex", alignItems:"center", gap:6 }}>
+          <span style={{ fontFamily:S.serif, fontSize:12, fontWeight:600, color:S.navy }}>Satya<span style={{ color:S.coral }}>Bio</span></span>
+          <span style={{ fontSize:10, color:S.t5, fontFamily:S.mono }}>· Updated Feb 2026</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+</body>
+</html>
