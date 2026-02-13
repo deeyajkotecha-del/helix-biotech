@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TL1A / IBD Competitive Landscape | Satya Bio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root{--bg:#fafaf8;--card:#fff;--border:#e5e0d8;--border-lt:#ede9e3;--navy:#1b2a4a;--navy-lt:#2d3f5e;--text:#1b2a4a;--sec:#4a5568;--muted:#8e99a9;--coral:#e07a5f;--coral-lt:#fdf0eb;--coral-dk:#c4613f;--grn:#2b7a5a;--grn-lt:#edf7f2;--warn:#c9963a;--warn-lt:#fef8ec;--red:#b93b3b;--red-lt:#fdf0f0;--blue:#2b5ea7;--blue-lt:#eef3fa;--purp:#6b4d9a;--purp-lt:#f4f0fa;--serif:'DM Serif Display',Georgia,serif;--sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'JetBrains Mono','SF Mono',monospace;--mw:1100px;--nh:56px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--coral);text-decoration:none}a:hover{color:var(--coral-dk)}
+.N{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);height:var(--nh);display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.NL{font-family:var(--serif);font-size:20px;text-decoration:none}.NL b{color:var(--navy)}.NL em{color:var(--coral);font-style:normal}
+.NN{display:flex;gap:28px;align-items:center}.NN a{color:var(--sec);text-decoration:none;font-size:14px;font-weight:500}.NN a:hover{color:var(--navy)}
+.NC{background:var(--coral);color:#fff;padding:8px 18px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600}.NC:hover{background:var(--coral-dk);color:#fff}
+.H{background:linear-gradient(135deg,var(--navy),var(--navy-lt));color:#fff;padding:40px 32px 0}
+.HI{max-width:var(--mw);margin:0 auto}
+.H h1{font-family:var(--serif);font-size:32px;font-weight:400;margin-bottom:8px;line-height:1.2}
+.HD{color:rgba(255,255,255,.75);font-size:15px;margin-bottom:20px;max-width:680px}
+.HS{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.HSI{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 18px}
+.HSL{font-family:var(--mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:2px}
+.HSV{font-size:20px;font-weight:700}
+.JL{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.12);margin:0 -32px;padding:0 32px;overflow-x:auto}
+.JA{color:rgba(255,255,255,.55);font-size:12px;font-weight:500;padding:12px 14px;text-decoration:none;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.JA:hover{color:#fff}.JA.a{color:#fff;border-bottom-color:var(--coral)}
+.M{max-width:var(--mw);margin:0 auto;padding:24px 32px 60px}
+.SA{scroll-margin-top:calc(var(--nh) + 20px)}
+.C{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px}
+.SH{font-family:var(--serif);font-size:26px;margin:36px 0 16px;padding-top:8px;line-height:1.2}
+.L{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.P{display:inline-block;font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.TW{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}
+table.D{width:100%;border-collapse:collapse;font-size:13px}
+table.D thead th{background:var(--navy);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;text-align:left;padding:10px;font-weight:600;white-space:nowrap;cursor:pointer}
+table.D thead th:hover{background:var(--navy-lt)}
+table.D tbody td{padding:10px;border-bottom:1px solid var(--border-lt);vertical-align:top}
+table.D tbody tr:hover{background:var(--coral-lt)}
+table.D tbody tr.exp td{background:#fafaf8;border-left:3px solid var(--coral)}
+.G2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.DR{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-lt)}
+.DB{flex:1;height:16px;background:var(--border-lt);border-radius:4px;overflow:hidden}
+.DF{height:100%;background:linear-gradient(90deg,var(--coral),rgba(224,122,95,.55));border-radius:4px}
+.DV{font-family:var(--mono);font-size:11px;color:var(--coral);font-weight:700;white-space:nowrap}
+.bar-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.bar-name{width:140px;font-size:12px;font-weight:500;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:var(--border-lt);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-family:var(--mono);font-size:10px;color:#fff;font-weight:600;min-width:32px}
+.trial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.trial-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.trial-card-header{padding:14px 16px}
+.trial-card-body{padding:16px}
+.trial-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-lt);font-size:12px}
+.trial-row:last-child{border:none}
+.trial-label{color:var(--muted);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.6px}
+.trial-val{font-weight:600;text-align:right}
+.patent-bar{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border-lt)}
+.patent-drug{width:140px;font-size:12px;font-weight:600;flex-shrink:0}
+.patent-track{flex:1;height:20px;position:relative;background:var(--border-lt);border-radius:3px}
+.patent-fill{position:absolute;height:100%;border-radius:3px;top:0}
+.BU,.BE{padding:16px 20px;border-radius:10px;border-left:4px solid}
+.BU{border-color:var(--grn);background:var(--grn-lt)}.BE{border-color:var(--red);background:var(--red-lt)}
+.BU h4,.BE h4{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.BU h4{color:var(--grn)}.BE h4{color:var(--red)}.BU li,.BE li{font-size:13px;margin-bottom:6px;line-height:1.5}
+.cat-item{display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--border-lt)}
+.cat-date{font-family:var(--mono);font-size:11px;color:var(--coral);font-weight:600;width:90px;flex-shrink:0}
+.cat-body{flex:1;font-size:13px}.cat-body strong{color:var(--navy)}
+.cat-critical{background:var(--coral-lt);border-radius:8px;padding:12px 16px;border:1px solid rgba(224,122,95,.2)}
+.FB{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.FB input,.FB select{font-family:var(--sans);font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--text);outline:none}.FB input:focus,.FB select:focus{border-color:var(--coral)}.FB input{width:200px}
+.scatter-container{position:relative;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;min-height:420px}
+.scatter-tooltip{position:absolute;background:var(--navy);color:#fff;padding:8px 12px;border-radius:6px;font-size:12px;pointer-events:none;z-index:10;display:none;max-width:260px;line-height:1.5}
+.src-list{font-size:11px;line-height:1.8;color:var(--sec)}.src-list a{font-family:var(--mono);font-size:10px}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}footer a{color:var(--muted);margin:0 8px}
+@media(max-width:768px){.G2,.trial-grid{grid-template-columns:1fr}.HS{flex-direction:column}.NN{display:none}.JL{padding:0 16px}.M{padding:16px}.N{padding:0 16px}.H{padding:24px 16px 0}.bar-name{width:100px;font-size:11px}}
+
+</style>
+</head>
+<body>
+<nav class="N"><a class="NL" href="/"><b>Satya</b><em>Bio</em></a><div class="NN"><a href="/targets">Targets</a><a href="/pipeline">Pipeline</a><a href="/research">Research</a><a class="NC" href="/contact">Get Started</a></div></nav>
+<header class="H"><div class="HI">
+<div class="L" style="color:rgba(255,255,255,.45)">TARGET DEEP DIVE</div>
+<h1>TL1A / IBD Competitive Landscape</h1>
+<p class="HD">Comprehensive analysis of 45+ programs targeting TL1A/TNFSF15 for inflammatory bowel disease. Three Phase 3 programs racing for first-to-market. $25B+ deal value. Updated February 12, 2026.</p>
+<div class="HS"><div class="HSI"><div class="HSL">Programs</div><div class="HSV">45+</div></div><div class="HSI"><div class="HSL">Phase 3</div><div class="HSV">3</div></div><div class="HSI"><div class="HSL">Deal Value</div><div class="HSV">$25B+</div></div><div class="HSI"><div class="HSL">TAM (UC+CD)</div><div class="HSV">$30B+</div></div><div class="HSI"><div class="HSL">Peak Sales</div><div class="HSV">$4-5B</div></div></div>
+<div class="JL"><a class="JA a" href="#pathway">Pathway</a><a class="JA" href="#landscape">Landscape</a><a class="JA" href="#thesis">Thesis</a><a class="JA" href="#pipeline">Pipeline</a><a class="JA" href="#efficacy">Efficacy</a><a class="JA" href="#trials">Trials</a><a class="JA" href="#patents">Patents</a><a class="JA" href="#revenue">Revenue</a><a class="JA" href="#catalysts">Catalysts</a><a class="JA" href="#sources">Sources</a></div>
+</div></header>
+<main class="M">
+<h2 class="SH SA" id="pathway">Mechanism of Action: TL1A &#x2192; DR3 Pathway</h2>
+<div class="C" style="padding:32px">
+<svg viewBox="0 0 960 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;font-family:Inter,sans-serif">
+<defs><marker id="ah" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#8e99a9"/></marker></defs>
+<text x="30" y="25" font-size="9" fill="#8e99a9" letter-spacing="1" font-family="JetBrains Mono">LIGAND</text>
+<text x="230" y="25" font-size="9" fill="#8e99a9" letter-spacing="1" font-family="JetBrains Mono">RECEPTOR</text>
+<text x="430" y="25" font-size="9" fill="#8e99a9" letter-spacing="1" font-family="JetBrains Mono">DOWNSTREAM</text>
+<text x="740" y="25" font-size="9" fill="#8e99a9" letter-spacing="1" font-family="JetBrains Mono">DISEASE EFFECTS</text>
+<rect x="20" y="50" width="150" height="55" rx="10" fill="#1b2a4a"/><text x="95" y="76" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">TL1A</text><text x="95" y="93" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)">TNFSF15</text>
+<rect x="220" y="50" width="130" height="55" rx="10" fill="#e07a5f"/><text x="285" y="76" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">DR3</text><text x="285" y="93" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)">TNFRSF25</text>
+<line x1="170" y1="77" x2="220" y2="77" stroke="#1b2a4a" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="183" y1="67" x2="200" y2="87" stroke="#e07a5f" stroke-width="3.5"/><line x1="200" y1="67" x2="183" y2="87" stroke="#e07a5f" stroke-width="3.5"/>
+<rect x="10" y="130" width="170" height="90" rx="8" fill="#fdf0eb" stroke="#e07a5f" stroke-dasharray="4,2"/>
+<text x="95" y="150" text-anchor="middle" font-size="10" font-weight="700" fill="#e07a5f">ANTI-TL1A mAbs</text>
+<text x="20" y="168" font-size="8.5" fill="#4a5568">&#x2022; Tulisokibart (Merck)</text>
+<text x="20" y="182" font-size="8.5" fill="#4a5568">&#x2022; Duvakitug (Sanofi/Teva)</text>
+<text x="20" y="196" font-size="8.5" fill="#4a5568">&#x2022; Afimkibart (Roche)</text>
+<text x="20" y="210" font-size="8.5" fill="#4a5568">&#x2022; XmAb942, SPY002...</text>
+<line x1="350" y1="77" x2="410" y2="59" stroke="#8e99a9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="410" y="42" width="170" height="34" rx="6" fill="#fff" stroke="#e5e0d8"/><text x="495" y="63" text-anchor="middle" font-size="10" font-weight="600" fill="#1b2a4a">Th1 / Th17 Activation</text>
+<line x1="350" y1="77" x2="410" y2="117" stroke="#8e99a9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="410" y="100" width="170" height="34" rx="6" fill="#fff" stroke="#e5e0d8"/><text x="495" y="121" text-anchor="middle" font-size="10" font-weight="600" fill="#1b2a4a">ILC2 Activation</text>
+<line x1="350" y1="77" x2="410" y2="175" stroke="#8e99a9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="410" y="158" width="170" height="34" rx="6" fill="#fff" stroke="#e5e0d8"/><text x="495" y="179" text-anchor="middle" font-size="10" font-weight="600" fill="#1b2a4a">Treg Suppression</text>
+<line x1="350" y1="77" x2="410" y2="235" stroke="#8e99a9" stroke-width="1.5" marker-end="url(#ah)"/>
+<rect x="410" y="218" width="170" height="34" rx="6" fill="#fff" stroke="#e5e0d8"/><text x="495" y="239" text-anchor="middle" font-size="10" font-weight="600" fill="#1b2a4a">Fibroblast Activation</text>
+<line x1="580" y1="59" x2="630" y2="59" stroke="#8e99a9" stroke-width="1" marker-end="url(#ah)"/>
+<rect x="630" y="42" width="80" height="34" rx="4" fill="#fef8ec" stroke="#c9963a"/><text x="670" y="63" text-anchor="middle" font-size="9" font-weight="600" fill="#c9963a">IFNg, IL-17</text>
+<line x1="580" y1="117" x2="630" y2="117" stroke="#8e99a9" stroke-width="1" marker-end="url(#ah)"/>
+<rect x="630" y="100" width="80" height="34" rx="4" fill="#fef8ec" stroke="#c9963a"/><text x="670" y="121" text-anchor="middle" font-size="9" font-weight="600" fill="#c9963a">IL-13, IL-5</text>
+<line x1="580" y1="175" x2="630" y2="175" stroke="#8e99a9" stroke-width="1" marker-end="url(#ah)"/>
+<rect x="630" y="158" width="80" height="34" rx="4" fill="#fef8ec" stroke="#c9963a"/><text x="670" y="179" text-anchor="middle" font-size="9" font-weight="600" fill="#c9963a">FoxP3 down</text>
+<line x1="580" y1="235" x2="630" y2="235" stroke="#8e99a9" stroke-width="1" marker-end="url(#ah)"/>
+<rect x="630" y="218" width="80" height="34" rx="4" fill="#fef8ec" stroke="#c9963a"/><text x="670" y="239" text-anchor="middle" font-size="9" font-weight="600" fill="#c9963a">TGF-B</text>
+<rect x="740" y="42" width="200" height="50" rx="8" fill="#fdf0f0" stroke="#b93b3b" stroke-width="1"/><text x="840" y="63" text-anchor="middle" font-size="11" font-weight="700" fill="#b93b3b">Intestinal Inflammation</text><text x="840" y="80" text-anchor="middle" font-size="8.5" fill="#4a5568">Mucosal damage, ulceration</text>
+<rect x="740" y="110" width="200" height="50" rx="8" fill="#fdf0f0" stroke="#b93b3b" stroke-width="1"/><text x="840" y="131" text-anchor="middle" font-size="11" font-weight="700" fill="#b93b3b">Immune Dysregulation</text><text x="840" y="148" text-anchor="middle" font-size="8.5" fill="#4a5568">Loss of tolerance, relapse</text>
+<rect x="740" y="180" width="200" height="50" rx="8" fill="#fdf0eb" stroke="#e07a5f" stroke-width="2"/><text x="840" y="201" text-anchor="middle" font-size="11" font-weight="700" fill="#e07a5f">Intestinal Fibrosis</text><text x="840" y="218" text-anchor="middle" font-size="8.5" fill="#4a5568">Strictures, surgery</text>
+<line x1="710" y1="59" x2="740" y2="67" stroke="#b93b3b" stroke-width="1.5"/>
+<line x1="710" y1="127" x2="740" y2="135" stroke="#b93b3b" stroke-width="1.5"/>
+<line x1="710" y1="193" x2="740" y2="201" stroke="#b93b3b" stroke-width="1.5"/>
+<rect x="20" y="285" width="920" height="60" rx="8" fill="#edf7f2" stroke="#2b7a5a"/>
+<text x="40" y="308" font-size="10" font-weight="700" fill="#2b7a5a" font-family="JetBrains Mono">KEY DIFFERENTIATOR</text>
+<text x="40" y="328" font-size="11" fill="#1b2a4a">TL1A uniquely drives BOTH inflammation AND fibrosis. Anti-TNF, IL-23i, JAKi only address inflammation. Anti-TL1A may alter disease progression.</text>
+</svg>
+</div>
+<h2 class="SH SA" id="landscape">Competitive Landscape Map</h2>
+<p style="font-size:13px;color:var(--sec);margin-bottom:12px">Programs by phase (x) and approach (y). Bubble size = deal value.</p>
+<div class="scatter-container"><div class="scatter-tooltip" id="sTip"></div><canvas id="sC" style="width:100%;height:400px"></canvas></div>
+<h2 class="SH SA" id="thesis">Investment Thesis</h2>
+<div class="G2">
+<div class="BU"><h4>Bull Case</h4><ul style="list-style:none"><li>&#x1f7e2; First new biologic MOA for IBD in 5+ years; validated by 3 independent Ph2 successes</li><li>&#x1f7e2; Dual anti-inflammatory + anti-fibrotic — may alter CD disease progression (no other drug does this)</li><li>&#x1f7e2; Peak sales $4-5B tulisokibart alone; class could reach $15-20B across indications by 2034</li><li>&#x1f7e2; Expanding beyond IBD: SSc-ILD, atopic dermatitis, HS, RA, axSpA — massive optionality</li><li>&#x1f7e2; Genetic biomarker CDx (Merck) enables precision medicine — higher response rates</li><li>&#x1f7e2; Favorable safety across all Ph2 programs; potential for combos with IL-23i / integrin</li><li>&#x1f7e2; Next-gen (SPY002, XmAb942) offer Q12W-Q6M dosing — best-in-class convenience</li></ul></div>
+<div class="BE"><h4>Bear Case</h4><ul style="list-style:none"><li>&#x1f534; Crowded: 45+ programs, 3 Ph3 — pricing erosion as competitors launch within ~2 years</li><li>&#x1f534; No Phase 3 data yet; ATLAS-UC Nov 2026 — high binary risk ahead</li><li>&#x1f534; Cross-trial comparisons unreliable: different populations, endpoints, placebo rates</li><li>&#x1f534; Fibrosis benefit unproven in humans — preclinical promise may not translate</li><li>&#x1f534; Existing SOC strong: Skyrizi ($12B+), Rinvoq ($8B+), Entyvio ($5B+) entrenched</li><li>&#x1f534; Biosimilar Humira flood — payer pressure on all branded IBD biologics</li><li>&#x1f534; Long-term safety unknown; DcR3 biology complex — potential off-target effects</li></ul></div>
+</div>
+<h2 class="SH SA" id="pipeline">Pipeline &amp; Deals</h2>
+<div class="FB"><input type="text" id="sI" placeholder="Search drug / company..." oninput="fPL()"><select id="pF" onchange="fPL()"><option value="">All Phases</option><option>Phase 3</option><option>Phase 2</option><option>Phase 1</option><option>Preclinical</option></select></div>
+<div class="TW"><table class="D"><thead><tr><th onclick="srt(0)">Drug</th><th onclick="srt(1)">Company</th><th onclick="srt(2)">Phase</th><th>Category</th><th>Key Efficacy</th><th>Deal Value</th><th>Status</th></tr></thead><tbody id="pB"></tbody></table></div>
+<h3 style="font-family:var(--serif);font-size:18px;margin:24px 0 12px">Deal Value Landscape</h3>
+<div class="C" id="dB"></div>
+<h2 class="SH SA" id="efficacy">Clinical Efficacy Comparison</h2>
+<p style="font-size:12px;color:var(--muted);margin-bottom:12px">Cross-trial comparison — NOT head-to-head data. Different designs, populations, placebo rates.</p>
+<div class="C"><div class="L">UC CLINICAL REMISSION AT WEEK 12-14 (INDUCTION)</div><div id="eB"></div></div>
+<div class="C" style="margin-top:16px"><div class="L">VS ESTABLISHED IBD THERAPIES</div><div class="TW"><table class="D"><thead><tr><th>Metric</th><th>Anti-TL1A</th><th>IL-23i</th><th>JAKi</th><th>Anti-TNF</th><th>Integrin</th></tr></thead><tbody>
+<tr><td>UC Remission</td><td style="color:var(--coral);font-weight:700">26-48%</td><td>20-26%</td><td>26-33%</td><td>16-19%</td><td>17-22%</td></tr>
+<tr><td>Anti-fibrotic</td><td style="color:var(--coral);font-weight:700">Yes (preclinical)</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+<tr><td>Safety</td><td style="color:var(--coral);font-weight:700">Favorable</td><td>Favorable</td><td>Risk signals</td><td>Immunosupp.</td><td>Favorable</td></tr>
+<tr><td>Dosing (maint.)</td><td style="color:var(--coral);font-weight:700">Q4W-Q12W</td><td>Q8W</td><td>Daily oral</td><td>Q2W</td><td>Q8W</td></tr>
+<tr><td>Biomarker CDx</td><td style="color:var(--coral);font-weight:700">Yes (Merck)</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
+</tbody></table></div></div>
+<h2 class="SH SA" id="trials">Phase 3 Trial Design Comparison</h2>
+<div class="trial-grid">
+<div class="trial-card"><div class="trial-card-header" style="background:var(--navy);color:#fff"><div style="font-family:var(--mono);font-size:9px;opacity:.6">MERCK</div><div style="font-size:16px;font-weight:700">ATLAS-UC</div><div style="font-size:11px;opacity:.7">NCT06052059</div></div><div class="trial-card-body">
+<div class="trial-row"><span class="trial-label">Drug</span><span class="trial-val">Tulisokibart</span></div>
+<div class="trial-row"><span class="trial-label">N</span><span class="trial-val">~720</span></div>
+<div class="trial-row"><span class="trial-label">Arms</span><span class="trial-val">4 (3 dose + PBO)</span></div>
+<div class="trial-row"><span class="trial-label">Route</span><span class="trial-val">IV induc. → SC maint</span></div>
+<div class="trial-row"><span class="trial-label">Primary EP</span><span class="trial-val">Clin. remission Wk12</span></div>
+<div class="trial-row"><span class="trial-label">CDx</span><span class="trial-val">Yes (genetic test)</span></div>
+<div class="trial-row"><span class="trial-label">Results</span><span class="trial-val" style="color:var(--coral);font-weight:700">Nov 2026</span></div>
+<div class="trial-row"><span class="trial-label">Filing</span><span class="trial-val">2027</span></div>
+</div></div>
+<div class="trial-card"><div class="trial-card-header" style="background:var(--coral);color:#fff"><div style="font-family:var(--mono);font-size:9px;opacity:.6">SANOFI / TEVA</div><div style="font-size:16px;font-weight:700">SUNSCAPE</div><div style="font-size:11px;opacity:.7">Phase 3 UC</div></div><div class="trial-card-body">
+<div class="trial-row"><span class="trial-label">Drug</span><span class="trial-val">Duvakitug</span></div>
+<div class="trial-row"><span class="trial-label">N</span><span class="trial-val">~800 est.</span></div>
+<div class="trial-row"><span class="trial-label">Route</span><span class="trial-val">SC load → SC Q4W</span></div>
+<div class="trial-row"><span class="trial-label">Primary EP</span><span class="trial-val">Clin. remission Wk14</span></div>
+<div class="trial-row"><span class="trial-label">Maint Data</span><span class="trial-val" style="color:var(--coral);font-weight:700">H1 2026 (58wk)</span></div>
+<div class="trial-row"><span class="trial-label">Results</span><span class="trial-val" style="color:var(--coral);font-weight:700">2027-2028</span></div>
+<div class="trial-row"><span class="trial-label">Filing</span><span class="trial-val">2028+</span></div>
+</div></div>
+<div class="trial-card"><div class="trial-card-header" style="background:#2b5ea7;color:#fff"><div style="font-family:var(--mono);font-size:9px;opacity:.6">ROCHE</div><div style="font-size:16px;font-weight:700">AMETRINE-1 & 2</div><div style="font-size:11px;opacity:.7">NCT06588855</div></div><div class="trial-card-body">
+<div class="trial-row"><span class="trial-label">Drug</span><span class="trial-val">Afimkibart</span></div>
+<div class="trial-row"><span class="trial-label">N</span><span class="trial-val">~500+ (2 studies)</span></div>
+<div class="trial-row"><span class="trial-label">Route</span><span class="trial-val">SC</span></div>
+<div class="trial-row"><span class="trial-label">Primary EP</span><span class="trial-val">Clin. remission (mMS)</span></div>
+<div class="trial-row"><span class="trial-label">Also</span><span class="trial-val">SIBERITE-2 (Ph3 CD)</span></div>
+<div class="trial-row"><span class="trial-label">UC Filing</span><span class="trial-val" style="color:#2b5ea7;font-weight:700">2027</span></div>
+<div class="trial-row"><span class="trial-label">CD Filing</span><span class="trial-val">2028</span></div>
+</div></div>
+</div>
+<h2 class="SH SA" id="patents">Patent &amp; IP Landscape</h2>
+<div class="C"><div class="L">ESTIMATED EXCLUSIVITY WINDOWS</div><p style="font-size:12px;color:var(--sec);margin-bottom:16px">Biologics: 12yr data exclusivity (US) from BLA approval. Directional estimates.</p><div id="pCh"></div></div>
+<div class="C"><div class="L">KEY IP NOTES</div><div class="G2">
+<div><p style="font-size:13px;margin-bottom:6px"><strong>Tulisokibart (Merck)</strong></p><p style="font-size:12px;color:var(--sec)">Prometheus CoM patents ~2019-2020. CDx biomarker patent extends commercial moat. Key: US10689439B2. Approved ~2028 → biosimilar ~2040.</p></div>
+<div><p style="font-size:13px;margin-bottom:6px"><strong>Afimkibart (Roche)</strong></p><p style="font-size:12px;color:var(--sec)">Originally Pfizer (PF-06480605), CoM ~2016-2017 (earliest in class). Pfizer retains ex-US/Japan. Approved ~2028 → biosimilar ~2040.</p></div>
+<div><p style="font-size:13px;margin-bottom:6px"><strong>Duvakitug (Sanofi/Teva)</strong></p><p style="font-size:12px;color:var(--sec)">Unique IgG1-λ2, selective DR3 binding. CoM ~2020-2021. $500M Ph3 milestone paid Q4 2025.</p></div>
+<div><p style="font-size:13px;margin-bottom:6px"><strong>Next-Gen (SPY002, XmAb942)</strong></p><p style="font-size:12px;color:var(--sec)">Half-life extension tech patents (Xencor Xtend, Spyre). ~75d t½ vs ~20d gen-1. Engineering patents create barriers post-CoM expiry.</p></div>
+</div></div>
+<h2 class="SH SA" id="revenue">Revenue Model &amp; Market Sizing</h2>
+<div class="C"><div class="L">PROBABILITY-WEIGHTED PEAK SALES</div>
+<div class="TW"><table class="D"><thead><tr><th>Drug</th><th>Sponsor</th><th>Phase</th><th>PoS</th><th>Unadj Peak</th><th>Risk-Adj Peak</th><th>Launch</th></tr></thead><tbody>
+<tr><td style="font-weight:700">Tulisokibart</td><td>Merck</td><td>Phase 3</td><td>55%</td><td>$4-5B</td><td>$2.2-2.8B</td><td>H2 2028</td></tr>
+<tr><td style="font-weight:700">Duvakitug</td><td>Sanofi/Teva</td><td>Phase 3</td><td>50%</td><td>$3-4B</td><td>$1.5-2.0B</td><td>2029</td></tr>
+<tr><td style="font-weight:700">Afimkibart</td><td>Roche</td><td>Phase 3</td><td>50%</td><td>$2.5-3.5B</td><td>$1.3-1.8B</td><td>H2 2028</td></tr>
+<tr><td style="font-weight:700">XmAb942</td><td>Xencor</td><td>Phase 2</td><td>25%</td><td>$1.5-2.5B</td><td>$0.4-0.6B</td><td>2031+</td></tr>
+<tr><td style="font-weight:700">SPY002</td><td>Spyre</td><td>Phase 2</td><td>25%</td><td>$1-2B</td><td>$0.3-0.5B</td><td>2031+</td></tr>
+<tr><td style="font-weight:700">FG-M701</td><td>AbbVie</td><td>Preclinical</td><td>10%</td><td>$2-3B</td><td>$0.2-0.3B</td><td>2032+</td></tr>
+<tr style="font-weight:700;background:var(--coral-lt)"><td>Class Total</td><td colspan="2">—</td><td>—</td><td>$15-20B</td><td>$6-8B</td><td>2028-2032</td></tr>
+</tbody></table></div></div>
+<div class="C"><div class="L">DEAL VALUE SCORECARD</div><div style="font-size:13px;line-height:2">
+<div><strong>$10.8B</strong> — Merck → Prometheus (2023)</div>
+<div><strong>$7.25B</strong> — Roche → Telavant (2023)</div>
+<div><strong>$1.71B</strong> — AbbVie → FutureGen (2024)</div>
+<div><strong>$1.5B</strong> — Sanofi → Teva (2023)</div>
+<div><strong>$500M</strong> — Sanofi Ph3 milestone (Q4 2025)</div>
+<div style="font-weight:700;color:var(--coral);margin-top:8px">Total: $25B+ cumulative deal value</div></div></div>
+<h2 class="SH SA" id="catalysts">Catalyst Timeline</h2>
+<div class="C"><div class="L">2026-2029</div>
+<div class="cat-item"><div class="cat-date">H1 2026</div><div class="cat-body"><strong>Duvakitug 58-week maintenance data</strong> — Sanofi/Teva — long-term durability signal for Ph3 dose selection.</div></div>
+<div class="cat-item"><div class="cat-date">Q2 2026</div><div class="cat-body"><strong>Spyre SKYLINE-UC Part A readouts begin</strong> — First monotherapy data for SPY001, SPY002, SPY003. Six POC readouts through year.</div></div>
+<div class="cat-item"><div class="cat-date">H1 2026</div><div class="cat-body"><strong>XmAb942 Phase 1 final results</strong> — Xencor — full HV dataset for XENITH-UC Ph2b dose selection.</div></div>
+<div class="cat-item cat-critical"><div class="cat-date" style="color:var(--coral);font-weight:900">NOV 2026</div><div class="cat-body"><strong>&#x26A1; ATLAS-UC Phase 3 Readout</strong> — Merck — FIRST PIVOTAL DATA for any anti-TL1A in UC. ~720 patients. Class-defining event.</div></div>
+<div class="cat-item"><div class="cat-date">Q4 2026</div><div class="cat-body"><strong>SPY072 SKYWAY-RD readouts</strong> — Spyre — TL1A in RA, PsA, axSpA. If positive, massive TAM expansion beyond IBD.</div></div>
+<div class="cat-item"><div class="cat-date">2027</div><div class="cat-body"><strong>AMETRINE-1/2 readouts + UC filing</strong> — Roche — Phase 3 UC data. Afimkibart regulatory filing targeted.</div></div>
+<div class="cat-item"><div class="cat-date">2027</div><div class="cat-body"><strong>Tulisokibart Ph2b readouts</strong> — Merck — HS, RA, axSpA indication expansion data.</div></div>
+<div class="cat-item"><div class="cat-date">2027-28</div><div class="cat-body"><strong>SUNSCAPE/STARSCAPE readouts</strong> — Sanofi/Teva — Phase 3 UC and CD data for duvakitug.</div></div>
+<div class="cat-item"><div class="cat-date">2028</div><div class="cat-body"><strong>First anti-TL1A approval expected</strong> — Tulisokibart or afimkibart (UC). Race for first-to-market advantage.</div></div>
+</div>
+<h2 class="SH SA" id="sources">Data Sources &amp; Citations</h2>
+<div class="C"><div class="L">KEY PRIMARY SOURCES</div><div class="src-list">
+<p><strong>Clinical Trials</strong></p>
+<p>Sands BE et al. ARTEMIS-UC. <em>NEJM</em> 2024;391:1119-29. <a href="https://pubmed.ncbi.nlm.nih.gov/39321363/" target="_blank">Link</a></p>
+<p>TUSCANY-2 (Afimkibart Ph2b). <em>Lancet GH</em> 2025. <a href="https://doi.org/10.1016/S2468-1253(25)00129-3" target="_blank">Link</a></p>
+<p>RELIEVE UCCD (Duvakitug Ph2b). Sanofi PR Feb 22, 2025. <a href="https://www.sanofi.com/en/media-room/press-releases/2025/2025-02-22-07-30-00-3030764" target="_blank">Link</a></p>
+<p><strong>ClinicalTrials.gov</strong></p>
+<p>ATLAS-UC: NCT06052059 | ARES-CD: NCT06430801 <a href="https://clinicaltrials.gov/study/NCT06052059" target="_blank">Link</a></p>
+<p>AMETRINE-1: NCT06588855 | AMETRINE-2: NCT06589986 <a href="https://clinicaltrials.gov/study/NCT06588855" target="_blank">Link</a></p>
+<p>SKYLINE-UC: NCT07012395 <a href="https://clinicaltrials.gov/study/NCT07012395" target="_blank">Link</a></p>
+<p><strong>Corporate Disclosures</strong></p>
+<p>Merck tulisokibart expansion Oct 2025. <a href="https://www.merck.com/news/merck-expands-tulisokibart-clinical-development-program-with-initiation-of-phase-2b-trials-in-three-additional-immune-mediated-inflammatory-diseases/" target="_blank">Link</a></p>
+<p>Teva Q4 2025 Earnings: Ph3 on time, maint data H1 2026, $500M milestone.</p>
+<p>Spyre: 6 POC readouts 2026. <a href="https://www.globenewswire.com/news-release/2026/01/12/3216806/0/en/" target="_blank">Link</a></p>
+<p>Xencor: XENITH-UC Ph2b, TL1AxIL23 FIH 2026. <a href="https://investors.xencor.com/news-releases/news-release-details/xencor-highlights-corporate-priorities-and-2026-pipeline" target="_blank">Link</a></p>
+<p>AbbVie/FutureGen FG-M701 Jun 2024. <a href="https://news.abbvie.com/2024-06-13-AbbVie-and-FutureGen-Announce-License-Agreement" target="_blank">Link</a></p>
+<p><strong>Patent</strong></p>
+<p>US10689439B2: Optimized anti-TL1A antibodies. <a href="https://patents.google.com/patent/US10689439B2/en" target="_blank">Link</a></p>
+</div>
+<p style="margin-top:16px;font-size:11px;color:var(--muted)">Last verified: February 12, 2026. For informational purposes only — not investment advice.</p>
+</div>
+</main>
+<footer><p>&copy; 2026 Satya Bio</p></footer>
+
+<script>
+
+var PL=[
+{d:"Tulisokibart",co:"Merck",ph:"Phase 3",cat:"Anti-TL1A mAb",eff:"ARTEMIS-UC: 26% vs 1% remission (Wk12); APOLLO-CD: 49% endo response",dv:"$10.8B (Prometheus acq.)",st:"Active",v:10800,tr:"ATLAS-UC, ARES-CD, SSc-ILD Ph2, HS/RA/axSpA Ph2b",sr:"NCT06052059, NEJM 2024;391:1119"},
+{d:"Duvakitug",co:"Sanofi/Teva",ph:"Phase 3",cat:"Anti-TL1A mAb",eff:"RELIEVE: UC 48% rem (900mg) vs 20% PBO; CD 48% endo resp vs 13%",dv:"$1.5B + $500M milestone",st:"Active",v:2000,tr:"SUNSCAPE (UC), STARSCAPE (CD)",sr:"Sanofi PR Feb 2025"},
+{d:"Afimkibart",co:"Roche",ph:"Phase 3",cat:"Anti-TL1A mAb",eff:"TUSCANY-2: 30-35% remission; TUSCANY: 38% endo improvement",dv:"$7.25B (Telavant acq.)",st:"Active",v:7250,tr:"AMETRINE-1/2 (UC), SIBERITE-2 (CD), AD Ph2, Peds UC",sr:"Lancet GH 2025"},
+{d:"XmAb942",co:"Xencor",ph:"Phase 2",cat:"Anti-TL1A mAb",eff:"Ph1 HV: +71d half-life, Q12W dosing, >99% TL1A suppression model",dv:"Internal",st:"Active",v:0,tr:"XENITH-UC Ph2b (ongoing)",sr:"Xencor Apr 2025"},
+{d:"SPY002",co:"Spyre",ph:"Phase 2",cat:"Anti-TL1A mAb",eff:"Ph1: ~75d half-life, complete TL1A suppression 20wk+, Q3M-Q6M potential",dv:"Internal ($526M cash)",st:"Active",v:0,tr:"SKYLINE-UC Ph2 platform",sr:"Spyre Jun 2025"},
+{d:"SPY072",co:"Spyre",ph:"Phase 2",cat:"Anti-TL1A mAb",eff:"Ph1: ~75d half-life, for rheumatic diseases (distinct from SPY002)",dv:"Internal",st:"Active",v:0,tr:"SKYWAY-RD Ph2 (RA, PsA, axSpA)",sr:"Spyre Jun 2025"},
+{d:"ABS-101",co:"Absci",ph:"Phase 1",cat:"Anti-TL1A mAb",eff:"AI-designed candidate; first dosing 2025",dv:"Internal",st:"Active",v:0,tr:"Ph1 HV",sr:"Pharmaphorum Oct 2025"},
+{d:"FG-M701",co:"AbbVie/FutureGen",ph:"Preclinical",cat:"Anti-TL1A mAb",eff:"Next-gen; STEP platform; claims best-in-class characteristics",dv:"$150M + $1.56B milestones",st:"Active",v:1710,tr:"IND-enabling",sr:"AbbVie PR Jun 2024"},
+{d:"HXN-1002",co:"Sanofi/Earendil",ph:"Preclinical",cat:"Bispecific",eff:"a4b7 + TL1A bispecific; AI-designed",dv:"Sanofi license (Apr 2025)",st:"Active",v:0,tr:"Preclinical",sr:"Labiotech Aug 2025"},
+{d:"HXN-1003",co:"Sanofi/Earendil",ph:"Preclinical",cat:"Bispecific",eff:"TL1A + IL-23 bispecific; dual pathway",dv:"Sanofi license (Apr 2025)",st:"Active",v:0,tr:"Preclinical",sr:"Labiotech Aug 2025"},
+{d:"XmAb TL1AxIL23",co:"Xencor",ph:"Preclinical",cat:"Bispecific",eff:"TL1A + IL-23p19; matches monospecific potency",dv:"Internal",st:"Active",v:0,tr:"FIH planned 2026",sr:"Xencor Jan 2026"},
+{d:"SPY120",co:"Spyre",ph:"Phase 2",cat:"Bispecific",eff:"a4b7 + TL1A combo; superior to mono in mouse colitis",dv:"Internal",st:"Active",v:0,tr:"SKYLINE-UC Part B",sr:"Spyre 2025"},
+{d:"SPY230",co:"Spyre",ph:"Phase 2",cat:"Bispecific",eff:"TL1A + IL-23 combo",dv:"Internal",st:"Active",v:0,tr:"SKYLINE-UC Part B",sr:"Spyre 2025"},
+{d:"BI 706321",co:"Boehringer",ph:"Phase 1",cat:"Anti-DR3",eff:"Anti-DR3 approach (blocks receptor not ligand)",dv:"Internal (~1B EUR)",st:"Active",v:1050,tr:"Ph1",sr:"BI pipeline"},
+{d:"HRS-7085",co:"Jiangsu Hansoh",ph:"Phase 2",cat:"Oral",eff:"Oral TL1A inhibitor tablet",dv:"Internal (China)",st:"Active",v:0,tr:"Ph2 IBD",sr:"ClinicalTrials.gov"},
+{d:"SHR-1139",co:"Shandong Suncadia",ph:"Phase 2",cat:"Oral",eff:"Oral small molecule TL1A inhibitor",dv:"Internal (China)",st:"Active",v:0,tr:"Ph2 UC",sr:"ClinicalTrials.gov"}
+];
+
+function rPL(data){var b=document.getElementById('pB');b.innerHTML='';data.forEach(function(r){
+var ps={'Phase 3':'background:var(--coral-lt);color:var(--coral);border:1px solid var(--coral)','Phase 2':'background:var(--blue-lt);color:var(--blue);border:1px solid var(--blue)','Phase 1':'background:var(--warn-lt);color:var(--warn);border:1px solid var(--warn)','Preclinical':'background:var(--purp-lt);color:var(--purp);border:1px solid var(--purp)'};
+var s=ps[r.ph]||ps['Preclinical'];
+var tr=document.createElement('tr');tr.style.cursor='pointer';
+tr.innerHTML='<td style="font-weight:700">'+r.d+'</td><td>'+r.co+'</td><td><span class="P" style="'+s+'">'+r.ph+'</span></td><td style="font-size:11px">'+r.cat+'</td><td style="font-size:11px;max-width:200px">'+r.eff+'</td><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">'+r.dv+'</td><td style="color:var(--grn);font-weight:600;font-size:11px">'+r.st+'</td>';
+tr.onclick=function(){var n=tr.nextElementSibling;if(n&&n.classList.contains('exp')){n.remove();return}var e=document.createElement('tr');e.className='exp';e.innerHTML='<td colspan="7" style="font-size:12px;line-height:1.8;padding:16px"><strong>Trials:</strong> '+r.tr+'<br><strong>Source:</strong> '+r.sr+'</td>';tr.after(e)};
+b.appendChild(tr)});}
+
+function fPL(){var s=document.getElementById('sI').value.toLowerCase(),p=document.getElementById('pF').value;
+var f=PL.filter(function(r){if(s&&(r.d+r.co).toLowerCase().indexOf(s)<0)return false;if(p&&r.ph.indexOf(p)<0)return false;return true});rPL(f);}
+var sc=-1,sa=true;function srt(c){sa=(sc===c)?!sa:true;sc=c;var k=['d','co','ph'];PL.sort(function(a,b){return sa?a[k[c]].localeCompare(b[k[c]]):b[k[c]].localeCompare(a[k[c]])});fPL();}
+rPL(PL);
+
+// Deal bars
+var dl=[{n:'Merck to Prometheus',v:10800},{n:'Roche to Telavant',v:7250},{n:'Sanofi to Teva (+milest.)',v:2000},{n:'AbbVie to FutureGen',v:1710},{n:'Boehringer (internal)',v:1050},{n:'Sanofi Ph3 milestone',v:500}];
+var mx=dl[0].v,h='';dl.forEach(function(d){h+='<div class="DR"><span style="width:160px;font-size:12px;font-weight:500">'+d.n+'</span><div class="DB"><div class="DF" style="width:'+(d.v/mx*100)+'%"></div></div><span class="DV">'+(d.v>=1000?(d.v/1000).toFixed(1)+'B':'$'+d.v+'M')+'</span></div>'});
+document.getElementById('dB').innerHTML=h;
+
+// Efficacy bars
+var ef=[{n:'Duvakitug 900mg',v:48,c:'var(--coral)'},{n:'Duvakitug 450mg',v:36,c:'var(--coral)'},{n:'Afimkibart 150mg',v:35,c:'#2b5ea7'},{n:'Afimkibart 450mg',v:32,c:'#2b5ea7'},{n:'Tulisokibart',v:26,c:'var(--navy)'},{n:'Skyrizi (IL-23i)',v:26,c:'var(--muted)'},{n:'Rinvoq 45mg',v:26,c:'var(--muted)'},{n:'Entyvio',v:17,c:'var(--muted)'}];
+var eh='';ef.forEach(function(d){eh+='<div class="bar-row"><div class="bar-name">'+d.n+'</div><div class="bar-track"><div class="bar-fill" style="width:'+d.v+'%;background:'+d.c+'">'+d.v+'%</div></div></div>'});
+document.getElementById('eB').innerHTML=eh;
+
+// Patent timeline
+var pt=[{n:'Tulisokibart',s:2019,e:2040,c:'var(--navy)'},{n:'Afimkibart',s:2016,e:2039,c:'#2b5ea7'},{n:'Duvakitug',s:2020,e:2041,c:'var(--coral)'},{n:'SPY002',s:2023,e:2044,c:'var(--purp)'},{n:'XmAb942',s:2023,e:2044,c:'var(--warn)'},{n:'FG-M701',s:2023,e:2045,c:'var(--grn)'}];
+var mY=2016,xY=2046,rY=xY-mY,ph='<div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:8px;padding-left:152px">';
+for(var y=2016;y<=2046;y+=5)ph+='<span>'+y+'</span>';ph+='</div>';
+pt.forEach(function(p){ph+='<div class="patent-bar"><div class="patent-drug">'+p.n+'</div><div class="patent-track"><div class="patent-fill" style="left:'+((p.s-mY)/rY*100)+'%;width:'+((p.e-p.s)/rY*100)+'%;background:'+p.c+';opacity:.7"></div></div></div>'});
+document.getElementById('pCh').innerHTML=ph;
+
+// Scatter map
+var cv=document.getElementById('sC'),cx=cv.getContext('2d'),dp=window.devicePixelRatio||1;
+function dS(){var W=cv.offsetWidth;cv.width=W*dp;cv.height=400*dp;cx.scale(dp,dp);cx.clearRect(0,0,W,400);
+var pL=60,pR=40,pT=30,pB=50,pW=W-pL-pR,pH=400-pT-pB;
+cx.strokeStyle='#e5e0d8';cx.lineWidth=0.5;
+var phs=['Preclinical','Phase 1','Phase 2','Phase 3'],cts=['Anti-TL1A mAb','Bispecific','Anti-DR3','Oral'];
+for(var i=0;i<4;i++){var x=pL+i*(pW/3);cx.beginPath();cx.moveTo(x,pT);cx.lineTo(x,400-pB);cx.stroke();cx.fillStyle='#8e99a9';cx.font='10px JetBrains Mono';cx.textAlign='center';cx.fillText(phs[i],x,400-pB+20)}
+for(var j=0;j<4;j++){var y=pT+j*(pH/3);cx.beginPath();cx.moveTo(pL,y);cx.lineTo(W-pR,y);cx.stroke();cx.fillStyle='#8e99a9';cx.font='10px JetBrains Mono';cx.textAlign='right';cx.fillText(cts[j],pL-8,y+4)}
+var cc={'Anti-TL1A mAb':'#e07a5f','Bispecific':'#6b4d9a','Anti-DR3':'#2b7a5a','Oral':'#2b5ea7'};
+var ci={'Preclinical':0,'Phase 1':1,'Phase 2':2,'Phase 3':3};
+PL.forEach(function(p,i){var pi=p.ph.indexOf('Phase 3')>-1?3:p.ph.indexOf('Phase 2')>-1?2:p.ph==='Phase 1'?1:0;
+var cti={'Anti-TL1A mAb':0,'Bispecific':1,'Anti-DR3':2,'Oral':3}[p.cat]||0;
+var jx=(i%5-2)*8,jy=(i%3-1)*12;
+var x=pL+pi*(pW/3)+jx+pW/6,y=pT+cti*(pH/3)+pH/6+jy;
+var r=Math.max(6,Math.min(24,Math.sqrt(p.v)*0.18+6));
+cx.beginPath();cx.arc(x,y,r,0,Math.PI*2);cx.fillStyle=cc[p.cat]||'#8e99a9';cx.globalAlpha=0.75;cx.fill();cx.globalAlpha=1;cx.strokeStyle='#fff';cx.lineWidth=1.5;cx.stroke();
+if(r>8){cx.fillStyle='#fff';cx.font='bold 8px Inter';cx.textAlign='center';cx.fillText(p.d.substring(0,8),x,y+3)}
+p._x=x;p._y=y;p._r=r})}
+dS();window.addEventListener('resize',dS);
+cv.addEventListener('mousemove',function(e){var rc=cv.getBoundingClientRect(),mx=e.clientX-rc.left,my=e.clientY-rc.top,tp=document.getElementById('sTip'),f=false;
+PL.forEach(function(p){if(p._x&&Math.hypot(mx-p._x,my-p._y)<p._r+4){tp.style.display='block';tp.style.left=(mx+12)+'px';tp.style.top=(my-20)+'px';tp.innerHTML='<strong>'+p.d+'</strong><br>'+p.co+'<br>'+p.ph+' | '+p.cat+'<br>'+p.dv;f=true}});if(!f)tp.style.display='none'});
+
+// Scroll spy
+var ss=document.querySelectorAll('.SA'),jl=document.querySelectorAll('.JA');
+window.addEventListener('scroll',function(){var sy=window.scrollY+100;ss.forEach(function(s,i){if(s.offsetTop<=sy){jl.forEach(function(l){l.classList.remove('a')});if(jl[i])jl[i].classList.add('a')}})});
+jl.forEach(function(l){l.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})})});
+
+</script>
+</body>
+</html>
