@@ -3466,219 +3466,445 @@ def render_catalyst_section(slug: str, admin: bool = False) -> str:
     return staleness_html + completed_html + upcoming_html
 
 
+def landscape_template(data, admin=False):
+    """Render a v2 landscape page from a data dictionary.
+
+    Self-contained design system (DM Serif Display / Inter / JetBrains Mono).
+    Sections are optional — template skips any missing key.
+    """
+    import json as _json
+
+    meta = data["meta"]
+    sections = data.get("sections", [])
+
+    # --- section-id set for tab visibility ---
+    section_ids = {s["id"] for s in sections}
+
+    # --- Stats chips ---
+    stats_html = ""
+    for s in meta.get("stats", []):
+        stats_html += (
+            '<div class="HSI">'
+            f'<div class="HSL">{s["label"]}</div>'
+            f'<div class="HSV">{s["value"]}</div>'
+            '</div>'
+        )
+
+    # --- Section tabs ---
+    tabs_html = ""
+    first = True
+    for s in sections:
+        cls = ' class="JA a"' if first else ' class="JA"'
+        tabs_html += f'<a{cls} href="#{s["id"]}">{s["label"]}</a>'
+        first = False
+
+    # --- Pathway ---
+    pathway_html = ""
+    if "pathway" in data:
+        pw = data["pathway"]
+        pathway_html = (
+            f'<h2 class="SH SA" id="pathway">{pw["heading"]}</h2>'
+            f'<div class="C" style="padding:32px">{pw["svg"]}</div>'
+        )
+
+    # --- Scatter / Landscape ---
+    scatter_html = ""
+    if "scatter_categories" in data:
+        scatter_html = (
+            '<h2 class="SH SA" id="landscape">Competitive Landscape Map</h2>'
+            '<p style="font-size:13px;color:var(--sec);margin-bottom:12px">'
+            'Programs by phase (x) and approach (y). Bubble size = deal value.</p>'
+            '<div class="scatter-container">'
+            '<div class="scatter-tooltip" id="sTip"></div>'
+            '<canvas id="sC" style="width:100%;height:400px"></canvas></div>'
+        )
+
+    # --- Thesis ---
+    thesis_html = ""
+    if "thesis" in data:
+        th = data["thesis"]
+        bull_items = "".join(
+            f"<li>&#x1f7e2; {b}</li>" for b in th.get("bull", [])
+        )
+        bear_items = "".join(
+            f"<li>&#x1f534; {b}</li>" for b in th.get("bear", [])
+        )
+        thesis_html = (
+            '<h2 class="SH SA" id="thesis">Investment Thesis</h2>'
+            '<div class="G2">'
+            '<div class="BU"><h4>Bull Case</h4>'
+            f'<ul style="list-style:none">{bull_items}</ul></div>'
+            '<div class="BE"><h4>Bear Case</h4>'
+            f'<ul style="list-style:none">{bear_items}</ul></div>'
+            '</div>'
+        )
+
+    # --- Pipeline table + deal bars ---
+    pipeline_html = ""
+    if "pipeline" in data:
+        pipeline_html = (
+            '<h2 class="SH SA" id="pipeline">Pipeline &amp; Deals</h2>'
+            '<div class="FB">'
+            '<input type="text" id="sI" placeholder="Search drug / company..." oninput="fPL()">'
+            '<select id="pF" onchange="fPL()">'
+            '<option value="">All Phases</option>'
+            '<option>Phase 3</option><option>Phase 2</option>'
+            '<option>Phase 1</option><option>Preclinical</option>'
+            '</select></div>'
+            '<div class="TW"><table class="D"><thead><tr>'
+            '<th onclick="srt(0)">Drug</th><th onclick="srt(1)">Company</th>'
+            '<th onclick="srt(2)">Phase</th><th>Category</th>'
+            '<th>Key Efficacy</th><th>Deal Value</th><th>Status</th>'
+            '</tr></thead><tbody id="pB"></tbody></table></div>'
+            '<h3 style="font-family:var(--serif);font-size:18px;margin:24px 0 12px">'
+            'Deal Value Landscape</h3>'
+            '<div class="C" id="dB"></div>'
+        )
+
+    # --- Efficacy ---
+    efficacy_html = ""
+    if "efficacy" in data:
+        ef = data["efficacy"]
+        # comparison table
+        tbl = ef.get("table", {})
+        thead = "".join(f"<th>{h}</th>" for h in tbl.get("headers", []))
+        tbody = ""
+        for row in tbl.get("rows", []):
+            cells = f'<td>{row[0]}</td>'
+            cells += f'<td style="color:var(--coral);font-weight:700">{row[1]}</td>'
+            cells += "".join(f"<td>{c}</td>" for c in row[2:])
+            tbody += f"<tr>{cells}</tr>"
+
+        efficacy_html = (
+            '<h2 class="SH SA" id="efficacy">Clinical Efficacy Comparison</h2>'
+            '<p style="font-size:12px;color:var(--muted);margin-bottom:12px">'
+            'Cross-trial comparison \u2014 NOT head-to-head data. Different designs, populations, placebo rates.</p>'
+            f'<div class="C"><div class="L">{ef.get("bars_label", "")}</div>'
+            '<div id="eB"></div></div>'
+            f'<div class="C" style="margin-top:16px"><div class="L">{ef.get("table_label", "")}</div>'
+            '<div class="TW"><table class="D"><thead><tr>'
+            f'{thead}</tr></thead><tbody>{tbody}</tbody></table></div></div>'
+        )
+
+    # --- Trials ---
+    trials_html = ""
+    if "trials" in data:
+        cards = ""
+        for t in data["trials"]:
+            rows = ""
+            for label, val in t["rows"]:
+                style = ""
+                if label in t.get("highlight_rows", []):
+                    style = ' style="color:var(--coral);font-weight:700"'
+                rows += (
+                    '<div class="trial-row">'
+                    f'<span class="trial-label">{label}</span>'
+                    f'<span class="trial-val"{style}>{val}</span>'
+                    '</div>'
+                )
+            cards += (
+                '<div class="trial-card">'
+                f'<div class="trial-card-header" style="background:{t["header_color"]};color:#fff">'
+                f'<div style="font-family:var(--mono);font-size:9px;opacity:.6">{t["sponsor_label"]}</div>'
+                f'<div style="font-size:16px;font-weight:700">{t["name"]}</div>'
+                f'<div style="font-size:11px;opacity:.7">{t.get("nct", "")}</div>'
+                f'</div><div class="trial-card-body">{rows}</div></div>'
+            )
+        trials_html = (
+            '<h2 class="SH SA" id="trials">Phase 3 Trial Design Comparison</h2>'
+            f'<div class="trial-grid">{cards}</div>'
+        )
+
+    # --- Patents ---
+    patents_html = ""
+    if "patents" in data:
+        pat = data["patents"]
+        ip_notes = ""
+        for note in pat.get("ip_notes", []):
+            ip_notes += (
+                f'<div><p style="font-size:13px;margin-bottom:6px"><strong>{note["drug"]}</strong></p>'
+                f'<p style="font-size:12px;color:var(--sec)">{note["text"]}</p></div>'
+            )
+        patents_html = (
+            '<h2 class="SH SA" id="patents">Patent &amp; IP Landscape</h2>'
+            '<div class="C"><div class="L">ESTIMATED EXCLUSIVITY WINDOWS</div>'
+            '<p style="font-size:12px;color:var(--sec);margin-bottom:16px">'
+            'Biologics: 12yr data exclusivity (US) from BLA approval. Directional estimates.</p>'
+            '<div id="pCh"></div></div>'
+            '<div class="C"><div class="L">KEY IP NOTES</div>'
+            f'<div class="G2">{ip_notes}</div></div>'
+        )
+
+    # --- Revenue ---
+    revenue_html = ""
+    if "revenue" in data:
+        rev = data["revenue"]
+        rtbl = rev.get("table", {})
+        rhead = "".join(f"<th>{h}</th>" for h in rtbl.get("headers", []))
+        rbody = ""
+        for row in rtbl.get("rows", []):
+            rbody += f'<tr><td style="font-weight:700">{row[0]}</td>'
+            rbody += "".join(f"<td>{c}</td>" for c in row[1:])
+            rbody += "</tr>"
+        # total row
+        tr = rtbl.get("total_row", [])
+        if tr:
+            rbody += f'<tr style="font-weight:700;background:var(--coral-lt)"><td>{tr[0]}</td>'
+            rbody += f'<td colspan="2">{tr[1]}</td><td>{tr[2]}</td>'
+            rbody += f'<td>{tr[3]}</td><td>{tr[4]}</td><td>{tr[5]}</td></tr>'
+
+        scorecard = ""
+        for ds in rev.get("deal_scorecard", []):
+            scorecard += f'<div><strong>{ds["value"]}</strong> \u2014 {ds["label"]}</div>'
+        deal_total = rev.get("deal_total", "")
+
+        revenue_html = (
+            '<h2 class="SH SA" id="revenue">Revenue Model &amp; Market Sizing</h2>'
+            '<div class="C"><div class="L">PROBABILITY-WEIGHTED PEAK SALES</div>'
+            f'<div class="TW"><table class="D"><thead><tr>{rhead}</tr></thead>'
+            f'<tbody>{rbody}</tbody></table></div></div>'
+            '<div class="C"><div class="L">DEAL VALUE SCORECARD</div>'
+            f'<div style="font-size:13px;line-height:2">{scorecard}'
+            f'<div style="font-weight:700;color:var(--coral);margin-top:8px">{deal_total}</div>'
+            '</div></div>'
+        )
+
+    # --- Catalysts ---
+    catalysts_html = ""
+    if "catalysts" in data:
+        cat = data["catalysts"]
+        items = ""
+        for c in cat.get("items", []):
+            if c.get("critical"):
+                items += (
+                    f'<div class="cat-item cat-critical">'
+                    f'<div class="cat-date" style="color:var(--coral);font-weight:900">{c["date"]}</div>'
+                    f'<div class="cat-body">{c["body"]}</div></div>'
+                )
+            else:
+                items += (
+                    f'<div class="cat-item">'
+                    f'<div class="cat-date">{c["date"]}</div>'
+                    f'<div class="cat-body">{c["body"]}</div></div>'
+                )
+        catalysts_html = (
+            '<h2 class="SH SA" id="catalysts">Catalyst Timeline</h2>'
+            f'<div class="C"><div class="L">{cat.get("label", "")}</div>'
+            f'{items}</div>'
+        )
+
+    # --- Sources ---
+    sources_html = ""
+    if "sources" in data:
+        src = data["sources"]
+        entries = ""
+        for cat_group in src.get("categories", []):
+            entries += f'<p><strong>{cat_group["label"]}</strong></p>'
+            for e in cat_group.get("entries", []):
+                if e.get("url"):
+                    entries += f'<p>{e["text"]} <a href="{e["url"]}" target="_blank">Link</a></p>'
+                else:
+                    entries += f'<p>{e["text"]}</p>'
+        disclaimer = src.get("disclaimer", "")
+        sources_html = (
+            '<h2 class="SH SA" id="sources">Data Sources &amp; Citations</h2>'
+            '<div class="C"><div class="L">KEY PRIMARY SOURCES</div>'
+            f'<div class="src-list">{entries}</div>'
+            f'<p style="margin-top:16px;font-size:11px;color:var(--muted)">{disclaimer}</p></div>'
+        )
+
+    # --- JavaScript data injection ---
+    # Escape </script> inside JSON strings
+    def _js_safe(obj):
+        return _json.dumps(obj).replace("</", "<\\/")
+
+    js_block = ""
+    if "pipeline" in data:
+        js_block += f"var PL={_js_safe(data['pipeline'])};\n"
+    if "deals" in data:
+        js_block += f"var dl={_js_safe(data['deals'])};\n"
+    if "efficacy" in data:
+        js_block += f"var ef={_js_safe(data['efficacy'].get('bars', []))};\n"
+    if "patents" in data:
+        js_block += f"var pt={_js_safe(data['patents'].get('timeline', []))};\n"
+        js_block += f"var mY={data['patents'].get('min_year', 2016)},xY={data['patents'].get('max_year', 2046)};\n"
+    if "scatter_categories" in data:
+        js_block += f"var cts={_js_safe(data['scatter_categories'])};\n"
+
+    # --- CSS as a constant (no f-string interpolation) ---
+    LANDSCAPE_CSS = (
+        ':root{--bg:#fafaf8;--card:#fff;--border:#e5e0d8;--border-lt:#ede9e3;--navy:#1b2a4a;--navy-lt:#2d3f5e;--text:#1b2a4a;--sec:#4a5568;--muted:#8e99a9;--coral:#e07a5f;--coral-lt:#fdf0eb;--coral-dk:#c4613f;--grn:#2b7a5a;--grn-lt:#edf7f2;--warn:#c9963a;--warn-lt:#fef8ec;--red:#b93b3b;--red-lt:#fdf0f0;--blue:#2b5ea7;--blue-lt:#eef3fa;--purp:#6b4d9a;--purp-lt:#f4f0fa;--serif:\'DM Serif Display\',Georgia,serif;--sans:\'Inter\',-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif;--mono:\'JetBrains Mono\',\'SF Mono\',monospace;--mw:1100px;--nh:56px}'
+        '\n*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}'
+        '\nbody{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}'
+        '\na{color:var(--coral);text-decoration:none}a:hover{color:var(--coral-dk)}'
+        '\n.N{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);height:var(--nh);display:flex;align-items:center;justify-content:space-between;padding:0 32px}'
+        '\n.NL{font-family:var(--serif);font-size:20px;text-decoration:none}.NL b{color:var(--navy)}.NL em{color:var(--coral);font-style:normal}'
+        '\n.NN{display:flex;gap:28px;align-items:center}.NN a{color:var(--sec);text-decoration:none;font-size:14px;font-weight:500}.NN a:hover{color:var(--navy)}'
+        '\n.NC{background:var(--coral);color:#fff;padding:8px 18px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600}.NC:hover{background:var(--coral-dk);color:#fff}'
+        '\n.H{background:linear-gradient(135deg,var(--navy),var(--navy-lt));color:#fff;padding:40px 32px 0}'
+        '\n.HI{max-width:var(--mw);margin:0 auto}'
+        '\n.H h1{font-family:var(--serif);font-size:32px;font-weight:400;margin-bottom:8px;line-height:1.2}'
+        '\n.HD{color:rgba(255,255,255,.75);font-size:15px;margin-bottom:20px;max-width:680px}'
+        '\n.HS{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}'
+        '\n.HSI{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 18px}'
+        '\n.HSL{font-family:var(--mono);font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:2px}'
+        '\n.HSV{font-size:20px;font-weight:700}'
+        '\n.JL{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.12);margin:0 -32px;padding:0 32px;overflow-x:auto}'
+        '\n.JA{color:rgba(255,255,255,.55);font-size:12px;font-weight:500;padding:12px 14px;text-decoration:none;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}'
+        '\n.JA:hover{color:#fff}.JA.a{color:#fff;border-bottom-color:var(--coral)}'
+        '\n.M{max-width:var(--mw);margin:0 auto;padding:24px 32px 60px}'
+        '\n.SA{scroll-margin-top:calc(var(--nh) + 20px)}'
+        '\n.C{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px}'
+        '\n.SH{font-family:var(--serif);font-size:26px;margin:36px 0 16px;padding-top:8px;line-height:1.2}'
+        '\n.L{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}'
+        '\n.P{display:inline-block;font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:10px;white-space:nowrap}'
+        '\n.TW{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}'
+        '\ntable.D{width:100%;border-collapse:collapse;font-size:13px}'
+        '\ntable.D thead th{background:var(--navy);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.8px;text-transform:uppercase;text-align:left;padding:10px;font-weight:600;white-space:nowrap;cursor:pointer}'
+        '\ntable.D thead th:hover{background:var(--navy-lt)}'
+        '\ntable.D tbody td{padding:10px;border-bottom:1px solid var(--border-lt);vertical-align:top}'
+        '\ntable.D tbody tr:hover{background:var(--coral-lt)}'
+        '\ntable.D tbody tr.exp td{background:#fafaf8;border-left:3px solid var(--coral)}'
+        '\n.G2{display:grid;grid-template-columns:1fr 1fr;gap:16px}'
+        '\n.DR{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-lt)}'
+        '\n.DB{flex:1;height:16px;background:var(--border-lt);border-radius:4px;overflow:hidden}'
+        '\n.DF{height:100%;background:linear-gradient(90deg,var(--coral),rgba(224,122,95,.55));border-radius:4px}'
+        '\n.DV{font-family:var(--mono);font-size:11px;color:var(--coral);font-weight:700;white-space:nowrap}'
+        '\n.bar-row{display:flex;align-items:center;gap:10px;padding:6px 0}'
+        '\n.bar-name{width:140px;font-size:12px;font-weight:500;flex-shrink:0}'
+        '\n.bar-track{flex:1;height:22px;background:var(--border-lt);border-radius:4px;overflow:hidden}'
+        '\n.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-family:var(--mono);font-size:10px;color:#fff;font-weight:600;min-width:32px}'
+        '\n.trial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}'
+        '\n.trial-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}'
+        '\n.trial-card-header{padding:14px 16px}'
+        '\n.trial-card-body{padding:16px}'
+        '\n.trial-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-lt);font-size:12px}'
+        '\n.trial-row:last-child{border:none}'
+        '\n.trial-label{color:var(--muted);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.6px}'
+        '\n.trial-val{font-weight:600;text-align:right}'
+        '\n.patent-bar{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border-lt)}'
+        '\n.patent-drug{width:140px;font-size:12px;font-weight:600;flex-shrink:0}'
+        '\n.patent-track{flex:1;height:20px;position:relative;background:var(--border-lt);border-radius:3px}'
+        '\n.patent-fill{position:absolute;height:100%;border-radius:3px;top:0}'
+        '\n.BU,.BE{padding:16px 20px;border-radius:10px;border-left:4px solid}'
+        '\n.BU{border-color:var(--grn);background:var(--grn-lt)}.BE{border-color:var(--red);background:var(--red-lt)}'
+        '\n.BU h4,.BE h4{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}'
+        '\n.BU h4{color:var(--grn)}.BE h4{color:var(--red)}.BU li,.BE li{font-size:13px;margin-bottom:6px;line-height:1.5}'
+        '\n.cat-item{display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--border-lt)}'
+        '\n.cat-date{font-family:var(--mono);font-size:11px;color:var(--coral);font-weight:600;width:90px;flex-shrink:0}'
+        '\n.cat-body{flex:1;font-size:13px}.cat-body strong{color:var(--navy)}'
+        '\n.cat-critical{background:var(--coral-lt);border-radius:8px;padding:12px 16px;border:1px solid rgba(224,122,95,.2)}'
+        '\n.FB{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.FB input,.FB select{font-family:var(--sans);font-size:13px;padding:8px 12px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--text);outline:none}.FB input:focus,.FB select:focus{border-color:var(--coral)}.FB input{width:200px}'
+        '\n.scatter-container{position:relative;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;min-height:420px}'
+        '\n.scatter-tooltip{position:absolute;background:var(--navy);color:#fff;padding:8px 12px;border-radius:6px;font-size:12px;pointer-events:none;z-index:10;display:none;max-width:260px;line-height:1.5}'
+        '\n.src-list{font-size:11px;line-height:1.8;color:var(--sec)}.src-list a{font-family:var(--mono);font-size:10px}'
+        '\nfooter{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}footer a{color:var(--muted);margin:0 8px}'
+        '\n@media(max-width:768px){.G2,.trial-grid{grid-template-columns:1fr}.HS{flex-direction:column}.NN{display:none}.JL{padding:0 16px}.M{padding:16px}.N{padding:0 16px}.H{padding:24px 16px 0}.bar-name{width:100px;font-size:11px}}'
+    )
+
+    # --- JavaScript rendering functions (generic, target-agnostic) ---
+    LANDSCAPE_JS = r"""
+function rPL(data){var b=document.getElementById('pB');if(!b)return;b.innerHTML='';data.forEach(function(r){
+var ps={'Phase 3':'background:var(--coral-lt);color:var(--coral);border:1px solid var(--coral)','Phase 2':'background:var(--blue-lt);color:var(--blue);border:1px solid var(--blue)','Phase 1':'background:var(--warn-lt);color:var(--warn);border:1px solid var(--warn)','Preclinical':'background:var(--purp-lt);color:var(--purp);border:1px solid var(--purp)'};
+var s=ps[r.ph]||ps['Preclinical'];
+var tr=document.createElement('tr');tr.style.cursor='pointer';
+tr.innerHTML='<td style="font-weight:700">'+r.d+'</td><td>'+r.co+'</td><td><span class="P" style="'+s+'">'+r.ph+'</span></td><td style="font-size:11px">'+r.cat+'</td><td style="font-size:11px;max-width:200px">'+r.eff+'</td><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">'+r.dv+'</td><td style="color:var(--grn);font-weight:600;font-size:11px">'+r.st+'</td>';
+tr.onclick=function(){var n=tr.nextElementSibling;if(n&&n.classList.contains('exp')){n.remove();return}var e=document.createElement('tr');e.className='exp';e.innerHTML='<td colspan="7" style="font-size:12px;line-height:1.8;padding:16px"><strong>Trials:</strong> '+r.tr+'<br><strong>Source:</strong> '+r.sr+'</td>';tr.after(e)};
+b.appendChild(tr)});}
+
+function fPL(){var si=document.getElementById('sI'),pf=document.getElementById('pF');if(!si||!pf||typeof PL==='undefined')return;var s=si.value.toLowerCase(),p=pf.value;
+var f=PL.filter(function(r){if(s&&(r.d+r.co).toLowerCase().indexOf(s)<0)return false;if(p&&r.ph.indexOf(p)<0)return false;return true});rPL(f);}
+var sc=-1,sa=true;function srt(c){sa=(sc===c)?!sa:true;sc=c;var k=['d','co','ph'];PL.sort(function(a,b){return sa?a[k[c]].localeCompare(b[k[c]]):b[k[c]].localeCompare(a[k[c]])});fPL();}
+if(typeof PL!=='undefined')rPL(PL);
+
+// Deal bars
+if(typeof dl!=='undefined'){
+var mx=dl[0].v,h='';dl.forEach(function(d){h+='<div class="DR"><span style="width:160px;font-size:12px;font-weight:500">'+d.n+'</span><div class="DB"><div class="DF" style="width:'+(d.v/mx*100)+'%"></div></div><span class="DV">'+(d.v>=1000?(d.v/1000).toFixed(1)+'B':'$'+d.v+'M')+'</span></div>'});
+var dBel=document.getElementById('dB');if(dBel)dBel.innerHTML=h;}
+
+// Efficacy bars
+if(typeof ef!=='undefined'){
+var eh='';ef.forEach(function(d){eh+='<div class="bar-row"><div class="bar-name">'+d.n+'</div><div class="bar-track"><div class="bar-fill" style="width:'+d.v+'%;background:'+d.c+'">'+d.v+'%</div></div></div>'});
+var eBel=document.getElementById('eB');if(eBel)eBel.innerHTML=eh;}
+
+// Patent timeline
+if(typeof pt!=='undefined'&&typeof mY!=='undefined'&&typeof xY!=='undefined'){
+var rY=xY-mY,ph='<div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:8px;padding-left:152px">';
+for(var y=mY;y<=xY;y+=5)ph+='<span>'+y+'</span>';ph+='</div>';
+pt.forEach(function(p){ph+='<div class="patent-bar"><div class="patent-drug">'+p.n+'</div><div class="patent-track"><div class="patent-fill" style="left:'+((p.s-mY)/rY*100)+'%;width:'+((p.e-p.s)/rY*100)+'%;background:'+p.c+';opacity:.7"></div></div></div>'});
+var pChel=document.getElementById('pCh');if(pChel)pChel.innerHTML=ph;}
+
+// Scatter map
+var cv=document.getElementById('sC');
+if(cv&&typeof PL!=='undefined'&&typeof cts!=='undefined'){
+var cx=cv.getContext('2d'),dp=window.devicePixelRatio||1;
+function dS(){var W=cv.offsetWidth;cv.width=W*dp;cv.height=400*dp;cx.scale(dp,dp);cx.clearRect(0,0,W,400);
+var pL=60,pR=40,pT=30,pB=50,pW=W-pL-pR,pH=400-pT-pB;
+cx.strokeStyle='#e5e0d8';cx.lineWidth=0.5;
+var phs=['Preclinical','Phase 1','Phase 2','Phase 3'];
+for(var i=0;i<4;i++){var x=pL+i*(pW/3);cx.beginPath();cx.moveTo(x,pT);cx.lineTo(x,400-pB);cx.stroke();cx.fillStyle='#8e99a9';cx.font='10px JetBrains Mono';cx.textAlign='center';cx.fillText(phs[i],x,400-pB+20)}
+for(var j=0;j<cts.length;j++){var y=pT+j*(pH/(cts.length-1||1));cx.beginPath();cx.moveTo(pL,y);cx.lineTo(W-pR,y);cx.stroke();cx.fillStyle='#8e99a9';cx.font='10px JetBrains Mono';cx.textAlign='right';cx.fillText(cts[j],pL-8,y+4)}
+var cc={'Anti-TL1A mAb':'#e07a5f','Bispecific':'#6b4d9a','Anti-DR3':'#2b7a5a','Oral':'#2b5ea7'};
+var cti={};cts.forEach(function(c,i){cti[c]=i});
+PL.forEach(function(p,i){var pi=p.ph.indexOf('Phase 3')>-1?3:p.ph.indexOf('Phase 2')>-1?2:p.ph==='Phase 1'?1:0;
+var ci=cti[p.cat]||0;
+var jx=(i%5-2)*8,jy=(i%3-1)*12;
+var x=pL+pi*(pW/3)+jx+pW/6,y=pT+ci*(pH/(cts.length-1||1))+pH/(cts.length*2||1)+jy;
+var r=Math.max(6,Math.min(24,Math.sqrt(p.v)*0.18+6));
+cx.beginPath();cx.arc(x,y,r,0,Math.PI*2);cx.fillStyle=cc[p.cat]||'#8e99a9';cx.globalAlpha=0.75;cx.fill();cx.globalAlpha=1;cx.strokeStyle='#fff';cx.lineWidth=1.5;cx.stroke();
+if(r>8){cx.fillStyle='#fff';cx.font='bold 8px Inter';cx.textAlign='center';cx.fillText(p.d.substring(0,8),x,y+3)}
+p._x=x;p._y=y;p._r=r})}
+dS();window.addEventListener('resize',dS);
+cv.addEventListener('mousemove',function(e){var rc=cv.getBoundingClientRect(),mx=e.clientX-rc.left,my=e.clientY-rc.top,tp=document.getElementById('sTip'),f=false;
+PL.forEach(function(p){if(p._x&&Math.hypot(mx-p._x,my-p._y)<p._r+4){tp.style.display='block';tp.style.left=(mx+12)+'px';tp.style.top=(my-20)+'px';tp.innerHTML='<strong>'+p.d+'</strong><br>'+p.co+'<br>'+p.ph+' | '+p.cat+'<br>'+p.dv;f=true}});if(!f)tp.style.display='none'});}
+
+// Scroll spy
+var ss=document.querySelectorAll('.SA'),jl=document.querySelectorAll('.JA');
+window.addEventListener('scroll',function(){var sy=window.scrollY+100;ss.forEach(function(s,i){if(s.offsetTop<=sy){jl.forEach(function(l){l.classList.remove('a')});if(jl[i])jl[i].classList.add('a')}})});
+jl.forEach(function(l){l.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})})});
+"""
+
+    return (
+        '<!DOCTYPE html>\n<html lang="en">\n<head>\n'
+        '<meta charset="UTF-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+        f'<title>{meta["page_title"]}</title>\n'
+        '<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">\n'
+        f'<style>\n{LANDSCAPE_CSS}\n</style>\n'
+        '</head>\n<body>\n'
+        '<nav class="N"><a class="NL" href="/"><b>Satya</b><em>Bio</em></a>'
+        '<div class="NN"><a href="/targets">Targets</a><a href="/companies">Companies</a>'
+        '<a href="/insights">Insights</a><a href="/extract/">Extract</a>'
+        '<a class="NC" href="mailto:contact@satyabio.com?subject=Early%20Access%20Request">Get Started</a></div></nav>\n'
+        '<header class="H"><div class="HI">\n'
+        f'<div class="L" style="color:rgba(255,255,255,.45)">{meta.get("label", "")}</div>\n'
+        f'<h1>{meta["title"]}</h1>\n'
+        f'<p class="HD">{meta.get("description", "")}</p>\n'
+        f'<div class="HS">{stats_html}</div>\n'
+        f'<div class="JL">{tabs_html}</div>\n'
+        '</div></header>\n'
+        f'<main class="M">\n'
+        f'{pathway_html}\n'
+        f'{scatter_html}\n'
+        f'{thesis_html}\n'
+        f'{pipeline_html}\n'
+        f'{efficacy_html}\n'
+        f'{trials_html}\n'
+        f'{patents_html}\n'
+        f'{revenue_html}\n'
+        f'{catalysts_html}\n'
+        f'{sources_html}\n'
+        '</main>\n'
+        '<footer><p>&copy; 2026 Satya Bio</p></footer>\n'
+        f'<script>\n{js_block}\n{LANDSCAPE_JS}\n</script>\n'
+        '</body>\n</html>'
+    )
+
+
 def generate_tl1a_report(admin: bool = False):
     """Generate the TL1A / IBD competitive landscape report."""
-
-    # TL1A Assets data
-    assets = [
-        {"asset": "Tulisokibart (PRA023)", "company": "Merck (via Prometheus)", "ticker": "MRK", "phase": "Phase 3", "indication": "UC, CD", "deal": "$10.8B acquisition", "efficacy": "26% remission (TL1A-high)", "catalyst": "ATLAS-UC Ph3 data H2 2026"},
-        {"asset": "Duvakitug (TEV-48574)", "company": "Sanofi / Teva", "ticker": "SNY", "phase": "Phase 3", "indication": "UC, CD", "deal": "$500M+ partnership", "efficacy": "47.8% remission (1000mg)", "catalyst": "SUNSCAPE Ph3 enrolling 2026"},
-        {"asset": "Afimkibart (RVT-3101)", "company": "Roche (via Telavant)", "ticker": "RHHBY", "phase": "Phase 3", "indication": "UC, CD", "deal": "$7.25B acquisition", "efficacy": "35% remission", "catalyst": "Ph3 UC data 2026"},
-        {"asset": "SAR443765", "company": "Sanofi", "ticker": "SNY", "phase": "Phase 2", "indication": "UC, CD", "deal": "Internal", "efficacy": "Bispecific (TL1A + IL-23)", "catalyst": "Ph2 data ongoing"},
-        {"asset": "PF-07258669", "company": "Pfizer", "ticker": "PFE", "phase": "Phase 1", "indication": "IBD", "deal": "Internal", "efficacy": "Early stage", "catalyst": "Ph1 data ongoing"},
-        {"asset": "ABBV-261", "company": "AbbVie", "ticker": "ABBV", "phase": "Phase 1", "indication": "IBD", "deal": "Internal", "efficacy": "Early stage", "catalyst": "Ph1 data ongoing"},
-    ]
-
-    # Efficacy comparison data
-    efficacy_data = [
-        {"drug": "Duvakitug 1000mg", "trial": "RELIEVE UCCD", "endpoint": "Clinical Remission", "result": "47.8%", "placebo": "20.4%", "delta": "+27.4%", "population": "All comers"},
-        {"drug": "Duvakitug 500mg", "trial": "RELIEVE UCCD", "endpoint": "Clinical Remission", "result": "32.6%", "placebo": "20.4%", "delta": "+12.2%", "population": "All comers"},
-        {"drug": "Tulisokibart", "trial": "ARTEMIS-UC", "endpoint": "Clinical Remission", "result": "26%", "placebo": "1%", "delta": "+25%", "population": "TL1A-high only"},
-        {"drug": "Tulisokibart", "trial": "ARTEMIS-UC", "endpoint": "Endoscopic Improvement", "result": "49%", "placebo": "13%", "delta": "+36%", "population": "TL1A-high only"},
-        {"drug": "Afimkibart", "trial": "Phase 2", "endpoint": "Clinical Remission", "result": "35%", "placebo": "12%", "delta": "+23%", "population": "All comers"},
-    ]
-
-    # Build assets table
-    assets_rows = ""
-    for a in assets:
-        assets_rows += f'''
-        <tr>
-            <td><strong>{a["asset"]}</strong></td>
-            <td>{a["company"]}<br><span class="ticker-small">{a["ticker"]}</span></td>
-            <td><span class="phase-badge">{a["phase"]}</span></td>
-            <td>{a["indication"]}</td>
-            <td class="deal-value">{a["deal"]}</td>
-            <td>{a["catalyst"]}</td>
-        </tr>
-        '''
-
-    # Build efficacy table
-    efficacy_rows = ""
-    for e in efficacy_data:
-        efficacy_rows += f'''
-        <tr>
-            <td><strong>{e["drug"]}</strong></td>
-            <td>{e["trial"]}</td>
-            <td>{e["endpoint"]}</td>
-            <td>{e["result"]}</td>
-            <td>{e["placebo"]}</td>
-            <td class="delta-positive">{e["delta"]}</td>
-            <td>{e["population"]}</td>
-        </tr>
-        '''
-
-    tl1a_styles = """
-        .report-header {
-            background: linear-gradient(135deg, #1a2b3c 0%, #2d4a6f 100%);
-            color: white;
-            padding: 48px 32px;
-            margin: -32px -32px 32px;
-            border-radius: 0 0 24px 24px;
-        }
-        .report-header h1 { font-size: 2.25rem; margin-bottom: 8px; }
-        .report-header p { opacity: 0.85; max-width: 700px; font-size: 1.1rem; }
-        .report-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
-        .meta-item { background: rgba(255,255,255,0.15); padding: 12px 20px; border-radius: 8px; }
-        .meta-item .label { font-size: 0.75rem; opacity: 0.7; text-transform: uppercase; }
-        .meta-item .value { font-size: 1.25rem; font-weight: 700; }
-
-        .section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 24px; }
-        .section h2 { color: var(--navy); font-size: 1.35rem; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
-
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th { background: var(--navy); color: white; padding: 12px 10px; text-align: left; font-weight: 600; }
-        td { padding: 12px 10px; border-bottom: 1px solid var(--border); }
-        tr:hover { background: var(--bg); }
-
-        .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        @media (max-width: 768px) { .thesis-grid { grid-template-columns: 1fr; } }
-        .bull-box, .bear-box { padding: 24px; border-radius: 0; background: #ffffff; border: 1px solid #e5e5e0; }
-        .bull-box { border-left: 3px solid #e07a5f; }
-        .bear-box { border-left: 3px solid #1a2b3c; }
-        .bull-box h3 { color: #e07a5f; }
-        .bear-box h3 { color: #1a2b3c; }
-        .thesis-list { list-style: none; padding: 0; margin-top: 16px; }
-        .thesis-list li { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
-        .thesis-list li:last-child { border-bottom: none; }
-        .thesis-list li::before { content: "\\2192"; font-weight: bold; }
-
-        .mechanism-box { background: var(--bg); padding: 20px; border-radius: 12px; margin-top: 16px; }
-        .mechanism-box h4 { color: var(--navy); margin-bottom: 8px; }
-        .mechanism-box p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
-
-        .catalyst-timeline { margin-top: 20px; }
-        .catalyst-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
-        .catalyst-date { min-width: 100px; font-weight: 700; color: var(--accent); }
-
-        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; margin-top: 24px; font-weight: 500; }
-        .back-link:hover { text-decoration: underline; }
-    """
-
-    return f'''{_render_head("TL1A / IBD Competitive Landscape | Satya Bio", tl1a_styles)}
-    {_render_nav("targets")}
-    <main class="main">
-        <div class="report-header">
-            <h1>TL1A / IBD Competitive Landscape</h1>
-            <p>TL1A (TNFSF15) is the hottest target in inflammatory bowel disease with $22B+ in M&A activity. Unique dual mechanism addresses both inflammation AND fibrosis.</p>
-            <div class="report-meta">
-                <div class="meta-item"><div class="label">Total Deal Value</div><div class="value">$22B+</div></div>
-                <div class="meta-item"><div class="label">Assets in Development</div><div class="value">9+</div></div>
-                <div class="meta-item"><div class="label">Phase 3 Programs</div><div class="value">3</div></div>
-                <div class="meta-item"><div class="label">Patient Population</div><div class="value">3.5M (US/EU)</div></div>
-            </div>
-        </div>
-
-        <!-- Investment Thesis -->
-        <div class="section">
-            <h2>Investment Thesis</h2>
-            <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
-                <strong style="color: var(--navy);">TL1A is the most significant new target in IBD since anti-TNF biologics.</strong>
-                The target is genetically validated through GWAS studies showing TNFSF15 variants are associated with Crohn's disease risk.
-                Unlike existing therapies that only address inflammation, TL1A inhibition blocks BOTH inflammatory cytokine production AND intestinal fibrosis —
-                addressing the key unmet need of stricturing/fistulizing disease that affects 30-50% of Crohn's patients.
-            </p>
-
-            <div class="mechanism-box">
-                <h4>Why TL1A is Unique</h4>
-                <p>TL1A binds DR3 (death receptor 3), promoting Th1/Th17 differentiation and activating fibroblasts. Blocking TL1A interrupts both the inflammatory cascade AND the fibrotic pathway. Existing therapies (anti-TNF, anti-IL-23, JAKi) only target inflammation, leaving fibrosis/strictures unaddressed.</p>
-            </div>
-        </div>
-
-        <!-- Competitive Landscape -->
-        <div class="section">
-            <h2>Competitive Landscape</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 16px;">
-                The investment landscape is unprecedented: Merck acquired Prometheus for <strong>$10.8B</strong>, and Roche acquired Telavant for <strong>$7.25B</strong>.
-            </p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Asset</th>
-                        <th>Company</th>
-                        <th>Phase</th>
-                        <th>Indication</th>
-                        <th>Deal</th>
-                        <th>Next Catalyst</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {assets_rows}
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Efficacy Comparison -->
-        <div class="section">
-            <h2>Efficacy Comparison (Phase 2 Data)</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 16px;">Cross-trial comparison is challenging but directionally informative. Duvakitug shows highest absolute numbers; Tulisokibart uses biomarker selection.</p>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Drug</th>
-                            <th>Trial</th>
-                            <th>Endpoint</th>
-                            <th>Result</th>
-                            <th>Placebo</th>
-                            <th>Delta</th>
-                            <th>Population</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {efficacy_rows}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Bull/Bear -->
-        <div class="section">
-            <h2>Bull vs Bear</h2>
-            <div class="thesis-grid">
-                <div class="bull-box">
-                    <h3>Bull Case</h3>
-                    <ul class="thesis-list">
-                        <li>Genetic validation: TNFSF15 variants in GWAS = high probability of success</li>
-                        <li>Dual mechanism (inflammation + fibrosis) is unique vs. all other IBD drugs</li>
-                        <li>$22B+ already committed = pharma conviction in the target</li>
-                        <li>Best-in-class efficacy: 27% placebo-adjusted remission (duvakitug)</li>
-                        <li>$25B IBD market growing to $35B by 2030; 40% inadequate response to current therapies</li>
-                    </ul>
-                </div>
-                <div class="bear-box">
-                    <h3>Bear Case</h3>
-                    <ul class="thesis-list">
-                        <li>Crowded landscape: 3+ Phase 3 assets racing; differentiation unclear</li>
-                        <li>Cross-trial comparison challenges: different endpoints, populations</li>
-                        <li>Payer resistance if not clearly better than existing biologics</li>
-                        <li>Long development timelines: Phase 3 readouts 2025-2026</li>
-                        <li>Fibrosis benefit still theoretical; not proven in humans yet</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Catalysts (data-driven from catalysts.json) -->
-        {render_catalyst_section("tl1a-ibd", admin=admin)}
-
-        <a href="/targets" class="back-link">← Back to Target Landscapes</a>
-    </main>
-    <footer class="footer">
-        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
-        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
-    </footer>
-</body>
-</html>'''
+    from app.landscape_data.tl1a import TL1A_DATA
+    return landscape_template(TL1A_DATA, admin=admin)
 
 
 def generate_b7h3_report(admin: bool = False):
