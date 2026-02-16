@@ -8,5 +8,6 @@ from app.routers.company import router as company_router
 from app.routers.services import router as services_router
 from app.routers.clinical import router as clinical_router
 from app.routers.extract import router as extract_router
+from app.routers.market import router as market_router
 
-__all__ = ["auth_router", "documents_router", "admin_router", "sources_router", "citations_router", "company_router", "services_router", "clinical_router", "extract_router"]
+__all__ = ["auth_router", "documents_router", "admin_router", "sources_router", "citations_router", "company_router", "services_router", "clinical_router", "extract_router", "market_router"]
