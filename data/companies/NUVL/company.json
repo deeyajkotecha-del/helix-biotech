@@ -6,10 +6,8 @@
     "data_source": "Nuvalent Corporate Presentation January 12, 2026",
     "extraction_date": "2026-02-04"
   },
-
   "ticker": "NUVL",
   "name": "Nuvalent",
-
   "company": {
     "name": "Nuvalent",
     "ticker": "NUVL",
@@ -30,7 +28,7 @@
   "investment_analysis": {
     "bull_case": [
       "Zidesamtinib and neladalkib TRK-sparing design addresses major safety limitation of competitors",
-      "Exceptional durability data: 93% DOR ≥18 months for zidesamtinib 1 prior TKI; 60% DOR ≥18 months for neladalkib TKI pre-treated",
+      "Exceptional durability data: 93% DOR \u226518 months for zidesamtinib 1 prior TKI; 60% DOR \u226518 months for neladalkib TKI pre-treated",
       "Dual programs de-risk company - success in either ROS1 or ALK creates substantial value",
       "Strong CNS activity addresses critical unmet need (50%+ of patients develop brain mets)",
       "Clean safety profile with low discontinuation rates (2% zidesamtinib, 5% neladalkib)"
@@ -103,5 +101,6 @@
       "us_peak_sales": "$1.35B-$2.0B",
       "global_prevalence": "30,000-45,000 patients annually"
     }
-  }
+  },
+  "market_cap": "$7.3B"
 }

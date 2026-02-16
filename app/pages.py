@@ -966,107 +966,29 @@ def generate_homepage():
 
 def generate_companies_page():
     # Load companies from index.json - SINGLE SOURCE OF TRUTH
-    companies = load_companies_from_index()
+    all_companies = load_companies_from_index()
 
-    # Sort by: 1) has_data first, 2) priority, 3) ticker
-    # Companies with detailed asset data appear at top
+    # Only show featured companies on the listing page
+    companies = [c for c in all_companies if c.get("featured", False)]
+
+    # Sort by: 1) priority, 2) ticker
     priority_order = {"high": 0, "medium": 1, "low": 2, "": 3}
     companies.sort(key=lambda c: (
-        0 if c.get("has_data", False) else 1,  # has_data first
-        priority_order.get(c.get("priority", "").lower(), 3),  # then priority
-        c.get("ticker", "")  # then alphabetical
+        priority_order.get(c.get("priority", "").lower(), 3),
+        c.get("ticker", "")
     ))
 
-    # Group by development stage
-    stage_categories = {
-        "large_cap_diversified": "Large Cap",
-        "commercial_stage": "Commercial Stage",
-        "platform": "Platform / Genetic Medicines",
-        "late_clinical": "Late Clinical (Phase 3)",
-        "mid_clinical": "Mid Clinical (Phase 2)",
-        "early_clinical": "Early Clinical (Phase 1)",
-        "preclinical": "Preclinical",
-    }
-
-    # Also group by legacy categories if present
-    by_stage = {}
-    by_legacy_cat = {}
-
-    for company in companies:
-        # Index.json grouping by stage
-        stage = company.get("development_stage", "other")
-        if stage not in by_stage:
-            by_stage[stage] = []
-        by_stage[stage].append(company)
-
-        # Legacy grouping by category
-        cat = company.get("category", "")
-        if cat:
-            if cat not in by_legacy_cat:
-                by_legacy_cat[cat] = []
-            by_legacy_cat[cat].append(company)
-
-    # Build pills - use stage categories first, then legacy
-    pills_html = '<a href="#all" class="category-pill active">All</a>'
-    pills_html += '<a href="#has-data" class="category-pill">Has Data</a>'
-    pills_html += '<a href="#high-priority" class="category-pill">High Priority</a>'
-
-    for stage_id, stage_name in stage_categories.items():
-        count = len(by_stage.get(stage_id, []))
-        if count > 0:
-            pills_html += f'<a href="#{stage_id}" class="category-pill">{stage_name} ({count})</a>'
-
-    # Calculate total before building sections (companies gets reassigned in loop)
     total_count = len(companies)
 
-    # Build sections starting with "Has Detailed Data" at top
-    sections_html = ""
+    # Build a single section with all featured companies (unlocked)
+    cards_html = ''.join([generate_company_card(c, locked=False) for c in companies])
+    sections_html = f'''
+    <section class="section" id="featured">
+        <div class="cards-grid">{cards_html}</div>
+    </section>
+    '''
 
-    # FIRST: Featured section for companies with detailed data (always unlocked)
-    detailed_companies = [c for c in companies if c.get("has_data", False)]
-    if detailed_companies:
-        cards_html = ''.join([generate_company_card(c, locked=False) for c in detailed_companies])
-        sections_html += f'''
-        <section class="section" id="has-detailed-data">
-            <div class="section-header">
-                <h2 class="section-title">Featured: Detailed Analysis Available</h2>
-                <span class="section-count">{len(detailed_companies)}</span>
-            </div>
-            <div class="cards-grid">{cards_html}</div>
-        </section>
-        '''
-
-    # THEN: Regular sections by stage (gated - locked by default, unlocked via JS if subscribed)
-    for stage_id, stage_name in stage_categories.items():
-        stage_companies = by_stage.get(stage_id, [])
-        if not stage_companies:
-            continue
-        cards_html = ''.join([generate_company_card(c, locked=True) for c in stage_companies])
-        sections_html += f'''
-        <section class="section gated-section" id="{stage_id}">
-            <div class="section-header">
-                <h2 class="section-title">{stage_name}</h2>
-                <span class="section-count">{len(stage_companies)}</span>
-            </div>
-            <div class="cards-grid">{cards_html}</div>
-        </section>
-        '''
-
-    # Add "other" section for companies without a stage (also gated)
-    other_companies = by_stage.get("other", []) + by_stage.get("", [])
-    if other_companies:
-        cards_html = ''.join([generate_company_card(c, locked=True) for c in other_companies])
-        sections_html += f'''
-        <section class="section gated-section" id="other">
-            <div class="section-header">
-                <h2 class="section-title">Other</h2>
-                <span class="section-count">{len(other_companies)}</span>
-            </div>
-            <div class="cards-grid">{cards_html}</div>
-        </section>
-        '''
-
-    companies_extra_head = '<meta name="description" content="Browse 181 biotech companies with clinical data, pipeline analysis, and investment thesis. Satya Bio tracks KYMR, ARGX, NUVL, EWTX and more.">'
+    companies_extra_head = '<meta name="description" content="In-depth biotech company profiles with clinical data, pipeline analysis, and investment thesis. Satya Bio covers ARGX, ARWR, ASND, EWTX, KYMR, NUVL, ARDX and more.">'
     companies_styles = """
         /* Category nav / filter pills */
         .category-nav { position: sticky; top: 64px; background: var(--bg); padding: 16px 0; z-index: 50; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
@@ -1150,168 +1072,22 @@ def generate_companies_page():
         .gate-modal .gate-error { color: #D4654A; font-size: 0.85rem; margin-top: 8px; display: none; }
         .gate-modal .gate-success { color: #1B2838; font-size: 0.85rem; margin-top: 8px; display: none; }
     """
-    return f'''{_render_head("Biotech Companies | Satya Bio - 181 Companies Tracked", companies_styles, companies_extra_head)}
+    return f'''{_render_head("Biotech Companies | Satya Bio", companies_styles, companies_extra_head)}
     {_render_nav("companies")}
     <main class="main">
         <div class="page-header">
             <h1 class="page-title">Companies</h1>
-            <p class="page-subtitle">{total_count} biotech companies with clinical data</p>
+            <p class="page-subtitle">{total_count} companies with in-depth analysis</p>
         </div>
-        <div class="search-box">
-            <input type="text" id="company-search" class="search-input" placeholder="Search by ticker, company name, or therapeutic area...">
-        </div>
-        <p class="results-count" id="results-count">Showing {total_count} companies</p>
-        <nav class="category-nav">
-            <div class="category-pills">{pills_html}</div>
-        </nav>
         {sections_html}
-        <p style="text-align: center; color: #9ca3af; font-size: 0.85rem; margin-top: 40px; margin-bottom: 8px;">Interested in coverage for a specific company or therapeutic area? Let us know at <a href="mailto:contact@satyabio.com" style="color: #9ca3af; text-decoration: underline;">contact@satyabio.com</a></p>
+        <p style="text-align: center; color: #9ca3af; font-size: 0.85rem; margin-top: 48px; margin-bottom: 8px;">Coverage expanding &mdash; more companies coming soon.<br>Interested in a specific company or therapeutic area? <a href="mailto:contact@satyabio.com" style="color: #9ca3af; text-decoration: underline;">Let us know</a></p>
     </main>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
         <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
     </footer>
 
-    <!-- Email gate modal -->
-    <div class="gate-backdrop" id="gate-backdrop">
-        <div class="gate-modal">
-            <button class="gate-close" onclick="hideGateModal()">&times;</button>
-            <h2>Request Platform Access</h2>
-            <p class="gate-sub">Get access to 180+ company profiles, pipeline analytics, and real-time catalyst tracking.</p>
-            <form id="gate-form" onsubmit="submitGateEmail(event)">
-                <input type="email" id="gate-email" placeholder="you@example.com" required>
-                <button type="submit" class="gate-btn" id="gate-btn">Request Access</button>
-            </form>
-            <p class="gate-error" id="gate-error"></p>
-            <p class="gate-success" id="gate-success"></p>
-            <p class="gate-fine">Currently in private beta. We'll send your login details.</p>
-        </div>
-    </div>
 
-    <script>
-        // --- Access request modal logic ---
-        function showGateModal(e) {{
-            e.preventDefault();
-            e.stopPropagation();
-            document.getElementById('gate-form').style.display = 'block';
-            document.getElementById('gate-backdrop').classList.add('visible');
-            document.getElementById('gate-email').focus();
-        }}
-
-        function hideGateModal() {{
-            document.getElementById('gate-backdrop').classList.remove('visible');
-            document.getElementById('gate-error').style.display = 'none';
-            document.getElementById('gate-success').style.display = 'none';
-            document.getElementById('gate-form').style.display = 'block';
-        }}
-
-        async function submitGateEmail(e) {{
-            e.preventDefault();
-            const email = document.getElementById('gate-email').value.trim();
-            const btn = document.getElementById('gate-btn');
-            const errorEl = document.getElementById('gate-error');
-            const successEl = document.getElementById('gate-success');
-
-            errorEl.style.display = 'none';
-            successEl.style.display = 'none';
-            btn.disabled = true;
-            btn.textContent = 'Submitting...';
-
-            try {{
-                const resp = await fetch('/api/subscribe', {{
-                    method: 'POST',
-                    headers: {{ 'Content-Type': 'application/json' }},
-                    body: JSON.stringify({{ email }})
-                }});
-                const data = await resp.json();
-                if (resp.ok) {{
-                    successEl.textContent = "Thanks! We'll send your access details to " + email + ".";
-                    successEl.style.display = 'block';
-                    document.getElementById('gate-form').style.display = 'none';
-                }} else {{
-                    errorEl.textContent = data.detail || 'Something went wrong. Please try again.';
-                    errorEl.style.display = 'block';
-                }}
-            }} catch (err) {{
-                errorEl.textContent = 'Network error. Please try again.';
-                errorEl.style.display = 'block';
-            }} finally {{
-                btn.disabled = false;
-                btn.textContent = 'Request Access';
-            }}
-        }}
-
-        // Close modal on backdrop click
-        document.getElementById('gate-backdrop').addEventListener('click', function(e) {{
-            if (e.target === this) hideGateModal();
-        }});
-
-        let activeCategory = 'all';
-
-        function filterCompanies() {{
-            const q = document.getElementById('company-search').value.toLowerCase();
-            const cards = document.querySelectorAll('.company-card');
-            const sections = document.querySelectorAll('.section');
-            let total = 0;
-
-            sections.forEach(section => {{
-                const sectionId = section.id;
-                let sectionCount = 0;
-
-                section.querySelectorAll('.company-card').forEach(card => {{
-                    const text = card.textContent.toLowerCase();
-                    const matchSearch = !q || text.includes(q);
-
-                    // Handle special filters
-                    let matchCategory = true;
-                    if (activeCategory === 'all') {{
-                        matchCategory = true;
-                    }} else if (activeCategory === 'has-data') {{
-                        matchCategory = card.querySelector('.data-badge') !== null;
-                    }} else if (activeCategory === 'high-priority') {{
-                        matchCategory = card.querySelector('.priority-badge.priority-high') !== null;
-                    }} else {{
-                        matchCategory = sectionId === activeCategory;
-                    }}
-
-                    if (matchCategory && matchSearch) {{
-                        card.style.display = '';
-                        sectionCount++;
-                        total++;
-                    }} else {{
-                        card.style.display = 'none';
-                    }}
-                }});
-
-                section.style.display = sectionCount > 0 ? '' : 'none';
-                const countBadge = section.querySelector('.section-count');
-                if (countBadge) countBadge.textContent = sectionCount;
-            }});
-
-            document.getElementById('results-count').textContent = 'Showing ' + total + ' companies';
-        }}
-
-        document.querySelectorAll('.category-pill').forEach(pill => {{
-            pill.addEventListener('click', (e) => {{
-                e.preventDefault();
-                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                const href = pill.getAttribute('href');
-                activeCategory = href === '#all' ? 'all' : href.replace('#', '');
-                filterCompanies();
-            }});
-        }});
-
-        document.getElementById('company-search').addEventListener('input', filterCompanies);
-
-        // Check for search query in URL hash
-        const hash = window.location.hash;
-        if (hash.includes('search=')) {{
-            const query = decodeURIComponent(hash.split('search=')[1]);
-            document.getElementById('company-search').value = query;
-            filterCompanies();
-        }}
-    </script>
 </body>
 </html>'''
 

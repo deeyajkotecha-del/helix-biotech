@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "updated": "2026-02-04",
+  "updated": "2026-02-16",
   "description": "181 biotech companies - 48 with curated IR data from presentations",
   "stats": {
     "total": 181,
@@ -21,7 +21,8 @@
       "priority": "high",
       "ir_priority": "HIGH",
       "has_data": true,
-      "market_cap_mm": "$35B",
+      "featured": true,
+      "market_cap_mm": "$51B",
       "ir_url": "",
       "notes": ""
     },
@@ -34,7 +35,8 @@
       "priority": "high",
       "ir_priority": "HIGH",
       "has_data": true,
-      "market_cap_mm": "$4.2B",
+      "featured": true,
+      "market_cap_mm": "$8.6B",
       "ir_url": "",
       "notes": "RNAi platform with extra-hepatic delivery (TRiM). 1 approved (REDEMPLO), 3 Phase 3"
     },
@@ -47,7 +49,8 @@
       "priority": "high",
       "ir_priority": "HIGH",
       "has_data": true,
-      "market_cap_mm": "$7B",
+      "featured": true,
+      "market_cap_mm": "$13.6B",
       "ir_url": "",
       "notes": ""
     },
@@ -99,7 +102,8 @@
       "priority": "high",
       "ir_priority": "HIGH",
       "has_data": true,
-      "market_cap_mm": "$3B",
+      "featured": true,
+      "market_cap_mm": "$3.2B",
       "ir_url": "",
       "notes": ""
     },
@@ -125,7 +129,8 @@
       "priority": "high",
       "ir_priority": "HIGH",
       "has_data": true,
-      "market_cap_mm": "$3.5B",
+      "featured": true,
+      "market_cap_mm": "$6.0B",
       "ir_url": "",
       "notes": ""
     },
@@ -164,7 +169,8 @@
       "priority": "high",
       "ir_priority": "HIGH",
       "has_data": true,
-      "market_cap_mm": "$8B",
+      "featured": true,
+      "market_cap_mm": "$7.3B",
       "ir_url": "",
       "notes": ""
     },
@@ -810,7 +816,8 @@
       "therapeutic_area": "gi_nephrology",
       "priority": "medium",
       "has_data": true,
-      "market_cap_mm": "$1.5B",
+      "featured": true,
+      "market_cap_mm": "$1.7B",
       "ir_url": "https://ir.ardelyx.com",
       "notes": "Commercial-stage GI/nephrology. IBSRELA (IBS-C, 92% YoY growth), XPHOZAH (hyperphosphatemia). NHE3 platform."
     },
