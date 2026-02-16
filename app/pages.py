@@ -1080,7 +1080,7 @@ def generate_companies_page():
             <p class="page-subtitle">{total_count} companies with in-depth analysis</p>
         </div>
         {sections_html}
-        <p style="text-align: center; color: #9ca3af; font-size: 0.85rem; margin-top: 48px; margin-bottom: 8px;">Coverage expanding &mdash; more companies coming soon.<br>Interested in a specific company or therapeutic area? <a href="mailto:contact@satyabio.com" style="color: #9ca3af; text-decoration: underline;">Let us know</a></p>
+        <p style="text-align: center; color: #9ca3af; font-size: 0.85rem; margin-top: 48px; margin-bottom: 8px;">Want access to 180+ more companies? <a href="mailto:contact@satyabio.com?subject=Full%20Access%20Request" style="color: #9ca3af; text-decoration: underline;">Email us</a> to gain full access</p>
     </main>
     <footer class="footer">
         <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
