@@ -6,6 +6,26 @@
   },
   "articles": [
     {
+      "slug": "orforglipron-primer",
+      "title": "Orforglipron: The First Small-Molecule Oral GLP-1",
+      "summary": "A comprehensive primer on the molecule poised to reshape obesity therapeutics — from Chugai's polycyclic scaffold to Lilly's NDA submission, the competitive landscape, and the regulatory catalysts ahead in 2026.",
+      "category": "catalyst",
+      "label": "Deep Dive",
+      "date": "2026-02-16",
+      "date_display": "February 16, 2026",
+      "author": "Satya Bio Research",
+      "reading_time": "25 min read",
+      "url": "/api/clinical/companies/LLY/insights/orforglipron/html",
+      "tickers": ["LLY"],
+      "tags": ["GLP-1", "Obesity", "Oral"],
+      "key_data": [
+        {"key": "Weight Loss", "value": "12.4%"},
+        {"key": "PDUFA Date", "value": "Apr 10, 2026"},
+        {"key": "Price", "value": "$149/mo"},
+        {"key": "Pipeline Assets", "value": "193+"}
+      ]
+    },
+    {
       "slug": "in-vivo-cart-competitive-landscape",
       "title": "In Vivo CAR-T Competitive Landscape",
       "summary": "Interactive tracker of 38+ in vivo CAR-T programs across viral and non-viral delivery. $7.5B+ in M&A, clinical data from 6 programs, and catalysts through 2027.",

@@ -2298,6 +2298,7 @@ def generate_insights_page():
                     {key_data_rows}
                 </div>"""
 
+            article_url = a.get('url', f"/insights/{a['slug']}")
             featured_html = f"""
             <div class="featured-card">
                 <div class="featured-topbar">
@@ -2310,10 +2311,10 @@ def generate_insights_page():
                 <div class="featured-body">
                     <div class="featured-content">
                         <h2 class="featured-title">
-                            <a href="/insights/{a['slug']}">{a['title']}</a>
+                            <a href="{article_url}">{a['title']}</a>
                         </h2>
                         <p class="featured-summary">{a.get('summary', '')}</p>
-                        <a href="/insights/{a['slug']}" class="featured-read">Read full analysis &rarr;</a>
+                        <a href="{article_url}" class="featured-read">Read full analysis &rarr;</a>
                     </div>
                     {data_panel}
                 </div>
@@ -2326,6 +2327,7 @@ def generate_insights_page():
                 tags = "".join(f'<span class="ticker-tag">{t}</span>' for t in tickers)
                 tickers_html = f'<div class="card-tickers">{tags}</div>'
 
+            article_url = a.get('url', f"/insights/{a['slug']}")
             grid_html += f"""
                 <div class="article-card">
                     <div class="card-topbar">
@@ -2333,7 +2335,7 @@ def generate_insights_page():
                         <span class="card-date">{a.get('date_display', '')}</span>
                     </div>
                     <div class="card-body">
-                        <h3><a href="/insights/{a['slug']}">{a['title']}</a></h3>
+                        <h3><a href="{article_url}">{a['title']}</a></h3>
                         <p class="card-summary">{a.get('summary', '')}</p>
                     </div>
                     {tickers_html}
