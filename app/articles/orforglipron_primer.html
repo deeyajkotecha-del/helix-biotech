@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orforglipron: Comprehensive Primer — The Oral GLP-1 Revolution</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a2e;
+  --paper: #f8f6f1;
+  --accent: #c0392b;
+  --accent2: #2c3e7a;
+  --accent3: #1a6b54;
+  --gold: #c4960c;
+  --muted: #6b6b7b;
+  --border: #d4d0c8;
+  --card: #ffffff;
+  --highlight: #fef3cd;
+  --blue-light: #e8edf6;
+  --green-light: #e6f2ee;
+  --red-light: #fce8e6;
+  --section-gap: 3.5rem;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Source Sans 3', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── HEADER / HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+  color: #fff;
+  padding: 4rem 2rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(192,57,43,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(44,62,122,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(192,57,43,0.25);
+  border: 1px solid rgba(192,57,43,0.5);
+  color: #f0a0a0;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+.hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+.hero h1 em {
+  font-style: italic;
+  color: #e8c170;
+}
+.hero-sub {
+  font-size: 1.15rem;
+  color: #b0b8cc;
+  max-width: 720px;
+  line-height: 1.65;
+  margin-bottom: 2rem;
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  max-width: 800px;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  backdrop-filter: blur(10px);
+}
+.hero-stat .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e8c170;
+  display: block;
+  line-height: 1.2;
+}
+.hero-stat .label {
+  font-size: 0.78rem;
+  color: #8890a4;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.2rem;
+}
+
+/* ── MAIN CONTENT ── */
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ── SECTION HEADERS ── */
+.section {
+  margin-top: var(--section-gap);
+  margin-bottom: 1.5rem;
+}
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.section h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 0.6rem;
+  display: inline-block;
+}
+.section h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--accent2);
+  margin: 2rem 0 0.8rem;
+}
+.section h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 1.5rem 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.88rem;
+}
+
+p { margin-bottom: 1rem; }
+
+/* ── COLLAPSIBLE ── */
+details {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+details[open] {
+  border-color: var(--accent2);
+}
+summary {
+  padding: 1rem 1.3rem;
+  font-weight: 700;
+  font-size: 1.02rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--accent2);
+  transition: background 0.2s;
+}
+summary:hover { background: var(--blue-light); }
+summary::before {
+  content: '▸';
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+summary::-webkit-details-marker { display: none; }
+.details-body {
+  padding: 0 1.3rem 1.3rem;
+  border-top: 1px solid var(--border);
+}
+
+/* ── CARDS ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent2);
+}
+.card-tag {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.6rem;
+}
+.tag-approved { background: #d4edda; color: #155724; }
+.tag-nda { background: #fff3cd; color: #856404; }
+.tag-phase3 { background: #d1ecf1; color: #0c5460; }
+.tag-phase2 { background: #e2e3f1; color: #383d6e; }
+.tag-phase1 { background: #f5e6d3; color: #7a5c3a; }
+
+/* ── TABLES ── */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  background: var(--card);
+}
+thead {
+  background: var(--ink);
+  color: #fff;
+}
+th {
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+td {
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+tbody tr:hover { background: #f9f8f5; }
+tbody tr:last-child td { border-bottom: none; }
+.td-drug { font-weight: 700; color: var(--accent2); }
+.td-num { font-family: 'JetBrains Mono', monospace; font-size: 0.84rem; }
+.td-highlight { background: var(--highlight); font-weight: 600; }
+
+/* ── TIMELINE ── */
+.timeline {
+  position: relative;
+  padding-left: 2.5rem;
+  margin: 1.5rem 0;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.7rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.tl-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot {
+  position: absolute;
+  left: -2.15rem;
+  top: 0.3rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent2);
+  border: 2px solid var(--paper);
+}
+.tl-dot.major {
+  background: var(--accent);
+  width: 14px;
+  height: 14px;
+  left: -2.25rem;
+}
+.tl-dot.gold {
+  background: var(--gold);
+}
+.tl-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.tl-text {
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.tl-text strong { color: var(--accent2); }
+
+/* ── CALLOUT BOXES ── */
+.callout {
+  border-left: 4px solid;
+  padding: 1.2rem 1.5rem;
+  border-radius: 0 8px 8px 0;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+.callout-red { border-color: var(--accent); background: var(--red-light); }
+.callout-blue { border-color: var(--accent2); background: var(--blue-light); }
+.callout-green { border-color: var(--accent3); background: var(--green-light); }
+.callout-gold { border-color: var(--gold); background: var(--highlight); }
+.callout-title {
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+/* ── BADGE PILLS ── */
+.pill {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.pill-oral { background: #dbeafe; color: #1e40af; }
+.pill-sc { background: #fce7f3; color: #9d174d; }
+.pill-sm { background: #e0e7ff; color: #3730a3; }
+.pill-peptide { background: #f0fdf4; color: #166534; }
+
+/* ── COMPARISON GRID ── */
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.compare-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.compare-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+.compare-item.ci-lilly::before { background: var(--accent); }
+.compare-item.ci-novo::before { background: var(--accent2); }
+.compare-item.ci-amgen::before { background: var(--accent3); }
+.compare-item.ci-viking::before { background: var(--gold); }
+.compare-item.ci-structure::before { background: #8b5cf6; }
+.compare-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+.compare-co {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.7rem;
+}
+.compare-wt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.1;
+}
+.compare-wt-label {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── FOOTER ── */
+.footer {
+  margin-top: 4rem;
+  padding: 2.5rem 2rem;
+  background: var(--ink);
+  color: #8890a4;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.footer strong { color: #c0c8d8; }
+.ref-list {
+  columns: 2;
+  column-gap: 2rem;
+  font-size: 0.76rem;
+  line-height: 1.65;
+  color: #7880a0;
+}
+.ref-list li {
+  margin-bottom: 0.4rem;
+  break-inside: avoid;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero { padding: 2.5rem 1.2rem 2rem; }
+  .hero h1 { font-size: 1.9rem; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .content { padding: 0 1.2rem; }
+  .section h2 { font-size: 1.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .compare-grid { grid-template-columns: repeat(2, 1fr); }
+  .ref-list { columns: 1; }
+  table { font-size: 0.8rem; }
+  th, td { padding: 0.5rem 0.6rem; }
+}
+@media (max-width: 480px) {
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+  .compare-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <span class="hero-badge">SatyaBio · Eli Lilly Deep Dive</span>
+    <h1>Orforglipron: <em>The First Small-Molecule Oral GLP-1</em></h1>
+    <p class="hero-sub">A comprehensive primer on the molecule poised to reshape obesity therapeutics — from Chugai's polycyclic scaffold to Lilly's NDA submission, the competitive landscape, and the regulatory catalysts ahead in 2026.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="num">12.4%</span>
+        <span class="label">Weight loss (ATTAIN-1)</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">Apr 10</span>
+        <span class="label">2026 PDUFA Date</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">$149</span>
+        <span class="label">/mo Starting Dose</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num">193+</span>
+        <span class="label">Obesity Pipeline Assets</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="content">
+
+<!-- ═══════════════════════ §1 GLP-1 BIOLOGY ═══════════════════════ -->
+<div class="section" id="biology">
+  <span class="section-num">Section 01</span>
+  <h2>GLP-1 Receptor Biology &amp; Orforglipron's Mechanism</h2>
+</div>
+
+<details open>
+  <summary>GLP-1 Receptor Agonist Class Overview</summary>
+  <div class="details-body">
+    <p>Glucagon-like peptide-1 (GLP-1) is an incretin hormone secreted by intestinal L-cells in response to nutrient ingestion. It binds the GLP-1 receptor (GLP-1R), a class B1 G protein-coupled receptor expressed on pancreatic β-cells, the hypothalamus, the brainstem, and the gastrointestinal tract. Activation drives glucose-dependent insulin secretion, suppresses glucagon release, delays gastric emptying, and promotes satiety through central appetite circuits.</p>
+    <p>The clinical validation of this pathway began with exenatide (2005) and liraglutide (2010/2014), but it was the weekly injectable semaglutide (Wegovy, 2021) that demonstrated transformative weight loss of ~15–17%. Tirzepatide (Zepbound, 2023), a dual GIP/GLP-1 agonist, pushed efficacy further to ~18–22%. However, all approved agents through 2024 were peptide-based injectables requiring cold-chain storage — a fundamental limitation for global accessibility.</p>
+  </div>
+</details>
+
+<details>
+  <summary>Orforglipron: A Non-Peptide Small Molecule Breakthrough</summary>
+  <div class="details-body">
+    <p>Orforglipron (originally OWL833 / LY3502970) is a <strong>non-peptide, orally bioavailable small molecule GLP-1 receptor agonist</strong> — the first of its kind to reach NDA submission. Unlike all prior GLP-1 RAs, which are peptide-based and require injection, orforglipron is built on a <strong>rigid polycyclic heteroaromatic scaffold</strong> containing nitrogen-bearing moieties that enable oral absorption without absorption enhancers like SNAC (sodium N-[8-(2-hydroxybenzoyl)amino] caprylate), which oral semaglutide requires.</p>
+
+    <h4>Key Molecular Properties</h4>
+    <p><strong>CAS:</strong> 2212020-52-3 · <strong>Formula:</strong> C₄₈H₄₈F₂N₁₀O₅ · <strong>MW:</strong> 883.0 g/mol</p>
+    <p>Orforglipron is not a substrate for DPP-4, the enzyme that rapidly degrades endogenous GLP-1 and peptide analogues. This intrinsic metabolic stability is a direct consequence of its non-peptide structure and eliminates the need for the fatty-acid albumin-binding modifications (used in semaglutide and liraglutide) or PEGylation strategies used by other long-acting peptides.</p>
+
+    <h4>Structural Basis of Binding</h4>
+    <p>A cryo-EM structure published in <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7703558/" target="_blank" style="color:var(--accent2);"><em>PNAS</em> (2020) by Kawai et al.</a> revealed that orforglipron engages the GLP-1R transmembrane domain and extracellular loop 2 in a partially overlapping but distinct binding mode compared to native GLP-1. The molecule occupies a pocket between transmembrane helices 1, 2, and 7, making contacts that stabilize an active receptor conformation. This binding mode activates Gαs signaling (cAMP production) and β-arrestin recruitment, though with a biased agonism profile that may differ from peptide agonists.</p>
+
+    <div class="callout callout-blue">
+      <div class="callout-title">Why "Small Molecule" Matters</div>
+      <p>Peptide GLP-1 RAs require complex manufacturing (solid-phase peptide synthesis, purification, formulation), cold-chain logistics, and injection delivery. Small molecules like orforglipron use conventional chemical synthesis — dramatically simpler, cheaper, and more scalable. This is the fundamental enabler of the "Year of Orals" thesis in 2026: room-temperature storage, no injections, no food/water restrictions, and manufacturing that can meet global demand.</p>
+    </div>
+  </div>
+</details>
+
+<!-- ═══════════════════════ §2 INTELLECTUAL PROPERTY ═══════════════════════ -->
+<div class="section" id="ip">
+  <span class="section-num">Section 02</span>
+  <h2>Discovery, Intellectual Property &amp; Licensing</h2>
+</div>
+
+<p>Orforglipron was originally discovered by <strong>Chugai Pharmaceutical Co., Ltd.</strong>, a Japanese subsidiary of the Roche Group (59.89% Roche-owned), under the internal designation <strong>OWL833</strong>.</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Core Patent</div>
+    <p><strong>WO2018056453A1</strong> (PCT international application)</p>
+    <p>Filed: <strong>September 26, 2017</strong> · Published: March 29, 2018</p>
+    <p>Granted in US (US20190225604A1), Europe, China, Japan (JP2019099571). Covers the polycyclic scaffold and GLP-1R agonist composition of matter.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Lilly License Transaction</div>
+    <p>Date: <strong>September 26, 2018</strong></p>
+    <p>Terms: Worldwide development and commercialization rights transferred to Eli Lilly for an upfront payment of <strong>$50 million</strong>. Chugai eligible for milestone payments and royalties on commercialization. At the time of the deal, orforglipron was preclinical/Phase 1-ready.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Additional Lilly Filings</div>
+    <p>WO2023220112A1: Tablet formulations<br>
+    WO2023220109A1: Capsule formulations<br>
+    WO2024129676A1: Dosage regimens for T2D, obesity, and overweight</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ §3 CLINICAL DEVELOPMENT ═══════════════════════ -->
+<div class="section" id="clinical">
+  <span class="section-num">Section 03</span>
+  <h2>Clinical Development Program</h2>
+</div>
+
+<h3>Development Timeline</h3>
+<div class="timeline">
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Sept 2017</span><div class="tl-text">Chugai files core patent WO2018056453A1</div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Sept 2018</span><div class="tl-text">Lilly licenses OWL833 for <strong>$50M upfront</strong></div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Nov 2020</span><div class="tl-text">Cryo-EM structure published in <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7703558/" target="_blank" style="color:var(--accent2);"><em>PNAS</em></a> (Kawai et al.)</div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">2021–2022</span><div class="tl-text">Phase 1a/1b completed (healthy volunteers + T2D patients)</div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">June 2023</span><div class="tl-text">Phase 2 obesity data at ADA, published in <strong>NEJM</strong></div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Aug 2023</span><div class="tl-text">Phase 2 T2D data published in <strong>Lancet</strong></div></div>
+  <div class="tl-item"><div class="tl-dot major"></div><span class="tl-date">April 17, 2025</span><div class="tl-text"><strong>ACHIEVE-1 topline results — first Phase 3 success</strong></div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">June 2025</span><div class="tl-text">ACHIEVE-1 full results at ADA, published in <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2505669" target="_blank" style="color:var(--accent2);"><strong>NEJM</strong></a></div></div>
+  <div class="tl-item"><div class="tl-dot major"></div><span class="tl-date">Aug 7, 2025</span><div class="tl-text"><strong>ATTAIN-1 topline results</strong> — obesity Phase 3</div></div>
+  <div class="tl-item"><div class="tl-dot major"></div><span class="tl-date">Aug 26, 2025</span><div class="tl-text"><strong>ATTAIN-2 topline results</strong> — full regulatory data package</div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Sept 17, 2025</span><div class="tl-text"><a href="https://investor.lilly.com/news-releases/news-release-details/lillys-oral-glp-1-orforglipron-superior-oral-semaglutide-head" target="_blank" style="color:var(--accent2);"><strong>ACHIEVE-3</strong></a> (vs. oral semaglutide) — superior on all endpoints</div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Sept 16, 2025</span><div class="tl-text">ATTAIN-1 full results published in <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2511774" target="_blank" style="color:var(--accent2);"><strong>NEJM</strong></a>, presented at EASD Vienna</div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Oct 15, 2025</span><div class="tl-text"><a href="https://investor.lilly.com/news-releases/news-release-details/lillys-oral-glp-1-orforglipron-demonstrated-superior-glycemic" target="_blank" style="color:var(--accent2);"><strong>ACHIEVE-2</strong></a> (vs. dapagliflozin) + <strong>ACHIEVE-5</strong> (with insulin glargine) — both met all endpoints</div></div>
+  <div class="tl-item"><div class="tl-dot gold"></div><span class="tl-date">Nov 2025</span><div class="tl-text"><strong>FDA grants Commissioner's National Priority Voucher (CNPV)</strong></div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Nov 20, 2025</span><div class="tl-text">ATTAIN-2 published in <em>Lancet</em></div></div>
+  <div class="tl-item"><div class="tl-dot major"></div><span class="tl-date">Dec 18, 2025</span><div class="tl-text"><strong>NDA submitted to FDA for obesity; ATTAIN-MAINTAIN results</strong></div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Q1 2026</span><div class="tl-text">ACHIEVE-4 results expected</div></div>
+  <div class="tl-item"><div class="tl-dot major"></div><span class="tl-date">April 10, 2026</span><div class="tl-text"><strong>FDA PDUFA target action date</strong></div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">2026</span><div class="tl-text">T2D NDA submission planned · potential global launch</div></div>
+</div>
+
+<div class="callout callout-gold">
+  <div class="callout-title">Commissioner's National Priority Voucher (CNPV)</div>
+  <p>The CNPV pilot program, launched June 2025, can compress FDA review from the standard 10–12 months down to 1–2 months. Awarded to companies meeting national priorities: unmet need, domestic manufacturing commitment, and drug pricing commitments. Orforglipron is the first obesity drug to receive this designation, enabling the accelerated April 10, 2026 PDUFA date from NDA submission on December 18, 2025.</p>
+</div>
+
+<!-- ═══════════════════════ §3A PHASE 3 DATA ═══════════════════════ -->
+<h3>Phase 3 Clinical Data: T2D (ACHIEVE Program)</h3>
+
+<p style="font-size:0.88rem;color:var(--muted);margin-bottom:0.5rem;"><em>All data below use the <strong>efficacy estimand</strong> (as if all randomized participants remained on study intervention) unless noted. Treatment-regimen estimand results (average effect regardless of adherence) were also statistically significant in all trials. Links go to original publications or press releases.</em></p>
+
+<h4 style="margin-top:1.5rem;">ACHIEVE-1 · <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2505669" target="_blank" style="color:var(--accent);font-size:0.82rem;">NEJM 2025;393:1065–1076</a></h4>
+<p style="font-size:0.88rem;">Phase 3, 40 wk, double-blind, placebo-controlled · N=559 · Baseline HbA1c 8.0% · Monotherapy (diet/exercise only) · <a href="https://clinicaltrials.gov/study/NCT05971940" target="_blank" style="color:var(--accent2);font-size:0.82rem;">NCT05971940</a></p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Endpoint</th><th>3 mg</th><th>12 mg</th><th>36 mg</th><th>Placebo</th></tr>
+</thead>
+<tbody>
+<tr><td>HbA1c change</td><td class="td-num">−1.3%</td><td class="td-num">−1.6%</td><td class="td-num td-highlight">−1.5%</td><td class="td-num">−0.1%</td></tr>
+<tr><td>Wt change (%) </td><td class="td-num">−4.7%</td><td class="td-num">−6.1%</td><td class="td-num td-highlight">−7.9%</td><td class="td-num">−1.6%</td></tr>
+<tr><td>Wt change (lbs)</td><td class="td-num">−9.3</td><td class="td-num">−11.5</td><td class="td-num td-highlight">−16.0</td><td class="td-num">−3.4</td></tr>
+<tr><td>HbA1c ≤6.5%</td><td class="td-num">—</td><td class="td-num">—</td><td class="td-num td-highlight">&gt;65%</td><td class="td-num">—</td></tr>
+<tr><td>AE discontinuation</td><td class="td-num">6%</td><td class="td-num">4%</td><td class="td-num">8%</td><td class="td-num">1%</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4>ACHIEVE-2 · <a href="https://investor.lilly.com/news-releases/news-release-details/lillys-oral-glp-1-orforglipron-demonstrated-superior-glycemic" target="_blank" style="color:var(--accent);font-size:0.82rem;">Lilly PR, Oct 15, 2025</a></h4>
+<p style="font-size:0.88rem;">Phase 3, 40 wk, open-label, active-controlled · N=962 · Baseline HbA1c 8.1% · vs. dapagliflozin 10 mg · Background: metformin · <a href="https://clinicaltrials.gov/study/NCT06192108" target="_blank" style="color:var(--accent2);font-size:0.82rem;">NCT06192108</a></p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Endpoint (Efficacy Est.)</th><th>3 mg</th><th>12 mg</th><th>36 mg</th><th>Dapa 10 mg</th></tr>
+</thead>
+<tbody>
+<tr><td>HbA1c change</td><td class="td-num">−1.3%</td><td class="td-num td-highlight">−1.7%</td><td class="td-num td-highlight">−1.7%</td><td class="td-num">−0.8%</td></tr>
+<tr><td><em>Tx-regimen estimand</em></td><td class="td-num" style="font-style:italic;">−1.2%</td><td class="td-num" style="font-style:italic;">−1.5%</td><td class="td-num" style="font-style:italic;">−1.6%</td><td class="td-num" style="font-style:italic;">−0.8%</td></tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:0.85rem;">Dose-dependent weight loss and CV risk factor improvements (non-HDL-C, SBP, triglycerides) consistent with prior trials. No hepatic signal.</p>
+
+<h4>ACHIEVE-3 · <a href="https://investor.lilly.com/news-releases/news-release-details/lillys-oral-glp-1-orforglipron-superior-oral-semaglutide-head" target="_blank" style="color:var(--accent);font-size:0.82rem;">Lilly PR, Sept 17, 2025</a></h4>
+<p style="font-size:0.88rem;">Phase 3, 52 wk, open-label, head-to-head · N=1,698 (1:1:1:1) · Baseline HbA1c ~8% · vs. oral semaglutide (7 mg and 14 mg) · Background: metformin · <a href="https://clinicaltrials.gov/study/NCT06045221" target="_blank" style="color:var(--accent2);font-size:0.82rem;">NCT06045221</a></p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Endpoint</th><th colspan="2" style="text-align:center;background:#2c3e7a;">Orforglipron</th><th colspan="2" style="text-align:center;background:#555;">Oral Semaglutide</th></tr>
+<tr><th></th><th>12 mg</th><th>36 mg</th><th>7 mg</th><th>14 mg</th></tr>
+</thead>
+<tbody>
+<tr><td>HbA1c (tx-regimen)</td><td class="td-num">−1.7%</td><td class="td-num td-highlight">−1.9%</td><td class="td-num">−1.2%</td><td class="td-num">−1.5%</td></tr>
+<tr><td>HbA1c (efficacy est.)</td><td class="td-num">−1.9%</td><td class="td-num td-highlight">−2.2%</td><td class="td-num">−1.1%</td><td class="td-num">−1.4%</td></tr>
+<tr><td>HbA1c &lt;5.7% (eff.)</td><td class="td-num">21.4%</td><td class="td-num td-highlight">37.1%</td><td class="td-num">7.4%</td><td class="td-num">12.5%</td></tr>
+<tr><td>Wt change kg (tx-reg)</td><td class="td-num">−6.2</td><td class="td-num td-highlight">−8.1</td><td class="td-num">−3.8</td><td class="td-num">−5.2</td></tr>
+<tr><td>Wt change % (tx-reg)</td><td class="td-num">−6.1%</td><td class="td-num td-highlight">−8.2%</td><td class="td-num">−3.9%</td><td class="td-num">−5.3%</td></tr>
+<tr><td>Wt change % (eff.)</td><td class="td-num">−6.7%</td><td class="td-num td-highlight">−9.2%</td><td class="td-num">−3.7%</td><td class="td-num">−5.3%</td></tr>
+<tr><td>AE discontinuation</td><td class="td-num">8.7%</td><td class="td-num">9.7%</td><td class="td-num">4.5%</td><td class="td-num">4.9%</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-blue">
+  <div class="callout-title">ACHIEVE-3: Key Takeaway</div>
+  <p>Orforglipron 36 mg helped nearly <strong>3× as many participants</strong> reach near-normal blood sugar (HbA1c &lt;5.7%) as the highest dose of oral semaglutide (37.1% vs. 12.5%). Weight loss with orforglipron 36 mg was 73.6% greater than oral semaglutide 14 mg. Higher AE discontinuation rates with orforglipron (9.7% vs. 4.9%) likely reflect both dose-titration differences and the open-label design. The study was not powered to compare safety profiles.</p>
+</div>
+
+<h4>ACHIEVE-5 · <a href="https://investor.lilly.com/news-releases/news-release-details/lillys-oral-glp-1-orforglipron-demonstrated-superior-glycemic" target="_blank" style="color:var(--accent);font-size:0.82rem;">Lilly PR, Oct 15, 2025</a></h4>
+<p style="font-size:0.88rem;">Phase 3, 40 wk, double-blind, placebo-controlled · N=546 · Baseline HbA1c 8.5% · Add-on to titrated insulin glargine ± metformin ± SGLT2i · <a href="https://clinicaltrials.gov/study/NCT06109311" target="_blank" style="color:var(--accent2);font-size:0.82rem;">NCT06109311</a></p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Endpoint</th><th>3 mg</th><th>12 mg</th><th>36 mg</th><th>Placebo</th></tr>
+</thead>
+<tbody>
+<tr><td>HbA1c (efficacy est.)</td><td class="td-num">−1.5%</td><td class="td-num td-highlight">−2.1%</td><td class="td-num">−1.9%</td><td class="td-num">−0.8%</td></tr>
+<tr><td><em>HbA1c (tx-regimen)</em></td><td class="td-num" style="font-style:italic;">−1.6%</td><td class="td-num" style="font-style:italic;">−1.9%</td><td class="td-num" style="font-style:italic;">−1.8%</td><td class="td-num" style="font-style:italic;">−0.8%</td></tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:0.85rem;">Statistically significant at all doses (p&lt;0.001). Weight loss and CV risk factor improvements consistent with prior ACHIEVE trials. No hepatic signal. Note: the 36 mg result (−1.9%) being slightly lower than 12 mg (−2.1%) in this trial likely reflects the small sample size per arm (n~137) and the severe-population context (baseline HbA1c 8.5%).</p>
+
+<div class="callout callout-green">
+  <div class="callout-title">ACHIEVE-4 (NCT05803421) — Pending</div>
+  <p>The final ACHIEVE registration trial — a head-to-head vs. insulin glargine in T2D with obesity/overweight at elevated CV risk — is expected to report results in <strong>Q1 2026</strong>. This is the last dataset needed for the T2D NDA submission planned for 2026.</p>
+</div>
+
+<h3>Phase 3 Clinical Data: Obesity (ATTAIN Program)</h3>
+
+<p style="font-size:0.88rem;color:var(--muted);margin-bottom:0.5rem;"><em>Data below use the <strong>treatment-regimen estimand</strong> (average effect regardless of adherence) which is the primary estimand in the ATTAIN obesity trials. Efficacy estimand results were numerically higher.</em></p>
+
+<h4>ATTAIN-1 · <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2511774" target="_blank" style="color:var(--accent);font-size:0.82rem;">NEJM 2025;393:1796–1806</a></h4>
+<p style="font-size:0.88rem;">Phase 3, 72 wk, double-blind, placebo-controlled · N=3,127 · Obesity without T2D · <a href="https://clinicaltrials.gov/study/NCT05869903" target="_blank" style="color:var(--accent2);font-size:0.82rem;">NCT05869903</a></p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Endpoint (tx-reg est.)</th><th>6 mg</th><th>12 mg</th><th>36 mg</th><th>Placebo</th></tr>
+</thead>
+<tbody>
+<tr><td>Mean wt change (%)</td><td class="td-num">−7.5%</td><td class="td-num">−8.4%</td><td class="td-num td-highlight">−11.2%</td><td class="td-num">−2.1%</td></tr>
+<tr><td>≥10% wt loss</td><td class="td-num">—</td><td class="td-num">—</td><td class="td-num td-highlight">54.6%</td><td class="td-num">12.9%</td></tr>
+<tr><td>≥15% wt loss</td><td class="td-num">—</td><td class="td-num">—</td><td class="td-num td-highlight">36.0%</td><td class="td-num">5.9%</td></tr>
+<tr><td>≥20% wt loss</td><td class="td-num">—</td><td class="td-num">—</td><td class="td-num td-highlight">18.4%</td><td class="td-num">2.8%</td></tr>
+<tr><td>AE discontinuation</td><td class="td-num" colspan="3">5.3–10.3%</td><td class="td-num">2.7%</td></tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:0.85rem;">The headline figure of ~12.4% weight loss at 36 mg reported in Lilly's press release reflects the <strong>efficacy estimand</strong> (as if all patients adhered). The NEJM publication's primary analysis (treatment-regimen estimand) showed −11.2%. Cardiometabolic improvements in waist circumference, SBP, triglycerides, and non-HDL-C were all significant vs. placebo.</p>
+
+<h4>ATTAIN-2 · <a href="https://investor.lilly.com/news-releases/news-release-details/lillys-oral-glp-1-orforglipron-demonstrated-statistically-0" target="_blank" style="color:var(--accent);font-size:0.82rem;">Lancet 2025 (published Nov 20)</a></h4>
+<p style="font-size:0.88rem;">Phase 3, 72 wk, double-blind, placebo-controlled · N=~1,400 · Obesity/overweight + T2D · <a href="https://clinicaltrials.gov/study/NCT05872620" target="_blank" style="color:var(--accent2);font-size:0.82rem;">NCT05872620</a></p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Endpoint</th><th>36 mg (headline)</th><th>Placebo</th></tr>
+</thead>
+<tbody>
+<tr><td>Mean wt loss (efficacy est.)</td><td class="td-num td-highlight">−10.5%</td><td class="td-num">—</td></tr>
+<tr><td>≥10% wt loss</td><td class="td-num td-highlight">~46%</td><td class="td-num">—</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The ATTAIN program enrolled over 4,500 participants across registrational trials. All three orforglipron doses (3 mg, 12 mg, 36 mg) showed dose-dependent weight loss and GI tolerability consistent with the GLP-1 RA class. Discontinuation rates for adverse events were comparable to injectable GLP-1 RAs. Critically, <strong>no hepatic safety signal was observed</strong> — a key differentiator from Pfizer's oral GLP-1 program (danuglipron), which was abandoned due to liver enzyme elevations.</p>
+
+<!-- ═══════════════════════ §3B ATTAIN-MAINTAIN ═══════════════════════ -->
+<h3>ATTAIN-MAINTAIN: The Maintenance Paradigm</h3>
+
+<div class="callout callout-green">
+  <div class="callout-title">First-of-Its-Kind Trial</div>
+  <p>ATTAIN-MAINTAIN is the first Phase 3 study demonstrating that an oral GLP-1 can maintain weight loss achieved by injectable incretins — addressing the critical clinical problem of weight regain when patients discontinue injectable therapy.</p>
+</div>
+
+<p><strong>Design:</strong> 52-week, randomized, double-blind, placebo-controlled. 376 participants from SURMOUNT-5 (who had completed 72 weeks on maximum-tolerated Wegovy or Zepbound and achieved plateau) were re-randomized 3:2 to orforglipron (starting 12 mg, titrated to 24/36 mg MTD) or placebo.</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Switch from Wegovy → Orforglipron</div>
+    <p>Maintained weight within <strong>0.9 kg</strong> on average at 52 weeks.</p>
+    <p>At 24 weeks: orforglipron group −0.1 kg vs placebo <strong>+9.4 kg</strong>.</p>
+    <p style="font-size:0.82rem;color:var(--muted);">Starting weight 95.0 kg → ended 95.9 kg on orforglipron</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Switch from Zepbound → Orforglipron</div>
+    <p>Maintained weight within <strong>5.0 kg</strong> on average at 52 weeks.</p>
+    <p>At 24 weeks: orforglipron group +2.6 kg vs placebo <strong>+9.1 kg</strong>.</p>
+    <p style="font-size:0.82rem;color:var(--muted);">Starting weight 90.9 kg → ended 95.9 kg on orforglipron</p>
+  </div>
+</div>
+
+<p>The 5.0 kg gap from Zepbound switch (vs. 0.9 kg from Wegovy) reflects the fact that tirzepatide's dual GIP/GLP-1 mechanism drives deeper weight loss than a single GLP-1 agonist can fully maintain. Nonetheless, placebo groups regained 9+ kg, demonstrating orforglipron's clear superiority in preventing the weight regain that typically follows injectable discontinuation.</p>
+
+<!-- ═══════════════════════ §4 SAFETY ═══════════════════════ -->
+<div class="section" id="safety">
+  <span class="section-num">Section 04</span>
+  <h2>Safety Profile &amp; GLP-1 Class Signals</h2>
+</div>
+
+<p>Orforglipron's safety profile across all Phase 3 trials has been consistent with the established GLP-1 RA class. The most common adverse events are gastrointestinal — nausea, diarrhea, vomiting, and decreased appetite — generally mild-to-moderate and concentrated during dose titration. Rates mirror those seen with injectable tirzepatide.</p>
+
+<details>
+  <summary>Hepatic Safety: The Pfizer Differentiator</summary>
+  <div class="details-body">
+    <p>Pfizer's oral GLP-1 candidate danuglipron was abandoned after significant liver enzyme elevations (ALT/AST) emerged in Phase 2b. Orforglipron's Phase 3 program has shown <strong>no hepatic safety signal</strong> across ATTAIN-1, ATTAIN-2, ATTAIN-MAINTAIN, and the ACHIEVE trials. This clean hepatic profile is a critical differentiator in the oral small-molecule GLP-1 class and has been a key factor in FDA's acceptance of the NDA and granting of the CNPV.</p>
+  </div>
+</details>
+
+<details>
+  <summary>GLP-1 Class Signals: NAION, Pancreatitis &amp; Diabetic Retinopathy</summary>
+  <div class="details-body">
+    <h4>Non-Arteritic Anterior Ischemic Optic Neuropathy (NAION)</h4>
+    <p>A signal emerged from a 2024 JAMA Ophthalmology study (Hsu et al.) linking semaglutide to increased NAION risk (HR ~2.2 in T2D, ~8.7 in overweight/obesity). A 2025 Medicare study (Fung et al.) and EMA PRAC review (June 2025) further examined this. The pooled hazard ratio from a 2025 meta-analysis was approximately 2.1–2.5 for GLP-1 RA use. The EMA has added NAION to the product information for all GLP-1 RA-containing medicines. The AOA Evidence-based Optometry Committee (2025) now recommends baseline and periodic eye exams for patients initiating GLP-1 RAs.</p>
+
+    <h4>Acute Pancreatitis</h4>
+    <p>GLP-1 RAs carry a class warning for acute pancreatitis. A 2024 TriNetX real-world study (Nassar et al., ENDO 2024) found semaglutide users had ~1.6× higher pancreatitis risk vs. non-users, though confounding by obesity itself (an independent risk factor for pancreatitis) complicates interpretation. Orforglipron's Phase 3 pancreatitis rates have been low and comparable to injectable GLP-1 RAs.</p>
+
+    <h4>Diabetic Retinopathy</h4>
+    <p>The SUSTAIN-6 trial (Marso et al., NEJM 2016) identified an early diabetic retinopathy signal with semaglutide, mechanistically linked to rapid glycemic improvement in patients with pre-existing retinopathy. This is considered a class effect related to the magnitude and speed of HbA1c reduction, not a direct retinal toxicity. The signal is most relevant for T2D patients with existing retinopathy, less so for obesity-only populations.</p>
+  </div>
+</details>
+
+<!-- ═══════════════════════ §5 COMPETITIVE LANDSCAPE ═══════════════════════ -->
+<div class="section" id="competitive">
+  <span class="section-num">Section 05</span>
+  <h2>Competitive Landscape &amp; Pipeline</h2>
+</div>
+
+<p>The obesity therapeutic pipeline has exploded: an estimated <strong>193+ assets</strong> are in clinical or preclinical development as of late 2025, with approximately 46–50% targeting oral delivery. Six anti-obesity medications are currently FDA-approved, and the market is projected to exceed $200 billion in annual sales by the early 2030s.</p>
+
+<h3>FDA-Approved Anti-Obesity Medications</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Drug</th><th>Brand</th><th>Company</th><th>Route</th><th>Approval</th><th>Mechanism</th><th>~Wt Loss</th></tr>
+</thead>
+<tbody>
+<tr><td class="td-drug">Orlistat</td><td>Xenical / Alli</td><td>Roche / GSK</td><td><span class="pill pill-oral">Oral</span></td><td>1999</td><td>Lipase inhibitor</td><td class="td-num">3–5%</td></tr>
+<tr><td class="td-drug">Phentermine / topiramate</td><td>Qsymia</td><td>Vivus</td><td><span class="pill pill-oral">Oral</span></td><td>2012</td><td>Sympathomimetic + anticonvulsant</td><td class="td-num">7–9%</td></tr>
+<tr><td class="td-drug">Naltrexone / bupropion</td><td>Contrave</td><td>Currax</td><td><span class="pill pill-oral">Oral</span></td><td>2014</td><td>Opioid antagonist + DA/NE reuptake</td><td class="td-num">5–6%</td></tr>
+<tr><td class="td-drug">Liraglutide 3 mg</td><td>Saxenda</td><td>Novo Nordisk</td><td><span class="pill pill-sc">SC QD</span></td><td>Dec 2014</td><td>GLP-1 RA</td><td class="td-num">5–8%</td></tr>
+<tr><td class="td-drug">Semaglutide 2.4 mg</td><td>Wegovy (inj)</td><td>Novo Nordisk</td><td><span class="pill pill-sc">SC QW</span></td><td>June 2021</td><td>GLP-1 RA</td><td class="td-num">15–17%</td></tr>
+<tr><td class="td-drug">Tirzepatide</td><td>Zepbound</td><td>Eli Lilly</td><td><span class="pill pill-sc">SC QW</span></td><td>Nov 2023</td><td>GIP / GLP-1 dual agonist</td><td class="td-num">18–22%</td></tr>
+<tr style="background:var(--highlight)"><td class="td-drug">Oral semaglutide 25 mg</td><td>Wegovy (pill)</td><td>Novo Nordisk</td><td><span class="pill pill-oral">Oral QD</span></td><td><strong>Dec 2025</strong></td><td>GLP-1 RA (peptide + SNAC)</td><td class="td-num">~16.6%*</td></tr>
+</tbody>
+</table>
+</div>
+<p style="font-size:0.8rem;color:var(--muted);">*Adherent estimand from OASIS 4; ITT: 13.6%</p>
+
+<h3>Head-to-Head: Late-Stage Pipeline Comparison</h3>
+
+<div class="compare-grid">
+  <div class="compare-item ci-lilly">
+    <div class="compare-name">Retatrutide</div>
+    <div class="compare-co">Eli Lilly · GLP-1/GIP/GCG triple</div>
+    <div class="compare-wt">~24%</div>
+    <div class="compare-wt-label">Phase 2, 48 wk · SC QW</div>
+    <span class="card-tag tag-phase3">Phase 3</span>
+  </div>
+  <div class="compare-item ci-novo">
+    <div class="compare-name">Amycretin SC</div>
+    <div class="compare-co">Novo Nordisk · GLP-1/Amylin</div>
+    <div class="compare-wt">~24%</div>
+    <div class="compare-wt-label">Phase 1b/2a, 36 wk, plcb-adj</div>
+    <span class="card-tag tag-phase3">Phase 3 Q1 '26</span>
+  </div>
+  <div class="compare-item ci-novo">
+    <div class="compare-name">CagriSema</div>
+    <div class="compare-co">Novo Nordisk · GLP-1 + Amylin</div>
+    <div class="compare-wt">~22.7%</div>
+    <div class="compare-wt-label">Phase 3 REDEFINE-1, 68 wk</div>
+    <span class="card-tag tag-phase3">Phase 3</span>
+  </div>
+  <div class="compare-item ci-amgen">
+    <div class="compare-name">MariTide</div>
+    <div class="compare-co">Amgen · GLP-1R/GIPR bispecific</div>
+    <div class="compare-wt">~20%</div>
+    <div class="compare-wt-label">Phase 2, 52 wk · SC monthly</div>
+    <span class="card-tag tag-phase3">Phase 3</span>
+  </div>
+  <div class="compare-item ci-structure">
+    <div class="compare-name">Aleniglipron</div>
+    <div class="compare-co">Structure Tx · Oral SM GLP-1</div>
+    <div class="compare-wt">~15.3%</div>
+    <div class="compare-wt-label">ACCESS II, 240mg, 36 wk</div>
+    <span class="card-tag tag-phase2">Phase 2b</span>
+  </div>
+  <div class="compare-item ci-viking">
+    <div class="compare-name">VK2735</div>
+    <div class="compare-co">Viking Tx · GIP/GLP-1 dual</div>
+    <div class="compare-wt">~14.7%</div>
+    <div class="compare-wt-label">Phase 2, 13 wk · SC QW</div>
+    <span class="card-tag tag-phase2">Phase 2/3</span>
+  </div>
+</div>
+
+<h3>Comprehensive Pipeline Tracker: FDA/Regulatory Status</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Drug</th><th>Company</th><th>Mechanism</th><th>Route</th><th>Phase</th><th>FDA Status</th><th>Key Data</th></tr>
+</thead>
+<tbody>
+<tr style="background:var(--highlight)"><td class="td-drug">Orforglipron</td><td>Eli Lilly</td><td><span class="pill pill-sm">SM</span> GLP-1 RA</td><td><span class="pill pill-oral">Oral</span></td><td>NDA</td><td><strong>PDUFA Apr 10 '26 · CNPV</strong></td><td class="td-num">12.4% (obesity)</td></tr>
+<tr style="background:#d4edda"><td class="td-drug">Oral Wegovy</td><td>Novo Nordisk</td><td><span class="pill pill-peptide">Peptide</span> GLP-1 RA</td><td><span class="pill pill-oral">Oral</span></td><td><strong>Approved</strong></td><td>FDA approved Dec 22, 2025</td><td class="td-num">16.6% (adherent)</td></tr>
+<tr><td class="td-drug">CagriSema</td><td>Novo Nordisk</td><td>GLP-1 + amylin</td><td><span class="pill pill-sc">SC QW</span></td><td>Ph 3</td><td>Filing planned 2026</td><td class="td-num">22.7% (REDEFINE-1)</td></tr>
+<tr><td class="td-drug">Retatrutide</td><td>Eli Lilly</td><td>GLP-1/GIP/GCG triple</td><td><span class="pill pill-sc">SC QW</span></td><td>Ph 3</td><td>TRIUMPH-5 readout late '26</td><td class="td-num">~24% (Ph 2)</td></tr>
+<tr><td class="td-drug">MariTide</td><td>Amgen</td><td>GLP-1R/GIPR bispecific</td><td><span class="pill pill-sc">SC monthly</span></td><td>Ph 3</td><td>Initiated 2025</td><td class="td-num">~20% (Ph 2)</td></tr>
+<tr><td class="td-drug">VK2735 (SC)</td><td>Viking Tx</td><td>GIP/GLP-1 dual</td><td><span class="pill pill-sc">SC QW</span></td><td>Ph 2/3</td><td>Ongoing</td><td class="td-num">14.7% (13 wk)</td></tr>
+<tr><td class="td-drug">Amycretin SC</td><td>Novo Nordisk</td><td>GLP-1/amylin unimol.</td><td><span class="pill pill-sc">SC QW</span></td><td>Ph 3</td><td>Initiating Q1 2026</td><td class="td-num">23.9% (plcb-adj)</td></tr>
+<tr><td class="td-drug">Amycretin Oral</td><td>Novo Nordisk</td><td>GLP-1/amylin unimol.</td><td><span class="pill pill-oral">Oral</span></td><td>Ph 3</td><td>Initiating Q1 2026</td><td class="td-num">13.1% (12 wk)</td></tr>
+<tr><td class="td-drug">Aleniglipron</td><td>Structure Tx</td><td><span class="pill pill-sm">SM</span> GLP-1 RA</td><td><span class="pill pill-oral">Oral</span></td><td>Ph 2b</td><td>Ph 3 mid-2026</td><td class="td-num">15.3% (240mg)</td></tr>
+<tr><td class="td-drug">CT-996</td><td>Roche (Carmot)</td><td><span class="pill pill-sm">SM</span> GLP-1 RA</td><td><span class="pill pill-oral">Oral</span></td><td>Ph 2</td><td>Ongoing</td><td>Early data exp.</td></tr>
+<tr><td class="td-drug">Survodutide</td><td>BI / Zealand</td><td>GLP-1/GCG dual</td><td><span class="pill pill-sc">SC QW</span></td><td>Ph 3</td><td>Ongoing (MASH focus)</td><td class="td-num">~19% (46 wk)</td></tr>
+<tr><td class="td-drug">Eloralintide</td><td>Eli Lilly</td><td>Amylin analogue</td><td><span class="pill pill-sc">SC</span></td><td>Ph 3</td><td>Entering Ph 3</td><td class="td-num">~20% (Ph 2)</td></tr>
+<tr><td class="td-drug">Petrelintide</td><td>Zealand / Roche</td><td>Amylin analogue</td><td><span class="pill pill-sc">SC</span></td><td>Ph 2</td><td>Initiated Apr 2025</td><td>$5.3B deal</td></tr>
+<tr><td class="td-drug">Ecnoglutide</td><td>Sciwind Bio</td><td>cAMP-biased GLP-1</td><td><span class="pill pill-sc">SC QW</span></td><td>NDA</td><td>NMPA China review</td><td class="td-num">15.4% (48 wk)</td></tr>
+<tr><td class="td-drug">Mazdutide</td><td>Innovent / Lilly</td><td>GLP-1/GCG dual</td><td><span class="pill pill-sc">SC QW</span></td><td>Approved</td><td>NMPA China (6mg); 9mg pending</td><td class="td-num">20.1% (9mg)</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ═══════════════════════ §6 YEAR OF ORALS ═══════════════════════ -->
+<div class="section" id="orals">
+  <span class="section-num">Section 06</span>
+  <h2>2026: The Year of Orals</h2>
+</div>
+
+<p>2026 marks a structural inflection point in obesity therapeutics: the transition from injectable-dominated treatment to oral-first paradigms. Three converging forces drive this shift.</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">No Cold Chain</div>
+    <p>Injectable GLP-1 RAs (Wegovy, Zepbound) require refrigeration at 36–46°F. Oral formulations store at room temperature — dramatically simplifying logistics, especially in low- and middle-income countries where cold-chain infrastructure is limited. This is the single biggest enabler of global accessibility.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Manufacturing Scale</div>
+    <p>Small molecules (orforglipron, aleniglipron, CT-996) use conventional chemical synthesis — vastly simpler, cheaper, and more scalable than peptide manufacturing. Lilly has committed to US-based manufacturing in its CNPV agreement. Novo Nordisk is producing oral Wegovy at its North Carolina facility.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Patient Preference</div>
+    <p>Studies consistently show many patients prefer oral medications over injections. Real-world adherence data suggest ~50% of patients discontinue injectable GLP-1 RAs within 12 months. ATTAIN-MAINTAIN demonstrates that orals can serve as a maintenance bridge after injectable-initiated weight loss.</p>
+  </div>
+</div>
+
+<h3>The Oral GLP-1 Competitive Set</h3>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Drug</th><th>Company</th><th>Type</th><th>Status</th><th>Best Efficacy Data</th><th>Food Restriction?</th></tr>
+</thead>
+<tbody>
+<tr style="background:#d4edda"><td class="td-drug">Oral Wegovy (sema 25mg)</td><td>Novo Nordisk</td><td><span class="pill pill-peptide">Peptide</span></td><td><strong>FDA Approved Dec '25</strong></td><td class="td-num">16.6% (64 wk, adherent)</td><td>Yes — 30 min fast</td></tr>
+<tr style="background:var(--highlight)"><td class="td-drug">Orforglipron</td><td>Eli Lilly</td><td><span class="pill pill-sm">Small Mol</span></td><td>NDA · PDUFA Apr '26</td><td class="td-num">12.4% (72 wk)</td><td><strong>None</strong></td></tr>
+<tr><td class="td-drug">Aleniglipron (GSBR-1290)</td><td>Structure Tx</td><td><span class="pill pill-sm">Small Mol</span></td><td>Ph 2b complete</td><td class="td-num">15.3% (36 wk, 240mg)</td><td>TBD</td></tr>
+<tr><td class="td-drug">CT-996</td><td>Roche (Carmot)</td><td><span class="pill pill-sm">Small Mol</span></td><td>Ph 2 ongoing</td><td>No data yet</td><td>TBD</td></tr>
+<tr><td class="td-drug">Oral Amycretin</td><td>Novo Nordisk</td><td><span class="pill pill-peptide">Peptide</span></td><td>Ph 3 initiating Q1 '26</td><td class="td-num">13.1% (12 wk)</td><td>TBD</td></tr>
+<tr><td class="td-drug">VK2735 (oral)</td><td>Viking Tx</td><td><span class="pill pill-peptide">Peptide</span></td><td>Ph 2 ongoing</td><td>Early</td><td>TBD</td></tr>
+<tr><td class="td-drug">Oral Ecnoglutide (XW004)</td><td>Sciwind Bio</td><td><span class="pill pill-peptide">Peptide</span></td><td>Ph 1</td><td class="td-num">6.76% (6 wk)</td><td>TBD</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-red">
+  <div class="callout-title">Orforglipron's Unique Position</div>
+  <p>Orforglipron is the only small-molecule oral GLP-1 at the NDA stage. Its key differentiator vs. oral Wegovy: <strong>no food or water restrictions, no 30-minute fasting requirement, can be taken any time of day</strong>. While oral semaglutide 25 mg achieved higher peak weight loss (16.6% adherent), orforglipron's convenience profile and small-molecule manufacturing economics may drive broader real-world adoption and adherence. Structure Therapeutics' aleniglipron showed impressive Phase 2b efficacy (up to 15.3% at 240 mg) but is ~2+ years behind in development.</p>
+</div>
+
+<!-- ═══════════════════════ §7 CHINA / EMERGING ═══════════════════════ -->
+<div class="section" id="china">
+  <span class="section-num">Section 07</span>
+  <h2>China &amp; Emerging Market Pipeline</h2>
+</div>
+
+<h3>Mazdutide (Innovent Biologics / Lilly)</h3>
+<p>The world's first approved GLP-1/glucagon dual receptor agonist. Licensed from Lilly for China development by Innovent Biologics (HKEX: 01801). Approved by NMPA in June 2025 (weight management) and September 2025 (T2D).</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Trial</th><th>Population</th><th>Dose</th><th>Duration</th><th>Wt Loss</th><th>Key Finding</th></tr>
+</thead>
+<tbody>
+<tr><td class="td-drug">GLORY-1</td><td>Obesity (China)</td><td>6 mg</td><td>48 wk</td><td class="td-num">−14.01%</td><td>49.5% achieved ≥15% loss</td></tr>
+<tr><td class="td-drug">GLORY-2</td><td>Obesity (China)</td><td>9 mg</td><td>52 wk</td><td class="td-highlight">−20.1%</td><td>Only GLP-1RA >20% with 2-step titration</td></tr>
+<tr><td class="td-drug">DREAMS-3</td><td>T2D + Obesity</td><td>vs semaglutide</td><td>32 wk</td><td class="td-num">−10.29%</td><td>48.0% vs 21.0% hit dual endpoint</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Ecnoglutide (Sciwind Biosciences)</h3>
+<p>Hangzhou Sciwind Biosciences' ecnoglutide (XW003) is the first cAMP-biased GLP-1 receptor agonist — representing the first clinical validation of Nobel Prize-winning GPCR biased agonism theory in metabolic disease. Its Phase 3 SLIMMER trial, published in <em>Lancet Diabetes &amp; Endocrinology</em> (June 2025), demonstrated 15.4% mean weight loss at 48 weeks with 92.8% of participants achieving ≥5% loss. NDA is under NMPA review in China. Sciwind is also developing an oral version (XW004) and novel amylin analogs.</p>
+
+<!-- ═══════════════════════ §8 SEMA PATENT / LOE ═══════════════════════ -->
+<div class="section" id="patent">
+  <span class="section-num">Section 08</span>
+  <h2>Semaglutide Patent Expiry &amp; Loss of Exclusivity</h2>
+</div>
+
+<p>The approaching loss of semaglutide exclusivity is one of the most significant catalysts reshaping the obesity therapeutic landscape. Novo Nordisk holds extensive patent protection through a multi-layered "patent thicket," but key expirations are on the horizon.</p>
+
+<div class="card-grid">
+  <div class="card">
+    <div class="card-title">Core Compound Patent</div>
+    <p>US 8,129,343 — expires <strong>December 5, 2031</strong></p>
+    <p>Originally filed March 2006 (20-year term: March 2026), extended by 5+ years via Patent Term Adjustment + Extension. I-MAK estimates <strong>$166 billion</strong> in Novo revenue during the extension period alone.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Global LOE Timeline</div>
+    <p><strong>2026:</strong> India, China, Brazil, Canada (patent lapse)</p>
+    <p><strong>2031–2032:</strong> US, EU, Japan (compound patent)</p>
+    <p><strong>2038–2042:</strong> Method-of-use and follow-on patents</p>
+    <p>49 follow-on patents; 13+ generic companies have contacted FDA; 31 patent litigation cases filed.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Generic Implications</div>
+    <p>Generic Ozempic entry expected ~2032 in the US. Generic prescriptions for off-label weight loss will erode Wegovy market share even before Wegovy-specific patents expire. In India/China, generics could enter as early as <strong>2026</strong>, driving a global price reset.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ §9 TRUMPRX / PRICING ═══════════════════════ -->
+<div class="section" id="pricing">
+  <span class="section-num">Section 09</span>
+  <h2>TrumpRx, Drug Pricing &amp; Medicare Coverage</h2>
+</div>
+
+<p>The Trump administration's Most-Favored-Nation (MFN) pricing initiative, culminating in deals with Novo Nordisk and Eli Lilly in November 2025, has fundamentally altered the GLP-1 access and pricing landscape in the United States.</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Channel</th><th>Injectable GLP-1s</th><th>Oral GLP-1s</th><th>Medicare Copay</th></tr>
+</thead>
+<tbody>
+<tr><td class="td-drug">TrumpRx (cash/self-pay)</td><td>$350/mo → $245 over 2 years</td><td>$150/mo (starting dose)</td><td>—</td></tr>
+<tr><td class="td-drug">Medicare</td><td>$245/mo (all doses)</td><td>$150/mo (when approved)</td><td><strong>$50/mo</strong></td></tr>
+<tr><td class="td-drug">Medicaid</td><td>$245/mo access</td><td>$150/mo access</td><td>Varies</td></tr>
+<tr><td class="td-drug">Lilly (orforglipron)</td><td>—</td><td>$149/mo lowest dose; up to $399/mo</td><td>$50/mo</td></tr>
+<tr><td class="td-drug">Novo (oral Wegovy)</td><td>—</td><td>$149/mo starting (1.5 mg)</td><td>$50/mo</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout callout-gold">
+  <div class="callout-title">Key Policy Milestones</div>
+  <p><strong>May 12, 2025:</strong> Executive Order 14297 signed — MFN pricing directive.<br>
+  <strong>Nov 6, 2025:</strong> Lilly + Novo deals announced — GLP-1 prices slashed up to 80%.<br>
+  <strong>Nov–Dec 2025:</strong> CMMI "Weight-Loss Drug Coverage Model" announced for Medicare/Medicaid, with pilot expected April 2026.<br>
+  <strong>Feb 2026:</strong> TrumpRx platform launched — direct-to-consumer clearinghouse with 10 pharma companies, 27 products.<br>
+  <strong>Context:</strong> CBO estimated Medicare AOM coverage would cost $35 billion from 2026–2034. The CMMI model aims to cover ~10% of beneficiaries initially while controlling costs.</p>
+</div>
+
+<!-- ═══════════════════════ §10 CATALYSTS ═══════════════════════ -->
+<div class="section" id="catalysts">
+  <span class="section-num">Section 10</span>
+  <h2>Key Catalysts &amp; 2026 Outlook</h2>
+</div>
+
+<div class="timeline">
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Q1 2026</span><div class="tl-text">Oral Wegovy full US launch (Jan '26); ACHIEVE-4 results; Amycretin Phase 3 initiation; Aleniglipron Phase 2 T2D study start</div></div>
+  <div class="tl-item"><div class="tl-dot major"></div><span class="tl-date">Apr 10, 2026</span><div class="tl-text"><strong>Orforglipron FDA PDUFA date</strong> — potential approval as first small-molecule oral GLP-1 for obesity</div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">Mid-2026</span><div class="tl-text">Orforglipron potential US launch; Aleniglipron Phase 3 initiation; CagriSema filing expected; CMMI Medicare obesity pilot begins</div></div>
+  <div class="tl-item"><div class="tl-dot gold"></div><span class="tl-date">Late 2026</span><div class="tl-text">TRIUMPH-5 (retatrutide) readout; Orforglipron T2D NDA submission; Global launch planning; Semaglutide LOE in India/China/Brazil</div></div>
+  <div class="tl-item"><div class="tl-dot"></div><span class="tl-date">2027+</span><div class="tl-text">MariTide Phase 3 data; Amycretin Phase 3 readouts; VK2735 Phase 3; Generic semaglutide in emerging markets; Market projected to exceed $200B by early 2030s</div></div>
+</div>
+
+<div class="callout callout-blue">
+  <div class="callout-title">Investment Thesis Summary</div>
+  <p>Orforglipron occupies a unique position: the only small-molecule oral GLP-1 at the NDA stage with a confirmed PDUFA date. While its absolute weight loss (~12.4%) is moderate vs. injectable competitors, its real-world value proposition rests on: (1) no injection, no cold chain, no food restrictions; (2) scalable small-molecule manufacturing; (3) ATTAIN-MAINTAIN demonstrating oral maintenance after injectable-initiated weight loss; (4) CNPV-accelerated review; and (5) committed pricing at $149/mo. GlobalData forecasts peak sales of $13 billion by 2031. The competitive question is whether patients and payers will prioritize convenience and access over the deeper weight loss achieved by oral semaglutide (16.6%) and aleniglipron (15.3%), both of which carry greater food/dosing restrictions or later timelines.</p>
+</div>
+
+</main>
+
+<!-- ═══════════════════════ FOOTER / REFERENCES ═══════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <p><strong>References</strong></p>
+    <ol class="ref-list">
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7703558/" target="_blank" style="color:#8890c0;">Kawai T et al. <em>PNAS</em> 2020; 117(47):29959–29967</a> — Structural basis / cryo-EM</li>
+      <li>Pratt EJ et al. <em>Diabetes Obes Metab</em> 2023 — Phase 1a/1b</li>
+      <li>Frias JP et al. <em>Lancet</em> 2023 — Phase 2 T2D</li>
+      <li>Wharton S et al. <em>NEJM</em> 2023 — Phase 2 Obesity</li>
+      <li><a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2511774" target="_blank" style="color:#8890c0;">Wharton S et al. <em>NEJM</em> 2025; 393:1796–1806</a> — ATTAIN-1 (NCT05869903)</li>
+      <li>Horn et al. <em>Lancet</em> 2025 — ATTAIN-2 (NCT05872620)</li>
+      <li><a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2505669" target="_blank" style="color:#8890c0;">Rosenstock J et al. <em>NEJM</em> 2025; 393:1065–1076</a> — ACHIEVE-1 (NCT05971940)</li>
+      <li><a href="https://investor.lilly.com/news-releases/news-release-details/lillys-oral-glp-1-orforglipron-demonstrated-superior-glycemic" target="_blank" style="color:#8890c0;">Eli Lilly PR, Oct 15, 2025</a> — ACHIEVE-2 &amp; ACHIEVE-5 topline</li>
+      <li><a href="https://investor.lilly.com/news-releases/news-release-details/lillys-oral-glp-1-orforglipron-superior-oral-semaglutide-head" target="_blank" style="color:#8890c0;">Eli Lilly PR, Sept 17, 2025</a> — ACHIEVE-3 topline (vs. oral semaglutide)</li>
+      <li><a href="https://www.prnewswire.com/news-releases/lillys-orforglipron-helped-people-maintain-weight-loss-after-switching-from-injectable-incretins-to-oral-glp-1-therapy-in-first-of-its-kind-phase-3-trial-302645471.html" target="_blank" style="color:#8890c0;">Eli Lilly PR, Dec 18, 2025</a> — ATTAIN-MAINTAIN topline + NDA submission</li>
+      <li>Hsu ST et al. <em>JAMA Ophthalmol</em> 2024 — Semaglutide NAION signal</li>
+      <li>Marso SP et al. <em>NEJM</em> 2016; 375(19):1834–1844 — SUSTAIN-6</li>
+      <li>Fung TH et al. <em>JAMA Ophthalmol</em> 2025 — Medicare NAION study</li>
+      <li>EMA PRAC June 2025 — NAION label update for all GLP-1 RAs</li>
+      <li>WO2018056453A1 — Chugai core patent (filed Sept 2017)</li>
+      <li>BioSpace, Sept 2018 — Lilly-Chugai license ($50M upfront)</li>
+      <li>Eli Lilly Investor Relations — ACHIEVE/ATTAIN topline releases</li>
+      <li>Reuters / BioSpace, Jan 2026 — FDA PDUFA April 10, 2026</li>
+      <li>Wharton S et al. <em>NEJM</em> 2025; 393:1077–1087 — OASIS 4 (oral sema)</li>
+      <li>Novo Nordisk PR, Dec 22, 2025 — Oral Wegovy FDA approval</li>
+      <li>Dahl K et al. <em>Lancet</em> 2025 — Amycretin SC Phase 1b/2a</li>
+      <li>Gasiorek A et al. <em>Lancet</em> 2025 — Amycretin Oral Phase 1</li>
+      <li>Novo Nordisk PR, Nov 25, 2025 — Amycretin Phase 2 T2D</li>
+      <li>Structure Tx PR, Dec 8, 2025 — ACCESS / ACCESS II topline</li>
+      <li>Ji L et al. <em>Lancet D&amp;E</em> June 2025 — SLIMMER (ecnoglutide)</li>
+      <li>Innovent PRs, 2025 — GLORY-1, GLORY-2, DREAMS-3</li>
+      <li>White House Fact Sheet, Nov 6, 2025 — TrumpRx / MFN pricing</li>
+      <li>EO 14297, May 12, 2025 — MFN drug pricing executive order</li>
+      <li>I-MAK 2025 — Semaglutide patent thicket analysis</li>
+      <li>Markman Advisors, Feb 2025 — Semaglutide patent landscape</li>
+      <li>C&amp;EN, Dec 2025 — GLP-1 patent expirations / generics</li>
+      <li>Nassar et al. ENDO 2024 — TriNetX pancreatitis study</li>
+      <li>IQVIA 2024 — Obesity pipeline analysis (170+ assets)</li>
+      <li>Melson E et al. <em>Int J Obes</em> 2025; 49:433–451 — Pipeline review</li>
+      <li>Park C et al. <em>Front Endocrinol</em> 2025 — Pipeline review</li>
+      <li>AMCP Federal Update, 2025 — TrumpRx GLP-1 pricing details</li>
+      <li>GlobalData 2025 — Orforglipron $13B peak sales; Oral Wegovy $4.4B</li>
+    </ol>
+    <p style="margin-top:1.5rem;"><strong>Disclaimer:</strong> This document is for informational and educational purposes only. It does not constitute investment, medical, or legal advice. Data are current as of February 2026. Clinical trial results cited are from topline press releases and peer-reviewed publications; full datasets may differ. All trademarks are the property of their respective owners.</p>
+    <p style="margin-top:0.8rem;">© 2026 SatyaBio · Prepared February 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>

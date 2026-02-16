@@ -213,6 +213,10 @@ async def cart_landscape():
     with open(BASE_DIR / "static" / "insights" / "in-vivo-cart-competitive-landscape.html") as f:
         return HTMLResponse(f.read())
 
+@app.get("/api/clinical/companies/LLY/insights/orforglipron/html")
+async def orforglipron_article():
+    return FileResponse("app/articles/orforglipron_primer.html", media_type="text/html")
+
 @app.get("/insights/{slug}", response_class=HTMLResponse)
 async def serve_insight_detail(slug: str):
     """Serve individual insight article page."""
