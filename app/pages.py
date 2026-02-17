@@ -1092,319 +1092,573 @@ def generate_companies_page():
 </html>'''
 
 def generate_targets_page():
-    """Generate the targets page with category filters and search."""
+    """Generate the targets page with 6 curated drug targets."""
 
-    # Load targets from index.json
-    index_targets, categories = load_targets_index()
+    return '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SatyaBio - Explore Drug Targets</title>
+    <meta name="description" content="Competitive landscapes for hot biotech drug targets including TL1A, GLP-1, KRAS, B7-H3. Compare assets, clinical data, and catalysts. By Satya Bio.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fdfcfa;
+            --bg-card: #ffffff;
+            --bg-card-alt: #f8f9fa;
+            --text-primary: #1a2b3c;
+            --text-secondary: #5a6a7a;
+            --text-muted: #8a9aaa;
+            --accent-primary: #e07a5f;
+            --accent-dark: #1a2b3c;
+            --border-light: #e5e7eb;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+        }
 
-    # Map index.json targets to display format
-    targets = []
-    for t in index_targets:
-        slug = t.get("slug", "")
-        market_status = t.get("market_status", "race_to_first")
-        status_map = {"approved": "Approved Drug Exists", "race_to_first": "Race to First", "early": "Early Stage"}
-        status = status_map.get(market_status, "Race to First")
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        # Get leader/challenger from lead_companies list
-        lead_companies = t.get("lead_companies", [])
-        leader = {"company": lead_companies[0] if len(lead_companies) > 0 else "-", "ticker": "-", "drug": "-", "phase": "-"}
-        challenger = {"company": lead_companies[1] if len(lead_companies) > 1 else "-", "ticker": "-", "drug": "-", "phase": "-"}
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
 
-        # Load detailed data if available
-        detail = load_target_data(slug)
-        if detail:
-            assets = detail.get("assets", [])
-            if len(assets) > 0:
-                a = assets[0]
-                leader = {"company": a.get("company", "-"), "ticker": a.get("ticker", "-"), "drug": a.get("drug", a.get("name", "-")), "phase": a.get("stage", "-")}
-            if len(assets) > 1:
-                a = assets[1]
-                challenger = {"company": a.get("company", "-"), "ticker": a.get("ticker", "-"), "drug": a.get("drug", a.get("name", "-")), "phase": a.get("stage", "-")}
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 48px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+        }
 
-        # Use legacy_slug for backwards compatible URLs, otherwise use slug
-        url_slug = t.get("legacy_slug", slug)
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
 
-        targets.append({
-            "name": t.get("name", slug),
-            "category": t.get("category", "other"),
-            "slug": url_slug,
-            "status": status,
-            "leader": leader,
-            "challenger": challenger,
-            "count": str(t.get("total_assets", "?")),
-            "desc": t.get("description", ""),
-            "hot": t.get("hot_target", False)
-        })
+        .logo span {
+            color: var(--accent-primary);
+        }
 
-    # Add any hardcoded targets not in index.json
-    existing_slugs = {t.get("slug") for t in targets if t.get("slug")}
-    hardcoded_extras = [
-        {"name": "RAS(ON) Multi", "category": "oncology", "slug": "kras", "status": "Race to First",
-         "leader": {"company": "Revolution", "ticker": "RVMD", "drug": "Daraxonrasib", "phase": "Phase 3"},
-         "challenger": {"company": "Mirati/BMS", "ticker": "BMY", "drug": "MRTX1133", "phase": "Phase 1"},
-         "count": "4", "desc": "First multi-RAS inhibitor; BTD granted."},
-        {"name": "Menin-MLL", "category": "oncology", "slug": None, "status": "Approved Drug Exists",
-         "leader": {"company": "Syndax", "ticker": "SNDX", "drug": "Revuforj", "phase": "Approved"},
-         "challenger": {"company": "Kura", "ticker": "KURA", "drug": "Ziftomenib", "phase": "Phase 3"},
-         "count": "3", "desc": "First-in-class for KMT2A AML."},
-        {"name": "TIGIT", "category": "oncology", "slug": None, "status": "Race to First",
-         "leader": {"company": "Arcus/Gilead", "ticker": "RCUS", "drug": "Domvanalimab", "phase": "Phase 3"},
-         "challenger": {"company": "Merck", "ticker": "MRK", "drug": "Vibostolimab", "phase": "Phase 3"},
-         "count": "10+", "desc": "Crowded checkpoint. Fc design matters."},
-        {"name": "IL-4Ra / IL-13", "category": "immunology", "slug": None, "status": "Approved Drug Exists",
-         "leader": {"company": "Regeneron", "ticker": "REGN", "drug": "Dupixent", "phase": "Approved"},
-         "challenger": {"company": "Apogee", "ticker": "APGE", "drug": "APG777", "phase": "Phase 2"},
-         "count": "4", "desc": "$13B+ blockbuster. Q12W dosing goal."},
+        .nav {
+            display: flex;
+            gap: 32px;
+        }
 
-        # Rare Disease
-        {"name": "DMD gene therapy", "category": "rare", "slug": None, "status": "Approved Drug Exists",
-         "leader": {"company": "Sarepta", "ticker": "SRPT", "drug": "Elevidys", "phase": "Approved"},
-         "challenger": {"company": "Solid Bio", "ticker": "SLDB", "drug": "SGT-003", "phase": "Phase 1/2"},
-         "count": "4", "desc": "First DMD gene therapy approved."},
-        {"name": "Hepcidin mimetic", "category": "rare", "slug": None, "status": "Race to First",
-         "leader": {"company": "Protagonist", "ticker": "PTGX", "drug": "Rusfertide", "phase": "NDA Filed"},
-         "challenger": {"company": "Disc Med", "ticker": "IRON", "drug": "Various", "phase": "Phase 2"},
-         "count": "2", "desc": "First-in-class for PV. Takeda partner."},
+        .nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+        }
 
-        # Neuropsychiatry
-        {"name": "Nav1.6 / SCN8A", "category": "neuro", "slug": None, "status": "Early Stage",
-         "leader": {"company": "Praxis", "ticker": "PRAX", "drug": "Relutrigine", "phase": "Phase 2/3"},
-         "challenger": {"company": "None", "ticker": "-", "drug": "-", "phase": "-"},
-         "count": "1", "desc": "BTD for SCN8A epilepsy. Low competition."},
-        {"name": "T-type Ca2+ channel", "category": "neuro", "slug": None, "status": "Race to First",
-         "leader": {"company": "Xenon", "ticker": "XENE", "drug": "Azetukalner", "phase": "Phase 3"},
-         "challenger": {"company": "Idorsia", "ticker": "IDIA", "drug": "Various", "phase": "Phase 2"},
-         "count": "2", "desc": "Kv7 mechanism for epilepsy."},
-    ]
-    # Add hardcoded extras that aren't already in targets from index.json
-    targets.extend(hardcoded_extras)
+        .nav a:hover,
+        .nav a.active {
+            color: var(--text-primary);
+        }
 
-    # Category colors and labels - consistent gray styling
-    category_styles = {
-        "oncology": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Oncology"},
-        "immunology": {"bg": "#f0f0f0", "color": "#6b7280", "label": "I&I"},
-        "metabolic": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Metabolic"},
-        "cardiovascular": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Cardiovascular"},
-        "rare": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Rare Disease"},
-        "neuro": {"bg": "#f0f0f0", "color": "#6b7280", "label": "Neuro"},
-    }
+        .cta-btn {
+            background: var(--accent-primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+        }
 
-    # Status colors - consistent navy styling for all
-    status_styles = {
-        "Approved Drug Exists": {"bg": "#1a2b3c", "color": "#ffffff"},
-        "Race to First": {"bg": "#1a2b3c", "color": "#ffffff"},
-        "Early Stage": {"bg": "#1a2b3c", "color": "#ffffff"},
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px;
+        }
 
-    # Build target cards
-    cards_html = ""
-    for t in targets:
-        cat = category_styles.get(t["category"], {"bg": "#f0f0f0", "color": "#6b7280", "label": "Other"})
-        status = status_styles.get(t["status"], {"bg": "#1a2b3c", "color": "#ffffff"})
+        .page-header {
+            margin-bottom: 32px;
+        }
 
-        view_btn = f'<a href="/targets/{t["slug"]}" class="view-btn">View Full Landscape &rarr;</a>' if t["slug"] else ""
+        .page-header h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
 
-        # Build clean competitor text - handle missing data
-        def format_competitor(comp):
-            parts = []
-            company = comp.get("company", "-")
-            ticker = comp.get("ticker", "-")
-            drug = comp.get("drug", "-")
+        .page-header p {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
 
-            if company and company != "-":
-                parts.append(f'<span class="company">{company}</span>')
-                if ticker and ticker != "-":
-                    parts.append(f'<span class="ticker">({ticker})</span>')
+        .search-bar {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            margin-bottom: 32px;
+            background: var(--bg-card);
+        }
 
-            if drug and drug != "-":
-                if parts:
-                    parts.append(f'— {drug}')
-                else:
-                    parts.append(drug)
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
 
-            return ' '.join(parts) if parts else '<span class="text-muted">TBD</span>'
+        .content-layout {
+            display: flex;
+            gap: 32px;
+        }
 
-        leader_text = format_competitor(t["leader"])
-        challenger_text = format_competitor(t["challenger"])
+        .sidebar {
+            width: 200px;
+            flex-shrink: 0;
+        }
 
-        # Only show phase pill if there's a valid phase
-        leader_phase = t["leader"]["phase"]
-        challenger_phase = t["challenger"]["phase"]
-        leader_pill = f'<span class="stage-pill">{leader_phase}</span>' if leader_phase and leader_phase != "-" else ""
-        challenger_pill = f'<span class="stage-pill">{challenger_phase}</span>' if challenger_phase and challenger_phase != "-" else ""
+        .sidebar-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
 
-        cards_html += f'''
-        <div class="target-card" data-category="{t["category"]}">
-            <div class="target-header">
-                <div class="target-name">{t["name"]}</div>
-                <span class="area-badge">{cat["label"]}</span>
-            </div>
-            <div class="market-status">{t["status"]}</div>
-            <div class="competitor-section">
-                <div class="competitor-row">
-                    <span class="competitor-label">{"Market Leader" if "Approved" in t["status"] else "Frontrunner"}</span>
-                    <span class="competitor-info">
-                        <span class="competitor-text">{leader_text}</span>
-                        {leader_pill}
-                    </span>
-                </div>
-                <div class="competitor-row">
-                    <span class="competitor-label">{"Challenger" if "Approved" in t["status"] else "Fast Follower"}</span>
-                    <span class="competitor-info">
-                        <span class="competitor-text">{challenger_text}</span>
-                        {challenger_pill}
-                    </span>
-                </div>
-            </div>
-            <div class="target-footer">
-                <div class="companies-count"><strong>{t["count"]}</strong> companies pursuing</div>
-                <p class="target-desc">{t["desc"]}</p>
-                {view_btn}
-            </div>
-        </div>
-        '''
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
 
-    targets_styles = """
-        .targets-layout { display: grid; grid-template-columns: 240px 1fr; gap: 32px; }
-        @media (max-width: 900px) { .targets-layout { grid-template-columns: 1fr; } }
-        .filters-sidebar { position: sticky; top: 80px; height: fit-content; }
-        .filter-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-        .filter-section h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 12px; }
-        .filter-option { display: flex; align-items: center; gap: 8px; padding: 8px 0; cursor: pointer; font-size: 0.9rem; color: var(--text-secondary); }
-        .filter-option:hover { color: var(--navy); }
-        .filter-option input { display: none; }
-        .filter-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--border); }
-        .filter-option.active .filter-dot { background: var(--accent); border-color: var(--accent); }
-        .filter-option.active { color: var(--navy); font-weight: 500; }
-        .search-box { margin-bottom: 24px; }
-        .search-input { width: 100%; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.95rem; outline: none; }
-        .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(224,122,95,0.1); }
-        .targets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
-        .targets-meta { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
-        .target-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; transition: all 0.2s; }
-        .target-card:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-        .target-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-        .target-name { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
-        .area-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 500; background: transparent; border: 1px solid #d1d5db; color: #6b7280; }
-        .market-status { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; background: #1a2b3c; color: #ffffff; }
-        .competitor-section { margin-bottom: 12px; }
-        .competitor-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-        .competitor-row:last-child { border-bottom: none; }
-        .competitor-label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; min-width: 90px; }
-        .competitor-info { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; text-align: right; }
-        .competitor-text { color: var(--text-secondary); }
-        .competitor-text .company { color: var(--navy); font-weight: 500; }
-        .competitor-text .ticker { color: #6b7280; font-size: 0.85em; }
-        .stage-pill { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; background: #e5e7eb; color: #374151; }
-        .target-footer { padding-top: 12px; }
-        .companies-count { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }
-        .target-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }
-        .view-btn { display: inline-block; color: var(--accent); font-weight: 600; font-size: 0.85rem; text-decoration: none; }
-        .view-btn:hover { text-decoration: underline; }
-    """
-    targets_extra_head = '<meta name="description" content="Competitive landscapes for hot biotech drug targets including TL1A, GLP-1, KRAS, B7-H3. Compare assets, clinical data, and catalysts. By Satya Bio.">'
-    return f'''{_render_head("Drug Target Landscapes | Satya Bio", targets_styles, targets_extra_head)}
-    {_render_nav("targets")}
-    <main class="main">
+        .filter-option input[type="radio"] {
+            accent-color: var(--accent-primary);
+        }
+
+        .filter-option.active {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .targets-area {
+            flex: 1;
+        }
+
+        .targets-count {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .targets-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .target-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .target-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .target-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .target-name {
+            font-family: 'Fraunces', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .target-area-tag {
+            font-family: 'Space Mono', monospace;
+            border: 1px solid var(--border-light);
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .target-status {
+            display: inline-block;
+            font-family: 'DM Sans', sans-serif;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .status-race {
+            background: var(--accent-dark);
+            color: white;
+        }
+
+        .status-approved {
+            background: var(--accent-dark);
+            color: white;
+        }
+
+        .player-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .player-row:last-of-type {
+            border-bottom: none;
+        }
+
+        .player-type {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: var(--text-muted);
+        }
+
+        .player-name {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .target-footer {
+            margin-top: 20px;
+            padding-top: 16px;
+        }
+
+        .companies-count {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        .companies-count strong {
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .view-link {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .view-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1100px) {
+            .targets-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .content-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 16px;
+            }
+            .sidebar-title {
+                width: 100%;
+            }
+            .filter-option {
+                padding: 8px 16px;
+                background: var(--bg-card);
+                border: 1px solid var(--border-light);
+                border-radius: var(--radius-md);
+            }
+            .filter-option.active {
+                border-color: var(--accent-primary);
+                background: #fef5f3;
+            }
+            .container {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .targets-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                padding: 16px 20px;
+            }
+            .nav {
+                display: none;
+            }
+            .target-card-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">Satya<span>Bio</span></a>
+        <nav class="nav">
+            <a href="/targets" class="active">Targets</a>
+            <a href="/companies">Companies</a>
+            <a href="/extract">Extract</a>
+            <a href="/insights">Insights</a>
+            <a href="/about">About</a>
+        </nav>
+        <a href="/about" class="cta-btn">Get Started</a>
+    </header>
+
+    <div class="container">
         <div class="page-header">
-            <h1 class="page-title">Explore Drug Targets</h1>
-            <p class="page-subtitle">Deep-dive research on validated and emerging therapeutic targets with competitive landscapes, clinical data, and deal activity.</p>
+            <h1>Explore Drug Targets</h1>
+            <p>Deep-dive research on validated and emerging therapeutic targets with competitive landscapes, clinical data, and deal activity.</p>
         </div>
 
-        <div class="search-box">
-            <input type="text" id="target-search" class="search-input" placeholder="Search by target name, gene, or therapeutic area...">
-        </div>
+        <input type="text" class="search-bar" id="target-search" placeholder="Search by target name, gene, or therapeutic area...">
 
-        <div class="targets-layout">
-            <aside class="filters-sidebar">
-                <div class="filter-section">
-                    <h4>Therapeutic Area</h4>
-                    <label class="filter-option active" data-filter="all">
-                        <span class="filter-dot"></span>
-                        All Targets
-                    </label>
-                    <label class="filter-option" data-filter="oncology">
-                        <span class="filter-dot"></span>
-                        Oncology
-                    </label>
-                    <label class="filter-option" data-filter="immunology">
-                        <span class="filter-dot"></span>
-                        Immunology
-                    </label>
-                    <label class="filter-option" data-filter="metabolic">
-                        <span class="filter-dot"></span>
-                        Metabolic
-                    </label>
-                    <label class="filter-option" data-filter="cardiovascular">
-                        <span class="filter-dot"></span>
-                        Cardiovascular
-                    </label>
-                    <label class="filter-option" data-filter="rare">
-                        <span class="filter-dot"></span>
-                        Rare Disease
-                    </label>
-                    <label class="filter-option" data-filter="neuro">
-                        <span class="filter-dot"></span>
-                        Neuropsychiatry
-                    </label>
-                </div>
+        <div class="content-layout">
+            <aside class="sidebar">
+                <div class="sidebar-title">Therapeutic Area</div>
+                <label class="filter-option active" data-filter="all">
+                    <input type="radio" name="area" checked> All Targets
+                </label>
+                <label class="filter-option" data-filter="Oncology">
+                    <input type="radio" name="area"> Oncology
+                </label>
+                <label class="filter-option" data-filter="Immunology">
+                    <input type="radio" name="area"> Immunology
+                </label>
+                <label class="filter-option" data-filter="Metabolic">
+                    <input type="radio" name="area"> Metabolic
+                </label>
+                <label class="filter-option" data-filter="Other">
+                    <input type="radio" name="area"> Other
+                </label>
             </aside>
 
-            <section class="targets-section">
-                <p class="targets-meta" id="targets-count">Showing {len(targets)} targets</p>
+            <main class="targets-area">
+                <div class="targets-count" id="targets-count">Showing 6 targets</div>
                 <div class="targets-grid" id="targets-grid">
-                    {cards_html}
-                </div>
-            </section>
-        </div>
-    </main>
 
-    <footer class="footer">
-        <p>&copy; 2026 Satya Bio. Biotech intelligence for the buy side.</p>
-        <p style="margin-top: 8px; font-size: 0.75rem;"><a href="/terms" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> &middot; <a href="/privacy" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></p>
-    </footer>
+                    <!-- GLP-1 -->
+                    <div class="target-card" data-area="Metabolic">
+                        <div class="target-card-header">
+                            <h3 class="target-name">GLP-1</h3>
+                            <span class="target-area-tag">Metabolic</span>
+                        </div>
+                        <div class="target-status status-approved">Approved Drug Exists</div>
+                        <div class="player-row">
+                            <span class="player-type">Market Leader</span>
+                            <span class="player-name">Semaglutide (Novo)</span>
+                        </div>
+                        <div class="player-row">
+                            <span class="player-type">Oral Challenger</span>
+                            <span class="player-name">Orforglipron (Lilly)</span>
+                        </div>
+                        <div class="target-footer">
+                            <div class="companies-count"><strong>40+</strong> companies pursuing</div>
+                            <a href="/targets/glp1" class="view-link">View Full Landscape &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- KRAS -->
+                    <div class="target-card" data-area="Oncology">
+                        <div class="target-card-header">
+                            <h3 class="target-name">KRAS</h3>
+                            <span class="target-area-tag">Oncology</span>
+                        </div>
+                        <div class="target-status status-approved">Approved Drug Exists</div>
+                        <div class="player-row">
+                            <span class="player-type">Market Leader</span>
+                            <span class="player-name">Sotorasib (Amgen)</span>
+                        </div>
+                        <div class="player-row">
+                            <span class="player-type">RAS-ON</span>
+                            <span class="player-name">Revolution Medicines</span>
+                        </div>
+                        <div class="target-footer">
+                            <div class="companies-count"><strong>12</strong> companies pursuing</div>
+                            <a href="/targets/kras" class="view-link">View Full Landscape &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- B7-H3 -->
+                    <div class="target-card" data-area="Oncology">
+                        <div class="target-card-header">
+                            <h3 class="target-name">B7-H3</h3>
+                            <span class="target-area-tag">Oncology</span>
+                        </div>
+                        <div class="target-status status-race">Race to First</div>
+                        <div class="player-row">
+                            <span class="player-type">Frontrunner</span>
+                            <span class="player-name">Ifinatamab deruxtecan</span>
+                        </div>
+                        <div class="player-row">
+                            <span class="player-type">Fast Follower</span>
+                            <span class="player-name">Vobramitamab duocarmazine</span>
+                        </div>
+                        <div class="target-footer">
+                            <div class="companies-count"><strong>23</strong> companies pursuing</div>
+                            <a href="/targets/b7h3" class="view-link">View Full Landscape &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- TL1A -->
+                    <div class="target-card" data-area="Immunology">
+                        <div class="target-card-header">
+                            <h3 class="target-name">TL1A</h3>
+                            <span class="target-area-tag">I&amp;I</span>
+                        </div>
+                        <div class="target-status status-race">Race to First</div>
+                        <div class="player-row">
+                            <span class="player-type">Frontrunner</span>
+                            <span class="player-name">Tulisokibart (Merck)</span>
+                        </div>
+                        <div class="player-row">
+                            <span class="player-type">Fast Follower</span>
+                            <span class="player-name">Afimkibart (Roche)</span>
+                        </div>
+                        <div class="target-footer">
+                            <div class="companies-count"><strong>8</strong> companies pursuing</div>
+                            <a href="/targets/tl1a" class="view-link">View Full Landscape &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- Cell Therapy -->
+                    <div class="target-card" data-area="Other">
+                        <div class="target-card-header">
+                            <h3 class="target-name">Cell Therapy</h3>
+                            <span class="target-area-tag">Other</span>
+                        </div>
+                        <div class="target-status status-race">Race to First</div>
+                        <div class="player-row">
+                            <span class="player-type">Frontrunner</span>
+                            <span class="player-name">Eli Lilly/Orna</span>
+                        </div>
+                        <div class="player-row">
+                            <span class="player-type">Fast Follower</span>
+                            <span class="player-name">AbbVie/Capstan</span>
+                        </div>
+                        <div class="target-footer">
+                            <div class="companies-count"><strong>8</strong> companies pursuing</div>
+                            <a href="/targets/cell-therapy" class="view-link">View Full Landscape &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- VEGF-PD1 Bispecific -->
+                    <div class="target-card" data-area="Oncology">
+                        <div class="target-card-header">
+                            <h3 class="target-name">VEGF-PD1 Bispecific</h3>
+                            <span class="target-area-tag">Oncology</span>
+                        </div>
+                        <div class="target-status status-race">Race to First</div>
+                        <div class="player-row">
+                            <span class="player-type">Frontrunner</span>
+                            <span class="player-name">Ivonescimab (Summit/Akeso)</span>
+                        </div>
+                        <div class="player-row">
+                            <span class="player-type">Fast Follower</span>
+                            <span class="player-name">HLX301 (Henlius)</span>
+                        </div>
+                        <div class="target-footer">
+                            <div class="companies-count"><strong>8</strong> companies pursuing</div>
+                            <a href="/targets/vegf-pd1" class="view-link">View Full Landscape &rarr;</a>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
 
     <script>
-        let activeFilter = 'all';
+        const filterOptions = document.querySelectorAll('.filter-option');
+        const targetCards = document.querySelectorAll('.target-card');
+        const targetsCount = document.getElementById('targets-count');
+        const searchInput = document.getElementById('target-search');
 
-        function applyFilters() {{
-            const cards = document.querySelectorAll('.target-card');
-            const q = document.getElementById('target-search').value.toLowerCase();
+        function applyFilters() {
+            const activeFilter = document.querySelector('.filter-option.active');
+            const filterValue = activeFilter ? activeFilter.dataset.filter : 'all';
+            const q = searchInput.value.toLowerCase();
             let count = 0;
-            cards.forEach(card => {{
-                const cat = card.dataset.category || '';
+
+            targetCards.forEach(card => {
+                const area = card.dataset.area;
                 const text = card.textContent.toLowerCase();
-                const matchCategory = activeFilter === 'all' || cat === activeFilter;
+                const matchCategory = filterValue === 'all' || area === filterValue;
                 const matchSearch = !q || text.includes(q);
-                if (matchCategory && matchSearch) {{
+
+                if (matchCategory && matchSearch) {
                     card.style.display = '';
                     count++;
-                }} else {{
+                } else {
                     card.style.display = 'none';
-                }}
-            }});
-            document.getElementById('targets-count').textContent = 'Showing ' + count + ' targets';
-        }}
+                }
+            });
 
-        document.querySelectorAll('.filter-option').forEach(option => {{
-            option.addEventListener('click', (e) => {{
-                e.preventDefault();
-                document.querySelectorAll('.filter-option').forEach(o => o.classList.remove('active'));
-                option.classList.add('active');
-                activeFilter = option.dataset.filter;
+            targetsCount.textContent = 'Showing ' + count + ' targets';
+        }
+
+        filterOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                filterOptions.forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
                 applyFilters();
-            }});
-        }});
+            });
+        });
 
-        document.getElementById('target-search').addEventListener('input', applyFilters);
-
-        // Check for search query in URL hash
-        const hash = window.location.hash;
-        if (hash.includes('search=')) {{
-            const query = decodeURIComponent(hash.split('search=')[1]);
-            document.getElementById('target-search').value = query;
-            applyFilters();
-        }}
+        searchInput.addEventListener('input', applyFilters);
     </script>
 </body>
 </html>'''
