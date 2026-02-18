@@ -13,6 +13,10 @@ __pycache__/
 *.db
 *.sqlite3
 
+# Data
+arrowhead_downloads/
+arrowhead_seen.json
+
 # Uploads (don't commit user files)
 uploads/*
 !uploads/.gitkeep
