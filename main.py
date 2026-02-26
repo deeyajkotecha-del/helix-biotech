@@ -52,6 +52,10 @@ app = FastAPI(
     version="1.0.0",
 )
 
+# Password gate — gates entire site behind a shared password
+from auth_gate import add_password_gate
+add_password_gate(app)
+
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
