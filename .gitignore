@@ -60,7 +60,8 @@ htmlcov/
 .ipynb_checkpoints/
 cli/.env
 cli/.env
-data/companies/*/sources/*/original.pdf
+data/companies/*/sources/
+data/chromadb/
 
 # Subscriber emails (user data — never commit)
 data/subscribers.json
