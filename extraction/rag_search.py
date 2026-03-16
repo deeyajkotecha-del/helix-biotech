@@ -161,26 +161,37 @@ def get_document_library() -> list[dict]:
         return []
     try:
         cur = conn.cursor()
-        cur.execute("""
-            SELECT id, ticker, company_name, title, doc_type, filename,
-                   created_at
-            FROM documents
-            ORDER BY ticker, title
-        """)
+        # First try with created_at, fall back without it
+        try:
+            cur.execute("""
+                SELECT id, ticker, company_name, title, doc_type, filename, created_at
+                FROM documents
+                ORDER BY ticker, title
+            """)
+            has_date = True
+        except Exception:
+            conn.rollback()
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT id, ticker, company_name, title, doc_type, filename
+                FROM documents
+                ORDER BY ticker, title
+            """)
+            has_date = False
         rows = cur.fetchall()
         cur.close()
-        return [
-            {
+        results = []
+        for row in rows:
+            results.append({
                 "id": row[0],
                 "ticker": row[1],
                 "company_name": row[2],
                 "title": row[3],
                 "doc_type": row[4],
                 "filename": row[5],
-                "date": row[6].isoformat() if row[6] else None,
-            }
-            for row in rows
-        ]
+                "date": row[6].isoformat() if (has_date and len(row) > 6 and row[6]) else None,
+            })
+        return results
     except Exception as e:
         print(f"Library fetch error: {e}")
         return []
