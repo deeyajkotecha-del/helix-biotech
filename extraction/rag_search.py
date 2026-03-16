@@ -154,6 +154,29 @@ def search(query: str, top_k: int = 10, ticker_filter: str = None) -> list[dict]
         return []
 
 
+import re as _re
+
+def _clean_display_name(title: str, filename: str) -> str:
+    """Create a human-readable display name from title/filename."""
+    name = title or filename or "Untitled"
+    # If it's a UUID, use the filename instead
+    if _re.match(r'^[0-9a-f]{8}-[0-9a-f]{4}-', name):
+        name = filename or name
+    # Strip .pdf extension
+    name = _re.sub(r'\.pdf$', '', name, flags=_re.IGNORECASE)
+    # If still a UUID after trying filename, just show "Document"
+    if _re.match(r'^[0-9a-f]{8}-[0-9a-f]{4}-', name):
+        return "Untitled Document"
+    # Clean up separators
+    name = name.replace("_", " ").replace("-", " ")
+    # Collapse multiple spaces
+    name = _re.sub(r'\s+', ' ', name).strip()
+    # Capitalize if all lowercase
+    if name == name.lower():
+        name = name.title()
+    return name
+
+
 def get_document_library() -> list[dict]:
     """Return all documents grouped by company for the sidebar."""
     conn = _get_db()
@@ -161,35 +184,25 @@ def get_document_library() -> list[dict]:
         return []
     try:
         cur = conn.cursor()
-        # First try with created_at, fall back without it
-        try:
-            cur.execute("""
-                SELECT id, ticker, company_name, title, doc_type, filename, created_at
-                FROM documents
-                ORDER BY ticker, title
-            """)
-            has_date = True
-        except Exception:
-            conn.rollback()
-            cur = conn.cursor()
-            cur.execute("""
-                SELECT id, ticker, company_name, title, doc_type, filename
-                FROM documents
-                ORDER BY ticker, title
-            """)
-            has_date = False
+        cur.execute("""
+            SELECT id, ticker, company_name, title, doc_type, filename
+            FROM documents
+            ORDER BY ticker, title
+        """)
         rows = cur.fetchall()
         cur.close()
         results = []
         for row in rows:
+            raw_title = row[3] or ""
+            raw_filename = row[5] or ""
+            display_name = _clean_display_name(raw_title, raw_filename)
             results.append({
                 "id": row[0],
                 "ticker": row[1],
                 "company_name": row[2],
-                "title": row[3],
-                "doc_type": row[4],
-                "filename": row[5],
-                "date": row[6].isoformat() if (has_date and len(row) > 6 and row[6]) else None,
+                "title": display_name,
+                "doc_type": row[4] or "document",
+                "filename": raw_filename,
             })
         return results
     except Exception as e:
@@ -201,9 +214,12 @@ def get_document_chunks(doc_id: int) -> list[dict]:
     """Return all chunks for a specific document (for loading into chat)."""
     conn = _get_db()
     if not conn:
+        print(f"Chunk fetch: no DB connection")
         return []
     try:
         cur = conn.cursor()
+        # Ensure doc_id is an integer
+        doc_id = int(doc_id)
         cur.execute("""
             SELECT content, page_number
             FROM chunks
@@ -212,9 +228,14 @@ def get_document_chunks(doc_id: int) -> list[dict]:
         """, (doc_id,))
         rows = cur.fetchall()
         cur.close()
+        print(f"Chunk fetch: doc_id={doc_id}, found {len(rows)} chunks")
         return [{"content": row[0], "page": row[1]} for row in rows]
     except Exception as e:
-        print(f"Chunk fetch error: {e}")
+        print(f"Chunk fetch error for doc_id={doc_id}: {e}")
+        try:
+            conn.rollback()
+        except Exception:
+            pass
         return []
 
 
