@@ -11,6 +11,8 @@ lxml==4.9.3
 
 # PDF Processing
 pymupdf>=1.23.0
+pdfplumber>=0.10
+Pillow>=10.0
 
 # Data processing
 pandas>=2.0.0,<3.0.0
@@ -39,7 +41,7 @@ tqdm==4.66.1  # Progress bars
 tenacity==8.2.3  # Retry logic
 
 # LLM integration
-anthropic==0.39.0
+anthropic>=0.40
 
 # Testing
 pytest>=7.0.0
