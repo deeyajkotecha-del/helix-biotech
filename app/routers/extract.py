@@ -307,6 +307,49 @@ async def rag_status():
     return JSONResponse(content={"available": True, **stats})
 
 
+@router.get("/api/library")
+async def library_list():
+    """Return all documents grouped by company for the sidebar."""
+    if not _RAG_AVAILABLE:
+        return JSONResponse(content={"companies": []})
+    docs = rag_search.get_document_library()
+    companies = {}
+    for d in docs:
+        ticker = d["ticker"]
+        if ticker not in companies:
+            companies[ticker] = {"ticker": ticker, "company_name": d["company_name"], "documents": []}
+        companies[ticker]["documents"].append(d)
+    return JSONResponse(content={"companies": list(companies.values())})
+
+
+@router.post("/api/load-library-doc")
+async def load_library_doc(request: Request):
+    """Load a document from the library into the chat session via its chunks."""
+    if not _RAG_AVAILABLE:
+        return JSONResponse(status_code=400, content={"error": "Library not available"})
+    data = await request.json()
+    doc_id = data.get("doc_id")
+    doc_title = data.get("title", "Document")
+    if not doc_id:
+        return JSONResponse(status_code=400, content={"error": "No doc_id provided"})
+    chunks = rag_search.get_document_chunks(doc_id)
+    if not chunks:
+        return JSONResponse(status_code=404, content={"error": "No content found for this document"})
+    full_text = ""
+    for c in chunks:
+        full_text += f"[Page {c['page']}]\n{safe_text(c['content'])}\n\n"
+    sid = _get_sid(request)
+    _papers[sid] = {"docs": [{"text": full_text, "filename": doc_title, "title": doc_title, "word_count": len(full_text.split()), "page_images": []}]}
+    _histories[sid] = []
+    resp = JSONResponse(content={
+        "success": True, "title": doc_title,
+        "word_count": len(full_text.split()),
+        "total_pages": len(set(c["page"] for c in chunks)),
+    })
+    resp.set_cookie("analyst_sid", sid, max_age=86400, httponly=True, samesite="lax")
+    return resp
+
+
 @router.post("/api/rag-search")
 async def rag_search_route(request: Request):
     if not _RAG_AVAILABLE:
@@ -359,6 +402,81 @@ def _generate_extract_page_html() -> str:
         /* -- Extract page layout -- */
         .extract-body { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 64px); }
         .extract-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* Sidebar */
+        .doc-sidebar {
+            width: 300px; min-width: 300px; background: var(--surface); border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .sidebar-header {
+            padding: 18px 20px 14px; border-bottom: 1px solid var(--border);
+        }
+        .sidebar-header h3 {
+            font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700;
+            color: var(--navy); margin-bottom: 10px;
+        }
+        .sidebar-search {
+            width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 8px 12px; font-size: 13px; font-family: inherit; color: var(--navy); outline: none;
+        }
+        .sidebar-search:focus { border-color: var(--accent); }
+        .sidebar-search::placeholder { color: var(--text-muted); }
+        .sidebar-list { flex: 1; overflow-y: auto; padding: 8px 0; }
+        .sidebar-company {
+            padding: 0 12px; margin-bottom: 4px;
+        }
+        .sidebar-company-header {
+            display: flex; align-items: center; gap: 8px; padding: 8px 8px;
+            cursor: pointer; border-radius: 8px; transition: background 0.15s;
+            user-select: none;
+        }
+        .sidebar-company-header:hover { background: var(--bg); }
+        .sidebar-company-ticker {
+            background: var(--accent-light); color: var(--accent); font-size: 11px; font-weight: 700;
+            padding: 3px 8px; border-radius: 6px; letter-spacing: 0.5px;
+        }
+        .sidebar-company-name {
+            font-size: 13px; font-weight: 600; color: var(--navy); flex: 1;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .sidebar-company-count {
+            font-size: 11px; color: var(--text-muted); background: var(--bg);
+            padding: 2px 7px; border-radius: 10px;
+        }
+        .sidebar-company-arrow {
+            font-size: 10px; color: var(--text-muted); transition: transform 0.2s;
+        }
+        .sidebar-company.open .sidebar-company-arrow { transform: rotate(90deg); }
+        .sidebar-docs { display: none; padding: 2px 0 6px 16px; }
+        .sidebar-company.open .sidebar-docs { display: block; }
+        .sidebar-doc {
+            display: flex; flex-direction: column; gap: 2px;
+            padding: 8px 10px; border-radius: 8px; cursor: pointer;
+            transition: all 0.15s; border-left: 2px solid transparent;
+        }
+        .sidebar-doc:hover { background: var(--bg); border-left-color: var(--accent); }
+        .sidebar-doc.active { background: var(--accent-light); border-left-color: var(--accent); }
+        .sidebar-doc-title {
+            font-size: 12.5px; font-weight: 500; color: var(--navy); line-height: 1.3;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .sidebar-doc-meta {
+            font-size: 11px; color: var(--text-muted); display: flex; gap: 8px; align-items: center;
+        }
+        .sidebar-doc-type {
+            background: #edf7f0; color: #3d8b5e; font-size: 10px; font-weight: 500;
+            padding: 1px 6px; border-radius: 4px;
+        }
+        .sidebar-loading {
+            display: flex; align-items: center; justify-content: center; padding: 40px 20px;
+            color: var(--text-muted); font-size: 13px; gap: 10px;
+        }
+        .sidebar-empty {
+            padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 13px;
+        }
+        @media (max-width: 768px) {
+            .doc-sidebar { display: none; }
+        }
         .chat-container {
             flex: 1; overflow-y: auto; padding: 28px 24px;
             display: flex; flex-direction: column; gap: 20px; background: var(--bg);
@@ -526,6 +644,14 @@ def _generate_extract_page_html() -> str:
         }
         .rag-badge .rag-dot { width: 6px; height: 6px; border-radius: 50%; background: #3d8b5e; }
         .rag-badge.unavailable .rag-dot { background: #c0b8ae; }
+        .suggested-queries { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+        .sq-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+        .sq-chip {
+            background: var(--surface); border: 1px solid var(--border); color: var(--text-secondary);
+            padding: 8px 14px; border-radius: 10px; font-size: 12.5px; font-weight: 500;
+            font-family: inherit; cursor: pointer; transition: all 0.15s;
+        }
+        .sq-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); transform: translateY(-1px); }
 
         /* RAG search results */
         .rag-results { max-width: 760px; width: 100%; margin: 0 auto; }
@@ -573,6 +699,17 @@ def _generate_extract_page_html() -> str:
 {nav}
 
 <div class="extract-body">
+    <div class="doc-sidebar" id="docSidebar">
+        <div class="sidebar-header">
+            <h3>Document Library</h3>
+            <input type="text" class="sidebar-search" id="sidebarSearch" placeholder="Filter documents..." oninput="filterSidebar(this.value)">
+        </div>
+        <div class="sidebar-list" id="sidebarList">
+            <div class="sidebar-loading" id="sidebarLoading">
+                <div class="typing-spinner"></div> Loading library...
+            </div>
+        </div>
+    </div>
     <div class="extract-main">
         <div class="chat-container" id="chatContainer">
             <div class="upload-zone" id="uploadZone">
@@ -588,6 +725,23 @@ def _generate_extract_page_html() -> str:
                         <button id="ragBtn" onclick="runRagSearch()">Search</button>
                     </div>
                     <div class="rag-badge" id="ragBadge"><span class="rag-dot"></span><span id="ragBadgeText">Loading library...</span></div>
+                    <div class="suggested-queries" id="suggestedQueries" style="display:none;">
+                        <div class="sq-row">
+                            <div class="sq-chip" onclick="suggestedSearch('What are the most promising HER2+ breast cancer drugs in development?')">HER2+ Breast Cancer</div>
+                            <div class="sq-chip" onclick="suggestedSearch('Compare ADC clinical data across all companies — ORR, DOR, safety')">ADC Landscape</div>
+                            <div class="sq-chip" onclick="suggestedSearch('What are the latest NMIBC clinical trial results and how do they compare?')">NMIBC Trials</div>
+                        </div>
+                        <div class="sq-row">
+                            <div class="sq-chip" onclick="suggestedSearch('Which drugs have the best overall survival data in late-stage trials?')">Best OS Data</div>
+                            <div class="sq-chip" onclick="suggestedSearch('What checkpoint inhibitor combinations are being tested?')">IO Combos</div>
+                            <div class="sq-chip" onclick="suggestedSearch('Summarize the key upcoming catalysts and FDA decision dates')">Upcoming Catalysts</div>
+                        </div>
+                        <div class="sq-row">
+                            <div class="sq-chip" onclick="suggestedSearch('What bispecific antibodies are in clinical development and what are their targets?')">Bispecifics</div>
+                            <div class="sq-chip" onclick="suggestedSearch('Compare PFS and ORR data for triple-negative breast cancer treatments')">TNBC Data</div>
+                            <div class="sq-chip" onclick="suggestedSearch('What are the key safety signals and dose-limiting toxicities reported?')">Safety Signals</div>
+                        </div>
+                    </div>
                     <div class="search-divider" style="margin-top:20px;"><span>Or upload a new document</span></div>
                 </div>
 
@@ -789,6 +943,7 @@ async function checkRagStatus() {{
             ragDocCount = d.total_documents || 0;
             section.style.display = 'block';
             badgeText.textContent = ragDocCount + ' documents indexed and searchable';
+            document.getElementById('suggestedQueries').style.display = 'flex';
         }} else {{
             // Still show the section but indicate unavailable
             section.style.display = 'block';
@@ -802,6 +957,11 @@ async function checkRagStatus() {{
         // Silently fail — just hide the search section
         document.getElementById('ragSection').style.display = 'none';
     }}
+}}
+
+function suggestedSearch(query) {{
+    document.getElementById('ragInput').value = query;
+    runRagSearch();
 }}
 
 const ragSteps = [
@@ -875,6 +1035,115 @@ async function runRagSearch() {{
 
 // Check RAG on load
 checkRagStatus();
+
+// ── Document Library Sidebar ──
+let libraryData = [];
+
+async function loadLibrary() {{
+    try {{
+        const r = await fetch('/extract/api/library');
+        const d = await r.json();
+        libraryData = d.companies || [];
+        renderSidebar(libraryData);
+    }} catch(e) {{
+        document.getElementById('sidebarLoading').innerHTML = '<div class="sidebar-empty">Could not load library</div>';
+    }}
+}}
+
+function renderSidebar(companies) {{
+    const list = document.getElementById('sidebarList');
+    if (!companies.length) {{
+        list.innerHTML = '<div class="sidebar-empty">No documents in library</div>';
+        return;
+    }}
+    let html = '';
+    companies.forEach((co, ci) => {{
+        const docCount = co.documents.length;
+        html += '<div class="sidebar-company" id="co-' + ci + '">';
+        html += '<div class="sidebar-company-header" onclick="toggleCompany(' + ci + ')">';
+        html += '<span class="sidebar-company-arrow">&#9654;</span>';
+        html += '<span class="sidebar-company-ticker">' + esc(co.ticker) + '</span>';
+        html += '<span class="sidebar-company-name">' + esc(co.company_name) + '</span>';
+        html += '<span class="sidebar-company-count">' + docCount + '</span>';
+        html += '</div>';
+        html += '<div class="sidebar-docs">';
+        co.documents.forEach(doc => {{
+            const docType = doc.doc_type || 'document';
+            html += '<div class="sidebar-doc" data-id="' + doc.id + '" data-title="' + esc(doc.title || doc.filename) + '" onclick="loadLibraryDoc(' + doc.id + ', this)">';
+            html += '<span class="sidebar-doc-title">' + esc(doc.title || doc.filename) + '</span>';
+            html += '<div class="sidebar-doc-meta"><span class="sidebar-doc-type">' + esc(docType) + '</span></div>';
+            html += '</div>';
+        }});
+        html += '</div></div>';
+    }});
+    list.innerHTML = html;
+}}
+
+function toggleCompany(idx) {{
+    const el = document.getElementById('co-' + idx);
+    if (el) el.classList.toggle('open');
+}}
+
+function filterSidebar(query) {{
+    const q = query.toLowerCase();
+    if (!q) {{ renderSidebar(libraryData); return; }}
+    const filtered = libraryData.map(co => {{
+        const matchDocs = co.documents.filter(d =>
+            (d.title || d.filename || '').toLowerCase().includes(q) ||
+            (d.ticker || '').toLowerCase().includes(q) ||
+            (co.company_name || '').toLowerCase().includes(q) ||
+            (d.doc_type || '').toLowerCase().includes(q)
+        );
+        if (!matchDocs.length) return null;
+        return {{ ...co, documents: matchDocs }};
+    }}).filter(Boolean);
+    renderSidebar(filtered);
+    // Auto-open all companies when filtering
+    filtered.forEach((_, i) => {{
+        const el = document.getElementById('co-' + i);
+        if (el) el.classList.add('open');
+    }});
+}}
+
+async function loadLibraryDoc(docId, el) {{
+    // Highlight active doc
+    document.querySelectorAll('.sidebar-doc').forEach(d => d.classList.remove('active'));
+    if (el) el.classList.add('active');
+    const title = el ? el.dataset.title : 'Document';
+
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.add('active');
+    document.getElementById('loadingText').textContent = 'Loading "' + title + '" from library...';
+
+    try {{
+        const r = await fetch('/extract/api/load-library-doc', {{
+            method: 'POST',
+            headers: {{ 'Content-Type': 'application/json' }},
+            body: JSON.stringify({{ doc_id: docId, title: title }})
+        }});
+        const d = await r.json();
+        if (d.error) {{ alert(d.error); overlay.classList.remove('active'); return; }}
+
+        // Clear previous chat
+        const container = document.getElementById('chatContainer');
+        container.querySelectorAll('.message, .rag-results').forEach(m => m.remove());
+
+        loadedDocs = [title];
+        document.getElementById('uploadZone').classList.add('hidden');
+        document.getElementById('inputBar').classList.add('active');
+        document.getElementById('quickActions').classList.remove('active');
+
+        addMsg('system', 'Loaded "' + title + '" from library \\u2014 ' + d.word_count.toLocaleString() + ' words, ' + d.total_pages + ' pages. Note: page images are not available for library documents.');
+        overlay.classList.remove('active');
+        await generateBrief();
+    }} catch(e) {{
+        alert('Failed to load document: ' + e.message);
+        overlay.classList.remove('active');
+    }}
+}}
+
+// Load library on page load
+loadLibrary();
 </script>
 </body></html>"""
 

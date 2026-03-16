@@ -154,6 +154,59 @@ def search(query: str, top_k: int = 10, ticker_filter: str = None) -> list[dict]
         return []
 
 
+def get_document_library() -> list[dict]:
+    """Return all documents grouped by company for the sidebar."""
+    conn = _get_db()
+    if not conn:
+        return []
+    try:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT id, ticker, company_name, title, doc_type, filename,
+                   created_at
+            FROM documents
+            ORDER BY ticker, title
+        """)
+        rows = cur.fetchall()
+        cur.close()
+        return [
+            {
+                "id": row[0],
+                "ticker": row[1],
+                "company_name": row[2],
+                "title": row[3],
+                "doc_type": row[4],
+                "filename": row[5],
+                "date": row[6].isoformat() if row[6] else None,
+            }
+            for row in rows
+        ]
+    except Exception as e:
+        print(f"Library fetch error: {e}")
+        return []
+
+
+def get_document_chunks(doc_id: int) -> list[dict]:
+    """Return all chunks for a specific document (for loading into chat)."""
+    conn = _get_db()
+    if not conn:
+        return []
+    try:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT content, page_number
+            FROM chunks
+            WHERE document_id = %s
+            ORDER BY page_number, id
+        """, (doc_id,))
+        rows = cur.fetchall()
+        cur.close()
+        return [{"content": row[0], "page": row[1]} for row in rows]
+    except Exception as e:
+        print(f"Chunk fetch error: {e}")
+        return []
+
+
 def format_context_for_claude(results: list[dict]) -> str:
     """
     Format RAG search results into a context block for Claude's system prompt.
