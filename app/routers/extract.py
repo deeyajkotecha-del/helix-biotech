@@ -381,7 +381,19 @@ Always cite the source document (ticker, filename, page number) for every claim.
             key = f"{r['ticker']}:{r['filename']}"
             if key not in seen:
                 seen.add(key)
-                sources.append({"ticker": r["ticker"], "company": r["company_name"], "title": r["title"], "filename": r["filename"], "similarity": r["similarity"]})
+                # Build a clean display title — avoid showing UUIDs
+                display = r.get("title") or r.get("filename") or ""
+                # If title looks like a UUID, try to clean the filename instead
+                if re.match(r'^[0-9a-f]{8}-[0-9a-f]{4}-', display):
+                    display = r.get("filename", display)
+                # Clean up filename into readable form
+                display = display.replace(".pdf", "").replace(".PDF", "")
+                display = display.replace("_", " ").replace("-", " ")
+                display = re.sub(r'\s+', ' ', display).strip()
+                if len(display) > 60:
+                    display = display[:57] + "..."
+                doc_type = r.get("doc_type", "document")
+                sources.append({"ticker": r["ticker"], "company": r["company_name"], "display_title": display, "doc_type": doc_type})
         return JSONResponse(content={"response": answer, "sources": sources})
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": f"Search failed: {str(e)}"})
@@ -661,10 +673,30 @@ def _generate_extract_page_html() -> str:
         }
         .rag-result-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
         .rag-result-query { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; color: var(--navy); }
-        .rag-sources { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+        .rag-sources { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
         .rag-source-tag {
             background: #edf7f0; color: #3d8b5e; font-size: 11px; font-weight: 500;
             padding: 4px 10px; border-radius: 12px; border: 1px solid #c7e2cf;
+        }
+        .rag-source-card {
+            background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px 14px; display: flex; flex-direction: column; gap: 3px;
+            min-width: 180px; flex: 1; max-width: 280px;
+        }
+        .rag-source-ticker {
+            font-size: 11px; font-weight: 700; color: var(--accent);
+            letter-spacing: 0.5px;
+        }
+        .rag-source-title {
+            font-size: 12.5px; font-weight: 500; color: var(--navy); line-height: 1.3;
+        }
+        .rag-source-company {
+            font-size: 11px; color: var(--text-muted);
+        }
+        .rag-source-type {
+            font-size: 10px; color: #3d8b5e; background: #edf7f0;
+            padding: 2px 8px; border-radius: 6px; align-self: flex-start;
+            font-weight: 500; margin-top: 2px;
         }
 
         /* Quick actions */
@@ -1006,12 +1038,18 @@ async function runRagSearch() {{
 
             // Show source documents
             if (d.sources && d.sources.length > 0) {{
-                let srcHtml = '<div class="rag-result-card"><div class="rag-result-header"><span class="rag-result-query">Sources</span></div>';
+                let srcHtml = '<div class="rag-result-card">';
+                srcHtml += '<div class="rag-result-header"><span class="rag-result-query">Sources (' + d.sources.length + ' documents)</span></div>';
                 srcHtml += '<div class="rag-sources">';
                 d.sources.forEach(s => {{
-                    const label = s.ticker ? (s.ticker + ' — ' + (s.title || s.filename)) : (s.title || s.filename);
-                    const pct = s.similarity ? ' (' + Math.round(s.similarity * 100) + '%)' : '';
-                    srcHtml += '<span class="rag-source-tag">' + esc(label) + pct + '</span>';
+                    const title = s.display_title || s.title || s.filename || 'Document';
+                    const docType = s.doc_type || 'document';
+                    srcHtml += '<div class="rag-source-card">';
+                    srcHtml += '<span class="rag-source-ticker">' + esc(s.ticker || '') + '</span>';
+                    srcHtml += '<span class="rag-source-title">' + esc(title) + '</span>';
+                    if (s.company) srcHtml += '<span class="rag-source-company">' + esc(s.company) + '</span>';
+                    srcHtml += '<span class="rag-source-type">' + esc(docType) + '</span>';
+                    srcHtml += '</div>';
                 }});
                 srcHtml += '</div></div>';
                 const c = document.getElementById('chatContainer');
