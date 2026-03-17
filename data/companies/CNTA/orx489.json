@@ -1,0 +1,61 @@
+{
+  "_metadata": {
+    "version": "2.2",
+    "ticker": "CNTA",
+    "asset_name": "ORX489",
+    "last_updated": "2026-03-16",
+    "sources": [
+      {
+        "id": "cnta_acnp_2024",
+        "type": "poster",
+        "title": "Preclinical data supporting expansion into neuropsychiatric indications (64th ACNP Annual Meeting)",
+        "date": "2024-12",
+        "url": null
+      }
+    ]
+  },
+  "asset": {
+    "name": "ORX489",
+    "company": "Centessa Pharmaceuticals",
+    "ticker": "CNTA",
+    "stage": "Preclinical (IND-enabling)",
+    "modality": "Small molecule OX2R agonist",
+    "ownership": "Partnered with Nxera Pharma",
+    "one_liner": "Third OX2R agonist extending the orexin franchise into neuropsychiatric disorders"
+  },
+  "target": {
+    "name": "OX2R",
+    "full_name": "Orexin Receptor 2",
+    "class": "GPCR",
+    "pathway": "Orexin/Hypocretin signaling",
+    "biology": {
+      "simple_explanation": "ORX489 targets the same OX2R receptor but is designed for neuropsychiatric conditions. Orexin signaling modulates motivation, reward, mood, and stress responses beyond its role in sleep-wake regulation.",
+      "neuro_psych_rationale": "Orexin dysfunction has been linked to depression, anxiety, PTSD, and substance use disorders. Restoring appropriate orexin tone may address both the sleepiness/fatigue and cognitive/motivational symptoms in these conditions."
+    }
+  },
+  "mechanism": {
+    "type": "Selective OX2R agonist (small molecule)",
+    "how_it_works": "Third-generation OX2R agonist with a profile optimized for neuropsychiatric indications",
+    "partnership": "Collaboration with Nxera Pharma - $3M milestone payment received Q1 2026 for achieving early development milestone"
+  },
+  "indications": {
+    "lead": {
+      "name": "Neuropsychiatric disorders",
+      "rationale": "Preclinical data presented at ACNP supports OX2R agonism in neuropsychiatric conditions"
+    }
+  },
+  "clinical_data": {
+    "preclinical": {
+      "status": "IND-enabling studies underway",
+      "key_findings": "Preclinical data supports expansion of OX2R agonist approach into neuropsychiatric indications"
+    }
+  },
+  "catalysts": [
+    {
+      "event": "First-in-human clinical studies",
+      "timing": "2026",
+      "importance": "medium",
+      "what_to_watch": "IND filing and FIH study design"
+    }
+  ]
+}

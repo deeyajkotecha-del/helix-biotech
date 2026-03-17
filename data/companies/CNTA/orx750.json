@@ -1,0 +1,182 @@
+{
+  "_metadata": {
+    "version": "2.2",
+    "ticker": "CNTA",
+    "asset_name": "ORX750",
+    "last_updated": "2026-03-16",
+    "sources": [
+      {
+        "id": "cnta_q3_2025",
+        "type": "earnings_release",
+        "title": "Centessa Q3 2025 Financial Results and ORX750 Update",
+        "date": "2025-11",
+        "url": "https://investors.centessa.com/news-releases/news-release-details/centessa-pharmaceuticals-reports-financial-results-third-0"
+      },
+      {
+        "id": "cnta_crystal1_data",
+        "type": "clinical_data",
+        "title": "CRYSTAL-1 Phase 2a Interim Data Presentation",
+        "date": "2025",
+        "url": null
+      }
+    ]
+  },
+  "asset": {
+    "name": "ORX750",
+    "company": "Centessa Pharmaceuticals",
+    "ticker": "CNTA",
+    "stage": "Phase 2a (registrational start Q1 2026)",
+    "modality": "Small molecule OX2R agonist",
+    "ownership": "Wholly-owned",
+    "one_liner": "First oral OX2R agonist to demonstrate efficacy across narcolepsy type 1, type 2, and idiopathic hypersomnia"
+  },
+  "target": {
+    "name": "OX2R",
+    "full_name": "Orexin Receptor 2",
+    "class": "G-protein coupled receptor (GPCR)",
+    "pathway": "Orexin/Hypocretin signaling",
+    "biology": {
+      "simple_explanation": "Orexin neurons in the hypothalamus produce orexin-A and orexin-B neuropeptides that bind to OX1R and OX2R receptors. OX2R activation promotes wakefulness, stabilizes sleep-wake transitions, and supports arousal. In narcolepsy type 1, orexin neurons are destroyed by autoimmunity, causing severe daytime sleepiness and cataplexy.",
+      "pathway_detail": "Orexin-A and orexin-B are produced by a small cluster of ~70,000 neurons in the lateral hypothalamus. These neurons project broadly throughout the brain, activating wake-promoting centers (locus coeruleus, tuberomammillary nucleus, raphe nuclei, ventral tegmental area). OX2R is the primary receptor mediating wake promotion. Loss of orexin signaling destabilizes the sleep-wake boundary, causing inappropriate transitions into sleep (sleep attacks) and REM intrusion (cataplexy, hypnagogic hallucinations).",
+      "downstream_effects": [
+        "Wake promotion and arousal stabilization",
+        "Prevention of inappropriate sleep-wake transitions",
+        "Modulation of REM sleep architecture",
+        "Cognitive alertness and attention",
+        "Potential neuroprotective effects via metabolic support"
+      ]
+    },
+    "why_good_target": {
+      "clinical_validation": "The orexin pathway is genetically validated: narcolepsy type 1 is caused by loss of orexin neurons. Orexin receptor antagonists (suvorexant, lemborexant) are approved sleep aids, proving the pathway is druggable in both directions.",
+      "genetic_validation": {
+        "loss_of_function": "Loss of orexin neurons causes narcolepsy type 1 with cataplexy",
+        "human_genetics": "HLA-DQB1*06:02 associated with narcolepsy supports autoimmune destruction of orexin neurons"
+      }
+    },
+    "disease_biology": {
+      "narcolepsy_type_1": {
+        "cause": "Autoimmune destruction of orexin-producing neurons (>90% loss)",
+        "prevalence": "~25-50 per 100,000",
+        "key_symptoms": "Excessive daytime sleepiness (EDS), cataplexy, sleep paralysis, hypnagogic hallucinations",
+        "current_treatments": "Sodium oxybate (Xyrem/Xywav), stimulants (modafinil), pitolisant - all symptomatic, none restore orexin"
+      },
+      "narcolepsy_type_2": {
+        "cause": "Unclear etiology - may involve partial orexin deficiency or receptor dysfunction",
+        "prevalence": "Estimated 2-3x more common than NT1",
+        "key_symptoms": "EDS without cataplexy",
+        "current_treatments": "Limited - mostly off-label stimulants. No approved disease-specific therapies.",
+        "unmet_need": "HIGH - NT2 is underdiagnosed and undertreated"
+      },
+      "idiopathic_hypersomnia": {
+        "cause": "Unknown - orexin levels usually normal",
+        "prevalence": "Estimated similar to narcolepsy",
+        "key_symptoms": "Severe daytime sleepiness, prolonged sleep duration, severe sleep inertia (sleep drunkenness)",
+        "current_treatments": "Xywav recently approved - first and only approved therapy",
+        "unmet_need": "VERY HIGH - historically no approved treatments"
+      }
+    }
+  },
+  "mechanism": {
+    "type": "Selective OX2R agonist (small molecule)",
+    "how_it_works": "ORX750 is a potent, selective, orally bioavailable agonist of the orexin receptor 2 (OX2R). By directly activating OX2R, it mimics the wake-promoting effects of endogenous orexin, restoring the signal that is lost or impaired in narcolepsy and hypersomnia.",
+    "selectivity": "Selective for OX2R over OX1R - this is important because OX1R is more involved in reward/anxiety circuits, while OX2R primarily drives wakefulness",
+    "administration": "Oral, once-daily dosing"
+  },
+  "indications": {
+    "lead": {
+      "name": "Narcolepsy Type 1 (NT1)",
+      "patient_population": "~25-50 per 100,000 in developed countries",
+      "rationale": "NT1 has complete loss of orexin signaling - the most direct indication for an OX2R agonist"
+    },
+    "expansion": [
+      {
+        "name": "Narcolepsy Type 2 (NT2)",
+        "stage": "Phase 2a (CRYSTAL-1)",
+        "rationale": "Massive unmet need - no approved disease-specific therapies. ORX750 could become new standard of care."
+      },
+      {
+        "name": "Idiopathic Hypersomnia (IH)",
+        "stage": "Phase 2a (CRYSTAL-1)",
+        "rationale": "First OX2R agonist to show statistically significant efficacy in IH. Only one approved therapy (Xywav)."
+      }
+    ]
+  },
+  "clinical_data": {
+    "crystal_1_phase2a": {
+      "study_name": "CRYSTAL-1",
+      "design": "Adaptive, randomized, double-blind, placebo-controlled Phase 2a",
+      "enrollment": "55 participants across NT1, NT2, and IH",
+      "doses_tested": ["1.0 mg", "1.5 mg"],
+      "primary_endpoint": "Safety, tolerability, PK/PD",
+      "key_efficacy_measures": "Maintenance of Wakefulness Test (MWT), Epworth Sleepiness Scale (ESS)",
+      "results": {
+        "nt1": {
+          "headline": ">20-minute increase in mean sleep latency on MWT vs placebo at 1.5 mg (p=0.0026)",
+          "detail": "Half of NT1 patients achieved >30 minutes on MWT at 1.5 mg dose",
+          "significance": "Statistically significant and clinically meaningful"
+        },
+        "nt2": {
+          "headline": "Clinically meaningful wake promotion observed",
+          "detail": "Improvements could potentially establish ORX750 as new standard of care in NT2",
+          "significance": "First OX2R agonist with meaningful NT2 data"
+        },
+        "ih": {
+          "headline": "First OX2R agonist to show statistically significant improvements in IH",
+          "detail": "Significant and clinically meaningful improvements on multiple efficacy measures including MWT",
+          "significance": "Breakthrough for a disease with minimal treatment options"
+        }
+      },
+      "dose_response": "Dose-dependent improvements observed across indications - 1.5 mg showed stronger signal than 1.0 mg"
+    },
+    "safety": {
+      "overall": "Generally well-tolerated. All TEAEs transient and mild-to-moderate.",
+      "common_aes": [
+        {"event": "Pollakiuria (frequent urination)", "incidence": "51%"},
+        {"event": "Insomnia", "incidence": "22%"},
+        {"event": "Dizziness", "incidence": "13%"},
+        {"event": "Headache", "incidence": "11%"}
+      ],
+      "serious_aes": "None reported",
+      "discontinuations": "Not specifically reported as a concern"
+    }
+  },
+  "market_opportunity": {
+    "narcolepsy_market": "Global narcolepsy market estimated at $4-5B by 2030",
+    "ih_market": "Emerging market - Xywav is first approved therapy, significant room for better options",
+    "unmet_need": "NT2 and IH are severely underserved. An oral, well-tolerated OX2R agonist could transform treatment paradigm.",
+    "competitive_landscape": [
+      {
+        "competitor": "Takeda (TAK-861/danavorexton)",
+        "target": "OX2R agonist",
+        "stage": "Phase 2/3",
+        "differentiation": "Takeda has broader resources but ORX750 has shown efficacy across all three populations"
+      },
+      {
+        "competitor": "Jazz Pharmaceuticals (Xywav/Xyrem)",
+        "target": "Sodium oxybate",
+        "stage": "Approved",
+        "differentiation": "Standard of care but requires nighttime dosing, has abuse potential, complex REMS program"
+      },
+      {
+        "competitor": "Harmony Biosciences (pitolisant/Wakix)",
+        "target": "H3 receptor inverse agonist",
+        "stage": "Approved",
+        "differentiation": "Oral but modest efficacy compared to ORX750's direct orexin pathway restoration"
+      }
+    ]
+  },
+  "catalysts": [
+    {
+      "event": "Registrational program initiation",
+      "timing": "Q1 2026",
+      "importance": "critical",
+      "what_to_watch": "Study design, endpoint selection, dose chosen for registrational study"
+    },
+    {
+      "event": "Additional CRYSTAL-1 dose cohort data",
+      "timing": "2026",
+      "importance": "high",
+      "what_to_watch": "Higher dose efficacy and safety to further characterize dose-response"
+    }
+  ]
+}

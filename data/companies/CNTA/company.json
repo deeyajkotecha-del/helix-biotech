@@ -1,0 +1,172 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "extracted_from": "Centessa Pharmaceuticals public filings, press releases, and clinical data (web research)",
+    "extraction_date": "2026-03-16",
+    "analyst_reviewed": false
+  },
+
+  "ticker": "CNTA",
+  "name": "Centessa Pharmaceuticals",
+
+  "company": {
+    "name": "Centessa Pharmaceuticals",
+    "ticker": "CNTA",
+    "exchange": "NASDAQ",
+    "headquarters": "Altrincham, United Kingdom",
+    "website": "https://centessa.com",
+    "ir_url": "https://investors.centessa.com",
+    "one_liner": "Building a best-in-class orexin receptor 2 (OX2R) agonist franchise for narcolepsy, hypersomnia, and broader neurological disorders",
+
+    "company_description": "Centessa Pharmaceuticals is a clinical-stage biopharmaceutical company focused on developing a pipeline of orexin receptor 2 (OX2R) agonists. The company's asset-centric model concentrates resources on its orexin franchise, with lead program ORX750 in Phase 2a for narcolepsy type 1 (NT1), narcolepsy type 2 (NT2), and idiopathic hypersomnia (IH), and two follow-on molecules (ORX142, ORX489) extending the platform into neurodegeneration and neuropsychiatry."
+  },
+
+  "investment_thesis_summary": {
+    "core_thesis": "Centessa is building the leading orexin agonist franchise with three differentiated molecules targeting sleep-wake disorders and broader neurological conditions. ORX750 Phase 2a data showed statistically significant, dose-dependent wake promotion across NT1, NT2, and IH - the first oral OX2R agonist to demonstrate efficacy across all three populations - with a registrational program expected to start Q1 2026.",
+
+    "key_value_drivers": [
+      "ORX750: Best-in-class Phase 2a data across NT1, NT2, and IH with registrational start Q1 2026",
+      "ORX142: Differentiated profile for neurological/neurodegenerative disorders, Phase 1 initiated June 2025, patient studies Q1 2026",
+      "ORX489: Third molecule expanding into neuropsychiatric indications, IND-enabling studies underway, Nxera partnership validates",
+      "Platform depth: Three molecules covering sleep-wake, neurodegeneration, and neuropsychiatry from a single target class",
+      "$349M cash (as of Q3 2025) funding operations into mid-2027"
+    ]
+  },
+
+  "platform": {
+    "name": "Orexin Receptor 2 (OX2R) Agonist Platform",
+    "description": "Centessa's platform is built around orexin neuropeptide biology. Orexin regulates the sleep-wake cycle, promoting arousal and wakefulness. Loss of orexin-producing neurons causes narcolepsy type 1. The company is developing oral, selective OX2R agonists that restore orexin signaling to address excessive daytime sleepiness, cognitive deficits, and fatigue across multiple neurological conditions.",
+
+    "unique_capabilities": [
+      {
+        "capability": "Multi-molecule franchise",
+        "description": "Three distinct OX2R agonists (ORX750, ORX142, ORX489) with differentiated profiles covering different CNS disorders"
+      },
+      {
+        "capability": "Selectivity for OX2R over OX1R",
+        "description": "Targeting OX2R specifically enables wake promotion without the anxiety/reward circuit activation associated with OX1R"
+      },
+      {
+        "capability": "Oral administration",
+        "description": "All three molecules are oral small molecules, offering convenience advantages over current narcolepsy treatments"
+      }
+    ]
+  },
+
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 2,
+    "partnered": 1,
+    "wholly_owned": 2,
+    "programs": [
+      {
+        "asset": "ORX750",
+        "target": "OX2R",
+        "stage": "Phase 2a",
+        "indications": "Narcolepsy Type 1 (NT1), Narcolepsy Type 2 (NT2), Idiopathic Hypersomnia (IH)",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Registrational program initiation - Q1 2026"
+      },
+      {
+        "asset": "ORX142",
+        "target": "OX2R",
+        "stage": "Phase 1",
+        "indications": "Neurological and neurodegenerative disorders",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Patient studies initiation - Q1 2026"
+      },
+      {
+        "asset": "ORX489",
+        "target": "OX2R",
+        "stage": "Preclinical (IND-enabling)",
+        "indications": "Neuropsychiatric disorders",
+        "ownership": "Partnered with Nxera Pharma",
+        "next_catalyst": "First-in-human studies - 2026"
+      }
+    ]
+  },
+
+  "investment_analysis": {
+    "bull_case": [
+      "ORX750 Phase 2a showed best-in-class wake promotion across all three populations (NT1, NT2, IH) - first OX2R agonist to achieve this",
+      "Registrational-ready with clear path forward and well-characterized dose-response relationship",
+      "NT2 and IH have massive unmet need - ORX750 could become new standard of care in NT2",
+      "Three-molecule franchise provides multiple shots on goal across neuroscience",
+      "Clean safety profile - all AEs mild-moderate and transient",
+      "$349M cash provides runway into mid-2027, covering key registrational milestones"
+    ],
+    "bear_case": [
+      "Orexin agonist class is competitive - Takeda, Harmony Biosciences, and others have programs",
+      "Phase 2a data on 55 patients is still relatively small - registrational trial is the real test",
+      "Single-target platform risk: if OX2R agonism doesn't translate broadly, pipeline value narrows",
+      "UK-headquartered company may face challenges in US commercial build-out",
+      "No revenue until potential approval - pure clinical-stage risk",
+      "Pollakiuria (frequent urination) in 51% of patients may limit real-world adherence"
+    ],
+    "key_debates": [
+      {
+        "question": "Can ORX750 differentiate from the orexin agonist competition, particularly Takeda's TAK-861?",
+        "bull_view": "ORX750 is the first to show efficacy across NT1, NT2, AND IH in a single molecule. Best-in-class selectivity profile.",
+        "bear_view": "Takeda has deeper resources and a larger orexin franchise. Head-to-head data does not exist.",
+        "what_resolves_it": "Registrational trial results and competitive data readouts in 2026-2027"
+      },
+      {
+        "question": "Is the orexin platform extensible beyond sleep-wake disorders?",
+        "bull_view": "Preclinical data supports OX2R agonism in neurodegeneration and neuropsychiatry. ORX142 and ORX489 expand TAM significantly.",
+        "bear_view": "Orexin biology beyond narcolepsy/IH is unproven in humans. Neurodegeneration trials are long and expensive.",
+        "what_resolves_it": "ORX142 Phase 1 data and patient study results in 2026"
+      }
+    ]
+  },
+
+  "financials": {
+    "market_cap": "$3.3B (March 2026)",
+    "cash_position": "$349M (as of September 30, 2025)",
+    "cash_runway": "Into mid-2027"
+  },
+
+  "catalysts": [
+    {
+      "asset": "ORX750",
+      "event": "Registrational program initiation (CRYSTAL registrational study)",
+      "timing": "Q1 2026",
+      "importance": "critical"
+    },
+    {
+      "asset": "ORX142",
+      "event": "Patient study initiation for neurological disorders",
+      "timing": "Q1 2026",
+      "importance": "high"
+    },
+    {
+      "asset": "ORX489",
+      "event": "First-in-human clinical studies",
+      "timing": "2026",
+      "importance": "medium"
+    },
+    {
+      "asset": "ORX750",
+      "event": "Additional CRYSTAL-1 Phase 2a dose cohort data",
+      "timing": "2026",
+      "importance": "high"
+    }
+  ],
+
+  "risks": [
+    {
+      "risk": "Competitive pressure from Takeda and others in the orexin space",
+      "description": "Multiple orexin agonists in development could commoditize the market",
+      "mitigation": "ORX750's broad indication coverage (NT1+NT2+IH) and clean selectivity profile may differentiate"
+    },
+    {
+      "risk": "Registrational trial execution",
+      "description": "Transitioning from 55-patient Phase 2a to large registrational trials introduces execution risk",
+      "mitigation": "Well-characterized dose-response and strong Phase 2a signal reduce dose-finding risk"
+    },
+    {
+      "risk": "Single-platform concentration",
+      "description": "Entire pipeline focused on OX2R agonism - a fundamental issue with the target class would be devastating",
+      "mitigation": "Three differentiated molecules with different PK/PD profiles reduce molecule-specific risk"
+    }
+  ]
+}

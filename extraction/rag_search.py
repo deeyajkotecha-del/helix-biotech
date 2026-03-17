@@ -239,6 +239,80 @@ def get_document_chunks(doc_id: int) -> list[dict]:
         return []
 
 
+def embed_document_text(text: str, ticker: str, company_name: str,
+                        title: str, filename: str, doc_type: str = "uploaded_pdf",
+                        chunk_size: int = 500, chunk_overlap: int = 75) -> dict:
+    """
+    Chunk, embed, and permanently store a document's text into Neon.
+    Called by the Save to Library feature on the Extract page.
+
+    Returns dict with doc_id and chunks_stored count.
+    """
+    vo = _get_voyage()
+    conn = _get_db()
+    if not vo or not conn:
+        raise RuntimeError("RAG not available — check Neon/Voyage configuration")
+
+    # Chunk the text
+    words = text.split()
+    word_count = len(words)
+    if word_count <= chunk_size:
+        chunks = [text]
+    else:
+        chunks = []
+        start = 0
+        while start < len(words):
+            end = start + chunk_size
+            chunks.append(" ".join(words[start:end]))
+            start = end - chunk_overlap
+
+    # Embed all chunks
+    import hashlib
+    embeddings = []
+    batch_size = 32
+    for i in range(0, len(chunks), batch_size):
+        batch = chunks[i:i + batch_size]
+        try:
+            result = vo.embed(batch, model=EMBED_MODEL, input_type="document")
+            embeddings.extend(result.embeddings)
+        except Exception as e:
+            print(f"  Embed error at batch {i}: {e}")
+            embeddings.extend([None] * len(batch))
+
+    # Store in database
+    cur = conn.cursor()
+
+    # Insert document record
+    cur.execute("""
+        INSERT INTO documents (ticker, company_name, filename, file_path, doc_type, title, word_count, page_count)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        RETURNING id
+    """, (
+        ticker, company_name,
+        filename,
+        "",  # no file_path for web uploads (will be R2 URL later)
+        doc_type, title, word_count, 1
+    ))
+    doc_id = cur.fetchone()[0]
+
+    # Insert chunks with embeddings
+    inserted = 0
+    for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+        if embedding is None:
+            continue
+        cur.execute("""
+            INSERT INTO chunks (document_id, chunk_index, page_number, content, token_count, embedding)
+            VALUES (%s, %s, %s, %s, %s, %s::vector)
+        """, (doc_id, i, 1, chunk, len(chunk.split()), str(embedding)))
+        inserted += 1
+
+    conn.commit()
+    cur.close()
+    print(f"  Saved to library: {title} ({ticker}) — {inserted} chunks, {word_count} words, doc #{doc_id}")
+
+    return {"doc_id": doc_id, "chunks_stored": inserted, "word_count": word_count}
+
+
 def format_context_for_claude(results: list[dict]) -> str:
     """
     Format RAG search results into a context block for Claude's system prompt.

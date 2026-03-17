@@ -295,6 +295,48 @@ async def reset(request: Request):
     return JSONResponse(content={"success": True})
 
 
+@router.post("/api/save-to-library")
+async def save_to_library(request: Request):
+    """Permanently embed the current document into Neon for RAG search."""
+    if not _RAG_AVAILABLE:
+        return JSONResponse(status_code=400, content={"error": "RAG not available — Neon/Voyage not configured"})
+    sid = _get_sid(request)
+    if sid not in _papers or not _papers[sid]["docs"]:
+        return JSONResponse(status_code=400, content={"error": "No document loaded to save"})
+
+    data = await request.json()
+    ticker = (data.get("ticker") or "UNKNOWN").upper().strip()
+    company_name = data.get("company_name") or ticker
+
+    doc = _papers[sid]["docs"][0]
+    doc_text = doc.get("text", "")
+    doc_title = doc.get("title") or doc.get("filename") or "Untitled"
+    filename = doc.get("filename") or "upload.pdf"
+    word_count = len(doc_text.split())
+
+    if word_count < 50:
+        return JSONResponse(status_code=400, content={"error": "Document too short to save"})
+
+    try:
+        result = rag_search.embed_document_text(
+            text=doc_text,
+            ticker=ticker,
+            company_name=company_name,
+            title=doc_title,
+            filename=filename,
+            doc_type="uploaded_pdf",
+        )
+        return JSONResponse(content={
+            "success": True,
+            "doc_id": result.get("doc_id"),
+            "chunks": result.get("chunks_stored", 0),
+            "message": f"Saved to library: {doc_title} ({ticker})",
+        })
+    except Exception as e:
+        print(f"  Save to library error: {e}")
+        return JSONResponse(status_code=500, content={"error": f"Failed to save: {str(e)}"})
+
+
 # ---------------------------------------------------------------------------
 # RAG Search Endpoints
 # ---------------------------------------------------------------------------
@@ -613,6 +655,13 @@ def _generate_extract_page_html() -> str:
         /* Input bar */
         .input-bar { background: var(--surface); border-top: 1px solid var(--border); padding: 16px 24px; display: none; }
         .input-bar.active { display: block; }
+        .save-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .save-bar input[type="text"] { padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; width: 90px; text-transform: uppercase; }
+        .save-bar input[type="text"]::placeholder { text-transform: none; }
+        .save-bar .save-btn { background: #3d8b5e; color: #fff; border: none; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+        .save-bar .save-btn:hover { background: #2d7a4e; }
+        .save-bar .save-btn:disabled { background: #ccc; cursor: default; }
+        .save-bar .save-status { font-size: 12px; color: var(--text-muted); }
         .input-wrapper { max-width: 760px; margin: 0 auto; display: flex; gap: 10px; }
         .input-wrapper input {
             flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
@@ -809,6 +858,12 @@ def _generate_extract_page_html() -> str:
         </div>
 
         <div class="input-bar" id="inputBar">
+            <div class="save-bar" id="saveBar">
+                <input type="text" id="saveTicker" placeholder="Ticker" maxlength="6" style="width:70px">
+                <input type="text" id="saveCompany" placeholder="Company name" style="width:160px; text-transform:none;">
+                <button class="save-btn" id="saveBtn" onclick="saveToLibrary()">Save to Library</button>
+                <span class="save-status" id="saveStatus"></span>
+            </div>
             <div class="input-wrapper">
                 <input type="text" id="messageInput" placeholder="Ask about the document..." onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendMessage()">
                 <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
@@ -840,9 +895,11 @@ marked.setOptions({{ breaks: true, gfm: true, headerIds: false, mangle: false }}
 function renderMd(text) {{
     try {{
         let html = marked.parse(text);
-        html = html.replace(/\\(p\\.?\\s*(\\d+)(?:\\s*[-\\u2013]\\s*(\\d+))?\\)/gi, function(m, p1, p2) {{
-            return p2 ? '(<span class="page-ref" onclick="showPage('+p1+')">p. '+p1+'-'+p2+'</span>)' : '(<span class="page-ref" onclick="showPage('+p1+')">p. '+p1+'</span>)';
-        }});
+        if (hasPageImages) {{
+            html = html.replace(/\\(p\\.?\\s*(\\d+)(?:\\s*[-\\u2013]\\s*(\\d+))?\\)/gi, function(m, p1, p2) {{
+                return p2 ? '(<span class="page-ref" onclick="showPage('+p1+')">p. '+p1+'-'+p2+'</span>)' : '(<span class="page-ref" onclick="showPage('+p1+')">p. '+p1+'</span>)';
+            }});
+        }}
         return html;
     }} catch(e) {{ return esc(text); }}
 }}
@@ -860,6 +917,7 @@ async function showPage(n) {{
 function closePageModal(){{ document.getElementById('pageModal').classList.remove('active'); }}
 
 let loadedDocs = [];
+let hasPageImages = true; // false when doc loaded from library (no page images available)
 const uploadBox = document.getElementById('uploadBox');
 uploadBox.addEventListener('dragover', e => {{ e.preventDefault(); uploadBox.classList.add('dragover'); }});
 uploadBox.addEventListener('dragleave', () => uploadBox.classList.remove('dragover'));
@@ -876,6 +934,7 @@ async function handleFileUpload(file) {{
         const d = await r.json();
         if(d.error){{ alert(d.error); return; }}
         loadedDocs = d.all_titles || [d.title || d.filename];
+        hasPageImages = true; // Uploaded PDFs have page images
         document.getElementById('uploadZone').classList.add('hidden');
         document.getElementById('inputBar').classList.add('active');
         const pages = d.total_pages || '?';
@@ -924,6 +983,26 @@ async function generateBrief() {{
         else {{ addMsg('brief',d.brief); document.getElementById('quickActions').classList.add('active'); }}
     }} catch(e){{ hideProgress(); addMsg('system','Brief failed: '+e.message); }}
     document.getElementById('messageInput').focus();
+}}
+
+async function saveToLibrary() {{
+    const ticker = document.getElementById('saveTicker').value.trim().toUpperCase();
+    const company = document.getElementById('saveCompany').value.trim();
+    if(!ticker) {{ alert('Please enter a ticker (e.g. CNTA, PFE)'); return; }}
+    const btn = document.getElementById('saveBtn');
+    const status = document.getElementById('saveStatus');
+    btn.disabled = true; btn.textContent = 'Saving...';
+    status.textContent = '';
+    try {{
+        const r = await fetch('/extract/api/save-to-library', {{
+            method: 'POST',
+            headers: {{'Content-Type': 'application/json'}},
+            body: JSON.stringify({{ ticker: ticker, company_name: company || ticker }})
+        }});
+        const d = await r.json();
+        if(d.error) {{ status.textContent = d.error; status.style.color='#c0392b'; }}
+        else {{ status.textContent = 'Saved! (' + d.chunks + ' chunks)'; status.style.color='#3d8b5e'; btn.textContent='Saved'; loadLibrary(); }}
+    }} catch(e) {{ status.textContent = 'Error: ' + e.message; status.style.color='#c0392b'; btn.disabled=false; btn.textContent='Save to Library'; }}
 }}
 
 async function sendMessage() {{
@@ -1167,11 +1246,12 @@ async function loadLibraryDoc(docId, el) {{
         container.querySelectorAll('.message, .rag-results').forEach(m => m.remove());
 
         loadedDocs = [title];
+        hasPageImages = false; // Library docs don't have page images
         document.getElementById('uploadZone').classList.add('hidden');
         document.getElementById('inputBar').classList.add('active');
         document.getElementById('quickActions').classList.remove('active');
 
-        addMsg('system', 'Loaded "' + title + '" from library \\u2014 ' + d.word_count.toLocaleString() + ' words, ' + d.total_pages + ' pages. Note: page images are not available for library documents.');
+        addMsg('system', 'Loaded "' + title + '" from library \\u2014 ' + d.word_count.toLocaleString() + ' words, ' + d.total_pages + ' pages.');
         overlay.classList.remove('active');
         await generateBrief();
     }} catch(e) {{

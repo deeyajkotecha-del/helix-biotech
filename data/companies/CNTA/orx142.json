@@ -1,0 +1,62 @@
+{
+  "_metadata": {
+    "version": "2.2",
+    "ticker": "CNTA",
+    "asset_name": "ORX142",
+    "last_updated": "2026-03-16",
+    "sources": [
+      {
+        "id": "cnta_orx142_ind",
+        "type": "press_release",
+        "title": "Centessa Announces IND Clearance for ORX142",
+        "date": "2025-06",
+        "url": "https://investors.centessa.com/news-releases/news-release-details/centessa-pharmaceuticals-announces-clearance-investigational-new"
+      }
+    ]
+  },
+  "asset": {
+    "name": "ORX142",
+    "company": "Centessa Pharmaceuticals",
+    "ticker": "CNTA",
+    "stage": "Phase 1",
+    "modality": "Small molecule OX2R agonist",
+    "ownership": "Wholly-owned",
+    "one_liner": "Next-generation OX2R agonist with differentiated profile for neurological and neurodegenerative disorders"
+  },
+  "target": {
+    "name": "OX2R",
+    "full_name": "Orexin Receptor 2",
+    "class": "GPCR",
+    "pathway": "Orexin/Hypocretin signaling",
+    "biology": {
+      "simple_explanation": "Same OX2R target as ORX750, but ORX142 is designed with a differentiated pharmacological profile optimized for neurological and neurodegenerative conditions where cognitive function, neuroprotection, and sustained wakefulness may be key therapeutic goals.",
+      "neuro_rationale": "Beyond sleep-wake regulation, orexin signaling is implicated in cognitive function, neuronal survival, and metabolic support. Restoring orexin tone may have benefits in conditions like Alzheimer's disease, Parkinson's disease-related sleepiness, and other neurodegenerative disorders."
+    }
+  },
+  "mechanism": {
+    "type": "Selective OX2R agonist (small molecule)",
+    "how_it_works": "Highly potent and selective OX2R agonist with a pharmacological profile differentiated from ORX750, optimized for neurological indications",
+    "differentiation_from_orx750": "Different PK/PD profile designed for sustained CNS exposure relevant to neurodegenerative conditions"
+  },
+  "indications": {
+    "lead": {
+      "name": "Neurological and neurodegenerative disorders",
+      "rationale": "Orexin deficiency or dysfunction is observed in multiple neurodegenerative conditions including Alzheimer's and Parkinson's disease"
+    }
+  },
+  "clinical_data": {
+    "phase1": {
+      "status": "Phase 1 FIH initiated June 2025",
+      "design": "First-in-human study in healthy volunteers",
+      "key_finding": "Phase 1 data showed a highly differentiated profile from ORX750"
+    }
+  },
+  "catalysts": [
+    {
+      "event": "Patient study initiation",
+      "timing": "Q1 2026",
+      "importance": "high",
+      "what_to_watch": "Which neurological indication is selected for patient studies"
+    }
+  ]
+}
