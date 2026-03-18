@@ -354,7 +354,11 @@ async def library_list():
     """Return all documents grouped by company for the sidebar."""
     if not _RAG_AVAILABLE:
         return JSONResponse(content={"companies": []})
-    docs = rag_search.get_document_library()
+    try:
+        docs = rag_search.get_document_library()
+    except RuntimeError as e:
+        print(f"  Library list error: {e}")
+        return JSONResponse(status_code=500, content={"error": "Database connection error", "companies": []})
     companies = {}
     for d in docs:
         ticker = d["ticker"]
@@ -406,7 +410,11 @@ async def rag_search_route(request: Request):
     if not query:
         return JSONResponse(status_code=400, content={"error": "Empty query"})
 
-    results = rag_search.search(query, top_k=12, ticker_filter=ticker)
+    try:
+        results = rag_search.search(query, top_k=12, ticker_filter=ticker)
+    except RuntimeError as e:
+        print(f"  RAG search error: {e}")
+        return JSONResponse(status_code=500, content={"error": "Database connection error — please try your search again"})
     if not results:
         return JSONResponse(content={"response": "No relevant results found in the document library.", "sources": []})
 
@@ -1164,6 +1172,10 @@ async function loadLibrary() {{
     try {{
         const r = await fetch('/extract/api/library');
         const d = await r.json();
+        if (d.error) {{
+            document.getElementById('sidebarLoading').innerHTML = '<div class="sidebar-empty">Library unavailable — try refreshing</div>';
+            return;
+        }}
         libraryData = d.companies || [];
         renderSidebar(libraryData);
     }} catch(e) {{

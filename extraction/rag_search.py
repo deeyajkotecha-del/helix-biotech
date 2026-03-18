@@ -66,7 +66,7 @@ def get_library_stats() -> dict:
     """Get counts of documents and chunks in the database."""
     conn = _get_db()
     if not conn:
-        return {"documents": 0, "chunks": 0, "companies": 0}
+        return {"total_documents": 0, "total_chunks": 0, "companies": 0}
     try:
         cur = conn.cursor()
         cur.execute("SELECT COUNT(*) FROM documents")
@@ -76,9 +76,10 @@ def get_library_stats() -> dict:
         cur.execute("SELECT COUNT(DISTINCT ticker) FROM documents")
         company_count = cur.fetchone()[0]
         cur.close()
-        return {"documents": doc_count, "chunks": chunk_count, "companies": company_count}
-    except Exception:
-        return {"documents": 0, "chunks": 0, "companies": 0}
+        return {"total_documents": doc_count, "total_chunks": chunk_count, "companies": company_count}
+    except Exception as e:
+        print(f"Library stats error: {e}")
+        return {"total_documents": 0, "total_chunks": 0, "companies": 0}
 
 
 def search(query: str, top_k: int = 10, ticker_filter: str = None) -> list[dict]:
@@ -168,7 +169,7 @@ def search(query: str, top_k: int = 10, ticker_filter: str = None) -> list[dict]
 
     except Exception as e:
         print(f"RAG search query error: {e}")
-        return []
+        raise RuntimeError(f"Search query failed: {e}")
 
 
 import re as _re
@@ -224,7 +225,7 @@ def get_document_library() -> list[dict]:
         return results
     except Exception as e:
         print(f"Library fetch error: {e}")
-        return []
+        raise RuntimeError(f"Failed to load document library: {e}")
 
 
 def get_document_chunks(doc_id: int) -> list[dict]:
