@@ -28,6 +28,23 @@ def _get_db():
         if not DATABASE_URL:
             return None
         _db_conn = psycopg2.connect(DATABASE_URL)
+        _db_conn.autocommit = True
+        return _db_conn
+    # Neon serverless aggressively closes idle connections.
+    # psycopg2's .closed flag doesn't detect server-side disconnects,
+    # so we ping the connection to verify it's actually alive.
+    try:
+        cur = _db_conn.cursor()
+        cur.execute("SELECT 1")
+        cur.close()
+    except Exception:
+        print("  DB connection stale — reconnecting to Neon...")
+        try:
+            _db_conn.close()
+        except Exception:
+            pass
+        _db_conn = psycopg2.connect(DATABASE_URL)
+        _db_conn.autocommit = True
     return _db_conn
 
 
@@ -211,11 +228,15 @@ def get_document_library() -> list[dict]:
 
 
 def get_document_chunks(doc_id: int) -> list[dict]:
-    """Return all chunks for a specific document (for loading into chat)."""
+    """Return all chunks for a specific document (for loading into chat).
+
+    Returns list of chunk dicts, or raises RuntimeError on DB failure
+    so callers can distinguish 'no chunks' from 'DB error'.
+    """
     conn = _get_db()
     if not conn:
         print(f"Chunk fetch: no DB connection")
-        return []
+        raise RuntimeError("Database connection unavailable")
     try:
         cur = conn.cursor()
         # Ensure doc_id is an integer
@@ -232,11 +253,7 @@ def get_document_chunks(doc_id: int) -> list[dict]:
         return [{"content": row[0], "page": row[1]} for row in rows]
     except Exception as e:
         print(f"Chunk fetch error for doc_id={doc_id}: {e}")
-        try:
-            conn.rollback()
-        except Exception:
-            pass
-        return []
+        raise RuntimeError(f"Failed to load document chunks: {e}")
 
 
 def embed_document_text(text: str, ticker: str, company_name: str,
@@ -279,35 +296,44 @@ def embed_document_text(text: str, ticker: str, company_name: str,
             print(f"  Embed error at batch {i}: {e}")
             embeddings.extend([None] * len(batch))
 
-    # Store in database
-    cur = conn.cursor()
+    # Store in database — use explicit transaction so document + chunks
+    # are inserted atomically (autocommit is on for read queries)
+    old_autocommit = conn.autocommit
+    conn.autocommit = False
+    try:
+        cur = conn.cursor()
 
-    # Insert document record
-    cur.execute("""
-        INSERT INTO documents (ticker, company_name, filename, file_path, doc_type, title, word_count, page_count)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        RETURNING id
-    """, (
-        ticker, company_name,
-        filename,
-        "",  # no file_path for web uploads (will be R2 URL later)
-        doc_type, title, word_count, 1
-    ))
-    doc_id = cur.fetchone()[0]
-
-    # Insert chunks with embeddings
-    inserted = 0
-    for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
-        if embedding is None:
-            continue
+        # Insert document record
         cur.execute("""
-            INSERT INTO chunks (document_id, chunk_index, page_number, content, token_count, embedding)
-            VALUES (%s, %s, %s, %s, %s, %s::vector)
-        """, (doc_id, i, 1, chunk, len(chunk.split()), str(embedding)))
-        inserted += 1
+            INSERT INTO documents (ticker, company_name, filename, file_path, doc_type, title, word_count, page_count)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id
+        """, (
+            ticker, company_name,
+            filename,
+            "",  # no file_path for web uploads (will be R2 URL later)
+            doc_type, title, word_count, 1
+        ))
+        doc_id = cur.fetchone()[0]
 
-    conn.commit()
-    cur.close()
+        # Insert chunks with embeddings
+        inserted = 0
+        for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+            if embedding is None:
+                continue
+            cur.execute("""
+                INSERT INTO chunks (document_id, chunk_index, page_number, content, token_count, embedding)
+                VALUES (%s, %s, %s, %s, %s, %s::vector)
+            """, (doc_id, i, 1, chunk, len(chunk.split()), str(embedding)))
+            inserted += 1
+
+        conn.commit()
+        cur.close()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.autocommit = old_autocommit
     print(f"  Saved to library: {title} ({ticker}) — {inserted} chunks, {word_count} words, doc #{doc_id}")
 
     return {"doc_id": doc_id, "chunks_stored": inserted, "word_count": word_count}

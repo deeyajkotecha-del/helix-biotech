@@ -374,9 +374,13 @@ async def load_library_doc(request: Request):
     doc_title = data.get("title", "Document")
     if not doc_id:
         return JSONResponse(status_code=400, content={"error": "No doc_id provided"})
-    chunks = rag_search.get_document_chunks(doc_id)
+    try:
+        chunks = rag_search.get_document_chunks(doc_id)
+    except RuntimeError as e:
+        print(f"  Load library doc error: {e}")
+        return JSONResponse(status_code=500, content={"error": "Database connection error — please try again"})
     if not chunks:
-        return JSONResponse(status_code=404, content={"error": "No content found for this document"})
+        return JSONResponse(status_code=404, content={"error": "No content found for this document — it may not have been fully indexed"})
     full_text = ""
     for c in chunks:
         full_text += f"[Page {c['page']}]\n{safe_text(c['content'])}\n\n"
@@ -1239,7 +1243,13 @@ async function loadLibraryDoc(docId, el) {{
             body: JSON.stringify({{ doc_id: docId, title: title }})
         }});
         const d = await r.json();
-        if (d.error) {{ alert(d.error); overlay.classList.remove('active'); return; }}
+        if (d.error) {{
+            overlay.classList.remove('active');
+            // Deselect sidebar doc so user can retry
+            document.querySelectorAll('.sidebar-doc').forEach(dd => dd.classList.remove('active'));
+            addMsg('system', 'Could not load document: ' + d.error);
+            return;
+        }}
 
         // Clear previous chat
         const container = document.getElementById('chatContainer');
