@@ -13,6 +13,7 @@ import uuid
 import json
 import base64
 import tempfile
+import requests
 from pathlib import Path
 
 from fastapi import APIRouter, UploadFile, File, Request
@@ -454,6 +455,281 @@ Always cite the source document (ticker, filename, page number) for every claim.
 
 
 # ---------------------------------------------------------------------------
+# ClinicalTrials.gov Live API (v2)
+# ---------------------------------------------------------------------------
+
+_CT_BASE = "https://clinicaltrials.gov/api/v2"
+
+# Map tickers to ClinicalTrials.gov sponsor search terms.
+# Some companies go by different legal names in trial registrations.
+_SPONSOR_MAP: dict[str, str] = {
+    "CELC": "Celcuity",
+    "NUVL": "Nuvalent",
+    "PYXS": "Pyxis Oncology",
+    "RVMD": "Revolution Medicines",
+    "RLAY": "Relay Therapeutics",
+    "IOVA": "Iovance",
+    "JANX": "Janux",
+    "CGON": "CG Oncology",
+    "URGN": "UroGen",
+    "VSTM": "Verastem",
+    "IBRX": "ImmunityBio",
+    "TNGX": "Tango Therapeutics",
+    "BCYC": "Bicycle Therapeutics",
+    "KYMR": "Kymera",
+    "SMMT": "Summit Therapeutics",
+    "DAWN": "Day One Biopharmaceuticals",
+    "RCUS": "Arcus Biosciences",
+    "CNTA": "Centessa",
+    "ALKS": "Alkermes",
+    "NBIX": "Neurocrine",
+    "PFE":  "Pfizer",
+    "MRK":  "Merck Sharp",
+    "AZN":  "AstraZeneca",
+    "GILD": "Gilead",
+    "LLY":  "Eli Lilly",
+    "BMY":  "Bristol-Myers",
+    "ABBV": "AbbVie",
+    "AMGN": "Amgen",
+    "REGN": "Regeneron",
+    "TAK":  "Takeda",
+    "ARGX": "argenx",
+    "VIR":  "Vir Biotechnology",
+    "MRNA": "Moderna",
+    "PCVX": "Vaxcyte",
+    "VKTX": "Viking Therapeutics",
+    "GPCR": "Structure Therapeutics",
+    "SRPT": "Sarepta",
+    "INSM": "Insmed",
+    "ROIV": "Roivant",
+    "ORKA": "Oruka Therapeutics",
+    "EXAS": "Exact Sciences",
+    "CRNX": "Crinetics",
+}
+
+
+def _search_trials_for_sponsor(sponsor_term: str, max_results: int = 25) -> list[dict]:
+    """Query ClinicalTrials.gov v2 API for trials by sponsor name."""
+    try:
+        resp = requests.get(
+            f"{_CT_BASE}/studies",
+            params={
+                "query.sponsor": sponsor_term,
+                "filter.overallStatus": "RECRUITING,ACTIVE_NOT_RECRUITING,ENROLLING_BY_INVITATION,NOT_YET_RECRUITING,COMPLETED",
+                "pageSize": max_results,
+                "sort": "LastUpdatePostDate:desc",
+            },
+            headers={"User-Agent": "SatyaBio-Platform/1.0"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception as e:
+        print(f"  ClinicalTrials.gov API error for '{sponsor_term}': {e}")
+        return []
+
+    trials = []
+    for study in data.get("studies", []):
+        proto = study.get("protocolSection", {})
+        id_mod = proto.get("identificationModule", {})
+        status_mod = proto.get("statusModule", {})
+        design_mod = proto.get("designModule", {})
+        arms_mod = proto.get("armsInterventionsModule", {})
+        conditions_mod = proto.get("conditionsModule", {})
+
+        # Phase
+        phases = design_mod.get("phases", [])
+        phase = phases[0].replace("PHASE", "Phase ").replace("_", "/").strip() if phases else ""
+
+        # Interventions (drug names)
+        interventions = []
+        for interv in arms_mod.get("interventions", []):
+            if interv.get("type") in ("DRUG", "BIOLOGICAL"):
+                interventions.append(interv.get("name", ""))
+
+        # Conditions
+        conditions = conditions_mod.get("conditions", [])
+
+        trials.append({
+            "nct_id": id_mod.get("nctId", ""),
+            "title": id_mod.get("briefTitle", ""),
+            "status": status_mod.get("overallStatus", ""),
+            "phase": phase,
+            "conditions": conditions[:3],
+            "interventions": interventions[:4],
+            "start_date": status_mod.get("startDateStruct", {}).get("date", ""),
+            "completion_date": status_mod.get("primaryCompletionDateStruct", {}).get("date", ""),
+            "enrollment": design_mod.get("enrollmentInfo", {}).get("count"),
+            "url": f"https://clinicaltrials.gov/study/{id_mod.get('nctId', '')}",
+        })
+
+    return trials
+
+
+def _get_trial_detail(nct_id: str) -> dict | None:
+    """Fetch full trial detail for loading into chat."""
+    try:
+        resp = requests.get(
+            f"{_CT_BASE}/studies/{nct_id}",
+            headers={"User-Agent": "SatyaBio-Platform/1.0"},
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return None
+        data = resp.json()
+    except Exception as e:
+        print(f"  ClinicalTrials.gov detail error for {nct_id}: {e}")
+        return None
+
+    proto = data.get("protocolSection", {})
+    id_mod = proto.get("identificationModule", {})
+    status_mod = proto.get("statusModule", {})
+    design_mod = proto.get("designModule", {})
+    arms_mod = proto.get("armsInterventionsModule", {})
+    conditions_mod = proto.get("conditionsModule", {})
+    eligibility_mod = proto.get("eligibilityModule", {})
+    outcomes_mod = proto.get("outcomesModule", {})
+    sponsor_mod = proto.get("sponsorCollaboratorsModule", {})
+    desc_mod = proto.get("descriptionModule", {})
+
+    phases = design_mod.get("phases", [])
+    phase = phases[0].replace("PHASE", "Phase ").replace("_", "/").strip() if phases else "N/A"
+
+    # Build structured text for Claude
+    sections = []
+    sections.append(f"CLINICAL TRIAL: {id_mod.get('nctId', '')}")
+    sections.append(f"Official Title: {id_mod.get('officialTitle', 'N/A')}")
+    sections.append(f"Brief Title: {id_mod.get('briefTitle', 'N/A')}")
+    if id_mod.get("acronym"):
+        sections.append(f"Acronym: {id_mod['acronym']}")
+    sections.append("")
+
+    sections.append(f"Status: {status_mod.get('overallStatus', 'N/A')}")
+    sections.append(f"Phase: {phase}")
+    sections.append(f"Study Type: {design_mod.get('studyType', 'N/A')}")
+    sponsor = sponsor_mod.get("leadSponsor", {})
+    sections.append(f"Sponsor: {sponsor.get('name', 'N/A')} ({sponsor.get('class', '')})")
+    sections.append("")
+
+    # Dates
+    sections.append("KEY DATES:")
+    sections.append(f"  Start: {status_mod.get('startDateStruct', {}).get('date', 'N/A')}")
+    sections.append(f"  Primary Completion: {status_mod.get('primaryCompletionDateStruct', {}).get('date', 'N/A')}")
+    sections.append(f"  Study Completion: {status_mod.get('completionDateStruct', {}).get('date', 'N/A')}")
+    sections.append(f"  Last Update: {status_mod.get('lastUpdatePostDateStruct', {}).get('date', 'N/A')}")
+    sections.append("")
+
+    # Enrollment
+    enroll = design_mod.get("enrollmentInfo", {})
+    sections.append(f"Enrollment: {enroll.get('count', 'N/A')} ({enroll.get('type', '')})")
+    sections.append("")
+
+    # Conditions
+    conditions = conditions_mod.get("conditions", [])
+    if conditions:
+        sections.append(f"Conditions: {', '.join(conditions)}")
+
+    # Interventions
+    for interv in arms_mod.get("interventions", []):
+        sections.append(f"Intervention: {interv.get('type', '')} — {interv.get('name', '')} ({interv.get('description', '')[:200]})")
+    sections.append("")
+
+    # Arms
+    arms = arms_mod.get("armGroups", [])
+    if arms:
+        sections.append("STUDY ARMS:")
+        for arm in arms:
+            sections.append(f"  {arm.get('label', 'N/A')} ({arm.get('type', '')}): {arm.get('description', '')[:200]}")
+        sections.append("")
+
+    # Eligibility
+    if eligibility_mod:
+        sections.append("ELIGIBILITY:")
+        sections.append(f"  Sex: {eligibility_mod.get('sex', 'All')}")
+        sections.append(f"  Min Age: {eligibility_mod.get('minimumAge', 'N/A')}")
+        sections.append(f"  Max Age: {eligibility_mod.get('maximumAge', 'N/A')}")
+        criteria = eligibility_mod.get("eligibilityCriteria", "")
+        if criteria:
+            sections.append(f"  Criteria (excerpt): {criteria[:600]}")
+        sections.append("")
+
+    # Outcomes
+    primary = outcomes_mod.get("primaryOutcomes", [])
+    if primary:
+        sections.append("PRIMARY OUTCOMES:")
+        for o in primary[:5]:
+            sections.append(f"  - {o.get('measure', 'N/A')} (timeframe: {o.get('timeFrame', 'N/A')})")
+    secondary = outcomes_mod.get("secondaryOutcomes", [])
+    if secondary:
+        sections.append("SECONDARY OUTCOMES:")
+        for o in secondary[:5]:
+            sections.append(f"  - {o.get('measure', 'N/A')} (timeframe: {o.get('timeFrame', 'N/A')})")
+    sections.append("")
+
+    # Description
+    if desc_mod.get("briefSummary"):
+        sections.append("BRIEF SUMMARY:")
+        sections.append(desc_mod["briefSummary"][:1000])
+    if desc_mod.get("detailedDescription"):
+        sections.append("")
+        sections.append("DETAILED DESCRIPTION:")
+        sections.append(desc_mod["detailedDescription"][:2000])
+
+    sections.append(f"\nSource: https://clinicaltrials.gov/study/{id_mod.get('nctId', '')}")
+
+    return {
+        "nct_id": id_mod.get("nctId", ""),
+        "title": id_mod.get("briefTitle", ""),
+        "phase": phase,
+        "status": status_mod.get("overallStatus", ""),
+        "text": "\n".join(sections),
+        "word_count": len("\n".join(sections).split()),
+    }
+
+
+@router.get("/api/trials/{ticker}")
+async def get_trials(ticker: str):
+    """Fetch live clinical trials from ClinicalTrials.gov for a company."""
+    ticker = ticker.upper().strip()
+    sponsor = _SPONSOR_MAP.get(ticker)
+    if not sponsor:
+        return JSONResponse(content={"ticker": ticker, "trials": [], "error": f"No sponsor mapping for {ticker}"})
+    print(f"  Fetching trials for {ticker} (sponsor: {sponsor})...")
+    trials = _search_trials_for_sponsor(sponsor)
+    print(f"  Found {len(trials)} trials for {ticker}")
+    return JSONResponse(content={"ticker": ticker, "sponsor": sponsor, "trials": trials})
+
+
+@router.post("/api/load-trial")
+async def load_trial(request: Request):
+    """Load a ClinicalTrials.gov trial into the chat session."""
+    data = await request.json()
+    nct_id = (data.get("nct_id") or "").strip().upper()
+    if not nct_id:
+        return JSONResponse(status_code=400, content={"error": "No NCT ID provided"})
+
+    detail = _get_trial_detail(nct_id)
+    if not detail:
+        return JSONResponse(status_code=404, content={"error": f"Could not fetch trial {nct_id}"})
+
+    sid = _get_sid(request)
+    trial_text = safe_text(detail["text"])
+    _papers[sid] = {"docs": [{"text": trial_text, "filename": nct_id, "title": f"{detail['title']} ({nct_id})", "word_count": detail["word_count"], "page_images": []}]}
+    _histories[sid] = []
+
+    resp = JSONResponse(content={
+        "success": True,
+        "title": f"{detail['title']} ({nct_id})",
+        "nct_id": detail["nct_id"],
+        "phase": detail["phase"],
+        "status": detail["status"],
+        "word_count": detail["word_count"],
+    })
+    resp.set_cookie("analyst_sid", sid, max_age=86400, httponly=True, samesite="lax")
+    return resp
+
+
+# ---------------------------------------------------------------------------
 # HTML Page
 # ---------------------------------------------------------------------------
 
@@ -539,6 +815,41 @@ def _generate_extract_page_html() -> str:
         }
         .sidebar-empty {
             padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 13px;
+        }
+        .sidebar-section-label {
+            font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
+            color: var(--text-muted); padding: 10px 10px 4px; margin-top: 4px;
+        }
+        .sidebar-trial {
+            display: flex; flex-direction: column; gap: 3px;
+            padding: 7px 10px; border-radius: 8px; cursor: pointer;
+            transition: all 0.15s; border-left: 2px solid transparent;
+        }
+        .sidebar-trial:hover { background: var(--bg); border-left-color: #5b8a72; }
+        .sidebar-trial.active { background: #edf7f0; border-left-color: #3d8b5e; }
+        .sidebar-trial-title {
+            font-size: 12px; font-weight: 500; color: var(--navy); line-height: 1.3;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .sidebar-trial-meta {
+            font-size: 10.5px; color: var(--text-muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+        }
+        .sidebar-trial-phase {
+            background: #e8f0fe; color: #1a73e8; font-size: 10px; font-weight: 600;
+            padding: 1px 6px; border-radius: 4px;
+        }
+        .sidebar-trial-status {
+            font-size: 10px; font-weight: 500; padding: 1px 6px; border-radius: 4px;
+        }
+        .sidebar-trial-status.recruiting { background: #edf7f0; color: #3d8b5e; }
+        .sidebar-trial-status.active { background: #fff3e0; color: #e65100; }
+        .sidebar-trial-status.completed { background: #f3e5f5; color: #7b1fa2; }
+        .sidebar-trial-status.other { background: var(--bg); color: var(--text-muted); }
+        .sidebar-trial-drugs {
+            font-size: 10px; color: var(--accent); font-weight: 500;
+        }
+        .sidebar-trials-loading {
+            font-size: 11px; color: var(--text-muted); padding: 6px 10px; font-style: italic;
         }
         @media (max-width: 768px) {
             .doc-sidebar { display: none; }
@@ -1200,6 +1511,9 @@ function renderSidebar(companies) {{
         html += '<span class="sidebar-company-count">' + docCount + '</span>';
         html += '</div>';
         html += '<div class="sidebar-docs">';
+        if (co.documents.length) {{
+            html += '<div class="sidebar-section-label">Documents</div>';
+        }}
         co.documents.forEach(doc => {{
             const docType = doc.doc_type || 'document';
             html += '<div class="sidebar-doc" data-id="' + doc.id + '" data-title="' + esc(doc.title || doc.filename) + '" onclick="loadLibraryDoc(' + doc.id + ', this)">';
@@ -1207,9 +1521,16 @@ function renderSidebar(companies) {{
             html += '<div class="sidebar-doc-meta"><span class="sidebar-doc-type">' + esc(docType) + '</span></div>';
             html += '</div>';
         }});
+        // Trials placeholder — loaded async per company
+        html += '<div class="sidebar-section-label">Clinical Trials</div>';
+        html += '<div class="sidebar-trials" id="trials-' + esc(co.ticker) + '">';
+        html += '<div class="sidebar-trials-loading">Loading trials...</div>';
+        html += '</div>';
         html += '</div></div>';
     }});
     list.innerHTML = html;
+    // Fetch trials for each company
+    companies.forEach(co => fetchTrials(co.ticker));
 }}
 
 function toggleCompany(idx) {{
@@ -1279,6 +1600,95 @@ async function loadLibraryDoc(docId, el) {{
     }} catch(e) {{
         alert('Failed to load document: ' + e.message);
         overlay.classList.remove('active');
+    }}
+}}
+
+// ── Clinical Trials (live from ClinicalTrials.gov) ──
+
+function trialStatusClass(status) {{
+    if (!status) return 'other';
+    const s = status.toUpperCase();
+    if (s.includes('RECRUITING') || s === 'ENROLLING_BY_INVITATION' || s === 'NOT_YET_RECRUITING') return 'recruiting';
+    if (s.includes('ACTIVE')) return 'active';
+    if (s === 'COMPLETED') return 'completed';
+    return 'other';
+}}
+
+function trialStatusLabel(status) {{
+    if (!status) return '';
+    return status.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}}
+
+async function fetchTrials(ticker) {{
+    const container = document.getElementById('trials-' + ticker);
+    if (!container) return;
+    try {{
+        const r = await fetch('/extract/api/trials/' + encodeURIComponent(ticker));
+        const d = await r.json();
+        if (!d.trials || !d.trials.length) {{
+            container.innerHTML = '<div class="sidebar-trials-loading">No trials found</div>';
+            return;
+        }}
+        let html = '';
+        d.trials.forEach(t => {{
+            const statusCls = trialStatusClass(t.status);
+            const statusLbl = trialStatusLabel(t.status);
+            const drugs = (t.interventions || []).join(', ');
+            html += '<div class="sidebar-trial" data-nct="' + esc(t.nct_id) + '" onclick="loadTrial(\\'' + esc(t.nct_id) + '\\', this)">';
+            html += '<span class="sidebar-trial-title">' + esc(t.title) + '</span>';
+            html += '<div class="sidebar-trial-meta">';
+            if (t.phase) html += '<span class="sidebar-trial-phase">' + esc(t.phase) + '</span>';
+            html += '<span class="sidebar-trial-status ' + statusCls + '">' + esc(statusLbl) + '</span>';
+            html += '<span>' + esc(t.nct_id) + '</span>';
+            html += '</div>';
+            if (drugs) html += '<span class="sidebar-trial-drugs">' + esc(drugs) + '</span>';
+            html += '</div>';
+        }});
+        container.innerHTML = html;
+    }} catch(e) {{
+        container.innerHTML = '<div class="sidebar-trials-loading">Could not load trials</div>';
+    }}
+}}
+
+async function loadTrial(nctId, el) {{
+    // Deselect all docs and trials, highlight this one
+    document.querySelectorAll('.sidebar-doc, .sidebar-trial').forEach(d => d.classList.remove('active'));
+    if (el) el.classList.add('active');
+
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.classList.add('active');
+    document.getElementById('loadingText').textContent = 'Loading trial ' + nctId + '...';
+
+    try {{
+        const r = await fetch('/extract/api/load-trial', {{
+            method: 'POST',
+            headers: {{ 'Content-Type': 'application/json' }},
+            body: JSON.stringify({{ nct_id: nctId }})
+        }});
+        const d = await r.json();
+        if (d.error) {{
+            overlay.classList.remove('active');
+            document.querySelectorAll('.sidebar-trial').forEach(dd => dd.classList.remove('active'));
+            addMsg('system', 'Could not load trial: ' + d.error);
+            return;
+        }}
+
+        // Clear previous chat
+        const container = document.getElementById('chatContainer');
+        container.querySelectorAll('.message, .rag-results').forEach(m => m.remove());
+
+        loadedDocs = [d.title];
+        hasPageImages = false;
+        document.getElementById('uploadZone').classList.add('hidden');
+        document.getElementById('inputBar').classList.add('active');
+        document.getElementById('quickActions').classList.remove('active');
+
+        addMsg('system', 'Loaded trial: ' + d.title + ' \\u2014 ' + d.status + ' (' + d.phase + '), ' + d.word_count.toLocaleString() + ' words.');
+        overlay.classList.remove('active');
+        await generateBrief();
+    }} catch(e) {{
+        overlay.classList.remove('active');
+        addMsg('system', 'Failed to load trial: ' + e.message);
     }}
 }}
 
