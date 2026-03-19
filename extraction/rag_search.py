@@ -203,9 +203,13 @@ def get_document_library() -> list[dict]:
     try:
         cur = conn.cursor()
         cur.execute("""
-            SELECT id, ticker, company_name, title, doc_type, filename
-            FROM documents
-            ORDER BY ticker, title
+            SELECT d.id, d.ticker, d.company_name, d.title, d.doc_type, d.filename,
+                   COUNT(c.id) as chunk_count
+            FROM documents d
+            LEFT JOIN chunks c ON c.document_id = d.id
+            GROUP BY d.id, d.ticker, d.company_name, d.title, d.doc_type, d.filename
+            HAVING COUNT(c.id) > 0
+            ORDER BY d.ticker, d.title
         """)
         rows = cur.fetchall()
         cur.close()
@@ -271,25 +275,45 @@ def embed_document_text(text: str, ticker: str, company_name: str,
     if not vo or not conn:
         raise RuntimeError("RAG not available — check Neon/Voyage configuration")
 
-    # Chunk the text
+    # Chunk the text, tracking page numbers from [Page N] markers
+    import re as _re
     words = text.split()
     word_count = len(words)
+
+    # Build a mapping: word index -> page number
+    # by scanning for [Page N] markers in the text
+    _page_at_word = []
+    _current_page = 1
+    for w in words:
+        # Check if this word starts a page marker like "[Page" followed by "N]"
+        if w == "[Page":
+            pass  # next word will have the number
+        elif _page_at_word and len(_page_at_word) >= 1 and words[len(_page_at_word)-1] == "[Page":
+            m = _re.match(r'(\d+)\]?', w)
+            if m:
+                _current_page = int(m.group(1))
+        _page_at_word.append(_current_page)
+
     if word_count <= chunk_size:
-        chunks = [text]
+        chunks = [(text, _page_at_word[0] if _page_at_word else 1)]
     else:
         chunks = []
         start = 0
         while start < len(words):
             end = start + chunk_size
-            chunks.append(" ".join(words[start:end]))
+            chunk_text = " ".join(words[start:end])
+            chunk_page = _page_at_word[start] if start < len(_page_at_word) else 1
+            chunks.append((chunk_text, chunk_page))
             start = end - chunk_overlap
 
-    # Embed all chunks
+    # Embed all chunks (chunks is now list of (text, page_num) tuples)
     import hashlib
+    chunk_texts = [c[0] for c in chunks]
+    chunk_pages = [c[1] for c in chunks]
     embeddings = []
     batch_size = 32
-    for i in range(0, len(chunks), batch_size):
-        batch = chunks[i:i + batch_size]
+    for i in range(0, len(chunk_texts), batch_size):
+        batch = chunk_texts[i:i + batch_size]
         try:
             result = vo.embed(batch, model=EMBED_MODEL, input_type="document")
             embeddings.extend(result.embeddings)
@@ -317,15 +341,16 @@ def embed_document_text(text: str, ticker: str, company_name: str,
         ))
         doc_id = cur.fetchone()[0]
 
-        # Insert chunks with embeddings
+        # Insert chunks with embeddings and correct page numbers
         inserted = 0
-        for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+        for i, (chunk_text, embedding) in enumerate(zip(chunk_texts, embeddings)):
             if embedding is None:
                 continue
+            page_num = chunk_pages[i] if i < len(chunk_pages) else 1
             cur.execute("""
                 INSERT INTO chunks (document_id, chunk_index, page_number, content, token_count, embedding)
                 VALUES (%s, %s, %s, %s, %s, %s::vector)
-            """, (doc_id, i, 1, chunk, len(chunk.split()), str(embedding)))
+            """, (doc_id, i, page_num, chunk_text, len(chunk_text.split()), str(embedding)))
             inserted += 1
 
         conn.commit()
