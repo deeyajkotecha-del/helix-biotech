@@ -160,6 +160,8 @@ def _build_messages_with_images(sid: str, user_content: str) -> list:
             if sid in _papers:
                 for doc in _papers[sid]["docs"]:
                     for pi in doc.get("page_images", []):
+                        # Label each image with its page number so Claude can cite correctly
+                        blocks.append({"type": "text", "text": f"[PAGE {pi['page']} IMAGE]"})
                         blocks.append({"type": "image", "source": {"type": "base64", "media_type": pi["media_type"], "data": pi["image_base64"]}})
             blocks.append({"type": "text", "text": msg["content"]})
             messages.append({"role": "user", "content": blocks})
