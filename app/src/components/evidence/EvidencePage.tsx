@@ -60,6 +60,9 @@ export default function EvidencePage() {
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}))
+        if (res.status === 503) {
+          throw new Error('Search is being set up — the document library and company browser are available now. Full AI search is coming soon.')
+        }
         throw new Error(errData.error || `Server error: ${res.status}`)
       }
 
@@ -301,9 +304,10 @@ function LoadingState({ query, step }: { query: string; step: string }) {
 }
 
 function ErrorState({ message }: { message: string }) {
+  const isSetup = message.includes('being set up')
   return (
     <div className="ev-error-state">
-      <p className="ev-error-title">Something went wrong</p>
+      <p className="ev-error-title">{isSetup ? 'Coming Soon' : 'Something went wrong'}</p>
       <p className="ev-error-message">{message}</p>
     </div>
   )
