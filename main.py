@@ -69,6 +69,11 @@ app.add_middleware(
 BASE_DIR = Path(__file__).resolve().parent
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
+# Mount React SPA assets (Vite build output) — serves /assets/index-*.js, /assets/index-*.css
+REACT_DIST = BASE_DIR / "app" / "dist"
+if (REACT_DIST / "assets").exists():
+    app.mount("/assets", StaticFiles(directory=REACT_DIST / "assets"), name="react-assets")
+
 # Note: Frontend is served from root index.html (SatyaBio SPA)
 
 # Templates
@@ -82,7 +87,7 @@ async def startup_event():
     init_db()
 
 # Include API routers
-from app.routers import auth_router, documents_router, admin_router, sources_router, citations_router, services_router, clinical_router, extract_router, market_router
+from app.routers import auth_router, documents_router, admin_router, sources_router, citations_router, services_router, clinical_router, extract_router, market_router, search_router
 from app.routers.company import router as company_router
 
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
@@ -95,10 +100,20 @@ app.include_router(services_router, prefix="/api/services", tags=["Services"])
 app.include_router(clinical_router, prefix="/api/clinical", tags=["Clinical"])
 app.include_router(extract_router, prefix="/extract", tags=["Extract"])
 app.include_router(market_router, prefix="/api/market-data", tags=["Market Data"])
+app.include_router(search_router, prefix="/api/search", tags=["Search"])
 
 # =============================================================================
 # Frontend Routes
 # =============================================================================
+
+# Search page — serves the React SPA (Open Evidence-style search)
+@app.get("/search", response_class=HTMLResponse)
+async def serve_search():
+    """Serve the React SPA for the search page."""
+    react_index = BASE_DIR / "app" / "dist" / "index.html"
+    if react_index.exists():
+        return FileResponse(react_index)
+    return HTMLResponse("<h1>Search page not built yet</h1><p>Run <code>cd app && npm run build</code> to build the React frontend.</p>", status_code=503)
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_index():
