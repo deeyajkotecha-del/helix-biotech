@@ -64,13 +64,14 @@ export default function AnswerPanel({
   )
 }
 
-// Source type -> badge style mapping
-const SOURCE_STYLES: Record<string, { icon: string; color: string; bg: string; label: string }> = {
-  pubmed:  { icon: '\u{1F4D6}', color: '#7B5EA7', bg: '#F3EFF8', label: '' },
-  trial:   { icon: '\u{1F3E5}', color: '#3B6DAB', bg: '#EBF2FA', label: '' },
-  fda:     { icon: '\u{1F3E5}', color: '#3D8B5E', bg: '#EDF7F0', label: 'FDA' },
-  doc:     { icon: '\u{1F4C4}', color: '#C4603C', bg: '#FDF2ED', label: '' },
-  entity:  { icon: '\u{1F9EC}', color: '#8B8680', bg: '#F0EBE4', label: '' },
+// Source type -> badge style mapping (OpenEvidence-style: no emojis, clean text pills)
+const SOURCE_STYLES: Record<string, { color: string; bg: string }> = {
+  pubmed:  { color: '#7B5EA7', bg: '#F3EFF8' },
+  trial:   { color: '#3B6DAB', bg: '#EBF2FA' },
+  fda:     { color: '#3D8B5E', bg: '#EDF7F0' },
+  doc:     { color: '#9E6B54', bg: '#F8F0EB' },
+  sec:     { color: '#8B6914', bg: '#FFF8E7' },
+  entity:  { color: '#8B8680', bg: '#F0EBE4' },
 }
 
 function parsePubmedLabel(label: string) {
@@ -254,7 +255,7 @@ function parseAnswer(
     }
 
     // Skip lines that are ONLY citation badges right after a table (redundant citations)
-    if (justFlushedTable && /^(\{\{\w+:[^}]+\}\}\s*)+$/.test(trimmed)) {
+    if (justFlushedTable && /^(\{?\{\w+:[^}]+\}?\}\s*)+$/.test(trimmed)) {
       justFlushedTable = false
       continue
     }
@@ -321,8 +322,8 @@ function renderInlineContent(
   sources: SearchSource[],
   onCitationHover: (index: number | null) => void
 ): ReactNode[] {
-  // Extended pattern: also matches NCT IDs and markdown links [text](url)
-  const pattern = /(\{\{(\w+):([^}]+)\}\}|\[\d+\]|\[!\]|\*\*[^*]+\*\*|\*[^*]+\*|NCT\d{8,}|\[([^\]]+)\]\((https?:\/\/[^)]+)\))/g
+  // Extended pattern: matches both {{type:label}} and {type:label}, NCT IDs, markdown links
+  const pattern = /(\{\{?(\w+):([^}]+)\}?\}|\[\d+\]|\[!\]|\*\*[^*]+\*\*|\*[^*]+\*|NCT\d{8,}|\[([^\]]+)\]\((https?:\/\/[^)]+)\))/g
   const parts: InlinePart[] = []
   let lastIndex = 0
   let match: RegExpExecArray | null
@@ -334,8 +335,8 @@ function renderInlineContent(
 
     const full = match[0]
 
-    if (full.startsWith('{{') && full.endsWith('}}')) {
-      // Suppress unhelpful generic badges like {entity:db}
+    if (match[2] && match[3] && (full.startsWith('{{') || full.startsWith('{'))) {
+      // Citation badge: {type:label} or {{type:label}}
       const badgeType = match[2]
       const badgeLabel = match[3]
       if (badgeType === 'entity' && badgeLabel.toLowerCase() === 'db') {
@@ -370,19 +371,24 @@ function renderInlineContent(
     switch (part.type) {
       case 'source_badge': {
         const style = SOURCE_STYLES[part.sourceType] || SOURCE_STYLES.entity
-        let rawLabel = part.label
+        // Build a clean display label (OpenEvidence style — short, readable)
+        let displayLabel = part.label
         if (part.sourceType === 'pubmed') {
           const { displayName } = parsePubmedLabel(part.label)
-          rawLabel = displayName
+          displayLabel = displayName
+        } else if (part.sourceType === 'doc' && part.label.includes('|')) {
+          // doc:TICKER|DocTitle → show just the doc title
+          displayLabel = part.label.split('|').slice(1).join('|')
+        } else if (part.sourceType === 'sec' && part.label.includes('|')) {
+          displayLabel = part.label.split('|').slice(1).join('|')
+        } else if (part.sourceType === 'trial') {
+          // NCT IDs stay short, no truncation needed
         }
-        const displayLabel = rawLabel.length > 20 ? rawLabel.slice(0, 18) + '...' : rawLabel
+        // Truncate long labels with ellipsis
+        if (displayLabel.length > 24) {
+          displayLabel = displayLabel.slice(0, 22) + '...'
+        }
         const url = getBadgeUrl(part.sourceType, part.label, sources)
-        const inner = (
-          <>
-            <span className="badge-icon">{style.icon}</span>
-            {' '}{style.label || displayLabel}
-          </>
-        )
         return url ? (
           <a
             key={i}
@@ -391,9 +397,9 @@ function renderInlineContent(
             rel="noopener noreferrer"
             className="source-badge-inline source-badge-link"
             style={{ color: style.color, background: style.bg }}
-            title={`${part.sourceType}: ${part.label} — click to view source`}
+            title={`${part.sourceType}: ${part.label}`}
           >
-            {inner}
+            {displayLabel}
           </a>
         ) : (
           <span
@@ -402,7 +408,7 @@ function renderInlineContent(
             style={{ color: style.color, background: style.bg }}
             title={`${part.sourceType}: ${part.label}`}
           >
-            {inner}
+            {displayLabel}
           </span>
         )
       }

@@ -585,21 +585,20 @@
   color: white;
 }
 
-/* Named source badges (OpenEvidence-style) */
+/* Named source badges (OpenEvidence-style: clean text pills, no emojis) */
 .search-app .source-badge-inline {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 1px 8px 1px 5px;
-  border-radius: 4px;
-  margin: 0 2px;
+  display: inline;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin: 0 1px;
   cursor: default;
   vertical-align: baseline;
-  line-height: 1.5;
+  line-height: 1;
   white-space: nowrap;
-  transition: opacity 0.15s;
+  transition: all 0.15s;
+  letter-spacing: -0.1px;
 }
 
 .search-app a.source-badge-link {
@@ -608,21 +607,12 @@
 }
 
 .search-app a.source-badge-link:hover {
-  opacity: 0.85;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.search-app .source-badge-inline:hover {
-  opacity: 0.8;
-}
-
-.search-app .badge-icon {
-  font-size: 10px;
+  filter: brightness(0.92);
+  text-decoration: none;
 }
 
 .search-app .source-badge-inline + .source-badge-inline {
-  margin-left: 2px;
+  margin-left: 1px;
 }
 
 .search-app .caveat-flag {

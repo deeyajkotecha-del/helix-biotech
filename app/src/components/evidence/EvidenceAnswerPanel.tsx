@@ -11,13 +11,14 @@ interface Props {
   streaming?: boolean
 }
 
-// Source type -> badge style mapping
-const SOURCE_STYLES: Record<string, { icon: string; color: string; bg: string; label: string }> = {
-  pubmed:  { icon: '\u{1F4D6}', color: '#7B5EA7', bg: '#F3EFF8', label: '' },
-  trial:   { icon: '\u{1F3E5}', color: '#3B6DAB', bg: '#EBF2FA', label: '' },
-  fda:     { icon: '\u{1F3E5}', color: '#3D8B5E', bg: '#EDF7F0', label: 'FDA' },
-  doc:     { icon: '\u{1F4C4}', color: '#C4603C', bg: '#FDF2ED', label: '' },
-  entity:  { icon: '\u{1F9EC}', color: '#8B8680', bg: '#F0EBE4', label: '' },
+// Source type -> badge style mapping (OpenEvidence-style: no emojis, clean text pills)
+const SOURCE_STYLES: Record<string, { color: string; bg: string }> = {
+  pubmed:  { color: '#7B5EA7', bg: '#F3EFF8' },
+  trial:   { color: '#3B6DAB', bg: '#EBF2FA' },
+  fda:     { color: '#3D8B5E', bg: '#EDF7F0' },
+  doc:     { color: '#9E6B54', bg: '#F8F0EB' },
+  sec:     { color: '#8B6914', bg: '#FFF8E7' },
+  entity:  { color: '#8B8680', bg: '#F0EBE4' },
 }
 
 export default function EvidenceAnswerPanel({
@@ -189,7 +190,7 @@ function parseAnswer(text: string, sources: SearchSource[], onCitationHover: (i:
     if (!trimmed) { flushList(); flushParagraph(); justFlushedTable = false; continue }
 
     // Skip lines that are ONLY citation badges right after a table (redundant citations)
-    if (justFlushedTable && /^(\{\{\w+:[^}]+\}\}\s*)+$/.test(trimmed)) {
+    if (justFlushedTable && /^(\{?\{\w+:[^}]+\}?\}\s*)+$/.test(trimmed)) {
       justFlushedTable = false
       continue
     }
@@ -208,7 +209,8 @@ function parseAnswer(text: string, sources: SearchSource[], onCitationHover: (i:
 }
 
 function renderInline(text: string, sources: SearchSource[], onCitationHover: (i: number | null) => void): ReactNode[] {
-  const pattern = /(\{\{(\w+):([^}]+)\}\}|\[\d+\]|\[!\]|\*\*[^*]+\*\*|\*[^*]+\*|NCT\d{8,}|\[([^\]]+)\]\((https?:\/\/[^)]+)\))/g
+  // Matches both {type:label} and {{type:label}}, NCT IDs, markdown links
+  const pattern = /(\{\{?(\w+):([^}]+)\}?\}|\[\d+\]|\[!\]|\*\*[^*]+\*\*|\*[^*]+\*|NCT\d{8,}|\[([^\]]+)\]\((https?:\/\/[^)]+)\))/g
   const parts: ReactNode[] = []
   let lastIndex = 0
   let match: RegExpExecArray | null
@@ -217,7 +219,7 @@ function renderInline(text: string, sources: SearchSource[], onCitationHover: (i
     if (match.index > lastIndex) parts.push(<span key={`t-${parts.length}`}>{text.slice(lastIndex, match.index)}</span>)
     const full = match[0]
 
-    if (full.startsWith('{{') && full.endsWith('}}')) {
+    if (match[2] && match[3] && (full.startsWith('{{') || full.startsWith('{'))) {
       const sourceType = match[2]
       const label = match[3]
       // Suppress unhelpful generic badges like {entity:db}
@@ -226,15 +228,23 @@ function renderInline(text: string, sources: SearchSource[], onCitationHover: (i
         continue
       }
       const style = SOURCE_STYLES[sourceType] || SOURCE_STYLES.entity
-      const displayLabel = label.length > 20 ? label.slice(0, 18) + '...' : label
+      // Build clean display label (OpenEvidence style)
+      let displayLabel = label
+      if (sourceType === 'pubmed' && label.includes('|')) {
+        displayLabel = label.split('|')[1]?.trim() || label
+      } else if ((sourceType === 'doc' || sourceType === 'sec') && label.includes('|')) {
+        displayLabel = label.split('|').slice(1).join('|')
+      }
+      if (displayLabel.length > 24) displayLabel = displayLabel.slice(0, 22) + '...'
       const url = getBadgeUrl(sourceType, label, sources)
-      const inner = <><span className="ev-badge-icon">{style.icon}</span> {style.label || displayLabel}</>
       parts.push(
         url ? (
           <a key={`b-${parts.length}`} href={url} target="_blank" rel="noopener noreferrer"
-            className="ev-source-badge-inline ev-source-badge-link" style={{ color: style.color, background: style.bg }}>{inner}</a>
+            className="ev-source-badge-inline ev-source-badge-link" style={{ color: style.color, background: style.bg }}
+            title={`${sourceType}: ${label}`}>{displayLabel}</a>
         ) : (
-          <span key={`b-${parts.length}`} className="ev-source-badge-inline" style={{ color: style.color, background: style.bg }}>{inner}</span>
+          <span key={`b-${parts.length}`} className="ev-source-badge-inline" style={{ color: style.color, background: style.bg }}
+            title={`${sourceType}: ${label}`}>{displayLabel}</span>
         )
       )
     } else if (/^\[\d+\]$/.test(full)) {

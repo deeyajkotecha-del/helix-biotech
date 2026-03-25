@@ -173,15 +173,15 @@
 .ev-h3 { font-size: 17px; font-weight: 700; margin: 24px 0 10px; color: var(--ev-text-dark); }
 .ev-h4 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--ev-text-dark); }
 
-/* Inline source badges */
+/* Inline source badges (OpenEvidence-style: clean text pills, no emojis) */
 .ev-source-badge-inline {
-  display: inline-flex; align-items: center; gap: 3px;
-  padding: 1px 7px; border-radius: 4px; font-size: 11px; font-weight: 600;
-  white-space: nowrap; vertical-align: baseline;
+  display: inline;
+  padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 500;
+  white-space: nowrap; vertical-align: baseline; letter-spacing: -0.1px;
+  transition: all 0.15s;
 }
 .ev-source-badge-link { text-decoration: none; cursor: pointer; }
-.ev-source-badge-link:hover { filter: brightness(0.95); text-decoration: underline; }
-.ev-badge-icon { font-size: 10px; }
+.ev-source-badge-link:hover { filter: brightness(0.92); }
 .ev-citation-chip {
   display: inline-flex; align-items: center; justify-content: center;
   background: var(--ev-coral-bg); color: var(--ev-coral); font-size: 10px; font-weight: 700;
