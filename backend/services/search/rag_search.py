@@ -12,6 +12,8 @@ Used by the search router for cross-document search.
 """
 
 import os
+import re
+from datetime import datetime, date
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -24,8 +26,9 @@ VOYAGE_API_KEY = os.environ.get("VOYAGE_API_KEY", "")
 # ── UPGRADED SETTINGS ──
 EMBED_MODEL = "voyage-3"           # Full model, 1024 dims (was voyage-3-lite / 512)
 RERANK_MODEL = "rerank-2"          # Voyage AI reranker for second-pass scoring
-VECTOR_WEIGHT = 0.65               # Weight for semantic similarity in hybrid score
-KEYWORD_WEIGHT = 0.35              # Weight for keyword match in hybrid score
+VECTOR_WEIGHT = 0.55               # Weight for semantic similarity in hybrid score
+KEYWORD_WEIGHT = 0.30              # Weight for keyword match in hybrid score
+RECENCY_WEIGHT = 0.15              # Weight for document recency (newer = higher)
 
 # Lazy-initialized clients
 _db_conn = None
@@ -102,7 +105,8 @@ def _vector_search(conn, query_embedding: list, top_k: int, ticker_filter: str =
             SELECT
                 c.id, c.content, c.page_number,
                 d.filename, d.ticker, d.company_name, d.title, d.doc_type, d.file_path,
-                1 - (c.embedding <=> %s::vector) AS similarity
+                1 - (c.embedding <=> %s::vector) AS similarity,
+                d.date
             FROM chunks c
             JOIN documents d ON c.document_id = d.id
             WHERE d.ticker = %s
@@ -114,7 +118,8 @@ def _vector_search(conn, query_embedding: list, top_k: int, ticker_filter: str =
             SELECT
                 c.id, c.content, c.page_number,
                 d.filename, d.ticker, d.company_name, d.title, d.doc_type, d.file_path,
-                1 - (c.embedding <=> %s::vector) AS similarity
+                1 - (c.embedding <=> %s::vector) AS similarity,
+                d.date
             FROM chunks c
             JOIN documents d ON c.document_id = d.id
             ORDER BY c.embedding <=> %s::vector
@@ -135,6 +140,7 @@ def _vector_search(conn, query_embedding: list, top_k: int, ticker_filter: str =
         "doc_type": row[7],
         "file_path": row[8],
         "vector_score": float(row[9]),
+        "doc_date": row[10] or "",
     } for row in rows]
 
 
@@ -153,7 +159,8 @@ def _keyword_search(conn, query: str, top_k: int, ticker_filter: str = None) -> 
                 SELECT
                     c.id, c.content, c.page_number,
                     d.filename, d.ticker, d.company_name, d.title, d.doc_type, d.file_path,
-                    ts_rank_cd(c.content_tsv, websearch_to_tsquery('english', %s)) AS rank
+                    ts_rank_cd(c.content_tsv, websearch_to_tsquery('english', %s)) AS rank,
+                    d.date
                 FROM chunks c
                 JOIN documents d ON c.document_id = d.id
                 WHERE c.content_tsv @@ websearch_to_tsquery('english', %s)
@@ -166,7 +173,8 @@ def _keyword_search(conn, query: str, top_k: int, ticker_filter: str = None) -> 
                 SELECT
                     c.id, c.content, c.page_number,
                     d.filename, d.ticker, d.company_name, d.title, d.doc_type, d.file_path,
-                    ts_rank_cd(c.content_tsv, websearch_to_tsquery('english', %s)) AS rank
+                    ts_rank_cd(c.content_tsv, websearch_to_tsquery('english', %s)) AS rank,
+                    d.date
                 FROM chunks c
                 JOIN documents d ON c.document_id = d.id
                 WHERE c.content_tsv @@ websearch_to_tsquery('english', %s)
@@ -188,6 +196,7 @@ def _keyword_search(conn, query: str, top_k: int, ticker_filter: str = None) -> 
             "doc_type": row[7],
             "file_path": row[8],
             "keyword_score": float(row[9]),
+            "doc_date": row[10] or "",
         } for row in rows]
 
     except Exception as e:
@@ -197,8 +206,47 @@ def _keyword_search(conn, query: str, top_k: int, ticker_filter: str = None) -> 
         return []
 
 
+def _parse_doc_date(date_str: str) -> float:
+    """
+    Parse a document date string and return a recency score between 0 and 1.
+    Newer documents score higher. Documents with no date get 0.3 (neutral).
+
+    Scoring: A document from today scores 1.0. A document from 3+ years ago scores 0.0.
+    Linear decay over a 3-year window.
+    """
+    if not date_str:
+        return 0.3  # Neutral score for undated docs
+
+    # Try common date formats found in our corpus
+    for fmt in ("%Y-%m-%d", "%Y%m%d", "%m/%d/%Y", "%Y-%m-%dT%H:%M:%S", "%B %d, %Y", "%b %d, %Y"):
+        try:
+            doc_date = datetime.strptime(date_str.strip()[:10], fmt).date()
+            break
+        except (ValueError, IndexError):
+            continue
+    else:
+        # Try to extract a year from the string (e.g. "2025" or "FY2025")
+        year_match = re.search(r'20[12]\d', date_str)
+        if year_match:
+            year = int(year_match.group())
+            doc_date = date(year, 6, 15)  # Assume mid-year
+        else:
+            return 0.3  # Can't parse — neutral
+
+    today = date.today()
+    days_old = (today - doc_date).days
+    max_age_days = 3 * 365  # 3-year window
+
+    if days_old <= 0:
+        return 1.0
+    if days_old >= max_age_days:
+        return 0.0
+
+    return 1.0 - (days_old / max_age_days)
+
+
 def _merge_and_score(vector_results: list[dict], keyword_results: list[dict]) -> list[dict]:
-    """Merge vector and keyword results with weighted scoring."""
+    """Merge vector and keyword results with weighted scoring, including recency bias."""
     merged = {}
 
     if vector_results:
@@ -222,9 +270,12 @@ def _merge_and_score(vector_results: list[dict], keyword_results: list[dict]) ->
                 merged[cid]["keyword_score_norm"] = r["keyword_score"] / max_kscore
 
     for cid, r in merged.items():
+        recency_score = _parse_doc_date(r.get("doc_date", ""))
+        r["recency_score"] = recency_score
         r["hybrid_score"] = (
             VECTOR_WEIGHT * r.get("vector_score_norm", 0.0) +
-            KEYWORD_WEIGHT * r.get("keyword_score_norm", 0.0)
+            KEYWORD_WEIGHT * r.get("keyword_score_norm", 0.0) +
+            RECENCY_WEIGHT * recency_score
         )
 
     return sorted(merged.values(), key=lambda x: x["hybrid_score"], reverse=True)
@@ -312,7 +363,7 @@ def search(query: str, top_k: int = 50, ticker_filter: str = None) -> list[dict]
     rerank_pool = merged[:top_k * 3]
     reranked = _rerank(vo, query, rerank_pool, top_k)
 
-    # Clean up output format (matches v1 interface exactly)
+    # Clean up output format
     results = []
     for r in reranked:
         results.append({
@@ -324,6 +375,7 @@ def search(query: str, top_k: int = 50, ticker_filter: str = None) -> list[dict]
             "title": r["title"],
             "doc_type": r["doc_type"],
             "file_path": r.get("file_path", ""),
+            "doc_date": r.get("doc_date", ""),
             "similarity": round(float(r.get("similarity", 0)), 4),
         })
 
@@ -352,6 +404,7 @@ def format_context_for_claude(results: list[dict]) -> str:
                 "filename": r["filename"],
                 "doc_type": r["doc_type"],
                 "file_path": r.get("file_path", ""),
+                "doc_date": r.get("doc_date", ""),
                 "chunks": [],
             }
             doc_index += 1
@@ -366,11 +419,12 @@ def format_context_for_claude(results: list[dict]) -> str:
     parts.append(f"Retrieved {len(results)} chunks from {len(by_doc)} documents via hybrid search + reranking.")
     parts.append("IMPORTANT: Only use information from these documents. Cite using [Doc N] tags.\n")
 
-    # Document index for citations
-    parts.append("DOCUMENT INDEX:")
+    # Document index for citations — includes date so Claude knows what's newest
+    parts.append("DOCUMENT INDEX (sorted by relevance — check dates for recency):")
     for doc_key, doc in by_doc.items():
         source_link = doc["file_path"] if doc["file_path"] else doc["filename"]
-        parts.append(f"  [Doc {doc['doc_num']}] {doc['ticker']} | {doc['title']} | Type: {doc['doc_type']} | Source: {source_link}")
+        date_str = f" | Date: {doc['doc_date']}" if doc["doc_date"] else ""
+        parts.append(f"  [Doc {doc['doc_num']}] {doc['ticker']} | {doc['title']} | Type: {doc['doc_type']}{date_str} | Source: {source_link}")
     parts.append("")
 
     for doc_key, doc in by_doc.items():

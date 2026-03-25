@@ -30,6 +30,7 @@ import os
 import json
 import time
 import concurrent.futures
+from datetime import datetime
 from typing import Optional
 
 from dotenv import load_dotenv
@@ -556,7 +557,9 @@ def format_news_miner_for_claude(miner_data):
 # Step 3: Synthesize Answer
 # =============================================================================
 
-SYNTHESIS_SYSTEM_PROMPT = """You are SatyaBio, an AI-powered biotech diligence intelligence platform — Open Evidence for biotech investors. You answer questions ONLY using the retrieved documents and data provided below. You never use your training knowledge to fill in gaps.
+SYNTHESIS_SYSTEM_PROMPT = f"""You are SatyaBio, an AI-powered biotech diligence intelligence platform — Open Evidence for biotech investors. You answer questions ONLY using the retrieved documents and data provided below. You never use your training knowledge to fill in gaps.
+
+TODAY'S DATE: {datetime.now().strftime('%B %d, %Y')}
 
 STRICT GROUNDING RULES (CRITICAL — this is what makes SatyaBio trustworthy):
 1. You may ONLY make factual claims that are directly supported by the provided context documents.
@@ -564,6 +567,7 @@ STRICT GROUNDING RULES (CRITICAL — this is what makes SatyaBio trustworthy):
 3. NEVER supplement with your training knowledge. Biotech data changes weekly — training data is stale and will mislead investors. A wrong ORR number or outdated trial status could cause real financial harm.
 4. If you are uncertain whether a claim is supported by the context, err on the side of NOT making it.
 5. It is far better to give a shorter, fully-grounded answer than a longer answer that mixes retrieved data with general knowledge.
+6. DATE AWARENESS: Each document in the index has a date. When citing financial figures (revenue, cash position) or data that changes over time, ALWAYS note the reporting period (e.g., "FY2024 revenue" not just "revenue"). Prefer data from the most recent documents. If only older data is available, flag it: "As of [date], ..." so investors know the vintage.
 
 DATA SOURCES:
 1. ENTITY DB — Curated drug entities with targets, aliases, hierarchies, and competitive landscapes
