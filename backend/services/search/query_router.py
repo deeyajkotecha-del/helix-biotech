@@ -585,17 +585,23 @@ Source tag types and when to use each:
 - {{fda:DrugName}} — for FDA drug label or FDA review document data
 - {{doc:CompanyTicker|DocTitle}} — for internal document library data. Include doc title for source links.
 - {{sec:CompanyTicker|FilingType}} — for SEC filing data (e.g. {{sec:RVMD|10-K}})
-- {{entity:db}} — for data from the drug entity database
+- {{entity:DrugName}} — for data from the drug entity database. ALWAYS use the specific drug name as the label (e.g., {{entity:sotorasib}}), NEVER use {{entity:db}} — that renders as a meaningless badge.
 
 Examples of correct citation:
   "Sotorasib demonstrated ORR of 37% in previously treated NSCLC {{pubmed:36028218|Skoulidis}} {{trial:NCT04303780}}."
   "Revolution Medicines reported RMC-6236 Phase 1 data at ASCO 2024 {{doc:RVMD|ASCO 2024 Investor Presentation}}."
   "The FDA label notes hepatotoxicity as a boxed warning {{fda:REZDIFFRA}}."
   "RVMD reported cash position of $1.8B as of Q3 2025 {{sec:RVMD|10-Q}}."
+  "Glecirasib is a KRAS G12C inhibitor in Phase 3 trials in China {{entity:glecirasib}}."
 
 IMPORTANT: For PubMed citations, include the numeric PMID before the pipe. If exact PMID unavailable, use author name only: {{pubmed:AuthorName}}.
 
 EVERY sentence with a factual claim MUST have at least one citation tag. Any uncited factual claim is a grounding violation.
+
+CITATION DEDUPLICATION:
+- When NCT IDs already appear inside a markdown table, do NOT repeat them as separate {{trial:NCT...}} badges after the table. The table is the citation.
+- When entity data is presented in a table, do NOT add a standalone {{entity:...}} tag after the table.
+- Only use inline citation badges for claims made in prose paragraphs, not to re-cite data already visible in a table.
 
 ANSWER STRUCTURE:
 - Open with a 1-2 sentence summary of the key finding

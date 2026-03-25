@@ -17,7 +17,7 @@ const SOURCE_STYLES: Record<string, { icon: string; color: string; bg: string; l
   trial:   { icon: '\u{1F3E5}', color: '#3B6DAB', bg: '#EBF2FA', label: '' },
   fda:     { icon: '\u{1F3E5}', color: '#3D8B5E', bg: '#EDF7F0', label: 'FDA' },
   doc:     { icon: '\u{1F4C4}', color: '#C4603C', bg: '#FDF2ED', label: '' },
-  entity:  { icon: '\u{1F9EC}', color: '#8B8680', bg: '#F0EBE4', label: 'DB' },
+  entity:  { icon: '\u{1F9EC}', color: '#8B8680', bg: '#F0EBE4', label: '' },
 }
 
 export default function EvidenceAnswerPanel({
@@ -135,6 +135,7 @@ function parseAnswer(text: string, sources: SearchSource[], onCitationHover: (i:
   let inList = false
   let inTable = false
   let tableLines: string[] = []
+  let justFlushedTable = false
 
   function flushParagraph() {
     if (currentParagraph.length > 0) {
@@ -182,9 +183,17 @@ function parseAnswer(text: string, sources: SearchSource[], onCitationHover: (i:
       continue
     } else if (inTable) {
       flushTable()
+      justFlushedTable = true
     }
 
-    if (!trimmed) { flushList(); flushParagraph(); continue }
+    if (!trimmed) { flushList(); flushParagraph(); justFlushedTable = false; continue }
+
+    // Skip lines that are ONLY citation badges right after a table (redundant citations)
+    if (justFlushedTable && /^(\{\{\w+:[^}]+\}\}\s*)+$/.test(trimmed)) {
+      justFlushedTable = false
+      continue
+    }
+    justFlushedTable = false
     if (trimmed.startsWith('### ')) { flushList(); flushParagraph(); elements.push(<h4 key={`h4-${elements.length}`} className="ev-h4">{trimmed.replace(/^###\s*/, '')}</h4>); continue }
     if (trimmed.startsWith('## '))  { flushList(); flushParagraph(); elements.push(<h3 key={`h3-${elements.length}`} className="ev-h3">{trimmed.replace(/^##\s*/, '')}</h3>); continue }
     if (trimmed.startsWith('# '))   { flushList(); flushParagraph(); elements.push(<h2 key={`h2-${elements.length}`} className="ev-h2">{trimmed.replace(/^#\s*/, '')}</h2>); continue }
@@ -211,6 +220,11 @@ function renderInline(text: string, sources: SearchSource[], onCitationHover: (i
     if (full.startsWith('{{') && full.endsWith('}}')) {
       const sourceType = match[2]
       const label = match[3]
+      // Suppress unhelpful generic badges like {entity:db}
+      if (sourceType === 'entity' && label.toLowerCase() === 'db') {
+        lastIndex = match.index + full.length
+        continue
+      }
       const style = SOURCE_STYLES[sourceType] || SOURCE_STYLES.entity
       const displayLabel = label.length > 20 ? label.slice(0, 18) + '...' : label
       const url = getBadgeUrl(sourceType, label, sources)

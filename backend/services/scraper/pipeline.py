@@ -1,16 +1,19 @@
 """
 SatyaBio Data Pipeline — Single entry point for the full scrape + embed workflow.
 
-Orchestrates three steps in the correct order:
-  1. IR Scraping  — Download PDFs from company investor relations pages (ir_scraper.py)
-  2. SEC + Trials — Scrape SEC EDGAR filings + ClinicalTrials.gov (sec_trials_scraper.py)
-  3. PDF Embedding — Extract text, chunk, embed, and store in Neon (embed_documents.py)
+Orchestrates five steps in the correct order:
+  1. IR Scraping       — Download PDFs from company investor relations pages (ir_scraper.py)
+  2. SEC + Trials      — Scrape SEC EDGAR filings + ClinicalTrials.gov (sec_trials_scraper.py)
+  2b. FDA Regulatory   — Scrape FDA labels, approvals, CDER/CBER review PDFs (fda_scraper.py)
+  3. PDF Embedding     — Extract text, chunk, embed, and store in Neon (embed_documents.py)
+  4. Endpoint Extract  — Pull structured clinical data from embedded chunks (endpoint_extractor.py)
 
 The order matters:
   - IR scraper downloads PDFs to data/companies/{TICKER}/sources/
   - SEC+trials scraper embeds directly into Neon (no PDF download step)
   - Embedder processes the PDFs from step 1 and stores vectors in Neon
   - Running the embedder BEFORE the IR scraper would miss all the new PDFs
+  - Endpoint extraction runs AFTER embedding because it reads from embedded chunks
 
 Usage:
     python3 pipeline.py --all                     # Full pipeline, all 60 companies
@@ -18,6 +21,8 @@ Usage:
     python3 pipeline.py --all --skip-ir           # Skip IR scraping (PDFs already downloaded)
     python3 pipeline.py --all --skip-sec          # Skip SEC + trials scraping
     python3 pipeline.py --all --skip-embed        # Skip embedding (just scrape)
+    python3 pipeline.py --all --skip-endpoints    # Skip endpoint extraction
+    python3 pipeline.py --all --endpoints-only    # Only run endpoint extraction
     python3 pipeline.py --all --dry-run           # Preview everything without executing
     python3 pipeline.py --all --fresh             # Wipe Neon DB and re-embed from scratch
     python3 pipeline.py --list                    # List all tracked companies
@@ -25,6 +30,7 @@ Usage:
 Requires in .env:
     NEON_DATABASE_URL=postgresql://...
     VOYAGE_API_KEY=your-voyage-key
+    ANTHROPIC_API_KEY=your-anthropic-key  (for endpoint extraction)
 
 Optional in .env:
     LIBRARY_PATH=/path/to/data   (defaults to backend/services/data if not set)
@@ -344,6 +350,56 @@ def run_embedder(tickers: list[str], fresh: bool = False) -> int:
     return total_new
 
 
+# ── Step 4: Clinical Endpoint Extraction ──
+
+def run_endpoint_extraction(tickers: list[str], dry_run: bool = False) -> int:
+    """
+    Extract structured clinical endpoints from embedded chunks using Claude.
+    Requires: chunks in Neon (from Step 3) + ANTHROPIC_API_KEY.
+    Returns total endpoints stored.
+    """
+    _banner("STEP 4: Clinical Endpoint Extraction", f"Companies: {len(tickers)} | Dry run: {dry_run}")
+
+    DATABASE_URL = os.environ.get("NEON_DATABASE_URL", "")
+    ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+
+    if not DATABASE_URL:
+        print("  ERROR: NEON_DATABASE_URL must be set in .env")
+        print("  Skipping endpoint extraction.\n")
+        return 0
+
+    if not ANTHROPIC_API_KEY:
+        print("  ERROR: ANTHROPIC_API_KEY must be set in .env for endpoint extraction")
+        print("  Skipping endpoint extraction.\n")
+        return 0
+
+    try:
+        from endpoint_extractor import run_extraction
+        from endpoints_setup import setup_tables
+        import psycopg2
+        import anthropic
+    except ImportError as e:
+        print(f"  ERROR: Could not import endpoint modules: {e}")
+        print("  Skipping endpoint extraction.\n")
+        return 0
+
+    conn = psycopg2.connect(DATABASE_URL)
+
+    # Ensure the clinical_endpoints table exists
+    try:
+        setup_tables(conn)
+    except Exception as e:
+        print(f"  WARNING: Table setup issue (may already exist): {e}")
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+    # run_extraction handles its own batching and progress output
+    run_extraction(conn, client, tickers=tickers, dry_run=dry_run)
+
+    conn.close()
+    return 0  # run_extraction prints its own stats
+
+
 # ── Main ──
 
 def main():
@@ -371,6 +427,8 @@ Examples:
     parser.add_argument("--fda-only", action="store_true", help="Only run the FDA scraper (skip all other steps)")
     parser.add_argument("--sec-only", action="store_true", help="In step 2, only scrape SEC filings")
     parser.add_argument("--trials-only", action="store_true", help="In step 2, only scrape ClinicalTrials.gov")
+    parser.add_argument("--skip-endpoints", action="store_true", help="Skip step 4 (endpoint extraction)")
+    parser.add_argument("--endpoints-only", action="store_true", help="Only run endpoint extraction (skip all other steps)")
     parser.add_argument("--dry-run", action="store_true", help="Preview all steps without executing")
     parser.add_argument("--fresh", action="store_true", help="Wipe Neon DB before embedding (use with caution!)")
     args = parser.parse_args()
@@ -415,6 +473,13 @@ Examples:
         print()
         return
 
+    # If --endpoints-only, skip everything except endpoint extraction
+    if args.endpoints_only:
+        run_endpoint_extraction(tickers, dry_run=args.dry_run)
+        elapsed = time.time() - start_time
+        _banner("Pipeline Complete", f"Total time: {int(elapsed//60)}m {int(elapsed%60)}s")
+        return
+
     # ── Step 1: IR Scraping ──
     ir_results = {}
     if not args.skip_ir:
@@ -448,6 +513,14 @@ Examples:
     else:
         print("\n  Skipping Step 3 (embedding) — --skip-embed flag set\n")
 
+    # ── Step 4: Clinical Endpoint Extraction ──
+    if not args.skip_endpoints and not args.dry_run:
+        run_endpoint_extraction(tickers, dry_run=args.dry_run)
+    elif args.dry_run:
+        print("\n  Skipping Step 4 (endpoint extraction) — dry run mode\n")
+    else:
+        print("\n  Skipping Step 4 (endpoint extraction) — --skip-endpoints flag set\n")
+
     # ── Summary ──
     elapsed = time.time() - start_time
     minutes = int(elapsed // 60)
@@ -460,6 +533,7 @@ Examples:
     print(f"  Step 2  (SEC + Trials):   {sec_added} documents added to Neon")
     print(f"  Step 2b (FDA Regulatory): {fda_added} documents added to Neon")
     print(f"  Step 3  (PDF Embedding):  {embed_count} new documents embedded")
+    print(f"  Step 4  (Endpoints):      see extraction log above")
     print()
 
 

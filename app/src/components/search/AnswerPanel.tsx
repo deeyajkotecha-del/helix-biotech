@@ -70,7 +70,7 @@ const SOURCE_STYLES: Record<string, { icon: string; color: string; bg: string; l
   trial:   { icon: '\u{1F3E5}', color: '#3B6DAB', bg: '#EBF2FA', label: '' },
   fda:     { icon: '\u{1F3E5}', color: '#3D8B5E', bg: '#EDF7F0', label: 'FDA' },
   doc:     { icon: '\u{1F4C4}', color: '#C4603C', bg: '#FDF2ED', label: '' },
-  entity:  { icon: '\u{1F9EC}', color: '#8B8680', bg: '#F0EBE4', label: 'DB' },
+  entity:  { icon: '\u{1F9EC}', color: '#8B8680', bg: '#F0EBE4', label: '' },
 }
 
 function parsePubmedLabel(label: string) {
@@ -188,6 +188,7 @@ function parseAnswer(
   let listItems: string[] = []
   let inTable = false
   let tableLines: string[] = []
+  let justFlushedTable = false
 
   function flushParagraph() {
     if (currentParagraph.length > 0) {
@@ -242,13 +243,22 @@ function parseAnswer(
       continue
     } else if (inTable) {
       flushTable()
+      justFlushedTable = true
     }
 
     if (!trimmed) {
       flushList()
       flushParagraph()
+      justFlushedTable = false
       continue
     }
+
+    // Skip lines that are ONLY citation badges right after a table (redundant citations)
+    if (justFlushedTable && /^(\{\{\w+:[^}]+\}\}\s*)+$/.test(trimmed)) {
+      justFlushedTable = false
+      continue
+    }
+    justFlushedTable = false
 
     if (trimmed.startsWith('### ')) {
       flushList(); flushParagraph()
@@ -325,7 +335,14 @@ function renderInlineContent(
     const full = match[0]
 
     if (full.startsWith('{{') && full.endsWith('}}')) {
-      parts.push({ type: 'source_badge', sourceType: match[2], label: match[3] })
+      // Suppress unhelpful generic badges like {entity:db}
+      const badgeType = match[2]
+      const badgeLabel = match[3]
+      if (badgeType === 'entity' && badgeLabel.toLowerCase() === 'db') {
+        // Skip — "entity:db" renders as a meaningless badge
+      } else {
+        parts.push({ type: 'source_badge', sourceType: badgeType, label: badgeLabel })
+      }
     } else if (/^\[\d+\]$/.test(full)) {
       const num = parseInt(full.match(/\d+/)![0])
       parts.push({ type: 'numbered_cite', num })
