@@ -15,7 +15,7 @@ Usage:
 Requires in .env:
     NEON_DATABASE_URL=postgresql://...
     VOYAGE_API_KEY=your-voyage-key
-    LIBRARY_PATH=/path/to/satya-pipeline/data
+    LIBRARY_PATH=/path/to/backend/services/data  (or let pipeline.py handle this)
 """
 
 import os
