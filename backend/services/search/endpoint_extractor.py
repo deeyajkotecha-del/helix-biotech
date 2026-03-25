@@ -191,21 +191,36 @@ def extract_endpoints_from_chunks(client, chunks: list[dict]) -> list[dict]:
         response = client.messages.create(
             model="claude-sonnet-4-20250514",
             max_tokens=4096,
+            system="You are a JSON extraction system. You ONLY output valid JSON arrays. No prose, no markdown, no explanation — just the JSON array. If no data is found, output [].",
             messages=[{
                 "role": "user",
                 "content": EXTRACTION_PROMPT + full_text,
             }],
         )
 
-        # Parse the JSON response
+        # Parse the JSON response — Claude sometimes wraps JSON in prose or code blocks
         response_text = response.content[0].text.strip()
 
-        # Handle markdown code blocks
-        if response_text.startswith("```"):
-            response_text = response_text.split("\n", 1)[1]
-            if response_text.endswith("```"):
-                response_text = response_text[:-3]
-            response_text = response_text.strip()
+        # Strip markdown code fences (```json ... ``` or ``` ... ```)
+        if "```" in response_text:
+            # Find content between first ``` and last ```
+            parts = response_text.split("```")
+            for part in parts:
+                cleaned = part.strip()
+                # Remove optional language tag like "json"
+                if cleaned.startswith("json"):
+                    cleaned = cleaned[4:].strip()
+                if cleaned.startswith("[") or cleaned.startswith("{"):
+                    response_text = cleaned
+                    break
+
+        # If still not JSON, try to find the JSON array in the response
+        if not response_text.startswith("[") and not response_text.startswith("{"):
+            # Look for first [ and last ]
+            start = response_text.find("[")
+            end = response_text.rfind("]")
+            if start != -1 and end != -1 and end > start:
+                response_text = response_text[start:end + 1]
 
         endpoints = json.loads(response_text)
         if not isinstance(endpoints, list):
