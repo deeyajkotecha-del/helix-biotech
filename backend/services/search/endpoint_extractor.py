@@ -124,15 +124,15 @@ def find_endpoint_chunks(conn, ticker: str = None, indication: str = None,
     """
     cur = conn.cursor()
 
-    # Build a keyword filter using PostgreSQL ILIKE
-    keyword_conditions = " OR ".join(
-        f"c.content ILIKE '%{kw}%'" for kw in [
-            "ORR", "PFS", "overall survival", "EASI-75", "EASI-90",
-            "hazard ratio", "response rate", "primary endpoint",
-            "Phase 3", "Phase 2", "median", "mPFS", "mOS",
-            "ACR20", "PASI-75", "HbA1c", "DOR",
-        ]
-    )
+    # Build a keyword filter using parameterized ILIKE queries
+    keywords = [
+        "ORR", "PFS", "overall survival", "EASI-75", "EASI-90",
+        "hazard ratio", "response rate", "primary endpoint",
+        "Phase 3", "Phase 2", "median", "mPFS", "mOS",
+        "ACR20", "PASI-75", "HbA1c", "DOR",
+    ]
+    keyword_conditions = " OR ".join("c.content ILIKE %s" for _ in keywords)
+    params = [f"%{kw}%" for kw in keywords]
 
     query = f"""
         SELECT c.id, c.content, d.ticker, d.company_name, d.title, d.doc_type,
@@ -141,14 +141,13 @@ def find_endpoint_chunks(conn, ticker: str = None, indication: str = None,
         JOIN documents d ON c.document_id = d.id
         WHERE ({keyword_conditions})
     """
-    params = []
 
     if ticker:
         query += " AND d.ticker = %s"
         params.append(ticker.upper())
 
     if indication:
-        query += f" AND c.content ILIKE %s"
+        query += " AND c.content ILIKE %s"
         params.append(f"%{indication}%")
 
     query += " ORDER BY d.date DESC NULLS LAST LIMIT %s"
