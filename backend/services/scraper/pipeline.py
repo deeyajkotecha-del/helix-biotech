@@ -218,7 +218,7 @@ def run_embedder(tickers: list[str], fresh: bool = False) -> int:
     try:
         from embed_documents import (
             process_document, semantic_chunk_document, COMPANY_NAMES,
-            EMBED_MODEL, CHUNK_SIZE
+            EMBED_MODEL, CHUNK_SIZE, is_duplicate_pdf
         )
         import psycopg2
         import voyageai
@@ -268,12 +268,16 @@ def run_embedder(tickers: list[str], fresh: bool = False) -> int:
         if not os.path.isdir(sources_dir):
             continue
 
-        pdfs = [f for f in sorted(os.listdir(sources_dir)) if f.lower().endswith(".pdf")]
-        if not pdfs:
+        all_pdfs = [f for f in sorted(os.listdir(sources_dir)) if f.lower().endswith(".pdf")]
+        if not all_pdfs:
             continue
 
+        # Filter out _1, _2, etc. duplicates
+        pdfs = [f for f in all_pdfs if not is_duplicate_pdf(f, all_pdfs)]
+        skipped = len(all_pdfs) - len(pdfs)
+
         name = COMPANY_NAMES.get(ticker, ticker)
-        print(f"\n  [{_timestamp()}] {ticker} — {name} ({len(pdfs)} PDFs)")
+        print(f"\n  [{_timestamp()}] {ticker} — {name} ({len(pdfs)} PDFs{f', {skipped} dupes skipped' if skipped else ''})")
 
         for pdf_name in pdfs:
             pdf_path = os.path.join(sources_dir, pdf_name)

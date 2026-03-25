@@ -33,6 +33,14 @@ import psycopg2
 import pdfplumber
 import voyageai
 
+# OCR for image-only PDFs (conference posters, KM curves, etc.)
+try:
+    import pytesseract
+    from pdf2image import convert_from_path
+    OCR_AVAILABLE = True
+except ImportError:
+    OCR_AVAILABLE = False
+
 # --- Config ---
 DATABASE_URL = os.environ.get("NEON_DATABASE_URL", "")
 VOYAGE_API_KEY = os.environ.get("VOYAGE_API_KEY", "")
@@ -43,6 +51,44 @@ CHUNK_SIZE = 800          # words per chunk (was 500)
 CHUNK_OVERLAP = 150       # overlapping words (was 75)
 EMBED_MODEL = "voyage-3"  # 1024 dims, full model (was voyage-3-lite / 512)
 EMBED_BATCH_SIZE = 16     # Smaller batches for larger model (was 32)
+
+# ── Dedup: skip _1 duplicate PDFs created by the IR scraper ──
+DUPLICATE_SUFFIX_RE = re.compile(r"_\d+\.pdf$", re.IGNORECASE)
+
+def is_duplicate_pdf(filename: str, all_filenames: list[str]) -> bool:
+    """
+    Check if a file is a _1, _2, etc. duplicate of another PDF.
+    e.g. '3409daae...pdf' and '3409daae..._1.pdf' — skip the _1 version.
+    """
+    match = DUPLICATE_SUFFIX_RE.search(filename)
+    if not match:
+        return False
+    # The original would be the same name without _1
+    base = filename[:match.start()] + ".pdf"
+    return base.lower() in [f.lower() for f in all_filenames]
+
+# ── OCR: Keywords that indicate a PDF has valuable biotech/scientific content ──
+BIOTECH_OCR_KEYWORDS = [
+    # Clinical data
+    "kaplan-meier", "kaplan meier", "km curve", "overall survival",
+    "progression-free", "progression free", "pfs", "os ",
+    "overall response", "orr", "complete response", "partial response",
+    "waterfall plot", "swimmer plot", "forest plot", "hazard ratio",
+    "confidence interval", "median duration", "dose escalation",
+    "dose-response", "dose response",
+    # Drug/trial terms
+    "phase 1", "phase 2", "phase 3", "phase i", "phase ii", "phase iii",
+    "clinical trial", "nct0", "endpoint", "primary endpoint",
+    "secondary endpoint", "adverse event", "treatment-related",
+    "pharmacokinetic", "pk ", "auc", "cmax", "half-life",
+    # Molecular/mechanism
+    "ic50", "ic₅₀", "ec50", "mechanism of action", "moa",
+    "receptor", "inhibitor", "kinase", "antibody", "conjugate",
+    "brain penetr", "cns penetr", "tumor volume",
+    # Financial/corporate
+    "revenue", "pipeline", "market cap", "cash position",
+    "guidance", "milestone",
+]
 
 # Ticker -> company name mapping (all 60 companies from xbi_scraper.py)
 COMPANY_NAMES = {
@@ -159,6 +205,46 @@ def extract_text_with_pages(pdf_path: str) -> list[dict]:
     except Exception as e:
         print(f"    Warning: Could not extract text: {e}")
     return pages
+
+
+def ocr_extract_text(pdf_path: str) -> list[dict]:
+    """
+    OCR fallback for image-only PDFs (conference posters, KM curves, etc.).
+    Converts each page to an image, runs Tesseract, and returns pages list.
+    Only keeps the PDF if OCR text contains biotech-relevant keywords.
+    """
+    if not OCR_AVAILABLE:
+        return []
+
+    try:
+        images = convert_from_path(pdf_path, dpi=200)
+    except Exception as e:
+        print(f"    OCR: Could not convert PDF to images: {e}")
+        return []
+
+    pages = []
+    for i, img in enumerate(images):
+        try:
+            text = pytesseract.image_to_string(img)
+            if text and text.strip():
+                text = text.encode('utf-8', errors='replace').decode('utf-8')
+                pages.append({"page": i + 1, "text": text})
+        except Exception as e:
+            print(f"    OCR: Error on page {i+1}: {e}")
+
+    if not pages:
+        return []
+
+    # Check if the OCR'd content contains biotech-relevant keywords
+    all_text_lower = " ".join(p["text"] for p in pages).lower()
+    matches = [kw for kw in BIOTECH_OCR_KEYWORDS if kw in all_text_lower]
+
+    if matches:
+        print(f"    OCR: Found biotech content ({', '.join(matches[:3])}...)")
+        return pages
+    else:
+        print(f"    OCR: No biotech-relevant content found, skipping.")
+        return []
 
 
 def semantic_chunk_document(pages: list[dict], chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> list[dict]:
@@ -280,9 +366,14 @@ def process_document(conn, vo_client, ticker: str, filename: str, file_path: str
     print(f"    Extracting text from {filename}...")
     pages = extract_text_with_pages(file_path)
     if not pages:
-        print(f"    No text found in {filename}, skipping.")
-        cur.close()
-        return False
+        # Try OCR for image-only PDFs (posters, KM curves, clinical figures)
+        if OCR_AVAILABLE:
+            print(f"    No selectable text — trying OCR...")
+            pages = ocr_extract_text(file_path)
+        if not pages:
+            print(f"    No usable text in {filename}, skipping.")
+            cur.close()
+            return False
 
     total_words = sum(len(p["text"].split()) for p in pages)
     print(f"    {total_words} words across {len(pages)} pages")
@@ -389,13 +480,17 @@ def main():
         if not os.path.isdir(sources_dir):
             continue
 
-        pdfs = [f for f in sorted(os.listdir(sources_dir)) if f.lower().endswith(".pdf")]
-        if not pdfs:
+        all_pdfs = [f for f in sorted(os.listdir(sources_dir)) if f.lower().endswith(".pdf")]
+        if not all_pdfs:
             continue
+
+        # Filter out _1, _2, etc. duplicates
+        pdfs = [f for f in all_pdfs if not is_duplicate_pdf(f, all_pdfs)]
+        skipped = len(all_pdfs) - len(pdfs)
 
         name = COMPANY_NAMES.get(ticker, ticker)
         print(f"\n{'='*50}")
-        print(f"  {ticker} -- {name} ({len(pdfs)} PDFs)")
+        print(f"  {ticker} -- {name} ({len(pdfs)} PDFs{f', {skipped} duplicates skipped' if skipped else ''})")
         print(f"{'='*50}")
 
         for pdf_name in pdfs:
