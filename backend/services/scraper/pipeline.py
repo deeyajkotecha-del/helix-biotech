@@ -190,6 +190,56 @@ def run_sec_trials(tickers: list[str], dry_run: bool = False,
     return total_added
 
 
+# ── Step 2b: FDA Regulatory Data ──
+
+def run_fda_scraper(tickers: list[str], dry_run: bool = False,
+                    labels_only: bool = False, approvals_only: bool = False) -> int:
+    """
+    Scrape FDA data: drug labels, approval history, review documents.
+    Embeds directly into Neon.
+    Returns total documents added.
+    """
+    _banner("STEP 2b: FDA Regulatory Data", f"Companies: {len(tickers)} | Dry run: {dry_run}")
+
+    DATABASE_URL = os.environ.get("NEON_DATABASE_URL", "")
+    VOYAGE_API_KEY = os.environ.get("VOYAGE_API_KEY", "")
+
+    if not DATABASE_URL or not VOYAGE_API_KEY:
+        print("  ERROR: NEON_DATABASE_URL and VOYAGE_API_KEY must be set in .env")
+        print("  Skipping FDA scraping.\n")
+        return 0
+
+    try:
+        from fda_scraper import process_company as fda_process_company
+        import psycopg2
+        import voyageai
+    except ImportError as e:
+        print(f"  ERROR: Could not import fda_scraper: {e}")
+        print("  Skipping FDA scraping.\n")
+        return 0
+
+    conn = psycopg2.connect(DATABASE_URL)
+    vo_client = voyageai.Client(api_key=VOYAGE_API_KEY)
+
+    total_added = 0
+    for ticker in tickers:
+        if ticker not in ONCOLOGY_COMPANIES:
+            continue
+        print(f"\n  [{_timestamp()}] Processing FDA data for {ticker}...")
+        try:
+            added = fda_process_company(
+                ticker, ONCOLOGY_COMPANIES[ticker], conn, vo_client,
+                labels_only=labels_only, approvals_only=approvals_only, dry_run=dry_run,
+            )
+            total_added += added if added else 0
+        except Exception as e:
+            print(f"  [{_timestamp()}] {ticker}: ERROR — {e}")
+
+    conn.close()
+    print(f"\n  FDA scraping complete: {total_added} documents added to Neon\n")
+    return total_added
+
+
 # ── Step 3: PDF Embedding ──
 
 def run_embedder(tickers: list[str], fresh: bool = False) -> int:
@@ -298,7 +348,7 @@ def run_embedder(tickers: list[str], fresh: bool = False) -> int:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="SatyaBio Data Pipeline — scrape IR + SEC + trials, then embed PDFs",
+        description="SatyaBio Data Pipeline — scrape IR + SEC + trials + FDA, then embed PDFs",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -306,6 +356,7 @@ Examples:
   python3 pipeline.py --ticker NUVL,RVMD     Specific companies only
   python3 pipeline.py --all --skip-ir        Skip IR scraping (PDFs already downloaded)
   python3 pipeline.py --all --skip-embed     Just scrape, don't embed yet
+  python3 pipeline.py --all --fda-only       Only run the FDA scraper
   python3 pipeline.py --all --dry-run        Preview without executing
   python3 pipeline.py --list                 List all tracked companies
         """,
@@ -315,7 +366,9 @@ Examples:
     parser.add_argument("--list", action="store_true", help="List all tracked companies and exit")
     parser.add_argument("--skip-ir", action="store_true", help="Skip step 1 (IR page scraping)")
     parser.add_argument("--skip-sec", action="store_true", help="Skip step 2 (SEC + trials)")
+    parser.add_argument("--skip-fda", action="store_true", help="Skip step 2b (FDA regulatory data)")
     parser.add_argument("--skip-embed", action="store_true", help="Skip step 3 (PDF embedding)")
+    parser.add_argument("--fda-only", action="store_true", help="Only run the FDA scraper (skip all other steps)")
     parser.add_argument("--sec-only", action="store_true", help="In step 2, only scrape SEC filings")
     parser.add_argument("--trials-only", action="store_true", help="In step 2, only scrape ClinicalTrials.gov")
     parser.add_argument("--dry-run", action="store_true", help="Preview all steps without executing")
@@ -353,6 +406,15 @@ Examples:
         f"Started at {_timestamp()} | Companies: {len(tickers)} | Dry run: {args.dry_run}"
     )
 
+    # If --fda-only, skip everything except FDA
+    if args.fda_only:
+        fda_added = run_fda_scraper(tickers, dry_run=args.dry_run)
+        elapsed = time.time() - start_time
+        _banner("Pipeline Complete", f"Total time: {int(elapsed//60)}m {int(elapsed%60)}s")
+        print(f"  FDA documents added: {fda_added}")
+        print()
+        return
+
     # ── Step 1: IR Scraping ──
     ir_results = {}
     if not args.skip_ir:
@@ -369,6 +431,13 @@ Examples:
         )
     else:
         print("\n  Skipping Step 2 (SEC + trials) — --skip-sec flag set\n")
+
+    # ── Step 2b: FDA Regulatory Data ──
+    fda_added = 0
+    if not args.skip_fda:
+        fda_added = run_fda_scraper(tickers, dry_run=args.dry_run)
+    else:
+        print("\n  Skipping Step 2b (FDA) — --skip-fda flag set\n")
 
     # ── Step 3: PDF Embedding ──
     embed_count = 0
@@ -387,9 +456,10 @@ Examples:
     ir_total = sum(len(v) for v in ir_results.values())
 
     _banner("Pipeline Complete", f"Total time: {minutes}m {seconds}s")
-    print(f"  Step 1 (IR Scraping):    {ir_total} documents downloaded")
-    print(f"  Step 2 (SEC + Trials):   {sec_added} documents added to Neon")
-    print(f"  Step 3 (PDF Embedding):  {embed_count} new documents embedded")
+    print(f"  Step 1  (IR Scraping):    {ir_total} documents downloaded")
+    print(f"  Step 2  (SEC + Trials):   {sec_added} documents added to Neon")
+    print(f"  Step 2b (FDA Regulatory): {fda_added} documents added to Neon")
+    print(f"  Step 3  (PDF Embedding):  {embed_count} new documents embedded")
     print()
 
 

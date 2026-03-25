@@ -263,7 +263,7 @@ def _rerank(vo_client, query: str, candidates: list[dict], top_k: int) -> list[d
         return candidates[:top_k]
 
 
-def search(query: str, top_k: int = 10, ticker_filter: str = None) -> list[dict]:
+def search(query: str, top_k: int = 50, ticker_filter: str = None) -> list[dict]:
     """
     UPGRADED semantic search with hybrid retrieval + reranking.
 
@@ -273,9 +273,13 @@ def search(query: str, top_k: int = 10, ticker_filter: str = None) -> list[dict]
       3. Merge + normalize scores — weighted combination
       4. Rerank top candidates — Voyage AI reranker picks the best
 
+    v3 change: top_k increased from 10 to 50 for deeper retrieval.
+    More context = better grounding = fewer hallucinations.
+    Cost impact: ~$0.02 more per query (Claude input tokens).
+
     Args:
         query: The user's question (natural language)
-        top_k: Number of results to return (default 10)
+        top_k: Number of results to return (default 50)
         ticker_filter: Optional ticker to limit search to one company
 
     Returns:
@@ -330,22 +334,27 @@ def format_context_for_claude(results: list[dict]) -> str:
     """
     Format RAG search results into a context block for Claude's system prompt.
     Groups results by document for cleaner reading.
+    Includes doc_id and source links for citation.
     """
     if not results:
         return ""
 
     by_doc = {}
+    doc_index = 1
     for r in results:
         key = f"{r['ticker']}:{r['filename']}"
         if key not in by_doc:
             by_doc[key] = {
+                "doc_num": doc_index,
                 "ticker": r["ticker"],
                 "company": r["company_name"],
                 "title": r["title"],
                 "filename": r["filename"],
                 "doc_type": r["doc_type"],
+                "file_path": r.get("file_path", ""),
                 "chunks": [],
             }
+            doc_index += 1
         by_doc[key]["chunks"].append({
             "content": r["content"],
             "page": r["page_number"],
@@ -354,12 +363,18 @@ def format_context_for_claude(results: list[dict]) -> str:
 
     parts = []
     parts.append("--- CROSS-DOCUMENT SEARCH RESULTS (from embedded document library) ---")
-    parts.append("The following excerpts were found via semantic + keyword hybrid search with reranking.")
-    parts.append("Cite the source document and page number when referencing this data.\n")
+    parts.append(f"Retrieved {len(results)} chunks from {len(by_doc)} documents via hybrid search + reranking.")
+    parts.append("IMPORTANT: Only use information from these documents. Cite using [Doc N] tags.\n")
+
+    # Document index for citations
+    parts.append("DOCUMENT INDEX:")
+    for doc_key, doc in by_doc.items():
+        source_link = doc["file_path"] if doc["file_path"] else doc["filename"]
+        parts.append(f"  [Doc {doc['doc_num']}] {doc['ticker']} | {doc['title']} | Type: {doc['doc_type']} | Source: {source_link}")
+    parts.append("")
 
     for doc_key, doc in by_doc.items():
-        parts.append(f"== {doc['ticker']} | {doc['company']} | {doc['title']} ({doc['doc_type']}) ==")
-        parts.append(f"   File: {doc['filename']}")
+        parts.append(f"== [Doc {doc['doc_num']}] {doc['ticker']} | {doc['company']} | {doc['title']} ({doc['doc_type']}) ==")
         for chunk in doc["chunks"]:
             parts.append(f"   [Page {chunk['page']}, relevance: {chunk['similarity']}]")
             parts.append(f"   {chunk['content']}")
