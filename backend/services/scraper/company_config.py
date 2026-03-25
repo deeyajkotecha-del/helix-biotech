@@ -583,6 +583,134 @@ ONCOLOGY_COMPANIES = {
             {"type": "press", "url": "https://www.astellas.com/en/news", "platform": "custom", "content_type": "text"},
         ],
     },
+
+
+    # =========================================================================
+    # EXPANSION — Neuro/Sleep, Immunology, Rare Disease, Oncology (added 2026-03-25)
+    # =========================================================================
+
+    "HRMY": {
+        "name": "Harmony Biosciences",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "events", "url": "https://ir.harmonybiosciences.com/news-events/presentations/", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.harmonybiosciences.com/news-events/news-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "JAZZ": {
+        "name": "Jazz Pharmaceuticals",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "events", "url": "https://investor.jazzpharma.com/investors/events-presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://investor.jazzpharma.com/news/press-release-archive", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "ACAD": {
+        "name": "Acadia Pharmaceuticals",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "events", "url": "https://ir.acadia.com/events-and-presentations/", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://acadia.com/en-us/media/news-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "ITCI": {
+        "name": "Intra-Cellular Therapies",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "press", "url": "https://ir.intracellulartherapies.com/news-releases/", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "XENE": {
+        "name": "Xenon Pharmaceuticals",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "press", "url": "https://investor.xenon-pharma.com/news-events/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "PRAX": {
+        "name": "Praxis Precision Medicine",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "events", "url": "https://ir.praxismedicines.com/events-and-presentations/", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.praxismedicines.com/press-releases/", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "SUPN": {
+        "name": "Supernus Pharmaceuticals",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "press", "url": "https://ir.supernus.com/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "INCY": {
+        "name": "Incyte",
+        "category": "oncology",
+        "pages": [
+            {"type": "events", "url": "https://investor.incyte.com/events-presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://investor.incyte.com/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "ARVN": {
+        "name": "Arvinas",
+        "category": "oncology",
+        "pages": [
+            {"type": "events", "url": "https://ir.arvinas.com/events-and-presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.arvinas.com/press-releases/", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "SNDX": {
+        "name": "Syndax Pharmaceuticals",
+        "category": "oncology",
+        "pages": [
+            {"type": "press", "url": "https://ir.syndax.com/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "BPMC": {
+        "name": "Blueprint Medicines",
+        "category": "oncology",
+        "pages": [
+            {"type": "events", "url": "https://ir.blueprintmedicines.com/events-and-presentations/events-presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.blueprintmedicines.com/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "BMRN": {
+        "name": "BioMarin Pharmaceutical",
+        "category": "rare_disease",
+        "pages": [
+            {"type": "events", "url": "https://investors.biomarin.com/events-and-presentations/default.aspx", "platform": "notified", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.biomarin.com/news/default.aspx", "platform": "notified", "content_type": "text"},
+        ],
+    },
+    "RARE": {
+        "name": "Ultragenyx Pharmaceutical",
+        "category": "rare_disease",
+        "pages": [
+            {"type": "press", "url": "https://ir.ultragenyx.com/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "AUPH": {
+        "name": "Aurinia Pharmaceuticals",
+        "category": "immunology",
+        "pages": [
+            {"type": "events", "url": "https://www.auriniapharma.com/investors-and-media/news-events", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://www.auriniapharma.com/news", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "NMRA": {
+        "name": "Neumora Therapeutics",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "press", "url": "https://ir.neumoratx.com/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "IDIA": {
+        "name": "Idorsia",
+        "category": "neuroscience",
+        "pages": [
+            # Swiss company — daridorexant (Quviviq) maker
+            {"type": "press", "url": "https://www.idorsia.com/investors/news-and-events/media-releases", "platform": "custom", "content_type": "text"},
+        ],
+    },
 }
 
 
