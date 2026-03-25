@@ -117,6 +117,65 @@ function getBadgeUrl(sourceType: string, label: string, sources: SearchSource[])
   }
 }
 
+function isTableRow(line: string): boolean {
+  const trimmed = line.trim()
+  return trimmed.startsWith('|') && trimmed.endsWith('|') && trimmed.includes('|')
+}
+
+function isTableSeparator(line: string): boolean {
+  return /^\|[\s:?-]+(\|[\s:?-]+)+\|$/.test(line.trim())
+}
+
+function parseTableRow(line: string): string[] {
+  return line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
+}
+
+function renderTable(
+  tableLines: string[],
+  sources: SearchSource[],
+  onCitationHover: (index: number | null) => void,
+  keyPrefix: string
+): ReactNode {
+  const headers: string[] = []
+  const rows: string[][] = []
+
+  for (let i = 0; i < tableLines.length; i++) {
+    const line = tableLines[i]
+    if (isTableSeparator(line)) continue // Skip separator row (|---|---|)
+    const cells = parseTableRow(line)
+    if (headers.length === 0) {
+      headers.push(...cells)
+    } else {
+      rows.push(cells)
+    }
+  }
+
+  if (headers.length === 0) return null
+
+  return (
+    <div key={keyPrefix} className="answer-table-wrapper">
+      <table className="answer-table">
+        <thead>
+          <tr>
+            {headers.map((h, i) => (
+              <th key={i}>{renderInlineContent(h, sources, onCitationHover)}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, ri) => (
+            <tr key={ri}>
+              {row.map((cell, ci) => (
+                <td key={ci}>{renderInlineContent(cell, sources, onCitationHover)}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 function parseAnswer(
   text: string,
   sources: SearchSource[],
@@ -127,6 +186,8 @@ function parseAnswer(
   let currentParagraph: string[] = []
   let inList = false
   let listItems: string[] = []
+  let inTable = false
+  let tableLines: string[] = []
 
   function flushParagraph() {
     if (currentParagraph.length > 0) {
@@ -158,8 +219,30 @@ function parseAnswer(
     }
   }
 
+  function flushTable() {
+    if (tableLines.length >= 2) {
+      const table = renderTable(tableLines, sources, onCitationHover, `tbl-${elements.length}`)
+      if (table) elements.push(table)
+    }
+    tableLines = []
+    inTable = false
+  }
+
   for (const line of lines) {
     const trimmed = line.trim()
+
+    // Table detection: lines starting and ending with |
+    if (isTableRow(trimmed)) {
+      if (!inTable) {
+        flushList()
+        flushParagraph()
+        inTable = true
+      }
+      tableLines.push(trimmed)
+      continue
+    } else if (inTable) {
+      flushTable()
+    }
 
     if (!trimmed) {
       flushList()
@@ -207,6 +290,7 @@ function parseAnswer(
     currentParagraph.push(trimmed)
   }
 
+  flushTable()
   flushList()
   flushParagraph()
   return elements
@@ -219,13 +303,16 @@ type InlinePart =
   | { type: 'caveat' }
   | { type: 'bold'; value: string }
   | { type: 'italic'; value: string }
+  | { type: 'nct_link'; nctId: string }
+  | { type: 'md_link'; text: string; url: string }
 
 function renderInlineContent(
   text: string,
   sources: SearchSource[],
   onCitationHover: (index: number | null) => void
 ): ReactNode[] {
-  const pattern = /(\{\{(\w+):([^}]+)\}\}|\[\d+\]|\[!\]|\*\*[^*]+\*\*|\*[^*]+\*)/g
+  // Extended pattern: also matches NCT IDs and markdown links [text](url)
+  const pattern = /(\{\{(\w+):([^}]+)\}\}|\[\d+\]|\[!\]|\*\*[^*]+\*\*|\*[^*]+\*|NCT\d{8,}|\[([^\]]+)\]\((https?:\/\/[^)]+)\))/g
   const parts: InlinePart[] = []
   let lastIndex = 0
   let match: RegExpExecArray | null
@@ -248,6 +335,11 @@ function renderInlineContent(
       parts.push({ type: 'bold', value: full.slice(2, -2) })
     } else if (full.startsWith('*') && full.endsWith('*')) {
       parts.push({ type: 'italic', value: full.slice(1, -1) })
+    } else if (/^NCT\d{8,}$/.test(full)) {
+      parts.push({ type: 'nct_link', nctId: full })
+    } else if (match[4] && match[5]) {
+      // Markdown link: [text](url)
+      parts.push({ type: 'md_link', text: match[4], url: match[5] })
     }
 
     lastIndex = match.index + full.length
@@ -317,6 +409,31 @@ function renderInlineContent(
         return <strong key={i}>{part.value}</strong>
       case 'italic':
         return <em key={i}>{part.value}</em>
+      case 'nct_link':
+        return (
+          <a
+            key={i}
+            href={`https://clinicaltrials.gov/study/${part.nctId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nct-link"
+            title={`View ${part.nctId} on ClinicalTrials.gov`}
+          >
+            {part.nctId}
+          </a>
+        )
+      case 'md_link':
+        return (
+          <a
+            key={i}
+            href={part.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="answer-link"
+          >
+            {part.text}
+          </a>
+        )
       default:
         return <span key={i}>{part.value}</span>
     }

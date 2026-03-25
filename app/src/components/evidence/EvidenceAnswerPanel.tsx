@@ -80,12 +80,61 @@ function getBadgeUrl(sourceType: string, label: string, _sources: SearchSource[]
   }
 }
 
+function isTableRow(line: string): boolean {
+  const trimmed = line.trim()
+  return trimmed.startsWith('|') && trimmed.endsWith('|') && trimmed.includes('|')
+}
+
+function isTableSeparator(line: string): boolean {
+  return /^\|[\s:?-]+(\|[\s:?-]+)+\|$/.test(line.trim())
+}
+
+function parseTableRow(line: string): string[] {
+  return line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(cell => cell.trim())
+}
+
+function renderTable(
+  tableLines: string[],
+  sources: SearchSource[],
+  onCitationHover: (i: number | null) => void,
+  keyPrefix: string
+): ReactNode {
+  const headers: string[] = []
+  const rows: string[][] = []
+
+  for (let i = 0; i < tableLines.length; i++) {
+    if (isTableSeparator(tableLines[i])) continue
+    const cells = parseTableRow(tableLines[i])
+    if (headers.length === 0) headers.push(...cells)
+    else rows.push(cells)
+  }
+
+  if (headers.length === 0) return null
+
+  return (
+    <div key={keyPrefix} className="answer-table-wrapper">
+      <table className="answer-table">
+        <thead>
+          <tr>{headers.map((h, i) => <th key={i}>{renderInline(h, sources, onCitationHover)}</th>)}</tr>
+        </thead>
+        <tbody>
+          {rows.map((row, ri) => (
+            <tr key={ri}>{row.map((cell, ci) => <td key={ci}>{renderInline(cell, sources, onCitationHover)}</td>)}</tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
 function parseAnswer(text: string, sources: SearchSource[], onCitationHover: (i: number | null) => void): ReactNode[] {
   const lines = text.split('\n')
   const elements: ReactNode[] = []
   let currentParagraph: string[] = []
   let listItems: string[] = []
   let inList = false
+  let inTable = false
+  let tableLines: string[] = []
 
   function flushParagraph() {
     if (currentParagraph.length > 0) {
@@ -115,8 +164,26 @@ function parseAnswer(text: string, sources: SearchSource[], onCitationHover: (i:
     }
   }
 
+  function flushTable() {
+    if (tableLines.length >= 2) {
+      const table = renderTable(tableLines, sources, onCitationHover, `tbl-${elements.length}`)
+      if (table) elements.push(table)
+    }
+    tableLines = []
+    inTable = false
+  }
+
   for (const line of lines) {
     const trimmed = line.trim()
+
+    if (isTableRow(trimmed)) {
+      if (!inTable) { flushList(); flushParagraph(); inTable = true }
+      tableLines.push(trimmed)
+      continue
+    } else if (inTable) {
+      flushTable()
+    }
+
     if (!trimmed) { flushList(); flushParagraph(); continue }
     if (trimmed.startsWith('### ')) { flushList(); flushParagraph(); elements.push(<h4 key={`h4-${elements.length}`} className="ev-h4">{trimmed.replace(/^###\s*/, '')}</h4>); continue }
     if (trimmed.startsWith('## '))  { flushList(); flushParagraph(); elements.push(<h3 key={`h3-${elements.length}`} className="ev-h3">{trimmed.replace(/^##\s*/, '')}</h3>); continue }
@@ -127,12 +194,12 @@ function parseAnswer(text: string, sources: SearchSource[], onCitationHover: (i:
     if (inList) flushList()
     currentParagraph.push(trimmed)
   }
-  flushList(); flushParagraph()
+  flushTable(); flushList(); flushParagraph()
   return elements
 }
 
 function renderInline(text: string, sources: SearchSource[], onCitationHover: (i: number | null) => void): ReactNode[] {
-  const pattern = /(\{\{(\w+):([^}]+)\}\}|\[\d+\]|\[!\]|\*\*[^*]+\*\*|\*[^*]+\*)/g
+  const pattern = /(\{\{(\w+):([^}]+)\}\}|\[\d+\]|\[!\]|\*\*[^*]+\*\*|\*[^*]+\*|NCT\d{8,}|\[([^\]]+)\]\((https?:\/\/[^)]+)\))/g
   const parts: ReactNode[] = []
   let lastIndex = 0
   let match: RegExpExecArray | null
@@ -170,6 +237,17 @@ function renderInline(text: string, sources: SearchSource[], onCitationHover: (i
       parts.push(<strong key={`b-${parts.length}`}>{full.slice(2, -2)}</strong>)
     } else if (full.startsWith('*') && full.endsWith('*')) {
       parts.push(<em key={`i-${parts.length}`}>{full.slice(1, -1)}</em>)
+    } else if (/^NCT\d{8,}$/.test(full)) {
+      parts.push(
+        <a key={`nct-${parts.length}`} href={`https://clinicaltrials.gov/study/${full}`}
+          target="_blank" rel="noopener noreferrer" className="nct-link"
+          title={`View ${full} on ClinicalTrials.gov`}>{full}</a>
+      )
+    } else if (match[4] && match[5]) {
+      parts.push(
+        <a key={`ml-${parts.length}`} href={match[5]} target="_blank" rel="noopener noreferrer"
+          className="answer-link">{match[4]}</a>
+      )
     }
     lastIndex = match.index + full.length
   }

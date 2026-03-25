@@ -486,6 +486,80 @@
   padding-left: 4px;
 }
 
+/* Tables — for clinical trial listings, pipeline comparisons, etc. */
+.search-app .answer-table-wrapper {
+  margin: 16px 0;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--sb-border, #e5e0d8);
+}
+
+.search-app .answer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.search-app .answer-table th {
+  background: var(--sb-surface, #f5f0ea);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--sb-border, #e5e0d8);
+  white-space: nowrap;
+  color: var(--sb-text-dark);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.search-app .answer-table td {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--sb-border, #e5e0d8);
+  color: var(--sb-text-dark);
+  vertical-align: top;
+}
+
+.search-app .answer-table tbody tr:hover {
+  background: var(--sb-surface, #f5f0ea);
+}
+
+.search-app .answer-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* NCT ID links — auto-linked to ClinicalTrials.gov */
+.search-app .nct-link {
+  color: #3B6DAB;
+  text-decoration: none;
+  font-weight: 500;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  background: #EBF2FA;
+  padding: 1px 5px;
+  border-radius: 3px;
+  transition: all 0.15s;
+}
+
+.search-app .nct-link:hover {
+  background: #3B6DAB;
+  color: white;
+  text-decoration: none;
+}
+
+/* Markdown links */
+.search-app .answer-link {
+  color: var(--sb-coral, #C4603C);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.search-app .answer-link:hover {
+  border-bottom-color: var(--sb-coral, #C4603C);
+}
+
 /* Citation chips — the [N] inline references */
 .search-app .citation-chip {
   display: inline-flex;
