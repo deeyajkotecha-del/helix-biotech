@@ -1,11 +1,14 @@
 """
 SatyaBio FDA Regulatory Scraper
 
-Scrapes four FDA data sources and embeds into Neon:
+Scrapes five FDA data sources and embeds into Neon:
   1. openFDA Drugs@FDA — Approval history, application numbers, sponsors
   2. DailyMed — Full prescribing info / drug labels (SPL documents)
   3. openFDA Drug Labeling — Structured label sections (indications, warnings, clinical studies)
-  4. FDA Approval Packages — Review documents (medical reviews, statistical reviews, clinical reviews)
+  4. FDA Approval Packages — HTML review documents (medical reviews, statistical reviews)
+  5. CDER/CBER Review PDFs — Downloads actual review PDFs from accessdata.fda.gov
+     (medical reviews, statistical reviews, multi-discipline reviews, clinical pharmacology)
+     These PDFs are saved to data/companies/{TICKER}/sources/ for Step 3 embedding
 
 All APIs are free, no key required (openFDA has optional API key for higher rate limits).
 
@@ -17,6 +20,7 @@ Usage:
     python3 fda_scraper.py --ticker NUVL,RVMD         # Specific companies
     python3 fda_scraper.py --all --labels-only        # Only drug labels
     python3 fda_scraper.py --all --approvals-only     # Only approval history
+    python3 fda_scraper.py --all --reviews-only        # Only download CDER/CBER review PDFs
     python3 fda_scraper.py --all --dry-run            # Preview without scraping
     python3 fda_scraper.py --list                     # List all companies
 
@@ -35,6 +39,7 @@ import hashlib
 import argparse
 import time
 from datetime import datetime
+from pathlib import Path
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -50,6 +55,9 @@ import voyageai
 from bs4 import BeautifulSoup
 
 from company_config import ONCOLOGY_COMPANIES, get_all_oncology_tickers
+
+# Data directory — same location where ir_scraper.py saves PDFs
+DATA_DIR = str(Path(__file__).parent.parent / "data")
 
 # --- Config ---
 DATABASE_URL = os.environ.get("NEON_DATABASE_URL", "")
@@ -448,6 +456,227 @@ def fetch_review_documents(review_docs: list[dict]) -> list[dict]:
 
 
 # ============================================================================
+# CDER/CBER Review Document PDFs — Download to disk for Step 3 embedding
+# ============================================================================
+
+# Review document types we want (the actual reviewer assessments)
+VALUABLE_REVIEW_TYPES = [
+    "Review",           # Generic review
+    "Medical",          # Medical officer review
+    "Statistical",      # Statistical review
+    "Clinical",         # Clinical review
+    "Pharmacology",     # Clinical pharmacology
+    "Multi-discipline", # Multi-disciplinary review (like the RYBREVANT BLA screenshot)
+    "Summary",          # Summary review / action package
+    "Chemistry",        # CMC review
+    "Risk",             # Risk assessment
+    "REMS",             # Risk evaluation and mitigation
+]
+
+# Types we DON'T want to download
+SKIP_REVIEW_TYPES = ["Letter", "Labeling", "Other"]
+
+
+def _classify_review_doc(doc: dict) -> str:
+    """
+    Determine if a review doc from openFDA is worth downloading.
+    Returns a clean type string, or '' if we should skip it.
+    """
+    doc_type = doc.get("type", "")
+    doc_title = doc.get("title", "")
+    url = doc.get("url", "")
+
+    # Skip non-review types
+    for skip in SKIP_REVIEW_TYPES:
+        if skip.lower() in doc_type.lower():
+            return ""
+
+    # Check if it's a PDF (the ones we want are .pdf on accessdata.fda.gov)
+    if url.lower().endswith(".pdf"):
+        return doc_type or "Review"
+
+    # Some URLs point to HTML index pages that LIST the review PDFs
+    # We'll handle those separately in _scrape_review_index()
+    if "accessdata.fda.gov" in url and not url.lower().endswith(".pdf"):
+        return "index_page"
+
+    return ""
+
+
+def _scrape_review_index(index_url: str) -> list[dict]:
+    """
+    Some openFDA review doc URLs point to an HTML index page that lists
+    multiple PDF links (e.g., the approval package page for an NDA/BLA).
+    Scrape that page to find all the individual review PDFs.
+    """
+    pdf_links = []
+    try:
+        resp = requests.get(index_url, headers=HEADERS, timeout=20, allow_redirects=True)
+        if resp.status_code != 200:
+            return pdf_links
+
+        soup = BeautifulSoup(resp.text, "html.parser")
+        for link in soup.find_all("a", href=True):
+            href = link["href"]
+            text = link.get_text(strip=True)
+
+            # Only grab PDF links
+            if not href.lower().endswith(".pdf"):
+                continue
+
+            # Make absolute URL
+            if href.startswith("/"):
+                href = f"https://www.accessdata.fda.gov{href}"
+            elif not href.startswith("http"):
+                # Relative URL — resolve against the index page
+                base = index_url.rsplit("/", 1)[0]
+                href = f"{base}/{href}"
+
+            # Filter: only keep review-type PDFs based on link text or filename
+            fname_lower = href.lower().split("/")[-1]
+            text_lower = text.lower()
+
+            is_review = any(kw in fname_lower or kw in text_lower for kw in [
+                "review", "medical", "clinical", "statistic", "pharmac",
+                "multi", "summary", "chemistry", "risk", "approv",
+            ])
+
+            if is_review or "review" in text_lower:
+                pdf_links.append({
+                    "url": href,
+                    "title": text or fname_lower,
+                    "type": "Review",
+                })
+
+        time.sleep(0.3)
+    except Exception as e:
+        print(f"      Error scraping review index {index_url}: {e}")
+
+    return pdf_links
+
+
+def download_review_pdfs(ticker: str, app_number: str, brand_name: str,
+                         review_docs: list[dict], dry_run: bool = False) -> int:
+    """
+    Download CDER/CBER review document PDFs to the company's sources folder.
+    These get picked up by Step 3 (PDF embedder) automatically.
+
+    Args:
+        ticker: Company ticker (e.g. "JNJ")
+        app_number: FDA application number (e.g. "BLA761210")
+        brand_name: Drug brand name (e.g. "RYBREVANT")
+        review_docs: List of {url, type, title} from openFDA
+        dry_run: If True, just print what would be downloaded
+
+    Returns:
+        Number of PDFs downloaded
+    """
+    # Create the sources directory for this company
+    sources_dir = os.path.join(DATA_DIR, "companies", ticker, "sources")
+    os.makedirs(sources_dir, exist_ok=True)
+
+    # Collect all PDF URLs to download — both direct PDFs and those from index pages
+    pdfs_to_download = []
+
+    for doc in review_docs:
+        doc_class = _classify_review_doc(doc)
+        if not doc_class:
+            continue
+
+        if doc_class == "index_page":
+            # Scrape the index page for PDF links
+            if not dry_run:
+                index_pdfs = _scrape_review_index(doc["url"])
+                pdfs_to_download.extend(index_pdfs)
+                if index_pdfs:
+                    print(f"      Found {len(index_pdfs)} review PDFs from index page")
+        else:
+            # Direct PDF link
+            pdfs_to_download.append(doc)
+
+    if not pdfs_to_download:
+        return 0
+
+    # Deduplicate by URL
+    seen_urls = set()
+    unique_pdfs = []
+    for pdf in pdfs_to_download:
+        url = pdf["url"]
+        if url not in seen_urls:
+            seen_urls.add(url)
+            unique_pdfs.append(pdf)
+
+    if dry_run:
+        print(f"      Would download {len(unique_pdfs)} review PDFs for {brand_name} ({app_number})")
+        for pdf in unique_pdfs[:5]:
+            print(f"        - {pdf.get('title', 'Unknown')}: {pdf['url']}")
+        if len(unique_pdfs) > 5:
+            print(f"        ... and {len(unique_pdfs) - 5} more")
+        return 0
+
+    downloaded = 0
+    for pdf in unique_pdfs:
+        url = pdf["url"]
+        title = pdf.get("title", "review")
+        doc_type = pdf.get("type", "review")
+
+        # Build a clean filename: FDA_RYBREVANT_BLA761210_medical_review.pdf
+        # Sanitize the title for use in filename
+        safe_title = re.sub(r'[^\w\s-]', '', title.lower())
+        safe_title = re.sub(r'[\s]+', '_', safe_title.strip())[:60]
+        safe_brand = re.sub(r'[^\w]', '', brand_name.upper())
+        safe_app = re.sub(r'[^\w]', '', app_number)
+
+        if safe_title:
+            filename = f"FDA_{safe_brand}_{safe_app}_{safe_title}.pdf"
+        else:
+            filename = f"FDA_{safe_brand}_{safe_app}_review.pdf"
+
+        # Skip if already downloaded
+        filepath = os.path.join(sources_dir, filename)
+        if os.path.exists(filepath):
+            print(f"      Already exists: {filename}")
+            continue
+
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=60, allow_redirects=True,
+                                stream=True)
+            if resp.status_code != 200:
+                print(f"      HTTP {resp.status_code} for {url}")
+                continue
+
+            content_type = resp.headers.get("Content-Type", "")
+            if "pdf" not in content_type.lower() and not url.lower().endswith(".pdf"):
+                print(f"      Not a PDF ({content_type}), skipping: {url}")
+                continue
+
+            # Stream download to avoid memory issues with large review PDFs
+            total_size = 0
+            with open(filepath, "wb") as f:
+                for chunk in resp.iter_content(chunk_size=8192):
+                    f.write(chunk)
+                    total_size += len(chunk)
+
+            # Sanity check — skip tiny files (probably error pages)
+            if total_size < 5000:
+                os.remove(filepath)
+                print(f"      Too small ({total_size} bytes), skipping: {filename}")
+                continue
+
+            size_mb = total_size / (1024 * 1024)
+            print(f"      Downloaded: {filename} ({size_mb:.1f} MB)")
+            downloaded += 1
+            time.sleep(0.3)  # Be polite to FDA servers
+
+        except Exception as e:
+            print(f"      Error downloading {url}: {e}")
+            if os.path.exists(filepath):
+                os.remove(filepath)
+
+    return downloaded
+
+
+# ============================================================================
 # CHUNKING + EMBEDDING (shared with sec_trials_scraper.py pattern)
 # ============================================================================
 
@@ -557,7 +786,7 @@ def embed_and_store(conn, vo_client, ticker: str, doc_title: str, doc_type: str,
 
 def process_company(ticker: str, company_info: dict, conn, vo_client,
                     labels_only: bool = False, approvals_only: bool = False,
-                    dry_run: bool = False) -> int:
+                    reviews_only: bool = False, dry_run: bool = False) -> int:
     """Process all FDA data for one company. Returns count of documents added."""
     company_name = company_info.get("name", ticker)
     drug_info = COMPANY_DRUGS.get(ticker, {})
@@ -569,6 +798,7 @@ def process_company(ticker: str, company_info: dict, conn, vo_client,
     sponsor = drug_info["sponsor"]
     drugs = drug_info["drugs"]
     docs_added = 0
+    pdfs_total = 0
 
     print(f"\n{'='*60}")
     print(f"  {ticker} -- {company_name}")
@@ -576,7 +806,7 @@ def process_company(ticker: str, company_info: dict, conn, vo_client,
     print(f"{'='*60}")
 
     # ── 1. openFDA Drugs@FDA: Approval history + review doc URLs ──
-    if not labels_only:
+    if not labels_only or reviews_only:
         print(f"\n  --- Drugs@FDA Approvals ---")
         approvals = search_openfda_approvals(sponsor, drugs)
         print(f"  Found {len(approvals)} application records")
@@ -603,7 +833,7 @@ def process_company(ticker: str, company_info: dict, conn, vo_client,
                 f"Approval Date(s): {', '.join(dates) if dates else 'N/A'}\n"
             )
 
-            if not dry_run and len(summary.split()) > 20:
+            if not dry_run and not reviews_only and len(summary.split()) > 20:
                 title = f"FDA Approval: {brand} ({app_num})"
                 doc_id = embed_and_store(conn, vo_client, ticker, title, "fda_approval",
                                         summary, source_url=f"https://api.fda.gov/drug/drugsfda.json?search=application_number:{app_num}",
@@ -613,21 +843,30 @@ def process_company(ticker: str, company_info: dict, conn, vo_client,
 
             # ── Fetch review documents (medical reviews, clinical reviews, etc.) ──
             review_docs = app.get("review_docs", [])
-            if review_docs and not dry_run:
-                print(f"    Fetching {len(review_docs)} review documents for {brand}...")
-                fetched_docs = fetch_review_documents(review_docs)
-                for rd in fetched_docs:
-                    title = f"FDA Review: {brand} - {rd['title'] or rd['type']}"
-                    doc_id = embed_and_store(conn, vo_client, ticker, title, "fda_review",
-                                            rd["text"], source_url=rd["url"],
-                                            doc_date=latest_date)
-                    if doc_id:
-                        docs_added += 1
-            elif review_docs and dry_run:
-                print(f"    Would fetch {len(review_docs)} review documents for {brand}")
+            if review_docs:
+                # A) Download actual CDER/CBER review PDFs to disk
+                #    These get picked up by Step 3 (PDF embedder) automatically
+                print(f"    Downloading CDER/CBER review PDFs for {brand} ({app_num})...")
+                pdfs_downloaded = download_review_pdfs(
+                    ticker, app_num, brand, review_docs, dry_run=dry_run
+                )
+                if pdfs_downloaded:
+                    print(f"    {pdfs_downloaded} review PDFs saved to sources/")
+                    pdfs_total += pdfs_downloaded
+
+                # B) Also fetch HTML review docs and embed directly into Neon
+                if not dry_run:
+                    fetched_docs = fetch_review_documents(review_docs)
+                    for rd in fetched_docs:
+                        title = f"FDA Review: {brand} - {rd['title'] or rd['type']}"
+                        doc_id = embed_and_store(conn, vo_client, ticker, title, "fda_review",
+                                                rd["text"], source_url=rd["url"],
+                                                doc_date=latest_date)
+                        if doc_id:
+                            docs_added += 1
 
     # ── 2. openFDA Drug Labels: Structured label sections ──
-    if not approvals_only:
+    if not approvals_only and not reviews_only:
         print(f"\n  --- FDA Drug Labels ---")
         labels = fetch_drug_labels(sponsor, drugs)
         print(f"  Found {len(labels)} drug labels")
@@ -656,7 +895,7 @@ def process_company(ticker: str, company_info: dict, conn, vo_client,
                 if doc_id:
                     docs_added += 1
 
-    print(f"\n  {ticker}: {docs_added} FDA documents added to Neon")
+    print(f"\n  {ticker}: {docs_added} FDA documents added to Neon, {pdfs_total} review PDFs downloaded")
     return docs_added
 
 
@@ -673,6 +912,7 @@ def main():
     parser.add_argument("--list", action="store_true", help="List all companies with FDA drug mappings")
     parser.add_argument("--labels-only", action="store_true", help="Only fetch drug labels")
     parser.add_argument("--approvals-only", action="store_true", help="Only fetch approvals + review docs")
+    parser.add_argument("--reviews-only", action="store_true", help="Only download CDER/CBER review PDFs (skip labels + embed)")
     parser.add_argument("--dry-run", action="store_true", help="Preview without scraping")
     args = parser.parse_args()
 
@@ -725,6 +965,7 @@ def main():
             ticker, ONCOLOGY_COMPANIES[ticker], conn, vo_client,
             labels_only=args.labels_only,
             approvals_only=args.approvals_only,
+            reviews_only=args.reviews_only,
             dry_run=args.dry_run,
         )
         total_added += added
