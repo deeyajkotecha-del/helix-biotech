@@ -64,3 +64,4 @@ data/companies/*/sources/*/original.pdf
 
 # Subscriber emails (user data — never commit)
 data/subscribers.json
+backend/services/data/companies/*/sources/*.pdf
