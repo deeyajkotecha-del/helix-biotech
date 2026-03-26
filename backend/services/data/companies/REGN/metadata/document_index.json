@@ -1,0 +1,79 @@
+{
+  "4fd0d026-8ccd-43b0-bfc1-963346beee73.pdf": {
+    "source_url": "https://investor.regeneron.com/static-files/4fd0d026-8ccd-43b0-bfc1-963346beee73",
+    "title": "Transcript",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "1f68d3eca0bb43b1727047c051f9ee5b29f6fc3a92ca2572ca3f1af1c989ce91",
+    "file_size_bytes": 390112,
+    "scraped_at": "2026-03-25T16:24:46.523589+00:00",
+    "source_page": "https://investor.regeneron.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "3b3b2bb6-56a9-45d4-bad0-db43575d58d9.pdf": {
+    "source_url": "https://investor.regeneron.com/static-files/3b3b2bb6-56a9-45d4-bad0-db43575d58d9",
+    "title": "Transcript",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "a9d44fd4e8407f67dbd1e8ec42d572e5b44c95a4e2a2ef3c6ced98126498fd29",
+    "file_size_bytes": 377214,
+    "scraped_at": "2026-03-25T16:24:46.986715+00:00",
+    "source_page": "https://investor.regeneron.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "a25766ce-cb49-4d8e-923b-56b403f3b063.pdf": {
+    "source_url": "https://investor.regeneron.com/static-files/a25766ce-cb49-4d8e-923b-56b403f3b063",
+    "title": "REGN January 2026 Corporate Presentation",
+    "date": "2026-01-01",
+    "doc_type": "investor_presentation",
+    "sha256": "3bb628d56939a87d26256443cdac3ddf010a4c0c6552214b34034d32bd268927",
+    "file_size_bytes": 2560243,
+    "scraped_at": "2026-03-25T16:24:47.628978+00:00",
+    "source_page": "https://investor.regeneron.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "e1a0c96b-d854-4adb-8508-a2c5ae2e4f70.pdf": {
+    "source_url": "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70",
+    "title": "Transcript",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "03a3b174112c5ca13fafc74c2d42a9ce0c271606e392a779f17a1f0bed649945",
+    "file_size_bytes": 576108,
+    "scraped_at": "2026-03-25T16:24:48.140226+00:00",
+    "source_page": "https://investor.regeneron.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "afaee510-5a11-44df-ad2b-c953a55cd65e.pdf": {
+    "source_url": "https://investor.regeneron.com/static-files/afaee510-5a11-44df-ad2b-c953a55cd65e",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "addfb53b09547dddcd79b246c589a546dc60160bd587942545de2d9a5b252974",
+    "file_size_bytes": 1335216,
+    "scraped_at": "2026-03-25T16:24:48.743535+00:00",
+    "source_page": "https://investor.regeneron.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "718ea4f2-7a0f-4623-bf91-a701ead1cc44.pdf": {
+    "source_url": "https://investor.regeneron.com/static-files/718ea4f2-7a0f-4623-bf91-a701ead1cc44",
+    "title": "Transcript",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "46d8e9bc5a46677332ef083c9fe4dcef813517da8d06c431ff4e0bddd3a42fef",
+    "file_size_bytes": 425580,
+    "scraped_at": "2026-03-25T16:24:49.438800+00:00",
+    "source_page": "https://investor.regeneron.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "fe3ba074-f94a-41f3-9630-51f4da21e950.pdf": {
+    "source_url": "https://investor.regeneron.com/static-files/fe3ba074-f94a-41f3-9630-51f4da21e950",
+    "title": "Cookie Policy",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "bbf48205c7bad30626c93e3ebfcd259ddbef3ad3d6cee79d9a8c010c5f9c1cc9",
+    "file_size_bytes": 217167,
+    "scraped_at": "2026-03-25T16:24:49.944042+00:00",
+    "source_page": "https://investor.regeneron.com/events-and-presentations",
+    "page_type": "events"
+  }
+}

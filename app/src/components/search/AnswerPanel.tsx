@@ -35,13 +35,26 @@ export default function AnswerPanel({
           {queryType.replace('_', ' ')}
         </span>
         <div className="sources-used">
-          {sourcesUsed.map(s => (
-            <span key={s} className={`source-pill pill-${s.toLowerCase()}`}>{s}</span>
-          ))}
+          {sourcesUsed.map(s => {
+            const labels: Record<string, string> = {
+              RAG: 'Library',
+              CLINICAL_TRIALS: 'Trials',
+              FDA: 'FDA',
+              PUBMED: 'PubMed',
+              GLOBAL_LANDSCAPE: 'Global',
+              NEWS_MINER: 'News',
+            }
+            return (
+              <span key={s} className={`source-pill pill-${s.toLowerCase()}`}>
+                {labels[s] || s}
+              </span>
+            )
+          })}
         </div>
       </div>
       <div className="answer-content">
         {renderedBlocks}
+        {streaming && <span className="streaming-cursor" />}
       </div>
       {followups && followups.length > 0 && !streaming && (
         <div className="followup-section">

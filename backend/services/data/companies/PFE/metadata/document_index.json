@@ -1,0 +1,101 @@
+{
+  "Pfizer-Invites-Public-Q1-2026-Earnings_FINAL.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_events/2026/May/05/Pfizer-Invites-Public-Q1-2026-Earnings_FINAL.pdf",
+    "title": "Event AnnouncementOpen Event Link, PDF file, 05/05/2026, (opens in new window)",
+    "date": "2026-05-05",
+    "doc_type": "investor_presentation",
+    "sha256": "1edbd98ff068cb9e4b33bd514df5743fa6f39268d472caf836d09aba1b6bb3bd",
+    "file_size_bytes": 192532,
+    "scraped_at": "2026-03-25T16:23:13.593731+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  },
+  "Q4-2025-Earnings-Charts.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_financials/2025/q4/Q4-2025-Earnings-Charts.pdf",
+    "title": "DownloadPDF file, (opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "7d2ae990108a486a2df360d970672fc3f7a65819ac764ebe1671706c85ebabac",
+    "file_size_bytes": 749838,
+    "scraped_at": "2026-03-25T16:23:13.649823+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  },
+  "PFE-USQ_Transcript_2026-03-02.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_events/2026/Mar/02/PFE-USQ_Transcript_2026-03-02.pdf",
+    "title": "Transcript(opens in new window)",
+    "date": "2026-03-02",
+    "doc_type": "other",
+    "sha256": "273a324705ff377799765579edeee318933daffe854a7cb3661a553a4a453332",
+    "file_size_bytes": 193170,
+    "scraped_at": "2026-03-25T16:23:13.669615+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  },
+  "Q4-2025-PFE-Earnings-Release-FINAL2.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_financials/2025/q4/Q4-2025-PFE-Earnings-Release-FINAL2.pdf",
+    "title": "Press Release(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "9a42002dd8edb6225cf15e7dc37652271988a3400203b5331bd7890382a924f0",
+    "file_size_bytes": 200322,
+    "scraped_at": "2026-03-25T16:23:13.692563+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  },
+  "Q4-2025-Earnings-Conference-Call-Prepared-Remarks.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_financials/2025/q4/Q4-2025-Earnings-Conference-Call-Prepared-Remarks.pdf",
+    "title": "Prepared Remarks(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "332cae2fb00715681b917e067c508e5752bd4c8555ddbd604657e5737e1bc69f",
+    "file_size_bytes": 256422,
+    "scraped_at": "2026-03-25T16:23:13.720838+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  },
+  "PFE-USQ_Transcript_2026-02-03.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_events/2026/Feb/03/PFE-USQ_Transcript_2026-02-03.pdf",
+    "title": "Transcript(opens in new window)",
+    "date": "2026-02-03",
+    "doc_type": "other",
+    "sha256": "53eb6a83a473781efc2baade3712f19ea0c9665af14e9129724f144478e5e1fb",
+    "file_size_bytes": 266391,
+    "scraped_at": "2026-03-25T16:23:13.748698+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  },
+  "JPM-2026-Fireside-Chat-Presentation-FINAL.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_events/2026/Jan/12/JPM-2026-Fireside-Chat-Presentation-FINAL.pdf",
+    "title": "Presentation(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "52751423e8efcb30f04cf6951d8d0462c7db527bbcfa5e568264b19a73bb9147",
+    "file_size_bytes": 416235,
+    "scraped_at": "2026-03-25T16:23:13.782026+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  },
+  "Investor-Overview-at-2026-JPM-vFINAL2.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_events/2026/Jan/12/Investor-Overview-at-2026-JPM-vFINAL2.pdf",
+    "title": "Investor Overview at 2026 JPM(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "4a8ad5b4e40210142c3e84813602f307989130a71290a080d445d97892467edb",
+    "file_size_bytes": 584131,
+    "scraped_at": "2026-03-25T16:23:13.959067+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  },
+  "PFE-USQ_Transcript_2026-01-12.pdf": {
+    "source_url": "https://s206.q4cdn.com/795948973/files/doc_events/2026/Jan/12/PFE-USQ_Transcript_2026-01-12.pdf",
+    "title": "Transcript(opens in new window)",
+    "date": "2026-01-12",
+    "doc_type": "other",
+    "sha256": "a7ddda6055a88190c60c9c7c7b01db428fdaa067d93ea26644832ec337a940f6",
+    "file_size_bytes": 225096,
+    "scraped_at": "2026-03-25T16:23:13.987538+00:00",
+    "source_page": "https://investors.pfizer.com/Investors/news-events/default.aspx",
+    "page_type": "events"
+  }
+}

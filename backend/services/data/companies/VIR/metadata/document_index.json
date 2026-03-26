@@ -1,0 +1,57 @@
+{
+  "Vir-Bio-Corporate-Overview-Feb-2026.pdf": {
+    "source_url": "https://s203.q4cdn.com/628578897/files/doc_presentations/2026/Feb/23/Vir-Bio-Corporate-Overview-Feb-2026.pdf",
+    "title": "DownloadPDF file, (opens in new window)",
+    "date": "2026-02-01",
+    "doc_type": "other",
+    "sha256": "4827bdc6fda966bc6e16b6e3ce2dff94b47f4fd5a1ed3bcd0b55a463c7851da9",
+    "file_size_bytes": 5992864,
+    "scraped_at": "2026-03-25T16:31:42.540793+00:00",
+    "source_page": "https://investors.vir.bio/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "Vir-Biotechnology-ASCO-GU-2026-Presentation.pdf": {
+    "source_url": "https://s203.q4cdn.com/628578897/files/doc_presentations/2026/Feb/26/Vir-Biotechnology-ASCO-GU-2026-Presentation.pdf",
+    "title": "Presentationfor Vir Biotechnology ASCO GU 2026 Presentation (opens in new window)",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "4bbdbc6fef0587a83e0b964977ebfb37ca9014e6969febc45b1e903f8a4cded9",
+    "file_size_bytes": 1564142,
+    "scraped_at": "2026-03-25T16:31:42.643280+00:00",
+    "source_page": "https://investors.vir.bio/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "Vir-Bio-Fourth-Quarter-and-Full-Year-Conference-Call.pdf": {
+    "source_url": "https://s203.q4cdn.com/628578897/files/doc_financials/2025/q4/Vir-Bio-Fourth-Quarter-and-Full-Year-Conference-Call.pdf",
+    "title": "Presentationfor Vir Biotechnology Fourth Quarter and Full Year 2025 Corporate Update and Financial Results Conference Call (opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "cb61749cc385c7079fe7e80eb63aa38375433250b69508ef7f352ed062040d31",
+    "file_size_bytes": 4797118,
+    "scraped_at": "2026-03-25T16:31:43.862916+00:00",
+    "source_page": "https://investors.vir.bio/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "Vir-Biotechnology-JPM-Presentation-Jan-2026.pdf": {
+    "source_url": "https://s203.q4cdn.com/628578897/files/doc_events/2026/Jan/14/Vir-Biotechnology-JPM-Presentation-Jan-2026.pdf",
+    "title": "Presentationfor 44th Annual J.P. Morgan Healthcare Conference (opens in new window)",
+    "date": "2026-01-01",
+    "doc_type": "investor_presentation",
+    "sha256": "7a4c6298c684c48d7808dc80155f94d2883cb8fe7f7f082119ed326fba557132",
+    "file_size_bytes": 2489478,
+    "scraped_at": "2026-03-25T16:31:44.087024+00:00",
+    "source_page": "https://investors.vir.bio/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "Vir-Bio-Corporate-Overview-Presentation-Jan-2026.pdf": {
+    "source_url": "https://s203.q4cdn.com/628578897/files/doc_presentations/2026/Jan/14/Vir-Bio-Corporate-Overview-Presentation-Jan-2026.pdf",
+    "title": "Presentationfor Vir Biotechnology Corporate Overview Presentation (opens in new window)",
+    "date": "2026-01-01",
+    "doc_type": "other",
+    "sha256": "4aeb80cbf0cfd3a3c1527f8a6f6ab6f8e89075e7699ab7cd09867fd2e38b0037",
+    "file_size_bytes": 3309752,
+    "scraped_at": "2026-03-25T16:31:44.244495+00:00",
+    "source_page": "https://investors.vir.bio/events-and-presentations/default.aspx",
+    "page_type": "events"
+  }
+}

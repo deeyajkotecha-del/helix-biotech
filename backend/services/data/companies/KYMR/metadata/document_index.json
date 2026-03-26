@@ -1,0 +1,79 @@
+{
+  "bf2ba92d-b19f-4446-ade1-91cf3386f94f.pdf": {
+    "source_url": "https://investors.kymeratx.com/static-files/bf2ba92d-b19f-4446-ade1-91cf3386f94f",
+    "title": "Kymera Therapeutics Corporate Presentation, February 2026",
+    "date": "2026-02-01",
+    "doc_type": "investor_presentation",
+    "sha256": "7179b7bc32c7262d3f4c023b5e0f9761691bd70158dbc48824e9842382ae85d1",
+    "file_size_bytes": 25636769,
+    "scraped_at": "2026-03-25T16:15:06.022212+00:00",
+    "source_page": "https://investors.kymeratx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "48169a2f-04d9-4ac5-bb8a-a840ee451553.pdf": {
+    "source_url": "https://investors.kymeratx.com/static-files/48169a2f-04d9-4ac5-bb8a-a840ee451553",
+    "title": "KT-621 BroADen Phase 1b Atopic Dermatitis Trial Results Presentation, December 2025",
+    "date": "2025-12-01",
+    "doc_type": "investor_presentation",
+    "sha256": "e4935f1e72c262e5f620f0ae7f7e1776fec823c19e38927e78e3ca7e7b25549b",
+    "file_size_bytes": 10700951,
+    "scraped_at": "2026-03-25T16:15:06.732550+00:00",
+    "source_page": "https://investors.kymeratx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "055ab751-48c3-47e2-a5de-d7cdd31fb257.pdf": {
+    "source_url": "https://investors.kymeratx.com/static-files/055ab751-48c3-47e2-a5de-d7cdd31fb257",
+    "title": "KT-621 Phase 1 Healthy Volunteer Trial Results Presentation, June 2025",
+    "date": "2025-06-01",
+    "doc_type": "investor_presentation",
+    "sha256": "5480c4df779f70577fbda182c69ef1f052951af66b6e111e8e5eb3f245052aac",
+    "file_size_bytes": 5375822,
+    "scraped_at": "2026-03-25T16:15:07.290284+00:00",
+    "source_page": "https://investors.kymeratx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "cc2aa763-2e1d-443d-9d3f-3c293ad7188a.pdf": {
+    "source_url": "https://investors.kymeratx.com/static-files/cc2aa763-2e1d-443d-9d3f-3c293ad7188a",
+    "title": "Immunology Innovation Day Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "a43a17f2e0feec85efff08acdd50d94f98040282670bbcfb8bda9c666c1f4bfe",
+    "file_size_bytes": 9190308,
+    "scraped_at": "2026-03-25T16:15:08.083232+00:00",
+    "source_page": "https://investors.kymeratx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "14265265-2ae6-4d80-b3a2-4a85d51e8f8d.pdf": {
+    "source_url": "https://investors.kymeratx.com/static-files/14265265-2ae6-4d80-b3a2-4a85d51e8f8d",
+    "title": "Kymera Immunology R&D Day Presentation, January 2024",
+    "date": "2024-01-01",
+    "doc_type": "investor_presentation",
+    "sha256": "1abb1eb0f82629d0c0d11666d84e24e3b51ff1e64888e420cd1147f42988632b",
+    "file_size_bytes": 9390563,
+    "scraped_at": "2026-03-25T16:15:09.379754+00:00",
+    "source_page": "https://investors.kymeratx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "22d3633b-9f54-4c9e-a9e9-545044d31968.pdf": {
+    "source_url": "https://investors.kymeratx.com/static-files/22d3633b-9f54-4c9e-a9e9-545044d31968",
+    "title": "Kymera 2022 KT-474 and Oncology Pipeline Update",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "9f42b9da749ef52ce2bdf0f93617ea5ff95c9e92c608c190972398e265c860a9",
+    "file_size_bytes": 5287151,
+    "scraped_at": "2026-03-25T16:15:10.224313+00:00",
+    "source_page": "https://investors.kymeratx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "6432c27c-8dea-4226-b8e8-96cd58df4b84.pdf": {
+    "source_url": "https://investors.kymeratx.com/static-files/6432c27c-8dea-4226-b8e8-96cd58df4b84",
+    "title": "2021 R&D Day Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "afa6cc9beb8e50c77e9e28add144ad316958cfd79faf48701196072ce8ffe31d",
+    "file_size_bytes": 21876530,
+    "scraped_at": "2026-03-25T16:15:11.433221+00:00",
+    "source_page": "https://investors.kymeratx.com/news-events/presentations",
+    "page_type": "events"
+  }
+}

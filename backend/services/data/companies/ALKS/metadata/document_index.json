@@ -1,0 +1,79 @@
+{
+  "fff86401-d90f-4ef5-97ff-16775edb0cbe.pdf": {
+    "source_url": "https://investor.alkermes.com/static-files/fff86401-d90f-4ef5-97ff-16775edb0cbe",
+    "title": "Alkermes Q4 2025 Earnings Release",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "b35b95dd5bb3f8a18586326c9ad6832863524ce7c821739fb7fd4faed3a80c07",
+    "file_size_bytes": 515473,
+    "scraped_at": "2026-03-25T16:05:44.023421+00:00",
+    "source_page": "https://investor.alkermes.com/investor-events-presentations/",
+    "page_type": "events"
+  },
+  "5f9eb70d-a7bd-42a7-8617-42c30f63e5b4.pdf": {
+    "source_url": "https://investor.alkermes.com/static-files/5f9eb70d-a7bd-42a7-8617-42c30f63e5b4",
+    "title": "ALKS Q4 2025 Earnings Slides",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "bc06575897844b6b3b1fe34fa33e0f3f8f785f3e4242cbf241a323f249f45d59",
+    "file_size_bytes": 456618,
+    "scraped_at": "2026-03-25T16:05:44.329707+00:00",
+    "source_page": "https://investor.alkermes.com/investor-events-presentations/",
+    "page_type": "events"
+  },
+  "fa6f0a3b-5cdc-431e-85f5-a90d944b0bcd.pdf": {
+    "source_url": "https://investor.alkermes.com/static-files/fa6f0a3b-5cdc-431e-85f5-a90d944b0bcd",
+    "title": "Alkermes Q4 2025 Prepared Remarks",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "bff4f66fc3645a64f19c3e9c1534a5c8518fdbbc59595d49346a4c1eda4fc674",
+    "file_size_bytes": 230244,
+    "scraped_at": "2026-03-25T16:05:44.673514+00:00",
+    "source_page": "https://investor.alkermes.com/investor-events-presentations/",
+    "page_type": "events"
+  },
+  "d72da6ee-77c9-40a4-a54e-3f220320d006.pdf": {
+    "source_url": "https://investor.alkermes.com/static-files/d72da6ee-77c9-40a4-a54e-3f220320d006",
+    "title": "44th Annual J.P. Morgan Healthcare Conference Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "d98ad95422a120e11948ff4c9ef3721178cbb74919489287e70dbd9febdf5e0b",
+    "file_size_bytes": 1043648,
+    "scraped_at": "2026-03-25T16:05:45.020714+00:00",
+    "source_page": "https://investor.alkermes.com/investor-events-presentations/",
+    "page_type": "events"
+  },
+  "76af3d7c-0c9e-4a65-ba1d-1e240982d208.pdf": {
+    "source_url": "https://investor.alkermes.com/static-files/76af3d7c-0c9e-4a65-ba1d-1e240982d208",
+    "title": "Alixorexton (ALKS 2680) Narcolepsy Type 2 Phase 2 Data Investor Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "3798db2906a9bd0f4456f743c8c1907a58cb5f06d5f3e59707f24d2332b1e37e",
+    "file_size_bytes": 542915,
+    "scraped_at": "2026-03-25T16:05:45.391458+00:00",
+    "source_page": "https://investor.alkermes.com/investor-events-presentations/",
+    "page_type": "events"
+  },
+  "73359da6-05d3-4b97-9620-5c6f9e4df9bb.pdf": {
+    "source_url": "https://investor.alkermes.com/static-files/73359da6-05d3-4b97-9620-5c6f9e4df9bb",
+    "title": "Alkermes Q3 2025 Financial Results Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "c1217a732cd729aeea09a146c7cb86c0b8f3d717489078468e42e9294d9f8485",
+    "file_size_bytes": 370967,
+    "scraped_at": "2026-03-25T16:05:45.878381+00:00",
+    "source_page": "https://investor.alkermes.com/investor-events-presentations/",
+    "page_type": "events"
+  },
+  "2a819bec-2b01-44ec-bf6f-35657e0748b3.pdf": {
+    "source_url": "https://investor.alkermes.com/static-files/2a819bec-2b01-44ec-bf6f-35657e0748b3",
+    "title": "Alkermes Q3 2025 Prepared Remarks",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "942f42cf838e1f71ebe80ee23dff3a7e68c438dee6a9686ed67c441d34d71b2b",
+    "file_size_bytes": 190069,
+    "scraped_at": "2026-03-25T16:05:46.177572+00:00",
+    "source_page": "https://investor.alkermes.com/investor-events-presentations/",
+    "page_type": "events"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "72d227bb-2885-4e0d-b1dc-46a5ffcf3373.pdf": {
+    "source_url": "https://ir.tangotx.com/static-files/72d227bb-2885-4e0d-b1dc-46a5ffcf3373",
+    "title": "Tango Therapeutics Corporate Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "9d9abd801fef2cf69f909503cd394f7b4efe6595ab357a951a29ddbbbedf6364",
+    "file_size_bytes": 1518843,
+    "scraped_at": "2026-03-25T16:31:13.033995+00:00",
+    "source_page": "https://ir.tangotx.com/news-events/events-presentations",
+    "page_type": "events"
+  },
+  "929951bb-a8b6-43dd-a269-d2a0f71a7150.pdf": {
+    "source_url": "https://ir.tangotx.com/static-files/929951bb-a8b6-43dd-a269-d2a0f71a7150",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "a3df9a4aea13ba51d6f1b86cde6d5adac0284ddba72ba30ed39b62615787cfa2",
+    "file_size_bytes": 762880,
+    "scraped_at": "2026-03-25T16:31:13.810250+00:00",
+    "source_page": "https://ir.tangotx.com/news-events/events-presentations",
+    "page_type": "events"
+  },
+  "Tango-SLAS-poster_Liu_FINAL.pptx.pdf": {
+    "source_url": "https://www.tangotx.com/wp-content/uploads/Tango-SLAS-poster_Liu_FINAL.pptx.pdf",
+    "title": "|SLASFebruary 2026Mass Spectrometry-Based Kinetic and Site-Specific Profiling of Covalent Inhibitors Targeting VRK1Mu-Sen Liu, et al.",
+    "date": "2026-02-01",
+    "doc_type": "poster",
+    "sha256": "0e1526b4f20e9c0b7cbd2f02fe99a42fdccb8ce10f013180db196e268ad0e06a",
+    "file_size_bytes": 1584422,
+    "scraped_at": "2026-03-25T16:31:18.900176+00:00",
+    "source_page": "https://www.tangotx.com/science/publications-posters/",
+    "page_type": "publications"
+  },
+  "SNO-2025_Alice-Tsai_Final.pdf": {
+    "source_url": "https://www.tangotx.com/wp-content/uploads/SNO-2025_Alice-Tsai_Final.pdf",
+    "title": "|SNONovember 2025Preclinical evaluation of the CNS penetration of a novel series of MTA-cooperative PRMT5 inhibitors including TNG456Alice Tsai, et al.",
+    "date": "2026-02-01",
+    "doc_type": "other",
+    "sha256": "e7e71bf3af7a908d9d2f37a53ac156350583cbd230ff8ca67eaa8e80e5a5e218",
+    "file_size_bytes": 1148463,
+    "scraped_at": "2026-03-25T16:31:19.170214+00:00",
+    "source_page": "https://www.tangotx.com/science/publications-posters/",
+    "page_type": "publications"
+  },
+  "SNO-2025_Kim-Briggs_FINAL.pdf": {
+    "source_url": "https://www.tangotx.com/wp-content/uploads/SNO-2025_Kim-Briggs_FINAL.pdf",
+    "title": "|SNONovember 2025TNG456 is a next-generation, brain-penetrant, MTAcooperative PRMT5 inhibitor for the treatment of solid tumors including glioblastoma with MTAP lossKimberly J. Briggs, et al.",
+    "date": "2026-02-01",
+    "doc_type": "other",
+    "sha256": "12150fc3bff17c787bd16cfb7fd6a4ddf0a082a70eaf017ade79e8cdd06f4075",
+    "file_size_bytes": 2745355,
+    "scraped_at": "2026-03-25T16:31:19.798088+00:00",
+    "source_page": "https://www.tangotx.com/science/publications-posters/",
+    "page_type": "publications"
+  },
+  "ACT_PRMT5_Safety_Alice-Tsai_2025_FINAL.pdf": {
+    "source_url": "https://www.tangotx.com/wp-content/uploads/ACT_PRMT5_Safety_Alice-Tsai_2025_FINAL.pdf",
+    "title": "|ACT Annual MeetingNovember 2025Nonclinical Safety Evaluation of MTA-Cooperative PRMT5 Inhibitors: Implications for Therapeutic Selectivity and TolerabilityAlice Tsai, et al.",
+    "date": "2026-02-01",
+    "doc_type": "other",
+    "sha256": "f616f7f7c133c23ee90fc898c962fd819977c5a005cf885dc2309af17b690db3",
+    "file_size_bytes": 880669,
+    "scraped_at": "2026-03-25T16:31:20.095442+00:00",
+    "source_page": "https://www.tangotx.com/science/publications-posters/",
+    "page_type": "publications"
+  },
+  "Eastern-Analyical-Symposium_Allen-Xin_FINAL.pdf": {
+    "source_url": "https://www.tangotx.com/wp-content/uploads/Eastern-Analyical-Symposium_Allen-Xin_FINAL.pdf",
+    "title": "|Eastern Analytical SymposiumNovember 2025Development of a control strategy for peroxide in tetrahydrofuran based on a simple method to mitigate the risk of oxidation product formation for Vopimetostat (TNG462)Zhengyang (Allen) Xin, et al.",
+    "date": "2026-02-01",
+    "doc_type": "other",
+    "sha256": "867c1bfcd223d0aa24da818e7d39b17d50bcd38f9c3f6ac96375c3f011633447",
+    "file_size_bytes": 675581,
+    "scraped_at": "2026-03-25T16:31:20.295345+00:00",
+    "source_page": "https://www.tangotx.com/science/publications-posters/",
+    "page_type": "publications"
+  }
+}

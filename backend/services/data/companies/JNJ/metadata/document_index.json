@@ -1,0 +1,156 @@
+{
+  "2026-Patent-Table-FINAL.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/pipeline-tables/2026-Patent-Table-FINAL.pdf",
+    "title": "Patent table",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "b91baf6db5249cf0c7d7704ec99d9f6d3d9b36ee6cab0409745caa8d3e464cfc",
+    "file_size_bytes": 323749,
+    "scraped_at": "2026-03-25T16:14:43.628769+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "2024-IR-Fact-Sheet-Final-4-17-25.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_downloads/2025/04/2024-IR-Fact-Sheet-Final-4-17-25.pdf",
+    "title": "Investor fact sheet",
+    "date": "2025-04-01",
+    "doc_type": "investor_presentation",
+    "sha256": "e512f741e382bf80c5ec2f9c33def2f72f4404cf8ef229477c9a906b14ed5dcd",
+    "file_size_bytes": 450980,
+    "scraped_at": "2026-03-25T16:14:43.673478+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JNJ-Earnings-Presentation-Q4-2025-Final.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_financials/2025/q4/JNJ-Earnings-Presentation-Q4-2025-Final.pdf",
+    "title": "Download(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "2e159264ade3fc9191b16ab346e83fb035d11a090d6a2eff07f6d2739a50b39f",
+    "file_size_bytes": 3936959,
+    "scraped_at": "2026-03-25T16:14:44.032551+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "Johnson--Johnson-to-Host-Investor-Conference-Call-on-First-Quarter-Results-2026.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_news/Johnson--Johnson-to-Host-Investor-Conference-Call-on-First-Quarter-Results-2026.pdf",
+    "title": "Press Release(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "82dce2dd556791e2e7b8ee050d371ef223f2c219c6ec182e291967a65e24732b",
+    "file_size_bytes": 201814,
+    "scraped_at": "2026-03-25T16:14:44.053044+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "Q1-2026-Economic-Factors-JNJ-Announcements-Final.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_events/2026/Apr/14/Q1-2026-Economic-Factors-JNJ-Announcements-Final.pdf",
+    "title": "Investor materials(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "3b61210f5ad110c4c0c0724790939c0e3c90756b08fee7e9ad7e6da3ab86c709",
+    "file_size_bytes": 454245,
+    "scraped_at": "2026-03-25T16:14:44.097240+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "Barclays-Press-Release.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_news/2026/Feb/09/Barclays-Press-Release.pdf",
+    "title": "Press release(opens in new window)",
+    "date": null,
+    "doc_type": "press_release",
+    "sha256": "fc918604ef2d3adf5dc16932bdf1c0b98a2abe29062856260ed9d8874b1e567a",
+    "file_size_bytes": 119726,
+    "scraped_at": "2026-03-25T16:14:44.306256+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JNJ-USQ_Transcript_2026-03-10.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_events/2026/Mar/10/JNJ-USQ_Transcript_2026-03-10.pdf",
+    "title": "Transcript(opens in new window)",
+    "date": "2026-03-10",
+    "doc_type": "other",
+    "sha256": "40abeddb631bc39e641dae2eb255fa4eca170b331b3366feff27811916eb7361",
+    "file_size_bytes": 184860,
+    "scraped_at": "2026-03-25T16:14:44.331944+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "TD-Cowen-Press-Release.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_news/2026/Feb/02/TD-Cowen-Press-Release.pdf",
+    "title": "Press release(opens in new window)",
+    "date": null,
+    "doc_type": "press_release",
+    "sha256": "7e89e5f70132c841660de0d6e4a6036a99f27772a4fbb1a7e28d7b28413bc874",
+    "file_size_bytes": 118307,
+    "scraped_at": "2026-03-25T16:14:44.506444+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JNJ-USQ_Transcript_2026-03-03.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_events/2026/Mar/03/JNJ-USQ_Transcript_2026-03-03.pdf",
+    "title": "Transcript(opens in new window)",
+    "date": "2026-03-03",
+    "doc_type": "other",
+    "sha256": "00f392d5e77a88260764650242db97bfcfd1c6efdf64149aa0c5f394dd936a8b",
+    "file_size_bytes": 196841,
+    "scraped_at": "2026-03-25T16:14:44.541756+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "4Q25-Earnings-Press-Release-Final-Draft-01-20-26-6PM-With-Attachments.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_events/2026/Jan/4Q25-Earnings-Press-Release-Final-Draft-01-20-26-6PM-With-Attachments.pdf",
+    "title": "Press release(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "03a5a1e4b8697e8055ad33a845ea26f2f2d63c00608596fd0e2dec944d5c3491",
+    "file_size_bytes": 1911907,
+    "scraped_at": "2026-03-25T16:14:45.150088+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "Q4-2025-Economic-Factors-JNJ-Announcements-Final.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_events/2026/Jan/21/Q4-2025-Economic-Factors-JNJ-Announcements-Final.pdf",
+    "title": "Investor materials(opens in new window)",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "e74b483589ae61e48b0dce91a18b405ca031aebf71ad16ce152c4d085ddd1a93",
+    "file_size_bytes": 585041,
+    "scraped_at": "2026-03-25T16:14:45.442779+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JNJ-USQ_Transcript_2026-01-21.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_events/2026/Jan/21/JNJ-USQ_Transcript_2026-01-21.pdf",
+    "title": "Transcript(opens in new window)",
+    "date": "2026-01-21",
+    "doc_type": "other",
+    "sha256": "effe4a0661ff8d5cfff24a12c26b07a27c21e5539fa7edf52a12b93435d2d451",
+    "file_size_bytes": 263663,
+    "scraped_at": "2026-03-25T16:14:45.881241+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JP-Morgan-Press-Release.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_events/2026/Jan/JP-Morgan-Press-Release.pdf",
+    "title": "Press release(opens in new window)",
+    "date": null,
+    "doc_type": "press_release",
+    "sha256": "7a41b8b55b32d646b523799d6fafce67d9131d2d65452cc9fa15f070e998698a",
+    "file_size_bytes": 119278,
+    "scraped_at": "2026-03-25T16:14:46.040285+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JNJ-USQ_Transcript_2026-01-12.pdf": {
+    "source_url": "https://s203.q4cdn.com/636242992/files/doc_events/2026/Jan/12/JNJ-USQ_Transcript_2026-01-12.pdf",
+    "title": "Transcript(opens in new window)",
+    "date": "2026-01-12",
+    "doc_type": "other",
+    "sha256": "9d84c94b04b671c360be61ca4e8cd1cd3ce3afd538aa93bd6f92d9b8ec65127d",
+    "file_size_bytes": 201894,
+    "scraped_at": "2026-03-25T16:14:46.287595+00:00",
+    "source_page": "https://www.investor.jnj.com/events-and-presentations/default.aspx",
+    "page_type": "events"
+  }
+}

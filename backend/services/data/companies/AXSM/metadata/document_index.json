@@ -1,0 +1,200 @@
+{
+  "aa8d539c-32ea-4357-a039-9517c3ee0480.pdf": {
+    "source_url": "https://axsometherapeuticsinc.gcs-web.com/static-files/aa8d539c-32ea-4357-a039-9517c3ee0480",
+    "title": "Fourth Quarter 2025 Corporate Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "2b36a8053840ac38eca4ad47a1230d1955f7fec90bc71586e1d054eb16ef54ee",
+    "file_size_bytes": 7755964,
+    "scraped_at": "2026-03-25T16:07:33.565483+00:00",
+    "source_page": "https://axsometherapeuticsinc.gcs-web.com/webcasts-and-presentations",
+    "page_type": "events"
+  },
+  "c9a3a0a7-cd82-4e73-8a2b-ccb6a41c8214.pdf": {
+    "source_url": "https://axsometherapeuticsinc.gcs-web.com/static-files/c9a3a0a7-cd82-4e73-8a2b-ccb6a41c8214",
+    "title": "Frontiers in Brain Health R&D Day",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "d7b4b1b69befe131b12e254c634054efb7a8357c55b00318a72dc6c87c17ba69",
+    "file_size_bytes": 13599811,
+    "scraped_at": "2026-03-25T16:07:36.021003+00:00",
+    "source_page": "https://axsometherapeuticsinc.gcs-web.com/webcasts-and-presentations",
+    "page_type": "events"
+  },
+  "symbravo-prescribing-information.pdf": {
+    "source_url": "https://www.axsome.com/symbravo-prescribing-information.pdf",
+    "title": "Prescribing Information",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "d6362e48a7ae5acbd8b29629bd8b6018e3e1b90b0ceff03f2729f55b6edf90c4",
+    "file_size_bytes": 1050481,
+    "scraped_at": "2026-03-25T16:07:48.342871+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "symbravo-medication-guide.pdf": {
+    "source_url": "https://www.axsome.com/symbravo-medication-guide.pdf",
+    "title": "Medication Guide",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "f43c8d52bbc23ce8ef8192ae79666eca3f1725cdbeb2d17c32a026e1d9bedaa9",
+    "file_size_bytes": 215662,
+    "scraped_at": "2026-03-25T16:07:48.634836+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "AAN_2023_SHARP_Study_Topline_040623.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/AAN_2023_SHARP_Study_Topline_040623.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "other",
+    "sha256": "78cb8c9f0673f18e9029fd350a47e2de661097e38f1080f6f13892b9f7e0d779",
+    "file_size_bytes": 169539,
+    "scraped_at": "2026-03-25T16:07:48.678472+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "TAAR1_APSS_2022.pdf": {
+    "source_url": "https://www.axsome.com/publications/TAAR1_APSS_2022.pdf",
+    "title": "see publication",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "0d2a0a463f314ba7787a8818433aef254e160c640acb86015082bd4c9dd67478",
+    "file_size_bytes": 548078,
+    "scraped_at": "2026-03-25T16:07:48.871997+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "ASCP_2022_Anhedonia_5.25.22.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/ASCP_2022_Anhedonia_5.25.22.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "other",
+    "sha256": "725021980037312875df0cb9e2d826bc0bef1b6130688812331b90d47dd4901f",
+    "file_size_bytes": 570251,
+    "scraped_at": "2026-03-25T16:07:48.901755+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "ASCP_2022_EVOLVE_ANXIETY_052522.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/ASCP_2022_EVOLVE_ANXIETY_052522.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "other",
+    "sha256": "00f9b3298927c383929b281e5586a481158ab264f92235ebb265fe4b124cf9ad",
+    "file_size_bytes": 493455,
+    "scraped_at": "2026-03-25T16:07:48.932584+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "ASCP_2021_COMET_SI_poster_FINAL.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/ASCP_2021_COMET_SI_poster_FINAL.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "poster",
+    "sha256": "d5ec59ad1353a72573402e4c0d8332446f7e70fe4c4fb1a359e9c03ec4e9cb60",
+    "file_size_bytes": 212050,
+    "scraped_at": "2026-03-25T16:07:48.958048+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "ASCP_2021_COMET_TRD_poster_FINAL.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/ASCP_2021_COMET_TRD_poster_FINAL.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "poster",
+    "sha256": "bdf53effa5bcbaed4cc7d7e7021341a0e8e60b35944111f600b876628adf27bf",
+    "file_size_bytes": 232633,
+    "scraped_at": "2026-03-25T16:07:48.987683+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "ASCP_2021_COMET_overall_poster_FINAL.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/ASCP_2021_COMET_overall_poster_FINAL.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "poster",
+    "sha256": "d2565278b19669ace89b7589f9d34ffc17a3a2fc457028a3110431fdb593c788",
+    "file_size_bytes": 243680,
+    "scraped_at": "2026-03-25T16:07:49.138646+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "Axsome_AXS-05-Poster-Presentation_CTAD-2020.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/Axsome_AXS-05-Poster-Presentation_CTAD-2020.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "poster",
+    "sha256": "344c0177f66d3cf384c8d87fd0b21c68eb4d65dfd073ff8d103afcb1312d2974",
+    "file_size_bytes": 1213728,
+    "scraped_at": "2026-03-25T16:07:49.199316+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "AHS_2021_MOVEMENT_poster_4_30_21_FINAL.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/AHS_2021_MOVEMENT_poster_4_30_21_FINAL.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "poster",
+    "sha256": "0cb22e5d0f774bd09525b442e35af2e16ab99b8cf2cc8f8ecfd201178b14e2d9",
+    "file_size_bytes": 199563,
+    "scraped_at": "2026-03-25T16:07:49.225068+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "AHS_2021_INTERCEPT_Oral_Presentation_4_30_21_FINAL.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/AHS_2021_INTERCEPT_Oral_Presentation_4_30_21_FINAL.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "other",
+    "sha256": "57ab647cd98b2b762b9a463f13706073cf726249eb83cb93bbaecf81ae3b92cf",
+    "file_size_bytes": 369119,
+    "scraped_at": "2026-03-25T16:07:49.253412+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "AHS_2021_AXS_07_Comp_Eff_Poster_4_30_21_FINAL.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/AHS_2021_AXS_07_Comp_Eff_Poster_4_30_21_FINAL.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "poster",
+    "sha256": "060b087ed5e4168d0a331c0f29d400ce76028e695655e5e1b514bf4d5537f58e",
+    "file_size_bytes": 319245,
+    "scraped_at": "2026-03-25T16:07:49.324014+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "Axsome_AXS-07-Presentation_AAN-Emerging-Science-2020.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/Axsome_AXS-07-Presentation_AAN-Emerging-Science-2020.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "other",
+    "sha256": "b9360fcecf4b7c982c834d19d93dbb360919858f83f8cf8080be0e13cda69d66",
+    "file_size_bytes": 1039816,
+    "scraped_at": "2026-03-25T16:07:49.376505+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "Axsome-AXS-07-Poster-Presentation-IHC-2019.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/Axsome-AXS-07-Poster-Presentation-IHC-2019.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "poster",
+    "sha256": "0163de127085be08c447e8f3e258369a404b9300eaf48208e2e1d054248b3298",
+    "file_size_bytes": 660087,
+    "scraped_at": "2026-03-25T16:07:49.443924+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  },
+  "SLEEP-Poster_2020-Final.pdf": {
+    "source_url": "https://www.axsome.com/wp-content/uploads/2024/11/SLEEP-Poster_2020-Final.pdf",
+    "title": "see publication",
+    "date": "2024-11-01",
+    "doc_type": "poster",
+    "sha256": "dd570facfa224e30b3deba7b2c3ca4ebbb5667e436c8d639a40d170f7b55fd96",
+    "file_size_bytes": 353579,
+    "scraped_at": "2026-03-25T16:07:49.472976+00:00",
+    "source_page": "https://www.axsome.com/science/publications/",
+    "page_type": "publications"
+  }
+}

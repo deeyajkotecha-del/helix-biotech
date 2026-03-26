@@ -1,0 +1,134 @@
+{
+  "be6db19e-b8f4-4b89-961a-cf469eae13e6.pdf": {
+    "source_url": "https://ir.pyxisoncology.com/static-files/be6db19e-b8f4-4b89-961a-cf469eae13e6",
+    "title": "March 2026 Corporate Deck",
+    "date": "2026-03-01",
+    "doc_type": "other",
+    "sha256": "fd7a5081a4aabe9b757472ed03d7eddeda43f9bc640d0912b1fecd7aae7d561b",
+    "file_size_bytes": 1858398,
+    "scraped_at": "2026-03-25T16:23:57.996164+00:00",
+    "source_page": "https://ir.pyxisoncology.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "85950c0c-2035-4abc-b882-f819709474da.pdf": {
+    "source_url": "https://ir.pyxisoncology.com/static-files/85950c0c-2035-4abc-b882-f819709474da",
+    "title": "Pyxis Oncology MICVO R/M HNSCC Clinical Update Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "ccfff8e031f7abc2cc07bccca02f10b23a7159a68cc9572101a6438ccb75635d",
+    "file_size_bytes": 1653461,
+    "scraped_at": "2026-03-25T16:24:00.098027+00:00",
+    "source_page": "https://ir.pyxisoncology.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "Pyxis_SITC_2025_Poster_Tip_Combo_PYX-201-102_Final_Print.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/Pyxis_SITC_2025_Poster_Tip_Combo_PYX-201-102_Final_Print.pdf",
+    "title": "A Phase 1/2 Study of a First-in-Class Non-Cellular Antibody-Drug Conjugate, Micvotabart Pelidotin (MICVO), in Combination with Pembrolizumab in Select Advanced Solid Tumors \u2013 Abstract Number: 548",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "3bf862d3ef74322d643934bfda383771d1f915daf263f4ad2e7983a57af80dc3",
+    "file_size_bytes": 654732,
+    "scraped_at": "2026-03-25T16:24:05.213044+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "AACR-NCI-EORTC-2025_MI-final-poster.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/AACR-NCI-EORTC-2025_MI-final-poster.pdf",
+    "title": "Micvotabart pelidotin induces immunogenic cell death markers and activates tumor immune cells in pre-clinical studies \u2013 Abstract Number: A112",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "f6dfc31ae0a56d91e8ec5a0371135c0468656614279a30b043b5542ac14f5428",
+    "file_size_bytes": 946292,
+    "scraped_at": "2026-03-25T16:24:05.338095+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "AACR_NCI_EORTC_immune_intfilt_2025_EL_Final.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/AACR_NCI_EORTC_immune_intfilt_2025_EL_Final.pdf",
+    "title": "Micvotabart pelidotin, an ADC targeting non-cellular EDB+FN, induces an immune response in tumors from participants in a phase 1 dose escalation study \u2013 Abstract Number: A114",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "28039b90bdc274ecc9e7b976baea9587b6d584524f86c011a29c4a297227f8fd",
+    "file_size_bytes": 1582892,
+    "scraped_at": "2026-03-25T16:24:05.394072+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "AACR-NCI-EORTC-2025_CS_Final.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/AACR-NCI-EORTC-2025_CS_Final.pdf",
+    "title": "Characterization of micvotabart pelidotin target binding properties and extracellular payload release \u2013 Abstract Number: A116",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "a6c2cedf2e9d74bf1fd8afcf7b20d15240bdbffbde98f2f7960391b90d90fc5e",
+    "file_size_bytes": 1704610,
+    "scraped_at": "2026-03-25T16:24:05.450821+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "AACR-NCI-EORTC-2025_JT_final.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/AACR-NCI-EORTC-2025_JT_final.pdf",
+    "title": "Development of multiplex immunofluorescence workflows for characterizing tumor-immune and stromal compartments for pharmacodynamic assessments of solid tumors \u2013 Abstract Number: A117",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "abf49f39b2a99f595e3a0473d832dcc559fcb4f0d87ba48f244a9c6f375569c2",
+    "file_size_bytes": 6877381,
+    "scraped_at": "2026-03-25T16:24:05.592858+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "AACR-NCI-EORTC-2025_Anthony-final-poster-UPDATED.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/AACR-NCI-EORTC-2025_Anthony-final-poster-UPDATED.pdf",
+    "title": "Mouse analog of micvotabart pelidotin sensitizes a refractory syngeneic breast cancer model to anti-PD1 therapy \u2013 Abstract Number: A115",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "86de9b389af2f6c2480bcebe23b1d3a55c195a7d172cc5718d96651ffdd6a180",
+    "file_size_bytes": 2331543,
+    "scraped_at": "2026-03-25T16:24:05.657562+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "AACR-NCI-EORTC-2025_SL_Final.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/AACR-NCI-EORTC-2025_SL_Final.pdf",
+    "title": "Micvotabart pelidotin, a non-cellular targeting ADC, remodels the tumor microenvironment in tumors from participants in a phase 1 dose escalation study \u2013 Abstract Number: A113",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "0d4ad9b7a34eb1de779cb01106fb99eedc07f71e4b07637aecd909380f804693",
+    "file_size_bytes": 3178376,
+    "scraped_at": "2026-03-25T16:24:05.730795+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "Pyxis-ESMO-2025-Poster_1025eTip-PYX201-Pembro-Combo_vFinal-10.10.25.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/Pyxis-ESMO-2025-Poster_1025eTip-PYX201-Pembro-Combo_vFinal-10.10.25.pdf",
+    "title": "A Phase 1/2 Study of a First-in-Class Non-Cellular Antibody-Drug Conjugate, Micvotabart Pelidotin (MICVO), in Combination with Pembrolizumab in Select Advanced Solid Tumors \u2013 Abstract Number: 1025",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "dcd45a4d85e6384ee821b9b267c7ad19908aac074379b1036d45e44b74590209",
+    "file_size_bytes": 933401,
+    "scraped_at": "2026-03-25T16:24:05.852317+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "ESMO-2025-Poster_1031eTiP-Mono_FINAL.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/ESMO-2025-Poster_1031eTiP-Mono_FINAL.pdf",
+    "title": "Phase 1 Expansion Study of the First-in-Concept Extracellular Antibody-Drug Conjugate (ADC), Micvotabart Pelidotin (MICVO), in Patients with Select Advanced Solid Tumors \u2013 Abstract Number: 1031",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "01d3b124d21d26297ca341ee6a362492a08acf39a3d7a4b16b712beabfc091d5",
+    "file_size_bytes": 970056,
+    "scraped_at": "2026-03-25T16:24:05.884134+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  },
+  "Pyxis-ESMO-2025-Poster-1014e-IHC_FINAL-1.pdf": {
+    "source_url": "https://pyxisoncology.com/wp-content/uploads/Pyxis-ESMO-2025-Poster-1014e-IHC_FINAL-1.pdf",
+    "title": "Histological biomarker analysis of nonclinical and baseline tumor samples from the phase 1 dose escalation study using micvotabart pelidotin (MICVO) in advanced solid tumors \u2013 Abstract Number: 1014",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "7ef7e3920d2dc61979d9c83ec51ee30a746e2473ae5f1e71052c853ea68f1efe",
+    "file_size_bytes": 2326174,
+    "scraped_at": "2026-03-25T16:24:05.936697+00:00",
+    "source_page": "https://pyxisoncology.com/clinical-programs/scientific-publications/",
+    "page_type": "publications"
+  }
+}

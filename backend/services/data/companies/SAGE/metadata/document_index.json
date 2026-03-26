@@ -1,0 +1,24 @@
+{
+  "Qelbree-Prescribing-Info.pdf": {
+    "source_url": "https://www.supernus.com/sites/default/files/Qelbree-Prescribing-Info.pdf",
+    "title": "PRESCRIBING INFORMATION>",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "0159294d83edd60050ad23cf7b4494ea75669dafd01e032d299d16145f52728c",
+    "file_size_bytes": 595982,
+    "scraped_at": "2026-03-25T16:27:17.755421+00:00",
+    "source_page": "https://investor.sagerx.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "Qelbree-Medication-Guide.pdf": {
+    "source_url": "https://www.supernus.com/sites/default/files/Qelbree-Medication-Guide.pdf",
+    "title": "MEDICATION GUIDE>",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "98eff9d86a1308fa76b01fcc5fd79e2b3265383078c6b4878b8a1fcacf736584",
+    "file_size_bytes": 93917,
+    "scraped_at": "2026-03-25T16:27:18.125490+00:00",
+    "source_page": "https://investor.sagerx.com/events-and-presentations",
+    "page_type": "events"
+  }
+}

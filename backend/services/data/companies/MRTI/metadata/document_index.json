@@ -1,0 +1,57 @@
+{
+  "BMS-340B-Practice-Fact-Sheet.pdf": {
+    "source_url": "https://ir.mirati.com/assets/bms/us/en-us/pdf/BMS-340B-Practice-Fact-Sheet.pdf",
+    "title": "340B practice fact sheet",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "b67c5596002b990137d8a8be0cd17b490e60ce9a67f2f19a864f8c84bd5d6e0d",
+    "file_size_bytes": 168751,
+    "scraped_at": "2026-03-25T16:16:58.243655+00:00",
+    "source_page": "https://ir.mirati.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "bms-business-development-brochure.pdf": {
+    "source_url": "https://ir.mirati.com/assets/bms/us/en-us/pdf/bms-business-development-brochure.pdf",
+    "title": "Download business development brochure",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "188859f08b0449a5b2f5041dc8d828062a51cacfc092e3637d6448c6a330c66a",
+    "file_size_bytes": 168752,
+    "scraped_at": "2026-03-25T16:16:58.282267+00:00",
+    "source_page": "https://ir.mirati.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "global-access-report.pdf": {
+    "source_url": "https://ir.mirati.com/assets/bms/us/en-us/pdf/global-access-report.pdf",
+    "title": "Global access report",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "5b038f8f34b984592912d0c7f8b3df5c14d1ffb35e4e2a6d90ff751c057b68f3",
+    "file_size_bytes": 168753,
+    "scraped_at": "2026-03-25T16:16:58.324764+00:00",
+    "source_page": "https://ir.mirati.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "abraxane-cvr-notification.pdf": {
+    "source_url": "https://ir.mirati.com/assets/bms/us/en-us/pdf/abraxane-cvr-notification.pdf",
+    "title": "Abraxane CVR notification",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "d710f692e4b9f8d1c72ea3c91432ab191ff8df35e60b13395583d075fa5a35de",
+    "file_size_bytes": 168753,
+    "scraped_at": "2026-03-25T16:16:58.366015+00:00",
+    "source_page": "https://ir.mirati.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "UK-CA-Slavery-Human-Trafficking-Statement.pdf": {
+    "source_url": "https://ir.mirati.com/assets/bms/us/english-documents/our-principles/UK-CA-Slavery-Human-Trafficking-Statement.pdf",
+    "title": "BMS Modern Slavery Statement (PDF)",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "d98be9f156e502862f8846be675942a1cd8f52422600d78cf51357ff4455c017",
+    "file_size_bytes": 168753,
+    "scraped_at": "2026-03-25T16:16:58.413104+00:00",
+    "source_page": "https://ir.mirati.com/events-and-presentations",
+    "page_type": "events"
+  }
+}

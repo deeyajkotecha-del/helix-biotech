@@ -1,0 +1,167 @@
+{
+  "22622776-dad2-4bb2-b63d-50cf8beedb5f.pdf": {
+    "source_url": "https://ir.immunitybio.com/static-files/22622776-dad2-4bb2-b63d-50cf8beedb5f",
+    "title": "Investor Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "ccd217a94d1b5f82a8ba62ccf0cafb2c80dec6db3046552e1a4a6362e677eebd",
+    "file_size_bytes": 2293887,
+    "scraped_at": "2026-03-25T16:12:52.168518+00:00",
+    "source_page": "https://ir.immunitybio.com/company/events-and-presentations",
+    "page_type": "events"
+  },
+  "nci_manuscript.pdf": {
+    "source_url": "https://sitc.sitcancer.org/news/nci_manuscript.pdf",
+    "title": "View on SITC",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "8a8775b2d588793e92e061a041cf0cf225a4142db3f37fd54a2b28aab8170f4c",
+    "file_size_bytes": 994569,
+    "scraped_at": "2026-03-25T16:13:12.328148+00:00",
+    "source_page": "https://ir.immunitybio.com/company/events-and-presentations",
+    "page_type": "events"
+  },
+  "125514s034lbl.pdf": {
+    "source_url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2018/125514s034lbl.pdf",
+    "title": "View on FDA.gov",
+    "date": "2018-06-01",
+    "doc_type": "press_release",
+    "sha256": "cc533aee6c10bc221353342d54d9fab449ca5a04d4db3f0bab8c7d93ecc4a422",
+    "file_size_bytes": 3442994,
+    "scraped_at": "2026-03-25T16:13:25.997745+00:00",
+    "source_page": "https://ir.immunitybio.com/company/events-and-presentations",
+    "page_type": "events"
+  },
+  "AACR2025-Poster-890-Himani-Chinnapen-ImmunityBio.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2025/05/AACR2025-Poster-890-Himani-Chinnapen-ImmunityBio.pdf",
+    "title": "Abstract 890: Abstract 890: NK-92\u00ae (aNK\u2122) whole cell lysate exerts potent cytotoxic\u2026",
+    "date": "2025-05-01",
+    "doc_type": "poster",
+    "sha256": "f10d19e588e1595c278a914808db1208b9b259197c3d8db3e211207202cba593",
+    "file_size_bytes": 1500681,
+    "scraped_at": "2026-03-25T16:13:31.474852+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "AACR2025-Poster-894-Dustin-Elwood-ImmunityBio.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2025/05/AACR2025-Poster-894-Dustin-Elwood-ImmunityBio.pdf",
+    "title": "Abstract 894: Generation of cytokine-induced memory-like PD-L1 t-haNK (NK-92\u00ae) cells",
+    "date": "2025-05-01",
+    "doc_type": "poster",
+    "sha256": "a87df2768f369d2aed5024287cd8cf2ecd19456a300ef432855f0b5384480ba5",
+    "file_size_bytes": 1552646,
+    "scraped_at": "2026-03-25T16:13:31.779556+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "AACR2025-Poster-885-Ivan-Fung-ImmunityBio.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2025/05/AACR2025-Poster-885-Ivan-Fung-ImmunityBio.pdf",
+    "title": "Abstract 885: Generation and characterization of NK-92\u00ae (aNK ) cells with\u2026",
+    "date": "2025-05-01",
+    "doc_type": "poster",
+    "sha256": "002db485e941ee321070ff6e70552720dade2e6ef8607a5a03bd824678add98a",
+    "file_size_bytes": 454110,
+    "scraped_at": "2026-03-25T16:13:31.968518+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "ANKTIVA-BCG-Naive.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2024/05/ANKTIVA-BCG-Naive.pdf",
+    "title": "ANKTIVA Synergizes with T Cell Activity of BCG in Both the Na\u00efve and Unresponsive\u2026",
+    "date": "2024-05-01",
+    "doc_type": "other",
+    "sha256": "06b2175103c7fe29874559490063d01ed2f1248308d5bf97ad69b5378c35be2b",
+    "file_size_bytes": 10818969,
+    "scraped_at": "2026-03-25T16:13:32.350171+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "2022.06.03-ASCO22-QUILT-88.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2022/06/2022.06.03-ASCO22-QUILT-88.pdf",
+    "title": "Phase 2 QUILT 88 trial of DAMP inducers combined with IL15 superagonist, N-803 and anti\u2026",
+    "date": "2022-06-01",
+    "doc_type": "poster",
+    "sha256": "f7fe4e16d881f108fa34914e216dab10c41eee2897b7b423f625440f6d8dd9fc",
+    "file_size_bytes": 308641,
+    "scraped_at": "2026-03-25T16:13:32.594258+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "2022.06.03-Karim-Chamie-ASCO-Oral-June-22-AM-Final.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2022/06/2022.06.03-Karim-Chamie-ASCO-Oral-June-22-AM-Final.pdf",
+    "title": "QUILT 3032: Final clinical results of pivotal trial of IL-15R\u03b1Fc superagonist N-803 with\u2026",
+    "date": "2022-06-01",
+    "doc_type": "poster",
+    "sha256": "660f3f805df4e8c139745bd74b445ec0506f9edc02dbf86da281a7eeb2261ee6",
+    "file_size_bytes": 1223481,
+    "scraped_at": "2026-03-25T16:13:32.815237+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "ASCO_%20June_Annual_Meeting.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2022/06/ASCO_%20June_Annual_Meeting.pdf",
+    "title": "ASCO 2022 Annual Meeting Oral Presentation",
+    "date": "2022-06-01",
+    "doc_type": "poster",
+    "sha256": "55b9106056fc786a5603167ab80b6f20f34c73b9cc2fdeb720cf22227d783657",
+    "file_size_bytes": 1494888,
+    "scraped_at": "2026-03-25T16:13:33.042085+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "ASCO-GU-2022.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2022/02/ASCO-GU-2022.pdf",
+    "title": "Phase II/III clinical results of IL-15R\u03b1Fc superagonist N-803 with BCG in\u2026",
+    "date": "2022-02-01",
+    "doc_type": "poster",
+    "sha256": "441166ffe3bda15143cd5180bbfc4f1c4a49c7d911b48fa08340038cd81b91b7",
+    "file_size_bytes": 1753345,
+    "scraped_at": "2026-03-25T16:13:33.278529+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "CCR7CD19-t-haNK.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2022/05/CCR7CD19-t-haNK.pdf",
+    "title": "CCR7 expression in CD19 chimeric antigen receptor-engineered natural killer cells\u2026",
+    "date": "2022-05-01",
+    "doc_type": "other",
+    "sha256": "5765092b9b7c70177cc019d17f1e562921a11af28b2c935ca268ad2ba6b0d0db",
+    "file_size_bytes": 1829661,
+    "scraped_at": "2026-03-25T16:13:33.549482+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "ASCO-2022-Genitourinary-Cancers-Symposium-poster.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2022/02/ASCO-2022-Genitourinary-Cancers-Symposium-poster.pdf",
+    "title": "QUILT-88: NANT Pancreatic Cancer Vaccine in 3rd, 4th, & 5th Line Advanced Disease",
+    "date": "2022-02-01",
+    "doc_type": "poster",
+    "sha256": "0a698d083004531612625d5b09449477b50eda9b143c8dea0704736b19626104",
+    "file_size_bytes": 283301,
+    "scraped_at": "2026-03-25T16:13:33.774258+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "3.055-asco-2021-final.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2021/06/3.055-asco-2021-final.pdf",
+    "title": "Preliminary data from QUILT 3.055: a phase 2 multi-cohort study of N803 (IL-15\u2026",
+    "date": "2021-06-01",
+    "doc_type": "poster",
+    "sha256": "d5741ea555a7b7845d0879657c500ddd6d60bb19a2cbc3b36e503eacc37d77cf",
+    "file_size_bytes": 290930,
+    "scraped_at": "2026-03-25T16:13:33.952544+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  },
+  "Mechanisms-of-Resistance-to-T-Cell-Based-Immunotherapy-in-Head-and-Neck-Cancer-Lee-Allen.pdf": {
+    "source_url": "https://immunitybio.com/wp-content/uploads/2021/08/Mechanisms-of-Resistance-to-T-Cell-Based-Immunotherapy-in-Head-and-Neck-Cancer-Lee-Allen.pdf",
+    "title": "Mechanisms of resistance to T cell-based immunotherapy in head and neck cancer",
+    "date": "2021-08-01",
+    "doc_type": "other",
+    "sha256": "f8a857e7127d74017c4af5f8ec9cb21ea66b304c7a06a29f6602f82347561897",
+    "file_size_bytes": 1031115,
+    "scraped_at": "2026-03-25T16:13:34.277337+00:00",
+    "source_page": "https://immunitybio.com/research/",
+    "page_type": "publications"
+  }
+}

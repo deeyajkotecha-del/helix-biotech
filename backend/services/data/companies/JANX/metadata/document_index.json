@@ -1,0 +1,90 @@
+{
+  "R-D-Day-Analyst-Q-A-Transcript.pdf": {
+    "source_url": "https://s201.q4cdn.com/681340001/files/doc_events/2025/Jul/24/R-D-Day-Analyst-Q-A-Transcript.pdf",
+    "title": "Analyst Q&A TranscriptOpen Event Link, PDF file, July 24, 2025, (opens in new window)",
+    "date": "2025-07-24",
+    "doc_type": "other",
+    "sha256": "fca3fcdf661eeb84f8b0920af13c8947072b1196124924bda4661ccd32c1397a",
+    "file_size_bytes": 150655,
+    "scraped_at": "2026-03-25T16:14:28.371233+00:00",
+    "source_page": "https://investors.januxrx.com/investor-media/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JANUX-NC-RD-DAY-DECK-FINAL.pdf": {
+    "source_url": "https://s201.q4cdn.com/681340001/files/doc_events/2025/Jul/24/JANUX-NC-RD-DAY-DECK-FINAL.pdf",
+    "title": "PresentationOpen Event Link, PDF file, July 24, 2025, (opens in new window)",
+    "date": "2025-07-24",
+    "doc_type": "other",
+    "sha256": "95362a95a9e9a4760a95f0356bc98ebfadd682d3caee1b9a3640a56c4dee0f9b",
+    "file_size_bytes": 2920945,
+    "scraped_at": "2026-03-25T16:14:28.609183+00:00",
+    "source_page": "https://investors.januxrx.com/investor-media/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JANUX-NC-JANX007-PU-DECK-FINAL-12012025.pdf": {
+    "source_url": "https://s201.q4cdn.com/681340001/files/doc_presentations/2025/Dec/01/JANUX-NC-JANX007-PU-DECK-FINAL-12012025.pdf",
+    "title": "DownloadPDF file, (opens in new window)",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "52837e6075dcf056eb650d09501fae901b514115e0e7d709de0f17f14419849c",
+    "file_size_bytes": 1289092,
+    "scraped_at": "2026-03-25T16:14:28.691571+00:00",
+    "source_page": "https://investors.januxrx.com/investor-media/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "JANUX-NC-YEAREND-UPDATE-UPLOAD-DECK-FINAL-12022024.pdf": {
+    "source_url": "https://s201.q4cdn.com/681340001/files/doc_presentations/2024/Dec/02/JANUX-NC-YEAREND-UPDATE-UPLOAD-DECK-FINAL-12022024.pdf",
+    "title": "DownloadPDF(opens in new window)",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "52b1f8dc19b7b44fa8f153d9ab4ed0b9a59857feb80bb5f245bb8c7c1093584e",
+    "file_size_bytes": 1620585,
+    "scraped_at": "2026-03-25T16:14:29.245823+00:00",
+    "source_page": "https://investors.januxrx.com/investor-media/events-and-presentations/default.aspx",
+    "page_type": "events"
+  },
+  "DiRaimondo_PSMA-poster_Final_SITC2022.pdf": {
+    "source_url": "https://www.januxrx.com/wp-content/uploads/2022/11/DiRaimondo_PSMA-poster_Final_SITC2022.pdf",
+    "title": "Preclinical Activity and Safety Profile of JANX007, a Novel PSMA-Targeting Tumor-Activated T Cell Engager for Treatment of Metastatic Castration-Resistant Prostate Cancer",
+    "date": "2022-11-01",
+    "doc_type": "poster",
+    "sha256": "802c4c739df12d60fb341a42908e91e05d8e8f515548fae74d8126b7e38ace56",
+    "file_size_bytes": 776681,
+    "scraped_at": "2026-03-25T16:14:33.577608+00:00",
+    "source_page": "https://www.januxrx.com/publications/",
+    "page_type": "publications"
+  },
+  "DiRaimondo_EGFR-poster_Final_SITC2022.pdf": {
+    "source_url": "https://www.januxrx.com/wp-content/uploads/2022/11/DiRaimondo_EGFR-poster_Final_SITC2022.pdf",
+    "title": "Preclinical Development of an EGFR-Targeted Tumor-Activated T Cell Engager (JANX008) with Enhanced Safety to Activity Multiple and Pharmacokinetics Profile",
+    "date": "2022-11-01",
+    "doc_type": "poster",
+    "sha256": "5c745319849d6a86cb675fe5f09a3c1731e9fa8f85df719f50e4b68d3a6f7089",
+    "file_size_bytes": 624694,
+    "scraped_at": "2026-03-25T16:14:33.632798+00:00",
+    "source_page": "https://www.januxrx.com/publications/",
+    "page_type": "publications"
+  },
+  "Shahram-Salek-Ardakani_JANX007_PEGS.pdf": {
+    "source_url": "https://www.januxrx.com/wp-content/uploads/2022/11/Shahram-Salek-Ardakani_JANX007_PEGS.pdf",
+    "title": "Preclinical Activity and Safety Profile of JANX007, a Novel PSMA-Targeting Tumor-Activated T Cell Engager for Treatment of Metastatic Castration-Resistant Prostate Cancer",
+    "date": "2022-11-01",
+    "doc_type": "other",
+    "sha256": "5294064cd73e97ceb1c327b971354152d20dbb534fd6b16e297b672c2cd615ea",
+    "file_size_bytes": 912668,
+    "scraped_at": "2026-03-25T16:14:33.687215+00:00",
+    "source_page": "https://www.januxrx.com/publications/",
+    "page_type": "publications"
+  },
+  "Shahram-Salek-Ardakani_JANX008_PEGS.pdf": {
+    "source_url": "https://www.januxrx.com/wp-content/uploads/2022/11/Shahram-Salek-Ardakani_JANX008_PEGS.pdf",
+    "title": "Preclinical Development of an EGFR-Targeted Tumor-Activated T Cell Engager (JANX008) with Enhanced Safety to Activity Multiple and Pharmacokinetics Profile",
+    "date": "2022-11-01",
+    "doc_type": "other",
+    "sha256": "8e254fe753748af34d457a4f941a523430c2b6c4c987253eda8ce3bf360176ae",
+    "file_size_bytes": 792295,
+    "scraped_at": "2026-03-25T16:14:33.841443+00:00",
+    "source_page": "https://www.januxrx.com/publications/",
+    "page_type": "publications"
+  }
+}

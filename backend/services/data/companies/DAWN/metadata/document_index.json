@@ -1,0 +1,24 @@
+{
+  "e2fdf637-a90b-4c46-bcd4-a818b9cd633f.pdf": {
+    "source_url": "https://ir.dayonebio.com/static-files/e2fdf637-a90b-4c46-bcd4-a818b9cd633f",
+    "title": "Corporate presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "439430ecf83bdc8f00707475012ad44daeb4443422bc267daaed13a18e41fb5a",
+    "file_size_bytes": 7134049,
+    "scraped_at": "2026-03-25T16:10:57.880132+00:00",
+    "source_page": "https://ir.dayonebio.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "7a734721-5e22-4c2b-83a8-c72ffb2020cc.pdf": {
+    "source_url": "https://ir.dayonebio.com/static-files/7a734721-5e22-4c2b-83a8-c72ffb2020cc",
+    "title": "Q4 2025 Earnings Call",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "459b71d9e174cef7074e5de01ec446e4353a1045b8707ef41f88268d4661b6b3",
+    "file_size_bytes": 1470638,
+    "scraped_at": "2026-03-25T16:10:58.378165+00:00",
+    "source_page": "https://ir.dayonebio.com/events-and-presentations",
+    "page_type": "events"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "BMS-340B-Practice-Fact-Sheet.pdf": {
+    "source_url": "https://www.bms.com/assets/bms/us/en-us/pdf/BMS-340B-Practice-Fact-Sheet.pdf",
+    "title": "340B practice fact sheet",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "372b423aeb15b460c7ebdbd67dfd2cd74a9399544fac5dab52001f45d0626099",
+    "file_size_bytes": 117841,
+    "scraped_at": "2026-03-25T16:09:12.236412+00:00",
+    "source_page": "https://www.bms.com/investors/events-and-presentations.html",
+    "page_type": "events"
+  },
+  "bms-business-development-brochure.pdf": {
+    "source_url": "https://www.bms.com/assets/bms/us/en-us/pdf/bms-business-development-brochure.pdf",
+    "title": "Download business development brochure",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "f85108ee7a6327e044421e0b3f6c6c78435c8f6d12e63e96a3502ccb5219bbbb",
+    "file_size_bytes": 682301,
+    "scraped_at": "2026-03-25T16:09:12.357995+00:00",
+    "source_page": "https://www.bms.com/investors/events-and-presentations.html",
+    "page_type": "events"
+  },
+  "UK-CA-Slavery-Human-Trafficking-Statement.pdf": {
+    "source_url": "https://www.bms.com/assets/bms/us/english-documents/our-principles/UK-CA-Slavery-Human-Trafficking-Statement.pdf",
+    "title": "BMS Modern Slavery Statement (PDF)",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "984bb4e051fc4a9dda17f7f3401354425c98988b4e37c86cc478ccc1dc753cf5",
+    "file_size_bytes": 172418,
+    "scraped_at": "2026-03-25T16:09:12.467418+00:00",
+    "source_page": "https://www.bms.com/investors/events-and-presentations.html",
+    "page_type": "events"
+  }
+}

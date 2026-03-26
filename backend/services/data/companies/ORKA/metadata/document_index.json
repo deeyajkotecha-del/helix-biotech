@@ -1,0 +1,57 @@
+{
+  "9ddc4b92-1c6d-4156-8fe1-232be0911c31.pdf": {
+    "source_url": "https://ir.orukatx.com/static-files/9ddc4b92-1c6d-4156-8fe1-232be0911c31",
+    "title": "Corporate Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "2e90b48121a6f85f3c81e6deb2c5475aea193244653cbc716da113030585b373",
+    "file_size_bytes": 2983608,
+    "scraped_at": "2026-03-25T16:22:46.942605+00:00",
+    "source_page": "https://ir.orukatx.com/news-events/events-presentations",
+    "page_type": "events"
+  },
+  "ba32a46e-03c3-4ea4-8287-1e0f89ac3bc4.pdf": {
+    "source_url": "https://ir.orukatx.com/static-files/ba32a46e-03c3-4ea4-8287-1e0f89ac3bc4",
+    "title": "EADV 2025 - ORKA-001 Phase 1 Results",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "9c7f9fa11b1686054a1fc8e80d9e3ccb519672078828e2b7933b430515f4a04c",
+    "file_size_bytes": 1268406,
+    "scraped_at": "2026-03-25T16:22:47.379462+00:00",
+    "source_page": "https://ir.orukatx.com/news-events/events-presentations",
+    "page_type": "events"
+  },
+  "e260cee9-abdd-4f68-9af4-fd0c5b30b129.pdf": {
+    "source_url": "https://ir.orukatx.com/static-files/e260cee9-abdd-4f68-9af4-fd0c5b30b129",
+    "title": "EADV 2025 - EVERLAST-A Phase 2a Study Design",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "130682336d840e48861899681b7cde42d9bbf9ff723cbbc95197f4af0b84c833",
+    "file_size_bytes": 1547407,
+    "scraped_at": "2026-03-25T16:22:47.787706+00:00",
+    "source_page": "https://ir.orukatx.com/news-events/events-presentations",
+    "page_type": "events"
+  },
+  "24993d7e-00db-4d9b-b957-dbd151b643ee.pdf": {
+    "source_url": "https://ir.orukatx.com/static-files/24993d7e-00db-4d9b-b957-dbd151b643ee",
+    "title": "AAD 2025 \u2014 Characterization of ORKA-002",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "3f93d845bf8f9b3c9196b19fbe7cf476e71f3af9f5174b51c68b692b9f38d40b",
+    "file_size_bytes": 418223,
+    "scraped_at": "2026-03-25T16:22:48.310503+00:00",
+    "source_page": "https://ir.orukatx.com/news-events/events-presentations",
+    "page_type": "events"
+  },
+  "b023a5ea-4111-4c0c-82bf-c713a5bcd321.pdf": {
+    "source_url": "https://ir.orukatx.com/static-files/b023a5ea-4111-4c0c-82bf-c713a5bcd321",
+    "title": "EADV 2024 - Characterization of ORKA-001",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "362c1d93fccc2dc19f4b67c4fa23a5fbf0f826dd242f6374c713e5abd1b45555",
+    "file_size_bytes": 3456422,
+    "scraped_at": "2026-03-25T16:22:48.916778+00:00",
+    "source_page": "https://ir.orukatx.com/news-events/events-presentations",
+    "page_type": "events"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "6759ed5a-3de5-4ea9-81b2-ba99abfb333f.pdf": {
+    "source_url": "https://investors.vrtx.com/static-files/6759ed5a-3de5-4ea9-81b2-ba99abfb333f",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "2c9e7ff31d0cd6bb91f00cf1da40fcac5a71affe6330d13b2e00c6fc891d26b4",
+    "file_size_bytes": 1059200,
+    "scraped_at": "2026-03-25T16:31:56.303091+00:00",
+    "source_page": "https://investors.vrtx.com/events-presentations",
+    "page_type": "events"
+  },
+  "662775e3-dbae-42ae-a6ad-2c3bd0f5cbbb.pdf": {
+    "source_url": "https://investors.vrtx.com/static-files/662775e3-dbae-42ae-a6ad-2c3bd0f5cbbb",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "66415ce63bf0598254e22aa0325c3f775bcd0f06c09a1b5b18b87e09026603e5",
+    "file_size_bytes": 1722787,
+    "scraped_at": "2026-03-25T16:31:56.864730+00:00",
+    "source_page": "https://investors.vrtx.com/events-presentations",
+    "page_type": "events"
+  },
+  "cb654967-375f-4d32-be6e-de504538246a.pdf": {
+    "source_url": "https://investors.vrtx.com/static-files/cb654967-375f-4d32-be6e-de504538246a",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "235126f534128a13b6417dbfae1b1920720b2316a49524247f7f65f2004d88e8",
+    "file_size_bytes": 4716786,
+    "scraped_at": "2026-03-25T16:31:57.491730+00:00",
+    "source_page": "https://investors.vrtx.com/events-presentations",
+    "page_type": "events"
+  },
+  "7bd09616-955e-41a4-a1f2-cc1463a34521.pdf": {
+    "source_url": "https://investors.vrtx.com/static-files/7bd09616-955e-41a4-a1f2-cc1463a34521",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "1b2c4911483bcbf48972844278015b989150747fa76928d093b78c9cd08d0366",
+    "file_size_bytes": 1859920,
+    "scraped_at": "2026-03-25T16:31:58.316695+00:00",
+    "source_page": "https://investors.vrtx.com/events-presentations",
+    "page_type": "events"
+  },
+  "c5172a57-63f2-4ae5-8b19-f1fb2406f890.pdf": {
+    "source_url": "https://investors.vrtx.com/static-files/c5172a57-63f2-4ae5-8b19-f1fb2406f890",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "d449b9cf46adecb65a68eaf71d60eae7381c18ed643fe88ec26fd88fdac25c2b",
+    "file_size_bytes": 2127050,
+    "scraped_at": "2026-03-25T16:31:59.132756+00:00",
+    "source_page": "https://investors.vrtx.com/events-presentations",
+    "page_type": "events"
+  },
+  "151d22a7-61a3-4469-ae1f-2bc1196c8329.pdf": {
+    "source_url": "https://investors.vrtx.com/static-files/151d22a7-61a3-4469-ae1f-2bc1196c8329",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "e44d5b033aa4cbb795b00f34870215a30e11d0eca12ed92fa25cc6fa033df21e",
+    "file_size_bytes": 3111909,
+    "scraped_at": "2026-03-25T16:31:59.584525+00:00",
+    "source_page": "https://investors.vrtx.com/events-presentations",
+    "page_type": "events"
+  },
+  "f1e5e23f-953d-442a-b8b9-db44de4bdea9.pdf": {
+    "source_url": "https://investors.vrtx.com/static-files/f1e5e23f-953d-442a-b8b9-db44de4bdea9",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "6ca2badf37daaf93d76499001242fb37ad6a679a574a6896b22998d96b450f41",
+    "file_size_bytes": 1551616,
+    "scraped_at": "2026-03-25T16:32:00.104549+00:00",
+    "source_page": "https://investors.vrtx.com/events-presentations",
+    "page_type": "events"
+  }
+}

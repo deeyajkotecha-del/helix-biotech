@@ -1,0 +1,68 @@
+{
+  "202601_JPM Conference_slide.pdf": {
+    "source_url": "https://www.daiichisankyo.com/files/investors/library/materials/2025/202601_JPM Conference_slide.pdf",
+    "title": "Presentation material",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "495ca949f4517e55a6f928adf38fe09a5b4fcc3b803b16326315ec9f17ca6ffd",
+    "file_size_bytes": 2290787,
+    "scraped_at": "2026-03-25T16:11:02.244054+00:00",
+    "source_page": "https://www.daiichisankyo.com/investors/library/materials/",
+    "page_type": "events"
+  },
+  "ST Day 2025_Master file_E_20251215_v2.pdf": {
+    "source_url": "https://www.daiichisankyo.com/files/investors/library/materials/2025/ST Day 2025_Master file_E_20251215_v2.pdf",
+    "title": "Presentation material",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "a27980df41c0e611556b9fc7c7030a19c5496dd47c04a4f1326dea81c80d4055",
+    "file_size_bytes": 14056497,
+    "scraped_at": "2026-03-25T16:11:04.658365+00:00",
+    "source_page": "https://www.daiichisankyo.com/investors/library/materials/",
+    "page_type": "events"
+  },
+  "FY2025_Sustainability_Meeting_E.pdf": {
+    "source_url": "https://www.daiichisankyo.com/files/investors/library/materials/2025/FY2025_Sustainability_Meeting_E.pdf",
+    "title": "Presentation material",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "677aa9d52ca15c753c98683bbac77f815e3a8b406ac9ebaf218864b1f2e89f8c",
+    "file_size_bytes": 3047427,
+    "scraped_at": "2026-03-25T16:11:04.960060+00:00",
+    "source_page": "https://www.daiichisankyo.com/investors/library/materials/",
+    "page_type": "events"
+  },
+  "ESMO_2025_Highlights_final3.pdf": {
+    "source_url": "https://www.daiichisankyo.com/files/investors/library/materials/2025/ESMO_2025_Highlights_final3.pdf",
+    "title": "ESMO highlight briefing session material",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "28ae7dfa2f9f2e00ce0271975d80651a4c54b3656f70926533703506df4bbd5b",
+    "file_size_bytes": 5306814,
+    "scraped_at": "2026-03-25T16:11:05.399697+00:00",
+    "source_page": "https://www.daiichisankyo.com/investors/library/materials/",
+    "page_type": "events"
+  },
+  "WCLC_2025_Highlights_final.pdf": {
+    "source_url": "https://www.daiichisankyo.com/files/investors/library/materials/2025/WCLC_2025_Highlights_final.pdf",
+    "title": "WCLC highlight briefing session material",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "ec760cd91274f67ee3fc8894c6e116e7057d0e7e8c9e96935f22df5b1b929215",
+    "file_size_bytes": 5709978,
+    "scraped_at": "2026-03-25T16:11:05.843079+00:00",
+    "source_page": "https://www.daiichisankyo.com/investors/library/materials/",
+    "page_type": "events"
+  },
+  "ASCO_Highlights_2025_E2.pdf": {
+    "source_url": "https://www.daiichisankyo.com/files/investors/library/materials/2025/ASCO_Highlights_2025_E2.pdf",
+    "title": "ASCO highlight briefing session material",
+    "date": null,
+    "doc_type": "poster",
+    "sha256": "b6d892a72905bf1fc81c28930b23538fc90dcde8064a69d312541404f8aeb817",
+    "file_size_bytes": 1885368,
+    "scraped_at": "2026-03-25T16:11:06.214938+00:00",
+    "source_page": "https://www.daiichisankyo.com/investors/library/materials/",
+    "page_type": "events"
+  }
+}

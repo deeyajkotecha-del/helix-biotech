@@ -1,0 +1,57 @@
+{
+  "66f3cef4-c220-495c-a2a4-3b23516862ba.pdf": {
+    "source_url": "https://investors.vaxcyte.com/static-files/66f3cef4-c220-495c-a2a4-3b23516862ba",
+    "title": "Vaxcyte March Investor Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "93886351eef4bcec1eca0143eee9c04ef8113f6bb3108b91eb061ecdaed15875",
+    "file_size_bytes": 4628136,
+    "scraped_at": "2026-03-25T16:22:56.931088+00:00",
+    "source_page": "https://investors.vaxcyte.com/events-and-presentations/",
+    "page_type": "events"
+  },
+  "97303e91-c638-4c49-8684-26c5568d3c8e.pdf": {
+    "source_url": "https://investors.vaxcyte.com/static-files/97303e91-c638-4c49-8684-26c5568d3c8e",
+    "title": "VAX-24 Phase 2 Infant Study Final Results",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "75cd79c4fa8b2e0960aeda501c396f1c435bd9fe9458912cf7de6e5ddee7ecf6",
+    "file_size_bytes": 1265089,
+    "scraped_at": "2026-03-25T16:22:57.339261+00:00",
+    "source_page": "https://investors.vaxcyte.com/events-and-presentations/",
+    "page_type": "events"
+  },
+  "e069df04-9d63-480d-8376-0eac83477e16.pdf": {
+    "source_url": "https://investors.vaxcyte.com/static-files/e069df04-9d63-480d-8376-0eac83477e16",
+    "title": "VAX-24 Phase 2 Infant Study Interim Topline Results",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "ec4799b34fe3dab07cb5fc10a187d006f32e19af1e760f7a670a2ec7710b379e",
+    "file_size_bytes": 1560446,
+    "scraped_at": "2026-03-25T16:22:58.255536+00:00",
+    "source_page": "https://investors.vaxcyte.com/events-and-presentations/",
+    "page_type": "events"
+  },
+  "0ea5894b-bf9c-4a3e-988c-1eef3589664e.pdf": {
+    "source_url": "https://investors.vaxcyte.com/static-files/0ea5894b-bf9c-4a3e-988c-1eef3589664e",
+    "title": "VAX-31 Phase 1/2 Adult Study Results",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "e2e50d0208d46f756d0b7187ea705b0982a0ff808b4e01038edc402af331fea0",
+    "file_size_bytes": 1447303,
+    "scraped_at": "2026-03-25T16:23:00.135603+00:00",
+    "source_page": "https://investors.vaxcyte.com/events-and-presentations/",
+    "page_type": "events"
+  },
+  "90fd9df6-3990-4954-acd8-8e24690783a0.pdf": {
+    "source_url": "https://investors.vaxcyte.com/static-files/90fd9df6-3990-4954-acd8-8e24690783a0",
+    "title": "Vaxcyte VAX-24 Phase 2 65+ Adult Study Results",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "ba5d2d99fe645ff472c072ebbb5b45fa66d7e1c619fbeadaca6b346585e71dc5",
+    "file_size_bytes": 17098885,
+    "scraped_at": "2026-03-25T16:23:01.072952+00:00",
+    "source_page": "https://investors.vaxcyte.com/events-and-presentations/",
+    "page_type": "events"
+  }
+}

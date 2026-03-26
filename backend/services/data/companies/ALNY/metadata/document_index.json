@@ -1,0 +1,57 @@
+{
+  "e2f5e559-648c-48ee-84d3-6f950d3c01a7.pdf": {
+    "source_url": "https://alnylampharmaceuticalsinc.gcs-web.com/static-files/e2f5e559-648c-48ee-84d3-6f950d3c01a7",
+    "title": "Download",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "4cd8c9ae9072367cbe71da857fe72510b752c5d880e6685cdae6cf9c88a7e876",
+    "file_size_bytes": 23861385,
+    "scraped_at": "2026-03-25T16:05:52.726402+00:00",
+    "source_page": "https://www.alnylam.com/investors/events-and-presentations",
+    "page_type": "events"
+  },
+  "alnylam-cr-report-2024.pdf": {
+    "source_url": "https://www.alnylam.com/sites/default/files/pdfs/alnylam-cr-report-2024.pdf",
+    "title": "Download",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "2a71829d80dfcb8c795764f9b8e3fa948b740271f534f8429624ae18c4cb3610",
+    "file_size_bytes": 48963623,
+    "scraped_at": "2026-03-25T16:05:54.612055+00:00",
+    "source_page": "https://www.alnylam.com/investors/events-and-presentations",
+    "page_type": "events"
+  },
+  "815e66f0-a12f-4c86-8065-8ac5adb0c0e0.pdf": {
+    "source_url": "https://alnylampharmaceuticalsinc.gcs-web.com/static-files/815e66f0-a12f-4c86-8065-8ac5adb0c0e0",
+    "title": "Latest Form10-KVIEW PDF \u203a",
+    "date": null,
+    "doc_type": "sec_filing",
+    "sha256": "e4543e58a25c9c387d418216661bc9c2555b76951009492ae819db31fa22b4a7",
+    "file_size_bytes": 2381175,
+    "scraped_at": "2026-03-25T16:06:08.710502+00:00",
+    "source_page": "https://www.alnylam.com/investors/events-and-presentations",
+    "page_type": "events"
+  },
+  "37f6982b-3379-49a9-abfc-3aa34f08bb8c.pdf": {
+    "source_url": "https://alnylampharmaceuticalsinc.gcs-web.com/static-files/37f6982b-3379-49a9-abfc-3aa34f08bb8c",
+    "title": "Latest Form10-QVIEW PDF \u203a",
+    "date": null,
+    "doc_type": "sec_filing",
+    "sha256": "8b5072b3a76f379e6078f46c7d11a006239b51e36c8d73eb4ae174f07b76b37e",
+    "file_size_bytes": 1595449,
+    "scraped_at": "2026-03-25T16:06:09.869633+00:00",
+    "source_page": "https://www.alnylam.com/investors/events-and-presentations",
+    "page_type": "events"
+  },
+  "aceff470-bdeb-4ff8-82cd-ca665c678031.pdf": {
+    "source_url": "https://alnylampharmaceuticalsinc.gcs-web.com/static-files/aceff470-bdeb-4ff8-82cd-ca665c678031",
+    "title": "2025 Proxy StatementLEARN MORE \u203a",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "f70fc65156ce7dee6b89c2ca3f7a70a02dc3227c4c9e29065f616aa16093886b",
+    "file_size_bytes": 10869403,
+    "scraped_at": "2026-03-25T16:06:11.171079+00:00",
+    "source_page": "https://www.alnylam.com/investors/events-and-presentations",
+    "page_type": "events"
+  }
+}

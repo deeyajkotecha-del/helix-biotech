@@ -1,0 +1,24 @@
+{
+  "61dfe6a7-6113-47d1-992c-1316ca216654.pdf": {
+    "source_url": "https://ir.revmed.com/static-files/61dfe6a7-6113-47d1-992c-1316ca216654",
+    "title": "IRS Form 8937 for EQRx Shareholders",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "fd34a9d1c93ee35fabc68e6f060c087d4d378fc0a62ca0a275db5b461761f0dd",
+    "file_size_bytes": 424826,
+    "scraped_at": "2026-03-25T15:44:35.271904+00:00",
+    "source_page": "https://ir.revmed.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "828bdb65-2a0d-484f-9ab4-1362ceb5f2fd.pdf": {
+    "source_url": "https://ir.revmed.com/static-files/828bdb65-2a0d-484f-9ab4-1362ceb5f2fd",
+    "title": "Revolution Medicines Corporate Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "915edd3565ba9c4c774002123f16a919502ece4d604af59a898a1e8c03b0ff76",
+    "file_size_bytes": 7522485,
+    "scraped_at": "2026-03-25T15:44:35.961141+00:00",
+    "source_page": "https://ir.revmed.com/events-and-presentations",
+    "page_type": "events"
+  }
+}

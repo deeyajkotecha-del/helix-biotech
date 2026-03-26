@@ -1,0 +1,46 @@
+{
+  "b15b0228-03e8-4847-bc11-8c4a63b847bc%20.pdf": {
+    "source_url": "https://investors.amgen.com/static-files/b15b0228-03e8-4847-bc11-8c4a63b847bc%20",
+    "title": "Amgen Green Bond Allocation Report",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "8ceade8f37613c90243b26729ceb4c14bb1efa8a1b8f28b1464078ba30f9905e",
+    "file_size_bytes": 1707855,
+    "scraped_at": "2026-03-25T16:06:20.594564+00:00",
+    "source_page": "https://investors.amgen.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "a3b7c801-2475-4458-a526-62a7366e49c7.pdf": {
+    "source_url": "https://investors.amgen.com/static-files/a3b7c801-2475-4458-a526-62a7366e49c7",
+    "title": "Amgen Green Financing Framework 2022",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "0d00f80b708df6e0be0f4d310241ca518694552b37c1a087af5ca0fb3d28efc8",
+    "file_size_bytes": 621287,
+    "scraped_at": "2026-03-25T16:06:21.078123+00:00",
+    "source_page": "https://investors.amgen.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "101195130.pdf": {
+    "source_url": "https://www.spglobal.com/_assets/documents/ratings/research/101195130.pdf",
+    "title": "Second-party opinion (SPO) on the bond framework",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "50743a3862fce12264c5cf54c89ef6a5cd97a3d7d899f55718ea80d483c2a216",
+    "file_size_bytes": 6263,
+    "scraped_at": "2026-03-25T16:06:21.802261+00:00",
+    "source_page": "https://investors.amgen.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "1bad9687-cd7f-4ee0-b80b-4b5d1e6bfbfd.pdf": {
+    "source_url": "https://investors.amgen.com/static-files/1bad9687-cd7f-4ee0-b80b-4b5d1e6bfbfd",
+    "title": "Q4 2025 Earnings Presentation",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "5b760e7ed4bbe1ef2910dbf011464cac7e01e874646d1b522f3ac8c595570278",
+    "file_size_bytes": 1542042,
+    "scraped_at": "2026-03-25T16:06:22.397535+00:00",
+    "source_page": "https://investors.amgen.com/events-and-presentations",
+    "page_type": "events"
+  }
+}

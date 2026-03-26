@@ -1,0 +1,35 @@
+{
+  "fba40caa-c888-42fa-9f09-545ac8346efd.pdf": {
+    "source_url": "https://investors.urogen.com/static-files/fba40caa-c888-42fa-9f09-545ac8346efd",
+    "title": "Urogen Corporate Presentation \u2013 March 2026",
+    "date": "2026-03-01",
+    "doc_type": "investor_presentation",
+    "sha256": "cfa088b75c0de20d9776c5456a40c3b2df495f1c3c6a343586dff141c86b7f97",
+    "file_size_bytes": 2162450,
+    "scraped_at": "2026-03-25T16:31:28.046439+00:00",
+    "source_page": "https://investors.urogen.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "aa0b3698-4ac5-4c0c-adfc-577f93f00094.pdf": {
+    "source_url": "https://investors.urogen.com/static-files/aa0b3698-4ac5-4c0c-adfc-577f93f00094",
+    "title": "New Horizons in Bladder Cancer: ZUSDURI Duration of Response Results from the ENVISION Study",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "552caa35a4ec243410e4c80a9be1e9c2452a5ab43586d0a4ddd0c54bb6f74735",
+    "file_size_bytes": 3528299,
+    "scraped_at": "2026-03-25T16:31:28.936022+00:00",
+    "source_page": "https://investors.urogen.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "6b35da40-639c-4ef4-80f4-8a9bc5bf7446.pdf": {
+    "source_url": "https://investors.urogen.com/static-files/6b35da40-639c-4ef4-80f4-8a9bc5bf7446",
+    "title": "New Horizons in Bladder Cancer: Insights from Top-Line Data of ATLAS & ENVISION Studies",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "4333e1e8432c0855d59663ec4f192537554ee40236ad7231c4e90113c70dc104",
+    "file_size_bytes": 2759421,
+    "scraped_at": "2026-03-25T16:31:29.580864+00:00",
+    "source_page": "https://investors.urogen.com/events-and-presentations",
+    "page_type": "events"
+  }
+}
