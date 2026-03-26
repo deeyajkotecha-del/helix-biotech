@@ -79,10 +79,17 @@ try:
 except ImportError:
     DB_AVAILABLE = False
 
+try:
+    import voyageai
+    VOYAGEAI_AVAILABLE = True
+except ImportError:
+    VOYAGEAI_AVAILABLE = False
+
 # ─── Config ──────────────────────────────────────────────────────────────────
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 DATABASE_URL = os.environ.get("NEON_DATABASE_URL", "")
+VOYAGE_API_KEY = os.environ.get("VOYAGE_API_KEY", "")
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) SatyaBio-NewsMiner/1.0"
 }
@@ -116,11 +123,60 @@ REGIONAL_SOURCES = {
             "focus": "European biotech",
         },
         {
-            "name": "FierceBiotech Asia",
+            "name": "FierceBiotech — All News",
             "url": "https://www.fiercebiotech.com/rss/xml",
             "parse_type": "rss",
             "language": "en",
-            "focus": "Global biotech with Asia coverage",
+            "focus": "Global biotech news (main feed)",
+        },
+        {
+            "name": "FierceBiotech — Research",
+            "url": "https://www.fiercebiotech.com/research/feed",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "Preclinical and clinical research results",
+        },
+        {
+            "name": "FierceBiotech — Deals",
+            "url": "https://www.fiercebiotech.com/biotech/deals/feed",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "M&A, licensing deals, partnerships",
+        },
+        {
+            "name": "FierceBiotech — Regulatory",
+            "url": "https://www.fiercebiotech.com/regulatory/feed",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "FDA approvals, AdCom decisions, regulatory filings",
+        },
+        {
+            "name": "FierceBiotech — Clinical Data",
+            "url": "https://www.fiercebiotech.com/clinical-data/feed",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "Clinical trial readouts and data presentations",
+        },
+        {
+            "name": "FiercePharma — Pipeline",
+            "url": "https://www.fiercepharma.com/pipeline/feed",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "Pipeline updates across pharma (sister publication)",
+        },
+        {
+            "name": "Endpoints News",
+            "url": "https://endpts.com/feed/",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "Breaking biopharma news, private companies",
+        },
+        {
+            "name": "BioPharma Dive",
+            "url": "https://www.biopharmadive.com/feeds/news/",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "Biopharma industry analysis and private company coverage",
         },
     ],
 
@@ -430,6 +486,134 @@ def parse_rss_feed(source):
         print(f"    [{source['name']}] {len(articles)} articles from RSS")
     except Exception as e:
         print(f"    [{source['name']}] RSS error: {e}")
+    return articles
+
+
+def fetch_full_article_text(url, timeout=15):
+    """
+    Fetch the full body text of a biopharma news article.
+
+    Supports: FierceBiotech, FiercePharma, Endpoints News, BioPharma Dive,
+    BioSpace, GEN News, STAT News, Labiotech.eu, BioSpectrum Asia.
+
+    Returns the article body text (stripped of ads, nav, footer) or "" on failure.
+    """
+    if not url:
+        return ""
+
+    try:
+        resp = requests.get(
+            url,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                              "AppleWebKit/537.36 (KHTML, like Gecko) "
+                              "Chrome/120.0.0.0 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml",
+            },
+            timeout=timeout,
+            allow_redirects=True,
+        )
+        if resp.status_code != 200:
+            return ""
+
+        soup = BeautifulSoup(resp.text, "html.parser")
+
+        # Remove noise elements before extracting text
+        for tag in soup.find_all(["script", "style", "nav", "footer", "header",
+                                   "aside", "iframe", "noscript"]):
+            tag.decompose()
+
+        # Remove ad containers, newsletter signups, related articles
+        for selector in [
+            ".ad-container", ".ad-wrapper", ".newsletter-signup",
+            ".related-articles", ".sidebar", ".social-share",
+            ".comment-section", ".author-bio", "[class*='promo']",
+            "[class*='sponsored']", "[class*='advertisement']",
+        ]:
+            for el in soup.select(selector):
+                el.decompose()
+
+        # Try site-specific content selectors (most specific first)
+        CONTENT_SELECTORS = [
+            # FierceBiotech / FiercePharma (Questex)
+            "article .body-copy", "article .article-body",
+            ".article__body", ".node__content .field--name-body",
+            # Endpoints News
+            ".entry-content", ".post-content",
+            # BioPharma Dive
+            ".article-body", ".article__content",
+            # BioSpace
+            ".article-detail__body", ".article-content",
+            # GEN News / Labiotech
+            ".post-body", ".article-text",
+            # Generic fallback selectors
+            "article .content", "article .body",
+            "[itemprop='articleBody']",
+            "main article", "article",
+        ]
+
+        body_text = ""
+        for selector in CONTENT_SELECTORS:
+            content = soup.select_one(selector)
+            if content:
+                body_text = content.get_text(separator="\n", strip=True)
+                if len(body_text) > 200:  # Meaningful content threshold
+                    break
+
+        # Final fallback: grab <main> or the biggest <div>
+        if len(body_text) < 200:
+            main = soup.find("main")
+            if main:
+                body_text = main.get_text(separator="\n", strip=True)
+
+        # Clean up the text
+        if body_text:
+            # Remove excessive whitespace/newlines
+            lines = [line.strip() for line in body_text.split("\n") if line.strip()]
+            body_text = "\n".join(lines)
+            # Cap at 10K chars (articles rarely exceed this in useful content)
+            body_text = body_text[:10000]
+
+        return body_text
+
+    except Exception as e:
+        return ""
+
+
+def enrich_articles_with_full_text(articles, max_articles=20, delay=1.5):
+    """
+    Fetch full body text for a batch of articles.
+
+    Only fetches for articles that don't already have full_text.
+    Rate-limited to avoid being blocked.
+
+    Args:
+        articles: List of article dicts from parse_rss_feed()
+        max_articles: Max number of articles to fetch full text for
+        delay: Seconds to wait between requests (rate limiting)
+
+    Returns:
+        Same list with full_text field populated
+    """
+    fetched = 0
+    for article in articles:
+        if fetched >= max_articles:
+            break
+        if article.get("full_text"):
+            continue  # Already has full text
+        if not article.get("url"):
+            continue
+
+        text = fetch_full_article_text(article["url"])
+        if text and len(text) > 100:
+            article["full_text"] = text
+            fetched += 1
+            if fetched % 5 == 0:
+                print(f"      Fetched full text for {fetched}/{max_articles} articles...")
+            time.sleep(delay)  # Rate limit
+
+    if fetched > 0:
+        print(f"    Enriched {fetched} articles with full body text")
     return articles
 
 
@@ -939,7 +1123,7 @@ def store_candidate(conn, candidate, article_id=None):
 
 # ─── Main Pipeline ───────────────────────────────────────────────────────────
 
-def mine_region(region, use_llm=True):
+def mine_region(region, use_llm=True, query_filter=None):
     """
     Mine a single region for drug asset candidates.
 
@@ -985,6 +1169,26 @@ def mine_region(region, use_llm=True):
 
     print(f"\n  Total articles fetched: {len(all_articles)}")
 
+    # Step 1b: Fetch full article text for richer entity extraction
+    max_fulltext = 100  # Process all articles — this runs on a schedule
+    print(f"\n  Step 1b: Fetching full article text (up to {max_fulltext} articles)...")
+    all_articles = enrich_articles_with_full_text(all_articles, max_articles=max_fulltext, delay=1.0)
+
+    # Step 1c (optional): Filter articles by query keyword
+    if query_filter:
+        query_lower = query_filter.lower()
+        filtered = []
+        for a in all_articles:
+            searchable = " ".join([
+                a.get("title", ""),
+                a.get("summary", ""),
+                a.get("full_text", ""),
+            ]).lower()
+            if query_lower in searchable:
+                filtered.append(a)
+        print(f"\n  Step 1c: Filtered to {len(filtered)}/{len(all_articles)} articles matching '{query_filter}'")
+        all_articles = filtered
+
     # Step 2: Extract drug entities
     print(f"\n  Step 2: Extracting drug entities...")
     if use_llm:
@@ -1022,6 +1226,9 @@ def mine_region(region, use_llm=True):
             if conn:
                 conn.close()
 
+    # Step 6: Embed articles with full text into RAG for search
+    embedded = embed_articles_to_rag(all_articles, source_label=f"news_miner_{region}")
+
     # Print summary
     print(f"\n{'='*70}")
     print(f"  MINING RESULTS — {region.upper()}")
@@ -1051,11 +1258,289 @@ def mine_region(region, use_llm=True):
     }
 
 
-def mine_all_regions(use_llm=True):
+# ─── Historical Backfill ─────────────────────────────────────────────────────
+# Searches news sites for historical articles on a topic and processes them
+# through the same entity extraction + novelty detection + RAG pipeline.
+
+BACKFILL_SEARCH_SOURCES = [
+    {
+        "name": "Endpoints News",
+        "search_url": "https://endpoints.news/?s={query}",
+        "parse_type": "html_search",
+    },
+    {
+        "name": "Google — FierceBiotech",
+        "search_url": "https://www.google.com/search?q=site:fiercebiotech.com+{query}&num=20",
+        "parse_type": "google_search",
+    },
+    {
+        "name": "Google — BioPharma Dive",
+        "search_url": "https://www.google.com/search?q=site:biopharmadive.com+{query}&num=20",
+        "parse_type": "google_search",
+    },
+    {
+        "name": "Google — Labiotech",
+        "search_url": "https://www.google.com/search?q=site:labiotech.eu+{query}&num=20",
+        "parse_type": "google_search",
+    },
+]
+
+
+def parse_endpoints_search(html, source_name):
+    """Parse Endpoints News search results page."""
+    soup = BeautifulSoup(html, "html.parser")
+    articles = []
+    seen = set()
+
+    # Endpoints uses article cards with h2/h3 links
+    for selector in ["article a", "h2 a", "h3 a", ".post-title a", ".entry-title a", "a"]:
+        for a in soup.select(selector):
+            href = a.get("href", "")
+            title = a.get_text(strip=True)
+            if not title or len(title) < 15 or not href.startswith("http"):
+                continue
+            # Filter to actual article URLs (not category/tag pages)
+            if "/news/" not in href and "/20" not in href and "endpoints" not in href:
+                continue
+            if href in seen:
+                continue
+            seen.add(href)
+            articles.append({
+                "title": title,
+                "url": href,
+                "published": None,
+                "summary": "",
+                "source_name": source_name,
+                "region": "global",
+                "language": "en",
+                "full_text": "",
+            })
+
+    return articles
+
+
+def parse_google_search(html, source_name):
+    """Parse Google search results to extract article URLs and titles."""
+    soup = BeautifulSoup(html, "html.parser")
+    articles = []
+    seen = set()
+
+    # Google wraps results in <div class="g"> with <a> links
+    for div in soup.select("div.g"):
+        a = div.select_one("a[href]")
+        if not a:
+            continue
+        href = a.get("href", "")
+        # Google sometimes wraps URLs in redirect — extract clean URL
+        if href.startswith("/url?q="):
+            href = href.split("/url?q=")[1].split("&")[0]
+        if not href.startswith("http"):
+            continue
+
+        # Get title from h3 inside the link
+        h3 = div.select_one("h3")
+        title = h3.get_text(strip=True) if h3 else a.get_text(strip=True)
+        if not title or len(title) < 10:
+            continue
+
+        # Get snippet
+        snippet_el = div.select_one(".VwiC3b, .IsZvec, .s3v9rd")
+        snippet = snippet_el.get_text(strip=True) if snippet_el else ""
+
+        if href in seen:
+            continue
+        seen.add(href)
+
+        articles.append({
+            "title": title,
+            "url": href,
+            "published": None,
+            "summary": snippet,
+            "source_name": source_name,
+            "region": "global",
+            "language": "en",
+            "full_text": "",
+        })
+
+    # Fallback: if structured parsing found nothing, try all links
+    if not articles:
+        for a in soup.find_all("a", href=True):
+            href = a.get("href", "")
+            if href.startswith("/url?q="):
+                href = href.split("/url?q=")[1].split("&")[0]
+            if not href.startswith("http"):
+                continue
+            # Only keep links to our target news sites
+            if not any(domain in href for domain in [
+                "fiercebiotech.com", "biopharmadive.com", "labiotech.eu",
+                "endpoints.news", "endpts.com"
+            ]):
+                continue
+            title = a.get_text(strip=True)
+            if not title or len(title) < 10 or href in seen:
+                continue
+            seen.add(href)
+            articles.append({
+                "title": title,
+                "url": href,
+                "published": None,
+                "summary": "",
+                "source_name": source_name,
+                "region": "global",
+                "language": "en",
+                "full_text": "",
+            })
+
+    return articles
+
+
+def backfill_topic(query, use_llm=True, max_articles=50):
+    """
+    Historical backfill: search multiple news sources for a topic,
+    fetch full text, extract drug entities, detect novelty, and embed into RAG.
+
+    Args:
+        query: Search term (e.g., "T-cell engager", "KRAS", "ADC")
+        use_llm: Use Claude for entity extraction (recommended)
+        max_articles: Maximum articles to process
+
+    Returns:
+        Results dict with articles, candidates, novel/known counts
+    """
+    from urllib.parse import quote_plus
+
+    print(f"\n{'='*70}")
+    print(f"  HISTORICAL BACKFILL — '{query}'")
+    print(f"{'='*70}")
+
+    all_articles = []
+    seen_urls = set()
+
+    # Step 1: Search all sources
+    print(f"\n  Step 1: Searching {len(BACKFILL_SEARCH_SOURCES)} sources for '{query}'...")
+
+    for source in BACKFILL_SEARCH_SOURCES:
+        search_url = source["search_url"].format(query=quote_plus(query))
+        name = source["name"]
+
+        try:
+            resp = requests.get(search_url, headers=HEADERS, timeout=15)
+            if resp.status_code != 200:
+                print(f"    [{name}] HTTP {resp.status_code}")
+                continue
+
+            if source["parse_type"] == "html_search":
+                articles = parse_endpoints_search(resp.text, name)
+            elif source["parse_type"] == "google_search":
+                articles = parse_google_search(resp.text, name)
+            else:
+                articles = []
+
+            # Deduplicate across sources
+            new_articles = []
+            for a in articles:
+                if a["url"] not in seen_urls:
+                    seen_urls.add(a["url"])
+                    new_articles.append(a)
+
+            all_articles.extend(new_articles)
+            print(f"    [{name}] {len(new_articles)} articles found")
+            time.sleep(1.5)  # Rate limit between searches
+
+        except Exception as e:
+            print(f"    [{name}] Error: {e}")
+
+    print(f"\n  Total unique articles found: {len(all_articles)}")
+
+    if not all_articles:
+        print("  No articles found. Try a different search term.")
+        return {"articles": [], "candidates": [], "novel": [], "known": []}
+
+    # Cap to max_articles
+    if len(all_articles) > max_articles:
+        print(f"  Capping to {max_articles} articles (use --max-articles to change)")
+        all_articles = all_articles[:max_articles]
+
+    # Step 2: Fetch full article text
+    print(f"\n  Step 2: Fetching full article text ({len(all_articles)} articles)...")
+    all_articles = enrich_articles_with_full_text(all_articles, max_articles=max_articles, delay=1.5)
+
+    # Step 3: Extract drug entities
+    print(f"\n  Step 3: Extracting drug entities...")
+    if use_llm:
+        candidates = extract_drug_entities_with_claude(all_articles, region="global")
+    else:
+        candidates = extract_drug_entities_regex(all_articles)
+
+    # Step 4: Cross-lingual resolution
+    print(f"\n  Step 4: Cross-lingual entity resolution...")
+    candidates = resolve_cross_lingual(candidates)
+
+    # Step 5: Detect novel assets
+    print(f"\n  Step 5: Detecting novel assets...")
+    novel, known = detect_novel_assets(candidates)
+
+    # Step 6: Store results in DB
+    conn = None
+    if DB_AVAILABLE and DATABASE_URL:
+        try:
+            conn = psycopg2.connect(DATABASE_URL)
+            ensure_miner_tables(conn)
+            stored_articles = 0
+            for a in all_articles:
+                aid = store_article(conn, a)
+                if aid:
+                    stored_articles += 1
+            stored_candidates = 0
+            for c in candidates:
+                store_candidate(conn, c)
+                stored_candidates += 1
+            print(f"\n  Stored: {stored_articles} articles, {stored_candidates} candidates")
+            conn.close()
+        except Exception as e:
+            print(f"  DB storage error: {e}")
+
+    # Step 7: Embed into RAG
+    articles_with_text = [a for a in all_articles if a.get("full_text")]
+    if articles_with_text:
+        print(f"\n  [RAG Embed] Embedding {len(articles_with_text)} articles into vector database...")
+        embed_articles_to_rag(articles_with_text, source_label=f"backfill_{query.replace(' ', '_')}")
+
+    # Print results
+    print(f"\n{'='*70}")
+    print(f"  BACKFILL RESULTS — '{query}'")
+    print(f"{'='*70}")
+    print(f"  Articles found:      {len(all_articles)}")
+    print(f"  Enriched with text:  {len(articles_with_text)}")
+    print(f"  Drug candidates:     {len(candidates)}")
+    print(f"  Novel (under radar): {len(novel)}")
+    print(f"  Known (in our DB):   {len(known)}")
+
+    if novel:
+        print(f"\n  {'─'*60}")
+        print(f"  NOVEL DRUG ASSETS DETECTED:")
+        print(f"  {'─'*60}")
+        for c in novel[:25]:
+            conf = c.get("confidence", "?")
+            phase = c.get("phase", "?")
+            company = c.get("company", "?")
+            moa = c.get("target_moa", "?")
+            print(f"    ★ {c['drug_name']} ({moa}) — {company}")
+            print(f"      Phase: {phase} | Confidence: {conf}")
+
+    return {
+        "articles": all_articles,
+        "candidates": candidates,
+        "novel": novel,
+        "known": known,
+    }
+
+
+def mine_all_regions(use_llm=True, query_filter=None):
     """Mine all regions and aggregate results."""
     all_results = {}
     for region in ["global", "china", "korea", "japan", "india", "europe"]:
-        result = mine_region(region, use_llm=use_llm)
+        result = mine_region(region, use_llm=use_llm, query_filter=query_filter)
         all_results[region] = result
 
     # Aggregate
@@ -1072,6 +1557,135 @@ def mine_all_regions(use_llm=True):
     print(f"{'='*70}")
 
     return all_results
+
+
+# ─── RAG Embedding Pipeline ──────────────────────────────────────────────────
+# Embeds mined articles into the same pgvector database used by rag_search.py,
+# making them searchable alongside our indexed PDFs and filings.
+
+def embed_articles_to_rag(articles, source_label="news_miner"):
+    """
+    Chunk and embed news articles into the RAG vector database.
+
+    Takes articles with full_text, splits into chunks, generates Voyage AI
+    embeddings, and stores in the same 'chunks' table that rag_search.py
+    queries. This makes mined news appear in search results alongside
+    indexed PDFs and filings.
+
+    Args:
+        articles: List of article dicts with full_text populated
+        source_label: Label for the document source (e.g., "fierce_biotech")
+
+    Returns:
+        Number of articles successfully embedded
+    """
+    if not VOYAGEAI_AVAILABLE:
+        print("  [RAG Embed] Voyage AI not available — skipping embedding")
+        return 0
+    if not DATABASE_URL:
+        print("  [RAG Embed] No DATABASE_URL — skipping embedding")
+        return 0
+
+    # Only embed articles that have meaningful full text
+    embeddable = [a for a in articles if a.get("full_text") and len(a["full_text"]) > 200]
+    if not embeddable:
+        print("  [RAG Embed] No articles with full text to embed")
+        return 0
+
+    print(f"\n  [RAG Embed] Embedding {len(embeddable)} articles into vector database...")
+
+    try:
+        vo_client = voyageai.Client(api_key=VOYAGE_API_KEY)
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+
+        embedded_count = 0
+        for article in embeddable:
+            title = article.get("title", "Untitled")
+            url = article.get("url", "")
+            source_name = article.get("source_name", source_label)
+            pub_date = article.get("published")
+            full_text = article["full_text"]
+
+            # Check if we already embedded this URL
+            cur.execute("SELECT id FROM documents WHERE file_path = %s", (url,))
+            if cur.fetchone():
+                continue  # Already embedded
+
+            # Determine a ticker if we can match the article to a company
+            ticker = "NEWS"  # Default for news articles
+            company_name = source_name
+
+            # Simple chunking: split into ~500-word chunks with overlap
+            words = full_text.split()
+            chunk_size = 400  # words
+            overlap = 80
+            chunks = []
+            for i in range(0, len(words), chunk_size - overlap):
+                chunk_words = words[i:i + chunk_size]
+                if len(chunk_words) < 50:  # Skip tiny trailing chunks
+                    continue
+                chunk_text = " ".join(chunk_words)
+                chunks.append({
+                    "content": f"[{source_name}] {title}\n\n{chunk_text}",
+                    "page_number": 1,
+                    "section_title": title,
+                })
+
+            if not chunks:
+                continue
+
+            # Generate embeddings
+            texts = [c["content"] for c in chunks]
+            try:
+                result = vo_client.embed(texts, model="voyage-3", input_type="document")
+                embeddings = result.embeddings
+            except Exception as e:
+                print(f"    [RAG Embed] Embedding error for '{title[:50]}': {e}")
+                continue
+
+            # Store document record
+            date_str = pub_date.isoformat() if pub_date else ""
+            word_count = len(words)
+
+            cur.execute("""
+                INSERT INTO documents (ticker, company_name, filename, file_path,
+                    doc_type, title, date, word_count, page_count, file_size_bytes)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+            """, (
+                ticker, company_name, f"news_{hashlib.md5(url.encode()).hexdigest()[:8]}.txt",
+                url,  # Use URL as file_path for dedup
+                "news_article", title, date_str,
+                word_count, 1, len(full_text),
+            ))
+            doc_id = cur.fetchone()[0]
+
+            # Store chunks with embeddings
+            for i, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
+                if embedding is None:
+                    continue
+                cur.execute("""
+                    INSERT INTO chunks (document_id, chunk_index, page_number,
+                        section_title, content, token_count, embedding)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s::vector)
+                """, (
+                    doc_id, i, chunk["page_number"], chunk["section_title"],
+                    chunk["content"], len(chunk["content"].split()),
+                    str(embedding),
+                ))
+
+            conn.commit()
+            embedded_count += 1
+
+        cur.close()
+        conn.close()
+        print(f"  [RAG Embed] Successfully embedded {embedded_count} articles")
+        return embedded_count
+
+    except Exception as e:
+        print(f"  [RAG Embed] Error: {e}")
+        return 0
 
 
 # ─── CLI ─────────────────────────────────────────────────────────────────────
@@ -1098,6 +1712,12 @@ Examples:
                         help="Show mining statistics from DB")
     parser.add_argument("--watchlist", action="store_true",
                         help="Show monitored companies and drugs")
+    parser.add_argument("--query", type=str, default=None,
+                        help="Filter articles to only those matching a keyword (e.g., 'TCE', 'KRAS', 'ADC')")
+    parser.add_argument("--backfill", type=str, default=None,
+                        help="Historical backfill: search news archives for a topic (e.g., 'T-cell engager', 'KRAS inhibitor')")
+    parser.add_argument("--max-articles", type=int, default=50,
+                        help="Max articles to process in backfill mode (default: 50)")
     parser.add_argument("--sources", action="store_true",
                         help="List all configured news sources")
 
@@ -1151,12 +1771,16 @@ Examples:
             print(f"  Tables may not exist yet. Run --mine first. ({e})")
         conn.close()
 
+    elif args.backfill:
+        use_llm = not args.no_llm
+        backfill_topic(args.backfill, use_llm=use_llm, max_articles=args.max_articles)
+
     elif args.mine:
         use_llm = not args.no_llm
         if args.region == "all":
-            mine_all_regions(use_llm=use_llm)
+            mine_all_regions(use_llm=use_llm, query_filter=args.query)
         else:
-            mine_region(args.region, use_llm=use_llm)
+            mine_region(args.region, use_llm=use_llm, query_filter=args.query)
 
     else:
         parser.print_help()
