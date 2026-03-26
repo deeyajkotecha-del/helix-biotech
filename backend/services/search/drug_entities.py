@@ -491,6 +491,85 @@ TARGET_HIERARCHY = [
      "Glucocerebrosidase — GBA1 mutations are the most common genetic risk factor for PD.",
      ["GBA1", "GBA", "glucocerebrosidase", "GBA1 activator", "GCase"],
      ["GBA1 Parkinson's", "glucocerebrosidase activator"]),
+
+    # ─── Atopic Dermatitis / Immunology targets ───
+    ("IL-4", "IL-4 / IL-4Rα", None, "gene", "IL4R",
+     "Interleukin-4 and its receptor alpha subunit — key type 2 inflammatory cytokine. "
+     "IL-4Rα blocking is the mechanism of dupilumab.",
+     ["IL-4", "IL4", "IL-4R", "IL-4Rα", "IL-4 receptor", "interleukin-4", "IL-4Ra", "anti-IL-4R"],
+     ["interleukin 4", "IL4R", "IL-4 receptor alpha"]),
+
+    ("IL-13", "IL-13", "IL-4", "gene", "IL13",
+     "Interleukin-13 — type 2 cytokine driving atopic inflammation, fibrosis, mucus production. "
+     "Target for tralokinumab, lebrikizumab, cendakimab.",
+     ["IL-13", "IL13", "anti-IL-13", "interleukin-13", "IL-13 inhibitor"],
+     ["interleukin 13"]),
+
+    ("IL-31", "IL-31", None, "gene", "IL31",
+     "Interleukin-31 — 'itch cytokine' driving pruritus in atopic dermatitis. "
+     "Target for nemolizumab (anti-IL-31Rα).",
+     ["IL-31", "IL31", "anti-IL-31", "interleukin-31", "IL-31 receptor", "itch cytokine"],
+     ["interleukin 31", "IL-31RA", "pruritus cytokine"]),
+
+    ("OX40", "OX40 / OX40L", None, "gene", "TNFRSF4",
+     "OX40 (CD134) and its ligand OX40L — T cell co-stimulatory molecules. "
+     "Blocking OX40L reduces T cell activation in atopic dermatitis. Target for amlitelimab, rocatinlimab.",
+     ["OX40", "OX40L", "anti-OX40", "anti-OX40L", "CD134", "TNFSF4", "OX40 ligand"],
+     ["TNFRSF4", "CD134", "OX40 pathway"]),
+
+    ("TSLP", "TSLP", None, "gene", "TSLP",
+     "Thymic Stromal Lymphopoietin — upstream alarmin cytokine that initiates type 2 inflammation. "
+     "Target for tezepelumab (approved in asthma, explored in AD).",
+     ["TSLP", "thymic stromal lymphopoietin", "anti-TSLP", "alarmin", "TSLP inhibitor"],
+     ["thymic stromal lymphopoietin"]),
+
+    ("JAK", "JAK (Janus Kinase)", None, "gene_family", None,
+     "Janus kinase family — JAK1, JAK2, JAK3, TYK2. Downstream of multiple cytokine receptors. "
+     "JAK inhibitors (abrocitinib, upadacitinib, baricitinib) approved for atopic dermatitis.",
+     ["JAK", "JAK inhibitor", "JAKi", "Janus kinase", "JAK1", "JAK2", "JAK3", "TYK2"],
+     ["Janus kinase inhibitor", "JAK pathway"]),
+
+    ("JAK1", "JAK1", "JAK", "gene", "JAK1",
+     "Janus kinase 1 — selective JAK1 inhibitors (abrocitinib, upadacitinib) for AD. "
+     "JAK1 mediates signaling from IL-4, IL-13, IL-31, TSLP receptors.",
+     ["JAK1", "JAK1 inhibitor", "selective JAK1", "JAK1-selective"],
+     ["Janus kinase 1"]),
+
+    ("JAK1/2", "JAK1/JAK2", "JAK", "gene", "JAK2",
+     "Non-selective JAK1/JAK2 inhibitor — baricitinib mechanism. "
+     "Broader cytokine blockade but more safety signals.",
+     ["JAK1/2", "JAK1/JAK2", "baricitinib mechanism", "non-selective JAK"],
+     ["JAK1 JAK2 inhibitor"]),
+
+    ("IL-22", "IL-22", None, "gene", "IL22",
+     "Interleukin-22 — drives epidermal hyperplasia and barrier disruption in AD. "
+     "Target for fezagepras (LEO Pharma). Th22 pathway.",
+     ["IL-22", "IL22", "anti-IL-22", "interleukin-22", "Th22"],
+     ["interleukin 22"]),
+
+    ("IL-17", "IL-17", None, "gene", "IL17A",
+     "Interleukin-17 — primarily psoriasis target (secukinumab, ixekizumab) but explored in AD. "
+     "IL-17A and IL-17F signaling.",
+     ["IL-17", "IL17", "IL-17A", "IL-17F", "anti-IL-17", "interleukin-17"],
+     ["interleukin 17"]),
+
+    ("IL-18", "IL-18", None, "gene", "IL18",
+     "Interleukin-18 — inflammasome-derived cytokine, elevated in AD. "
+     "Target for tadekinig alfa. IL-18 drives IFN-gamma and Th1 responses.",
+     ["IL-18", "IL18", "anti-IL-18", "interleukin-18", "IL-18 binding protein"],
+     ["interleukin 18"]),
+
+    ("IL-2", "IL-2", None, "gene", "IL2",
+     "Interleukin-2 — T cell growth factor. Low-dose IL-2 expands Tregs for autoimmune applications. "
+     "Explored in AD via rezpegaldesleukin (IL-2 mutein).",
+     ["IL-2", "IL2", "interleukin-2", "IL-2 mutein", "low-dose IL-2", "Treg expansion"],
+     ["interleukin 2"]),
+
+    ("STAT6", "STAT6", None, "gene", "STAT6",
+     "Signal Transducer and Activator of Transcription 6 — downstream of IL-4/IL-13 signaling. "
+     "STAT6 degraders (KT-621, Kymera) represent a novel oral approach to blocking type 2 inflammation.",
+     ["STAT6", "STAT6 degrader", "STAT6 inhibitor", "STAT6 pathway"],
+     ["signal transducer and activator of transcription 6"]),
 ]
 
 
@@ -567,6 +646,34 @@ DISEASE_TARGET_MAP = [
     # ─── HBV ───
     ("HBV", "HBsAg", "established", "Antibodies targeting surface antigen"),
     ("HBV", "HBV RNA", "established", "siRNA gene silencing approaches"),
+
+    # ─── Atopic Dermatitis ───
+    ("Atopic Dermatitis", "IL-4", "established",
+     "IL-4Rα blockade: dupilumab (SOC), eblasakimab. Blocks both IL-4 and IL-13 signaling."),
+    ("Atopic Dermatitis", "IL-13", "established",
+     "Selective IL-13: tralokinumab (approved), lebrikizumab (approved), cendakimab"),
+    ("Atopic Dermatitis", "IL-31", "established",
+     "Anti-itch: nemolizumab (approved Japan, Phase 3 US). IL-31Rα blockade."),
+    ("Atopic Dermatitis", "OX40", "emerging",
+     "T cell modulation: amlitelimab (anti-OX40L), rocatinlimab (anti-OX40). Novel mechanism."),
+    ("Atopic Dermatitis", "TSLP", "emerging",
+     "Upstream alarmin: tezepelumab (approved asthma), tilrekotide. Blocks type 2 initiation."),
+    ("Atopic Dermatitis", "JAK1", "established",
+     "Oral small molecules: abrocitinib (approved), upadacitinib (approved). Fast onset."),
+    ("Atopic Dermatitis", "JAK1/2", "established",
+     "Non-selective JAK: baricitinib (approved). Broader cytokine blockade."),
+    ("Atopic Dermatitis", "IL-22", "exploratory",
+     "Epidermal target: fezagepras (LEO). Th22-driven barrier disruption."),
+    ("Atopic Dermatitis", "IL-17", "exploratory",
+     "Psoriasis crossover: secukinumab, bimekizumab explored in AD. Mixed data."),
+    ("Atopic Dermatitis", "IL-18", "exploratory",
+     "Inflammasome pathway: tadekinig alfa. Elevated IL-18 in severe AD."),
+    ("Atopic Dermatitis", "IL-2", "emerging",
+     "Treg expansion: rezpegaldesleukin (low-dose IL-2 mutein). Immune rebalancing approach."),
+    ("Atopic Dermatitis", "STAT6", "emerging",
+     "Oral degrader: KT-621 (Kymera). Novel TPD approach to block IL-4/IL-13 downstream signaling."),
+    ("Atopic Dermatitis", "PD-1", "exploratory",
+     "Immune checkpoint: some evidence of PD-1 dysregulation in severe AD. Experimental."),
 ]
 
 
@@ -880,6 +987,161 @@ SEED_DRUGS = [
      [("GZ402671", "code", False, "Sanofi code"),
       ("ibiglustat", "inn", True, "INN name")],
      [("GBA1", "primary", "selective")]),
+
+    # --- Atopic Dermatitis drugs ---
+    # IL-4Rα / IL-13 blockers (type 2 cytokine blockade)
+    ("dupilumab", "REGN", "Regeneron / Sanofi",
+     "Atopic Dermatitis", ["Atopic Dermatitis", "Asthma", "CRSwNP", "Prurigo Nodularis", "COPD", "EoE"],
+     "monoclonal_antibody", "Anti-IL-4Rα monoclonal antibody — blocks both IL-4 and IL-13 signaling", "Type 2 Inflammation",
+     "Approved", "Active",
+     [("Dupixent", "brand", True, "Brand name"),
+      ("REGN668", "code", False, "Regeneron code"),
+      ("SAR231893", "code", False, "Sanofi code")],
+     [("IL-4", "primary", "selective")]),
+
+    ("tralokinumab", "LEO.CO", "LEO Pharma / AstraZeneca",
+     "Atopic Dermatitis", ["Atopic Dermatitis"],
+     "monoclonal_antibody", "Anti-IL-13 monoclonal antibody — selective IL-13 neutralization", "Type 2 Inflammation",
+     "Approved", "Active",
+     [("Adbry", "brand", True, "US brand name"),
+      ("Adtralza", "brand", True, "EU brand name"),
+      ("CAT-354", "code", False, "Original code")],
+     [("IL-13", "primary", "selective")]),
+
+    ("lebrikizumab", "LLY", "Eli Lilly",
+     "Atopic Dermatitis", ["Atopic Dermatitis"],
+     "monoclonal_antibody", "Anti-IL-13 monoclonal antibody — high-affinity IL-13 neutralization", "Type 2 Inflammation",
+     "Approved", "Active",
+     [("Ebglyss", "brand", True, "EU brand name"),
+      ("LY3650150", "code", False, "Lilly code")],
+     [("IL-13", "primary", "selective")]),
+
+    ("cendakimab", "ABBV", "AbbVie",
+     "Atopic Dermatitis", ["Atopic Dermatitis", "Eosinophilic Esophagitis"],
+     "monoclonal_antibody", "Anti-IL-13 monoclonal antibody", "Type 2 Inflammation",
+     "Phase 3", "Active",
+     [("ABT-308", "code", False, "AbbVie code"),
+      ("RPC4046", "code", False, "Original code")],
+     [("IL-13", "primary", "selective")]),
+
+    ("eblasakimab", "ABBV", "AbbVie",
+     "Atopic Dermatitis", ["Atopic Dermatitis"],
+     "monoclonal_antibody", "Anti-IL-13R monoclonal antibody — blocks IL-13 receptor", "Type 2 Inflammation",
+     "Phase 2", "Active",
+     [("ABBV-323", "code", False, "AbbVie code")],
+     [("IL-13", "primary", "selective")]),
+
+    # IL-31 (anti-itch)
+    ("nemolizumab", "GMAB", "Galderma",
+     "Atopic Dermatitis", ["Atopic Dermatitis", "Prurigo Nodularis"],
+     "monoclonal_antibody", "Anti-IL-31Rα monoclonal antibody — blocks itch cytokine IL-31", "IL-31 / Pruritus",
+     "Approved", "Active",
+     [("Nemluvio", "brand", True, "Brand name"),
+      ("CIM331", "code", False, "Original Chugai code")],
+     [("IL-31", "primary", "selective")]),
+
+    # OX40 / OX40L (T cell co-stimulation blockade)
+    ("rocatinlimab", "AMGN", "Amgen",
+     "Atopic Dermatitis", ["Atopic Dermatitis"],
+     "monoclonal_antibody", "Anti-OX40 monoclonal antibody — depletes OX40+ pathogenic T cells", "T Cell Modulation",
+     "Phase 3", "Active",
+     [("AMG 451", "code", False, "Amgen code"),
+      ("KHK4083", "code", False, "Kyowa Kirin code")],
+     [("OX40", "primary", "selective")]),
+
+    ("amlitelimab", "SNY", "Sanofi",
+     "Atopic Dermatitis", ["Atopic Dermatitis", "Asthma"],
+     "monoclonal_antibody", "Anti-OX40L non-depleting monoclonal antibody — blocks T cell co-stimulation without depletion", "T Cell Modulation",
+     "Phase 3", "Active",
+     [("SAR445229", "code", False, "Sanofi code"),
+      ("KY1005", "code", False, "Kymab code")],
+     [("OX40", "primary", "selective")]),
+
+    # TSLP (upstream alarmin)
+    ("tezepelumab", "AZN", "AstraZeneca / Amgen",
+     "Asthma", ["Asthma", "COPD", "Atopic Dermatitis"],
+     "monoclonal_antibody", "Anti-TSLP monoclonal antibody — blocks upstream alarmin signaling", "Alarmin / Type 2",
+     "Approved", "Active",
+     [("Tezspire", "brand", True, "Brand name"),
+      ("AMG 157", "code", False, "Amgen code"),
+      ("MEDI9929", "code", False, "MedImmune code")],
+     [("TSLP", "primary", "selective")]),
+
+    # JAK inhibitors (oral small molecules)
+    ("abrocitinib", "PFE", "Pfizer",
+     "Atopic Dermatitis", ["Atopic Dermatitis"],
+     "small_molecule", "Selective JAK1 inhibitor — oral", "JAK/STAT",
+     "Approved", "Active",
+     [("Cibinqo", "brand", True, "Brand name"),
+      ("PF-04965842", "code", False, "Pfizer code")],
+     [("JAK1", "primary", "selective")]),
+
+    ("upadacitinib", "ABBV", "AbbVie",
+     "Atopic Dermatitis", ["Atopic Dermatitis", "Rheumatoid Arthritis", "Psoriatic Arthritis", "Ulcerative Colitis", "Crohn's Disease"],
+     "small_molecule", "Selective JAK1 inhibitor — oral", "JAK/STAT",
+     "Approved", "Active",
+     [("Rinvoq", "brand", True, "Brand name"),
+      ("ABT-494", "code", False, "AbbVie code")],
+     [("JAK1", "primary", "selective")]),
+
+    ("baricitinib", "LLY", "Eli Lilly",
+     "Atopic Dermatitis", ["Atopic Dermatitis", "Rheumatoid Arthritis", "Alopecia Areata"],
+     "small_molecule", "JAK1/JAK2 inhibitor — oral", "JAK/STAT",
+     "Approved", "Active",
+     [("Olumiant", "brand", True, "Brand name"),
+      ("LY3009104", "code", False, "Lilly code"),
+      ("INCB028050", "code", False, "Incyte code")],
+     [("JAK1/2", "primary", "multi-selective")]),
+
+    # IL-2 (Treg expansion)
+    ("rezpegaldesleukin", "SNY", "Sanofi",
+     "Atopic Dermatitis", ["Atopic Dermatitis", "SLE", "Alopecia Areata"],
+     "biologic", "PEGylated IL-2 mutein — low-dose Treg expansion", "Immune Regulation",
+     "Phase 2", "Active",
+     [("SAR444336", "code", False, "Sanofi code"),
+      ("THOR-707", "code", False, "Synthorx code")],
+     [("IL-2", "primary", "selective")]),
+
+    # IL-22
+    ("fezagepras", "LEO.CO", "LEO Pharma",
+     "Atopic Dermatitis", ["Atopic Dermatitis"],
+     "small_molecule", "Oral PGD2/DP2 antagonist", "Prostaglandin / Type 2",
+     "Phase 2", "Active",
+     [("LEO 39652", "code", False, "LEO code")],
+     [("IL-22", "secondary", "multi-selective")]),
+
+    # STAT6 degrader (novel oral)
+    ("KT-621", "KYMR", "Kymera Therapeutics",
+     "Atopic Dermatitis", ["Atopic Dermatitis"],
+     "small_molecule", "STAT6 targeted protein degrader — oral, blocks IL-4/IL-13 signaling downstream", "TPD / Type 2",
+     "Phase 2", "Active",
+     [("KT621", "code", False, "No hyphen variant")],
+     [("STAT6", "primary", "selective")]),
+
+    # IL-17 (psoriasis crossover)
+    ("secukinumab", "NVS", "Novartis",
+     "Psoriasis", ["Psoriasis", "Psoriatic Arthritis", "Ankylosing Spondylitis", "Atopic Dermatitis"],
+     "monoclonal_antibody", "Anti-IL-17A monoclonal antibody", "IL-17 / Th17",
+     "Approved", "Active",
+     [("Cosentyx", "brand", True, "Brand name"),
+      ("AIN457", "code", False, "Novartis code")],
+     [("IL-17", "primary", "selective")]),
+
+    # IL-18
+    ("tadekinig alfa", None, "AB2 Bio",
+     "Atopic Dermatitis", ["Atopic Dermatitis", "AOSD"],
+     "biologic", "IL-18 binding protein — neutralizes free IL-18", "IL-18 / Inflammasome",
+     "Phase 2", "Active",
+     [],
+     [("IL-18", "primary", "selective")]),
+
+    # Bispecifics in AD
+    ("IMG-007", "IMGN", "ImmunoGen / Sanofi",
+     "Atopic Dermatitis", ["Atopic Dermatitis"],
+     "monoclonal_antibody", "Anti-OX40L monoclonal antibody", "T Cell Modulation",
+     "Phase 2", "Active",
+     [],
+     [("OX40", "primary", "selective")]),
 ]
 
 

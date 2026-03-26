@@ -428,6 +428,12 @@
 .search-app .badge-trial { background: var(--sb-blue-bg); color: var(--sb-blue); }
 .search-app .badge-mechanism { background: #FFF8E7; color: #B8860B; }
 
+.search-app .answer-source-count {
+  font-size: 11px;
+  color: var(--sb-text-light);
+  font-weight: 500;
+}
+
 .search-app .sources-used {
   display: flex;
   gap: 4px;
@@ -906,10 +912,250 @@
 .search-app ::-webkit-scrollbar-thumb { background: var(--sb-border); border-radius: 3px; }
 .search-app ::-webkit-scrollbar-thumb:hover { background: var(--sb-text-light); }
 
+/* ============================================================
+   Drug Profile Cards — Wraps each drug section in a card
+   ============================================================ */
+
+.search-app .drug-profile-card {
+  background: var(--sb-white);
+  border: 1px solid var(--sb-border);
+  border-left: 4px solid var(--sb-coral);
+  border-radius: 8px;
+  padding: 16px 20px 14px;
+  margin: 14px 0;
+  transition: border-left-color 0.2s, box-shadow 0.2s;
+}
+
+.search-app .drug-profile-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border-left-color: var(--sb-coral-light);
+}
+
+/* Drug name header inside card */
+.search-app .drug-profile-card .drug-profile-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sb-text-dark);
+  margin: 0 0 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.search-app .drug-profile-card .drug-profile-name .company-tag {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sb-text-light);
+}
+
+.search-app .drug-profile-card .drug-profile-name .drug-subtitle {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--sb-text-mid);
+}
+
+/* Mechanism-colored left borders */
+.search-app .drug-profile-card[data-mechanism*="IL-4"],
+.search-app .drug-profile-card[data-mechanism*="IL-13"] {
+  border-left-color: #4A6FA5;
+}
+.search-app .drug-profile-card[data-mechanism*="IL-31"] {
+  border-left-color: #8B6C3F;
+}
+.search-app .drug-profile-card[data-mechanism*="OX40"] {
+  border-left-color: #2E7D6B;
+}
+.search-app .drug-profile-card[data-mechanism*="TSLP"] {
+  border-left-color: #9B59B6;
+}
+.search-app .drug-profile-card[data-mechanism*="JAK"] {
+  border-left-color: #E67E22;
+}
+.search-app .drug-profile-card[data-mechanism*="STAT6"] {
+  border-left-color: #3498DB;
+}
+.search-app .drug-profile-card[data-mechanism*="KRAS"],
+.search-app .drug-profile-card[data-mechanism*="RAS"] {
+  border-left-color: #E74C3C;
+}
+.search-app .drug-profile-card[data-mechanism*="PD-1"],
+.search-app .drug-profile-card[data-mechanism*="PD-L1"] {
+  border-left-color: #2980B9;
+}
+.search-app .drug-profile-card[data-mechanism*="GLP-1"] {
+  border-left-color: #1ABC9C;
+}
+.search-app .drug-profile-card[data-mechanism*="ADC"],
+.search-app .drug-profile-card[data-mechanism*="HER2"] {
+  border-left-color: #D35400;
+}
+
+/* Inline data labels — Mechanism:, Lead data:, Safety:, Competitive edge: */
+.search-app .data-label {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--sb-text-light);
+  margin-right: 6px;
+  min-width: 110px;
+}
+
+.search-app .data-label-mechanism { color: var(--sb-blue); }
+.search-app .data-label-lead { color: var(--sb-green); }
+.search-app .data-label-safety { color: #B8860B; }
+.search-app .data-label-edge { color: var(--sb-purple); }
+.search-app .data-label-trial { color: var(--sb-coral); }
+
+/* Data row styling inside drug profile cards */
+.search-app .drug-profile-card .answer-paragraph {
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.search-app .drug-profile-card .answer-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+/* Trial portfolio table inside card — more compact */
+.search-app .drug-profile-card .answer-table-wrapper {
+  margin: 8px 0 10px;
+}
+
+.search-app .drug-profile-card .answer-table {
+  font-size: 12px;
+}
+
+/* ============================================================
+   Mechanism group headers — OX40/OX40L Pathway, STAT6, etc.
+   ============================================================ */
+
+.search-app .mechanism-group-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sb-text-dark);
+  margin: 24px 0 8px;
+  padding: 8px 14px;
+  background: var(--sb-cream-dark);
+  border-radius: 6px;
+  border-left: 4px solid var(--sb-text-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-app .mechanism-group-header .mechanism-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: white;
+  color: var(--sb-text-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   Enhanced h2 / h3 section headers
+   ============================================================ */
+
+/* Major sections (h2): "IL-13 Selective Approaches", "Novel Mechanisms" */
+.search-app .answer-h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  color: var(--sb-text-dark);
+  letter-spacing: -0.3px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--sb-coral);
+  display: block;
+  position: relative;
+}
+
+/* Section separator line before each h2 (except first) */
+.search-app .answer-h2 ~ .answer-h2 {
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--sb-border);
+}
+
+/* Sub-sections (h3): Drug names as headers */
+.search-app .answer-h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 20px 0 8px;
+  color: var(--sb-text-dark);
+  letter-spacing: -0.2px;
+}
+
+/* h4: "Trial portfolio:", "Competitive edge:" headers */
+.search-app .answer-h4 {
+  font-size: 12px;
+  font-weight: 700;
+  margin: 12px 0 6px;
+  color: var(--sb-text-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* ============================================================
+   Strong/bold text improvements
+   ============================================================ */
+
+.search-app .answer-content strong {
+  font-weight: 650;
+  color: var(--sb-text-dark);
+}
+
+/* "Mechanism:", "Lead data:" etc. when they appear as bold+colon in paragraphs */
+.search-app .answer-content .inline-label {
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--sb-text-light);
+}
+
+/* ============================================================
+   Overview table improvements — wider breathing room
+   ============================================================ */
+
+.search-app .answer-table-wrapper {
+  margin: 16px 0 20px;
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--sb-border, #e5e0d8);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* Compact font when many columns */
+.search-app .answer-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--sb-border-light, #f0ebe4);
+  color: var(--sb-text-dark);
+  vertical-align: top;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Better zebra striping */
+.search-app .answer-table tbody tr:nth-child(even) {
+  background: #FCFBF9;
+}
+
+.search-app .answer-table tbody tr:hover {
+  background: var(--sb-coral-bg, #FDF2ED);
+  transition: background 0.15s;
+}
+
 /* --- Responsive --- */
 @media (max-width: 900px) {
   .search-app .source-sidebar { display: none; }
   .search-app .answer-main { max-width: 100%; }
   .search-app .example-grid { grid-template-columns: 1fr; }
   .search-app .hero-title { font-size: 30px; }
+  .search-app .drug-profile-card { padding: 12px 14px; }
 }

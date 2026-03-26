@@ -34,6 +34,9 @@ export default function AnswerPanel({
         <span className={`query-type-badge badge-${queryType}`}>
           {queryType.replace('_', ' ')}
         </span>
+        <span className="answer-source-count">
+          {sources.length} source{sources.length !== 1 ? 's' : ''}
+        </span>
         <div className="sources-used">
           {sourcesUsed.map(s => {
             const labels: Record<string, string> = {
@@ -203,13 +206,50 @@ function parseAnswer(
   let inTable = false
   let tableLines: string[] = []
   let justFlushedTable = false
+  let inDrugCard = false
+  let drugCardTitle = ''
+  let drugCardElements: ReactNode[] = []
+  let drugCardMechanism = ''
+
+  function flushDrugCard() {
+    if (drugCardElements.length > 0 || drugCardTitle) {
+      // Split title into drug name and subtitle
+      const parts = drugCardTitle.split(/\s[—–-]\s/)
+      const drugName = parts[0]?.trim() || drugCardTitle
+      const subtitle = parts.slice(1).join(' — ').trim()
+
+      elements.push(
+        <div key={`dc-${elements.length}`} className="drug-profile-card" data-mechanism={drugCardMechanism}>
+          <div className="drug-profile-name">
+            <span>{drugName}</span>
+            {subtitle && <span className="drug-subtitle">— {subtitle}</span>}
+          </div>
+          {drugCardElements}
+        </div>
+      )
+    }
+    inDrugCard = false
+    drugCardTitle = ''
+    drugCardElements = []
+    drugCardMechanism = ''
+  }
+
+  // Helper: push to the right target (drug card or main elements)
+  function pushElement(el: ReactNode) {
+    if (inDrugCard) {
+      drugCardElements.push(el)
+    } else {
+      elements.push(el)
+    }
+  }
 
   function flushParagraph() {
     if (currentParagraph.length > 0) {
       const content = currentParagraph.join(' ')
       if (content.trim()) {
-        elements.push(
-          <p key={`p-${elements.length}`} className="answer-paragraph">
+        const keyBase = inDrugCard ? `dcp-${drugCardElements.length}` : `p-${elements.length}`
+        pushElement(
+          <p key={keyBase} className="answer-paragraph">
             {renderInlineContent(content, sources, onCitationHover)}
           </p>
         )
@@ -220,8 +260,9 @@ function parseAnswer(
 
   function flushList() {
     if (listItems.length > 0) {
-      elements.push(
-        <ul key={`ul-${elements.length}`} className="answer-list">
+      const keyBase = inDrugCard ? `dcul-${drugCardElements.length}` : `ul-${elements.length}`
+      pushElement(
+        <ul key={keyBase} className="answer-list">
           {listItems.map((item, i) => (
             <li key={i} className="answer-list-item">
               {renderInlineContent(item, sources, onCitationHover)}
@@ -236,8 +277,9 @@ function parseAnswer(
 
   function flushTable() {
     if (tableLines.length >= 2) {
-      const table = renderTable(tableLines, sources, onCitationHover, `tbl-${elements.length}`)
-      if (table) elements.push(table)
+      const keyBase = inDrugCard ? `dctbl-${drugCardElements.length}` : `tbl-${elements.length}`
+      const table = renderTable(tableLines, sources, onCitationHover, keyBase)
+      if (table) pushElement(table)
     }
     tableLines = []
     inTable = false
@@ -276,23 +318,55 @@ function parseAnswer(
 
     if (trimmed.startsWith('### ')) {
       flushList(); flushParagraph()
-      elements.push(<h4 key={`h4-${elements.length}`} className="answer-h4">{trimmed.replace(/^###\s*/, '')}</h4>)
+      // h4 can go inside or outside drug cards
+      pushElement(<h4 key={`h4-${elements.length}`} className="answer-h4">{trimmed.replace(/^###\s*/, '')}</h4>)
       continue
     }
     if (trimmed.startsWith('## ')) {
       flushList(); flushParagraph()
-      elements.push(<h3 key={`h3-${elements.length}`} className="answer-h3">{trimmed.replace(/^##\s*/, '')}</h3>)
+      if (inDrugCard) flushDrugCard()  // Section headers close drug cards
+      elements.push(<h3 key={`h3-${elements.length}`} className="answer-h3">{renderInlineContent(trimmed.replace(/^##\s*/, ''), sources, onCitationHover)}</h3>)
       continue
     }
     if (trimmed.startsWith('# ')) {
       flushList(); flushParagraph()
-      elements.push(<h2 key={`h2-${elements.length}`} className="answer-h2">{trimmed.replace(/^#\s*/, '')}</h2>)
+      if (inDrugCard) flushDrugCard()  // Section headers close drug cards
+      elements.push(<h2 key={`h2-${elements.length}`} className="answer-h2">{renderInlineContent(trimmed.replace(/^#\s*/, ''), sources, onCitationHover)}</h2>)
       continue
     }
 
+    // Detect drug profile header: **drugname (Company) — Description**
+    // These are standalone bold lines that contain a company name in parentheses or a dash separator
     if (/^\*\*[^*]+\*\*$/.test(trimmed)) {
+      const inner = trimmed.replace(/\*\*/g, '')
+
+      // Check if this looks like a drug profile header (has company in parens or em-dash)
+      const isDrugProfile = /\(.+\)/.test(inner) && (/\s[—–-]\s/.test(inner) || /\s(Established|Emerging|Novel|First|Phase)/.test(inner))
+
       flushList(); flushParagraph()
-      elements.push(<h4 key={`bh-${elements.length}`} className="answer-h4">{trimmed.replace(/\*\*/g, '')}</h4>)
+
+      if (isDrugProfile) {
+        // Close any open drug profile card
+        if (inDrugCard) {
+          flushDrugCard()
+        }
+        // Start collecting elements for a new drug profile card
+        inDrugCard = true
+        drugCardTitle = inner
+        drugCardElements = []
+        // Try to detect mechanism from the title for color coding
+        drugCardMechanism = ''
+        const mechPatterns = ['IL-4', 'IL-13', 'IL-31', 'OX40', 'TSLP', 'JAK', 'STAT6', 'KRAS', 'PD-1', 'PD-L1', 'GLP-1', 'ADC', 'HER2', 'IL-2', 'IL-17', 'IL-18', 'IL-22']
+        for (const p of mechPatterns) {
+          if (inner.toUpperCase().includes(p.toUpperCase())) {
+            drugCardMechanism = p
+            break
+          }
+        }
+      } else {
+        // Regular bold-only line → h4
+        elements.push(<h4 key={`bh-${elements.length}`} className="answer-h4">{inner}</h4>)
+      }
       continue
     }
 
@@ -317,6 +391,7 @@ function parseAnswer(
   flushTable()
   flushList()
   flushParagraph()
+  if (inDrugCard) flushDrugCard()
   return elements
 }
 

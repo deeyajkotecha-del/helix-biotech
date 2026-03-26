@@ -1628,6 +1628,43 @@ DRUG_PATTERNS = {
     # FcRn / myasthenia gravis
     r'\b(rozanolixizumab)\b': ("rozanolixizumab", "FcRn"),
     r'\b(nipocalimab)\b': ("nipocalimab", "FcRn"),
+    # Atopic Dermatitis / Immunology
+    r'\b(tralokinumab|[Aa]dbry|[Aa]dtralza|CAT-354)\b': ("tralokinumab", "IL-13"),
+    r'\b(lebrikizumab|[Ee]bglyss|LY3650150)\b': ("lebrikizumab", "IL-13"),
+    r'\b(cendakimab|ABT-308|RPC4046)\b': ("cendakimab", "IL-13"),
+    r'\b(eblasakimab|ABBV-323)\b': ("eblasakimab", "IL-13R"),
+    r'\b(nemolizumab|[Nn]emluvio|CIM331)\b': ("nemolizumab", "IL-31Rα"),
+    r'\b(rocatinlimab|AMG[- ]?451|KHK4083)\b': ("rocatinlimab", "OX40"),
+    r'\b(amlitelimab|SAR445229|KY1005)\b': ("amlitelimab", "OX40L"),
+    r'\b(tezepelumab|[Tt]ezspire|AMG[- ]?157|MEDI9929)\b': ("tezepelumab", "TSLP"),
+    r'\b(abrocitinib|[Cc]ibinqo|PF-04965842)\b': ("abrocitinib", "JAK1"),
+    r'\b(KT-?621)\b': ("KT-621", "STAT6 degrader"),
+    r'\b(rezpegaldesleukin|SAR444336|THOR-707)\b': ("rezpegaldesleukin", "IL-2 mutein"),
+    r'\b(itepekimab|REGN3500)\b': ("itepekimab", "IL-33"),
+    r'\b(astegolimab|AMG[- ]?282)\b': ("astegolimab", "IL-33"),
+    r'\b(dilexit|ASLAN004)\b': ("dilexit", "IL-13Rα1"),
+    r'\b(benralizumab|[Ff]asenra)\b': ("benralizumab", "IL-5Rα"),
+    r'\b(mepolizumab|[Nn]ucala)\b': ("mepolizumab", "IL-5"),
+    r'\b(omalizumab|[Xx]olair)\b': ("omalizumab", "IgE"),
+    r'\b(bermekimab)\b': ("bermekimab", "IL-1α"),
+    r'\b(spesolimab|[Ss]pexion)\b': ("spesolimab", "IL-36R"),
+    r'\b(bimekizumab|[Bb]imzelx)\b': ("bimekizumab", "IL-17A/F"),
+    r'\b(ixekizumab|[Tt]altz)\b': ("ixekizumab", "IL-17A"),
+    r'\b(delgocitinib)\b': ("delgocitinib", "pan-JAK (topical)"),
+    r'\b(rademikibart|CBP-201)\b': ("rademikibart", "IL-4Rα"),
+    r'\b(CM310|datrecitinib)\b': ("CM310/datrecitinib", "IL-4Rα"),
+    r'\b(tapinarof|[Vv]tama)\b': ("tapinarof", "AhR agonist"),
+    r'\b(roflumilast)\b': ("roflumilast", "PDE4 (topical)"),
+    r'\b(difamilast|MOH[- ]?22)\b': ("difamilast", "PDE4 (topical)"),
+    r'\b(tilrekotide)\b': ("tilrekotide", "TSLP peptide"),
+    # Patent-notable AD assets
+    r'\b(BM512)\b': ("BM512", "TSLP"),
+    r'\b(bosakitug)\b': ("bosakitug", "TSLP"),
+    r'\b(EVO301)\b': ("EVO301", "IL-18"),
+    r'\b(temtokibart)\b': ("temtokibart", "IL-22"),
+    r'\b(galvokimig)\b': ("galvokimig", "IL-17"),
+    r'\b(CMK-?389)\b': ("CMK-389", "IL-18"),
+    r'\b(aletektug)\b': ("aletektug", "IL-18"),
 }
 
 # Phase normalization
@@ -1637,18 +1674,22 @@ PHASE_RANK = {
 }
 
 
-def build_landscape(target_or_query, region="all", max_trials=200, use_llm=False):
+def build_landscape(target_or_query, region="all", max_trials=200, use_llm=False, use_patents=False):
     """
-    Build a drug asset landscape from global trial data.
+    Build a drug asset landscape from global trial data + optional patent search.
 
-    Pulls trials from ClinicalTrials.gov API v2, extracts drug names,
-    and groups into a clean investor-grade landscape view.
+    Pulls trials from ClinicalTrials.gov API v2, extracts drug names via:
+      1. DRUG_PATTERNS regex matching (known drugs)
+      2. Direct intervention name extraction (unknown/novel drugs)
+      3. Optional LLM extraction for remaining ambiguous trials
+      4. Optional patent search for preclinical/early-stage assets
 
     Args:
-        target_or_query: e.g., "GLP-1", "ADC", "PD-1", "KRAS"
+        target_or_query: e.g., "GLP-1", "ADC", "PD-1", "KRAS", "Atopic Dermatitis"
         region: "all", "china", "korea", "japan", "india", "europe"
         max_trials: Max trials to fetch
         use_llm: If True, use Claude to extract drug names from ambiguous trials
+        use_patents: If True, also search patent databases for early-stage assets
 
     Returns:
         Dict with landscape data grouped by drug asset
@@ -1696,6 +1737,72 @@ def build_landscape(target_or_query, region="all", max_trials=200, use_llm=False
             trials.extend(t for t in extra if t["trial_id"] not in existing)
 
     print(f"  Total trials fetched: {len(trials)}\n")
+
+    # Step 1b: Optional patent search for preclinical/early-stage assets
+    patent_assets = {}
+    if use_patents:
+        print("  Step 1b: Searching global patent databases...")
+        try:
+            patents = search_patents_lens(target_or_query, max_results=50)
+            print(f"  Found {len(patents)} patent filings")
+
+            for patent in patents:
+                title = patent.get("title", "")
+                # Try to extract a drug name from patent title using same patterns
+                for pattern, (drug_name, moa) in DRUG_PATTERNS.items():
+                    if re.search(pattern, title, re.IGNORECASE):
+                        if drug_name not in patent_assets:
+                            patent_assets[drug_name] = {
+                                "drug_name": drug_name,
+                                "target_moa": moa,
+                                "sponsor": patent.get("applicant", ""),
+                                "highest_phase": "Preclinical/Patent",
+                                "highest_phase_rank": 0.5,
+                                "trials": [],
+                                "countries": set(),
+                                "indications": set(),
+                                "active_trials": 0,
+                                "total_trials": 0,
+                                "patent_ids": [],
+                                "source": "patent_search",
+                            }
+                        patent_assets[drug_name]["patent_ids"].append(
+                            patent.get("id", patent.get("patent_number", ""))
+                        )
+                        jurisdictions = patent.get("jurisdictions", patent.get("country", ""))
+                        if isinstance(jurisdictions, list):
+                            patent_assets[drug_name]["countries"].update(jurisdictions)
+                        elif jurisdictions:
+                            patent_assets[drug_name]["countries"].add(jurisdictions)
+                        break
+
+            # Also try extracting code names from patent titles
+            for patent in patents:
+                title = patent.get("title", "")
+                code_matches = re.findall(
+                    r'\b([A-Z]{1,5}[\s-]?\d{3,6}[A-Z]?)\b', title
+                )
+                for code in code_matches:
+                    code = code.strip()
+                    if code not in patent_assets and len(code) >= 4:
+                        patent_assets[code] = {
+                            "drug_name": code,
+                            "target_moa": f"Patent-disclosed ({target_or_query})",
+                            "sponsor": patent.get("applicant", ""),
+                            "highest_phase": "Preclinical/Patent",
+                            "highest_phase_rank": 0.5,
+                            "trials": [],
+                            "countries": set(),
+                            "indications": set(),
+                            "active_trials": 0,
+                            "total_trials": 0,
+                            "patent_ids": [patent.get("id", "")],
+                            "source": "patent_search",
+                        }
+
+            print(f"  Patent search found {len(patent_assets)} drug assets")
+        except Exception as e:
+            print(f"  [Patent search] Error: {e}")
 
     # Step 2: Extract drug assets from trials
     print("  Step 2: Extracting drug assets...")
@@ -1759,7 +1866,32 @@ def build_landscape(target_or_query, region="all", max_trials=200, use_llm=False
         if not matched:
             unmatched_trials.append(trial)
 
-    # Step 2b: Use Claude to extract drugs from unmatched trials (optional)
+    # Step 2a: Extract novel drugs directly from intervention names (no regex needed)
+    direct_extracted = 0
+    if unmatched_trials:
+        print(f"\n  Step 2a: Extracting drugs directly from {len(unmatched_trials)} unmatched trial interventions...")
+        direct_assets = _extract_interventions_direct(unmatched_trials, set(assets.keys()))
+        for drug_name, asset_data in direct_assets.items():
+            if drug_name not in assets:
+                assets[drug_name] = asset_data
+                direct_extracted += 1
+            else:
+                # Merge into existing
+                existing = assets[drug_name]
+                existing["trials"].extend(asset_data["trials"])
+                existing["total_trials"] += asset_data["total_trials"]
+                existing["countries"].update(asset_data["countries"])
+                existing["indications"].update(asset_data["indications"])
+                existing["active_trials"] += asset_data["active_trials"]
+        print(f"  Direct extraction found {direct_extracted} novel drug assets")
+        # Update unmatched: remove trials that were matched by direct extraction
+        matched_trial_ids = set()
+        for a in direct_assets.values():
+            matched_trial_ids.update(a["trials"])
+        unmatched_trials = [t for t in unmatched_trials if t["trial_id"] not in matched_trial_ids]
+        print(f"  Remaining unmatched trials: {len(unmatched_trials)}")
+
+    # Step 2b: Use Claude to extract drugs from remaining unmatched trials (optional)
     llm_extracted = 0
     if use_llm and unmatched_trials and ANTHROPIC_API_KEY:
         print(f"\n  Step 2b: Using Claude to extract drugs from {len(unmatched_trials)} unmatched trials...")
@@ -1778,6 +1910,25 @@ def build_landscape(target_or_query, region="all", max_trials=200, use_llm=False
                 existing["active_trials"] += asset_data["active_trials"]
 
         print(f"  Claude extracted {llm_extracted} additional drug assets")
+
+    # Step 2c: Merge patent-discovered assets (if any)
+    patent_only = 0
+    if patent_assets:
+        for drug_name, patent_data in patent_assets.items():
+            if drug_name not in assets:
+                assets[drug_name] = patent_data
+                patent_only += 1
+            else:
+                # Add patent info to existing clinical asset
+                existing = assets[drug_name]
+                if "patent_ids" not in existing:
+                    existing["patent_ids"] = []
+                existing["patent_ids"].extend(patent_data.get("patent_ids", []))
+                existing["countries"].update(patent_data.get("countries", set())
+                    if isinstance(patent_data.get("countries"), set)
+                    else set(patent_data.get("countries", [])))
+        if patent_only:
+            print(f"\n  Step 2c: {patent_only} additional assets found only in patent filings (preclinical)")
 
     # Step 3: Sort and format
     asset_list = sorted(assets.values(), key=lambda a: (-a["highest_phase_rank"], -a["total_trials"]))
@@ -1835,6 +1986,9 @@ def build_landscape(target_or_query, region="all", max_trials=200, use_llm=False
     print(f"    Phase 3+:             {sum(1 for a in asset_list if a['highest_phase_rank'] >= 4)}")
     print(f"    Phase 2:              {sum(1 for a in asset_list if 2.5 <= a['highest_phase_rank'] < 4)}")
     print(f"    Phase 1:              {sum(1 for a in asset_list if 1 <= a['highest_phase_rank'] < 2.5)}")
+    print(f"    Auto-discovered:      {direct_extracted} (from intervention fields)")
+    if llm_extracted:
+        print(f"    LLM-extracted:        {llm_extracted} (from Claude)")
     print(f"    Unmatched trials:     {len(unmatched_trials)} (use --landscape-llm to extract)")
     print(f"    Total trials scanned: {len(trials)}")
 
@@ -1847,6 +2001,241 @@ def build_landscape(target_or_query, region="all", max_trials=200, use_llm=False
         "unmatched_trials": len(unmatched_trials),
         "timestamp": datetime.now().isoformat(),
     }
+
+
+def _extract_interventions_direct(trials, already_found):
+    """
+    Extract drug assets DIRECTLY from ClinicalTrials.gov intervention names,
+    without needing regex patterns. This catches novel/unknown drugs that
+    aren't in DRUG_PATTERNS at all.
+
+    Filters out non-drug interventions (placebo, standard of care, procedures,
+    devices, generic class names) and returns a dict of newly discovered assets.
+
+    Args:
+        trials: List of trial dicts (unmatched by DRUG_PATTERNS)
+        already_found: Set of drug names already discovered (to avoid duplicates)
+
+    Returns:
+        Dict of drug_name → asset dict
+    """
+    # ── INN (International Nonproprietary Name) suffix patterns ──
+    # These are WHO-assigned naming stems that mark real pharmaceutical compounds.
+    # If a word ends with one of these, it's almost certainly a drug.
+    INN_PATTERN = re.compile(
+        r'^[a-z].*(?:'
+        # Monoclonal antibodies
+        r'mab|zumab|ximab|mumab|tumab|lumab|numab|rumab|'
+        # Kinase inhibitors
+        r'tinib|nib|ciclib|sertib|metinib|ratinib|citinib|letinib|lisib|'
+        # Peptides & receptor agonists
+        r'tide|glutide|reotide|nakin|relbin|'
+        # Cardiovascular / metabolic
+        r'pril|sartan|olol|statin|vastatin|prazole|gliptin|gliflozin|'
+        # Anti-infectives
+        r'cillin|floxacin|mycin|cycline|bactam|fungin|vudine|virin|'
+        # Anti-coagulants / respiratory
+        r'parin|lukast|'
+        # Other stems (newer naming)
+        r'tug|kibart|kecept|nermin|ceptin|platin|rubicin|'
+        r'fenacin|lukine|poetin|tropin|fibatide|gatran|'
+        # ADC / fusion / bispecific suffixes
+        r'vedotin|mertansine|tansine|ozogamicin|ravtansine|'
+        r'fusp|cept'
+        r')$',
+        re.IGNORECASE
+    )
+
+    # ── Code name patterns (e.g., KT-621, PF-06939926, BM512) ──
+    # Pharma companies use alphanumeric codes for experimental compounds.
+    CODE_NAME_PATTERN = re.compile(
+        r'^[A-Z]{1,5}[\-]?\d{2,7}[A-Z]?$|'          # KT-621, PJ009, BM512, PF-06939926
+        r'^[A-Z]{2,6}[\-]\d{2,}(?:[\-]\d+)?$|'       # ABT-494, SHR-1819, BAY81-2996
+        r'^[A-Z]\d{4,}$',                             # E7080
+        re.IGNORECASE
+    )
+
+    # ── Known non-drug terms — broad blocklist ──
+    # Clinical trials list all sorts of non-drug "interventions" that we need to skip.
+    SKIP_LOWER = {
+        # Controls & placebos
+        "placebo", "sham", "saline", "vehicle", "no treatment", "no intervention",
+        "standard of care", "standard care", "best supportive care", "bsc",
+        "soc", "usual care", "active comparator", "comparator", "control group",
+        # Procedures, devices, diagnostics
+        "surgery", "radiation", "radiotherapy", "phototherapy", "cryotherapy",
+        "biopsy", "biopsies", "transplant", "dialysis", "device", "laser",
+        "ultrasound", "blood draw", "blood test", "clinical examination",
+        "phone call", "phone calls", "telemedicine", "telehealth",
+        # Behavioral / educational
+        "dietary supplement", "supplement", "vitamin", "probiotic", "prebiotic",
+        "exercise", "behavioral", "cognitive", "counseling", "psychotherapy",
+        "physical therapy", "rehabilitation", "education", "observation",
+        "diagnostic test", "questionnaire", "survey", "psychoeducation",
+        "routine care", "extended information", "information reports",
+        # Dermatology-specific non-drugs (from AD trial noise)
+        "emollient", "emollient cream", "moisturizer", "sunscreen",
+        "topical corticosteroid", "topical steroid",
+        "aquaphor", "aquaphor ointment", "cetaphil", "cetaphil cream",
+        "cetaphil restoraderm", "eucerin", "vaseline", "petroleum jelly",
+        "wool clothing", "cotton clothing", "dry smear", "wet wrap",
+        # Food / dietary
+        "mare's milk", "breast milk", "formula", "sunflower oil",
+        "coconut oil", "fish oil", "olive oil", "evening primrose oil",
+        "dha+epa", "omega-3", "zinc", "iron",
+        # Generic drug class names (too vague to be a specific asset)
+        "corticosteroid", "antibiotic", "antifungal", "anti-inflammatory",
+        "analgesic", "bronchodilator", "diuretic", "antihistamine",
+        "immunosuppressant", "statin", "nsaid", "small molecules",
+        # Procedures / study arms
+        "naet procedures", "conventional treatment", "routine care/education",
+        "psychoeducation/coping prevention",
+        # Established generics (not novel assets worth tracking)
+        "prednisolone", "prednisone", "hydrocortisone", "betamethasone",
+        "fluticasone", "mometasone", "clobetasol",
+        "pimecrolimus", "tacrolimus", "ciclosporin", "ciclosporin a",
+        "cyclosporine", "methotrexate", "azathioprine", "mycophenolate",
+        "hydroxychloroquine", "dapsone", "gentamicin", "mupirocin",
+        "cetirizine", "loratadine", "fexofenadine", "diphenhydramine",
+        "chlorpheniramine", "chlorpheniramine-codeine",
+        # Study logistics (not interventions at all)
+        "animal allergy", "non-animal allergy", "dna reports",
+        "panels", "eswabs", "galenico",
+    }
+
+    # ── Additional pattern-based skips ──
+    SKIP_PATTERNS = [
+        re.compile(r'^\d+(\.\d+)?\s*(mg|ml|mcg|ug|g|%|units?|iu)', re.I),  # Dosages
+        re.compile(r'^(low|medium|high)\s+dose', re.I),                      # Dose arms
+        re.compile(r'®|©|™', re.I),                                          # Brand symbols (OTC products)
+        re.compile(r'\b(cream|ointment|lotion|gel|foam|patch|shampoo)\b', re.I),  # Formulations
+        re.compile(r'\b(group|arm|cohort|panel|phase)\b', re.I),             # Study arms
+        re.compile(r'\b(procedure|examination|assessment|evaluation)\b', re.I),
+        re.compile(r'\b(call|visit|session|interview|report)\b', re.I),      # Study logistics
+    ]
+
+    assets = {}
+    already_lower = {d.lower() for d in already_found}
+
+    for trial in trials:
+        interventions_str = trial.get("interventions", "")
+        if not interventions_str:
+            continue
+
+        # Split on comma or semicolon
+        raw_names = re.split(r'[,;]', interventions_str)
+
+        for raw in raw_names:
+            name = raw.strip()
+            if not name or len(name) < 3 or len(name) > 60:
+                continue
+
+            name_lower = name.lower().strip()
+
+            # Skip known non-drug terms (exact match)
+            if name_lower in SKIP_LOWER:
+                continue
+
+            # Skip if it's just a number or dosage
+            if any(p.match(name) for p in SKIP_PATTERNS):
+                continue
+
+            # Skip multi-word descriptions (4+ words = almost never a drug name)
+            if len(name.split()) >= 4:
+                continue
+
+            # Skip if already found via DRUG_PATTERNS
+            if name_lower in already_lower:
+                continue
+
+            # ── STRICT acceptance: only INN names or code names ──
+            is_drug = False
+            clean_name = name
+            first_word = name.split()[0].strip('()"\'')
+
+            # 1. INN naming pattern (e.g., nemolizumab, abrocitinib, rocatinlimab)
+            if INN_PATTERN.match(first_word):
+                is_drug = True
+                clean_name = first_word
+
+            # 2. Pharma code name (e.g., KT-621, SHR-1819, PF-07832837)
+            elif CODE_NAME_PATTERN.match(first_word):
+                is_drug = True
+                clean_name = first_word
+
+            # 3. Known branded names ending in common Rx suffixes
+            #    (catches things like "Jaungo" which is a Korean herbal Rx)
+            #    BUT only if the trial is Phase 1+ (not NA/observational)
+            elif (len(name.split()) == 1 and len(name) >= 4
+                  and name[0].isupper() and name[1:].islower()
+                  and trial.get("phase", "") and trial["phase"] != "NA"
+                  and not any(p.search(name) for p in SKIP_PATTERNS)):
+                is_drug = True
+                clean_name = name
+
+            if not is_drug:
+                continue
+
+            # Additional pattern-based rejection on the clean name
+            if any(p.search(clean_name) for p in SKIP_PATTERNS):
+                continue
+
+            # Normalize
+            clean_name = clean_name.strip().strip('"\'()')
+
+            if clean_name.lower() in already_lower or len(clean_name) < 3:
+                continue
+
+            # Create or update asset entry
+            if clean_name not in assets:
+                assets[clean_name] = {
+                    "drug_name": clean_name,
+                    "target_moa": "Unknown (auto-discovered)",
+                    "sponsor": "",
+                    "highest_phase": "",
+                    "highest_phase_rank": 0,
+                    "trials": [],
+                    "countries": set(),
+                    "indications": set(),
+                    "active_trials": 0,
+                    "total_trials": 0,
+                    "source": "intervention_extraction",  # Flag as auto-discovered
+                }
+
+            asset = assets[clean_name]
+            asset["trials"].append(trial["trial_id"])
+            asset["total_trials"] += 1
+
+            # Track phase
+            phase = trial.get("phase", "")
+            phase_rank = PHASE_RANK.get(phase, 0)
+            if phase_rank > asset["highest_phase_rank"]:
+                asset["highest_phase"] = phase
+                asset["highest_phase_rank"] = phase_rank
+
+            # Track sponsor
+            if trial.get("sponsor") and not asset["sponsor"]:
+                asset["sponsor"] = trial["sponsor"]
+
+            # Track countries
+            for country in trial.get("countries", "").split(", "):
+                country = country.strip()
+                if country:
+                    asset["countries"].add(country)
+
+            # Track indications
+            for cond in trial.get("conditions", "").split(", "):
+                cond = cond.strip()
+                if cond and len(cond) > 3:
+                    asset["indications"].add(cond)
+
+            # Count active trials
+            if trial.get("status") in ("RECRUITING", "ACTIVE_NOT_RECRUITING", "NOT_YET_RECRUITING"):
+                asset["active_trials"] += 1
+
+            already_lower.add(clean_name.lower())
+
+    return assets
 
 
 def _extract_drugs_with_llm(trials, query_context, batch_size=20):
@@ -1967,6 +2356,7 @@ Examples:
   %(prog)s --landscape --target "GLP-1"                 Drug asset landscape (THE KEY FEATURE)
   %(prog)s --landscape --target "ADC" --region china     ADC landscape, China focus
   %(prog)s --landscape-llm --target "PD-1"              Landscape + Claude extraction
+  %(prog)s --landscape-patents --target "KRAS"          Landscape + patent search (preclinical)
   %(prog)s --trials --target "GLP-1"                    Raw trial search
   %(prog)s --trials --target "GLP-1" --region china     China-specific trials
   %(prog)s --patents --query "KRAS inhibitor"           Search global patents
@@ -1981,6 +2371,7 @@ Examples:
                         help="Region to search")
     parser.add_argument("--landscape", action="store_true", help="Build drug asset landscape (grouped by drug)")
     parser.add_argument("--landscape-llm", action="store_true", help="Landscape with Claude-powered extraction")
+    parser.add_argument("--landscape-patents", action="store_true", help="Landscape + patent search for preclinical assets")
     parser.add_argument("--trials", action="store_true", help="Search clinical trial registries only")
     parser.add_argument("--patents", action="store_true", help="Search patent databases only")
     parser.add_argument("--ir", action="store_true", help="Scrape regional IR pages only")
@@ -2011,13 +2402,14 @@ Examples:
         parser.print_help()
         return
 
-    if args.landscape or args.landscape_llm:
+    if args.landscape or args.landscape_llm or args.landscape_patents:
         # THE KEY FEATURE: Drug asset landscape view
         use_llm = args.landscape_llm
+        use_patents = args.landscape_patents
         max_trials = args.max * 4 if args.max else 200  # fetch more trials for better coverage
         result = build_landscape(
             search_term, region=args.region,
-            max_trials=max_trials, use_llm=use_llm,
+            max_trials=max_trials, use_llm=use_llm, use_patents=use_patents,
         )
 
         # Save to JSON

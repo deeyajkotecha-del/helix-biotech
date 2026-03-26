@@ -6,11 +6,11 @@ import LandingHero from './LandingHero'
 import type { SearchResult, SearchSource, QueryPlan, SearchMetadata, SearchTiming } from './types'
 import './search.css'
 
-// Extract follow-up questions from answer text
+// Extract follow-up questions from answer text (supports both {followup} and {{followup}})
 function extractFollowups(text: string) {
-  const match = text.match(/\{\{followup\}\}([\s\S]*?)\{\{\/followup\}\}/)
+  const match = text.match(/\{?\{followup\}?\}([\s\S]*?)\{?\{\/followup\}?\}/)
   if (!match) return { cleanAnswer: text, followups: [] as string[] }
-  const cleanAnswer = text.replace(/\{\{followup\}\}[\s\S]*?\{\{\/followup\}\}/, '').trimEnd()
+  const cleanAnswer = text.replace(/\{?\{followup\}?\}[\s\S]*?\{?\{\/followup\}?\}/, '').trimEnd()
   const followups = match[1].trim().split('\n').map(q => q.trim()).filter(Boolean)
   return { cleanAnswer, followups }
 }
@@ -92,6 +92,10 @@ export default function SearchPage() {
               finalPlan = { ...finalPlan, ...event.query_plan }
               finalMetadata = event.metadata || finalMetadata
               finalTiming = event.timing || {}
+              // Use corrected answer if post-processing changed it
+              if (event.corrected_answer) {
+                fullText = event.corrected_answer
+              }
             }
           } catch {
             // skip malformed lines
@@ -185,7 +189,7 @@ export default function SearchPage() {
             {error && <ErrorState message={error} />}
             {streamingText && !result && (
               <AnswerPanel
-                answer={streamingText.replace(/\{\{followup\}\}[\s\S]*$/, '').trimEnd()}
+                answer={streamingText.replace(/\{?\{followup\}?\}[\s\S]*$/, '').trimEnd()}
                 sources={[]}
                 queryPlan={null}
                 onCitationHover={setHighlightedSource}

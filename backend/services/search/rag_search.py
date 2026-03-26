@@ -415,25 +415,26 @@ def format_context_for_claude(results: list[dict]) -> str:
         })
 
     parts = []
-    parts.append("--- CROSS-DOCUMENT SEARCH RESULTS (from embedded document library) ---")
+    parts.append("--- INTERNAL DOCUMENT LIBRARY (embedded investor decks, SEC filings, clinical papers) ---")
     parts.append(f"Retrieved {len(results)} chunks from {len(by_doc)} documents via hybrid search + reranking.")
-    parts.append("IMPORTANT: Only use information from these documents. Cite using [Doc N] tags.\n")
+    parts.append("CITATION RULE: When citing data from these documents, use {{doc:TICKER|DocTitle}} format.")
+    parts.append("Example: {{doc:RVMD|ASCO 2024 Investor Presentation}} — do NOT use [Doc N] format.\n")
 
-    # Document index for citations — includes date so Claude knows what's newest
-    parts.append("DOCUMENT INDEX (sorted by relevance — check dates for recency):")
+    # Document index — maps Doc N to ticker|title so Claude can build proper citations
+    parts.append("DOCUMENT INDEX:")
     for doc_key, doc in by_doc.items():
-        source_link = doc["file_path"] if doc["file_path"] else doc["filename"]
         date_str = f" | Date: {doc['doc_date']}" if doc["doc_date"] else ""
-        parts.append(f"  [Doc {doc['doc_num']}] {doc['ticker']} | {doc['title']} | Type: {doc['doc_type']}{date_str} | Source: {source_link}")
+        parts.append(f"  [Doc {doc['doc_num']}] → Cite as: {{doc:{doc['ticker']}|{doc['title']}}} | Type: {doc['doc_type']}{date_str}")
     parts.append("")
 
     for doc_key, doc in by_doc.items():
         parts.append(f"== [Doc {doc['doc_num']}] {doc['ticker']} | {doc['company']} | {doc['title']} ({doc['doc_type']}) ==")
+        parts.append(f"   CITE THIS AS: {{doc:{doc['ticker']}|{doc['title']}}}")
         for chunk in doc["chunks"]:
             parts.append(f"   [Page {chunk['page']}, relevance: {chunk['similarity']}]")
             parts.append(f"   {chunk['content']}")
             parts.append("")
         parts.append("")
 
-    parts.append("--- END SEARCH RESULTS ---")
+    parts.append("--- END DOCUMENT LIBRARY ---")
     return "\n".join(parts)

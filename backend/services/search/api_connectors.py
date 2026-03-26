@@ -357,19 +357,19 @@ def format_api_results_for_claude(
     if trials:
         parts.append("=== LIVE DATA: ClinicalTrials.gov ===")
         parts.append(f"Total trials returned: {len(trials)}")
-        parts.append("IMPORTANT: Present EVERY trial individually in a markdown table. Do NOT summarize as 'X trials'.\n")
+        parts.append("IMPORTANT: For landscape queries, create a DEEP PROFILE for each major drug — list ALL its trials, not just one. For single-drug queries, present EVERY trial.\n")
         for t in trials:
             interventions_str = ", ".join(f"{i['name']} ({i['type']})" for i in t.get("interventions", []))
             parts.append(f"  [{t['nct_id']}] {t['title']}")
+            parts.append(f"    Official title: {t.get('official_title', '')}")
             parts.append(f"    Status: {t['status']} | Phase: {t['phase']} | Sponsor: {t['sponsor']}")
             parts.append(f"    Conditions: {', '.join(t.get('conditions', []))}")
             parts.append(f"    Interventions: {interventions_str}")
             parts.append(f"    Enrollment: {t.get('enrollment', 'N/A')} | Start: {t.get('start_date', 'N/A')}")
             if t.get("primary_outcomes"):
-                parts.append(f"    Primary endpoints: {'; '.join(t['primary_outcomes'][:3])}")
+                parts.append(f"    Primary endpoints: {'; '.join(t['primary_outcomes'][:5])}")
             if t.get("summary"):
-                # Truncate long summaries but include enough for context
-                summary = t["summary"][:300].strip()
+                summary = t["summary"][:500].strip()
                 parts.append(f"    Summary: {summary}")
             parts.append(f"    URL: {t['url']}")
             parts.append("")

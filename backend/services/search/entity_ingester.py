@@ -81,6 +81,13 @@ try:
 except ImportError:
     pass
 
+# Competitor validation (optional — validates auto-created entities)
+try:
+    from competitor_validator import validate_competitor, _save_validation_to_queue
+    VALIDATOR_AVAILABLE = True
+except ImportError:
+    VALIDATOR_AVAILABLE = False
+
 
 # =============================================================================
 # Additional Schema (extends drug_entities tables)
@@ -191,7 +198,7 @@ def _is_likely_drug_name(name: str) -> bool:
     return True
 
 
-def ingest_trials_for_indication(indication: str, max_results: int = 50) -> dict:
+def ingest_trials_for_indication(indication: str, max_results: int = 50, validate_new: bool = False) -> dict:
     """
     Query ClinicalTrials.gov for an indication and auto-create drug entities.
 
@@ -201,6 +208,11 @@ def ingest_trials_for_indication(indication: str, max_results: int = 50) -> dict
       3. If not, create a new drug entity with low confidence
       4. Link the trial (NCT ID) to the drug
       5. If two interventions share a sponsor, flag as potential alias
+      6. Optionally validate new entities via competitor_validator
+
+    Args:
+        validate_new: If True, run competitor_validator on newly created entities
+                     (uses CT.gov + FDA checks, no LLM — fast but costs API calls)
 
     Returns summary stats.
     """
@@ -295,6 +307,24 @@ def ingest_trials_for_indication(indication: str, max_results: int = 50) -> dict
                     """, (drug_id, nct_id, f"Sponsor: {sponsor}, Phase: {phase}, Indication: {indication}"))
 
                     print(f"    + New drug: {drug_name} (from {nct_id}, sponsor: {sponsor})")
+
+                    # Validate the new entity (async-friendly, non-blocking)
+                    if VALIDATOR_AVAILABLE and validate_new:
+                        try:
+                            val_result = validate_competitor(
+                                drug_name, indication,
+                                use_llm=False,  # Skip LLM for batch speed; use CT.gov + FDA only
+                                verbose=False,
+                            )
+                            _save_validation_to_queue(val_result, entity_id=drug_id)
+                            if not val_result.is_valid:
+                                stats.setdefault("flagged_invalid", 0)
+                                stats["flagged_invalid"] += 1
+                                print(f"      ⚠ Validation flagged: {drug_name} "
+                                      f"(confidence: {val_result.confidence:.0%})")
+                        except Exception as ve:
+                            print(f"      ⚠ Validation error for {drug_name}: {ve}")
+
                 else:
                     # Drug already exists with different ticker, find it
                     cur.execute("SELECT drug_id FROM drugs WHERE canonical_name = %s LIMIT 1", (drug_name,))

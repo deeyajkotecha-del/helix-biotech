@@ -297,3 +297,119 @@ async def search_health():
             health["clinical_trials_api"] = False
 
     return health
+
+
+# ---------------------------------------------------------------------------
+# Landscape chart data endpoint
+# ---------------------------------------------------------------------------
+# Serves structured clinical endpoint data for the LandscapeChart component.
+# Pulls from clinical_endpoints table (populated by endpoint_extractor.py).
+# If no data exists, returns empty — frontend shows "run extraction" prompt.
+
+try:
+    import psycopg2
+    import psycopg2.extras
+    _DB_URL = os.environ.get("NEON_DATABASE_URL", "")
+    _DB_AVAILABLE = bool(_DB_URL)
+except ImportError:
+    _DB_AVAILABLE = False
+    _DB_URL = ""
+
+
+@router.get("/chart/{indication}")
+async def get_chart_data(
+    indication: str,
+    endpoint: str = "EASI-75",
+    phase_min: str = "Phase 2",
+):
+    """
+    Get structured endpoint data for a landscape chart.
+
+    GET /api/search/chart/Atopic%20Dermatitis?endpoint=EASI-75
+    GET /api/search/chart/NSCLC?endpoint=ORR
+    GET /api/search/chart/obesity?endpoint=body%20weight%20loss
+
+    Returns JSON array of data points for LandscapeChart component.
+    """
+    if not _DB_AVAILABLE:
+        return JSONResponse({"data": [], "error": "Database not configured"}, status_code=503)
+
+    try:
+        conn = psycopg2.connect(_DB_URL)
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+
+        # Query clinical_endpoints for this indication + endpoint
+        # Pull both absolute and pbo_adjusted values
+        cur.execute("""
+            SELECT
+                ce.drug_name,
+                ce.trial_name,
+                ce.target,
+                ce.mechanism,
+                ce.company_ticker,
+                ce.phase,
+                ce.value,
+                ce.value_type,
+                ce.dose,
+                ce.timepoint,
+                ce.enrollment,
+                ce.source_detail
+            FROM clinical_endpoints ce
+            WHERE LOWER(ce.indication) LIKE LOWER(%s)
+              AND LOWER(ce.endpoint_name) = LOWER(%s)
+              AND ce.value IS NOT NULL
+            ORDER BY ce.target, ce.value DESC
+        """, (f"%{indication}%", endpoint))
+
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        if not rows:
+            return {
+                "data": [],
+                "indication": indication,
+                "endpoint": endpoint,
+                "message": f"No {endpoint} data found for {indication}. "
+                           f"Run: python3 endpoint_extractor.py --indication \"{indication}\" "
+                           f"to extract from your document library."
+            }
+
+        # Group by drug+trial to merge absolute and pbo_adjusted into one data point
+        merged = {}
+        for row in rows:
+            key = f"{row['drug_name']}|{row['trial_name'] or ''}|{row['dose'] or ''}"
+            if key not in merged:
+                merged[key] = {
+                    "drug": row["drug_name"],
+                    "trial": row["trial_name"],
+                    "mechanism": row["target"] or row["mechanism"] or "Other",
+                    "ticker": row["company_ticker"],
+                    "phase": row["phase"],
+                    "dose": row["dose"],
+                    "pbo_adjusted": None,
+                    "absolute": None,
+                }
+            if row["value_type"] == "pbo_adjusted":
+                merged[key]["pbo_adjusted"] = round(float(row["value"]), 1)
+            elif row["value_type"] == "absolute":
+                merged[key]["absolute"] = round(float(row["value"]), 1)
+            else:
+                # If value_type not specified, treat as absolute
+                if merged[key]["absolute"] is None:
+                    merged[key]["absolute"] = round(float(row["value"]), 1)
+
+        data = list(merged.values())
+
+        return {
+            "data": data,
+            "indication": indication,
+            "endpoint": endpoint,
+            "count": len(data),
+        }
+
+    except Exception as e:
+        return JSONResponse(
+            {"data": [], "error": str(e), "indication": indication, "endpoint": endpoint},
+            status_code=500
+        )

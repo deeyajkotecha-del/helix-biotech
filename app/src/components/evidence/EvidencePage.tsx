@@ -10,9 +10,9 @@ import type { SearchResult, SearchSource, QueryPlan, SearchMetadata, SearchTimin
 import './evidence.css'
 
 function extractFollowups(text: string) {
-  const match = text.match(/\{\{followup\}\}([\s\S]*?)\{\{\/followup\}\}/)
+  const match = text.match(/\{?\{followup\}?\}([\s\S]*?)\{?\{\/followup\}?\}/)
   if (!match) return { cleanAnswer: text, followups: [] as string[] }
-  const cleanAnswer = text.replace(/\{\{followup\}\}[\s\S]*?\{\{\/followup\}\}/, '').trimEnd()
+  const cleanAnswer = text.replace(/\{?\{followup\}?\}[\s\S]*?\{?\{\/followup\}?\}/, '').trimEnd()
   const followups = match[1].trim().split('\n').map(q => q.trim()).filter(Boolean)
   return { cleanAnswer, followups }
 }
@@ -100,6 +100,10 @@ export default function EvidencePage() {
               finalPlan = { ...finalPlan, ...event.query_plan }
               finalMetadata = event.metadata || finalMetadata
               finalTiming = event.timing || {}
+              // Use corrected answer if post-processing changed it
+              if (event.corrected_answer) {
+                fullText = event.corrected_answer
+              }
             }
           } catch { /* skip malformed */ }
         }
@@ -234,7 +238,7 @@ export default function EvidencePage() {
                 {error && <ErrorState message={error} />}
                 {streamingText && !result && (
                   <EvidenceAnswerPanel
-                    answer={streamingText.replace(/\{\{followup\}\}[\s\S]*$/, '').trimEnd()}
+                    answer={streamingText.replace(/\{?\{followup\}?\}[\s\S]*$/, '').trimEnd()}
                     sources={[]}
                     queryPlan={null}
                     onCitationHover={setHighlightedSource}

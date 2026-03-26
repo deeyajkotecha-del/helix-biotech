@@ -432,6 +432,104 @@ def execute_query_plan(plan: dict) -> dict:
                 print(f"  {source} query failed: {e}")
                 results["timing"][source] = -1  # Error indicator
 
+    # ---- MULTI-PASS RAG: Deep-dive into key companies/drugs ----
+    # For landscape/comparison queries, the broad RAG search above spreads 25 chunks
+    # across many companies. This second pass drills into specific tickers to surface
+    # the rich clinical data from investor presentations, SEC filings, etc.
+    query_type = plan.get("query_type", "general")
+    if query_type in ("landscape", "comparison", "mechanism", "general") and RAG_AVAILABLE:
+        # Identify tickers worth drilling into from ALL sources:
+        # 1. Entity context (drugs in the landscape — from our curated DB)
+        # 2. Initial RAG results (companies that appeared in doc search)
+        # 3. Global landscape (drugs from ClinicalTrials.gov worldwide)
+        # 4. ClinicalTrials.gov results (sponsors from live trial search)
+        # 5. Explicit drug names from the query plan
+        drill_tickers = set()
+
+        # From entity enrichment (curated drug DB)
+        entity_ctx = plan.get("entity_context", {})
+        for drug in entity_ctx.get("landscape_drugs", []):
+            t = drug.get("company_ticker")
+            if t:
+                drill_tickers.add(t)
+        for drug in entity_ctx.get("target_drugs", []):
+            t = drug.get("company_ticker")
+            if t:
+                drill_tickers.add(t)
+        drug_info = entity_ctx.get("drug_info")
+        if drug_info and drug_info.get("company_ticker"):
+            drill_tickers.add(drug_info["company_ticker"])
+
+        # From initial RAG results (top companies that appeared)
+        from collections import Counter
+        rag_ticker_counts = Counter(
+            r.get("ticker") for r in results["rag_results"] if r.get("ticker")
+        )
+        for ticker, _count in rag_ticker_counts.most_common(5):
+            drill_tickers.add(ticker)
+
+        # From global landscape (broader discovery beyond RAG index)
+        if results.get("global_landscape") and results["global_landscape"].get("assets"):
+            for asset in results["global_landscape"]["assets"]:
+                sponsor = asset.get("sponsor", "")
+                # Try to match sponsor to a ticker in our DB
+                if DRUG_DB_AVAILABLE:
+                    drug_match = lookup_drug(asset.get("drug_name", ""))
+                    if drug_match and drug_match.get("company_ticker"):
+                        drill_tickers.add(drug_match["company_ticker"])
+
+        # From ClinicalTrials.gov results (sponsors → tickers)
+        if results.get("trials") and DRUG_DB_AVAILABLE:
+            for trial in results["trials"]:
+                for intervention in trial.get("interventions", []):
+                    if intervention.get("type") == "Drug":
+                        drug_match = lookup_drug(intervention.get("name", ""))
+                        if drug_match and drug_match.get("company_ticker"):
+                            drill_tickers.add(drug_match["company_ticker"])
+
+        # Remove any ticker already used as a filter (avoid duplicate search)
+        existing_filter = plan.get("rag_ticker_filter")
+        if existing_filter:
+            drill_tickers.discard(existing_filter)
+
+        # Cap deep-dives: 10 for landscape queries, 6 for others
+        max_drills = 10 if query_type == "landscape" else 6
+        drill_tickers = list(drill_tickers)[:max_drills]
+
+        if drill_tickers:
+            rag_query = plan.get("rag_query", "")
+            print(f"  Multi-pass RAG: drilling into {drill_tickers}")
+
+            # Run deep-dives in parallel
+            with concurrent.futures.ThreadPoolExecutor(max_workers=6) as drill_executor:
+                drill_futures = {}
+                for ticker in drill_tickers:
+                    drill_futures[ticker] = drill_executor.submit(
+                        rag_search.search,
+                        rag_query,
+                        top_k=8,
+                        ticker_filter=ticker,
+                    )
+
+                # Merge results, dedup by chunk ID or content hash
+                existing_ids = set()
+                for r in results["rag_results"]:
+                    chunk_id = f"{r.get('ticker')}:{r.get('filename')}:{r.get('page_number')}"
+                    existing_ids.add(chunk_id)
+
+                for ticker, future in drill_futures.items():
+                    try:
+                        drill_results = future.result(timeout=10)
+                        for r in (drill_results or []):
+                            chunk_id = f"{r.get('ticker')}:{r.get('filename')}:{r.get('page_number')}"
+                            if chunk_id not in existing_ids:
+                                results["rag_results"].append(r)
+                                existing_ids.add(chunk_id)
+                    except Exception as e:
+                        print(f"    Deep-dive RAG for {ticker} failed: {e}")
+
+            print(f"  Multi-pass RAG: total chunks now {len(results['rag_results'])}")
+
     return results
 
 
@@ -603,11 +701,32 @@ DEDUPLICATION: Do NOT repeat citation badges after a table if the data (NCT IDs,
 Lead with the single most important takeaway — the "so what" for an investor. Include the key number.
 
 **Body — use ## headers, organized by analytical value:**
-For DRUG PROFILES:
-  ## Mechanism & Differentiation → ## Key Efficacy Data → ## Safety Profile → ## Ongoing Trials → ## Competitive Context
 
-For LANDSCAPE / PIPELINE queries:
-  ## Approved Therapies → ## Late-Stage Pipeline (Phase 2/3) → ## Early-Stage Pipeline → ## Geographic Coverage → ## Key Catalysts
+For SINGLE DRUG PROFILES:
+  ## Mechanism & Differentiation → ## Key Efficacy Data → ## Safety Profile → ## Complete Trial Portfolio → ## Competitive Context
+  - The "Complete Trial Portfolio" section MUST list EVERY active/recruiting/completed trial from the data, not just the "key" one.
+  - Present as a table: NCT ID | Phase | Indication | Status | N | Arms/Design | Primary Endpoint
+
+For LANDSCAPE / PIPELINE queries — THIS IS THE MOST IMPORTANT FORMAT:
+  Start with a compact overview table, then give EACH major drug its own ## section.
+
+  Step 1 — Overview Table:
+  | Drug | Company | MoA | Phase | Key Data | Differentiation |
+
+  Step 2 — Deep Profiles (one ## section per drug with clinical data):
+  For EACH drug in the landscape that has clinical data available, create a subsection:
+
+  ## [Drug Name] ([Company Ticker]) — [one-line positioning statement]
+  - **Mechanism:** [specific MoA in 1-2 sentences, not just "ADC" but the target, linker, payload, DAR]
+  - **Lead data:** [ORR, PFS, OS — the actual numbers with N and data cutoff]
+  - **Safety:** [Grade ≥3 rate, key AEs, discontinuation rate]
+  - **Trial portfolio:** table of ALL trials from the data
+    | NCT ID | Phase | Indication | Status | N | Design |
+  - **Catalyst:** [next data readout, PDUFA, conference]
+  - **Competitive edge:** [what makes this drug different from others in the same class — be specific]
+
+  This is what separates SatyaBio from basic landscape tables. The overview table is the appetizer; the drug profiles are the meal.
+  If there are >8 drugs, profile the top 5-6 by phase/data maturity and list the rest in the overview table.
 
 For TRIAL queries:
   ## Trial Design → ## Efficacy Results → ## Safety → ## Regulatory Path
@@ -620,19 +739,76 @@ For COMPARISON queries:
 - Safety: Grade ≥3 AE rates, DLT rates, discontinuation rates, key AEs by frequency
 - Enrollment: N randomized, data cutoff date
 - Biomarkers: selection criteria, subgroup results by biomarker status
+- Dosing: dose, schedule, route of administration
+- Combinations: what it's being combined with and why (scientific rationale)
 
-**Tables — mandatory for structured data:**
-- Individual trials: NCT ID | Drug | Phase | Status | Indication | N | Sponsor
-- Landscape: Drug | Target/MoA | Phase | Sponsor | Country
+**Tables — mandatory for structured data, but make them ANALYTICAL, not just lists:**
+
+For TRIAL tables:
+| NCT ID | Drug | Phase | Status | N | Primary Endpoint | Sponsor |
+
+For LANDSCAPE / COMPETITIVE tables (the signature SatyaBio output):
+| Drug | Company | MoA/Target | Phase | Key Efficacy | Differentiation | Status/Catalyst |
+- "Key Efficacy" = the headline number (e.g., "ORR 42%; mPFS 11.2mo")
+- "Differentiation" = what makes this one different in 5-8 words (e.g., "brain-penetrant; oral daily"; "only bispecific in class")
+- "Status/Catalyst" = next milestone (e.g., "Ph3 topline 2H25"; "PDUFA Apr 2026"; "Approved 2023")
+
+For COMPARISON tables:
+| Parameter | Drug A | Drug B | Drug C |
+- Row-by-row comparison: ORR, mPFS, mOS, Grade≥3 AE rate, dosing, route, line of therapy
+
+Rules:
 - NEVER summarize as "12 assets in the US" — expand every asset into a row
-- One unified table across ALL regions with a Country column
+- One unified table across ALL regions with a Country column when geographic data exists
 - Sort: Phase 3 first → Phase 2 → Phase 1, then by enrollment descending
 - >30 rows → show top 30, note remainder
 - CELL RULES: NO line breaks inside cells. Use semicolons or separate columns for multi-value cells.
+- NEVER include rows where most columns are "N/A", "None identified", or empty. If you lack data on a company/drug, OMIT it from the table entirely and note below: "Data not yet indexed for: [Company X, Company Y]". A table full of N/A cells is worse than no table.
+- Every row in a comparison table MUST have at least Key Efficacy or Differentiation data. Otherwise delete the row.
 
 **Closing:**
 - For landscapes: "**Coverage:** Based on [N] companies in the SatyaBio index. Additional programs may exist at companies not yet tracked."
 - Always end with a brief analytical observation — a pattern, a gap, or a catalyst to watch.
+
+═══ DEEP ANALYTICAL LAYERS (what separates SatyaBio from basic summaries) ═══
+
+GO BEYOND listing drugs and phases. Any intern can make a table of drugs and phases. SatyaBio must provide the analytical layers that drive investment decisions:
+
+**Layer 1 — Differentiation Analysis:**
+When comparing drugs in the same class, ALWAYS articulate what differentiates them:
+- Mechanism nuance (e.g., "selective degrader vs inhibitor", "bispecific vs monospecific", "brain-penetrant vs not")
+- Clinical edge (e.g., "only agent showing activity in prior-IO-treated patients", "unique durability signal: 18-month DOR vs class median of 9 months")
+- Safety advantage (e.g., "no CRS signal unlike CD19 CAR-Ts", "GI toxicity 8% vs 34% for competitor")
+- Dosing convenience (e.g., "subcutaneous q4w vs IV q2w", "fixed-duration vs continuous")
+
+**Layer 2 — Catalyst Timeline:**
+For any drug or company discussed, note upcoming catalysts when the data supports it:
+- Data readout dates (e.g., "Phase 3 topline expected 2H 2025")
+- PDUFA dates, regulatory submissions, advisory committee meetings
+- Conference presentations (ASCO, AACR, ASH, ESMO, AAN, AASLD)
+- Patent expiry / LOE dates that open competitive windows
+
+**Layer 3 — Risk Flags:**
+Proactively flag risks an investor would want to know, grounded in the data:
+- Clinical holds, partial holds, or FDA letters
+- Liver toxicity signals (Hy's law cases, DILI)
+- Competitive threats (faster-enrolling trials, earlier data readout from competitor)
+- Regulatory risk (accelerated approval with confirmatory trial risk, REMS requirements)
+- Single-asset dependency or platform risk
+
+**Layer 4 — Franchise Context:**
+For landscape queries, go beyond a flat drug list. Show the competitive dynamics:
+- Market share shifts (e.g., "Keytruda holds ~40% of 1L NSCLC; Opdivo gaining in adjuvant")
+- Revenue trajectory where available from SEC filings (e.g., "$2.1B in FY2024, +18% YoY")
+- Best-in-class positioning (which agent has the best data on the primary endpoint?)
+- Unmet need gaps (where is there still no effective therapy? Where are outcomes poor?)
+- Modality evolution (e.g., "shift from small molecules to ADCs to bispecifics in HER2+ BC")
+
+**Layer 5 — Cross-Reference Signals:**
+When you have data from multiple sources (e.g., RAG + trials + FDA), CONNECT them:
+- "While the FDA label indicates approval for 2L+, NCT04XXX is testing in 1L (Phase 3, N=800), suggesting potential label expansion"
+- "SEC filing shows $400M manufacturing investment, consistent with the CMO scale-up needed for BLA filing"
+- "The 10-K discloses a patent expiry in 2031, creating a 6-year commercial window"
 
 ═══ FOLLOW-UP QUESTIONS ═══
 Generate exactly 3, written from the perspective of an MD/PhD biotech investor. Focus on:
@@ -769,6 +945,9 @@ def synthesize_answer(query: str, data: dict, plan: dict) -> dict:
 
         answer = response.content[0].text
 
+        # Post-process: clean up citations and garbled text
+        answer = _postprocess_answer(answer, data)
+
         # Build the source list for the frontend sidebar
         sources = _build_source_list(data)
 
@@ -783,6 +962,66 @@ def synthesize_answer(query: str, data: dict, plan: dict) -> dict:
             "answer": f"Error synthesizing answer: {str(e)}",
             "sources": [],
         }
+
+
+import re as _re
+
+def _postprocess_answer(answer: str, data: dict) -> str:
+    """
+    Clean up Claude's answer:
+    1. Convert plain-text doc references to {doc:TICKER|Title} badge format
+    2. Strip garbled PDF extraction artifacts (download icons, broken text)
+    3. Clean up [Doc N] references that slipped through
+    """
+    # Build a map of doc titles → proper badge format from RAG results
+    doc_map = {}
+    for r in data.get("rag_results", []):
+        ticker = r.get("ticker", "")
+        title = r.get("title", "")
+        filename = r.get("filename", "")
+        if ticker and title:
+            # Map various ways Claude might reference the doc
+            doc_map[title] = f"{{doc:{ticker}|{title}}}"
+            doc_map[f"{ticker} {title}"] = f"{{doc:{ticker}|{title}}}"
+            # Handle "TICKER DocType (date)" pattern
+            for doc_type in ["10-K", "10-Q", "8-K", "Investor Presentation", "Annual Report"]:
+                if doc_type.lower() in title.lower():
+                    doc_map[f"{ticker} {doc_type}"] = f"{{doc:{ticker}|{title}}}"
+
+    # 1. Convert "[Doc N]" references to proper badges
+    def replace_doc_ref(match):
+        doc_num = int(match.group(1))
+        # Find the doc with this number in our RAG results
+        seen_keys = {}
+        idx = 1
+        for r in data.get("rag_results", []):
+            key = f"{r.get('ticker')}:{r.get('filename')}"
+            if key not in seen_keys:
+                seen_keys[key] = idx
+                if idx == doc_num:
+                    ticker = r.get("ticker", "")
+                    title = r.get("title", r.get("filename", ""))
+                    return f"{{doc:{ticker}|{title}}}"
+                idx += 1
+        return match.group(0)  # Keep original if not found
+
+    answer = _re.sub(r'\[Doc\s+(\d+)\]', replace_doc_ref, answer)
+
+    # 2. Convert plain-text doc title references to badges
+    # Sort by length (longest first) to avoid partial matches
+    for plain_text, badge in sorted(doc_map.items(), key=lambda x: -len(x[0])):
+        if plain_text in answer and badge not in answer:
+            answer = answer.replace(plain_text, badge, 1)  # Replace first occurrence only
+
+    # 3. Strip garbled PDF artifacts
+    # "Download icon..." patterns from bad OCR
+    answer = _re.sub(r'Download\s+icon\S*', '', answer)
+    # Clean up resulting double spaces
+    answer = _re.sub(r'  +', ' ', answer)
+    # Clean up empty citation-like patterns
+    answer = _re.sub(r'\s*\.\s*\.{2,}', '.', answer)
+
+    return answer.strip()
 
 
 def _build_source_list(data: dict) -> list[dict]:
@@ -1070,6 +1309,7 @@ def register_search_routes(app):
             full_context = "\n\n".join(context_parts)
             full_system = f"{SYNTHESIS_SYSTEM_PROMPT}\n\n{full_context}"
 
+            accumulated_text = ""
             try:
                 with get_client().messages.stream(
                     model="claude-sonnet-4-20250514",
@@ -1078,11 +1318,24 @@ def register_search_routes(app):
                     messages=[{"role": "user", "content": query}],
                 ) as stream:
                     for text in stream.text_stream:
+                        accumulated_text += text
                         yield f"data: {_json.dumps({'type': 'token', 'text': text})}\n\n"
             except Exception as e:
                 yield f"data: {_json.dumps({'type': 'token', 'text': f'Error: {str(e)}'})}\n\n"
 
-            yield f"data: {_json.dumps({'type': 'done', 'sources': sources, 'timing': query_data.get('timing', {}), 'metadata': metadata, 'query_plan': plan})}\n\n"
+            # Post-process the full answer (fix citations, strip garbled text)
+            corrected = _postprocess_answer(accumulated_text, query_data)
+            done_payload = {
+                'type': 'done',
+                'sources': sources,
+                'timing': query_data.get('timing', {}),
+                'metadata': metadata,
+                'query_plan': plan,
+            }
+            # Only send corrected_answer if post-processing actually changed something
+            if corrected != accumulated_text:
+                done_payload['corrected_answer'] = corrected
+            yield f"data: {_json.dumps(done_payload)}\n\n"
 
         return Response(stream_with_context(generate()), mimetype='text/event-stream',
                         headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
