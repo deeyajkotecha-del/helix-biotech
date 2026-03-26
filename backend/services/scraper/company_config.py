@@ -609,14 +609,15 @@ ONCOLOGY_COMPANIES = {
         "name": "Acadia Pharmaceuticals",
         "category": "neuroscience",
         "pages": [
-            {"type": "events", "url": "https://ir.acadia.com/events-and-presentations/", "platform": "standard", "content_type": "documents"},
-            {"type": "press", "url": "https://acadia.com/en-us/media/news-releases", "platform": "standard", "content_type": "text"},
+            {"type": "events", "url": "https://ir.acadia-pharm.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.acadia-pharm.com/press-releases", "platform": "q4", "content_type": "text"},
         ],
     },
     "ITCI": {
         "name": "Intra-Cellular Therapies",
         "category": "neuroscience",
         "pages": [
+            {"type": "events", "url": "https://ir.intracellulartherapies.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
             {"type": "press", "url": "https://ir.intracellulartherapies.com/news-releases/", "platform": "standard", "content_type": "text"},
         ],
     },
@@ -624,6 +625,7 @@ ONCOLOGY_COMPANIES = {
         "name": "Xenon Pharmaceuticals",
         "category": "neuroscience",
         "pages": [
+            {"type": "events", "url": "https://investor.xenon-pharma.com/news-events/events-presentations", "platform": "q4", "content_type": "documents"},
             {"type": "press", "url": "https://investor.xenon-pharma.com/news-events/press-releases", "platform": "standard", "content_type": "text"},
         ],
     },
@@ -639,6 +641,7 @@ ONCOLOGY_COMPANIES = {
         "name": "Supernus Pharmaceuticals",
         "category": "neuroscience",
         "pages": [
+            {"type": "events", "url": "https://ir.supernus.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
             {"type": "press", "url": "https://ir.supernus.com/press-releases", "platform": "standard", "content_type": "text"},
         ],
     },
@@ -646,8 +649,8 @@ ONCOLOGY_COMPANIES = {
         "name": "Incyte",
         "category": "oncology",
         "pages": [
-            {"type": "events", "url": "https://investor.incyte.com/events-presentations", "platform": "standard", "content_type": "documents"},
-            {"type": "press", "url": "https://investor.incyte.com/press-releases", "platform": "standard", "content_type": "text"},
+            {"type": "events", "url": "https://investor.incyte.com/events-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://investor.incyte.com/press-releases", "platform": "q4", "content_type": "text"},
         ],
     },
     "ARVN": {
@@ -662,7 +665,8 @@ ONCOLOGY_COMPANIES = {
         "name": "Syndax Pharmaceuticals",
         "category": "oncology",
         "pages": [
-            {"type": "press", "url": "https://ir.syndax.com/press-releases", "platform": "standard", "content_type": "text"},
+            {"type": "events", "url": "https://ir.syndax.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.syndax.com/press-releases", "platform": "q4", "content_type": "text"},
         ],
     },
     "BPMC": {
@@ -685,6 +689,7 @@ ONCOLOGY_COMPANIES = {
         "name": "Ultragenyx Pharmaceutical",
         "category": "rare_disease",
         "pages": [
+            {"type": "events", "url": "https://ir.ultragenyx.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
             {"type": "press", "url": "https://ir.ultragenyx.com/press-releases", "platform": "q4", "content_type": "text"},
         ],
     },
@@ -700,7 +705,8 @@ ONCOLOGY_COMPANIES = {
         "name": "Neumora Therapeutics",
         "category": "neuroscience",
         "pages": [
-            {"type": "press", "url": "https://ir.neumoratx.com/press-releases", "platform": "standard", "content_type": "text"},
+            {"type": "events", "url": "https://ir.neumoratx.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.neumoratx.com/press-releases", "platform": "q4", "content_type": "text"},
         ],
     },
     "IDIA": {

@@ -79,8 +79,14 @@ COMPANY_CIKS = {
     "BIIB": "0000875045", "ALNY": "0001178670", "IONS": "0000936395",
     "MDGL": "0000049708", "MRTI": "0001576263", "SAGE": "0001597553",
     "AXSM": "0001579428",
+    # Expansion — neuro/sleep, immunology, rare disease, oncology (2026-03-25)
+    "HRMY": "0001802665", "JAZZ": "0001232524", "ACAD": "0001070494",
+    "ITCI": "0001567514", "XENE": "0001582313", "PRAX": "0001689548",
+    "SUPN": "0001356576", "INCY": "0000879169", "ARVN": "0001655759",
+    "SNDX": "0001395937", "BPMC": "0001597264", "BMRN": "0001048477",
+    "RARE": "0001515673", "AUPH": "0001600620", "NMRA": "0001885522",
     # Foreign-listed companies (no CIK — skip SEC scraping)
-    # RHHBY, NVO, DSNKY, ESALY, BILH, AGTSY
+    # RHHBY, NVO, DSNKY, ESALY, BILH, AGTSY, IDIA
 }
 
 

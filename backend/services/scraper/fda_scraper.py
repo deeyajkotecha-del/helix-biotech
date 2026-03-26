@@ -130,6 +130,23 @@ COMPANY_DRUGS = {
     "DSNKY": {"sponsor": "Daiichi Sankyo", "drugs": ["ENHERTU", "trastuzumab deruxtecan"]},
     "SNY": {"sponsor": "Sanofi", "drugs": ["SARCLISA", "JEVTANA", "isatuximab"]},
     "NVO": {"sponsor": "Novo Nordisk", "drugs": ["OZEMPIC", "WEGOVY", "semaglutide"]},
+    # Expansion — neuro/sleep, immunology, rare disease, oncology (2026-03-25)
+    "HRMY": {"sponsor": "Harmony Biosciences", "drugs": ["WAKIX", "pitolisant"]},
+    "JAZZ": {"sponsor": "Jazz Pharmaceuticals", "drugs": ["XYWAV", "XYREM", "RYLAZE", "ZEPZELCA", "sodium oxybate"]},
+    "ACAD": {"sponsor": "Acadia Pharmaceuticals", "drugs": ["NUPLAZID", "DAYBUE", "pimavanserin", "trofinetide"]},
+    "ITCI": {"sponsor": "Intra-Cellular Therapies", "drugs": ["CAPLYTA", "lumateperone"]},
+    "XENE": {"sponsor": "Xenon Pharmaceuticals", "drugs": ["XEN1101", "azetukalner"]},
+    "PRAX": {"sponsor": "Praxis Precision Medicine", "drugs": ["PRAX-562", "ulixacaltamide"]},
+    "SUPN": {"sponsor": "Supernus Pharmaceuticals", "drugs": ["QELBREE", "OXTELLAR XR", "TROKENDI XR", "viloxazine"]},
+    "INCY": {"sponsor": "Incyte", "drugs": ["JAKAFI", "OPZELURA", "MONJUVI", "ruxolitinib", "tafasitamab"]},
+    "ARVN": {"sponsor": "Arvinas", "drugs": ["ARV-471", "vepdegestrant", "ARV-766"]},
+    "SNDX": {"sponsor": "Syndax Pharmaceuticals", "drugs": ["REVUMENIB", "axatilimab"]},
+    "BPMC": {"sponsor": "Blueprint Medicines", "drugs": ["AYVAKIT", "GAVRETO", "avapritinib", "pralsetinib"]},
+    "BMRN": {"sponsor": "BioMarin", "drugs": ["VOXZOGO", "BRINEURA", "PALYNZIQ", "ROCTAVIAN", "vosoritide", "valoctocogene roxaparvovec"]},
+    "RARE": {"sponsor": "Ultragenyx", "drugs": ["CRYSVITA", "DOJOLVI", "MEPSEVII", "burosumab"]},
+    "AUPH": {"sponsor": "Aurinia Pharmaceuticals", "drugs": ["LUPKYNIS", "voclosporin"]},
+    "NMRA": {"sponsor": "Neumora Therapeutics", "drugs": ["navacaprant", "NMRA-140"]},
+    "IDIA": {"sponsor": "Idorsia", "drugs": ["QUVIVIQ", "daridorexant", "cenerimod"]},
 }
 
 
