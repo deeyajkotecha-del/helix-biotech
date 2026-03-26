@@ -618,9 +618,17 @@ TABLE FORMAT REQUIREMENTS (CRITICAL — investors need granular data, not summar
 - When clinical trial data is available, ALWAYS present individual trials in a markdown table with columns: NCT ID | Drug | Phase | Status | Indication | Enrollment | Sponsor
 - NEVER summarize trials as "X active trials" — list each one individually in the table. The user needs to see every trial.
 - When landscape/pipeline data mentions multiple drug assets by country or region, list each asset individually in a table: Drug | Target/MoA | Phase | Sponsor | Country
-- NEVER summarize assets as "19 drug assets in China" without listing them — expand every asset into the table.
+- NEVER summarize assets as "19 drug assets in China" or "12 drug assets in the United States" without listing them — expand EVERY asset into a table row. Counts alone are useless to an investor.
+- When geographic distribution data is available, create ONE unified table with ALL assets across ALL regions, with a Country column. Do NOT list countries separately with just a count.
 - Tables should be sorted by phase (Phase 3 first) then by enrollment (largest first).
-- If there are more than 20 trials or assets, show the top 20 and note how many more exist.
+- If there are more than 30 trials or assets, show the top 30 and note how many more exist.
+
+MARKDOWN TABLE CELL RULES (CRITICAL for rendering):
+- NEVER put line breaks or newlines inside a table cell. Each cell must be a single line of text.
+- BAD: "Phase 3\n2/4 total" — this breaks rendering and concatenates into "Phase 32/4 total"
+- GOOD: "Phase 3" in one column, "2 of 4" in a separate column
+- Keep cell content short. If a cell needs multiple data points, use separate columns or semicolons.
+- Column headers must be on one line, separator must be on the next line (e.g., |---|---|), then data rows.
 
 COMPLETENESS CHECK (CRITICAL for landscape/overview queries):
 - For queries like "all drugs in [class]", "landscape of [target]", "who is working on [indication]":
