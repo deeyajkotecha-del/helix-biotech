@@ -136,6 +136,17 @@ try:
 except ImportError:
     DISEASE_SPACE_AVAILABLE = False
 
+# PubMed Deep Dive — full abstracts + PMC full text for clinical data depth
+try:
+    from pubmed_deepdive import (
+        deep_search, deep_search_for_drugs,
+        enrich_pipeline_with_literature,
+        format_deep_literature_for_claude,
+    )
+    DEEP_LITERATURE_AVAILABLE = True
+except ImportError:
+    DEEP_LITERATURE_AVAILABLE = False
+
 # Claude client
 _client = None
 
@@ -1083,6 +1094,39 @@ def synthesize_answer(query: str, data: dict, plan: dict) -> dict:
                 context_parts.append(space_ctx)
         except Exception as e:
             print(f"  Disease space formatting failed: {e}")
+
+    # Deep Literature — full abstracts + PMC full text for clinical data depth
+    # Runs after landscape/disease space so we can search for specific drugs
+    if DEEP_LITERATURE_AVAILABLE:
+        try:
+            # Strategy: if we have pipeline programs, do drug-specific deep search
+            # Otherwise, do a broad deep search on the query
+            programs = []
+            if data.get("disease_space"):
+                programs = data["disease_space"].get("pipeline", {}).get("programs", [])
+            elif data.get("global_landscape") and isinstance(data["global_landscape"], dict):
+                programs = data["global_landscape"].get("assets", [])
+
+            if programs:
+                # Drug-specific deep dive — searches PubMed for each drug + fetches PMC full text
+                disease_ctx = plan.get("ct_condition", "") or plan.get("landscape_target", query)
+                lit_results = enrich_pipeline_with_literature(
+                    programs, disease_ctx,
+                    max_papers_per_drug=2,
+                    max_total_fulltext=6,
+                )
+            else:
+                # Broad deep search with full abstracts
+                lit_results = deep_search(query, max_papers=6, fetch_fulltext=True, max_fulltext=4)
+
+            if lit_results:
+                lit_ctx = format_deep_literature_for_claude(lit_results)
+                if lit_ctx:
+                    context_parts.append(lit_ctx)
+                    print(f"  Deep literature: {len(lit_results)} papers, "
+                          f"{sum(1 for r in lit_results if r.get('full_text'))} with PMC full text")
+        except Exception as e:
+            print(f"  Deep literature search failed: {e}")
 
     # Enriched drug candidates (from enrichment agent)
     if ENRICHMENT_AVAILABLE:
