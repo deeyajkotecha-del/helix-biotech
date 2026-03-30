@@ -126,6 +126,16 @@ try:
 except ImportError:
     FDA_CRL_AVAILABLE = False
 
+# Disease Space Intelligence — rare disease ecosystem mapping
+try:
+    from disease_space_map import (
+        get_disease_space, format_space_for_claude,
+        is_disease_space_query, get_foundations_for_disease,
+    )
+    DISEASE_SPACE_AVAILABLE = True
+except ImportError:
+    DISEASE_SPACE_AVAILABLE = False
+
 # Claude client
 _client = None
 
@@ -164,10 +174,11 @@ Available sources:
 5. GLOBAL_LANDSCAPE — Global drug asset discovery across 61+ countries. Searches ClinicalTrials.gov for trials worldwide (including China, Korea, Japan, India, Europe), extracts drug assets, and produces a competitive landscape table. Best for: "what's the [target] landscape", competitive intelligence across regions, finding non-US drug assets, Chinese/Asian biotech pipeline questions.
 6. NEWS_MINER — Regional news mining across non-English sources (Chinese, Korean, Japanese, Indian, European biotech news). Surfaces under-the-radar drug assets, licensing deals, and regulatory filings. Best for: "what are Chinese biotechs working on", "recent Asia biotech deals", "novel drug assets from China/Korea", early-stage pipeline intelligence from regional sources.
 7. FDA_CRL — FDA Complete Response Letter database. Contains historical FDA rejection letters (CRLs) with reasons for non-approval: endpoint deficiencies, statistical concerns, CMC issues, safety signals. Best for: trial design guidance, endpoint selection, understanding why FDA rejected similar drugs, regulatory precedent, clinical trial design optimization. ALWAYS include for trial design questions, endpoint selection questions, or "why did FDA reject" questions.
+8. DISEASE_SPACE — Disease Space Intelligence engine. Scrapes rare disease foundation pipeline trackers, cross-validates against ClinicalTrials.gov, and assembles a full ecosystem map: therapeutic pipeline, patient landscape (prevalence, registries), biomarker/endpoint landscape, regulatory context, and key organizations. Best for: rare disease overview questions, "what's the Angelman space", "who is working on Huntington's", "what clinical infrastructure exists for SMA", patient registries, biomarker questions, rare disease landscape. ALWAYS include for rare disease questions where the query mentions a specific rare disease AND asks about the space/landscape/pipeline/ecosystem.
 
 Return a JSON object with:
 {
-    "sources": ["RAG", "CLINICAL_TRIALS", "FDA", "PUBMED", "GLOBAL_LANDSCAPE", "NEWS_MINER", "FDA_CRL"],  // which sources to query (at least 1)
+    "sources": ["RAG", "CLINICAL_TRIALS", "FDA", "PUBMED", "GLOBAL_LANDSCAPE", "NEWS_MINER", "FDA_CRL", "DISEASE_SPACE"],  // which sources to query (at least 1)
     "rag_query": "optimized search query for vector DB",  // only if RAG is in sources
     "rag_ticker_filter": "TICKER",  // optional, only if query is about a specific company
     "ct_condition": "condition name",  // for ClinicalTrials.gov
@@ -199,6 +210,8 @@ Important rules:
 - For questions about licensing deals, regulatory filings, or regional pipeline intelligence, include NEWS_MINER
 - For questions about trial design, endpoint selection, FDA feedback, CRLs, or "why did FDA reject", ALWAYS include FDA_CRL
 - For trial_designer persona queries, ALWAYS include FDA_CRL
+- For rare disease questions (Angelman, Huntington's, SMA, Rett, Duchenne, CF, Dravet, Friedreich's, Gaucher, Fabry, ALS, sickle cell, thalassemia, cholangiocarcinoma, PKU, MPS), ALWAYS include DISEASE_SPACE
+- For questions about "what's the [disease] space", "who is working on [disease]", "what pipeline exists for [disease]", patient registries, biomarkers, or rare disease ecosystems, ALWAYS include DISEASE_SPACE
 - For company-specific questions, prioritize RAG with ticker filter
 - For "standard of care" or "approved drugs" questions, always include FDA
 - For "latest research" or "recent publications", include PUBMED
@@ -441,6 +454,14 @@ def execute_query_plan(plan: dict) -> dict:
                     search_crl_database, crl_query, 8
                 )
 
+        # Submit Disease Space Intelligence (rare disease ecosystem mapping)
+        if "DISEASE_SPACE" in sources and DISEASE_SPACE_AVAILABLE:
+            space_disease = plan.get("ct_condition", "") or plan.get("landscape_target", "")
+            if space_disease:
+                futures["DISEASE_SPACE"] = executor.submit(
+                    get_disease_space, space_disease
+                )
+
         # Submit PubMed search (primary + extra entity-derived queries)
         if "PUBMED" in sources:
             pubmed_query = plan.get("pubmed_query", "")
@@ -477,6 +498,8 @@ def execute_query_plan(plan: dict) -> dict:
                     results["news_miner"] = data
                 elif source == "FDA_CRL":
                     results["fda_crl"] = data or []
+                elif source == "DISEASE_SPACE":
+                    results["disease_space"] = data
                 elif source == "PUBMED":
                     results["papers"] = data or []
                 elif source.startswith("PUBMED_EXTRA_"):
@@ -1051,6 +1074,15 @@ def synthesize_answer(query: str, data: dict, plan: dict) -> dict:
                 context_parts.append(crl_ctx)
         except Exception as e:
             print(f"  FDA CRL formatting failed: {e}")
+
+    # Disease Space Intelligence (rare disease ecosystem)
+    if data.get("disease_space") and DISEASE_SPACE_AVAILABLE:
+        try:
+            space_ctx = format_space_for_claude(data["disease_space"])
+            if space_ctx:
+                context_parts.append(space_ctx)
+        except Exception as e:
+            print(f"  Disease space formatting failed: {e}")
 
     # Enriched drug candidates (from enrichment agent)
     if ENRICHMENT_AVAILABLE:
