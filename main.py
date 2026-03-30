@@ -117,8 +117,11 @@ async def serve_search():
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_index():
-    """Serve the main landing page."""
-    return HTMLResponse(generate_homepage())
+    """Serve the React SPA — Evidence page is the homepage."""
+    react_index = BASE_DIR / "app" / "dist" / "index.html"
+    if react_index.exists():
+        return FileResponse(react_index)
+    return HTMLResponse("<h1>App not built yet</h1><p>Run <code>cd app && npm run build</code> to build the React frontend.</p>", status_code=503)
 
 @app.get("/login", response_class=HTMLResponse)
 async def serve_login(request: Request):

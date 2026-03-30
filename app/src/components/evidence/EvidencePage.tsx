@@ -150,12 +150,6 @@ export default function EvidencePage() {
           <a href="/" className="ev-nav-logo">
             Satya<span>Bio</span>
           </a>
-          <div className="ev-nav-links">
-            <a href="/search">Search</a>
-            <a href="/extract/" className="active">Evidence</a>
-            <a href="/companies">Companies</a>
-            <a href="/targets">Landscapes</a>
-          </div>
         </div>
         <div className="ev-nav-right">
           <button
