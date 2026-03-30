@@ -448,15 +448,21 @@ class TrialDataFetcher:
 
         try:
             client = await self._get_client()
-            query = f"intervention.name:{drug_name}"
+
+            # ClinicalTrials.gov API v2 uses plain text for query.term
+            # (not field:value syntax like v1)
+            query = drug_name
             if condition:
-                query += f" AND condition:{condition}"
+                query += f" {condition}"
 
             params = {
                 "query.term": query,
-                "filter.overallStatus": "RECRUITING,ENROLLING_BY_INVITATION",
                 "pageSize": limit,
             }
+
+            # First try: all active statuses (broadest useful filter)
+            active_statuses = "RECRUITING,ENROLLING_BY_INVITATION,ACTIVE_NOT_RECRUITING,NOT_YET_RECRUITING"
+            params["filter.overallStatus"] = active_statuses
 
             response = await client.get(self.BASE_URL, params=params)
             response.raise_for_status()
@@ -468,6 +474,20 @@ class TrialDataFetcher:
                 trial = self._parse_trial_data(trial_data)
                 if trial:
                     trials.append(trial)
+
+            # If nothing found with active filter, retry without status filter
+            if not trials:
+                logger.info(f"No active trials found for '{drug_name}', searching all statuses...")
+                params.pop("filter.overallStatus", None)
+                response = await client.get(self.BASE_URL, params=params)
+                response.raise_for_status()
+                data = response.json()
+                for study in data.get("studies", []):
+                    trial_data = study.get("protocolSection", {})
+                    trial = self._parse_trial_data(trial_data)
+                    if trial:
+                        trials.append(trial)
+
             return trials
         except Exception as e:
             logger.error(f"Failed to search trials for {drug_name}: {e}")
@@ -517,12 +537,18 @@ class TrialDataFetcher:
             intervention_info = trial_data.get("armsInterventionsModule", {})
 
             nct_id = id_info.get("nctId", "")
+
+            # Parse phase — API v2 uses designModule.phases (array)
             phase = TrialPhase.PHASE3
-            phase_str = status_info.get("phase", "")
-            if "Phase 1" in phase_str:
+            phases_list = design_info.get("phases", [])
+            phase_str = " ".join(phases_list) if phases_list else status_info.get("phase", "")
+            phase_str_lower = phase_str.lower()
+            if "phase1" in phase_str_lower or "phase 1" in phase_str_lower:
                 phase = TrialPhase.PHASE1
-            elif "Phase 2" in phase_str:
+            if "phase2" in phase_str_lower or "phase 2" in phase_str_lower:
                 phase = TrialPhase.PHASE2
+            if "phase3" in phase_str_lower or "phase 3" in phase_str_lower:
+                phase = TrialPhase.PHASE3
 
             outcomes = trial_data.get("outcomesModule", {}).get("primaryOutcomes", [])
             endpoint_desc = outcomes[0].get("measure", "Primary Outcome") if outcomes else "Unknown"
@@ -537,12 +563,21 @@ class TrialDataFetcher:
             arms = []
             for arm_data in intervention_info.get("armGroups", []):
                 arm = TrialArm(
-                    arm_type="treatment" if "placebo" not in arm_data.get("armLabel", "").lower() else "control",
-                    name=arm_data.get("armLabel", "Arm"),
-                    description=arm_data.get("armDescription", ""),
+                    arm_type="treatment" if "placebo" not in arm_data.get("label", arm_data.get("armLabel", "")).lower() else "control",
+                    name=arm_data.get("label", arm_data.get("armLabel", "Arm")),
+                    description=arm_data.get("description", arm_data.get("armDescription", "")),
                     n_planned=0,
                 )
                 arms.append(arm)
+
+            # Parse intervention names from API v2 format
+            interventions = intervention_info.get("interventions", [])
+            intervention_names = [i.get("name", "") for i in interventions if i.get("name")]
+            intervention_str = ", ".join(intervention_names) if intervention_names else "Unknown"
+
+            # Parse enrollment — API v2 uses enrollmentInfo in designModule or statusModule
+            enrollment_info = design_info.get("enrollmentInfo", {}) or status_info.get("enrollmentInfo", {})
+            target_enrollment = enrollment_info.get("count", 0)
 
             trial = TrialDesign(
                 nct_id=nct_id,
@@ -550,13 +585,13 @@ class TrialDataFetcher:
                 phase=phase,
                 status=status_info.get("overallStatus", "Unknown"),
                 primary_endpoint=primary_endpoint,
-                target_enrollment=status_info.get("enrollmentInfo", {}).get("count", 0),
+                target_enrollment=target_enrollment,
                 arms=arms if arms else [
                     TrialArm("control", "Control", "Control Arm", 0),
                     TrialArm("treatment", "Treatment", "Treatment Arm", 0),
                 ],
                 condition=condition_info.get("conditions", ["Unknown"])[0],
-                intervention=", ".join(intervention_info.get("interventions", [{}])[0].get("interventionName", "Unknown") for _ in [1]),
+                intervention=intervention_str,
                 intervention_class="Unknown",
                 sponsor=id_info.get("organization", {}).get("fullName", "Unknown"),
                 start_date=status_info.get("startDateStruct", {}).get("date", None),
@@ -1819,7 +1854,7 @@ def get_trial_forecaster_status() -> Dict:
     # Check if research agent is available (for deep research mode)
     research_agent_available = False
     try:
-        from trial_research_agent import TrialResearchAgent
+        from trial_research_agent import research_trial as _rt
         research_agent_available = bool(os.environ.get("ANTHROPIC_API_KEY"))
     except ImportError:
         pass
@@ -1866,18 +1901,14 @@ def run_forecast(
     # Try deep research mode first
     research_report = None
     try:
-        from trial_research_agent import TrialResearchAgent
+        from trial_research_agent import research_trial as _research_trial
         if os.environ.get("ANTHROPIC_API_KEY"):
             yield ("step", "Initializing deep research agent...")
-
-            async def _run_research():
-                agent = TrialResearchAgent()
-                return await agent.research_trial(query)
 
             yield ("step", "Researching trial on ClinicalTrials.gov and PubMed...")
             try:
                 loop = asyncio.new_event_loop()
-                research_report = loop.run_until_complete(_run_research())
+                research_report = loop.run_until_complete(_research_trial(query))
                 loop.close()
                 yield ("step", f"Research complete: found {research_report.comparators_found} comparators, analyzed {research_report.papers_analyzed} papers")
             except Exception as e:

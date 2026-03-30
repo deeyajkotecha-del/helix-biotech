@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 
 interface TrialForecasterStatus {
   ready: boolean
+  forecaster_ready?: boolean
   message?: string
 }
 
@@ -15,8 +16,10 @@ interface TrialInfo {
   phase: string
   condition: string
   sponsor: string
-  enrollment: number
+  enrollment?: number
+  target_enrollment?: number
   status: string
+  intervention?: string
 }
 
 interface Anchor {
@@ -97,7 +100,11 @@ export default function TrialForecasterPanel({ onTrialSearch: _onTrialSearch }: 
 
         if (statusRes.ok) {
           const statusData = await statusRes.json()
-          setStatus(statusData)
+          // Backend returns forecaster_ready, frontend expects ready
+          setStatus({
+            ready: statusData.forecaster_ready ?? statusData.ready ?? false,
+            message: statusData.error || statusData.message,
+          })
         }
 
         if (paramsRes.ok) {
@@ -141,7 +148,29 @@ export default function TrialForecasterPanel({ onTrialSearch: _onTrialSearch }: 
       }
 
       const data = await res.json()
-      setTrialInfo(data)
+
+      if (!data.found) {
+        setQuickSearchError(data.error || 'Trial not found. Please check the NCT ID or drug name.')
+        return
+      }
+
+      // Backend returns { found, trial: {...} } — extract the trial object
+      const trial = data.trial
+      if (trial) {
+        setTrialInfo({
+          nct_id: trial.nct_id,
+          title: trial.title,
+          phase: trial.phase,
+          condition: trial.condition,
+          sponsor: trial.sponsor,
+          enrollment: trial.target_enrollment || trial.enrollment || 0,
+          target_enrollment: trial.target_enrollment,
+          status: trial.status,
+          intervention: trial.intervention,
+        })
+      } else {
+        setQuickSearchError('No trial data returned.')
+      }
     } catch (e) {
       setQuickSearchError('Error searching for trial')
       console.error(e)
@@ -301,7 +330,7 @@ export default function TrialForecasterPanel({ onTrialSearch: _onTrialSearch }: 
             </div>
             <div className="ev-detail-row">
               <span className="ev-detail-label">Enrollment:</span>
-              <span className="ev-detail-value">{trialInfo.enrollment} patients</span>
+              <span className="ev-detail-value">{trialInfo.enrollment || trialInfo.target_enrollment || 'N/A'} patients</span>
             </div>
             <div className="ev-detail-row">
               <span className="ev-detail-label">Status:</span>
