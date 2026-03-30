@@ -23,7 +23,7 @@ import sys
 import json
 import time
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Dict
 
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse, FileResponse
@@ -128,6 +128,22 @@ except ImportError:
     get_events_for_query = None
     format_events_for_claude = None
 
+# Trial Forecaster
+try:
+    from trial_forecaster import (
+        get_trial_forecaster_status,
+        run_forecast,
+        get_adjustable_parameters,
+        quick_trial_lookup,
+    )
+    _TRIAL_FORECASTER_READY = True
+except ImportError:
+    get_trial_forecaster_status = None
+    run_forecast = None
+    get_adjustable_parameters = None
+    quick_trial_lookup = None
+    _TRIAL_FORECASTER_READY = False
+
 # Import company universe
 try:
     from app.configs.companies import get_all_companies_flat, get_companies_by_category, CATEGORY_LABELS
@@ -155,6 +171,16 @@ class EnrichmentRequest(BaseModel):
 
 class RegionalMineRequest(BaseModel):
     region: str  # china, korea, japan, india, europe
+
+
+class TrialForecastRequest(BaseModel):
+    query: str  # NCT ID like "NCT12345678" or drug name like "obicetrapib PREVAIL"
+    params: Optional[Dict] = None  # Adjustable parameters (effect_scale, alpha, etc.)
+    n_iterations: int = 50000
+
+
+class TrialSearchRequest(BaseModel):
+    query: str  # NCT ID or drug name
 
 
 # ---------------------------------------------------------------------------
@@ -437,6 +463,114 @@ async def regional_mine(req: RegionalMineRequest):
 
 
 # ---------------------------------------------------------------------------
+# Trial Forecaster Endpoints
+# ---------------------------------------------------------------------------
+
+@router.get("/api/trial-forecaster/status")
+async def trial_forecaster_status():
+    """Returns whether the trial forecaster is available and ready."""
+    if not _TRIAL_FORECASTER_READY:
+        return {
+            "forecaster_ready": False,
+            "numpy_available": False,
+            "scipy_available": False,
+            "ctgov_accessible": False,
+            "error": "Trial forecaster module not loaded",
+        }
+
+    try:
+        status = get_trial_forecaster_status()
+        return status
+    except Exception as e:
+        return {
+            "forecaster_ready": False,
+            "numpy_available": False,
+            "scipy_available": False,
+            "ctgov_accessible": False,
+            "error": str(e),
+        }
+
+
+@router.post("/api/trial-forecaster/analyze")
+async def trial_forecaster_analyze(req: TrialForecastRequest):
+    """SSE streaming endpoint for trial forecasting analysis."""
+    if not _TRIAL_FORECASTER_READY:
+        return JSONResponse(
+            status_code=503,
+            content={"error": "Trial forecaster module not loaded"},
+        )
+
+    query = req.query.strip()
+    if not query:
+        return JSONResponse(status_code=400, content={"error": "Empty query"})
+
+    def generate():
+        try:
+            # Run forecast and stream results
+            for event_type, event_data in run_forecast(
+                query=query,
+                params=req.params,
+                n_iterations=req.n_iterations,
+            ):
+                if event_type == "step":
+                    yield f"data: {json.dumps({'type': 'step', 'message': event_data})}\n\n"
+                elif event_type == "result":
+                    yield f"data: {json.dumps({'type': 'result', 'data': event_data})}\n\n"
+                elif event_type == "error":
+                    yield f"data: {json.dumps({'type': 'error', 'message': event_data})}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
+
+    return StreamingResponse(
+        generate(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+@router.get("/api/trial-forecaster/parameters")
+async def trial_forecaster_parameters():
+    """Returns the list of adjustable parameters with their definitions."""
+    if not _TRIAL_FORECASTER_READY:
+        return JSONResponse(
+            status_code=503,
+            content={"error": "Trial forecaster module not loaded"},
+        )
+
+    try:
+        params = get_adjustable_parameters()
+        return {"parameters": params}
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to retrieve parameters: {str(e)}"},
+        )
+
+
+@router.post("/api/trial-forecaster/quick-search")
+async def trial_forecaster_quick_search(req: TrialSearchRequest):
+    """Quick NCT ID / drug name lookup with basic trial info."""
+    if not _TRIAL_FORECASTER_READY:
+        return JSONResponse(
+            status_code=503,
+            content={"error": "Trial forecaster module not loaded"},
+        )
+
+    query = req.query.strip()
+    if not query:
+        return JSONResponse(status_code=400, content={"error": "Empty query"})
+
+    try:
+        result = quick_trial_lookup(query)
+        return result
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Quick search failed: {str(e)}"},
+        )
+
+
+# ---------------------------------------------------------------------------
 # System Health
 # ---------------------------------------------------------------------------
 
@@ -449,6 +583,7 @@ async def evidence_health():
         "enrichment_ready": _ENRICHMENT_READY,
         "news_miner_ready": _NEWS_MINER_READY,
         "global_discovery_ready": _GLOBAL_DISCOVERY_READY,
+        "trial_forecaster_ready": _TRIAL_FORECASTER_READY,
         "companies_loaded": _COMPANIES_LOADED,
         "company_count": len(get_all_companies_flat()),
         "rag_available": _SEARCH_READY and RAG_AVAILABLE if _SEARCH_READY else False,

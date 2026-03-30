@@ -6,6 +6,7 @@ import EvidenceLanding from './EvidenceLanding'
 import CompanyPanel from './CompanyPanel'
 import EnrichmentPanel from './EnrichmentPanel'
 import RegionalPanel from './RegionalPanel'
+import TrialForecasterPanel from './TrialForecasterPanel'
 import type { SearchResult, SearchSource, QueryPlan, SearchMetadata, SearchTiming } from './types'
 import './evidence.css'
 
@@ -26,7 +27,7 @@ const EXAMPLE_QUERIES = [
   "Show me GLP-1 competitive landscape including Asian biotechs",
 ]
 
-type ActivePanel = 'none' | 'companies' | 'enrichment' | 'regional'
+type ActivePanel = 'none' | 'companies' | 'enrichment' | 'regional' | 'forecaster'
 
 export default function EvidencePage() {
   const [query, setQuery] = useState('')
@@ -176,6 +177,14 @@ export default function EvidencePage() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             <span>Global</span>
           </button>
+          <button
+            className={`ev-tool-btn ${activePanel === 'forecaster' ? 'active' : ''}`}
+            onClick={() => togglePanel('forecaster')}
+            title="Trial success forecaster"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 4 4-10"/></svg>
+            <span>Forecaster</span>
+          </button>
           {result && (
             <div className="ev-query-meta">
               {result.metadata && (
@@ -205,6 +214,9 @@ export default function EvidencePage() {
             {activePanel === 'enrichment' && <EnrichmentPanel />}
             {activePanel === 'regional' && (
               <RegionalPanel onAlertClick={(q) => handleSearch(q)} />
+            )}
+            {activePanel === 'forecaster' && (
+              <TrialForecasterPanel onTrialSearch={(q) => handleSearch(q)} />
             )}
           </aside>
         )}

@@ -119,10 +119,15 @@ try:
 except ImportError:
     IR_EVENTS_AVAILABLE = False
 
-# FDA CRL pipeline — Complete Response Letters for trial design intelligence
+# FDA Regulatory Decisions pipeline — Approvals + CRLs for regulatory intelligence
 try:
-    from fda_crl_pipeline import search_crl_database, format_crl_for_claude, is_crl_available
-    FDA_CRL_AVAILABLE = is_crl_available()
+    from fda_crl_pipeline import (
+        search_fda_decisions, format_fda_decisions_for_claude, is_fda_data_available,
+        get_regulatory_scorecard,
+        # Legacy aliases (backward compat)
+        search_crl_database, format_crl_for_claude, is_crl_available,
+    )
+    FDA_CRL_AVAILABLE = is_fda_data_available() or is_crl_available()
 except ImportError:
     FDA_CRL_AVAILABLE = False
 
@@ -457,13 +462,19 @@ def execute_query_plan(plan: dict) -> dict:
                 news_mine_region, news_region, use_llm=False,  # regex-only for speed
             )
 
-        # Submit FDA CRL search (trial design intelligence)
+        # Submit FDA regulatory decisions search (approvals + CRLs)
         if "FDA_CRL" in sources and FDA_CRL_AVAILABLE:
             crl_query = plan.get("ct_condition", "") or plan.get("ct_intervention", "") or plan.get("rag_query", "")
             if crl_query:
-                futures["FDA_CRL"] = executor.submit(
-                    search_crl_database, crl_query, 8
-                )
+                try:
+                    futures["FDA_CRL"] = executor.submit(
+                        search_fda_decisions, crl_query, 8
+                    )
+                except NameError:
+                    # Fall back to legacy function if unified not available
+                    futures["FDA_CRL"] = executor.submit(
+                        search_crl_database, crl_query, 8
+                    )
 
         # Submit Disease Space Intelligence (rare disease ecosystem mapping)
         if "DISEASE_SPACE" in sources and DISEASE_SPACE_AVAILABLE:
@@ -1077,14 +1088,19 @@ def synthesize_answer(query: str, data: dict, plan: dict) -> dict:
         if news_ctx:
             context_parts.append(news_ctx)
 
-    # FDA CRL context (trial design intelligence)
+    # FDA regulatory decisions context (approvals + CRLs)
     if data.get("fda_crl") and FDA_CRL_AVAILABLE:
         try:
-            crl_ctx = format_crl_for_claude(data["fda_crl"])
-            if crl_ctx:
-                context_parts.append(crl_ctx)
-        except Exception as e:
-            print(f"  FDA CRL formatting failed: {e}")
+            fda_ctx = format_fda_decisions_for_claude(data["fda_crl"])
+            if fda_ctx:
+                context_parts.append(fda_ctx)
+        except (NameError, Exception):
+            try:
+                crl_ctx = format_crl_for_claude(data["fda_crl"])
+                if crl_ctx:
+                    context_parts.append(crl_ctx)
+            except Exception as e:
+                print(f"  FDA formatting failed: {e}")
 
     # Disease Space Intelligence (rare disease ecosystem)
     if data.get("disease_space") and DISEASE_SPACE_AVAILABLE:
