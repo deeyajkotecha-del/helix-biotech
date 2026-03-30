@@ -307,17 +307,28 @@ async def evidence_search_stream(req: SearchRequest):
         full_system = f"{SYNTHESIS_SYSTEM_PROMPT}\n\n{full_context}"
 
         start_time = time.time()
-        try:
-            with get_client().messages.stream(
-                model="claude-sonnet-4-20250514",
-                max_tokens=4096,
-                system=full_system,
-                messages=[{"role": "user", "content": query}],
-            ) as stream:
-                for text in stream.text_stream:
-                    yield f"data: {json.dumps({'type': 'token', 'text': text})}\n\n"
-        except Exception as e:
-            yield f"data: {json.dumps({'type': 'token', 'text': f'Error generating answer: {str(e)}'})}\n\n"
+        last_error = None
+        for attempt in range(3):
+            try:
+                with get_client().messages.stream(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=4096,
+                    system=full_system,
+                    messages=[{"role": "user", "content": query}],
+                ) as stream:
+                    for text in stream.text_stream:
+                        yield f"data: {json.dumps({'type': 'token', 'text': text})}\n\n"
+                last_error = None
+                break
+            except Exception as e:
+                last_error = e
+                if "overloaded" in str(e).lower() and attempt < 2:
+                    wait = 2 ** attempt
+                    yield f"data: {json.dumps({'type': 'step', 'step': f'API busy, retrying in {wait}s...'})}\n\n"
+                    time.sleep(wait)
+                else:
+                    yield f"data: {json.dumps({'type': 'token', 'text': f'Error generating answer: {str(e)}'})}\n\n"
+                    break
 
         total_time = round(time.time() - start_time, 2)
         timing = {**query_data.get("timing", {}), "total": total_time}

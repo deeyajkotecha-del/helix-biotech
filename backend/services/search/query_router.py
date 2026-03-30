@@ -68,17 +68,36 @@ except ImportError:
     DRUG_DB_AVAILABLE = False
     print("  ⚠ Drug entity database not loaded — landscape enrichment disabled")
 
-# Global asset discovery — provides multi-country landscape data
+# Dynamic discovery — fully API-driven landscape with no hardcoded drug lists
 try:
-    from global_asset_discovery import (
-        build_landscape,
-        search_trials_global,
-        search_trials_by_country,
+    from dynamic_discovery import (
+        discover_landscape,
+        get_target_map,
+        format_landscape_for_claude as format_dynamic_landscape,
+        setup_cache_tables,
     )
     GLOBAL_LANDSCAPE_AVAILABLE = True
+    # Ensure cache tables exist on first import
+    try:
+        setup_cache_tables()
+    except Exception:
+        pass
 except ImportError:
     GLOBAL_LANDSCAPE_AVAILABLE = False
-    print("  ⚠ Global asset discovery not loaded — global landscape disabled")
+    print("  ⚠ Dynamic discovery not loaded — global landscape disabled")
+
+# Legacy fallback — only used if dynamic_discovery import fails
+if not GLOBAL_LANDSCAPE_AVAILABLE:
+    try:
+        from global_asset_discovery import (
+            build_landscape,
+            search_trials_global,
+            search_trials_by_country,
+        )
+        GLOBAL_LANDSCAPE_AVAILABLE = True
+        print("  ⚠ Using legacy global_asset_discovery (hardcoded patterns)")
+    except ImportError:
+        pass
 
 try:
     from regional_news_miner import mine_region as news_mine_region
@@ -108,6 +127,20 @@ def get_client():
     if _client is None:
         _client = anthropic.Anthropic()
     return _client
+
+
+def _call_claude_with_retry(max_retries=3, **kwargs):
+    """Call Claude API with retry on overloaded errors."""
+    for attempt in range(max_retries):
+        try:
+            return get_client().messages.create(**kwargs)
+        except anthropic.APIStatusError as e:
+            if e.status_code == 529 and attempt < max_retries - 1:
+                wait = 2 ** attempt  # 1s, 2s, 4s
+                print(f"  Claude API overloaded, retrying in {wait}s (attempt {attempt + 1}/{max_retries})")
+                time.sleep(wait)
+            else:
+                raise
 
 
 # =============================================================================
@@ -163,7 +196,7 @@ def classify_query(query: str) -> dict:
     Returns a query plan dict.
     """
     try:
-        response = get_client().messages.create(
+        response = _call_claude_with_retry(
             model="claude-haiku-4-5-20251001",  # Fast + cheap for classification
             max_tokens=500,
             system=QUERY_CLASSIFIER_PROMPT,
@@ -364,17 +397,16 @@ def execute_query_plan(plan: dict) -> dict:
                     search_fda_drugs, **fda_kwargs
                 )
 
-        # Submit Global Landscape search
+        # Submit Global Landscape search (dynamic discovery — no hardcoded patterns)
         if "GLOBAL_LANDSCAPE" in sources and GLOBAL_LANDSCAPE_AVAILABLE:
             landscape_target = plan.get("landscape_target", plan.get("ct_intervention", ""))
             landscape_region = plan.get("landscape_region", "all")
             if landscape_target:
                 futures["GLOBAL_LANDSCAPE"] = executor.submit(
-                    build_landscape,
+                    discover_landscape,
                     landscape_target,
                     region=landscape_region,
                     max_trials=200,
-                    use_llm=False,  # Don't use LLM extraction in real-time (too slow)
                 )
 
         # Submit News Miner search
@@ -539,11 +571,19 @@ def execute_query_plan(plan: dict) -> dict:
 
 def format_global_landscape_for_claude(landscape_data):
     """
-    Format the global landscape result into a context block Claude can use
+    Format landscape result into a context block Claude can use
     to generate investor-grade landscape answers.
+    Handles both dynamic_discovery and legacy global_asset_discovery formats.
     """
     if not landscape_data or not landscape_data.get("assets"):
         return ""
+
+    # Dynamic discovery format has 'drug_classes' key
+    if "drug_classes" in landscape_data:
+        try:
+            return format_dynamic_landscape(landscape_data)
+        except Exception:
+            pass  # Fall through to legacy format
 
     assets = landscape_data["assets"]
     query = landscape_data.get("query", "")
@@ -551,12 +591,12 @@ def format_global_landscape_for_claude(landscape_data):
     total_trials = landscape_data.get("total_trials", 0)
 
     lines = [
-        f"=== GLOBAL DRUG ASSET LANDSCAPE: {query.upper()} ===",
+        f"=== DRUG ASSET LANDSCAPE: {query.upper()} ===",
         f"Region: {region} | Total trials scanned: {total_trials} | Drug assets found: {len(assets)}",
         "",
         "IMPORTANT: This landscape includes drugs from MULTIPLE countries and regions.",
-        "Your answer MUST cover non-US programs (China, Korea, Japan, Europe) if present below.",
-        "Do NOT omit Asian or European drug programs from your answer.",
+        "Your answer MUST organize drugs by mechanistic class / drug class.",
+        "Your answer MUST cover non-US programs (China, Korea, Japan, Europe) if present.",
         "",
         "Drug assets ranked by development stage (highest phase first):",
         "",
@@ -564,34 +604,40 @@ def format_global_landscape_for_claude(landscape_data):
 
     for i, asset in enumerate(assets, 1):
         phase = asset.get("highest_phase", "N/A").replace("PHASE", "Phase ")
-        countries = asset.get("countries", [])
-        countries_str = ", ".join(countries[:5])
-        if len(countries) > 5:
-            countries_str += f" +{len(countries)-5} more"
-        indications = ", ".join(asset.get("indications", [])[:3])
+        drug_class = asset.get("drug_class", "")
+        mechanism = asset.get("mechanism", asset.get("target_moa", ""))
+        company = asset.get("company", asset.get("sponsor", ""))
+        conditions = asset.get("conditions", "")
+        if isinstance(conditions, list):
+            conditions = ", ".join(conditions[:3])
+        elif isinstance(conditions, set):
+            conditions = ", ".join(list(conditions)[:3])
 
-        lines.append(
-            f"{i}. {asset['drug_name']} ({asset.get('target_moa', '?')})"
-        )
-        lines.append(
-            f"   Phase: {phase} | Trials: {asset.get('total_trials', 0)} "
-            f"(active: {asset.get('active_trials', 0)}) | Sponsor: {asset.get('sponsor', '?')}"
-        )
-        if countries_str:
-            lines.append(f"   Countries: {countries_str}")
-        if indications:
-            lines.append(f"   Indications: {indications}")
+        line1 = f"{i}. {asset['drug_name']}"
+        if drug_class:
+            line1 += f" [{drug_class}]"
+        elif mechanism:
+            line1 += f" ({mechanism})"
+        lines.append(line1)
+
+        line2 = f"   Phase: {phase} | Trials: {asset.get('total_trials', 0)} "
+        line2 += f"(active: {asset.get('active_trials', 0)})"
+        if company:
+            line2 += f" | {company}"
+        lines.append(line2)
+
+        if conditions:
+            lines.append(f"   Indications: {conditions}")
         lines.append("")
 
-    # Add region summary
-    all_countries = {}
-    for asset in assets:
-        for c in asset.get("countries", []):
-            all_countries[c] = all_countries.get(c, 0) + 1
-
-    lines.append("Country-level activity:")
-    for country, count in sorted(all_countries.items(), key=lambda x: -x[1])[:10]:
-        lines.append(f"  {country}: {count} drug assets in development")
+    # Target map / therapeutic approaches (from dynamic discovery)
+    target_map = landscape_data.get("target_map", [])
+    if target_map:
+        lines.append(f"\n--- Therapeutic Approaches for {query} ---")
+        for t in target_map:
+            relevance = t.get("target_class", t.get("relevance", ""))
+            desc = t.get("description", "")
+            lines.append(f"  • {t['target_name']} [{relevance}] — {desc}")
 
     # Phase summary
     ph3_plus = sum(1 for a in assets if a.get("highest_phase_rank", 0) >= 4)
