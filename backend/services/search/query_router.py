@@ -754,22 +754,36 @@ For SINGLE DRUG PROFILES:
   - Present as a table: NCT ID | Phase | Indication | Status | N | Arms/Design | Primary Endpoint
 
 For LANDSCAPE / PIPELINE queries — THIS IS THE MOST IMPORTANT FORMAT:
-  Start with a compact overview table, then give EACH major drug its own ## section.
+  Organize by THERAPEUTIC STRATEGY / DRUG CLASS, not a flat drug list.
+  Use a narrative structure with clinical depth — this is what makes SatyaBio better
+  than a simple database query. Write like a clinical review article with investment framing.
 
-  Step 1 — Overview Table:
-  | Drug | Company | MoA | Phase | Key Data | Differentiation |
+  Step 1 — Brief overview (2-3 sentences):
+  Set the stage: how many agents, which classes dominate, what's the most advanced.
 
-  Step 2 — Deep Profiles (one ## section per drug with clinical data):
-  For EACH drug in the landscape that has clinical data available, create a subsection:
+  Step 2 — Organize by drug class / therapeutic strategy:
+  For EACH mechanistic class (e.g., "PARP1-selective inhibitors", "pan-KRAS agents",
+  "KRAS G12D-selective"), create a ## section:
 
-  ## [Drug Name] ([Company Ticker]) — [one-line positioning statement]
-  - **Mechanism:** [specific MoA in 1-2 sentences, not just "ADC" but the target, linker, payload, DAR]
-  - **Lead data:** [ORR, PFS, OS — the actual numbers with N and data cutoff]
-  - **Safety:** [Grade ≥3 rate, key AEs, discontinuation rate]
-  - **Trial portfolio:** table of ALL trials from the data
-    | NCT ID | Phase | Indication | Status | N | Design |
-  - **Catalyst:** [next data readout, PDUFA, conference]
-  - **Competitive edge:** [what makes this drug different from others in the same class — be specific]
+  ## [Drug Class Name]
+  Write 1-2 sentences framing why this class matters and how it differs from others.
+  Then for each drug in this class with meaningful data:
+
+  **[Drug Name] ([aliases])** — [company] — [one-line positioning]
+  Describe in narrative prose: mechanism with specifics (e.g., "500-fold selectivity for
+  PARP1 over PARP2"), key clinical data with numbers (ORR, PFS, N), trial context
+  ({{trial:NCTXXXXXXXX}}), and what differentiates it. Include safety observations.
+
+  Step 3 — Compact reference table after the narrative:
+  | Drug | Company | MoA/Target | Phase | Key Efficacy | Differentiation | Status/Catalyst |
+
+  Step 4 — Regional and emerging context:
+  Note drugs approved in China/Asia but not US/EU. Flag novel therapeutic modalities
+  (PROTACs, degraders, bispecifics, radiopharmaceuticals) even if early stage.
+  Mention combination strategies being tested.
+
+  The NARRATIVE SECTIONS are the primary output. The table is supplementary reference.
+  This is what separates SatyaBio from basic landscape tables.
 
   This is what separates SatyaBio from basic landscape tables. The overview table is the appetizer; the drug profiles are the meal.
   If there are >8 drugs, profile the top 5-6 by phase/data maturity and list the rest in the overview table.
@@ -984,7 +998,7 @@ def synthesize_answer(query: str, data: dict, plan: dict) -> dict:
     try:
         response = get_client().messages.create(
             model="claude-sonnet-4-20250514",
-            max_tokens=8192,
+            max_tokens=16384,
             system=full_system,
             messages=[{"role": "user", "content": query}],
         )
@@ -1359,7 +1373,7 @@ def register_search_routes(app):
             try:
                 with get_client().messages.stream(
                     model="claude-sonnet-4-20250514",
-                    max_tokens=8192,
+                    max_tokens=16384,
                     system=full_system,
                     messages=[{"role": "user", "content": query}],
                 ) as stream:

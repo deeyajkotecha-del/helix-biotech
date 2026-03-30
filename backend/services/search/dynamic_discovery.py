@@ -1287,49 +1287,122 @@ def _merge_landscape(candidates: list[dict], known: dict, new_classifications: d
 def format_landscape_for_claude(landscape: dict) -> str:
     """
     Format a dynamic landscape result for inclusion in Claude synthesis prompts.
-    Groups assets by drug class for clean, structured output.
+    Groups assets by drug class with full trial-level detail so Claude can
+    produce Open Evidence-quality narrative responses with inline citations.
     """
     if not landscape or not landscape.get("assets"):
         return ""
 
     lines = []
     query = landscape.get("query", "")
+    total_assets = landscape.get("total_assets", len(landscape["assets"]))
+    total_trials = landscape.get("total_trials", 0)
+
     lines.append(f"=== DRUG LANDSCAPE: {query} ===")
-    lines.append(f"Total: {landscape['total_assets']} drug assets from {landscape['total_trials']} clinical trials\n")
+    lines.append(f"Total: {total_assets} drug assets from {total_trials} clinical trials")
+    lines.append("")
+    lines.append("IMPORTANT INSTRUCTIONS FOR SYNTHESIS:")
+    lines.append("- Organize your answer by THERAPEUTIC STRATEGY / DRUG CLASS, not just a flat list")
+    lines.append("- For each drug, cite specific NCT IDs inline: {{trial:NCTXXXXXXXX}}")
+    lines.append("- Include mechanism of action detail (selectivity, target, modality)")
+    lines.append("- Note regional context: which drugs are approved/in-trial in China/Asia vs US/EU")
+    lines.append("- Group related drugs together (e.g., all PARP1-selective agents, all degraders)")
+    lines.append("- Lead with the most clinically advanced / differentiated agents")
+    lines.append("")
 
     # Group by drug_class
-    drug_classes = landscape.get("drug_classes", {})
     assets_by_class = defaultdict(list)
     for asset in landscape["assets"]:
-        cls = asset.get("drug_class", "Unclassified")
+        cls = asset.get("drug_class", "") or asset.get("target", "") or "Unclassified"
         assets_by_class[cls].append(asset)
 
-    for cls_name, cls_assets in assets_by_class.items():
-        lines.append(f"\n--- {cls_name} ---")
+    # Sort classes: put classes with highest-phase drugs first
+    def _class_rank(cls_name):
+        assets = assets_by_class[cls_name]
+        max_rank = max((a.get("highest_phase_rank", 0) for a in assets), default=0)
+        total = sum(a.get("total_trials", 0) for a in assets)
+        return (max_rank, total)
+
+    sorted_classes = sorted(assets_by_class.keys(), key=_class_rank, reverse=True)
+
+    for cls_name in sorted_classes:
+        cls_assets = assets_by_class[cls_name]
+        lines.append(f"\n╔══ {cls_name.upper()} ({len(cls_assets)} agents) ══╗")
+
+        # Sort within class by phase rank then trial count
+        cls_assets.sort(key=lambda a: (a.get("highest_phase_rank", 0), a.get("total_trials", 0)), reverse=True)
+
         for a in cls_assets:
-            phase = a.get("highest_phase", "Unknown")
+            phase = a.get("highest_phase", "Unknown").replace("PHASE", "Phase ")
             company = a.get("company", "")
             mechanism = a.get("mechanism", "")
+            modality = a.get("modality", "")
+            target = a.get("target", "")
             trials = a.get("total_trials", 0)
             active = a.get("active_trials", 0)
+            trial_ids = a.get("trial_ids", [])
+            aliases = a.get("aliases", [])
+            conditions = a.get("conditions", "")
 
-            line = f"  • {a['drug_name']}"
+            # Drug header
+            header = f"  ▸ {a['drug_name']}"
+            if aliases:
+                header += f" (aliases: {', '.join(aliases[:3])})"
             if company:
-                line += f" ({company})"
-            line += f" — Phase: {phase}"
-            if mechanism:
-                line += f" | {mechanism}"
-            line += f" | {trials} trials ({active} active)"
-            lines.append(line)
+                header += f" — {company}"
+            lines.append(header)
 
-    # Target map
+            # Detail line 1: Phase + mechanism
+            detail1 = f"    Phase: {phase} | Trials: {trials} ({active} active)"
+            if mechanism:
+                detail1 += f" | MoA: {mechanism}"
+            elif target:
+                detail1 += f" | Target: {target}"
+            lines.append(detail1)
+
+            # Detail line 2: Modality + conditions
+            if modality or conditions:
+                detail2 = "   "
+                if modality:
+                    detail2 += f" Modality: {modality}"
+                if conditions:
+                    cond_str = conditions if isinstance(conditions, str) else ", ".join(list(conditions)[:3])
+                    detail2 += f" | Indications: {cond_str}"
+                lines.append(detail2)
+
+            # Trial IDs (so Claude can cite them)
+            if trial_ids:
+                nct_str = ", ".join(trial_ids[:8])
+                if len(trial_ids) > 8:
+                    nct_str += f" +{len(trial_ids)-8} more"
+                lines.append(f"    NCT IDs: {nct_str}")
+
+            lines.append("")  # spacer
+
+    # Therapeutic approaches / target map
     target_map = landscape.get("target_map", [])
     if target_map:
-        lines.append(f"\n--- Therapeutic Approaches for {query} ---")
+        lines.append(f"\n╔══ THERAPEUTIC APPROACHES FOR {query.upper()} ══╗")
         for t in target_map:
             relevance = t.get("target_class", t.get("relevance", ""))
             desc = t.get("description", "")
-            lines.append(f"  • {t['target_name']} [{relevance}] — {desc}")
+            examples = t.get("drug_examples", [])
+            line = f"  ▸ {t['target_name']} [{relevance}]"
+            if desc:
+                line += f" — {desc}"
+            if examples:
+                line += f" (e.g., {', '.join(examples[:3])})"
+            lines.append(line)
+
+    # Phase distribution summary
+    assets = landscape["assets"]
+    approved = sum(1 for a in assets if a.get("highest_phase", "").lower() in ("approved", "phase4", "phase 4"))
+    ph3 = sum(1 for a in assets if a.get("highest_phase_rank", 0) >= 3.5 and a.get("highest_phase_rank", 0) < 5)
+    ph2 = sum(1 for a in assets if 2.5 <= a.get("highest_phase_rank", 0) < 3.5)
+    ph1 = sum(1 for a in assets if 1 <= a.get("highest_phase_rank", 0) < 2.5)
+
+    lines.append(f"\nPhase distribution: {approved} Approved, {ph3} Phase 3, {ph2} Phase 2, {ph1} Phase 1")
+    lines.append(f"Data source: ClinicalTrials.gov + OpenTargets (live query, {landscape.get('timestamp', 'today')})")
 
     return "\n".join(lines)
 
