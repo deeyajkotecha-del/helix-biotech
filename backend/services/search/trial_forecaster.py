@@ -29,8 +29,19 @@ from typing import List, Dict, Tuple, Optional
 from datetime import datetime
 from enum import Enum
 
-import numpy as np
-from scipy import stats
+try:
+    import numpy as np
+    NUMPY_AVAILABLE = True
+except ImportError:
+    np = None
+    NUMPY_AVAILABLE = False
+
+try:
+    from scipy import stats
+    SCIPY_AVAILABLE = True
+except ImportError:
+    stats = None
+    SCIPY_AVAILABLE = False
 
 try:
     import httpx

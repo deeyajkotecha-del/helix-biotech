@@ -20,6 +20,7 @@ pdf2image>=1.16.0     # Convert PDF pages to images for OCR
 # Data processing
 pandas>=2.0.0,<3.0.0
 numpy>=1.24.0,<2.0.0
+scipy>=1.11.0,<2.0.0  # Trial forecaster Monte Carlo engine
 openpyxl==3.1.2  # Excel export
 
 # API
