@@ -1880,13 +1880,13 @@ def get_trial_forecaster_status() -> Dict:
     }
 
 
-def run_forecast(
+async def run_forecast(
     query: str,
     params: Optional[Dict] = None,
     n_iterations: int = 50000,
 ):
     """
-    Generator that yields (event_type, event_data) tuples for SSE streaming.
+    Async generator that yields (event_type, event_data) tuples for SSE streaming.
     Called by POST /extract/api/trial-forecaster/analyze
 
     Yields:
@@ -1900,8 +1900,6 @@ def run_forecast(
     3. Run Monte Carlo simulation
     4. Return ForecastResult as dict
     """
-    import asyncio
-
     # Parse simulation params
     sim_params = SimulationParams()
     if params:
@@ -1918,9 +1916,7 @@ def run_forecast(
 
             yield ("step", "Researching trial on ClinicalTrials.gov and PubMed...")
             try:
-                loop = asyncio.new_event_loop()
-                research_report = loop.run_until_complete(_research_trial(query))
-                loop.close()
+                research_report = await _research_trial(query)
                 yield ("step", f"Research complete: found {research_report.comparators_found} comparators, analyzed {research_report.papers_analyzed} papers")
             except Exception as e:
                 logger.warning(f"Deep research failed, falling back to basic mode: {e}")
@@ -1933,13 +1929,8 @@ def run_forecast(
     yield ("step", "Fetching trial design from ClinicalTrials.gov...")
 
     try:
-        async def _run_forecast():
-            return await forecast_trial(query, sim_params, n_iterations)
-
         yield ("step", "Running Monte Carlo simulation (50,000 iterations)...")
-        loop = asyncio.new_event_loop()
-        result = loop.run_until_complete(_run_forecast())
-        loop.close()
+        result = await forecast_trial(query, sim_params, n_iterations)
 
         yield ("step", f"Simulation complete: PoSS = {result.probability_of_success:.1%}")
 
@@ -1963,49 +1954,40 @@ def run_forecast(
         yield ("error", str(e))
 
 
-def quick_trial_lookup(query: str) -> Dict:
+async def quick_trial_lookup(query: str) -> Dict:
     """
     Quick trial search — returns basic trial info without running simulation.
     Called by POST /extract/api/trial-forecaster/quick-search
 
     Returns dict with trial info or error.
     """
-    import asyncio
-
-    async def _lookup():
-        fetcher = TrialDataFetcher()
-        try:
-            if query.upper().startswith("NCT"):
-                trial = await fetcher.fetch_by_nct_id(query.upper())
-                if trial:
-                    return {
-                        "found": True,
-                        "trial": trial.to_dict(),
-                    }
-                return {"found": False, "error": f"Trial {query} not found"}
-            else:
-                # Search by drug name / trial name
-                parts = query.split()
-                drug_name = parts[0]
-                condition = " ".join(parts[1:]) if len(parts) > 1 else None
-                trials = await fetcher.search_trials(drug_name, condition, limit=5)
-                if trials:
-                    return {
-                        "found": True,
-                        "trials": [t.to_dict() for t in trials],
-                        "trial": trials[0].to_dict(),  # Best match
-                    }
-                return {"found": False, "error": f"No trials found for '{query}'"}
-        finally:
-            await fetcher.close()
-
+    fetcher = TrialDataFetcher()
     try:
-        loop = asyncio.new_event_loop()
-        result = loop.run_until_complete(_lookup())
-        loop.close()
-        return result
+        if query.upper().startswith("NCT"):
+            trial = await fetcher.fetch_by_nct_id(query.upper())
+            if trial:
+                return {
+                    "found": True,
+                    "trial": trial.to_dict(),
+                }
+            return {"found": False, "error": f"Trial {query} not found"}
+        else:
+            # Search by drug name / trial name
+            parts = query.split()
+            drug_name = parts[0]
+            condition = " ".join(parts[1:]) if len(parts) > 1 else None
+            trials = await fetcher.search_trials(drug_name, condition, limit=5)
+            if trials:
+                return {
+                    "found": True,
+                    "trials": [t.to_dict() for t in trials],
+                    "trial": trials[0].to_dict(),  # Best match
+                }
+            return {"found": False, "error": f"No trials found for '{query}'"}
     except Exception as e:
         return {"found": False, "error": str(e)}
+    finally:
+        await fetcher.close()
 
 
 if __name__ == "__main__":

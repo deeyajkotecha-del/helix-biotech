@@ -504,10 +504,10 @@ async def trial_forecaster_analyze(req: TrialForecastRequest):
     if not query:
         return JSONResponse(status_code=400, content={"error": "Empty query"})
 
-    def generate():
+    async def generate():
         try:
-            # Run forecast and stream results
-            for event_type, event_data in run_forecast(
+            # Run forecast and stream results (run_forecast is an async generator)
+            async for event_type, event_data in run_forecast(
                 query=query,
                 params=req.params,
                 n_iterations=req.n_iterations,
@@ -561,7 +561,7 @@ async def trial_forecaster_quick_search(req: TrialSearchRequest):
         return JSONResponse(status_code=400, content={"error": "Empty query"})
 
     try:
-        result = quick_trial_lookup(query)
+        result = await quick_trial_lookup(query)
         return result
     except Exception as e:
         return JSONResponse(
