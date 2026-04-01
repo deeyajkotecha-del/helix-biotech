@@ -1028,6 +1028,56 @@
 
 .ev-deck-slide-text p { margin: 0; }
 
+/* Text-only mode styles */
+.ev-deck-text-only-badge {
+  background: var(--ev-sand);
+  color: var(--ev-charcoal);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.ev-deck-thumbstrip.text-only {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ev-deck-thumb.text-thumb {
+  width: auto;
+  min-width: 60px;
+  max-width: 140px;
+  height: auto;
+  padding: 4px 8px;
+}
+
+.ev-deck-thumb-label {
+  font-size: 10px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ev-deck-section-header {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ev-coral);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--ev-sand);
+}
+
+.ev-deck-text-prominent {
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--ev-warm-white);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--ev-sand);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 /* Actions */
 .ev-deck-actions {
   display: flex;

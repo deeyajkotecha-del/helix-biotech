@@ -387,31 +387,41 @@ async def analyze_single_slide(
     ticker: str = "",
     company_name: str = "",
     exclude_doc_id: int = None,
+    slide_text_override: str = None,
 ) -> dict:
-    """Analyze a single slide — useful for on-demand analysis in the UI."""
-    slides = extract_slides(pdf_path)
-    if slide_number < 1 or slide_number > len(slides):
-        return {"error": f"Slide {slide_number} not found (deck has {len(slides)} slides)"}
+    """Analyze a single slide — useful for on-demand analysis in the UI.
+    If slide_text_override is provided, uses that text instead of extracting from PDF.
+    This enables text-only analysis when the PDF isn't available on disk."""
 
-    slide = slides[slide_number - 1]
+    if slide_text_override is not None:
+        # Text-only mode: no PDF needed
+        slide_text = slide_text_override
+        slide_image = ""
+    else:
+        slides = extract_slides(pdf_path)
+        if slide_number < 1 or slide_number > len(slides):
+            return {"error": f"Slide {slide_number} not found (deck has {len(slides)} slides)"}
+        slide = slides[slide_number - 1]
+        slide_text = slide["text"]
+        slide_image = slide["image_b64"]
 
     rag_context = get_slide_rag_context(
-        slide["text"], ticker=ticker, exclude_doc_id=exclude_doc_id, top_k=5,
+        slide_text, ticker=ticker, exclude_doc_id=exclude_doc_id, top_k=5,
     )
 
     commentary = await generate_slide_commentary(
-        slide_text=slide["text"],
-        slide_number=slide["slide_number"],
+        slide_text=slide_text,
+        slide_number=slide_number,
         rag_context=rag_context,
         ticker=ticker,
         company_name=company_name,
-        slide_image_b64=slide["image_b64"],
+        slide_image_b64=slide_image if slide_image else None,
     )
 
     return {
-        "slide_number": slide["slide_number"],
-        "text": slide["text"],
-        "image_b64": slide["image_b64"],
+        "slide_number": slide_number,
+        "text": slide_text,
+        "image_b64": slide_image,
         "rag_context": rag_context,
         "commentary": commentary,
     }

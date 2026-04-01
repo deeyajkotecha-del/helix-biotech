@@ -9,6 +9,7 @@ interface SlideData {
   text: string
   image_b64: string
   word_count?: number
+  section_title?: string
   rag_context?: RagContext[]
   commentary?: string
 }
@@ -45,6 +46,7 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [textOnly, setTextOnly] = useState(false)
 
   // Analysis state
   const [analyzing, setAnalyzing] = useState(false)
@@ -69,6 +71,7 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
         }
         const data = await res.json()
         setSlides(data.slides || [])
+        setTextOnly(!!data.text_only)
       } catch (e) {
         setError('Network error loading slides')
       } finally {
@@ -181,7 +184,12 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
 
       <div className="ev-deck-meta">
         <span className="ev-company-ticker">{document.ticker}</span>
-        <span className="ev-deck-slide-count">{slides.length} slides</span>
+        <span className="ev-deck-slide-count">
+          {slides.length} {textOnly ? 'sections' : 'slides'}
+        </span>
+        {textOnly && (
+          <span className="ev-deck-text-only-badge">Text only</span>
+        )}
       </div>
 
       {/* Slide navigation */}
@@ -194,7 +202,7 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
           &lsaquo; Prev
         </button>
         <span className="ev-deck-nav-label">
-          Slide {currentSlide + 1} of {slides.length}
+          {textOnly ? 'Section' : 'Slide'} {currentSlide + 1} of {slides.length}
         </span>
         <button
           className="ev-deck-nav-btn"
@@ -205,19 +213,21 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
         </button>
       </div>
 
-      {/* Slide thumbnail strip */}
-      <div className="ev-deck-thumbstrip">
+      {/* Slide/section thumbnail strip */}
+      <div className={`ev-deck-thumbstrip ${textOnly ? 'text-only' : ''}`}>
         {slides.map((s, i) => (
           <div
             key={i}
-            className={`ev-deck-thumb ${i === currentSlide ? 'active' : ''}`}
+            className={`ev-deck-thumb ${i === currentSlide ? 'active' : ''} ${textOnly ? 'text-thumb' : ''}`}
             onClick={() => setCurrentSlide(i)}
-            title={`Slide ${i + 1}`}
+            title={s.section_title || `${textOnly ? 'Section' : 'Slide'} ${i + 1}`}
           >
             {s.image_b64 ? (
               <img src={`data:image/jpeg;base64,${s.image_b64}`} alt={`Slide ${i + 1}`} />
             ) : (
-              <span>{i + 1}</span>
+              <span className="ev-deck-thumb-label">
+                {s.section_title ? s.section_title.slice(0, 20) : `${i + 1}`}
+              </span>
             )}
           </div>
         ))}
@@ -226,7 +236,7 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
       {/* Current slide */}
       {slide && (
         <div className="ev-deck-slide-view">
-          {/* Slide image */}
+          {/* Slide image (when PDF is available) */}
           {slide.image_b64 && (
             <div className="ev-deck-slide-image">
               <img
@@ -236,14 +246,25 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
             </div>
           )}
 
-          {/* Slide text */}
+          {/* Section header for text-only mode */}
+          {textOnly && slide.section_title && (
+            <div className="ev-deck-section-header">{slide.section_title}</div>
+          )}
+
+          {/* Slide/section text */}
           {slide.text && (
-            <details className="ev-deck-slide-text-toggle">
-              <summary>Extracted text ({slide.text.split(' ').length} words)</summary>
-              <div className="ev-deck-slide-text">
+            textOnly ? (
+              <div className="ev-deck-slide-text ev-deck-text-prominent">
                 <p>{slide.text}</p>
               </div>
-            </details>
+            ) : (
+              <details className="ev-deck-slide-text-toggle">
+                <summary>Extracted text ({slide.text.split(' ').length} words)</summary>
+                <div className="ev-deck-slide-text">
+                  <p>{slide.text}</p>
+                </div>
+              </details>
+            )
           )}
 
           {/* Analyze button */}

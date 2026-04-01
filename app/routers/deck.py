@@ -121,7 +121,8 @@ async def deck_analyzer_status():
 
 @router.get("/slides/{doc_id}")
 async def deck_extract_slides(doc_id: int, images: bool = True):
-    """Extract slides from a document (fast, no analysis)."""
+    """Extract slides from a document (fast, no analysis).
+    Falls back to text-only chunks from DB if PDF is not on disk."""
     if not DECK_ANALYZER_READY:
         return JSONResponse({"error": "Deck analyzer not loaded"}, status_code=503)
 
@@ -135,24 +136,61 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
 
     file_path, ticker, company_name, title = lookup
 
-    if not file_path or not os.path.exists(file_path):
-        return JSONResponse({
-            "error": "PDF file not found on disk. Document may need re-downloading.",
-            "doc_id": doc_id,
-            "file_path": file_path,
-        }, status_code=404)
+    # Try PDF extraction first
+    if file_path and os.path.exists(file_path):
+        result = extract_slides_only(file_path, include_images=images)
+        result["doc_id"] = doc_id
+        result["ticker"] = ticker or ""
+        result["company_name"] = company_name or ""
+        result["title"] = title or ""
+        return JSONResponse(result)
 
-    result = extract_slides_only(file_path, include_images=images)
-    result["doc_id"] = doc_id
-    result["ticker"] = ticker or ""
-    result["company_name"] = company_name or ""
-    result["title"] = title or ""
-    return JSONResponse(result)
+    # Fallback: build "slides" from DB chunks (text-only, no images)
+    try:
+        conn = _get_db()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT chunk_index, section_title, content, token_count, page_number
+            FROM chunks WHERE document_id = %s ORDER BY chunk_index
+        """, (doc_id,))
+        rows = cur.fetchall()
+        cur.close()
+
+        if not rows:
+            return JSONResponse({
+                "error": "No content found for this document.",
+                "doc_id": doc_id,
+            }, status_code=404)
+
+        slides = []
+        for row in rows:
+            chunk_idx, section, content, tokens, page_num = row
+            slides.append({
+                "slide_number": chunk_idx + 1,
+                "text": content,
+                "image_b64": "",  # No image available
+                "word_count": len(content.split()) if content else 0,
+                "section_title": section or "",
+                "page_number": page_num,
+            })
+
+        return JSONResponse({
+            "doc_id": doc_id,
+            "ticker": ticker or "",
+            "company_name": company_name or "",
+            "title": title or "",
+            "slides": slides,
+            "total_slides": len(slides),
+            "text_only": True,  # Signal to frontend that no images are available
+        })
+    except Exception as e:
+        return JSONResponse({"error": f"Failed to load chunks: {e}"}, status_code=500)
 
 
 @router.post("/analyze-slide")
 async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
-    """Analyze a single slide with RAG context + Claude commentary."""
+    """Analyze a single slide with RAG context + Claude commentary.
+    If PDF is not on disk, uses the chunk text from the DB instead."""
     if not DECK_ANALYZER_READY:
         return JSONResponse({"error": "Deck analyzer not loaded"}, status_code=503)
 
@@ -165,17 +203,47 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
         return JSONResponse({"error": "Document not found"}, status_code=404)
 
     file_path = lookup[0]
-    if not file_path or not os.path.exists(file_path):
-        return JSONResponse({"error": "PDF file not found on disk"}, status_code=404)
 
-    result = await analyze_single_slide(
-        pdf_path=file_path,
-        slide_number=request.slide_number,
-        ticker=request.ticker,
-        company_name=request.company_name,
-        exclude_doc_id=request.doc_id,
-    )
-    return JSONResponse(result)
+    # If PDF is on disk, use full slide analysis (with image)
+    if file_path and os.path.exists(file_path):
+        result = await analyze_single_slide(
+            pdf_path=file_path,
+            slide_number=request.slide_number,
+            ticker=request.ticker,
+            company_name=request.company_name,
+            exclude_doc_id=request.doc_id,
+        )
+        return JSONResponse(result)
+
+    # Fallback: text-only analysis using chunk from DB
+    try:
+        conn = _get_db()
+        cur = conn.cursor()
+        # slide_number is 1-indexed, chunk_index is 0-indexed
+        cur.execute("""
+            SELECT content, section_title FROM chunks
+            WHERE document_id = %s AND chunk_index = %s
+        """, (request.doc_id, request.slide_number - 1))
+        row = cur.fetchone()
+        cur.close()
+
+        if not row:
+            return JSONResponse({"error": "Slide/chunk not found"}, status_code=404)
+
+        chunk_text, section_title = row
+
+        # Use analyze_single_slide with text-only mode (pass text instead of PDF)
+        result = await analyze_single_slide(
+            pdf_path=None,
+            slide_number=request.slide_number,
+            ticker=request.ticker,
+            company_name=request.company_name,
+            exclude_doc_id=request.doc_id,
+            slide_text_override=chunk_text,
+        )
+        return JSONResponse(result)
+    except Exception as e:
+        return JSONResponse({"error": f"Analysis failed: {e}"}, status_code=500)
 
 
 @router.post("/compare")
