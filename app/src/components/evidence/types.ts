@@ -89,3 +89,55 @@ export interface RegionalAlert {
   date: string
   summary: string
 }
+
+// ============================================================
+// Document + Webcast types (used by CompanyPanel subcomponents)
+// ============================================================
+
+export interface DocumentItem {
+  id: number
+  ticker: string
+  company_name: string
+  title: string
+  doc_type: string
+  date: string
+  word_count: number
+  page_count: number
+  filename: string
+}
+
+export interface WebcastItem {
+  id: number
+  ticker: string
+  company_name: string
+  title: string
+  date: string
+  word_count: number
+  embedded_at: string
+  source_url?: string
+  event_type?: string
+  duration_seconds?: number
+  duration_display?: string
+}
+
+export interface WebcastSearchResult {
+  chunk_id: number
+  content: string
+  section_title: string
+  ticker: string
+  company_name: string
+  title: string
+  date: string
+  score: number
+}
+
+export interface TranscriptView {
+  document: WebcastItem
+  chunks: Array<{
+    chunk_index: number
+    section_title: string
+    content: string
+    token_count: number
+  }>
+  full_transcript: string
+}

@@ -33,6 +33,8 @@ router = APIRouter()
 
 # ---------------------------------------------------------------------------
 # Lazy-load the search backend (shared with /api/search)
+# Note: Webcast and Deck endpoints are in separate sub-routers
+# (webcasts.py, deck.py) included at the bottom of this file.
 # ---------------------------------------------------------------------------
 
 _SEARCH_DIR = str(Path(__file__).resolve().parent.parent.parent / "backend" / "services" / "search")
@@ -144,53 +146,9 @@ except ImportError:
     quick_trial_lookup = None
     _TRIAL_FORECASTER_READY = False
 
-# Webcast Pipeline
-try:
-    from webcast_pipeline import (
-        get_webcast_status,
-        process_webcast,
-        search_webcasts,
-        list_webcasts,
-        get_webcast_transcript,
-        transcribe_audio,
-        ingest_webcast,
-        get_media_recorder_js,
-        get_registration_js,
-        format_webcast_results_for_claude,
-    )
-    _WEBCAST_READY = True
-except ImportError as e:
-    print(f"  [evidence] Webcast pipeline not available: {e}")
-    get_webcast_status = None
-    process_webcast = None
-    search_webcasts = None
-    list_webcasts = None
-    get_webcast_transcript = None
-    transcribe_audio = None
-    ingest_webcast = None
-    get_media_recorder_js = None
-    get_registration_js = None
-    format_webcast_results_for_claude = None
-    _WEBCAST_READY = False
-
-# Deck Analyzer
-try:
-    from deck_analyzer import (
-        get_deck_analyzer_status,
-        extract_slides_only,
-        analyze_single_slide,
-        analyze_deck,
-        compare_slides_to_document,
-    )
-    _DECK_ANALYZER_READY = True
-except ImportError as e:
-    print(f"  [evidence] Deck analyzer not available: {e}")
-    get_deck_analyzer_status = None
-    extract_slides_only = None
-    analyze_single_slide = None
-    analyze_deck = None
-    compare_slides_to_document = None
-    _DECK_ANALYZER_READY = False
+# Sub-routers (split out for maintainability)
+from app.routers.webcasts import router as webcasts_router, WEBCAST_READY as _WEBCAST_READY
+from app.routers.deck import router as deck_router, DECK_ANALYZER_READY as _DECK_ANALYZER_READY
 
 # Import company universe
 try:
@@ -231,48 +189,6 @@ class TrialSearchRequest(BaseModel):
     query: str  # NCT ID or drug name
 
 
-class WebcastProcessRequest(BaseModel):
-    audio_path: Optional[str] = None
-    url: Optional[str] = None
-    title: str = ""
-    ticker: str = ""
-    company_name: str = ""
-    event_date: str = ""
-    event_type: str = "webcast"
-
-
-class WebcastSearchRequest(BaseModel):
-    query: str
-    ticker: Optional[str] = None
-    top_k: int = 10
-
-
-class DeckAnalyzeRequest(BaseModel):
-    doc_id: int  # Document ID from the RAG database
-    ticker: str = ""
-    company_name: str = ""
-    include_images: bool = True
-
-class DeckSlideAnalyzeRequest(BaseModel):
-    doc_id: int
-    slide_number: int
-    ticker: str = ""
-    company_name: str = ""
-
-class DeckCompareRequest(BaseModel):
-    slide_text: str
-    compare_doc_id: int
-    ticker: str = ""
-
-class WebcastIngestRequest(BaseModel):
-    transcript_text: str
-    title: str = ""
-    ticker: str = ""
-    company_name: str = ""
-    event_date: str = ""
-    event_type: str = "webcast"
-    source_url: str = ""
-    duration_seconds: float = 0
 
 
 # ---------------------------------------------------------------------------
@@ -662,160 +578,30 @@ async def trial_forecaster_quick_search(req: TrialSearchRequest):
         )
 
 
+
+
 # ---------------------------------------------------------------------------
-# Webcast Pipeline Endpoints
+# Lazy DB connection (shared across endpoints in this module)
 # ---------------------------------------------------------------------------
 
-@router.get("/api/webcasts/status")
-async def webcast_pipeline_status():
-    """Check readiness of the webcast transcription pipeline."""
-    if not _WEBCAST_READY:
-        return JSONResponse({"ready": False, "error": "Webcast module not loaded"})
-    status = get_webcast_status()
-    return JSONResponse(status)
+_db_conn = None
 
-
-@router.post("/api/webcasts/process")
-async def webcast_process(request: WebcastProcessRequest):
-    """
-    Full pipeline: capture audio → transcribe → store in RAG.
-    Provide either audio_path (uploaded file) or url (webcast URL for yt-dlp).
-    """
-    if not _WEBCAST_READY:
-        return JSONResponse(
-            {"status": "error", "error": "Webcast module not loaded"},
-            status_code=503,
-        )
-    result = await process_webcast(
-        audio_path=request.audio_path,
-        url=request.url,
-        title=request.title,
-        ticker=request.ticker,
-        company_name=request.company_name,
-        event_date=request.event_date,
-        event_type=request.event_type,
-    )
-    return JSONResponse(result)
-
-
-@router.post("/api/webcasts/ingest")
-async def webcast_ingest(request: WebcastIngestRequest):
-    """
-    Ingest a pre-transcribed webcast into the RAG database.
-    Use this when you already have the transcript text (e.g., from
-    browser-side MediaRecorder + Whisper, or a pasted transcript).
-    """
-    if not _WEBCAST_READY:
-        return JSONResponse(
-            {"status": "error", "error": "Webcast module not loaded"},
-            status_code=503,
-        )
-    result = ingest_webcast(
-        transcript_text=request.transcript_text,
-        title=request.title,
-        ticker=request.ticker,
-        company_name=request.company_name,
-        event_date=request.event_date,
-        event_type=request.event_type,
-        source_url=request.source_url,
-        duration_seconds=request.duration_seconds,
-    )
-    return JSONResponse(result)
-
-
-@router.post("/api/webcasts/search")
-async def webcast_search(request: WebcastSearchRequest):
-    """Search across all webcast transcripts (hybrid vector + keyword)."""
-    if not _WEBCAST_READY:
-        return JSONResponse(
-            {"query": request.query, "results": [], "error": "Webcast module not loaded"},
-        )
-    results = search_webcasts(
-        query=request.query,
-        ticker=request.ticker,
-        top_k=request.top_k,
-    )
-    # Clean up non-serializable fields
-    clean_results = []
-    for r in results:
-        clean = {
-            "chunk_id": r.get("id"),
-            "content": r.get("content", ""),
-            "section_title": r.get("section_title", ""),
-            "ticker": r.get("ticker", ""),
-            "company_name": r.get("company_name", ""),
-            "title": r.get("title", ""),
-            "date": r.get("date", ""),
-            "score": round(r.get("hybrid_score", r.get("rerank_score", 0)), 4),
-        }
-        clean_results.append(clean)
-
-    return JSONResponse({
-        "query": request.query,
-        "results": clean_results,
-        "count": len(clean_results),
-    })
-
-
-@router.get("/api/webcasts/library")
-async def webcast_library(ticker: str = None, limit: int = 50, offset: int = 0):
-    """List all ingested webcasts in the library."""
-    if not _WEBCAST_READY:
-        return JSONResponse({"webcasts": [], "total": 0, "error": "Webcast module not loaded"})
-    result = list_webcasts(ticker=ticker, limit=limit, offset=offset)
-    # Serialize datetime objects
-    for w in result.get("webcasts", []):
-        for key in ("embedded_at",):
-            if key in w and w[key] is not None:
-                w[key] = str(w[key])
-    return JSONResponse(result)
-
-
-@router.get("/api/webcasts/transcript/{document_id}")
-async def webcast_transcript(document_id: int):
-    """Get the full transcript for a specific webcast."""
-    if not _WEBCAST_READY:
-        return JSONResponse({"error": "Webcast module not loaded"}, status_code=503)
-    result = get_webcast_transcript(document_id)
-    # Serialize datetime
-    if "document" in result and result["document"]:
-        for key in ("embedded_at", "created_at"):
-            if key in result["document"] and result["document"][key] is not None:
-                result["document"][key] = str(result["document"][key])
-    return JSONResponse(result)
-
-
-@router.get("/api/webcasts/capture-js")
-async def webcast_capture_js():
-    """Return the MediaRecorder JS snippet for browser-side audio capture."""
-    if not _WEBCAST_READY:
-        return JSONResponse({"error": "Webcast module not loaded"}, status_code=503)
-    return JSONResponse({
-        "media_recorder_js": get_media_recorder_js(),
-        "instructions": (
-            "Inject this JS into the webcast player tab to start recording audio. "
-            "Call window.__helixRecorder.stop() to finish. The browser will download "
-            "the recording as webcast_recording.webm."
-        ),
-    })
-
-
-@router.get("/api/webcasts/registration-js")
-async def webcast_registration_js(
-    first_name: str = None, last_name: str = None,
-    email: str = None, company: str = None,
-):
-    """Return JS to auto-fill a webcast registration gate."""
-    if not _WEBCAST_READY:
-        return JSONResponse({"error": "Webcast module not loaded"}, status_code=503)
-    js = get_registration_js(first_name, last_name, email, company)
-    return JSONResponse({
-        "registration_js": js,
-        "instructions": (
-            "Inject this JS into the registration page to auto-fill the form fields. "
-            "It will fill First Name, Last Name, Email, and Company."
-        ),
-    })
+def _get_db():
+    """Get or create a reusable DB connection."""
+    global _db_conn
+    try:
+        if _db_conn and not _db_conn.closed:
+            _db_conn.cursor().execute("SELECT 1")
+            return _db_conn
+    except Exception:
+        _db_conn = None
+    import psycopg2
+    db_url = os.environ.get("NEON_DATABASE_URL", "")
+    if not db_url:
+        raise ValueError("NEON_DATABASE_URL not set")
+    _db_conn = psycopg2.connect(db_url)
+    _db_conn.autocommit = True
+    return _db_conn
 
 
 # ---------------------------------------------------------------------------
@@ -826,12 +612,8 @@ async def webcast_registration_js(
 async def list_documents(ticker: str = None, limit: int = 50):
     """List documents in the RAG library, optionally filtered by ticker."""
     try:
-        import psycopg2
         import psycopg2.extras
-        db_url = os.environ.get("NEON_DATABASE_URL", "")
-        if not db_url:
-            return JSONResponse({"documents": [], "error": "DB not configured"})
-        conn = psycopg2.connect(db_url)
+        conn = _get_db()
         cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         if ticker:
             cur.execute("""
@@ -848,124 +630,20 @@ async def list_documents(ticker: str = None, limit: int = 50):
                 ORDER BY date DESC NULLS LAST, id DESC LIMIT %s
             """, (limit,))
         docs = [dict(row) for row in cur.fetchall()]
-        conn.close()
+        cur.close()
         return JSONResponse({"documents": docs, "count": len(docs)})
     except Exception as e:
         return JSONResponse({"documents": [], "error": str(e)})
 
 
+
+
 # ---------------------------------------------------------------------------
-# Deck Analyzer Endpoints
+# Include sub-routers (webcasts, deck analyzer)
 # ---------------------------------------------------------------------------
 
-@router.get("/api/deck/status")
-async def deck_analyzer_status():
-    """Check deck analyzer readiness."""
-    if not _DECK_ANALYZER_READY:
-        return JSONResponse({"ready": False, "error": "Deck analyzer not loaded"})
-    return JSONResponse(get_deck_analyzer_status())
-
-
-@router.get("/api/deck/slides/{doc_id}")
-async def deck_extract_slides(doc_id: int, images: bool = True):
-    """
-    Extract slides from a document in the RAG database (fast, no analysis).
-    Returns slide images + text for immediate UI rendering.
-    """
-    if not _DECK_ANALYZER_READY:
-        return JSONResponse({"error": "Deck analyzer not loaded"}, status_code=503)
-
-    # Look up the document's file path
-    try:
-        import psycopg2
-        db_url = os.environ.get("NEON_DATABASE_URL", "")
-        conn = psycopg2.connect(db_url)
-        cur = conn.cursor()
-        cur.execute(
-            "SELECT file_path, ticker, company_name, title FROM documents WHERE id = %s",
-            (doc_id,)
-        )
-        row = cur.fetchone()
-        conn.close()
-        if not row:
-            return JSONResponse({"error": f"Document {doc_id} not found"}, status_code=404)
-        file_path, ticker, company_name, title = row
-    except Exception as e:
-        return JSONResponse({"error": f"DB error: {e}"}, status_code=500)
-
-    # Check if the file exists at the stored path
-    if not file_path or not os.path.exists(file_path):
-        # Try reconstructing from library path
-        library_path = os.environ.get("LIBRARY_PATH", "")
-        if library_path and file_path:
-            alt_path = os.path.join(library_path, os.path.basename(file_path))
-            if os.path.exists(alt_path):
-                file_path = alt_path
-            else:
-                return JSONResponse({
-                    "error": f"PDF file not found on disk. Document may need re-downloading.",
-                    "doc_id": doc_id,
-                    "file_path": file_path,
-                }, status_code=404)
-        else:
-            return JSONResponse({"error": "PDF file path not available"}, status_code=404)
-
-    result = extract_slides_only(file_path, include_images=images)
-    result["doc_id"] = doc_id
-    result["ticker"] = ticker or ""
-    result["company_name"] = company_name or ""
-    result["title"] = title or ""
-    return JSONResponse(result)
-
-
-@router.post("/api/deck/analyze-slide")
-async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
-    """Analyze a single slide with RAG context + Claude commentary."""
-    if not _DECK_ANALYZER_READY:
-        return JSONResponse({"error": "Deck analyzer not loaded"}, status_code=503)
-
-    # Look up file path
-    try:
-        import psycopg2
-        db_url = os.environ.get("NEON_DATABASE_URL", "")
-        conn = psycopg2.connect(db_url)
-        cur = conn.cursor()
-        cur.execute("SELECT file_path FROM documents WHERE id = %s", (request.doc_id,))
-        row = cur.fetchone()
-        conn.close()
-        if not row or not row[0]:
-            return JSONResponse({"error": "Document not found"}, status_code=404)
-        file_path = row[0]
-    except Exception as e:
-        return JSONResponse({"error": f"DB error: {e}"}, status_code=500)
-
-    if not os.path.exists(file_path):
-        library_path = os.environ.get("LIBRARY_PATH", "")
-        alt = os.path.join(library_path, os.path.basename(file_path)) if library_path else ""
-        file_path = alt if os.path.exists(alt) else file_path
-
-    result = await analyze_single_slide(
-        pdf_path=file_path,
-        slide_number=request.slide_number,
-        ticker=request.ticker,
-        company_name=request.company_name,
-        exclude_doc_id=request.doc_id,
-    )
-    return JSONResponse(result)
-
-
-@router.post("/api/deck/compare")
-async def deck_compare(request: DeckCompareRequest):
-    """Compare a slide's content against another document in the library."""
-    if not _DECK_ANALYZER_READY:
-        return JSONResponse({"error": "Deck analyzer not loaded"}, status_code=503)
-
-    result = await compare_slides_to_document(
-        slide_text=request.slide_text,
-        compare_doc_id=request.compare_doc_id,
-        ticker=request.ticker,
-    )
-    return JSONResponse(result)
+router.include_router(webcasts_router)
+router.include_router(deck_router)
 
 
 # ---------------------------------------------------------------------------
