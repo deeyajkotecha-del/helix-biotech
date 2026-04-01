@@ -375,6 +375,10 @@ def process_document(conn, vo_client, ticker: str, filename: str, file_path: str
             cur.close()
             return False
 
+    # Strip NUL bytes that some PDFs produce (causes PostgreSQL errors)
+    for p in pages:
+        p["text"] = p["text"].replace("\x00", "")
+
     total_words = sum(len(p["text"].split()) for p in pages)
     print(f"    {total_words} words across {len(pages)} pages")
 
