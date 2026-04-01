@@ -145,30 +145,70 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
         result["title"] = title or ""
         return JSONResponse(result)
 
-    # Fallback: build "slides" from DB chunks (text-only, no images)
+    # Fallback: check slide_images table for pre-rendered images, then chunks
     try:
         conn = _get_db()
         cur = conn.cursor()
+
+        # 1) Check if we have pre-rendered slide images in the DB
+        cur.execute("""
+            SELECT page_number, image_b64
+            FROM slide_images WHERE document_id = %s ORDER BY page_number
+        """, (doc_id,))
+        image_rows = cur.fetchall()
+
+        # 2) Always load chunks for text content
         cur.execute("""
             SELECT chunk_index, section_title, content, token_count, page_number
             FROM chunks WHERE document_id = %s ORDER BY chunk_index
         """, (doc_id,))
-        rows = cur.fetchall()
+        chunk_rows = cur.fetchall()
         cur.close()
 
-        if not rows:
+        if not image_rows and not chunk_rows:
             return JSONResponse({
                 "error": "No content found for this document.",
                 "doc_id": doc_id,
             }, status_code=404)
 
+        # If we have pre-rendered images, build slides from those (with text overlay from chunks)
+        if image_rows:
+            # Build a lookup of chunk text by page_number for text overlay
+            chunk_text_by_page: dict[int, tuple[str, str]] = {}
+            for chunk_idx, section, content, tokens, page_num in chunk_rows:
+                if page_num is not None and page_num not in chunk_text_by_page:
+                    chunk_text_by_page[page_num] = (content or "", section or "")
+
+            slides = []
+            for page_num, img_b64 in image_rows:
+                text, section = chunk_text_by_page.get(page_num, ("", ""))
+                slides.append({
+                    "slide_number": page_num,
+                    "text": text,
+                    "image_b64": img_b64,
+                    "word_count": len(text.split()) if text else 0,
+                    "section_title": section,
+                    "page_number": page_num,
+                })
+
+            return JSONResponse({
+                "doc_id": doc_id,
+                "ticker": ticker or "",
+                "company_name": company_name or "",
+                "title": title or "",
+                "slides": slides,
+                "total_slides": len(slides),
+                "text_only": False,  # We have actual images!
+            })
+
+        # No images available — text-only fallback from chunks
         slides = []
-        for row in rows:
+        for row in chunk_rows:
             chunk_idx, section, content, tokens, page_num = row
             slides.append({
                 "slide_number": chunk_idx + 1,
                 "text": content,
-                "image_b64": "",  # No image available
+                "image_b64": "",
                 "word_count": len(content.split()) if content else 0,
                 "section_title": section or "",
                 "page_number": page_num,
@@ -181,10 +221,10 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
             "title": title or "",
             "slides": slides,
             "total_slides": len(slides),
-            "text_only": True,  # Signal to frontend that no images are available
+            "text_only": True,  # No images available
         })
     except Exception as e:
-        return JSONResponse({"error": f"Failed to load chunks: {e}"}, status_code=500)
+        return JSONResponse({"error": f"Failed to load slides: {e}"}, status_code=500)
 
 
 @router.post("/analyze-slide")
