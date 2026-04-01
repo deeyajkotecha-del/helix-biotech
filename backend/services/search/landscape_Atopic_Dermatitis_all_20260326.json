@@ -1,0 +1,3423 @@
+{
+  "query": "Atopic Dermatitis",
+  "region": "all",
+  "assets": [
+    {
+      "drug_name": "dupilumab",
+      "target_moa": "IL-4/IL-13",
+      "sponsor": "Eric Simpson",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT04520308",
+        "NCT03861455",
+        "NCT06937788",
+        "NCT06881251",
+        "NCT06461897",
+        "NCT07386743",
+        "NCT06004986",
+        "NCT03389893",
+        "NCT01949311",
+        "NCT05649579",
+        "NCT05602207",
+        "NCT06192563",
+        "NCT02407756",
+        "NCT06465732",
+        "NCT04033367",
+        "NCT05694884",
+        "NCT06415175",
+        "NCT03050151",
+        "NCT06099704",
+        "NCT04678882",
+        "NCT02260986",
+        "NCT05601882",
+        "NCT04345367"
+      ],
+      "countries": [
+        "Argentina",
+        "Australia",
+        "Austria",
+        "Belgium",
+        "Brazil",
+        "Bulgaria",
+        "Canada",
+        "Chile",
+        "China",
+        "Croatia",
+        "Czechia",
+        "Denmark",
+        "Estonia",
+        "Finland",
+        "France",
+        "Germany",
+        "Greece",
+        "Hungary",
+        "Ireland",
+        "Israel",
+        "Italy",
+        "Japan",
+        "Latvia",
+        "Lithuania",
+        "Mexico",
+        "Netherlands",
+        "New Zealand",
+        "Poland",
+        "Portugal",
+        "Puerto Rico",
+        "Romania",
+        "Russia",
+        "Singapore",
+        "Slovakia",
+        "South Africa",
+        "South Korea",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "Taiwan",
+        "Turkey (T\u00fcrkiye)",
+        "United Arab Emirates",
+        "United Kingdom",
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Atopic Dermatitis",
+        "Atopic Dermatitis (AD)",
+        "Atopic Dermatitis Eczema",
+        "Atopic Disorders"
+      ],
+      "active_trials": 9,
+      "total_trials": 23
+    },
+    {
+      "drug_name": "lebrikizumab",
+      "target_moa": "IL-13",
+      "sponsor": "Eli Lilly and Company",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT04146363",
+        "NCT03443024",
+        "NCT05735483",
+        "NCT07006792",
+        "NCT04178967",
+        "NCT06444165",
+        "NCT05372419",
+        "NCT04760314",
+        "NCT02340234",
+        "NCT06280716"
+      ],
+      "countries": [
+        "Argentina",
+        "Australia",
+        "Brazil",
+        "Bulgaria",
+        "Canada",
+        "China",
+        "Czechia",
+        "Estonia",
+        "Finland",
+        "France",
+        "Germany",
+        "Japan",
+        "Latvia",
+        "Lithuania",
+        "Mexico",
+        "Netherlands",
+        "Poland",
+        "Puerto Rico",
+        "Singapore",
+        "South Korea",
+        "Spain",
+        "Switzerland",
+        "Taiwan",
+        "Ukraine",
+        "United Kingdom",
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Atopic Dermatitis",
+        "Dermatitis",
+        "Eczema",
+        "Genetic"
+      ],
+      "active_trials": 2,
+      "total_trials": 10
+    },
+    {
+      "drug_name": "abrocitinib",
+      "target_moa": "JAK1",
+      "sponsor": "Pfizer",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT04903093",
+        "NCT03796182",
+        "NCT06899204",
+        "NCT05602207",
+        "NCT05689151",
+        "NCT05140239",
+        "NCT02780167",
+        "NCT06807281",
+        "NCT04345367"
+      ],
+      "countries": [
+        "Australia",
+        "Belgium",
+        "Bulgaria",
+        "Canada",
+        "Chile",
+        "China",
+        "Finland",
+        "France",
+        "Germany",
+        "Hungary",
+        "Italy",
+        "Japan",
+        "Latvia",
+        "Mexico",
+        "Poland",
+        "Slovakia",
+        "South Korea",
+        "Spain",
+        "Taiwan",
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Atopic Dermatitis",
+        "Dermatitis",
+        "Eczema",
+        "Healthy"
+      ],
+      "active_trials": 4,
+      "total_trials": 9
+    },
+    {
+      "drug_name": "secukinumab",
+      "target_moa": "IL-17A",
+      "sponsor": "Icahn School of Medicine at Mount Sinai",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT02594098",
+        "NCT02547714"
+      ],
+      "countries": [
+        "Japan",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Plaque Psoriasis"
+      ],
+      "active_trials": 0,
+      "total_trials": 2
+    },
+    {
+      "drug_name": "tofacitinib",
+      "target_moa": "pan-JAK",
+      "sponsor": "Second Affiliated Hospital, School of Medicine, Zhejiang University",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT06465732",
+        "NCT05487963"
+      ],
+      "countries": [
+        "Georgia"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 2
+    },
+    {
+      "drug_name": "roflumilast",
+      "target_moa": "PDE4 (topical)",
+      "sponsor": "AstraZeneca",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT01856764",
+        "NCT05682859"
+      ],
+      "countries": [
+        "Denmark",
+        "Germany"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Chronic Hand Eczema"
+      ],
+      "active_trials": 1,
+      "total_trials": 2
+    },
+    {
+      "drug_name": "Stoss placebo",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Murdoch Childrens Research Institute",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT03257215"
+      ],
+      "countries": [
+        "Australia"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Daily placebo",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Murdoch Childrens Research Institute",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT03257215"
+      ],
+      "countries": [
+        "Australia"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Urea",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "ACO Hud Nordic AB",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT00576550"
+      ],
+      "countries": [
+        "Norway"
+      ],
+      "indications": [
+        "Hand Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "betamethasone valerate",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "ACO Hud Nordic AB",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT00576550"
+      ],
+      "countries": [
+        "Norway"
+      ],
+      "indications": [
+        "Hand Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Probiatop",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Casa Espirita Terra de Ismael",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT02519556"
+      ],
+      "countries": [
+        "Brazil"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Mometasone Furoate",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Libbs Farmac\u00eautica LTDA",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT04271007"
+      ],
+      "countries": [
+        "Brazil"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Fluocinonide",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Oregon Health and Science University",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT00819507"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Topical corticosteroids",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Radboud University Medical Center",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT03461302"
+      ],
+      "countries": [
+        "Netherlands"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Hydrocortisone Ointment",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Johns Hopkins University",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT03832010"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Triamcinolone ointment",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Johns Hopkins University",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT03832010"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Aquaphor",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Johns Hopkins University",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT03832010"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "minocycline",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Second Affiliated Hospital of Xi'an Jiaotong University",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT06307288"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Rosacea"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "tranilast",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Second Affiliated Hospital of Xi'an Jiaotong University",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT06307288"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Rosacea"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Oral consumption",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Bright Dairy & Food Co., Ltd",
+      "highest_phase": "PHASE4",
+      "highest_phase_rank": 5,
+      "trials": [
+        "NCT02239588"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Growth Acceleration"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "upadacitinib",
+      "target_moa": "JAK1",
+      "sponsor": "Technische Universit\u00e4t Dresden",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT06937788",
+        "NCT06461897",
+        "NCT02925117",
+        "NCT06503536",
+        "NCT03569293",
+        "NCT05451316",
+        "NCT05601882",
+        "NCT03607422",
+        "NCT06459297"
+      ],
+      "countries": [
+        "Argentina",
+        "Australia",
+        "Austria",
+        "Belgium",
+        "Bosnia and Herzegovina",
+        "Brazil",
+        "Bulgaria",
+        "Canada",
+        "Chile",
+        "China",
+        "Colombia",
+        "Croatia",
+        "Czechia",
+        "Denmark",
+        "Estonia",
+        "Finland",
+        "France",
+        "Germany",
+        "Greece",
+        "Hungary",
+        "Ireland",
+        "Israel",
+        "Italy",
+        "Japan",
+        "Malaysia",
+        "Mexico",
+        "Netherlands",
+        "New Zealand",
+        "Poland",
+        "Portugal",
+        "Puerto Rico",
+        "Romania",
+        "Russia",
+        "Singapore",
+        "Slovakia",
+        "South Africa",
+        "South Korea",
+        "Spain",
+        "Sweden",
+        "Switzerland",
+        "Taiwan",
+        "Turkey (T\u00fcrkiye)",
+        "Ukraine",
+        "United Kingdom",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Atopic Dermatitis (AD)",
+        "Crohn's Disease",
+        "Ulcerative Colitis"
+      ],
+      "active_trials": 2,
+      "total_trials": 9
+    },
+    {
+      "drug_name": "ruxolitinib",
+      "target_moa": "JAK1/2",
+      "sponsor": "Incyte Corporation",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT03745651",
+        "NCT04839380",
+        "NCT05219864",
+        "NCT04921969"
+      ],
+      "countries": [
+        "Bulgaria",
+        "Canada",
+        "Czechia",
+        "Germany",
+        "Poland",
+        "Spain",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Hand Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 4
+    },
+    {
+      "drug_name": "baricitinib",
+      "target_moa": "JAK1/2",
+      "sponsor": "Eli Lilly and Company",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT02576938",
+        "NCT03334396",
+        "NCT03733301"
+      ],
+      "countries": [
+        "Argentina",
+        "Australia",
+        "Austria",
+        "Czechia",
+        "Denmark",
+        "France",
+        "Germany",
+        "India",
+        "Italy",
+        "Japan",
+        "Mexico",
+        "Poland",
+        "Russia",
+        "South Korea",
+        "Spain",
+        "Taiwan",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 3
+    },
+    {
+      "drug_name": "tralokinumab",
+      "target_moa": "IL-13",
+      "sponsor": "LEO Pharma",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT04587453",
+        "NCT03587805"
+      ],
+      "countries": [
+        "Belgium",
+        "Canada",
+        "Czechia",
+        "France",
+        "Germany",
+        "Italy",
+        "Japan",
+        "Poland",
+        "Spain",
+        "United Kingdom",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 2
+    },
+    {
+      "drug_name": "amlitelimab",
+      "target_moa": "OX40L",
+      "sponsor": "Sanofi",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT06130566",
+        "NCT06241118"
+      ],
+      "countries": [
+        "Argentina",
+        "Australia",
+        "Brazil",
+        "Canada",
+        "Chile",
+        "China",
+        "France",
+        "Germany",
+        "Greece",
+        "India",
+        "Israel",
+        "Italy",
+        "Japan",
+        "Mexico",
+        "Poland",
+        "Reunion",
+        "Saudi Arabia",
+        "South Korea",
+        "Spain",
+        "Taiwan",
+        "Turkey (T\u00fcrkiye)",
+        "United Arab Emirates",
+        "United Kingdom",
+        "United States"
+      ],
+      "indications": [
+        "Dermatitis Atopic"
+      ],
+      "active_trials": 1,
+      "total_trials": 2
+    },
+    {
+      "drug_name": "tapinarof",
+      "target_moa": "AhR agonist",
+      "sponsor": "Organon and Co",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT05142774"
+      ],
+      "countries": [
+        "Canada",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1
+    },
+    {
+      "drug_name": "rocatinlimab",
+      "target_moa": "OX40",
+      "sponsor": "Amgen",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT05651711"
+      ],
+      "countries": [
+        "Australia",
+        "Belgium",
+        "Brazil",
+        "Canada",
+        "Czechia",
+        "Denmark",
+        "Estonia",
+        "Finland",
+        "Germany",
+        "Japan",
+        "Mexico",
+        "Poland",
+        "Portugal",
+        "Romania",
+        "South Africa",
+        "South Korea",
+        "Spain",
+        "Sweden",
+        "Turkey (T\u00fcrkiye)",
+        "United Kingdom",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1
+    },
+    {
+      "drug_name": "Vehicle cream",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Actavis Inc.",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT02791308"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Pimecrolimus Cream",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Actavis Inc.",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT02791308"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "DSXS",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Sun Pharmaceutical Industries, Inc.",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT02595073"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Crisaborole",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University of Rochester",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT03645057"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "FURESTEM-AD Inj.",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Kang Stem Biotech Co., Ltd.",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT03269773"
+      ],
+      "countries": [
+        "South Korea"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Skin Biopsy",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Hordinsky, Maria K., MD",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT00176956"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "tacrolimus ointment",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Astellas Pharma Inc",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT00480610"
+      ],
+      "countries": [
+        "Austria",
+        "Belgium",
+        "Czechia",
+        "Denmark",
+        "Finland",
+        "France",
+        "Germany",
+        "Italy",
+        "Netherlands",
+        "Portugal",
+        "Spain",
+        "Switzerland",
+        "United Kingdom"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Placebo ointment",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Astellas Pharma Inc",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT00480610"
+      ],
+      "countries": [
+        "Austria",
+        "Belgium",
+        "Czechia",
+        "Denmark",
+        "Finland",
+        "France",
+        "Germany",
+        "Italy",
+        "Netherlands",
+        "Portugal",
+        "Spain",
+        "Switzerland",
+        "United Kingdom"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "LW402",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Shanghai Longwood Biopharmaceuticals Co., Ltd.",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT07370909"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Moderate to Severe Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "AN2728",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Pfizer",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT02118792"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Alitretinoin",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University Medical Center Groningen",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT03026907"
+      ],
+      "countries": [
+        "Netherlands"
+      ],
+      "indications": [
+        "Hand Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Azathioprine",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University Medical Center Groningen",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT03026907"
+      ],
+      "countries": [
+        "Netherlands"
+      ],
+      "indications": [
+        "Hand Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "TQH2722",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Shanghai Chia Tai Tianqing Pharmaceutical Technology Development Co., Ltd.",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT06552520"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Matching placebo",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Sunshine Guojian Pharmaceutical (Shanghai) Co., Ltd.",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT06173284"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Placebos",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Otsuka Pharmaceutical Co., Ltd.",
+      "highest_phase": "PHASE3",
+      "highest_phase_rank": 4,
+      "trials": [
+        "NCT03908970"
+      ],
+      "countries": [
+        "Japan"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "herbal ointment",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "En Chu Kong Hospital",
+      "highest_phase": "PHASE2, PHASE3",
+      "highest_phase_rank": 3.5,
+      "trials": [
+        "NCT06850311"
+      ],
+      "countries": [
+        "Taiwan"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Atopic Dermatitis (AD)",
+        "Atopic Dermatitis (Eczema)",
+        "Atopic Dermatitis Eczema",
+        "Eczematous"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "fexofenadine/Allegra (M016455",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Sanofi",
+      "highest_phase": "PHASE2, PHASE3",
+      "highest_phase_rank": 3.5,
+      "trials": [
+        "NCT01244230"
+      ],
+      "countries": [
+        "Japan"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "nemolizumab",
+      "target_moa": "IL-31R\u03b1",
+      "sponsor": "Chugai Pharmaceutical",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01986933",
+        "NCT03921411"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 2
+    },
+    {
+      "drug_name": "omalizumab",
+      "target_moa": "IgE",
+      "sponsor": "Technical University of Munich",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01179529",
+        "NCT05564221"
+      ],
+      "countries": [
+        "Germany",
+        "South Korea"
+      ],
+      "indications": [
+        "Adult Subjects With Allergic Diseases",
+        "Atopic Dermatitis",
+        "Atopic Eczema",
+        "Atopic Healthy Subjects"
+      ],
+      "active_trials": 0,
+      "total_trials": 2
+    },
+    {
+      "drug_name": "rademikibart",
+      "target_moa": "IL-4R\u03b1",
+      "sponsor": "Connect Biopharm LLC",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05905133"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1
+    },
+    {
+      "drug_name": "CMK-389",
+      "target_moa": "IL-18",
+      "sponsor": "Novartis Pharmaceuticals",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT04836858"
+      ],
+      "countries": [
+        "Czechia",
+        "France",
+        "Germany",
+        "Hungary",
+        "Poland",
+        "Spain"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1
+    },
+    {
+      "drug_name": "benralizumab",
+      "target_moa": "IL-5R\u03b1",
+      "sponsor": "AstraZeneca",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT04605094"
+      ],
+      "countries": [
+        "Australia",
+        "Bulgaria",
+        "Czechia",
+        "France",
+        "Poland",
+        "South Korea",
+        "Spain",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1
+    },
+    {
+      "drug_name": "eblasakimab",
+      "target_moa": "IL-13R",
+      "sponsor": "ASLAN Pharmaceuticals",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05694884"
+      ],
+      "countries": [
+        "Canada",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1
+    },
+    {
+      "drug_name": "dilexit",
+      "target_moa": "IL-13R\u03b11",
+      "sponsor": "ASLAN Pharmaceuticals",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05694884"
+      ],
+      "countries": [
+        "Canada",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1
+    },
+    {
+      "drug_name": "risankizumab",
+      "target_moa": "IL-23",
+      "sponsor": "AbbVie",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT03706040"
+      ],
+      "countries": [
+        "Australia",
+        "Canada",
+        "Japan",
+        "Puerto Rico",
+        "United States"
+      ],
+      "indications": [
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1
+    },
+    {
+      "drug_name": "CM326",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Keymed Biosciences Co.Ltd",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05671445"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Naltrexone",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University of Minnesota",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT04154033"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Dermatitis",
+        "Pruritus"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Placebo Cream",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University of Minnesota",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT04154033"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Dermatitis",
+        "Pruritus"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "DS107",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "DS Biopharma",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT03817190"
+      ],
+      "countries": [
+        "Austria",
+        "Germany",
+        "Latvia",
+        "Poland",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Broncho-Vaxom",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "OM Pharma SA",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05222516"
+      ],
+      "countries": [
+        "France",
+        "Germany",
+        "Netherlands",
+        "Poland"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "J. lividum",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "DermBiont, Inc.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT04192513"
+      ],
+      "countries": [
+        "Dominican Republic"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "ILV-094",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Rockefeller University",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01941537"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Placebo Comparator",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Rockefeller University",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01941537"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "ATI-502",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Aclaris Therapeutics, Inc.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT03585296"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "SIM0278",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Jiangsu Simcere Pharmaceutical Co., Ltd.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT07175233"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis (AD)"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Mapracorat",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Bayer",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01359787"
+      ],
+      "countries": [
+        "Germany"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Trimethoprim/sulfamethoxazole (TMP/SMZ",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01631617"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis",
+        "Eczema",
+        "Genetic",
+        "Skin Diseases"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Cephalexin",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01631617"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis",
+        "Eczema",
+        "Genetic",
+        "Skin Diseases"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Doxycycline",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01631617"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis",
+        "Eczema",
+        "Genetic",
+        "Skin Diseases"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Sodium hypochlorite",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01631617"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis",
+        "Eczema",
+        "Genetic",
+        "Skin Diseases"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Placebo capsules",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "National Institute of Arthritis and Musculoskeletal and Skin Diseases (NIAMS)",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01631617"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis",
+        "Eczema",
+        "Genetic",
+        "Skin Diseases"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Orvepitant",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Nerre Therapeutics Ltd.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT03464526"
+      ],
+      "countries": [],
+      "indications": [
+        "Atopic Dermatitis",
+        "Pruritus"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "HL-009",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "HanAll BioPharma Co., Ltd.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01568489"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Mild to Moderate Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "PF-07275315",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Pfizer",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05995964"
+      ],
+      "countries": [
+        "Australia",
+        "Canada",
+        "China",
+        "Germany",
+        "Japan",
+        "Poland",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "PF-07264660",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Pfizer",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05995964"
+      ],
+      "countries": [
+        "Australia",
+        "Canada",
+        "China",
+        "Germany",
+        "Japan",
+        "Poland",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "SAR444656",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Sanofi",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT06058156"
+      ],
+      "countries": [
+        "Czechia",
+        "Germany",
+        "Greece",
+        "Poland",
+        "South Korea",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "TDM-180935",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Technoderma Medicines Inc.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT06363461"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Diprobase\u00ae cream",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "ACO Hud Nordic AB",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT03901144"
+      ],
+      "countries": [
+        "United Kingdom"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "FB825",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Oneness Biotech Co., Ltd.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT06397911"
+      ],
+      "countries": [
+        "Taiwan",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "CT327",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Creabilis SA",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01808157"
+      ],
+      "countries": [
+        "United Kingdom"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Soquelitinib",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Corvus Pharmaceuticals, Inc.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT07441395"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Atopic Dermatitis",
+        "Atopic Dermatitis Eczema",
+        "Eczema"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "BRT-FC-83C",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Biomed Research & Technologies, Inc.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT00883311"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "BMX-010",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "BioMimetix JV, LLC",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT03381625"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Psoriasis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Probiotics",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "National University Hospital, Singapore",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT00318695"
+      ],
+      "countries": [
+        "Singapore"
+      ],
+      "indications": [
+        "Allergic Rhinitis",
+        "Asthma",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "BFB759",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Bluefin Biomedicine, Inc.",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT07105488"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis (AD)"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "CM512",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Keymed Biosciences Co.Ltd",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT06947980"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "CT 327",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Creabilis SA",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT00996008"
+      ],
+      "countries": [
+        "Switzerland"
+      ],
+      "indications": [
+        "Mild to Moderate Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Drug: SHR0302",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Reistone Biopharma Company Limited",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT04162899"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Lunsekimig",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Sanofi",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT06790121"
+      ],
+      "countries": [
+        "Czechia",
+        "Japan",
+        "Poland",
+        "United States"
+      ],
+      "indications": [
+        "Dermatitis Atopic"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "GSK1070806",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "GlaxoSmithKline",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05999799"
+      ],
+      "countries": [
+        "Argentina",
+        "Bulgaria",
+        "Canada",
+        "China",
+        "Czechia",
+        "France",
+        "Germany",
+        "Greece",
+        "Italy",
+        "Japan",
+        "Mexico",
+        "Panama",
+        "Poland",
+        "South Korea",
+        "Spain",
+        "Thailand",
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "PF-08049820",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Pfizer",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT07216027"
+      ],
+      "countries": [
+        "Japan",
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "ZK245186",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Bayer",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT01228513"
+      ],
+      "countries": [
+        "Japan",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "LY3454738",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Eli Lilly and Company",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT05911841"
+      ],
+      "countries": [
+        "Canada",
+        "China",
+        "Hungary",
+        "Japan",
+        "Mexico",
+        "Poland",
+        "South Korea",
+        "Taiwan",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "LY3375880",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Eli Lilly and Company",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT03831191"
+      ],
+      "countries": [
+        "Argentina",
+        "Austria",
+        "Canada",
+        "Czechia",
+        "France",
+        "Germany",
+        "Hungary",
+        "Italy",
+        "Japan",
+        "Mexico",
+        "Puerto Rico",
+        "Spain",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Jaungo",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Kyung Hee University Hospital at Gangdong",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT02900131"
+      ],
+      "countries": [
+        "South Korea"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "GHZ339",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Novartis Pharmaceuticals",
+      "highest_phase": "PHASE2",
+      "highest_phase_rank": 3,
+      "trials": [
+        "NCT06947993"
+      ],
+      "countries": [
+        "Argentina",
+        "Canada",
+        "China",
+        "Czechia",
+        "France",
+        "Germany",
+        "Hungary",
+        "Italy",
+        "Japan",
+        "Netherlands",
+        "Poland",
+        "Slovakia",
+        "South Korea",
+        "Spain",
+        "Taiwan",
+        "United Kingdom",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "WBI-1001",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Welichem Biotech Inc.",
+      "highest_phase": "PHASE1, PHASE2",
+      "highest_phase_rank": 2.5,
+      "trials": [
+        "NCT00837551"
+      ],
+      "countries": [
+        "Canada"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "SHR-1819",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Guangdong Hengrui Pharmaceutical Co., Ltd",
+      "highest_phase": "PHASE1, PHASE2",
+      "highest_phase_rank": 2.5,
+      "trials": [
+        "NCT06713499"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Children and Adolescents With Moderate-to-severe Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "MG-K10",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Shanghai Mabgeek Biotech.Co.Ltd",
+      "highest_phase": "PHASE1, PHASE2",
+      "highest_phase_rank": 2.5,
+      "trials": [
+        "NCT06765005"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "FURESTEM-AD inj",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Kang Stem Biotech Co., Ltd.",
+      "highest_phase": "PHASE1, PHASE2",
+      "highest_phase_rank": 2.5,
+      "trials": [
+        "NCT04725136"
+      ],
+      "countries": [
+        "South Korea"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "EpiCeram",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Stanford University",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT03663673"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "ASN002",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Asana BioSciences",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT03139981"
+      ],
+      "countries": [
+        "Canada",
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis",
+        "Dermatitis Eczema",
+        "Eczematous"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "SNG100",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Seanergy Dermatology Ltd.",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT04615962"
+      ],
+      "countries": [],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "IBI3002",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "The First Affiliated Hospital of Soochow University",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT07015762"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "ARQ-234",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Arcutis Biotherapeutics, Inc.",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT07453602"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis (AD)",
+        "Eczema"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "VC005",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Jiangsu vcare pharmaceutical technology co., LTD",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT06009094"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "ATTO-3712",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Attovia Therapeutics Inc",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT07205081"
+      ],
+      "countries": [
+        "Canada"
+      ],
+      "indications": [
+        "Atopic Dermatitis (AD)",
+        "Atopic Eczema",
+        "Atopic Eczema/Dermatitis (Non-Specific)",
+        "Normal Volunteers"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "DEC033",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Medicus Research, LLC",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT02379507"
+      ],
+      "countries": [],
+      "indications": [
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "PF-07832837",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Pfizer",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT06564389"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Healthy Participants"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "SB705498",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "GlaxoSmithKline",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT01673529"
+      ],
+      "countries": [
+        "United Kingdom"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Gentamicin",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Hoth Therapeutics, Inc.",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT04544943"
+      ],
+      "countries": [
+        "Australia"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "LY3844583",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Eli Lilly and Company",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT05486208"
+      ],
+      "countries": [
+        "Japan",
+        "United States"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis",
+        "Healthy"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "HS-20118",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Jiangsu Hansoh Pharmaceutical Co., Ltd.",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT07033234"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Psoriasis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "NCP112",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "NovaCell Technology Inc.",
+      "highest_phase": "PHASE1",
+      "highest_phase_rank": 2,
+      "trials": [
+        "NCT05638165"
+      ],
+      "countries": [
+        "South Korea"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Sunflower oil",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Oregon Health and Science University",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01142999"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Control group",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Oregon Health and Science University",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01142999"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Aquaphor ointment",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Oregon Health and Science University",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01142999"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Cetaphil cream",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Oregon Health and Science University",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01142999"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "mare's milk",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University of Jena",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT00753805"
+      ],
+      "countries": [
+        "Germany"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Cetaphil Restoraderm",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Oregon Health and Science University",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01375205"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Pimecrolimus",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Technische Universit\u00e4t Dresden",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT00148746"
+      ],
+      "countries": [
+        "Germany"
+      ],
+      "indications": [
+        "Moderate to Severe Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Tacrolimus",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Technische Universit\u00e4t Dresden",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT00148746"
+      ],
+      "countries": [
+        "Germany"
+      ],
+      "indications": [
+        "Moderate to Severe Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Prednisolone",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Technische Universit\u00e4t Dresden",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT00148746"
+      ],
+      "countries": [
+        "Germany"
+      ],
+      "indications": [
+        "Moderate to Severe Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Ciclosporin A",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Technische Universit\u00e4t Dresden",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT00148746"
+      ],
+      "countries": [
+        "Germany"
+      ],
+      "indications": [
+        "Moderate to Severe Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Dermatop",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Technische Universit\u00e4t Dresden",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT00148746"
+      ],
+      "countries": [
+        "Germany"
+      ],
+      "indications": [
+        "Moderate to Severe Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Lactobacillus acidophilus",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "B.P. Koirala Institute of Health Sciences",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT04706559"
+      ],
+      "countries": [
+        "Nepal"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Bifidobacterium longum",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "B.P. Koirala Institute of Health Sciences",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT04706559"
+      ],
+      "countries": [
+        "Nepal"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Conventional treatment",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "B.P. Koirala Institute of Health Sciences",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT04706559"
+      ],
+      "countries": [
+        "Nepal"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Dry Smear",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Yale University",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01675232"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "wool clothing",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Murdoch Childrens Research Institute",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT02534428"
+      ],
+      "countries": [],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "RHT-3201",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "IlDong Pharmaceutical Co Ltd",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT03907228"
+      ],
+      "countries": [
+        "South Korea"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "DHA+EPA",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Mead Johnson Nutrition",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01936194"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Galenico",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Societa Italiana di Dermatologia Medica, Chirurgica, Estetica e di Malattie Sessualmente Trasmesse",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT07204561"
+      ],
+      "countries": [
+        "Italy"
+      ],
+      "indications": [
+        "Atopic Dermatitis (AD)"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Phone Call",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Nantes University Hospital",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT02634905"
+      ],
+      "countries": [
+        "France"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "extended information",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Region Skane",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01953380"
+      ],
+      "countries": [
+        "Sweden"
+      ],
+      "indications": [
+        "Allergic Contact",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "DermoRelizema ecofoam",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Relife S.r.l.",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT04826471"
+      ],
+      "countries": [
+        "Italy"
+      ],
+      "indications": [
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Phoenix (BAY81-2996",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Bayer",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01691209"
+      ],
+      "countries": [
+        "Germany"
+      ],
+      "indications": [
+        "Atopic",
+        "Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "probiotic LRa05",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Wecare Probiotics Co., Ltd.",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT05989295"
+      ],
+      "countries": [
+        "Spain"
+      ],
+      "indications": [
+        "Atopic Skin",
+        "Children"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Emollient cream",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "NAOS Les Laboratoires",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT06930365"
+      ],
+      "countries": [
+        "Georgia"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Routine Care/Education",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Seton Healthcare Family",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT02067234"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Psychoeducation/Coping Prevention",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Seton Healthcare Family",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT02067234"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Clinical examination",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University Hospital, Toulouse",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT04193670"
+      ],
+      "countries": [
+        "France"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Biopsies",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University Hospital, Toulouse",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT04193670"
+      ],
+      "countries": [
+        "France"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Blood test",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University Hospital, Toulouse",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT04193670"
+      ],
+      "countries": [
+        "France"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "ACT01",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Abyss Ingredients",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT06268847"
+      ],
+      "countries": [
+        "Spain"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "ACT02",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Abyss Ingredients",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT06268847"
+      ],
+      "countries": [
+        "Spain"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Panels 1.3",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Allerderm",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT01797562"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Allergic Contact Dermatitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "3M CaviionTM",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Second Affiliated Hospital, School of Medicine, Zhejiang University",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT05776732"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Tumour"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Chlorpheniramine-Codeine",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Second Affiliated Hospital, School of Medicine, Zhejiang University",
+      "highest_phase": "NA",
+      "highest_phase_rank": 1,
+      "trials": [
+        "NCT04937101"
+      ],
+      "countries": [
+        "China"
+      ],
+      "indications": [
+        "Inflammatory Skin Disease"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Alesion\u00ae",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Boehringer Ingelheim",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT02238236"
+      ],
+      "countries": [],
+      "indications": [
+        "Allergic",
+        "Perennial",
+        "Rhinitis"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "VIGIV",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Emergent BioSolutions",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT01374984"
+      ],
+      "countries": [],
+      "indications": [
+        "Complication of Smallpox Vaccination"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "small molecules",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Fondazione Policlinico Universitario Agostino Gemelli IRCCS",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT06882148"
+      ],
+      "countries": [
+        "Italy"
+      ],
+      "indications": [
+        "Atopic Dermatitis"
+      ],
+      "active_trials": 1,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "eSwabs",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "University Hospital Bispebjerg and Frederiksberg",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT04449575"
+      ],
+      "countries": [
+        "Denmark"
+      ],
+      "indications": [
+        "Hand Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "DNA reports",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Studies&Me",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT04965233"
+      ],
+      "countries": [
+        "Denmark",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Information reports",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Studies&Me",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT04965233"
+      ],
+      "countries": [
+        "Denmark",
+        "United States"
+      ],
+      "indications": [
+        "Atopic Dermatitis",
+        "Eczema"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "NAET Procedures",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Nambudripad's Allergy Research Foundation",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT00275795"
+      ],
+      "countries": [
+        "United States"
+      ],
+      "indications": [
+        "Acne",
+        "Backache",
+        "Eczema",
+        "Food Sensitivities",
+        "Headache"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Animal allergy",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Gachon University Gil Medical Center",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT03101618"
+      ],
+      "countries": [
+        "South Korea"
+      ],
+      "indications": [
+        "Allergic Conjunctivitis",
+        "Allergic Rhinitis",
+        "Asthma",
+        "Urticaria"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    },
+    {
+      "drug_name": "Non-animal allergy",
+      "target_moa": "Unknown (auto-discovered)",
+      "sponsor": "Gachon University Gil Medical Center",
+      "highest_phase": "",
+      "highest_phase_rank": 0,
+      "trials": [
+        "NCT03101618"
+      ],
+      "countries": [
+        "South Korea"
+      ],
+      "indications": [
+        "Allergic Conjunctivitis",
+        "Allergic Rhinitis",
+        "Asthma",
+        "Urticaria"
+      ],
+      "active_trials": 0,
+      "total_trials": 1,
+      "source": "intervention_extraction"
+    }
+  ],
+  "total_trials": 247,
+  "unmatched_trials": 71,
+  "timestamp": "2026-03-26T17:12:04.366069"
+}

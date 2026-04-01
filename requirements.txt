@@ -48,6 +48,9 @@ tenacity==8.2.3  # Retry logic
 anthropic>=0.40
 voyageai>=0.3.2  # v2 upgrade: needs rerank support
 
+# Speech-to-text
+openai-whisper>=20231117
+
 # Testing
 pytest>=7.0.0
 

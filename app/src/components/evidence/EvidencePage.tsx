@@ -7,6 +7,7 @@ import CompanyPanel from './CompanyPanel'
 import EnrichmentPanel from './EnrichmentPanel'
 import RegionalPanel from './RegionalPanel'
 import TrialForecasterPanel from './TrialForecasterPanel'
+// WebcastLibraryPanel is now integrated into CompanyPanel
 import type { SearchResult, SearchSource, QueryPlan, SearchMetadata, SearchTiming } from './types'
 import './evidence.css'
 

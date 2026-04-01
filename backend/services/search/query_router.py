@@ -1292,6 +1292,42 @@ def _postprocess_answer(answer: str, data: dict) -> str:
     return answer.strip()
 
 
+def _clean_filename_to_title(filename: str, ticker: str = "", doc_type: str = "") -> str:
+    """Derive a readable title from a filename when the real title is missing."""
+    if not filename:
+        return f"{ticker} Document" if ticker else "Untitled Document"
+
+    import re
+    # Strip hash-like prefixes (e.g. "6e52618eefcf28a97b0c")
+    name = filename
+    if re.match(r'^[0-9a-f]{16,}$', name.split('.')[0]):
+        # Entire stem is a hash — use ticker + doc_type
+        type_labels = {
+            'sec_10k': '10-K Annual Report',
+            'sec_10q': '10-Q Quarterly Report',
+            'sec_8k': '8-K Filing',
+            'investor_deck': 'Investor Presentation',
+            'clinical_trials': 'Clinical Trials Summary',
+            'poster': 'Conference Poster',
+            'publication': 'Publication',
+            'other': 'Document',
+        }
+        label = type_labels.get(doc_type, doc_type.replace('_', ' ').title() if doc_type else 'Document')
+        return f"{ticker} {label}" if ticker else label
+
+    # Remove extension
+    name = re.sub(r'\.(pdf|docx?|xlsx?|pptx?|txt|html?)$', '', name, flags=re.IGNORECASE)
+    # Replace separators with spaces
+    name = re.sub(r'[._-]+', ' ', name)
+    # Trim extra whitespace
+    name = name.strip()
+    # Capitalize if all lowercase
+    if name == name.lower():
+        name = name.title()
+
+    return name if name else (f"{ticker} Document" if ticker else "Untitled Document")
+
+
 def _build_source_list(data: dict) -> list[dict]:
     """Build a unified, deduplicated source list for the frontend."""
     sources = []
@@ -1302,12 +1338,17 @@ def _build_source_list(data: dict) -> list[dict]:
         key = f"rag:{r.get('ticker', '')}:{r.get('filename', '')}"
         if key not in seen:
             seen.add(key)
+            title = r.get("title", "") or ""
+            filename = r.get("filename", "") or ""
+            # Fix unhelpful titles like "Download" — derive from filename instead
+            if not title or title.lower() in ("download", "untitled", "none", ""):
+                title = _clean_filename_to_title(filename, r.get("ticker", ""), r.get("doc_type", ""))
             sources.append({
                 "type": "internal",
                 "source_name": "Document Library",
                 "ticker": r.get("ticker", ""),
                 "company": r.get("company_name", ""),
-                "title": r.get("title", r.get("filename", "")),
+                "title": title,
                 "doc_type": r.get("doc_type", ""),
                 "ref": f"Page {r.get('page_number', '?')}",
                 "relevance": r.get("similarity", 0),

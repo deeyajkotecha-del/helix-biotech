@@ -75,9 +75,39 @@ function getBadgeUrl(sourceType: string, label: string, _sources: SearchSource[]
       if (/^NCT\d+$/i.test(label)) return `https://clinicaltrials.gov/study/${label}`
       return `https://clinicaltrials.gov/search?term=${encodeURIComponent(label)}`
     case 'fda':
+    case 'fda_crl':
       return `https://www.accessdata.fda.gov/scripts/cder/daf/index.cfm?event=BasicSearch.process&owner=${encodeURIComponent(label)}`
     default:
       return null
+  }
+}
+
+/** Find the sidebar source index that matches a doc/sec badge label */
+function findSourceIndex(sourceType: string, label: string, sources: SearchSource[]): number {
+  if (!sources?.length) return -1
+  // label format: "TICKER|DocTitle" or just "DocTitle"
+  const parts = label.split('|')
+  const ticker = parts.length > 1 ? parts[0].trim().toUpperCase() : ''
+  const title = (parts.length > 1 ? parts.slice(1).join('|') : label).trim().toLowerCase()
+
+  for (let i = 0; i < sources.length; i++) {
+    const s = sources[i]
+    // Match by ticker + title substring
+    if (ticker && s.ticker?.toUpperCase() === ticker) {
+      if (!title || s.title?.toLowerCase().includes(title)) return i
+    }
+    // Match by title alone
+    if (title && s.title?.toLowerCase().includes(title)) return i
+  }
+  return -1
+}
+
+function scrollToSource(index: number) {
+  const cards = document.querySelectorAll('.ev-source-card')
+  if (cards[index]) {
+    cards[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
+    cards[index].classList.add('ev-source-highlighted')
+    setTimeout(() => cards[index].classList.remove('ev-source-highlighted'), 2000)
   }
 }
 
@@ -237,16 +267,33 @@ function renderInline(text: string, sources: SearchSource[], onCitationHover: (i
       }
       if (displayLabel.length > 24) displayLabel = displayLabel.slice(0, 22) + '...'
       const url = getBadgeUrl(sourceType, label, sources)
-      parts.push(
-        url ? (
+      if (url) {
+        parts.push(
           <a key={`b-${parts.length}`} href={url} target="_blank" rel="noopener noreferrer"
             className="ev-source-badge-inline ev-source-badge-link" style={{ color: style.color, background: style.bg }}
             title={`${sourceType}: ${label}`}>{displayLabel}</a>
-        ) : (
+        )
+      } else if (sourceType === 'doc' || sourceType === 'sec') {
+        // Internal docs — make clickable to scroll to the matching source card
+        const srcIdx = findSourceIndex(sourceType, label, sources)
+        parts.push(
+          <span key={`b-${parts.length}`}
+            className="ev-source-badge-inline ev-source-badge-link"
+            style={{ color: style.color, background: style.bg, cursor: 'pointer' }}
+            title={`${sourceType}: ${label} — click to see source`}
+            onClick={() => {
+              if (srcIdx >= 0) { scrollToSource(srcIdx); onCitationHover(srcIdx) }
+            }}
+            onMouseEnter={() => srcIdx >= 0 && onCitationHover(srcIdx)}
+            onMouseLeave={() => onCitationHover(null)}
+          >{displayLabel}</span>
+        )
+      } else {
+        parts.push(
           <span key={`b-${parts.length}`} className="ev-source-badge-inline" style={{ color: style.color, background: style.bg }}
             title={`${sourceType}: ${label}`}>{displayLabel}</span>
         )
-      )
+      }
     } else if (/^\[\d+\]$/.test(full)) {
       const num = parseInt(full.match(/\d+/)![0])
       const source = sources?.[num - 1]
