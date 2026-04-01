@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 // ============================================================
 // Types
@@ -77,7 +77,6 @@ export default function WebcastLibraryPanel({ onSearch: _onSearch }: Props) {
   const [loadingTranscript, setLoadingTranscript] = useState(false)
 
   // Ingest form
-  const [showIngestForm, setShowIngestForm] = useState(false)
   const [ingestForm, setIngestForm] = useState({
     url: '',
     title: '',
@@ -92,8 +91,6 @@ export default function WebcastLibraryPanel({ onSearch: _onSearch }: Props) {
 
   // Tab state
   const [activeTab, setActiveTab] = useState<'library' | 'search' | 'add'>('library')
-
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Initial load
   useEffect(() => {

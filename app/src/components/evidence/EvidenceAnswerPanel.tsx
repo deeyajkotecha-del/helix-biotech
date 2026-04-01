@@ -83,7 +83,7 @@ function getBadgeUrl(sourceType: string, label: string, _sources: SearchSource[]
 }
 
 /** Find the sidebar source index that matches a doc/sec badge label */
-function findSourceIndex(sourceType: string, label: string, sources: SearchSource[]): number {
+function findSourceIndex(_sourceType: string, label: string, sources: SearchSource[]): number {
   if (!sources?.length) return -1
   // label format: "TICKER|DocTitle" or just "DocTitle"
   const parts = label.split('|')
