@@ -158,34 +158,41 @@ def get_slide_rag_context(
     slide_text: str,
     ticker: str = "",
     exclude_doc_id: int = None,
-    top_k: int = 3,
+    top_k: int = 8,
 ) -> list[dict]:
     """
     Search the RAG database for content related to this slide.
     Excludes chunks from the deck itself (to find external context).
+    Returns up to top_k results with full chunk content for deep analysis.
     """
     rag_search = _get_rag_search()
     if rag_search is None or not slide_text.strip():
         return []
 
-    # Build a focused query from the slide text (first 200 words)
-    words = slide_text.split()[:200]
+    # Build a focused query from the slide text (first 300 words)
+    words = slide_text.split()[:300]
     query = " ".join(words)
 
     try:
         results = rag_search(
             query=query,
             ticker=ticker or None,
-            top_k=top_k + 5,  # Over-fetch to allow filtering
+            top_k=top_k + 8,  # Over-fetch to allow filtering
         )
 
         # Filter out chunks from the same document
         filtered = []
+        seen_titles = set()
         for r in results:
             if exclude_doc_id and r.get("document_id") == exclude_doc_id:
                 continue
+            # Deduplicate by title+page to get breadth across sources
+            dedup_key = f"{r.get('title','')}-{r.get('page_number',0)}"
+            if dedup_key in seen_titles:
+                continue
+            seen_titles.add(dedup_key)
             filtered.append({
-                "content": r.get("content", "")[:500],
+                "content": r.get("content", "")[:800],  # Longer excerpts for deeper analysis
                 "title": r.get("title", ""),
                 "ticker": r.get("ticker", ""),
                 "doc_type": r.get("doc_type", ""),
@@ -206,19 +213,30 @@ def get_slide_rag_context(
 # 3. CLAUDE COMMENTARY — biotech investor analysis per slide
 # ===========================================================================
 
-SLIDE_ANALYSIS_SYSTEM = """You are a senior biotech investment analyst reviewing an investor presentation slide-by-slide.
+SLIDE_ANALYSIS_SYSTEM = """You are an MD/PhD with deep expertise in oncology, immunology, and drug development, working as a senior biotech investment analyst at a top-tier healthcare fund. You have published in peer-reviewed journals, reviewed FDA advisory committee briefing documents, and advised on clinical trial design.
 
-For each slide, provide concise, high-signal commentary that a biotech investor would find valuable:
+When analyzing an investor presentation slide, provide a rigorous, clinical-grade analysis structured in these sections:
 
-- **What's on this slide**: 1-sentence summary of the slide content
-- **Key data points**: Extract specific numbers, endpoints, timelines, financial figures
-- **Investment signal**: Is this bullish, bearish, or neutral? Why?
-- **Cross-reference**: How does this compare to what we know from other documents (provided as RAG context)?
-- **Questions to ask**: What should an investor dig into further based on this slide?
+## Clinical & Scientific Assessment
+- Evaluate the data with the eye of a clinical trialist: are endpoints appropriate? Is the patient population well-defined? What's the statistical methodology (intent-to-treat vs per-protocol, censoring patterns, confidence intervals)?
+- For efficacy data (KM curves, waterfall plots, ORR, PFS, OS): interpret the clinical meaningfulness, not just statistical significance. Compare magnitude of benefit to current standard of care.
+- For mechanism of action / drug design slides: assess the biological rationale, target validation, selectivity, potential resistance mechanisms, and PK/PD considerations.
+- For safety/tolerability data: evaluate AE profiles vs drug class expectations, dose-limiting toxicities, therapeutic window implications.
 
-Be direct and opinionated. Use biotech/pharma terminology naturally. Focus on what MATTERS for an investment decision — skip generic observations.
+## Cross-Library Evidence
+- Using the provided RAG context from other documents in the library (clinical papers, SEC filings, competitor decks), identify corroborating or contradicting evidence.
+- Flag discrepancies between what the company claims and what independent sources show.
+- Note relevant competitor data or clinical benchmarks from the library.
 
-Keep each slide commentary to 150-250 words. Use markdown for structure."""
+## Data Gaps & Red Flags
+- What is NOT shown on this slide that you'd expect to see? Missing subgroup analyses, omitted safety data, cherry-picked timepoints, immature data?
+- Identify potential spin: favorable framing, misleading axis scales, selective comparisons to weak comparators.
+
+## Investment Implications
+- Bottom line: what does this slide mean for the investment thesis? Be direct and opinionated.
+- Quantify where possible: market sizing implications, probability of regulatory success, competitive positioning.
+
+Write with precision and authority. Use proper medical/scientific terminology (e.g., "hazard ratio", "objective response rate per RECIST 1.1", "Cmax/Ctrough"). Do NOT hedge excessively — give your expert read. Target 400-600 words per slide. Use markdown headers and formatting."""
 
 
 async def generate_slide_commentary(
@@ -237,20 +255,21 @@ async def generate_slide_commentary(
     if client is None:
         return "_Commentary unavailable — Claude API not configured._"
 
-    # Build the RAG context section
+    # Build the RAG context section — full excerpts for deep cross-referencing
     rag_section = ""
     if rag_context:
-        rag_section = "\n\n**Related content from document library:**\n"
-        for ctx in rag_context:
+        rag_section = "\n\n---\n**CROSS-REFERENCE: Related content from document library**\n\n"
+        for i, ctx in enumerate(rag_context, 1):
             rag_section += (
-                f"- [{ctx['ticker']} {ctx['doc_type']}] {ctx['title']}: "
-                f"{ctx['content'][:300]}...\n"
+                f"**Source {i}** [{ctx['ticker']} — {ctx['doc_type']}] *{ctx['title']}*"
+                f" (similarity: {ctx['similarity']})\n"
+                f"{ctx['content']}\n\n"
             )
 
     # Build the message
     user_content = []
 
-    # Add slide image if available (vision)
+    # Add slide image if available (vision) — critical for charts/KM curves
     if slide_image_b64:
         user_content.append({
             "type": "image",
@@ -263,16 +282,19 @@ async def generate_slide_commentary(
 
     prompt = (
         f"**Slide {slide_number}** — {company_name} ({ticker})\n\n"
-        f"**Extracted text from slide:**\n{slide_text[:2000]}\n"
+        f"**Extracted text from slide:**\n{slide_text[:3000]}\n"
         f"{rag_section}\n\n"
-        f"Provide your investor commentary on this slide."
+        f"Provide your full MD/PhD-level analysis of this slide. "
+        f"If the slide contains a figure or chart (visible in the image), "
+        f"describe what you observe in the visual and assess the data it presents. "
+        f"Use the cross-reference sources to contextualize the claims."
     )
     user_content.append({"type": "text", "text": prompt})
 
     try:
         response = client.messages.create(
             model=CLAUDE_MODEL,
-            max_tokens=800,
+            max_tokens=2500,
             system=SLIDE_ANALYSIS_SYSTEM,
             messages=[{"role": "user", "content": user_content}],
         )

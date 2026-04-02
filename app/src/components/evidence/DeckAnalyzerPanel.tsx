@@ -313,19 +313,25 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
           {/* Analysis results */}
           {analysis && (
             <div className="ev-deck-analysis">
-              <h4 className="ev-deck-analysis-title">Investor Commentary</h4>
+              <h4 className="ev-deck-analysis-title">
+                <span className="ev-deck-analysis-badge">MD/PhD</span>
+                Clinical & Investment Analysis
+              </h4>
               <div className="ev-deck-commentary">
                 {renderMarkdown(analysis.commentary || '')}
               </div>
 
-              {/* RAG context */}
+              {/* RAG context sources */}
               {analysis.rag_context && analysis.rag_context.length > 0 && (
-                <div className="ev-deck-rag-context">
-                  <h5 className="ev-deck-rag-title">Related from library</h5>
+                <details className="ev-deck-rag-context">
+                  <summary className="ev-deck-rag-title">
+                    Cross-Referenced Sources ({analysis.rag_context.length})
+                  </summary>
                   {analysis.rag_context.map((ctx: RagContext, i: number) => (
                     <div key={i} className="ev-deck-rag-item">
                       <div className="ev-deck-rag-header">
                         <span className="ev-company-ticker">{ctx.ticker}</span>
+                        <span className="ev-deck-rag-doctype">{ctx.doc_type}</span>
                         <span className="ev-deck-rag-doc">{ctx.title}</span>
                         <span className="ev-webcast-score">
                           {(ctx.similarity * 100).toFixed(0)}%
@@ -334,7 +340,7 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
                       <p className="ev-deck-rag-excerpt">{ctx.content}</p>
                     </div>
                   ))}
-                </div>
+                </details>
               )}
             </div>
           )}
