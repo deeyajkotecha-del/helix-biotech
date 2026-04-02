@@ -82,9 +82,12 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
   }, [document.id])
 
   // Analyze current slide
+  const [analyzeError, setAnalyzeError] = useState('')
+
   async function analyzeSlide(slideNum: number) {
     if (analyzedSlides[slideNum]) return // Already analyzed
     setAnalyzing(true)
+    setAnalyzeError('')
     try {
       const res = await fetch('/extract/api/deck/analyze-slide', {
         method: 'POST',
@@ -96,11 +99,14 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
           company_name: document.company_name,
         }),
       })
+      const data = await res.json()
       if (res.ok) {
-        const data = await res.json()
         setAnalyzedSlides(prev => ({ ...prev, [slideNum]: data }))
+      } else {
+        setAnalyzeError(data.error || `Analysis failed (${res.status})`)
       }
     } catch (e) {
+      setAnalyzeError(`Network error: ${e}`)
       console.error('Analyze slide failed:', e)
     } finally {
       setAnalyzing(false)
@@ -272,10 +278,11 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
             <button
               className="ev-forecast-btn"
               onClick={() => analyzeSlide(currentSlide + 1)}
-              disabled={analyzing || !!analysis}
+              disabled={analyzing}
             >
-              {analyzing ? 'Analyzing...' : analysis ? 'Analyzed' : 'Analyze this slide'}
+              {analyzing ? 'Analyzing...' : analysis ? 'Re-analyze' : 'Analyze this slide'}
             </button>
+            {analyzeError && <p className="ev-error" style={{ fontSize: '0.85rem', marginTop: 4 }}>{analyzeError}</p>}
 
             {/* Compare dropdown */}
             {compareDocs.length > 0 && (

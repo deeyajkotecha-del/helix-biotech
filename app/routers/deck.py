@@ -255,32 +255,52 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
         )
         return JSONResponse(result)
 
-    # Fallback: text-only analysis using chunk from DB
+    # Fallback: use slide_images + chunks from DB
     try:
         conn = _get_db()
         cur = conn.cursor()
-        # slide_number is 1-indexed, chunk_index is 0-indexed
+
+        # 1) Try to get the pre-rendered image for this slide
+        cur.execute("""
+            SELECT image_b64 FROM slide_images
+            WHERE document_id = %s AND page_number = %s
+        """, (request.doc_id, request.slide_number))
+        img_row = cur.fetchone()
+        slide_image = img_row[0] if img_row else ""
+
+        # 2) Get text content — try by page_number first, then chunk_index
         cur.execute("""
             SELECT content, section_title FROM chunks
-            WHERE document_id = %s AND chunk_index = %s
-        """, (request.doc_id, request.slide_number - 1))
-        row = cur.fetchone()
+            WHERE document_id = %s AND page_number = %s
+            ORDER BY chunk_index LIMIT 1
+        """, (request.doc_id, request.slide_number))
+        text_row = cur.fetchone()
+        if not text_row:
+            # Fallback: try chunk_index (slide_number is 1-indexed)
+            cur.execute("""
+                SELECT content, section_title FROM chunks
+                WHERE document_id = %s AND chunk_index = %s
+            """, (request.doc_id, request.slide_number - 1))
+            text_row = cur.fetchone()
         cur.close()
 
-        if not row:
+        chunk_text = text_row[0] if text_row else ""
+
+        if not chunk_text and not slide_image:
             return JSONResponse({"error": "Slide/chunk not found"}, status_code=404)
 
-        chunk_text, section_title = row
-
-        # Use analyze_single_slide with text-only mode (pass text instead of PDF)
+        # Use analyze_single_slide with text override + image from DB
         result = await analyze_single_slide(
             pdf_path=None,
             slide_number=request.slide_number,
             ticker=request.ticker,
             company_name=request.company_name,
             exclude_doc_id=request.doc_id,
-            slide_text_override=chunk_text,
+            slide_text_override=chunk_text or "(No text extracted for this slide)",
         )
+        # Attach the stored image so the frontend can display it
+        if slide_image:
+            result["image_b64"] = slide_image
         return JSONResponse(result)
     except Exception as e:
         return JSONResponse({"error": f"Analysis failed: {e}"}, status_code=500)
