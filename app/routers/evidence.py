@@ -643,19 +643,18 @@ def _get_company_briefing_context(ticker: str, query: str) -> str:
                 + "\n".join(doc_lines)
             )
 
-        # 2) Webcasts for this company
+        # 2) Webcasts / earnings calls — stored as doc_type 'webcast' in documents
         cur.execute("""
-            SELECT title, air_date, duration_minutes, chunk_count
-            FROM webcasts WHERE ticker = %s
-            ORDER BY air_date DESC NULLS LAST LIMIT 5
+            SELECT title, date, word_count
+            FROM documents WHERE ticker = %s AND doc_type IN ('webcast', 'earnings_call', 'earnings_transcript')
+            ORDER BY date DESC NULLS LAST LIMIT 5
         """, (ticker,))
         webcasts = cur.fetchall()
         if webcasts:
             wc_lines = []
-            for title, air_date, dur, chunks in webcasts:
-                date_str = str(air_date)[:10] if air_date else "n/a"
-                dur_str = f"{dur}min" if dur else ""
-                wc_lines.append(f"  - {title} ({date_str} {dur_str})")
+            for title, wc_date, wc in webcasts:
+                date_str = str(wc_date)[:10] if wc_date else "n/a"
+                wc_lines.append(f"  - {title} ({date_str})")
             parts.append(
                 f"=== WEBCASTS & EARNINGS CALLS ({ticker}) ===\n"
                 + "\n".join(wc_lines)
