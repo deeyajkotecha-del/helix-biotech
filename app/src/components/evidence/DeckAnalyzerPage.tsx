@@ -308,9 +308,9 @@ export default function DeckAnalyzerPage() {
 
   return (
     <div className="deck-split-container">
-      {/* ---- LEFT PANEL: Slide Thumbnails (40%) ---- */}
+      {/* ---- LEFT PANEL: Slide Visual (50%) ---- */}
       <div className="deck-split-left">
-        {/* Header */}
+        {/* Header bar */}
         <div className="deck-split-left-header">
           <button className="ev-back-btn" onClick={() => navigate(-1)}>&larr; Back</button>
           <div className="deck-split-doc-info">
@@ -321,42 +321,6 @@ export default function DeckAnalyzerPage() {
           </div>
         </div>
 
-        <h3 className="deck-split-doc-title">{docTitle}</h3>
-
-        {/* Thumbnail Grid */}
-        <div className="deck-split-thumbs" ref={thumbContainerRef}>
-          {slides.map((s, i) => {
-            const isAnalyzed = !!analyzedSlides[i + 1]
-            return (
-              <div
-                key={i}
-                className={`deck-split-thumb ${i === currentSlide ? 'active' : ''} ${isAnalyzed ? 'analyzed' : ''} ${textOnly ? 'text-mode' : ''}`}
-                onClick={() => setCurrentSlide(i)}
-              >
-                <div className="deck-split-thumb-number">{i + 1}</div>
-                <div className="deck-split-thumb-preview">
-                  {s.image_b64 ? (
-                    <img src={`data:image/jpeg;base64,${s.image_b64}`} alt={`Slide ${i + 1}`} />
-                  ) : (
-                    <div className="deck-split-thumb-text">
-                      {s.section_title || s.text?.slice(0, 80) || `Slide ${i + 1}`}
-                    </div>
-                  )}
-                </div>
-                {isAnalyzed && <div className="deck-split-thumb-badge" title="Analyzed">✓</div>}
-              </div>
-            )
-          })}
-        </div>
-
-        {/* Keyboard hint */}
-        <div className="deck-split-keyboard-hint">
-          Use <kbd>←</kbd> <kbd>→</kbd> arrow keys to navigate
-        </div>
-      </div>
-
-      {/* ---- RIGHT PANEL: Slide Content & Analysis (60%) ---- */}
-      <div className="deck-split-right" ref={slideViewRef}>
         {/* Navigation bar */}
         <div className="deck-split-nav">
           <button
@@ -378,39 +342,73 @@ export default function DeckAnalyzerPage() {
           </button>
         </div>
 
+        {/* Current slide image — sticky visible area */}
         {slide && (
-          <>
-            {/* Slide image */}
-            {slide.image_b64 && (
+          <div className="deck-split-slide-area">
+            {slide.image_b64 ? (
               <div className="deck-split-slide-image">
                 <img
                   src={`data:image/jpeg;base64,${slide.image_b64}`}
                   alt={`Slide ${currentSlide + 1}`}
                 />
               </div>
-            )}
+            ) : textOnly && slide.section_title ? (
+              <div className="deck-split-text-prominent">
+                <div className="ev-deck-section-header">{slide.section_title}</div>
+                <p>{slide.text}</p>
+              </div>
+            ) : slide.text ? (
+              <div className="deck-split-text-prominent">
+                <p>{slide.text}</p>
+              </div>
+            ) : null}
 
-            {/* Section header (text-only mode) */}
-            {textOnly && slide.section_title && (
-              <div className="ev-deck-section-header">{slide.section_title}</div>
-            )}
-
-            {/* Extracted text */}
-            {slide.text && (
-              textOnly ? (
-                <div className="deck-split-text-prominent">
+            {/* Extracted text (collapsible, under slide) */}
+            {slide.text && !textOnly && (
+              <details className="deck-split-text-toggle">
+                <summary>Extracted text ({slide.text.split(' ').length} words)</summary>
+                <div className="deck-split-text-content">
                   <p>{slide.text}</p>
                 </div>
-              ) : (
-                <details className="deck-split-text-toggle" open>
-                  <summary>Extracted text ({slide.text.split(' ').length} words)</summary>
-                  <div className="deck-split-text-content">
-                    <p>{slide.text}</p>
-                  </div>
-                </details>
-              )
+              </details>
             )}
+          </div>
+        )}
 
+        {/* Thumbnail strip — horizontal scroll at bottom */}
+        <div className="deck-split-thumbstrip" ref={thumbContainerRef}>
+          {slides.map((s, i) => {
+            const isAnalyzed = !!analyzedSlides[i + 1]
+            return (
+              <div
+                key={i}
+                className={`deck-split-thumb-mini ${i === currentSlide ? 'active' : ''} ${isAnalyzed ? 'analyzed' : ''}`}
+                onClick={() => setCurrentSlide(i)}
+                title={s.section_title || `Slide ${i + 1}`}
+              >
+                {s.image_b64 ? (
+                  <img src={`data:image/jpeg;base64,${s.image_b64}`} alt={`${i + 1}`} />
+                ) : (
+                  <span>{i + 1}</span>
+                )}
+                {isAnalyzed && <div className="deck-split-thumb-check">✓</div>}
+              </div>
+            )
+          })}
+        </div>
+
+        <div className="deck-split-keyboard-hint">
+          <kbd>←</kbd> <kbd>→</kbd> to navigate slides
+        </div>
+      </div>
+
+      {/* ---- RIGHT PANEL: Analysis & References (50%) ---- */}
+      <div className="deck-split-right" ref={slideViewRef}>
+        {/* Document title */}
+        <h3 className="deck-split-doc-title">{docTitle}</h3>
+
+        {slide && (
+          <>
             {/* Action bar */}
             <div className="deck-split-actions">
               <button
@@ -423,7 +421,21 @@ export default function DeckAnalyzerPage() {
                 ) : analysis ? (
                   '↻ Re-analyze'
                 ) : (
-                  '🔬 Analyze this slide'
+                  'Analyze this slide'
+                )}
+              </button>
+
+              <button
+                className="deck-split-refbank-btn"
+                onClick={() => extractReferences(currentSlide + 1)}
+                disabled={extractingRefs}
+              >
+                {extractingRefs ? (
+                  <><span className="deck-split-spinner" /> Refs...</>
+                ) : slideRefs.length > 0 ? (
+                  `Refs (${slideRefs.length})`
+                ) : (
+                  'Extract Refs'
                 )}
               </button>
 
@@ -470,7 +482,7 @@ export default function DeckAnalyzerPage() {
 
                 {/* RAG context */}
                 {analysis.rag_context && analysis.rag_context.length > 0 && (
-                  <details className="deck-split-rag" open>
+                  <details className="deck-split-rag">
                     <summary className="deck-split-rag-title">
                       Cross-Referenced Sources ({analysis.rag_context.length})
                     </summary>
@@ -495,29 +507,12 @@ export default function DeckAnalyzerPage() {
             )}
 
             {/* Reference Bank */}
-            <div className="deck-split-refbank">
-              <div className="deck-split-refbank-header">
-                <h4>Reference Bank</h4>
-                <button
-                  className="deck-split-refbank-btn"
-                  onClick={() => extractReferences(currentSlide + 1)}
-                  disabled={extractingRefs}
-                >
-                  {extractingRefs ? (
-                    <><span className="deck-split-spinner" /> Extracting...</>
-                  ) : slideRefs.length > 0 ? (
-                    `↻ Re-extract (${slideRefs.length} found)`
-                  ) : (
-                    '📚 Extract References'
-                  )}
-                </button>
-              </div>
-
-              {refError && !slideRefs.length && (
-                <p className="deck-split-refbank-empty">{refError}</p>
-              )}
-
-              {slideRefs.length > 0 && (
+            {slideRefs.length > 0 && (
+              <div className="deck-split-refbank">
+                <div className="deck-split-refbank-header">
+                  <h4>Reference Bank</h4>
+                  <span className="deck-split-refbank-count">{slideRefs.length} references</span>
+                </div>
                 <div className="deck-split-refbank-list">
                   {slideRefs.map((ref, i) => (
                     <div key={i} className={`deck-split-ref-item ${ref.data_on_file ? 'data-on-file' : ''}`}>
@@ -540,22 +535,12 @@ export default function DeckAnalyzerPage() {
                         )}
                         <div className="deck-split-ref-links">
                           {ref.pubmed_url && (
-                            <a
-                              href={ref.pubmed_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="deck-split-ref-link pubmed"
-                            >
+                            <a href={ref.pubmed_url} target="_blank" rel="noopener noreferrer" className="deck-split-ref-link pubmed">
                               PubMed
                             </a>
                           )}
                           {ref.doi_url && (
-                            <a
-                              href={ref.doi_url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="deck-split-ref-link doi"
-                            >
+                            <a href={ref.doi_url} target="_blank" rel="noopener noreferrer" className="deck-split-ref-link doi">
                               DOI
                             </a>
                           )}
@@ -570,8 +555,12 @@ export default function DeckAnalyzerPage() {
                     </div>
                   ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+
+            {refError && !slideRefs.length && (
+              <p className="deck-split-refbank-empty">{refError}</p>
+            )}
 
             {/* Comparison results */}
             {comparison && (
@@ -582,6 +571,13 @@ export default function DeckAnalyzerPage() {
                 <div className="deck-split-commentary">
                   {renderMarkdown(comparison)}
                 </div>
+              </div>
+            )}
+
+            {/* Empty state — no analysis yet */}
+            {!analysis && !analyzing && !comparison && !slideRefs.length && (
+              <div className="deck-split-empty-right">
+                <p>Click <strong>Analyze this slide</strong> to get an MD/PhD-level clinical and investment assessment, or <strong>Extract Refs</strong> to pull citations with PubMed links.</p>
               </div>
             )}
           </>
