@@ -966,7 +966,130 @@
    Deck Analyzer
    ============================================================ */
 
-/* Document list in company view */
+/* ---- Grouped Document Categories ---- */
+
+.ev-docgroup {
+  margin-bottom: 4px;
+  border: 1px solid var(--ev-border-light);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--ev-white);
+}
+
+.ev-docgroup-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: var(--ev-cream);
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.ev-docgroup-header:hover {
+  background: var(--ev-sand);
+}
+
+.ev-docgroup-header.collapsed {
+  border-radius: 10px;
+}
+
+.ev-docgroup-icon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.ev-docgroup-label {
+  font-weight: 700;
+  color: var(--ev-text-dark);
+  flex: 1;
+}
+
+.ev-docgroup-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ev-text-light);
+  background: var(--ev-sand);
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+.ev-docgroup-arrow {
+  font-size: 11px;
+  color: var(--ev-text-light);
+  flex-shrink: 0;
+}
+
+.ev-docgroup-list {
+  border-top: 1px solid var(--ev-border-light);
+}
+
+.ev-docgroup-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  gap: 10px;
+  border-bottom: 1px solid var(--ev-border-light);
+  transition: background 0.1s;
+}
+
+.ev-docgroup-row:last-child {
+  border-bottom: none;
+}
+
+.ev-docgroup-row:hover {
+  background: var(--ev-cream);
+}
+
+.ev-docgroup-row-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.ev-docgroup-type-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ev-text-mid);
+  background: var(--ev-sand);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.ev-docgroup-doc-title {
+  font-size: 13px;
+  color: var(--ev-text-dark);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.ev-docgroup-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.ev-docgroup-date {
+  font-size: 11px;
+  color: var(--ev-text-light);
+  white-space: nowrap;
+}
+
+/* Legacy doc row classes (keep for backward compat) */
 .ev-deck-docs-section {
   margin-bottom: 16px;
   border-bottom: 1px solid var(--ev-border-light);
