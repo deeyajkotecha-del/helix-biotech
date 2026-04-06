@@ -4,6 +4,7 @@ import EvidenceAnswerPanel from './EvidenceAnswerPanel'
 import EvidenceSourceSidebar from './EvidenceSourceSidebar'
 import EvidenceLanding from './EvidenceLanding'
 import CompanyPanel from './CompanyPanel'
+import DirectoryPanel from './DirectoryPanel'
 import EnrichmentPanel from './EnrichmentPanel'
 import RegionalPanel from './RegionalPanel'
 import TrialForecasterPanel from './TrialForecasterPanel'
@@ -28,7 +29,7 @@ const EXAMPLE_QUERIES = [
   "Show me GLP-1 competitive landscape including Asian biotechs",
 ]
 
-type ActivePanel = 'none' | 'companies' | 'enrichment' | 'regional' | 'forecaster'
+type ActivePanel = 'none' | 'companies' | 'directory' | 'enrichment' | 'regional' | 'forecaster'
 
 export default function EvidencePage() {
   const [query, setQuery] = useState('')
@@ -163,6 +164,14 @@ export default function EvidencePage() {
             <span>Companies</span>
           </button>
           <button
+            className={`ev-tool-btn ${activePanel === 'directory' ? 'active' : ''}`}
+            onClick={() => togglePanel('directory')}
+            title="Private company directory"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Directory</span>
+          </button>
+          <button
             className={`ev-tool-btn ${activePanel === 'enrichment' ? 'active' : ''}`}
             onClick={() => togglePanel('enrichment')}
             title="Drug enrichment"
@@ -211,6 +220,9 @@ export default function EvidencePage() {
           <aside className="ev-side-panel">
             {activePanel === 'companies' && (
               <CompanyPanel onCompanySearch={(_ticker, name) => handleSearch(`What is ${name}'s pipeline and latest data?`)} />
+            )}
+            {activePanel === 'directory' && (
+              <DirectoryPanel onCompanySearch={(name) => handleSearch(`What is ${name}'s pipeline and competitive landscape?`)} />
             )}
             {activePanel === 'enrichment' && <EnrichmentPanel />}
             {activePanel === 'regional' && (

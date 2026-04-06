@@ -149,6 +149,7 @@ except ImportError:
 # Sub-routers (split out for maintainability)
 from app.routers.webcasts import router as webcasts_router, WEBCAST_READY as _WEBCAST_READY
 from app.routers.deck import router as deck_router, DECK_ANALYZER_READY as _DECK_ANALYZER_READY
+from app.routers.directory import router as directory_router
 
 # Import company universe
 try:
@@ -644,6 +645,7 @@ async def list_documents(ticker: str = None, limit: int = 50):
 
 router.include_router(webcasts_router)
 router.include_router(deck_router)
+router.include_router(directory_router)
 
 
 # ---------------------------------------------------------------------------

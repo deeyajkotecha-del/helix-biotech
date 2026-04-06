@@ -1211,3 +1211,178 @@
   text-align: center;
   color: var(--ev-text-mid);
 }
+
+/* ============================================================
+   Private Company Directory
+   ============================================================ */
+
+.ev-dir-filters {
+  display: flex;
+  gap: 6px;
+  margin: 8px 12px;
+  flex-wrap: wrap;
+}
+
+.ev-dir-filter-select {
+  font-size: 11px;
+  padding: 4px 8px;
+  border: 1px solid var(--ev-border);
+  border-radius: 6px;
+  background: var(--ev-white);
+  color: var(--ev-text-dark);
+  flex: 1;
+  min-width: 80px;
+}
+
+.ev-dir-add-btn {
+  display: block;
+  margin: 4px 12px 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ev-coral);
+  background: var(--ev-coral-bg);
+  border: 1px dashed var(--ev-coral-light);
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  width: calc(100% - 24px);
+}
+.ev-dir-add-btn:hover { background: #FBE8DE; }
+
+.ev-dir-row-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.ev-dir-stage-pill {
+  font-size: 9px;
+  font-weight: 700;
+  color: white;
+  padding: 1px 6px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.ev-dir-row-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--ev-text-light);
+  margin-top: 2px;
+  width: 100%;
+}
+
+.ev-dir-row-modality {
+  color: var(--ev-blue);
+  font-weight: 600;
+}
+
+.ev-dir-row-area {
+  color: var(--ev-text-mid);
+}
+
+.ev-dir-row-hq {
+  margin-left: auto;
+  color: var(--ev-text-light);
+}
+
+/* Detail view */
+.ev-dir-detail {
+  padding: 12px;
+}
+
+.ev-dir-stage-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 6px;
+}
+
+.ev-dir-modality-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ev-blue);
+  background: var(--ev-blue-bg, #EDF2F9);
+  padding: 3px 10px;
+  border-radius: 10px;
+}
+
+.ev-dir-description {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ev-text-dark);
+  margin: 12px 0;
+}
+
+.ev-dir-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.ev-dir-field label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ev-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.ev-dir-field p {
+  font-size: 13px;
+  color: var(--ev-text-dark);
+  margin: 0;
+}
+
+.ev-dir-link {
+  font-size: 12px;
+  color: var(--ev-coral);
+  text-decoration: none;
+}
+.ev-dir-link:hover { text-decoration: underline; }
+
+.ev-dir-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.ev-dir-ta-tag {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ev-text-mid);
+  background: var(--ev-cream-dark);
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+/* Add form */
+.ev-dir-add-form {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ev-dir-add-form input,
+.ev-dir-add-form textarea {
+  font-size: 13px;
+}
+
+.ev-dir-add-form .ev-forecast-btn {
+  margin-top: 4px;
+}
