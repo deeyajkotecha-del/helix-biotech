@@ -1,1 +1,7 @@
 export { default as EvidencePage } from './EvidencePage'
+export { default as AppLayout } from './AppLayout'
+export { default as CompaniesPage } from './CompaniesPage'
+export { default as DirectoryPage } from './DirectoryPage'
+export { default as EnrichmentPage } from './EnrichmentPage'
+export { default as GlobalPage } from './GlobalPage'
+export { default as ForecasterPage } from './ForecasterPage'
