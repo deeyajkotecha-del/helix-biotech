@@ -11,11 +11,15 @@ export default function WebcastIngestForm({ company, onIngested }: Props) {
     url: '',
     title: '',
     event_date: '',
-    event_type: 'webcast',
+    event_type: 'earnings_call',
     transcript_text: '',
   })
   const [ingesting, setIngesting] = useState(false)
   const [message, setMessage] = useState('')
+
+  const wordCount = form.transcript_text.trim()
+    ? form.transcript_text.trim().split(/\s+/).length
+    : 0
 
   async function handleIngest() {
     setIngesting(true)
@@ -33,7 +37,7 @@ export default function WebcastIngestForm({ company, onIngested }: Props) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             transcript_text: form.transcript_text,
-            title: form.title,
+            title: form.title || `${company.ticker} ${form.event_type.replace(/_/g, ' ')}`,
             ticker: company.ticker,
             company_name: company.name,
             event_date: form.event_date || new Date().toISOString().split('T')[0],
@@ -47,7 +51,7 @@ export default function WebcastIngestForm({ company, onIngested }: Props) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             url: form.url,
-            title: form.title,
+            title: form.title || `${company.ticker} ${form.event_type.replace(/_/g, ' ')}`,
             ticker: company.ticker,
             company_name: company.name,
             event_date: form.event_date || new Date().toISOString().split('T')[0],
@@ -55,23 +59,23 @@ export default function WebcastIngestForm({ company, onIngested }: Props) {
           }),
         })
       } else {
-        setMessage('Provide a URL or paste a transcript.')
+        setMessage('Paste a transcript below or provide a webcast URL.')
         setIngesting(false)
         return
       }
 
       const data = await res.json()
       if (data.status === 'ok') {
-        setMessage(`Done! ${data.chunks_stored} chunks, ${data.word_count} words.`)
-        setForm({ url: '', title: '', event_date: '', event_type: 'webcast', transcript_text: '' })
+        setMessage(`Ingested! ${data.chunks_stored || '?'} chunks, ${data.word_count?.toLocaleString() || wordCount.toLocaleString()} words.`)
+        setForm({ url: '', title: '', event_date: '', event_type: 'earnings_call', transcript_text: '' })
         onIngested()
       } else if (data.status === 'already_exists') {
-        setMessage(data.message || 'Already ingested.')
+        setMessage(data.message || 'This transcript has already been ingested.')
       } else {
-        setMessage(`Error: ${data.error || 'Failed'}`)
+        setMessage(`Error: ${data.error || 'Ingestion failed'}`)
       }
     } catch {
-      setMessage('Network error.')
+      setMessage('Network error — check if the backend is running.')
     } finally {
       setIngesting(false)
     }
@@ -79,28 +83,34 @@ export default function WebcastIngestForm({ company, onIngested }: Props) {
 
   return (
     <div className="ev-webcast-ingest-section">
+      <div className="ev-ingest-tip">
+        Paste an earnings call transcript or conference presentation transcript below.
+        Find transcripts on the company's IR page or financial news sites.
+      </div>
+
       <input
         className="ev-forecast-input ev-webcast-form-input"
-        placeholder="Title (e.g., Q4 2025 Earnings Call)"
+        placeholder="Title (e.g., Q4 2025 Earnings Call, JPM 2026 Presentation)"
         value={form.title}
         onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
       />
+
       <div className="ev-webcast-form-row">
         <input
           className="ev-forecast-input"
           type="date"
           value={form.event_date}
           onChange={e => setForm(p => ({ ...p, event_date: e.target.value }))}
-          style={{ width: '50%' }}
+          style={{ flex: 1 }}
         />
         <select
           className="ev-param-select"
           value={form.event_type}
           onChange={e => setForm(p => ({ ...p, event_type: e.target.value }))}
-          style={{ width: '48%' }}
+          style={{ flex: 1 }}
         >
-          <option value="webcast">Webcast</option>
           <option value="earnings_call">Earnings Call</option>
+          <option value="webcast">Webcast</option>
           <option value="investor_day">Investor Day</option>
           <option value="conference">Conference</option>
           <option value="r_and_d_day">R&D Day</option>
@@ -109,26 +119,34 @@ export default function WebcastIngestForm({ company, onIngested }: Props) {
 
       <input
         className="ev-forecast-input ev-webcast-form-input"
-        placeholder="Webcast URL (optional)"
+        placeholder="Source URL (optional — link to original webcast or IR page)"
         value={form.url}
         onChange={e => setForm(p => ({ ...p, url: e.target.value }))}
       />
 
-      <textarea
-        className="ev-webcast-textarea"
-        placeholder="Or paste transcript text here..."
-        value={form.transcript_text}
-        onChange={e => setForm(p => ({ ...p, transcript_text: e.target.value }))}
-        rows={5}
-      />
+      <div className="ev-ingest-textarea-wrapper">
+        <textarea
+          className="ev-webcast-textarea"
+          placeholder={`Paste the full transcript for ${company.name} here...\n\nTip: Copy from earnings call transcripts, conference presentations, or investor day transcripts. The more text, the better the search results.`}
+          value={form.transcript_text}
+          onChange={e => setForm(p => ({ ...p, transcript_text: e.target.value }))}
+          rows={10}
+        />
+        {wordCount > 0 && (
+          <div className={`ev-ingest-word-count ${wordCount > 500 ? 'good' : 'low'}`}>
+            {wordCount.toLocaleString()} words
+            {wordCount < 500 && ' — transcripts are typically 3,000+ words'}
+          </div>
+        )}
+      </div>
 
       <button
         className="ev-forecast-btn"
         onClick={handleIngest}
         disabled={ingesting || (!form.url.trim() && !form.transcript_text.trim())}
-        style={{ marginTop: '6px' }}
+        style={{ marginTop: '8px', width: '100%' }}
       >
-        {ingesting ? 'Processing...' : 'Ingest'}
+        {ingesting ? 'Processing & embedding...' : `Ingest transcript${wordCount > 0 ? ` (${wordCount.toLocaleString()} words)` : ''}`}
       </button>
 
       {message && (
