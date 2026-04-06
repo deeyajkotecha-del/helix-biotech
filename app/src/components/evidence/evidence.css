@@ -1313,6 +1313,14 @@
   background: var(--ev-coral-light);
   color: white;
 }
+.ev-deck-analyze-btn.ev-btn-view {
+  color: var(--ev-text-mid);
+  background: var(--ev-cream);
+}
+.ev-deck-analyze-btn.ev-btn-view:hover {
+  background: var(--ev-cream-dark, #E8E0D8);
+  color: var(--ev-dark);
+}
 
 /* Deck panel */
 .ev-deck-panel {
@@ -2485,4 +2493,287 @@
 
 .ev-dir-add-form .ev-forecast-btn {
   margin-top: 4px;
+}
+
+
+/* ============================================================
+   Clinical Trials Table
+   ============================================================ */
+
+.ct-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ct-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 16px;
+  font-size: 13px;
+  color: var(--ev-text-mid);
+}
+.ct-loading-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid var(--ev-border-light);
+  border-top-color: var(--ev-coral);
+  border-radius: 50%;
+  animation: ct-spin 0.8s linear infinite;
+}
+@keyframes ct-spin { to { transform: rotate(360deg); } }
+
+.ct-error { padding: 12px; font-size: 13px; color: #C62828; }
+.ct-empty { padding: 16px; font-size: 13px; color: var(--ev-text-mid); text-align: center; }
+
+/* Summary bar */
+.ct-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--ev-cream);
+  border-radius: 8px;
+  font-size: 12px;
+}
+.ct-summary-total {
+  font-weight: 700;
+  color: var(--ev-dark);
+  font-size: 14px;
+}
+.ct-summary-recruiting {
+  color: #2E7D32;
+  font-weight: 600;
+  background: #E8F5E9;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.ct-summary-phases {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+.ct-phase-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--ev-white);
+  color: var(--ev-text-mid);
+  border: 1px solid var(--ev-border-light);
+}
+
+/* Controls: filters + sort */
+.ct-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ct-filter-select {
+  padding: 5px 10px;
+  font-size: 12px;
+  border: 1px solid var(--ev-border-light);
+  border-radius: 6px;
+  background: var(--ev-white);
+  color: var(--ev-dark);
+  cursor: pointer;
+}
+.ct-sort-btns {
+  display: flex;
+  gap: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--ev-border-light);
+  margin-left: auto;
+}
+.ct-sort-btn {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border: none;
+  background: var(--ev-white);
+  color: var(--ev-text-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ct-sort-btn.active {
+  background: var(--ev-dark);
+  color: var(--ev-white);
+}
+
+/* Table */
+.ct-table {
+  border: 1px solid var(--ev-border-light);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.ct-table-header {
+  display: grid;
+  grid-template-columns: 70px 130px 1fr 160px 60px 80px;
+  padding: 8px 14px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ev-text-light);
+  background: var(--ev-cream);
+  border-bottom: 1px solid var(--ev-border-light);
+}
+.ct-trial-row {
+  display: grid;
+  grid-template-columns: 70px 130px 1fr 160px 60px 80px;
+  padding: 10px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid var(--ev-border-light);
+  align-items: center;
+}
+.ct-trial-row:hover {
+  background: #FFFAF7;
+}
+.ct-trial-row.expanded {
+  background: #FFF5F0;
+  border-bottom-color: transparent;
+}
+.ct-trial-group:last-child .ct-trial-row:not(.expanded) {
+  border-bottom: none;
+}
+
+/* Phase badge */
+.ct-phase-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--ev-coral);
+  color: var(--ev-white);
+  text-align: center;
+  min-width: 40px;
+}
+
+/* Status */
+.ct-col-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+}
+.ct-status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ct-status-text {
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Title column */
+.ct-col-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding-right: 8px;
+}
+.ct-trial-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ev-dark);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ct-nct-id {
+  font-size: 10px;
+  color: var(--ev-text-light);
+  font-family: 'SF Mono', monospace;
+}
+
+/* Other columns */
+.ct-col-conditions {
+  font-size: 11px;
+  color: var(--ev-text-mid);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ct-col-enrollment {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+  color: var(--ev-dark);
+}
+.ct-col-date {
+  font-size: 11px;
+  color: var(--ev-text-mid);
+  text-align: right;
+}
+
+/* Expanded detail panel */
+.ct-trial-detail {
+  padding: 12px 14px 16px;
+  background: #FFF9F5;
+  border-bottom: 1px solid var(--ev-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ct-detail-row {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+}
+.ct-detail-label {
+  font-weight: 600;
+  color: var(--ev-text-mid);
+  min-width: 110px;
+  flex-shrink: 0;
+}
+.ct-detail-value {
+  color: var(--ev-dark);
+  line-height: 1.4;
+}
+.ct-detail-summary {
+  font-size: 11px;
+  color: var(--ev-text-mid);
+  max-height: 80px;
+  overflow-y: auto;
+}
+.ct-clinicaltrials-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ev-coral);
+  text-decoration: none;
+}
+.ct-clinicaltrials-link:hover {
+  text-decoration: underline;
+}
+
+.ct-footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--ev-text-light);
+  padding: 8px;
+}
+
+/* Responsive: stack on narrow screens */
+@media (max-width: 900px) {
+  .ct-table-header { display: none; }
+  .ct-trial-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .ct-col-title { width: 100%; }
 }

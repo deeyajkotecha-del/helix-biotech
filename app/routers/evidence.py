@@ -748,6 +748,54 @@ async def list_documents(ticker: str = None, limit: int = 50):
 
 
 
+@router.get("/api/clinical-trials")
+async def get_clinical_trials(ticker: str = None, company: str = None):
+    """
+    Fetch live clinical trials from ClinicalTrials.gov for a company.
+    Returns structured trial data for table display.
+    """
+    if not ticker and not company:
+        return JSONResponse({"trials": [], "error": "Provide ticker or company"})
+
+    try:
+        from api_connectors import search_clinical_trials
+    except ImportError:
+        try:
+            import sys
+            from pathlib import Path
+            search_dir = str(Path(__file__).resolve().parent.parent.parent / "backend" / "services" / "search")
+            if search_dir not in sys.path:
+                sys.path.insert(0, search_dir)
+            from api_connectors import search_clinical_trials
+        except ImportError:
+            return JSONResponse({"trials": [], "error": "API connector not available"})
+
+    # Map common tickers to sponsor names for ClinicalTrials.gov search
+    TICKER_TO_SPONSOR = {
+        "ABBV": "AbbVie", "AMGN": "Amgen", "BMY": "Bristol-Myers Squibb",
+        "LLY": "Eli Lilly", "MRK": "Merck", "PFE": "Pfizer",
+        "JNJ": "Johnson & Johnson", "GILD": "Gilead", "REGN": "Regeneron",
+        "VRTX": "Vertex", "BIIB": "Biogen", "AZN": "AstraZeneca",
+        "NVS": "Novartis", "ROG": "Roche", "SNY": "Sanofi",
+        "GSK": "GSK", "NVO": "Novo Nordisk", "MRNA": "Moderna",
+        "UTHR": "United Therapeutics", "ASND": "Ascendis Pharma",
+        "DFTX": "Definium Therapeutics", "LXEO": "Lexeo Therapeutics",
+        "NUVL": "Nuvalent", "RVMD": "Revolution Medicines",
+        "IONS": "Ionis Pharmaceuticals", "SRPT": "Sarepta",
+    }
+
+    sponsor = company or TICKER_TO_SPONSOR.get(ticker.upper(), ticker) if ticker else company
+
+    try:
+        trials = search_clinical_trials(sponsor=sponsor, max_results=30)
+        return JSONResponse({
+            "trials": trials,
+            "count": len(trials),
+            "sponsor_searched": sponsor,
+        })
+    except Exception as e:
+        return JSONResponse({"trials": [], "error": str(e)})
+
 
 # ---------------------------------------------------------------------------
 # Include sub-routers (webcasts, deck analyzer)

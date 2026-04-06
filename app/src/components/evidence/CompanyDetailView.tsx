@@ -4,6 +4,7 @@ import type { Company, DocumentItem, WebcastItem, WebcastSearchResult, Transcrip
 import DeckAnalyzerPanel from './DeckAnalyzerPanel'
 import TranscriptViewer from './TranscriptViewer'
 import WebcastIngestForm from './WebcastIngestForm'
+import ClinicalTrialsTable from './ClinicalTrialsTable'
 
 interface Props {
   company: Company
@@ -353,6 +354,23 @@ export default function CompanyDetailView({ company, onBack, onCompanySearch }: 
     navigateTo(`/deck-analyzer?${params.toString()}`)
   }
 
+  // Only show "Analyze" for actual slide decks / presentations / PDFs with slides
+  function isAnalyzable(doc: DocumentItem): boolean {
+    const dt = (doc.doc_type || '').toLowerCase()
+    const title = (doc.title || '').toLowerCase()
+    // These are presentation-like documents that work with the deck analyzer
+    if (dt.includes('deck') || dt.includes('presentation') || dt.includes('poster')) return true
+    if (title.includes('presentation') || title.includes('poster') || title.includes('investor day')) return true
+    // SEC filings with slide content
+    if (dt.includes('sec') && (doc.page_count || 0) > 3) return true
+    // 10-K, 10-Q, 8-K etc. are analyzable docs
+    if (dt.includes('10k') || dt.includes('10q') || dt.includes('8k') || dt.includes('20f') || dt.includes('6k')) return true
+    // Clinical trials text dumps are NOT analyzable as decks
+    if (dt.includes('trial') || dt.includes('clinical')) return false
+    // Default: analyzable if it has pages (i.e., it's a PDF)
+    return (doc.page_count || 0) > 0
+  }
+
   // --- Sub-view: Transcript ---
   if (viewingTranscript) {
     return <TranscriptViewer transcript={viewingTranscript} onBack={() => setViewingTranscript(null)} />
@@ -411,8 +429,28 @@ export default function CompanyDetailView({ company, onBack, onCompanySearch }: 
 
       {loadingData && <div className="ev-panel-loading">Loading...</div>}
 
+      {/* ---- LIVE CLINICAL TRIALS (from ClinicalTrials.gov) ---- */}
+      <div className="ev-docgroup">
+        <button
+          className={`ev-docgroup-header ${collapsedCats.has('live_trials') ? 'collapsed' : ''}`}
+          onClick={() => toggleCategory('live_trials')}
+        >
+          <span className="ev-docgroup-icon">🧬</span>
+          <span className="ev-docgroup-label">Active Clinical Trials</span>
+          <span className="ev-docgroup-count" style={{ background: '#E8F5E9', color: '#2E7D32' }}>Live</span>
+          <span className="ev-docgroup-arrow">{collapsedCats.has('live_trials') ? '▸' : '▾'}</span>
+        </button>
+        {!collapsedCats.has('live_trials') && (
+          <div style={{ padding: '8px' }}>
+            <ClinicalTrialsTable ticker={company.ticker} companyName={company.name} />
+          </div>
+        )}
+      </div>
+
       {/* ---- GROUPED DOCUMENTS ---- */}
-      {docCategories.map(cat => (
+      {docCategories
+        .filter(cat => cat.key !== 'clinical')  /* skip clinical docs — replaced by live table above */
+        .map(cat => (
         <div key={cat.key} className="ev-docgroup">
           <button
             className={`ev-docgroup-header ${collapsedCats.has(cat.key) ? 'collapsed' : ''}`}
@@ -438,13 +476,23 @@ export default function CompanyDetailView({ company, onBack, onCompanySearch }: 
                     {doc.date && (
                       <span className="ev-docgroup-date">{formatDateShort(doc.date)}</span>
                     )}
-                    <button
-                      className="ev-deck-analyze-btn"
-                      onClick={() => openDeckAnalyzer(doc)}
-                      title="Analyze slide by slide"
-                    >
-                      Analyze
-                    </button>
+                    {isAnalyzable(doc) ? (
+                      <button
+                        className="ev-deck-analyze-btn"
+                        onClick={() => openDeckAnalyzer(doc)}
+                        title="Analyze slide by slide"
+                      >
+                        Analyze
+                      </button>
+                    ) : (
+                      <button
+                        className="ev-deck-analyze-btn ev-btn-view"
+                        onClick={() => setAnalyzingDoc(doc)}
+                        title="View document content"
+                      >
+                        View
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
