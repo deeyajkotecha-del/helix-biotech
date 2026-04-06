@@ -29,6 +29,8 @@ tenacity
 
 # LLM integration
 anthropic
+openai
+voyageai
 
 # Date handling
 python-dateutil

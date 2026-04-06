@@ -1,0 +1,46 @@
+{
+  "587e8f17-5fa9-404d-9040-5692708a7035.pdf": {
+    "source_url": "https://ir.lexeotx.com/static-files/587e8f17-5fa9-404d-9040-5692708a7035",
+    "title": "Lexeo Corporate Presentation \u2013 March 2026",
+    "date": "2026-03-01",
+    "doc_type": "investor_presentation",
+    "sha256": "d5e1937a88d72631bce59b94df0b22550b964051012134b094dcf77a1c8d585e",
+    "file_size_bytes": 2102413,
+    "scraped_at": "2026-04-06T17:45:13.492060+00:00",
+    "source_page": "https://ir.lexeotx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "89f546cc-9abb-4762-bbcd-f515f8b242e5.pdf": {
+    "source_url": "https://ir.lexeotx.com/static-files/89f546cc-9abb-4762-bbcd-f515f8b242e5",
+    "title": "Interim Clinical Data from the Phase 1/2 HEROIC-PKP2 Trial of LX2020 for Arrhythmogenic Cardiomyopathy Caused by Mutations in the PKP2 Gene Presentation",
+    "date": null,
+    "doc_type": "press_release",
+    "sha256": "e179202b0c282569f3089769dee15817ed9a001a590dc72edca45d2d2240612c",
+    "file_size_bytes": 1693140,
+    "scraped_at": "2026-04-06T17:45:14.442443+00:00",
+    "source_page": "https://ir.lexeotx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "b9b72169-955a-49bb-94b1-cfc155fbdbed.pdf": {
+    "source_url": "https://ir.lexeotx.com/static-files/b9b72169-955a-49bb-94b1-cfc155fbdbed",
+    "title": "LX2006 Regulatory Progress and Interim Clinical Data from Phase 1/2 Studies in Friedreich Ataxia Cardiomyopathy \u2013 October 2025",
+    "date": "2025-10-01",
+    "doc_type": "press_release",
+    "sha256": "896610c6981a29b0e8fcb799943ae842cccdf101296d7ea4a4212c07a30c843b",
+    "file_size_bytes": 1416377,
+    "scraped_at": "2026-04-06T17:45:15.380861+00:00",
+    "source_page": "https://ir.lexeotx.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "1428594d-153f-4961-988e-c304325599a2.pdf": {
+    "source_url": "https://ir.lexeotx.com/static-files/1428594d-153f-4961-988e-c304325599a2",
+    "title": "Interim Phase 1/2 Clinical Data of LX1001 for the Treatment of APOE4-Associated Alzheimer\u2019s Disease \u2013 October 2024",
+    "date": "2024-10-01",
+    "doc_type": "press_release",
+    "sha256": "60b6eda92760144ad6ac602efe02ec16ded42a29e27162b28a70d1582c5f87a5",
+    "file_size_bytes": 1394558,
+    "scraped_at": "2026-04-06T17:45:16.382035+00:00",
+    "source_page": "https://ir.lexeotx.com/news-events/presentations",
+    "page_type": "events"
+  }
+}

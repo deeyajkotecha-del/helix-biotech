@@ -1,14 +1,21 @@
 """
 Webcast Pipeline Endpoints — transcribe, ingest, search, library
 Split from evidence.py for maintainability.
+
+Supports:
+  - Audio file upload → Whisper transcription → RAG embedding
+  - Direct transcript paste → RAG embedding
+  - URL-based audio download (yt-dlp) → Whisper → RAG
+  - MediaRecorder JS bookmarklet for browser audio capture
 """
 
 import os
 import sys
+import tempfile
 from pathlib import Path
 from typing import Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
@@ -172,17 +179,91 @@ async def webcast_transcript(document_id: int):
     return JSONResponse(result)
 
 
+@router.post("/upload-audio")
+async def webcast_upload_audio(
+    audio_file: UploadFile = File(...),
+    title: str = Form(""),
+    ticker: str = Form(""),
+    company_name: str = Form(""),
+    event_date: str = Form(""),
+    event_type: str = Form("webcast"),
+    source_url: str = Form(""),
+    duration_seconds: float = Form(0),
+):
+    """
+    Upload an audio file → transcribe with Whisper → embed in RAG.
+    This is the primary sustainable workflow for webcast ingestion.
+    Accepts: .mp3, .webm, .wav, .m4a, .ogg, .mp4, .flac
+    """
+    if not WEBCAST_READY:
+        return JSONResponse({"status": "error", "error": "Webcast module not loaded"}, status_code=503)
+
+    # Validate file type
+    allowed_extensions = {".mp3", ".webm", ".wav", ".m4a", ".ogg", ".mp4", ".flac", ".opus"}
+    ext = os.path.splitext(audio_file.filename or "")[1].lower()
+    if ext not in allowed_extensions:
+        return JSONResponse({
+            "status": "error",
+            "error": f"Unsupported file type '{ext}'. Accepted: {', '.join(sorted(allowed_extensions))}"
+        }, status_code=400)
+
+    # Save uploaded file to temp directory
+    os.makedirs("/tmp/helix-webcasts", exist_ok=True)
+    temp_path = os.path.join("/tmp/helix-webcasts", f"upload_{audio_file.filename}")
+    try:
+        contents = await audio_file.read()
+        if len(contents) > 100 * 1024 * 1024:  # 100 MB limit
+            return JSONResponse({
+                "status": "error",
+                "error": "File too large. Maximum 100 MB."
+            }, status_code=400)
+
+        with open(temp_path, "wb") as f:
+            f.write(contents)
+
+        # Run the full pipeline: transcribe → chunk → embed → store
+        result = await process_webcast(
+            audio_path=temp_path,
+            title=title or audio_file.filename or "Uploaded Webcast",
+            ticker=ticker,
+            company_name=company_name,
+            event_date=event_date,
+            event_type=event_type,
+        )
+
+        # Add source_url to result if provided
+        if source_url and result.get("status") == "ok":
+            result["source_url"] = source_url
+
+        return JSONResponse(result)
+
+    except Exception as e:
+        return JSONResponse({"status": "error", "error": str(e)}, status_code=500)
+    finally:
+        # Clean up temp file
+        try:
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
+        except Exception:
+            pass
+
+
 @router.get("/capture-js")
-async def webcast_capture_js():
+async def webcast_capture_js(backend_url: str = ""):
     """Return the MediaRecorder JS snippet for browser-side audio capture."""
     if not WEBCAST_READY:
         return JSONResponse({"error": "Webcast module not loaded"}, status_code=503)
+
+    # Auto-detect backend URL from request if not provided
+    js = get_media_recorder_js(backend_url=backend_url)
+
     return JSONResponse({
-        "media_recorder_js": get_media_recorder_js(),
+        "media_recorder_js": js,
+        "bookmarklet": f"javascript:void({js.strip()})",
         "instructions": (
-            "Inject this JS into the webcast player tab to start recording audio. "
-            "Call window.__helixRecorder.stop() to finish. The browser will download "
-            "the recording as webcast_recording.webm."
+            "Paste this JS into the browser console on a webcast page, or save as a bookmarklet. "
+            "It will show a recording badge with a Stop button. When you stop, the audio "
+            "is automatically uploaded to SatyaBio for transcription and embedding."
         ),
     })
 

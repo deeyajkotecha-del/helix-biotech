@@ -15,7 +15,7 @@ interface Props {
 // Title Cleanup — decode URLs, remove junk, humanize
 // ============================================================
 
-function cleanTitle(title: string, ticker: string, companyName: string): string {
+function cleanTitle(title: string, _ticker: string, companyName: string): string {
   if (!title) return 'Untitled'
 
   let t = title
@@ -141,7 +141,7 @@ const CATEGORY_META: Record<string, { label: string; icon: string }> = {
   other:           { label: 'Other Documents',                    icon: '📁' },
 }
 
-function groupDocsByCategory(docs: DocumentItem[], ticker: string, companyName: string): DocCategory[] {
+function groupDocsByCategory(docs: DocumentItem[], _ticker: string, _companyName: string): DocCategory[] {  // eslint-disable-line
   const groups: Record<string, DocumentItem[]> = {}
 
   for (const doc of docs) {

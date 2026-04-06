@@ -948,6 +948,131 @@
   background: #FFF3E0;
 }
 
+/* Pipeline status indicator */
+.ev-pipeline-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+.ev-pipeline-status.ready {
+  color: #2E7D32;
+  background: #E8F5E9;
+}
+.ev-pipeline-status.not-ready {
+  color: #E65100;
+  background: #FFF3E0;
+}
+.ev-pipeline-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ev-pipeline-status.ready .ev-pipeline-dot {
+  background: #4CAF50;
+  box-shadow: 0 0 4px #4CAF50;
+}
+.ev-pipeline-status.not-ready .ev-pipeline-dot {
+  background: #E65100;
+}
+
+/* Ingest mode tabs */
+.ev-ingest-tabs {
+  display: flex;
+  gap: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--ev-border-light);
+}
+.ev-ingest-tab {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background: var(--ev-white);
+  color: var(--ev-text-mid);
+  transition: all 0.15s;
+}
+.ev-ingest-tab.active {
+  background: var(--ev-dark);
+  color: var(--ev-white);
+}
+.ev-ingest-tab:hover:not(.active) {
+  background: var(--ev-cream-dark);
+}
+
+/* Audio file dropzone */
+.ev-audio-dropzone {
+  border: 2px dashed var(--ev-border-light);
+  border-radius: 10px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--ev-white);
+}
+.ev-audio-dropzone:hover {
+  border-color: var(--ev-coral);
+  background: #FFF5F2;
+}
+.ev-audio-dropzone.has-file {
+  border-style: solid;
+  border-color: var(--ev-green, #4CAF50);
+  background: #F1F8E9;
+}
+.ev-audio-dropzone-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--ev-text-mid);
+  font-size: 13px;
+}
+.ev-audio-dropzone-hint {
+  font-size: 11px;
+  color: var(--ev-text-light);
+}
+.ev-audio-file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+}
+.ev-audio-file-icon {
+  font-size: 28px;
+}
+.ev-audio-file-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ev-dark);
+}
+.ev-audio-file-size {
+  font-size: 11px;
+  color: var(--ev-text-mid);
+}
+.ev-audio-file-remove {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--ev-text-light);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.ev-audio-file-remove:hover {
+  background: #FFEBEE;
+  color: #D32F2F;
+}
+
 .ev-webcast-company-search {
   margin-bottom: 12px;
 }

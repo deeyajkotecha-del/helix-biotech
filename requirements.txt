@@ -47,9 +47,10 @@ tenacity==8.2.3  # Retry logic
 # LLM integration
 anthropic>=0.40
 voyageai>=0.3.2  # v2 upgrade: needs rerank support
+openai>=1.12.0  # Whisper API for audio transcription
 
-# Speech-to-text
-openai-whisper>=20231117
+# Speech-to-text (local fallback — heavy, optional on server)
+# openai-whisper>=20231117  # Uncomment for local Whisper (needs ffmpeg + ~1.5GB RAM)
 
 # Testing
 pytest>=7.0.0

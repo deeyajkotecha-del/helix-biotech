@@ -2,17 +2,19 @@
 Webcast Transcription & RAG Pipeline
 =====================================
 Captures audio from biotech IR webcasts (Notified / edge.media-server.com),
-transcribes with local Whisper, and stores in the existing RAG database
-(Neon pgvector) for semantic + keyword search across all webcasts.
+transcribes via OpenAI Whisper API (primary) or local Whisper (fallback),
+and stores in the existing RAG database (Neon pgvector) for semantic +
+keyword search across all webcasts.
 
 Audio capture methods:
-  1. MediaRecorder injection — JS captures audio from browser tab
-  2. yt-dlp — downloads HLS/DASH streams when available
-  3. Direct upload — user provides an audio/video file
+  1. Audio file upload — user uploads .mp3/.webm/.wav/.m4a recording
+  2. MediaRecorder bookmarklet — JS captures audio from browser tab,
+     auto-uploads to /api/webcasts/upload-audio
+  3. yt-dlp — downloads HLS/DASH streams when available (public only)
 
-Transcription:
-  - Local open-source Whisper (base model by default, configurable)
-  - No speaker diarization (raw transcript)
+Transcription (priority order):
+  1. OpenAI Whisper API — fast, reliable, no local deps ($0.006/min)
+  2. Local openai-whisper — free, requires ffmpeg + ~1.5GB RAM
 
 Storage:
   - Reuses existing documents + chunks tables (doc_type="webcast")
@@ -38,6 +40,7 @@ import psycopg2.extras
 
 DATABASE_URL = os.getenv("NEON_DATABASE_URL", "")
 VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 EMBED_MODEL = "voyage-3"        # 1024 dims, same as rest of RAG
 EMBED_BATCH_SIZE = 16
@@ -50,6 +53,10 @@ WHISPER_LANGUAGE = "en"
 # Where audio files are temporarily stored during processing
 AUDIO_TEMP_DIR = os.getenv("AUDIO_TEMP_DIR", "/tmp/helix-webcasts")
 
+# Max upload size: 100 MB (OpenAI Whisper API limit is 25 MB per request,
+# but we split larger files with ffmpeg before sending)
+MAX_UPLOAD_BYTES = 100 * 1024 * 1024
+
 # ---------------------------------------------------------------------------
 # Lazy-init globals
 # ---------------------------------------------------------------------------
@@ -58,13 +65,27 @@ _db_conn = None
 _vo_client = None
 _whisper_model = None
 _whisper_available = False
+_openai_client = None
 
 try:
     import whisper as _whisper_module
     _whisper_available = True
 except ImportError:
     _whisper_module = None
-    print("  [webcast] openai-whisper not installed — transcription disabled")
+    print("  [webcast] openai-whisper not installed — will use API transcription")
+
+# Check for OpenAI Whisper API availability
+_openai_whisper_available = False
+try:
+    import openai as _openai_module
+    if OPENAI_API_KEY:
+        _openai_whisper_available = True
+        print("  [webcast] OpenAI Whisper API available (primary transcription)")
+    else:
+        print("  [webcast] OPENAI_API_KEY not set — OpenAI Whisper API disabled")
+except ImportError:
+    _openai_module = None
+    print("  [webcast] openai package not installed — API transcription disabled")
 
 
 def _get_db():
@@ -115,6 +136,14 @@ def _get_whisper():
         _whisper_model = _whisper_module.load_model(WHISPER_MODEL)
         print(f"  [webcast] Whisper model loaded.")
     return _whisper_model
+
+
+def _get_openai():
+    """Get or create an OpenAI client for Whisper API."""
+    global _openai_client
+    if _openai_client is None and _openai_whisper_available:
+        _openai_client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
+    return _openai_client
 
 
 # ===========================================================================
@@ -196,21 +225,24 @@ def convert_to_wav(input_path: str) -> Optional[str]:
 # This is returned to the frontend/Chrome extension to execute.
 MEDIA_RECORDER_JS = """
 (async () => {
-    // Find the video element with the blob source
-    const video = document.querySelector('video[src^="blob:"]')
-        || document.querySelector('video');
-    if (!video) return { error: 'No video element found' };
+    const BACKEND_URL = '__BACKEND_URL__';
 
-    // Capture the audio stream from the video element
-    const stream = video.captureStream ? video.captureStream()
-        : video.mozCaptureStream ? video.mozCaptureStream()
+    // Find the video/audio element
+    const media = document.querySelector('video[src^="blob:"]')
+        || document.querySelector('video')
+        || document.querySelector('audio[src^="blob:"]')
+        || document.querySelector('audio');
+    if (!media) return { error: 'No media element found on this page' };
+
+    // Capture the audio stream
+    const stream = media.captureStream ? media.captureStream()
+        : media.mozCaptureStream ? media.mozCaptureStream()
         : null;
-    if (!stream) return { error: 'captureStream not supported' };
+    if (!stream) return { error: 'captureStream not supported in this browser' };
 
     const audioTracks = stream.getAudioTracks();
-    if (audioTracks.length === 0) return { error: 'No audio tracks' };
+    if (audioTracks.length === 0) return { error: 'No audio tracks found' };
 
-    // Create audio-only stream
     const audioStream = new MediaStream(audioTracks);
     const recorder = new MediaRecorder(audioStream, {
         mimeType: 'audio/webm;codecs=opus'
@@ -219,45 +251,202 @@ MEDIA_RECORDER_JS = """
 
     recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
-    return new Promise((resolve) => {
-        recorder.onstop = () => {
-            const blob = new Blob(chunks, { type: 'audio/webm' });
-            const url = URL.createObjectURL(blob);
-            // Create download link
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'webcast_recording.webm';
-            a.click();
-            resolve({ success: true, size: blob.size });
-        };
-        recorder.start(1000);  // 1-second chunks
-        window.__helixRecorder = recorder;
-        window.__helixRecorderResolve = resolve;
-        resolve({ recording: true, message: 'Recording started. Call window.__helixRecorder.stop() to finish.' });
-    });
+    // Create a small floating status badge
+    const badge = document.createElement('div');
+    badge.id = '__helix_badge';
+    badge.innerHTML = '🔴 Recording... <button id="__helix_stop" style="margin-left:8px;cursor:pointer;background:#dc2626;color:white;border:none;padding:4px 12px;border-radius:4px;font-size:13px;">Stop & Upload</button>';
+    badge.style.cssText = 'position:fixed;top:10px;right:10px;z-index:999999;background:#1e1e2e;color:#e0e0e0;padding:8px 16px;border-radius:8px;font-family:system-ui;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.3);display:flex;align-items:center;';
+    document.body.appendChild(badge);
+
+    const startTime = Date.now();
+
+    // Update badge with elapsed time
+    const timer = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const mins = Math.floor(elapsed / 60);
+        const secs = elapsed % 60;
+        badge.querySelector('#__helix_stop').previousSibling.textContent =
+            `🔴 Recording ${mins}:${secs.toString().padStart(2, '0')}... `;
+    }, 1000);
+
+    recorder.onstop = async () => {
+        clearInterval(timer);
+        badge.innerHTML = '⏳ Uploading to SatyaBio...';
+
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        const duration = (Date.now() - startTime) / 1000;
+
+        // Also save locally as backup
+        const backupUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = backupUrl; a.download = 'webcast_backup.webm'; a.click();
+
+        // Upload to backend
+        if (BACKEND_URL) {
+            try {
+                const formData = new FormData();
+                formData.append('audio_file', blob, 'webcast_recording.webm');
+                formData.append('title', document.title || 'Webcast Recording');
+                formData.append('source_url', window.location.href);
+                formData.append('duration_seconds', String(duration));
+
+                const resp = await fetch(BACKEND_URL + '/extract/api/webcasts/upload-audio', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const data = await resp.json();
+                badge.innerHTML = data.status === 'ok'
+                    ? `✅ Uploaded! ${data.word_count?.toLocaleString() || '?'} words transcribed.`
+                    : `⚠️ ${data.error || 'Upload failed'}. Backup saved locally.`;
+            } catch (err) {
+                badge.innerHTML = `⚠️ Upload failed: ${err.message}. Backup saved locally.`;
+            }
+        } else {
+            badge.innerHTML = '✅ Recording saved (no backend URL configured).';
+        }
+
+        setTimeout(() => badge.remove(), 15000);
+    };
+
+    recorder.start(1000);
+    window.__helixRecorder = recorder;
+
+    document.getElementById('__helix_stop').onclick = () => recorder.stop();
+
+    return { recording: true, message: 'Recording started. Click the Stop button or call window.__helixRecorder.stop()' };
 })();
 """
 
 
-def get_media_recorder_js() -> str:
+def get_media_recorder_js(backend_url: str = "") -> str:
     """Return the JS snippet for MediaRecorder-based audio capture."""
-    return MEDIA_RECORDER_JS
+    return MEDIA_RECORDER_JS.replace("__BACKEND_URL__", backend_url)
 
 
 # ===========================================================================
-# 2. TRANSCRIPTION (local Whisper)
+# 2. TRANSCRIPTION — OpenAI Whisper API (primary) or local Whisper (fallback)
 # ===========================================================================
 
 def transcribe_audio(audio_path: str) -> Optional[dict]:
     """
-    Transcribe an audio file using local Whisper.
+    Transcribe an audio file. Tries OpenAI Whisper API first (fast, reliable),
+    falls back to local Whisper if API unavailable.
+
     Returns: {
         "text": str,           # full transcript
         "segments": [...],     # timestamped segments
         "language": str,
         "duration": float,     # seconds
+        "method": str,         # "openai_api" or "local_whisper"
     }
     """
+    # Try OpenAI Whisper API first (fast, no local deps)
+    if _openai_whisper_available:
+        result = _transcribe_openai_api(audio_path)
+        if result and "error" not in result:
+            return result
+        print(f"  [webcast] OpenAI API transcription failed, trying local...")
+
+    # Fallback: local Whisper
+    if _whisper_available:
+        return _transcribe_local_whisper(audio_path)
+
+    return {"error": "No transcription engine available. Set OPENAI_API_KEY or install openai-whisper."}
+
+
+def _transcribe_openai_api(audio_path: str) -> Optional[dict]:
+    """Transcribe using OpenAI Whisper API ($0.006/min)."""
+    client = _get_openai()
+    if client is None:
+        return {"error": "OpenAI client not available"}
+
+    file_size = os.path.getsize(audio_path)
+    print(f"  [webcast] Transcribing via OpenAI Whisper API ({file_size / 1024 / 1024:.1f} MB)...")
+
+    try:
+        # OpenAI API limit is 25 MB. If larger, compress with ffmpeg first.
+        upload_path = audio_path
+        if file_size > 24 * 1024 * 1024:
+            print(f"  [webcast] File too large for API ({file_size / 1024 / 1024:.1f} MB), compressing...")
+            compressed = _compress_for_api(audio_path)
+            if compressed:
+                upload_path = compressed
+            else:
+                return {"error": "Could not compress audio to under 25 MB"}
+
+        with open(upload_path, "rb") as f:
+            # Use verbose_json to get timestamps
+            response = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=f,
+                language="en",
+                response_format="verbose_json",
+                timestamp_granularities=["segment"],
+            )
+
+        # Parse response
+        segments = []
+        duration = 0
+        if hasattr(response, "segments") and response.segments:
+            for seg in response.segments:
+                segments.append({
+                    "start": seg.get("start", seg.start) if hasattr(seg, "start") else seg.get("start", 0),
+                    "end": seg.get("end", seg.end) if hasattr(seg, "end") else seg.get("end", 0),
+                    "text": (seg.get("text", seg.text) if hasattr(seg, "text") else seg.get("text", "")).strip(),
+                })
+            if segments:
+                duration = segments[-1]["end"]
+
+        text = response.text if hasattr(response, "text") else str(response)
+
+        print(f"  [webcast] OpenAI API transcription complete: {len(text)} chars, {duration:.0f}s")
+
+        # Clean up compressed file
+        if upload_path != audio_path and os.path.exists(upload_path):
+            os.remove(upload_path)
+
+        return {
+            "text": text.strip(),
+            "segments": segments,
+            "language": "en",
+            "duration": duration,
+            "method": "openai_api",
+        }
+
+    except Exception as e:
+        print(f"  [webcast] OpenAI Whisper API error: {e}")
+        return {"error": str(e)}
+
+
+def _compress_for_api(audio_path: str) -> Optional[str]:
+    """Compress audio to fit within OpenAI's 25 MB limit."""
+    output = audio_path.rsplit(".", 1)[0] + "_compressed.mp3"
+    try:
+        cmd = [
+            "ffmpeg", "-y",
+            "-i", audio_path,
+            "-ar", "16000",     # 16kHz
+            "-ac", "1",         # mono
+            "-b:a", "48k",      # low bitrate for speech (very efficient)
+            output,
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        if result.returncode == 0 and os.path.exists(output):
+            compressed_size = os.path.getsize(output)
+            if compressed_size < 24 * 1024 * 1024:
+                print(f"  [webcast] Compressed to {compressed_size / 1024 / 1024:.1f} MB")
+                return output
+            else:
+                os.remove(output)
+                return None
+        return None
+    except Exception as e:
+        print(f"  [webcast] Compression failed: {e}")
+        return None
+
+
+def _transcribe_local_whisper(audio_path: str) -> Optional[dict]:
+    """Transcribe using local openai-whisper model."""
     model = _get_whisper()
     if model is None:
         return {"error": "Whisper not available. Install: pip install openai-whisper"}
@@ -271,7 +460,7 @@ def transcribe_audio(audio_path: str) -> Optional[dict]:
     else:
         wav_path = audio_path
 
-    print(f"  [webcast] Transcribing {wav_path} with Whisper ({WHISPER_MODEL})...")
+    print(f"  [webcast] Transcribing {wav_path} with local Whisper ({WHISPER_MODEL})...")
     try:
         result = model.transcribe(
             wav_path,
@@ -291,6 +480,7 @@ def transcribe_audio(audio_path: str) -> Optional[dict]:
             ],
             "language": result.get("language", WHISPER_LANGUAGE),
             "duration": result["segments"][-1]["end"] if result.get("segments") else 0,
+            "method": "local_whisper",
         }
 
         print(f"  [webcast] Transcription complete: {len(transcript['text'])} chars, "
@@ -1003,12 +1193,16 @@ def get_registration_js(
 def get_webcast_status() -> dict:
     """Check readiness of all pipeline components."""
     status = {
-        "whisper_available": _whisper_available,
+        "openai_whisper_api": _openai_whisper_available,
+        "local_whisper_available": _whisper_available,
         "whisper_model": WHISPER_MODEL,
         "database_available": False,
         "voyage_available": False,
         "ffmpeg_available": False,
         "yt_dlp_available": False,
+        "transcription_ready": _openai_whisper_available or _whisper_available,
+        "upload_enabled": True,
+        "max_upload_mb": MAX_UPLOAD_BYTES // (1024 * 1024),
     }
 
     # Check DB
@@ -1034,11 +1228,20 @@ def get_webcast_status() -> dict:
     except Exception:
         pass
 
+    # Pipeline is ready if we can transcribe AND embed
     status["ready"] = (
-        status["whisper_available"] and
+        status["transcription_ready"] and
         status["database_available"] and
         status["voyage_available"]
     )
+
+    # Human-readable method description
+    if _openai_whisper_available:
+        status["transcription_method"] = "OpenAI Whisper API (fast, cloud)"
+    elif _whisper_available:
+        status["transcription_method"] = f"Local Whisper ({WHISPER_MODEL} model)"
+    else:
+        status["transcription_method"] = "None available"
 
     return status
 
