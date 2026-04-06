@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import type { Company, DocumentItem, WebcastItem, WebcastSearchResult, TranscriptView } from './types'
 import DeckAnalyzerPanel from './DeckAnalyzerPanel'
 import TranscriptViewer from './TranscriptViewer'
@@ -41,6 +42,7 @@ function eventTypeLabel(t: string) {
 }
 
 export default function CompanyDetailView({ company, onBack, onCompanySearch }: Props) {
+  const navigateTo = useNavigate()
   const [companyDocs, setCompanyDocs] = useState<DocumentItem[]>([])
   const [companyWebcasts, setCompanyWebcasts] = useState<WebcastItem[]>([])
   const [loadingData, setLoadingData] = useState(true)
@@ -209,7 +211,15 @@ export default function CompanyDetailView({ company, onBack, onCompanySearch }: 
               </div>
               <div className="ev-deck-doc-actions">
                 {doc.date && <span className="ev-webcast-date">{formatDate(doc.date)}</span>}
-                <button className="ev-deck-analyze-btn" onClick={() => setAnalyzingDoc(doc)} title="Analyze slide by slide">
+                <button className="ev-deck-analyze-btn" onClick={() => {
+                  const params = new URLSearchParams({
+                    doc: String(doc.id),
+                    ticker: doc.ticker,
+                    company: doc.company_name || company.name,
+                    title: doc.title,
+                  })
+                  navigateTo(`/deck-analyzer?${params.toString()}`)
+                }} title="Analyze slide by slide (full view)">
                   Analyze
                 </button>
               </div>

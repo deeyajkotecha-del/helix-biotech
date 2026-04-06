@@ -6,11 +6,11 @@ Searches PubMed by drug name, target, company name, or disease. Downloads abstra
 Neon database for RAG search.
 
 Usage:
-    python3 pubmed_scraper.py                          # Search for all tracked drugs
-    python3 pubmed_scraper.py --query "ORX750 orexin"  # Custom search
-    python3 pubmed_scraper.py --ticker CNTA             # Search by company drugs
-    python3 pubmed_scraper.py --max-results 50          # Limit results (default: 20)
-    python3 pubmed_scraper.py --list-queries            # Show what searches it would run
+    python3 pubmed_scraper.py                                              # Search for all tracked drugs
+    python3 pubmed_scraper.py --ticker CNTA                                # Search by company drugs
+    python3 pubmed_scraper.py --query "ORX750 orexin" --ticker-label LXEO  # Custom search with ticker
+    python3 pubmed_scraper.py --max-results 50                             # Limit results (default: 20)
+    python3 pubmed_scraper.py --list-queries                               # Show what searches it would run
 
 Requires in .env:
     NEON_DATABASE_URL=postgresql://...
@@ -61,7 +61,7 @@ except ImportError:
 DATABASE_URL = os.environ.get("NEON_DATABASE_URL", "")
 VOYAGE_API_KEY = os.environ.get("VOYAGE_API_KEY", "")
 NCBI_API_KEY = os.environ.get("NCBI_API_KEY", "")  # Optional — get from ncbi.nlm.nih.gov/account
-EMBED_MODEL = "voyage-3-lite"
+EMBED_MODEL = "voyage-3"
 EMBED_BATCH_SIZE = 32
 CHUNK_SIZE = 400
 CHUNK_OVERLAP = 50
@@ -486,8 +486,18 @@ def run(args):
     vo_client = voyageai.Client(api_key=VOYAGE_API_KEY)
 
     # Determine which queries to run
+    if args.query and args.ticker:
+        print("ERROR: Cannot specify both --query and --ticker")
+        sys.exit(1)
+
     if args.query:
-        queries = {"CUSTOM": [args.query]}
+        # For custom queries, require --ticker-label to specify what ticker to tag them with
+        if not args.ticker_label:
+            print("ERROR: When using --query, you must also specify --ticker-label")
+            print("Example: python3 pubmed_scraper.py --query 'ORX750 orexin' --ticker-label LXEO")
+            sys.exit(1)
+        ticker_label = args.ticker_label.upper()
+        queries = {ticker_label: [args.query]}
     elif args.ticker:
         ticker = args.ticker.upper()
         if ticker not in SEARCH_QUERIES:
@@ -538,8 +548,9 @@ def run(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SatyaBio PubMed Scraper")
-    parser.add_argument("--query", type=str, help="Custom PubMed search query")
+    parser.add_argument("--query", type=str, help="Custom PubMed search query (requires --ticker-label)")
     parser.add_argument("--ticker", type=str, help="Only search for this ticker's drugs")
+    parser.add_argument("--ticker-label", type=str, help="Ticker to assign to custom --query results")
     parser.add_argument("--max-results", type=int, default=20, help="Max results per query (default: 20)")
     parser.add_argument("--list-queries", action="store_true", help="Show configured queries without running")
     args = parser.parse_args()

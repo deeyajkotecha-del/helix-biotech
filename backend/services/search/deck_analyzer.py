@@ -404,8 +404,8 @@ async def analyze_deck(
 
 
 async def analyze_single_slide(
-    pdf_path: str,
-    slide_number: int,
+    pdf_path: str = None,
+    slide_number: int = 1,
     ticker: str = "",
     company_name: str = "",
     exclude_doc_id: int = None,
@@ -437,7 +437,7 @@ async def analyze_single_slide(
         rag_context=rag_context,
         ticker=ticker,
         company_name=company_name,
-        slide_image_b64=slide_image if slide_image else None,
+        slide_image_b64=slide_image or "",
     )
 
     return {

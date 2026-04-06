@@ -82,11 +82,26 @@ def _lookup_doc_path(doc_id: int):
     if file_path and os.path.exists(file_path):
         return file_path, ticker, company_name, title
 
-    library_path = os.environ.get("LIBRARY_PATH", "")
-    if library_path and file_path:
-        alt_path = os.path.join(library_path, os.path.basename(file_path))
-        if os.path.exists(alt_path):
-            return alt_path, ticker, company_name, title
+    # Try multiple library paths
+    library_paths = [
+        os.environ.get("LIBRARY_PATH", ""),
+        os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "backend", "services", "data"),
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "backend", "services", "data"),
+    ]
+    if file_path:
+        basename = os.path.basename(file_path)
+        for lp in library_paths:
+            if not lp:
+                continue
+            # Direct match
+            alt_path = os.path.join(lp, basename)
+            if os.path.exists(alt_path):
+                return alt_path, ticker, company_name, title
+            # Try under companies/<TICKER>/sources/
+            if ticker:
+                alt_path = os.path.join(lp, "companies", ticker, "sources", basename)
+                if os.path.exists(alt_path):
+                    return alt_path, ticker, company_name, title
 
     return file_path, ticker, company_name, title  # return even if not found on disk
 
