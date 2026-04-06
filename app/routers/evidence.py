@@ -235,7 +235,12 @@ async def evidence_search_stream(req: SearchRequest):
     def generate():
         # Step 1: Classify
         yield f"data: {json.dumps({'type': 'step', 'step': 'classifying'})}\n\n"
-        plan = classify_query(query)
+        try:
+            plan = classify_query(query)
+        except Exception as e:
+            yield f"data: {json.dumps({'type': 'token', 'text': f'Classification error: {e}'})}\n\n"
+            yield f"data: {json.dumps({'type': 'done', 'sources': [], 'timing': {}, 'metadata': {}, 'query_plan': {}})}\n\n"
+            return
 
         # Step 1.5: Enrich with drug entities
         if DRUG_DB_AVAILABLE:
@@ -244,7 +249,12 @@ async def evidence_search_stream(req: SearchRequest):
         yield f"data: {json.dumps({'type': 'step', 'step': 'searching', 'plan': {'sources': plan.get('sources', []), 'query_type': plan.get('query_type', 'general')}})}\n\n"
 
         # Step 2: Execute queries in parallel
-        query_data = execute_query_plan(plan)
+        try:
+            query_data = execute_query_plan(plan)
+        except Exception as e:
+            yield f"data: {json.dumps({'type': 'token', 'text': f'Search execution error: {e}'})}\n\n"
+            yield f"data: {json.dumps({'type': 'done', 'sources': [], 'timing': {}, 'metadata': {}, 'query_plan': plan})}\n\n"
+            return
         landscape = query_data.get("global_landscape")
         metadata = {
             "rag_chunks_retrieved": len(query_data.get("rag_results", [])),
@@ -332,6 +342,18 @@ async def evidence_search_stream(req: SearchRequest):
                         context_parts.append(events_ctx)
             except Exception as e:
                 print(f"  IR events query failed: {e}")
+
+        # Company briefing: surface latest docs, webcasts, and competitors
+        if plan.get("query_type") == "company" or plan.get("rag_ticker_filter"):
+            try:
+                company_ctx = _get_company_briefing_context(
+                    plan.get("rag_ticker_filter", ""),
+                    query,
+                )
+                if company_ctx:
+                    context_parts.append(company_ctx)
+            except Exception as e:
+                print(f"  Company briefing failed: {e}")
 
         if not context_parts:
             yield f"data: {json.dumps({'type': 'token', 'text': 'No relevant data found for this query.'})}\n\n"
@@ -586,6 +608,95 @@ async def trial_forecaster_quick_search(req: TrialSearchRequest):
 # ---------------------------------------------------------------------------
 
 _db_conn = None
+
+def _get_company_briefing_context(ticker: str, query: str) -> str:
+    """
+    Build a company briefing context block for company-specific queries.
+    Pulls: latest documents (IR decks, SEC filings), webcasts, and competitors.
+    """
+    if not ticker:
+        return ""
+
+    ticker = ticker.upper()
+    parts = []
+
+    try:
+        conn = _get_db()
+        cur = conn.cursor()
+
+        # 1) Latest documents for this company
+        cur.execute("""
+            SELECT title, doc_type, date, word_count, page_count
+            FROM documents WHERE ticker = %s
+            ORDER BY date DESC NULLS LAST, id DESC LIMIT 15
+        """, (ticker,))
+        docs = cur.fetchall()
+        if docs:
+            doc_lines = []
+            for title, doc_type, date, wc, pc in docs:
+                date_str = str(date)[:10] if date else "n/a"
+                dtype = doc_type or "document"
+                doc_lines.append(f"  - [{dtype}] {title} ({date_str}, {wc or 0} words)")
+            parts.append(
+                f"=== COMPANY DOCUMENT LIBRARY ({ticker}) ===\n"
+                f"Most recent documents in our library for {ticker}:\n"
+                + "\n".join(doc_lines)
+            )
+
+        # 2) Webcasts for this company
+        cur.execute("""
+            SELECT title, air_date, duration_minutes, chunk_count
+            FROM webcasts WHERE ticker = %s
+            ORDER BY air_date DESC NULLS LAST LIMIT 5
+        """, (ticker,))
+        webcasts = cur.fetchall()
+        if webcasts:
+            wc_lines = []
+            for title, air_date, dur, chunks in webcasts:
+                date_str = str(air_date)[:10] if air_date else "n/a"
+                dur_str = f"{dur}min" if dur else ""
+                wc_lines.append(f"  - {title} ({date_str} {dur_str})")
+            parts.append(
+                f"=== WEBCASTS & EARNINGS CALLS ({ticker}) ===\n"
+                + "\n".join(wc_lines)
+            )
+
+        # 3) Identify competitors — find companies in same category
+        cur.close()
+
+        # Look up company category from the companies config
+        if _COMPANIES_LOADED:
+            try:
+                all_companies = get_all_companies_flat()
+                target_company = None
+                for c in all_companies:
+                    if c.get("ticker", "").upper() == ticker:
+                        target_company = c
+                        break
+
+                if target_company:
+                    category = target_company.get("category", "")
+                    competitors = []
+                    for c in all_companies:
+                        if c.get("category") == category and c.get("ticker", "").upper() != ticker:
+                            competitors.append(c)
+
+                    if competitors:
+                        comp_lines = [f"  - {c['ticker']}: {c['name']}" for c in competitors[:10]]
+                        parts.append(
+                            f"=== COMPETITORS ({ticker} — {target_company.get('category_label', category)}) ===\n"
+                            f"Other companies in the same therapeutic category:\n"
+                            + "\n".join(comp_lines)
+                        )
+            except Exception as e:
+                print(f"  Competitor lookup failed: {e}")
+
+    except Exception as e:
+        print(f"  Company briefing DB error: {e}")
+        return ""
+
+    return "\n\n".join(parts) if parts else ""
+
 
 def _get_db():
     """Get or create a reusable DB connection."""
