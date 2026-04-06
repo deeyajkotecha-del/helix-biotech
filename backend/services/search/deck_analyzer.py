@@ -449,6 +449,147 @@ async def analyze_single_slide(
     }
 
 
+# ===========================================================================
+# 4b. REFERENCE EXTRACTION — parse citations from slides, resolve to links
+# ===========================================================================
+
+REFERENCE_EXTRACTION_PROMPT = """You are a biomedical reference parser. Given slide text from a biotech investor presentation, extract ALL academic/clinical references and citations.
+
+For EACH reference found, return a JSON object with these fields:
+- "raw": the original reference text as it appears on the slide
+- "authors": first author surname + "et al" if applicable (e.g. "Pousset et al.")
+- "title": article title if discernible (empty string if not)
+- "journal": journal name or abbreviation
+- "year": publication year as integer
+- "volume": volume/issue if present (e.g. "72(11)")
+- "pages": page range if present (e.g. "1334-1341")
+- "doi": DOI if present (empty string if not)
+- "pmid": PubMed ID if present (empty string if not)
+- "data_on_file": true if this is a "Data on file" reference, false otherwise
+
+Return a JSON array of objects. If no references are found, return [].
+Only return the JSON array, no other text. Be thorough — look for numbered footnotes, superscript citations, and inline references."""
+
+
+async def extract_slide_references(
+    slide_text: str,
+    slide_image_b64: str = "",
+) -> list[dict]:
+    """Extract academic references from a slide using Claude."""
+    client = _get_claude()
+    if client is None:
+        return []
+
+    user_content = []
+
+    # Include slide image for visual reference detection (footnotes at bottom)
+    if slide_image_b64:
+        user_content.append({
+            "type": "image",
+            "source": {
+                "type": "base64",
+                "media_type": "image/jpeg",
+                "data": slide_image_b64,
+            },
+        })
+
+    user_content.append({
+        "type": "text",
+        "text": f"Extract all references from this slide:\n\n{slide_text[:4000]}",
+    })
+
+    try:
+        response = client.messages.create(
+            model=CLAUDE_MODEL,
+            max_tokens=2000,
+            system=REFERENCE_EXTRACTION_PROMPT,
+            messages=[{"role": "user", "content": user_content}],
+        )
+        text = response.content[0].text.strip()
+        # Parse JSON — handle markdown code blocks
+        if text.startswith("```"):
+            text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+        refs = json.loads(text)
+        return refs if isinstance(refs, list) else []
+    except Exception as e:
+        print(f"  [deck] Reference extraction failed: {e}")
+        return []
+
+
+async def resolve_reference_links(references: list[dict]) -> list[dict]:
+    """Resolve references to PubMed/DOI links via NCBI eUtils API."""
+    import urllib.request
+    import urllib.parse
+
+    for ref in references:
+        if ref.get("data_on_file"):
+            ref["pubmed_url"] = ""
+            ref["doi_url"] = ""
+            continue
+
+        # If we already have a PMID
+        if ref.get("pmid"):
+            ref["pubmed_url"] = f"https://pubmed.ncbi.nlm.nih.gov/{ref['pmid']}/"
+            if not ref.get("doi_url"):
+                ref["doi_url"] = ""
+            continue
+
+        # If we have a DOI
+        if ref.get("doi"):
+            ref["doi_url"] = f"https://doi.org/{ref['doi']}"
+            ref["pubmed_url"] = ""
+            # Try to get PMID from DOI via eUtils
+            try:
+                query = urllib.parse.quote(ref["doi"])
+                url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={query}[doi]&retmode=json"
+                req = urllib.request.Request(url, headers={"User-Agent": "SatyaBio/1.0"})
+                with urllib.request.urlopen(req, timeout=5) as resp:
+                    data = json.loads(resp.read())
+                    ids = data.get("esearchresult", {}).get("idlist", [])
+                    if ids:
+                        ref["pmid"] = ids[0]
+                        ref["pubmed_url"] = f"https://pubmed.ncbi.nlm.nih.gov/{ids[0]}/"
+            except Exception:
+                pass
+            continue
+
+        # Search by author + journal + year
+        search_parts = []
+        if ref.get("authors"):
+            # Extract first author surname
+            surname = ref["authors"].split(",")[0].split(" et ")[0].strip()
+            if surname:
+                search_parts.append(f"{surname}[author]")
+        if ref.get("journal"):
+            search_parts.append(f"{ref['journal']}[journal]")
+        if ref.get("year"):
+            search_parts.append(f"{ref['year']}[pdat]")
+
+        if not search_parts:
+            ref["pubmed_url"] = ""
+            ref["doi_url"] = ""
+            continue
+
+        try:
+            query = urllib.parse.quote(" AND ".join(search_parts))
+            url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={query}&retmode=json&retmax=3"
+            req = urllib.request.Request(url, headers={"User-Agent": "SatyaBio/1.0"})
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                data = json.loads(resp.read())
+                ids = data.get("esearchresult", {}).get("idlist", [])
+                if ids:
+                    ref["pmid"] = ids[0]
+                    ref["pubmed_url"] = f"https://pubmed.ncbi.nlm.nih.gov/{ids[0]}/"
+                else:
+                    ref["pubmed_url"] = ""
+            ref["doi_url"] = ""
+        except Exception:
+            ref["pubmed_url"] = ""
+            ref["doi_url"] = ""
+
+    return references
+
+
 async def _generate_deck_summary(
     slides: list[dict],
     ticker: str,

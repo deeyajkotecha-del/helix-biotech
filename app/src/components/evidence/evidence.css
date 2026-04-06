@@ -1827,6 +1827,198 @@
   animation: deck-spin 0.8s linear infinite;
 }
 
+/* Reference Bank */
+.deck-split-refbank {
+  background: var(--ev-warm-white, #FDFCFA);
+  border: 1px solid var(--ev-border-light);
+  border-radius: 10px;
+  padding: 16px 20px;
+}
+
+.deck-split-refbank-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.deck-split-refbank-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ev-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.deck-split-refbank-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ev-blue, #2563EB);
+  background: var(--ev-blue-bg, #EDF2F9);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.deck-split-refbank-btn:hover {
+  background: var(--ev-blue, #2563EB);
+  color: white;
+}
+
+.deck-split-refbank-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.deck-split-refbank-empty {
+  font-size: 12px;
+  color: var(--ev-text-light);
+  text-align: center;
+  padding: 8px;
+  margin: 0;
+}
+
+.deck-split-refbank-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deck-split-ref-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--ev-white);
+  border-radius: 8px;
+  border: 1px solid var(--ev-border-light);
+  transition: border-color 0.15s;
+}
+
+.deck-split-ref-item:hover {
+  border-color: var(--ev-blue, #2563EB);
+}
+
+.deck-split-ref-item.data-on-file {
+  opacity: 0.65;
+}
+
+.deck-split-ref-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ev-blue, #2563EB);
+  background: var(--ev-blue-bg, #EDF2F9);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.deck-split-ref-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.deck-split-ref-citation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.deck-split-ref-authors {
+  font-weight: 600;
+  color: var(--ev-text-dark);
+}
+
+.deck-split-ref-journal {
+  font-style: italic;
+  color: var(--ev-text-mid);
+}
+
+.deck-split-ref-year {
+  color: var(--ev-text-mid);
+  font-weight: 600;
+}
+
+.deck-split-ref-detail {
+  color: var(--ev-text-light);
+  font-size: 12px;
+}
+
+.deck-split-ref-title {
+  font-size: 12px;
+  color: var(--ev-text-mid);
+  margin-top: 3px;
+  line-height: 1.3;
+}
+
+.deck-split-ref-links {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  align-items: center;
+}
+
+.deck-split-ref-link {
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: all 0.15s;
+  letter-spacing: 0.3px;
+}
+
+.deck-split-ref-link.pubmed {
+  color: #1565C0;
+  background: #E3F2FD;
+}
+
+.deck-split-ref-link.pubmed:hover {
+  background: #1565C0;
+  color: white;
+}
+
+.deck-split-ref-link.doi {
+  color: #E65100;
+  background: #FFF3E0;
+}
+
+.deck-split-ref-link.doi:hover {
+  background: #E65100;
+  color: white;
+}
+
+.deck-split-ref-tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.deck-split-ref-tag.dof {
+  color: var(--ev-text-light);
+  background: var(--ev-sand);
+}
+
+.deck-split-ref-tag.unresolved {
+  color: var(--ev-text-light);
+  background: var(--ev-cream);
+}
+
 /* Responsive — stack on narrow screens */
 @media (max-width: 768px) {
   .deck-split-container {

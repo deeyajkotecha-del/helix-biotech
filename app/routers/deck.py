@@ -27,6 +27,8 @@ try:
         extract_slides_only,
         analyze_single_slide,
         compare_slides_to_document,
+        extract_slide_references,
+        resolve_reference_links,
     )
     DECK_ANALYZER_READY = True
 except ImportError as e:
@@ -35,6 +37,8 @@ except ImportError as e:
     extract_slides_only = None
     analyze_single_slide = None
     compare_slides_to_document = None
+    extract_slide_references = None
+    resolve_reference_links = None
     DECK_ANALYZER_READY = False
 
 
@@ -369,3 +373,73 @@ async def deck_compare(request: DeckCompareRequest):
         ticker=request.ticker,
     )
     return JSONResponse(result)
+
+
+# ---------------------------------------------------------------------------
+# Reference Extraction
+# ---------------------------------------------------------------------------
+
+class DeckRefRequest(BaseModel):
+    doc_id: int
+    slide_number: int
+    slide_text: str = ""
+    slide_image_b64: str = ""
+
+
+@router.post("/extract-references")
+async def deck_extract_references(request: DeckRefRequest):
+    """Extract references from a slide and resolve to PubMed/DOI links."""
+    if not DECK_ANALYZER_READY:
+        return JSONResponse({"error": "Deck analyzer not loaded"}, status_code=503)
+
+    slide_text = request.slide_text
+    slide_image = request.slide_image_b64
+
+    # If no text/image provided, try to load from DB
+    if not slide_text and not slide_image:
+        try:
+            conn = _get_db()
+            cur = conn.cursor()
+
+            # Get slide image
+            cur.execute("""
+                SELECT image_b64 FROM slide_images
+                WHERE document_id = %s AND page_number = %s
+            """, (request.doc_id, request.slide_number))
+            img_row = cur.fetchone()
+            if img_row:
+                slide_image = img_row[0] or ""
+
+            # Get text
+            cur.execute("""
+                SELECT content FROM chunks
+                WHERE document_id = %s AND page_number = %s
+                ORDER BY chunk_index LIMIT 1
+            """, (request.doc_id, request.slide_number))
+            text_row = cur.fetchone()
+            if text_row:
+                slide_text = text_row[0] or ""
+            cur.close()
+        except Exception as e:
+            return JSONResponse({"error": f"Failed to load slide data: {e}"}, status_code=500)
+
+    if not slide_text and not slide_image:
+        return JSONResponse({"references": [], "message": "No slide content to extract references from"})
+
+    try:
+        # Step 1: Extract references using Claude
+        refs = await extract_slide_references(slide_text, slide_image)
+
+        if not refs:
+            return JSONResponse({"references": [], "message": "No references found on this slide"})
+
+        # Step 2: Resolve to PubMed/DOI links
+        refs = await resolve_reference_links(refs)
+
+        return JSONResponse({
+            "references": refs,
+            "count": len(refs),
+            "slide_number": request.slide_number,
+        })
+    except Exception as e:
+        return JSONResponse({"error": f"Reference extraction failed: {e}"}, status_code=500)

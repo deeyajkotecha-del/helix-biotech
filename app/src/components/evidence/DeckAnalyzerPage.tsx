@@ -34,6 +34,21 @@ interface DeckDocument {
   doc_type: string
 }
 
+interface SlideReference {
+  raw: string
+  authors: string
+  title: string
+  journal: string
+  year: number
+  volume: string
+  pages: string
+  doi: string
+  pmid: string
+  pubmed_url: string
+  doi_url: string
+  data_on_file: boolean
+}
+
 // ============================================================
 // Main Page Component — 60/40 split-view
 // ============================================================
@@ -65,6 +80,11 @@ export default function DeckAnalyzerPage() {
   const [comparing, setComparing] = useState(false)
   const [comparison, setComparison] = useState('')
   const [allDocuments, setAllDocuments] = useState<DeckDocument[]>([])
+
+  // Reference bank state
+  const [references, setReferences] = useState<Record<number, SlideReference[]>>({})
+  const [extractingRefs, setExtractingRefs] = useState(false)
+  const [refError, setRefError] = useState('')
 
   // Refs
   const slideViewRef = useRef<HTMLDivElement>(null)
@@ -208,12 +228,43 @@ export default function DeckAnalyzerPage() {
     }
   }
 
+  // ---- Extract references from slide ----
+  async function extractReferences(slideNum: number) {
+    if (references[slideNum]) return // Already extracted
+    setExtractingRefs(true)
+    setRefError('')
+    try {
+      const slide = slides[slideNum - 1]
+      const res = await fetch('/extract/api/deck/extract-references', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          doc_id: docId,
+          slide_number: slideNum,
+          slide_text: slide?.text || '',
+          slide_image_b64: slide?.image_b64 || '',
+        }),
+      })
+      const data = await res.json()
+      if (res.ok && data.references) {
+        setReferences(prev => ({ ...prev, [slideNum]: data.references }))
+      } else {
+        setRefError(data.error || data.message || 'No references found')
+      }
+    } catch (e) {
+      setRefError(`Failed to extract references: ${e}`)
+    } finally {
+      setExtractingRefs(false)
+    }
+  }
+
   // ---- Auto-analyze on slide change (if not already analyzed) ----
   // Commented out for now — user clicks "Analyze" manually
   // useEffect(() => { if (slide) analyzeSlide(currentSlide + 1) }, [currentSlide])
 
   const slide = slides[currentSlide]
   const analysis = analyzedSlides[currentSlide + 1]
+  const slideRefs = references[currentSlide + 1] || []
 
   // ============================================================
   // Render
@@ -442,6 +493,85 @@ export default function DeckAnalyzerPage() {
                 )}
               </div>
             )}
+
+            {/* Reference Bank */}
+            <div className="deck-split-refbank">
+              <div className="deck-split-refbank-header">
+                <h4>Reference Bank</h4>
+                <button
+                  className="deck-split-refbank-btn"
+                  onClick={() => extractReferences(currentSlide + 1)}
+                  disabled={extractingRefs}
+                >
+                  {extractingRefs ? (
+                    <><span className="deck-split-spinner" /> Extracting...</>
+                  ) : slideRefs.length > 0 ? (
+                    `↻ Re-extract (${slideRefs.length} found)`
+                  ) : (
+                    '📚 Extract References'
+                  )}
+                </button>
+              </div>
+
+              {refError && !slideRefs.length && (
+                <p className="deck-split-refbank-empty">{refError}</p>
+              )}
+
+              {slideRefs.length > 0 && (
+                <div className="deck-split-refbank-list">
+                  {slideRefs.map((ref, i) => (
+                    <div key={i} className={`deck-split-ref-item ${ref.data_on_file ? 'data-on-file' : ''}`}>
+                      <div className="deck-split-ref-num">{i + 1}</div>
+                      <div className="deck-split-ref-body">
+                        <div className="deck-split-ref-citation">
+                          <span className="deck-split-ref-authors">{ref.authors}</span>
+                          {ref.journal && (
+                            <span className="deck-split-ref-journal">{ref.journal}</span>
+                          )}
+                          {ref.year > 0 && (
+                            <span className="deck-split-ref-year">{ref.year}</span>
+                          )}
+                          {ref.volume && (
+                            <span className="deck-split-ref-detail">{ref.volume}{ref.pages ? `:${ref.pages}` : ''}</span>
+                          )}
+                        </div>
+                        {ref.title && (
+                          <div className="deck-split-ref-title">{ref.title}</div>
+                        )}
+                        <div className="deck-split-ref-links">
+                          {ref.pubmed_url && (
+                            <a
+                              href={ref.pubmed_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="deck-split-ref-link pubmed"
+                            >
+                              PubMed
+                            </a>
+                          )}
+                          {ref.doi_url && (
+                            <a
+                              href={ref.doi_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="deck-split-ref-link doi"
+                            >
+                              DOI
+                            </a>
+                          )}
+                          {ref.data_on_file && (
+                            <span className="deck-split-ref-tag dof">Data on file</span>
+                          )}
+                          {!ref.pubmed_url && !ref.doi_url && !ref.data_on_file && (
+                            <span className="deck-split-ref-tag unresolved">No link found</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Comparison results */}
             {comparison && (
