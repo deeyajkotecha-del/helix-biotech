@@ -12,6 +12,8 @@ interface SlideData {
   section_title?: string
   rag_context?: RagContext[]
   commentary?: string
+  page_number?: number
+  has_image?: boolean
 }
 
 interface RagContext {
@@ -57,6 +59,8 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
   const [comparing, setComparing] = useState(false)
   const [comparison, setComparison] = useState<string>('')
 
+  const [lazyImages, setLazyImages] = useState(false)
+
   // Load slides
   useEffect(() => {
     async function loadSlides() {
@@ -72,6 +76,7 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
         const data = await res.json()
         setSlides(data.slides || [])
         setTextOnly(!!data.text_only)
+        setLazyImages(!!data.lazy_images)
       } catch (e) {
         setError('Network error loading slides')
       } finally {
@@ -80,6 +85,30 @@ export default function DeckAnalyzerPanel({ document, onBack, allDocuments }: Pr
     }
     loadSlides()
   }, [document.id])
+
+  // Lazy-load image for current slide when navigating
+  useEffect(() => {
+    if (!lazyImages || !slides.length) return
+    const slide = slides[currentSlide]
+    if (!slide || slide.image_b64 || !slide.has_image) return
+
+    async function loadImage() {
+      try {
+        const res = await fetch(`/extract/api/deck/slide-image/${document.id}/${slide.page_number}`)
+        if (res.ok) {
+          const data = await res.json()
+          if (data.image_b64) {
+            setSlides(prev => prev.map((s, i) =>
+              i === currentSlide ? { ...s, image_b64: data.image_b64 } : s
+            ))
+          }
+        }
+      } catch (e) {
+        console.error('Failed to load slide image:', e)
+      }
+    }
+    loadImage()
+  }, [currentSlide, lazyImages, slides.length])
 
   // Analyze current slide
   const [analyzeError, setAnalyzeError] = useState('')

@@ -150,12 +150,12 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
         conn = _get_db()
         cur = conn.cursor()
 
-        # 1) Check if we have pre-rendered slide images in the DB
+        # 1) Check how many pre-rendered slide images exist (without loading blob data)
         cur.execute("""
-            SELECT page_number, image_b64
-            FROM slide_images WHERE document_id = %s ORDER BY page_number
+            SELECT page_number FROM slide_images
+            WHERE document_id = %s ORDER BY page_number
         """, (doc_id,))
-        image_rows = cur.fetchall()
+        image_pages = [r[0] for r in cur.fetchall()]
 
         # 2) Always load chunks for text content
         cur.execute("""
@@ -163,32 +163,45 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
             FROM chunks WHERE document_id = %s ORDER BY chunk_index
         """, (doc_id,))
         chunk_rows = cur.fetchall()
-        cur.close()
 
-        if not image_rows and not chunk_rows:
+        if not image_pages and not chunk_rows:
+            cur.close()
             return JSONResponse({
                 "error": "No content found for this document.",
                 "doc_id": doc_id,
             }, status_code=404)
 
-        # If we have pre-rendered images, build slides from those (with text overlay from chunks)
-        if image_rows:
-            # Build a lookup of chunk text by page_number for text overlay
+        # If we have pre-rendered images, build slides with LAZY image loading
+        # Only load the first slide's image; rest are fetched on demand via /slide-image
+        if image_pages:
             chunk_text_by_page: dict[int, tuple[str, str]] = {}
             for chunk_idx, section, content, tokens, page_num in chunk_rows:
                 if page_num is not None and page_num not in chunk_text_by_page:
                     chunk_text_by_page[page_num] = (content or "", section or "")
 
+            # Load only the first slide's image to keep initial response small
+            first_img_b64 = ""
+            if image_pages:
+                cur.execute("""
+                    SELECT image_b64 FROM slide_images
+                    WHERE document_id = %s AND page_number = %s
+                """, (doc_id, image_pages[0]))
+                row = cur.fetchone()
+                first_img_b64 = row[0] if row else ""
+
+            cur.close()
+
             slides = []
-            for page_num, img_b64 in image_rows:
+            for i, page_num in enumerate(image_pages):
                 text, section = chunk_text_by_page.get(page_num, ("", ""))
                 slides.append({
                     "slide_number": page_num,
                     "text": text,
-                    "image_b64": img_b64,
+                    "image_b64": first_img_b64 if i == 0 else "",  # Only first slide has image
                     "word_count": len(text.split()) if text else 0,
                     "section_title": section,
                     "page_number": page_num,
+                    "has_image": True,  # Signal that image can be lazy-loaded
                 })
 
             return JSONResponse({
@@ -198,7 +211,8 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
                 "title": title or "",
                 "slides": slides,
                 "total_slides": len(slides),
-                "text_only": False,  # We have actual images!
+                "text_only": False,
+                "lazy_images": True,  # Tell frontend to use /slide-image endpoint
             })
 
         # No images available — text-only fallback from chunks
@@ -225,6 +239,28 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
         })
     except Exception as e:
         return JSONResponse({"error": f"Failed to load slides: {e}"}, status_code=500)
+
+
+@router.get("/slide-image/{doc_id}/{page_number}")
+async def get_slide_image(doc_id: int, page_number: int):
+    """Get a single slide image by document ID and page number.
+    Used for lazy-loading images one at a time instead of all at once."""
+    try:
+        conn = _get_db()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT image_b64 FROM slide_images
+            WHERE document_id = %s AND page_number = %s
+        """, (doc_id, page_number))
+        row = cur.fetchone()
+        cur.close()
+
+        if not row:
+            return JSONResponse({"error": "Image not found"}, status_code=404)
+
+        return JSONResponse({"image_b64": row[0]})
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
 
 
 @router.post("/analyze-slide")
