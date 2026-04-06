@@ -1338,7 +1338,41 @@ COMPANY_UNIVERSE = {
                 "content_type": "text"
             }
         ]
-    }
+    },
+    # Demo priority — added 2026-04-06
+    "UTHR": {
+        "name": "United Therapeutics",
+        "category": "pulmonary",
+        "pages": [
+            {"type": "events", "url": "https://ir.unither.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.unither.com/press-releases", "platform": "q4", "content_type": "text"},
+        ]
+    },
+    "ASND": {
+        "name": "Ascendis Pharma",
+        "category": "endocrinology",
+        "pages": [
+            {"type": "events", "url": "https://investors.ascendispharma.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.ascendispharma.com/news-releases", "platform": "q4", "content_type": "text"},
+        ]
+    },
+    "DFTX": {
+        "name": "Definium Therapeutics",
+        "category": "psychiatry",
+        "pages": [
+            {"type": "events", "url": "https://ir.definiumtx.com/news-events/presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.definiumtx.com/news-events/press-releases", "platform": "standard", "content_type": "text"},
+        ]
+    },
+    "LXEO": {
+        "name": "Lexeo Therapeutics",
+        "category": "gene_therapy",
+        "pages": [
+            {"type": "events", "url": "https://ir.lexeotx.com/news-events/presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "events", "url": "https://ir.lexeotx.com/news-events/events", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.lexeotx.com/news-events/news-releases", "platform": "standard", "content_type": "text"},
+        ]
+    },
 }
 
 
@@ -1348,12 +1382,15 @@ CATEGORY_LABELS = {
     "dermatology": "Dermatology",
     "diagnostics": "Diagnostics",
     "endocrinology": "Endocrinology",
+    "gene_therapy": "Gene Therapy",
     "immunology": "Immunology",
     "infectious_disease": "Infectious Disease",
     "metabolic": "Metabolic",
     "multi": "Multi",
     "neuroscience": "Neuroscience",
     "oncology": "Oncology",
+    "psychiatry": "Psychiatry",
+    "pulmonary": "Pulmonary",
     "rare_disease": "Rare Disease",
     "rna_therapeutics": "Rna Therapeutics",
 }

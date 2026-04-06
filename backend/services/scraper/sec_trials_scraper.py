@@ -87,6 +87,10 @@ COMPANY_CIKS = {
     "RARE": "0001515673", "AUPH": "0001600620", "NMRA": "0001885522",
     # Foreign-listed companies (no CIK — skip SEC scraping)
     # RHHBY, NVO, DSNKY, ESALY, BILH, AGTSY, IDIA
+    # Demo priority — added 2026-04-06
+    "UTHR": "0001082554", "ASND": "0001612042",
+    "DFTX": "0001813814",  # Formerly MindMed (MNMD)
+    "LXEO": "0001907108",
 }
 
 
@@ -94,10 +98,16 @@ COMPANY_CIKS = {
 # SEC EDGAR SCRAPER
 # ============================================================================
 
+    # Foreign private issuers (file 20-F/6-K instead of 10-K/10-Q/8-K)
+FOREIGN_ISSUERS = {"ASND", "NVS", "TAK", "AZN", "SNY", "GSK", "NVO", "DSNKY", "RHHBY", "ESALY"}
+
 def fetch_sec_filings(ticker, cik, filing_types=None, max_filings=5):
     """Fetch recent SEC filings from EDGAR. Returns list of filing metadata."""
     if not filing_types:
-        filing_types = ["10-K", "10-Q", "8-K"]
+        if ticker in FOREIGN_ISSUERS:
+            filing_types = ["20-F", "6-K"]
+        else:
+            filing_types = ["10-K", "10-Q", "8-K"]
 
     cik_padded = cik.lstrip("0").zfill(10)
     filings = []

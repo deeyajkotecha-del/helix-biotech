@@ -717,6 +717,45 @@ ONCOLOGY_COMPANIES = {
             {"type": "press", "url": "https://www.idorsia.com/investors/news-and-events/media-releases", "platform": "custom", "content_type": "text"},
         ],
     },
+
+    # =========================================================================
+    # DEMO PRIORITY — added 2026-04-06
+    # =========================================================================
+
+    "UTHR": {
+        "name": "United Therapeutics",
+        "category": "pulmonary",
+        "pages": [
+            {"type": "events", "url": "https://ir.unither.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.unither.com/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "ASND": {
+        "name": "Ascendis Pharma",
+        "category": "endocrinology",
+        "pages": [
+            {"type": "events", "url": "https://investors.ascendispharma.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.ascendispharma.com/news-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "DFTX": {
+        "name": "Definium Therapeutics",
+        "category": "psychiatry",
+        "pages": [
+            # Formerly MindMed — rebranded Jan 2026, ticker changed from MNMD to DFTX
+            {"type": "events", "url": "https://ir.definiumtx.com/news-events/presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.definiumtx.com/news-events/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "LXEO": {
+        "name": "Lexeo Therapeutics",
+        "category": "gene_therapy",
+        "pages": [
+            {"type": "events", "url": "https://ir.lexeotx.com/news-events/presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "events", "url": "https://ir.lexeotx.com/news-events/events", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.lexeotx.com/news-events/news-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
 }
 
 

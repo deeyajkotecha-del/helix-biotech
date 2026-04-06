@@ -147,6 +147,11 @@ COMPANY_DRUGS = {
     "AUPH": {"sponsor": "Aurinia Pharmaceuticals", "drugs": ["LUPKYNIS", "voclosporin"]},
     "NMRA": {"sponsor": "Neumora Therapeutics", "drugs": ["navacaprant", "NMRA-140"]},
     "IDIA": {"sponsor": "Idorsia", "drugs": ["QUVIVIQ", "daridorexant", "cenerimod"]},
+    # Demo priority — added 2026-04-06
+    "UTHR": {"sponsor": "United Therapeutics", "drugs": ["TYVASO", "REMODULIN", "ORENITRAM", "UNITUXIN", "treprostinil", "ralinepag"]},
+    "ASND": {"sponsor": "Ascendis Pharma", "drugs": ["SKYTROFA", "YORVIPATH", "YUVIWEL", "lonapegsomatropin", "TransCon PTH", "TransCon CNP"]},
+    "DFTX": {"sponsor": "Definium Therapeutics", "drugs": ["DT120", "DT402", "lysergide"]},
+    "LXEO": {"sponsor": "Lexeo Therapeutics", "drugs": ["LX2006", "LX2020", "LX1001"]},
 }
 
 
