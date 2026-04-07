@@ -456,10 +456,17 @@ def download_pdf(url: str, dest_path: str) -> bool:
     if success:
         return True
 
-    # If fda.gov returned 404, try Wayback Machine
-    if "fda.gov" in url:
-        wayback_url = f"https://web.archive.org/web/2023/{url}"
-        print(f"      Trying Wayback fallback...")
+    # If fda.gov returned 404, try Wayback Machine with multiple timestamps
+    if "fda.gov" in url.lower():
+        # Try several Wayback timestamps — older docs may only exist in older snapshots
+        for ts in ["2023", "2020", "2018", "2016", "2015"]:
+            wayback_url = f"https://web.archive.org/web/{ts}id_/{url}"
+            print(f"      Trying Wayback fallback (ts={ts})...")
+            if _download_pdf_direct(wayback_url, dest_path):
+                return True
+        # Also try without timestamp qualifier (gets latest available)
+        wayback_url = f"https://web.archive.org/web/{url}"
+        print(f"      Trying Wayback fallback (latest)...")
         return _download_pdf_direct(wayback_url, dest_path)
 
     return False
@@ -470,17 +477,39 @@ def _download_pdf_direct(url: str, dest_path: str) -> bool:
     try:
         resp = requests.get(url, headers=HEADERS, timeout=60, stream=True)
         if resp.status_code != 200:
+            print(f"      HTTP {resp.status_code} for {url[:80]}")
             return False
         content_type = resp.headers.get("Content-Type", "")
-        if "pdf" not in content_type.lower() and "octet-stream" not in content_type.lower():
-            # Not a PDF — might be an HTML error page
-            return False
+        # Accept PDF, octet-stream, and Wayback-served content
+        # Wayback sometimes serves PDFs as application/pdf or with extra headers
+        # Also accept if URL ends in .pdf or contains /download
+        content_ok = (
+            "pdf" in content_type.lower() or
+            "octet-stream" in content_type.lower() or
+            url.lower().endswith(".pdf") or
+            "/download" in url.lower()
+        )
+        if not content_ok:
+            # Last check: peek at first bytes to see if it's actually a PDF
+            first_bytes = b""
+            for chunk in resp.iter_content(chunk_size=8):
+                first_bytes = chunk
+                break
+            if first_bytes[:5] == b"%PDF-":
+                content_ok = True
+                # Reset the stream — we need to re-download
+                resp.close()
+                resp = requests.get(url, headers=HEADERS, timeout=60, stream=True)
+            else:
+                print(f"      Not a PDF (Content-Type: {content_type[:40]})")
+                return False
+
         with open(dest_path, "wb") as f:
             for chunk in resp.iter_content(chunk_size=8192):
                 f.write(chunk)
         return True
     except Exception as e:
-        print(f"    Download failed: {e}")
+        print(f"      Download error: {e}")
         return False
 
 
