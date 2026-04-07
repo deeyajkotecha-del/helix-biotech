@@ -148,6 +148,225 @@ def search_clinical_trials(
     return results
 
 
+def search_clinical_trials_paginated(
+    sponsor: str = "",
+    condition: str = "",
+    intervention: str = "",
+    max_pages: int = 10,
+    page_size: int = 100,
+) -> list[dict]:
+    """
+    Paginated search of ClinicalTrials.gov — fetches ALL trials for a sponsor
+    (up to max_pages * page_size results). Uses the nextPageToken from the
+    v2 API for efficient pagination.
+
+    Returns the same structure as search_clinical_trials but with full coverage.
+    """
+    all_results = []
+    next_token = None
+
+    for page in range(max_pages):
+        params = {
+            "format": "json",
+            "pageSize": page_size,
+        }
+        if sponsor:
+            params["query.spons"] = sponsor
+        if condition:
+            params["query.cond"] = condition
+        if intervention:
+            params["query.intr"] = intervention
+        if next_token:
+            params["pageToken"] = next_token
+
+        try:
+            resp = requests.get(
+                CTGOV_BASE,
+                params=params,
+                headers={"User-Agent": "Mozilla/5.0 SatyaBio/1.0"},
+                timeout=20,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+        except requests.exceptions.SSLError:
+            try:
+                resp = requests.get(
+                    CTGOV_BASE, params=params,
+                    headers={"User-Agent": "Mozilla/5.0 SatyaBio/1.0"},
+                    timeout=20, verify=False,
+                )
+                resp.raise_for_status()
+                data = resp.json()
+            except Exception:
+                break
+        except Exception:
+            break
+
+        studies = data.get("studies", [])
+        if not studies:
+            break
+
+        for study in studies:
+            protocol = study.get("protocolSection", {})
+            id_module = protocol.get("identificationModule", {})
+            status_module = protocol.get("statusModule", {})
+            design_module = protocol.get("designModule", {})
+            sponsor_module = protocol.get("sponsorCollaboratorsModule", {})
+            conditions_module = protocol.get("conditionsModule", {})
+            interventions_module = protocol.get("armsInterventionsModule", {})
+            desc_module = protocol.get("descriptionModule", {})
+
+            interventions = []
+            for arm in interventions_module.get("interventions", []):
+                interventions.append({
+                    "name": arm.get("name", ""),
+                    "type": arm.get("type", ""),
+                })
+
+            conditions = conditions_module.get("conditions", [])
+
+            all_results.append({
+                "nct_id": id_module.get("nctId", ""),
+                "title": id_module.get("briefTitle", ""),
+                "official_title": id_module.get("officialTitle", ""),
+                "status": status_module.get("overallStatus", ""),
+                "phase": ",".join(design_module.get("phases", [])),
+                "conditions": conditions,
+                "interventions": interventions,
+                "sponsor": sponsor_module.get("leadSponsor", {}).get("name", ""),
+                "start_date": status_module.get("startDateStruct", {}).get("date", ""),
+                "enrollment": design_module.get("enrollmentInfo", {}).get("count", 0),
+                "study_type": design_module.get("studyType", ""),
+                "summary": desc_module.get("briefSummary", ""),
+                "url": f"https://clinicaltrials.gov/study/{id_module.get('nctId', '')}",
+            })
+
+        next_token = data.get("nextPageToken")
+        if not next_token:
+            break
+
+        time.sleep(0.3)  # Be respectful to the API
+
+    return all_results
+
+
+def extract_drug_assets(trials: list[dict]) -> dict:
+    """
+    Given a list of trials, extract unique drug assets and group trials by drug.
+
+    Returns a dict of:
+    {
+      "drug_name": {
+        "type": "DRUG" | "BIOLOGICAL" | etc,
+        "phases": {"PHASE1": count, "PHASE2": count, ...},
+        "statuses": {"RECRUITING": count, ...},
+        "trial_count": int,
+        "conditions": [list of unique conditions],
+        "highest_phase": "PHASE3",
+        "trials": [list of trial dicts],
+      }
+    }
+    """
+    import re
+
+    # Common non-drug intervention names to exclude
+    EXCLUDE_NAMES = {
+        "placebo", "standard of care", "standard care", "best supportive care",
+        "soc", "bsc", "observation", "no intervention", "active comparator",
+        "drug", "biological", "investigational", "experimental", "control",
+        "other", "procedure", "device", "dietary supplement", "behavioral",
+        "radiation", "combination product", "diagnostic test",
+    }
+
+    PHASE_RANK = {
+        "PHASE4": 5, "PHASE3": 4, "PHASE2,PHASE3": 3.5,
+        "PHASE2": 3, "PHASE1,PHASE2": 2.5,
+        "PHASE1": 2, "EARLY_PHASE1": 1, "NA": 0, "": 0,
+    }
+
+    assets: dict = {}
+
+    for trial in trials:
+        for intv in trial.get("interventions", []):
+            name = intv.get("name", "").strip()
+            itype = intv.get("type", "DRUG")
+
+            if not name:
+                continue
+
+            # Skip generic/non-drug names
+            name_lower = name.lower()
+            if name_lower in EXCLUDE_NAMES:
+                continue
+            if len(name) < 3:
+                continue
+            # Skip entries that look like dosage descriptions
+            if re.match(r'^\d+\s*(mg|ml|mcg|ug|µg|g)\b', name_lower):
+                continue
+
+            # Normalize: case-insensitive grouping, use title-case for display
+            # Check if a case-insensitive match already exists
+            display_name = name
+            matched_key = None
+            for existing_key in assets:
+                if existing_key.lower() == name.lower():
+                    matched_key = existing_key
+                    break
+            if matched_key:
+                display_name = matched_key
+            elif name == name.lower():
+                # If all lowercase, title-case it
+                display_name = name.title()
+
+            if display_name not in assets:
+                assets[display_name] = {
+                    "type": itype,
+                    "phases": {},
+                    "statuses": {},
+                    "trial_count": 0,
+                    "conditions": [],
+                    "highest_phase": "",
+                    "trials": [],
+                }
+
+            asset = assets[display_name]
+            asset["trial_count"] += 1
+
+            phase = trial.get("phase", "")
+            asset["phases"][phase] = asset["phases"].get(phase, 0) + 1
+
+            status = trial.get("status", "")
+            asset["statuses"][status] = asset["statuses"].get(status, 0) + 1
+
+            for cond in trial.get("conditions", []):
+                if cond and cond not in asset["conditions"]:
+                    asset["conditions"].append(cond)
+
+            asset["trials"].append({
+                "nct_id": trial.get("nct_id"),
+                "title": trial.get("title"),
+                "status": trial.get("status"),
+                "phase": trial.get("phase"),
+                "enrollment": trial.get("enrollment"),
+                "start_date": trial.get("start_date"),
+                "conditions": trial.get("conditions", []),
+                "url": trial.get("url"),
+            })
+
+    # Compute highest phase for each asset
+    for name, asset in assets.items():
+        best_phase = ""
+        best_rank = -1
+        for ph in asset["phases"]:
+            rank = PHASE_RANK.get(ph, 0)
+            if rank > best_rank:
+                best_rank = rank
+                best_phase = ph
+        asset["highest_phase"] = best_phase
+
+    return assets
+
+
 # =============================================================================
 # 2. OpenFDA API — Drug Labels and Approvals
 # =============================================================================

@@ -14,7 +14,6 @@ export default function CompanyPanel({ onCompanySearch }: Props) {
   const [data, setData] = useState<CompanyListResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('')
-  const [expandedCat, setExpandedCat] = useState<string | null>(null)
   const [selectedCompany, setSelectedCompany] = useState<Company | null>(null)
 
   // Webcast counts per ticker (for badges in the list)
@@ -84,8 +83,12 @@ export default function CompanyPanel({ onCompanySearch }: Props) {
       />
 
       <div className="ev-panel-list">
-        {filtered ? (
-          filtered.map(c => (
+        {(() => {
+          // Always show alphabetically sorted list, optionally filtered
+          const companies = filtered
+            ? filtered
+            : [...data.companies].sort((a, b) => a.name.localeCompare(b.name))
+          return companies.map(c => (
             <CompanyRow
               key={c.ticker}
               company={c}
@@ -93,32 +96,7 @@ export default function CompanyPanel({ onCompanySearch }: Props) {
               onClick={() => setSelectedCompany(c)}
             />
           ))
-        ) : (
-          Object.entries(data.by_category).map(([cat, group]) => (
-            <div key={cat} className="ev-cat-group">
-              <button
-                className={`ev-cat-header ${expandedCat === cat ? 'expanded' : ''}`}
-                onClick={() => setExpandedCat(prev => prev === cat ? null : cat)}
-              >
-                <span className="ev-cat-label">{group.label}</span>
-                <span className="ev-cat-count">{group.count}</span>
-                <span className="ev-cat-arrow">{expandedCat === cat ? '\u25BC' : '\u25B6'}</span>
-              </button>
-              {expandedCat === cat && (
-                <div className="ev-cat-companies">
-                  {group.companies.map((c: any) => (
-                    <CompanyRow
-                      key={c.ticker}
-                      company={c}
-                      webcastCount={webcastCounts[c.ticker.toUpperCase()] || 0}
-                      onClick={() => setSelectedCompany(c)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          ))
-        )}
+        })()}
       </div>
     </div>
   )
@@ -137,6 +115,7 @@ function CompanyRow({ company, webcastCount, onClick }: {
     <button className="ev-company-row" onClick={onClick}>
       <span className="ev-company-ticker">{company.ticker}</span>
       <span className="ev-company-name">{company.name}</span>
+      <span className="ev-company-cat-tag">{company.category_label}</span>
       <span className="ev-company-stats">
         <span className="ev-company-pages">{company.doc_page_count} pages</span>
         {webcastCount > 0 && (

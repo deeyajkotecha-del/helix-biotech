@@ -805,6 +805,165 @@ async def get_clinical_trials(ticker: str = None, company: str = None):
 
 
 # ---------------------------------------------------------------------------
+# Power Search — Company Asset Tracker + Targeted Trial Drill-Down
+# ---------------------------------------------------------------------------
+
+def _get_search_module():
+    """Import the search module with proper path setup."""
+    try:
+        from api_connectors import search_clinical_trials_paginated, extract_drug_assets
+        return search_clinical_trials_paginated, extract_drug_assets
+    except ImportError:
+        import sys
+        from pathlib import Path
+        search_dir = str(Path(__file__).resolve().parent.parent.parent / "backend" / "services" / "search")
+        if search_dir not in sys.path:
+            sys.path.insert(0, search_dir)
+        from api_connectors import search_clinical_trials_paginated, extract_drug_assets
+        return search_clinical_trials_paginated, extract_drug_assets
+
+
+@router.get("/api/power-search/assets")
+async def power_search_assets(ticker: str = None, company: str = None):
+    """
+    Power Search Step 1: Discover ALL drug assets for a company.
+
+    Paginates through ClinicalTrials.gov to get the full trial portfolio,
+    then extracts and groups unique drug interventions by phase/status.
+
+    Returns a global asset tracker: every drug the company has in trials,
+    from approved/Phase 4 down to early Phase 1.
+    """
+    if not ticker and not company:
+        return JSONResponse({"error": "Provide ticker or company"}, status_code=400)
+
+    # Reuse the same ticker-to-sponsor mapping
+    TICKER_TO_SPONSOR = {
+        "ABBV": "AbbVie", "AMGN": "Amgen", "BMY": "Bristol-Myers Squibb",
+        "LLY": "Eli Lilly", "MRK": "Merck", "PFE": "Pfizer",
+        "JNJ": "Johnson & Johnson", "GILD": "Gilead", "REGN": "Regeneron",
+        "VRTX": "Vertex", "BIIB": "Biogen", "AZN": "AstraZeneca",
+        "NVS": "Novartis", "ROG": "Roche", "SNY": "Sanofi",
+        "GSK": "GSK", "NVO": "Novo Nordisk", "MRNA": "Moderna",
+        "UTHR": "United Therapeutics", "ASND": "Ascendis Pharma",
+        "NUVL": "Nuvalent", "RVMD": "Revolution Medicines",
+        "IONS": "Ionis Pharmaceuticals", "SRPT": "Sarepta",
+        "ETNB": "89bio", "GHRS": "GH Research", "QURE": "uniQure",
+        "VRDN": "Viridian Therapeutics", "PTCT": "PTC Therapeutics",
+        "ERAS": "Erasca", "CELC": "Celcuity",
+        "INCY": "Incyte", "BPMC": "Blueprint Medicines",
+        "HRMY": "Harmony Biosciences", "JAZZ": "Jazz Pharmaceuticals",
+        "IOVA": "Iovance",
+    }
+
+    sponsor = company or TICKER_TO_SPONSOR.get(ticker.upper(), ticker) if ticker else company
+
+    try:
+        search_paginated, extract_assets = _get_search_module()
+
+        # Fetch all trials (paginated — up to 1000)
+        all_trials = search_paginated(sponsor=sponsor, max_pages=10, page_size=100)
+
+        # Extract drug assets
+        assets = extract_assets(all_trials)
+
+        # Sort assets by highest phase (descending), then trial count
+        PHASE_RANK = {
+            "PHASE4": 5, "PHASE3": 4, "PHASE2,PHASE3": 3.5,
+            "PHASE2": 3, "PHASE1,PHASE2": 2.5,
+            "PHASE1": 2, "EARLY_PHASE1": 1, "NA": 0, "": 0,
+        }
+        sorted_assets = sorted(
+            assets.items(),
+            key=lambda x: (PHASE_RANK.get(x[1]["highest_phase"], 0), x[1]["trial_count"]),
+            reverse=True,
+        )
+
+        # Build response — strip full trial lists from the overview (too large),
+        # keep just counts
+        asset_list = []
+        for name, info in sorted_assets:
+            asset_list.append({
+                "drug_name": name,
+                "type": info["type"],
+                "highest_phase": info["highest_phase"],
+                "trial_count": info["trial_count"],
+                "phases": info["phases"],
+                "statuses": info["statuses"],
+                "conditions": info["conditions"][:10],  # Top 10
+                "active_count": sum(
+                    info["statuses"].get(s, 0)
+                    for s in ["RECRUITING", "ACTIVE_NOT_RECRUITING",
+                              "ENROLLING_BY_INVITATION", "NOT_YET_RECRUITING"]
+                ),
+            })
+
+        return JSONResponse({
+            "sponsor": sponsor,
+            "total_trials": len(all_trials),
+            "total_assets": len(asset_list),
+            "assets": asset_list,
+        })
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@router.get("/api/power-search/drug-trials")
+async def power_search_drug_trials(
+    drug: str = None,
+    ticker: str = None,
+    company: str = None,
+):
+    """
+    Power Search Step 2: Get ALL trials for a specific drug.
+
+    Searches ClinicalTrials.gov by intervention name, optionally scoped
+    to a specific sponsor. Returns full trial details for the drill-down view.
+    """
+    if not drug:
+        return JSONResponse({"error": "Provide drug name"}, status_code=400)
+
+    TICKER_TO_SPONSOR = {
+        "ABBV": "AbbVie", "AMGN": "Amgen", "BMY": "Bristol-Myers Squibb",
+        "LLY": "Eli Lilly", "MRK": "Merck", "PFE": "Pfizer",
+        "JNJ": "Johnson & Johnson", "GILD": "Gilead", "REGN": "Regeneron",
+        "VRTX": "Vertex", "BIIB": "Biogen", "AZN": "AstraZeneca",
+        "NVS": "Novartis", "ROG": "Roche", "SNY": "Sanofi",
+        "GSK": "GSK", "NVO": "Novo Nordisk", "MRNA": "Moderna",
+    }
+
+    sponsor = ""
+    if company:
+        sponsor = company
+    elif ticker:
+        sponsor = TICKER_TO_SPONSOR.get(ticker.upper(), "")
+
+    try:
+        search_paginated, _ = _get_search_module()
+
+        # Search by intervention, optionally scoped to sponsor
+        trials = search_paginated(
+            intervention=drug,
+            sponsor=sponsor,
+            max_pages=5,
+            page_size=100,
+        )
+
+        return JSONResponse({
+            "drug": drug,
+            "sponsor": sponsor or "all sponsors",
+            "total_trials": len(trials),
+            "trials": trials,
+        })
+
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+# ---------------------------------------------------------------------------
 # Include sub-routers (webcasts, deck analyzer)
 # ---------------------------------------------------------------------------
 

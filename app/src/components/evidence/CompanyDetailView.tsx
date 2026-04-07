@@ -5,6 +5,7 @@ import DeckAnalyzerPanel from './DeckAnalyzerPanel'
 import TranscriptViewer from './TranscriptViewer'
 import WebcastIngestForm from './WebcastIngestForm'
 import ClinicalTrialsTable from './ClinicalTrialsTable'
+import PowerSearch from './PowerSearch'
 
 interface Props {
   company: Company
@@ -483,6 +484,24 @@ export default function CompanyDetailView({ company, onBack, onCompanySearch }: 
         {!collapsedCats.has('live_trials') && (
           <div style={{ padding: '8px' }}>
             <ClinicalTrialsTable ticker={company.ticker} companyName={company.name} />
+          </div>
+        )}
+      </div>
+
+      {/* ---- POWER SEARCH — FULL ASSET TRACKER ---- */}
+      <div className="ev-docgroup">
+        <button
+          className={`ev-docgroup-header ${collapsedCats.has('power_search') ? 'collapsed' : ''}`}
+          onClick={() => toggleCategory('power_search')}
+        >
+          <span className="ev-docgroup-icon">🔬</span>
+          <span className="ev-docgroup-label">Power Search — Full Asset Tracker</span>
+          <span className="ev-docgroup-count" style={{ background: '#FFF3E0', color: '#E65100' }}>New</span>
+          <span className="ev-docgroup-arrow">{collapsedCats.has('power_search') ? '▸' : '▾'}</span>
+        </button>
+        {!collapsedCats.has('power_search') && (
+          <div style={{ padding: '12px' }}>
+            <PowerSearch ticker={company.ticker} companyName={company.name} />
           </div>
         )}
       </div>
