@@ -228,7 +228,8 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.9",
 }
 
-REQUEST_DELAY = 1.5  # seconds between requests (be polite to FDA servers)
+REQUEST_DELAY = 1.5      # seconds between requests to FDA servers
+ARCHIVE_DELAY = 5.0      # seconds between requests to archive.org (they rate-limit aggressively)
 
 
 def get_materials_url(slug: str, year: int) -> str:
@@ -306,8 +307,9 @@ def discover_meetings_from_archive(committee_key: str, archive_url: str, year: i
     slug = info["slug"]
 
     print(f"  Fetching archive page for {year}: {archive_url[:100]}...")
-    time.sleep(REQUEST_DELAY)
-    soup = fetch_page(archive_url)
+    delay = ARCHIVE_DELAY if "archive.org" in archive_url else REQUEST_DELAY
+    time.sleep(delay)
+    soup = fetch_page(archive_url, retries=3)
     if not soup:
         print(f"    Archive page not accessible for {year}")
         return []
@@ -433,19 +435,31 @@ def discover_meetings_from_archive(committee_key: str, archive_url: str, year: i
 
 def fetch_page(url: str, retries: int = 2) -> BeautifulSoup | None:
     """Fetch a page and return parsed HTML. Returns None on failure."""
+    is_archive = "archive.org" in url
+    base_delay = ARCHIVE_DELAY if is_archive else REQUEST_DELAY
+
     for attempt in range(retries + 1):
         try:
-            resp = requests.get(url, headers=HEADERS, timeout=30)
+            resp = requests.get(url, headers=HEADERS, timeout=60 if is_archive else 30)
             if resp.status_code == 200:
                 return BeautifulSoup(resp.text, "html.parser")
             elif resp.status_code == 404:
                 return None
+            elif resp.status_code == 429:
+                # Rate limited — back off significantly
+                wait = base_delay * (2 ** (attempt + 2))
+                print(f"    Rate limited (429), waiting {wait:.0f}s...")
+                time.sleep(wait)
+                continue
             else:
-                print(f"    HTTP {resp.status_code} for {url}")
+                print(f"    HTTP {resp.status_code} for {url[:80]}")
         except requests.RequestException as e:
-            print(f"    Request failed (attempt {attempt + 1}): {e}")
+            print(f"    Request failed (attempt {attempt + 1}/{retries + 1}): {e}")
         if attempt < retries:
-            time.sleep(REQUEST_DELAY * 2)
+            # Exponential backoff: 5s, 10s, 20s for archive; 3s, 6s for FDA
+            wait = base_delay * (2 ** attempt)
+            print(f"    Retrying in {wait:.0f}s...")
+            time.sleep(wait)
     return None
 
 
@@ -460,11 +474,13 @@ def download_pdf(url: str, dest_path: str) -> bool:
     if "fda.gov" in url.lower():
         # Try several Wayback timestamps — older docs may only exist in older snapshots
         for ts in ["2023", "2020", "2018", "2016", "2015"]:
+            time.sleep(ARCHIVE_DELAY)  # Be gentle with archive.org
             wayback_url = f"https://web.archive.org/web/{ts}id_/{url}"
             print(f"      Trying Wayback fallback (ts={ts})...")
             if _download_pdf_direct(wayback_url, dest_path):
                 return True
         # Also try without timestamp qualifier (gets latest available)
+        time.sleep(ARCHIVE_DELAY)
         wayback_url = f"https://web.archive.org/web/{url}"
         print(f"      Trying Wayback fallback (latest)...")
         return _download_pdf_direct(wayback_url, dest_path)
