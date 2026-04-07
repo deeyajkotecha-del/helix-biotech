@@ -95,10 +95,15 @@ except ImportError:
 # Request model
 # ---------------------------------------------------------------------------
 
+class ConversationTurn(BaseModel):
+    query: str
+    answer: str
+
 class SearchRequest(BaseModel):
     query: str
     source_filter: str | None = None
     ticker: str | None = None
+    history: list[ConversationTurn] | None = None  # prior conversation turns for context
 
 
 # ---------------------------------------------------------------------------
@@ -228,13 +233,21 @@ async def search_stream(req: SearchRequest):
         full_context = "\n\n".join(context_parts)
         full_system = f"{SYNTHESIS_SYSTEM_PROMPT}\n\n{full_context}"
 
+        # Build messages with conversation history for context
+        messages = []
+        if req.history:
+            for turn in req.history[-4:]:  # keep last 4 turns to stay within context limits
+                messages.append({"role": "user", "content": turn.query})
+                messages.append({"role": "assistant", "content": turn.answer})
+        messages.append({"role": "user", "content": query})
+
         start_time = time.time()
         try:
             with get_client().messages.stream(
                 model="claude-sonnet-4-20250514",
                 max_tokens=4096,
                 system=full_system,
-                messages=[{"role": "user", "content": query}],
+                messages=messages,
             ) as stream:
                 for text in stream.text_stream:
                     yield f"data: {json.dumps({'type': 'token', 'text': text})}\n\n"
@@ -413,3 +426,194 @@ async def get_chart_data(
             {"data": [], "error": str(e), "indication": indication, "endpoint": endpoint},
             status_code=500
         )
+
+
+# ---------------------------------------------------------------------------
+# Conversation persistence (chat history)
+# ---------------------------------------------------------------------------
+
+def _get_db():
+    """Get a fresh DB connection for conversation ops."""
+    db_url = os.environ.get("NEON_DATABASE_URL", "")
+    if not db_url:
+        return None
+    try:
+        import psycopg2
+        return psycopg2.connect(db_url)
+    except Exception:
+        return None
+
+
+class SaveMessageRequest(BaseModel):
+    conversation_id: str
+    turn_index: int
+    query: str
+    answer: str | None = None
+    sources: list | None = None
+    metadata: dict | None = None
+    timing: dict | None = None
+    query_plan: dict | None = None
+    title: str | None = None  # auto-title from first query
+
+
+@router.get("/conversations")
+async def list_conversations():
+    """List recent conversations (newest first)."""
+    conn = _get_db()
+    if not conn:
+        return JSONResponse({"conversations": [], "error": "DB not available"})
+
+    try:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT c.id, c.title, c.created_at, c.updated_at,
+                   COUNT(m.id) AS message_count
+            FROM conversations c
+            LEFT JOIN conversation_messages m ON m.conversation_id = c.id
+            GROUP BY c.id
+            ORDER BY c.updated_at DESC
+            LIMIT 50
+        """)
+        rows = cur.fetchall()
+        conversations = [
+            {
+                "id": r[0],
+                "title": r[1],
+                "created_at": r[2].isoformat() if r[2] else None,
+                "updated_at": r[3].isoformat() if r[3] else None,
+                "message_count": r[4],
+            }
+            for r in rows
+        ]
+        return {"conversations": conversations}
+    except Exception as e:
+        return JSONResponse({"conversations": [], "error": str(e)}, status_code=500)
+    finally:
+        conn.close()
+
+
+@router.get("/conversations/{conversation_id}")
+async def get_conversation(conversation_id: str):
+    """Load a full conversation with all messages."""
+    conn = _get_db()
+    if not conn:
+        return JSONResponse({"error": "DB not available"}, status_code=503)
+
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT id, title, created_at FROM conversations WHERE id = %s", (conversation_id,))
+        conv = cur.fetchone()
+        if not conv:
+            return JSONResponse({"error": "Conversation not found"}, status_code=404)
+
+        cur.execute("""
+            SELECT turn_index, query, answer, sources, metadata, timing, query_plan
+            FROM conversation_messages
+            WHERE conversation_id = %s
+            ORDER BY turn_index
+        """, (conversation_id,))
+        messages = [
+            {
+                "turn_index": r[0],
+                "query": r[1],
+                "answer": r[2],
+                "sources": r[3] or [],
+                "metadata": r[4] or {},
+                "timing": r[5] or {},
+                "query_plan": r[6] or {},
+            }
+            for r in cur.fetchall()
+        ]
+        return {
+            "id": conv[0],
+            "title": conv[1],
+            "created_at": conv[2].isoformat() if conv[2] else None,
+            "messages": messages,
+        }
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+    finally:
+        conn.close()
+
+
+@router.post("/conversations/save")
+async def save_message(req: SaveMessageRequest):
+    """Save or update a conversation turn. Creates conversation if needed."""
+    conn = _get_db()
+    if not conn:
+        return JSONResponse({"error": "DB not available"}, status_code=503)
+
+    try:
+        cur = conn.cursor()
+
+        # Upsert conversation
+        title = req.title or req.query[:80]
+        cur.execute("""
+            INSERT INTO conversations (id, title) VALUES (%s, %s)
+            ON CONFLICT (id) DO UPDATE SET updated_at = NOW()
+        """, (req.conversation_id, title))
+
+        # Update title only on first message
+        if req.turn_index == 0 and req.title:
+            cur.execute("UPDATE conversations SET title = %s WHERE id = %s",
+                        (req.title, req.conversation_id))
+
+        # Upsert message
+        cur.execute("""
+            INSERT INTO conversation_messages
+                (conversation_id, turn_index, query, answer, sources, metadata, timing, query_plan)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT DO NOTHING
+        """, (
+            req.conversation_id,
+            req.turn_index,
+            req.query,
+            req.answer,
+            json.dumps(req.sources or []),
+            json.dumps(req.metadata or {}),
+            json.dumps(req.timing or {}),
+            json.dumps(req.query_plan or {}),
+        ))
+
+        # Update the answer if it was streamed in after the initial save
+        if req.answer:
+            cur.execute("""
+                UPDATE conversation_messages
+                SET answer = %s, sources = %s, metadata = %s, timing = %s, query_plan = %s
+                WHERE conversation_id = %s AND turn_index = %s
+            """, (
+                req.answer,
+                json.dumps(req.sources or []),
+                json.dumps(req.metadata or {}),
+                json.dumps(req.timing or {}),
+                json.dumps(req.query_plan or {}),
+                req.conversation_id,
+                req.turn_index,
+            ))
+
+        conn.commit()
+        return {"ok": True}
+    except Exception as e:
+        conn.rollback()
+        return JSONResponse({"error": str(e)}, status_code=500)
+    finally:
+        conn.close()
+
+
+@router.delete("/conversations/{conversation_id}")
+async def delete_conversation(conversation_id: str):
+    """Delete a conversation and all its messages."""
+    conn = _get_db()
+    if not conn:
+        return JSONResponse({"error": "DB not available"}, status_code=503)
+
+    try:
+        cur = conn.cursor()
+        cur.execute("DELETE FROM conversations WHERE id = %s", (conversation_id,))
+        conn.commit()
+        return {"ok": True, "deleted": cur.rowcount > 0}
+    except Exception as e:
+        conn.rollback()
+        return JSONResponse({"error": str(e)}, status_code=500)
+    finally:
+        conn.close()

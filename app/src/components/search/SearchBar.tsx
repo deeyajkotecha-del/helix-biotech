@@ -1,4 +1,4 @@
-import { useRef, useEffect, FormEvent } from 'react'
+import { useEffect, FormEvent, RefObject } from 'react'
 
 interface SearchBarProps {
   query: string
@@ -6,16 +6,17 @@ interface SearchBarProps {
   onSearch: () => void
   loading: boolean
   compact: boolean
+  inputRef?: RefObject<HTMLInputElement>
+  placeholder?: string
 }
 
-export default function SearchBar({ query, setQuery, onSearch, loading, compact }: SearchBarProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
+export default function SearchBar({ query, setQuery, onSearch, loading, compact, inputRef, placeholder }: SearchBarProps) {
 
   useEffect(() => {
-    if (!compact && inputRef.current) {
+    if (!compact && inputRef?.current) {
       inputRef.current.focus()
     }
-  }, [compact])
+  }, [compact, inputRef])
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -38,7 +39,7 @@ export default function SearchBar({ query, setQuery, onSearch, loading, compact 
         className="search-input"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Ask anything about biotech — drugs, trials, landscapes, targets..."
+        placeholder={placeholder || "Ask anything about biotech — drugs, trials, landscapes, targets..."}
         disabled={loading}
       />
       <button
