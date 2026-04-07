@@ -242,6 +242,175 @@ def get_committee_base_url(slug: str) -> str:
     return f"{FDA_BASE}/advisory-committees/{slug}"
 
 
+# -- Archive (Wayback Machine) support --
+
+WAYBACK_BASE = "https://web.archive.org"
+
+def discover_archive_urls(committee_key: str) -> dict[int, str]:
+    """
+    Scrape the committee's main page on fda.gov to find Wayback Machine
+    links for older years (pre-2023).  Returns {year: archive_url}.
+
+    FDA redirects older meeting-materials pages to web.archive.org, and
+    the links appear on the committee's "human-drug-advisory-committees"
+    or "blood-vaccines-and-other-biologics" parent page.
+    """
+    info = COMMITTEES[committee_key]
+    slug = info["slug"]
+
+    # Try two URL patterns for the main committee page
+    base_urls = [
+        f"{FDA_BASE}/advisory-committees/human-drug-advisory-committees/{slug}",
+        f"{FDA_BASE}/advisory-committees/{slug}",
+    ]
+
+    archive_map: dict[int, str] = {}
+
+    for base_url in base_urls:
+        soup = fetch_page(base_url)
+        if not soup:
+            continue
+
+        main = soup.find("main") or soup
+        for link in main.find_all("a", href=True):
+            href = link["href"]
+            text = link.get_text(strip=True).strip()
+
+            # Look for Wayback Machine links
+            if "web.archive.org" in href:
+                # Extract year from the link text (e.g. "2022", "2019")
+                year_match = re.match(r"^(\d{4})$", text)
+                if year_match:
+                    year = int(year_match.group(1))
+                    archive_map[year] = href
+                continue
+
+            # Also look for "materials prior to" links (very old archives)
+            if "prior" in text.lower() and "archive.org" in href:
+                archive_map[0] = href  # Use 0 as sentinel for pre-2009
+
+        if archive_map:
+            break  # Found what we need
+
+    return archive_map
+
+
+def discover_meetings_from_archive(committee_key: str, archive_url: str, year: int) -> list[dict]:
+    """
+    Discover meetings from a Wayback Machine archived materials page.
+    The page structure mirrors fda.gov but links may be rewritten to
+    web.archive.org URLs. Meeting-level pages and PDFs usually still
+    resolve on fda.gov directly.
+    """
+    info = COMMITTEES[committee_key]
+    slug = info["slug"]
+
+    print(f"  Fetching archive page for {year}: {archive_url[:100]}...")
+    time.sleep(REQUEST_DELAY)
+    soup = fetch_page(archive_url)
+    if not soup:
+        print(f"    Archive page not accessible for {year}")
+        return []
+
+    meetings = []
+    main_content = soup.find("main") or soup.find("div", class_="field--name-body") or soup
+
+    for link in main_content.find_all("a", href=True):
+        href = link["href"]
+        text = link.get_text(strip=True)
+
+        if not text or len(text) < 10:
+            continue
+
+        # Check if this looks like a meeting link
+        is_meeting = bool(re.search(
+            r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d",
+            text.lower()
+        ))
+
+        if not is_meeting:
+            continue
+
+        # Resolve the URL: could be relative to archive.org or fda.gov
+        if href.startswith("/web/"):
+            # Wayback Machine relative link — extract the original FDA URL
+            # Format: /web/20201030235938/https://www.fda.gov/...
+            wb_match = re.search(r"/web/\d+/(https?://.*)", href)
+            if wb_match:
+                full_url = wb_match.group(1)
+            else:
+                full_url = f"{WAYBACK_BASE}{href}"
+        elif href.startswith("http"):
+            full_url = href
+        else:
+            full_url = urljoin(archive_url, href)
+
+        # For archive meetings, use the Wayback URL as primary (fda.gov pages are often gone)
+        # but extract the fda.gov URL as fallback for newer pages that might still be live
+        fda_url = None
+        wb_match = re.search(r"web\.archive\.org/web/\d+/(https?://[^\"'\s]+)", full_url)
+        if wb_match:
+            fda_url = wb_match.group(1)
+
+        # Extract date
+        date_match = re.search(
+            r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2}),?\s*(\d{4})",
+            text.lower()
+        )
+        meeting_date = ""
+        if date_match:
+            try:
+                month_str, day_str, year_str = date_match.groups()
+                dt = datetime.strptime(f"{month_str} {day_str} {year_str}", "%B %d %Y")
+                meeting_date = dt.strftime("%Y-%m-%d")
+            except ValueError:
+                pass
+
+        meetings.append({
+            "committee": committee_key,
+            "committee_name": info["name"],
+            "title": text,
+            "date": meeting_date,
+            "url": full_url,  # Wayback URL as primary for archive meetings
+            "archive_url": fda_url,  # Original fda.gov URL as fallback
+            "year": year,
+        })
+
+    # Also check for direct PDF links on archive pages
+    for link in main_content.find_all("a", href=True):
+        href = link["href"]
+        text = link.get_text(strip=True)
+        if not text:
+            continue
+
+        # Look for PDF download links
+        if "/media/" in href and "/download" in href:
+            # Resolve to fda.gov URL
+            if "web.archive.org" in href:
+                wb_match = re.search(r"web\.archive\.org/web/\d+/(https?://[^\"'\s]+)", href)
+                if wb_match:
+                    full_url = wb_match.group(1)
+                else:
+                    full_url = href
+            elif href.startswith("/"):
+                full_url = f"{FDA_BASE}{href}"
+            else:
+                full_url = href
+
+            meetings.append({
+                "committee": committee_key,
+                "committee_name": info["name"],
+                "title": text,
+                "date": "",
+                "url": full_url,
+                "year": year,
+                "is_direct_doc": True,
+            })
+
+    print(f"    Found {len(meetings)} meetings/documents from archive")
+    return meetings
+
+
 # ===========================================================================
 # Web Scraping Helpers
 # ===========================================================================
@@ -397,6 +566,11 @@ def scrape_meeting_documents(meeting: dict) -> list[dict]:
     print(f"    Scraping meeting page: {meeting['title'][:80]}")
     time.sleep(REQUEST_DELAY)
     soup = fetch_page(meeting["url"])
+    if not soup and meeting.get("archive_url"):
+        # Fallback to Wayback Machine URL
+        print(f"      FDA URL failed, trying archive URL...")
+        time.sleep(REQUEST_DELAY)
+        soup = fetch_page(meeting["archive_url"])
     if not soup:
         return []
 
@@ -409,7 +583,15 @@ def scrape_meeting_documents(meeting: dict) -> list[dict]:
 
         # Look for downloadable documents (PDFs hosted on FDA)
         if "/media/" in href and "/download" in href and text:
-            full_url = urljoin(FDA_BASE, href)
+            # Handle Wayback-rewritten URLs: extract the original fda.gov URL
+            wb_match = re.search(r"/web/\d+/(https?://[^\"'\s]+)", href)
+            if wb_match:
+                full_url = wb_match.group(1)
+            elif href.startswith("http"):
+                full_url = href
+            else:
+                full_url = urljoin(FDA_BASE, href)
+
             doc_type = classify_document(text, full_url)
             documents.append({
                 "title": text,
@@ -631,20 +813,28 @@ def process_and_embed(meeting: dict, doc: dict, dry_run: bool = False) -> bool:
 # Main Pipeline
 # ===========================================================================
 
-def scrape_committee(committee_key: str, years: list[int], dry_run: bool = False) -> dict:
+def scrape_committee(committee_key: str, years: list[int], dry_run: bool = False,
+                     include_archive: bool = False) -> dict:
     """
     Full scrape pipeline for one committee across specified years.
+    If include_archive=True, also scrapes Wayback Machine archived years.
     Returns stats dict.
     """
     info = COMMITTEES[committee_key]
     print(f"\n{'=' * 60}")
     print(f"  {committee_key} — {info['name']}")
     print(f"  Center: {info['center']} | Area: {info['area']} | Years: {years}")
+    if include_archive:
+        print(f"  Archive mode: ON (will scrape Wayback Machine for older years)")
     print(f"{'=' * 60}\n")
 
     stats = {"meetings": 0, "documents": 0, "embedded": 0, "skipped": 0}
 
-    for year in years:
+    # ── Live years (2023+) ──
+    live_years = [y for y in years if y >= 2023]
+    archive_years_requested = [y for y in years if y < 2023]
+
+    for year in live_years:
         meetings = discover_meetings(committee_key, year)
         stats["meetings"] += len(meetings)
 
@@ -657,6 +847,37 @@ def scrape_committee(committee_key: str, years: list[int], dry_run: bool = False
                     stats["embedded"] += 1
                 else:
                     stats["skipped"] += 1
+
+    # ── Archive years (pre-2023, Wayback Machine) ──
+    if include_archive or archive_years_requested:
+        archive_map = discover_archive_urls(committee_key)
+        if archive_map:
+            print(f"\n  Archive years available: {sorted(y for y in archive_map if y > 0)}")
+
+        target_archive_years = archive_years_requested if archive_years_requested else sorted(archive_map.keys())
+
+        for year in target_archive_years:
+            if year == 0:
+                continue  # Skip pre-2009 deep archive for now
+            if year not in archive_map:
+                print(f"\n  No archive URL found for {year}, trying live URL...")
+                meetings = discover_meetings(committee_key, year)
+            else:
+                meetings = discover_meetings_from_archive(
+                    committee_key, archive_map[year], year
+                )
+
+            stats["meetings"] += len(meetings)
+
+            for meeting in meetings:
+                documents = scrape_meeting_documents(meeting)
+                stats["documents"] += len(documents)
+
+                for doc in documents:
+                    if process_and_embed(meeting, doc, dry_run=dry_run):
+                        stats["embedded"] += 1
+                    else:
+                        stats["skipped"] += 1
 
     print(f"\n  {committee_key} Summary: {stats['meetings']} meetings, "
           f"{stats['documents']} documents found, "
@@ -685,6 +906,7 @@ Examples:
     parser.add_argument("--years", type=str, help="Comma-separated years (default: 2023-2025)")
     parser.add_argument("--list", action="store_true", help="List all tracked committees and exit")
     parser.add_argument("--dry-run", action="store_true", help="Preview without downloading or embedding")
+    parser.add_argument("--archive", action="store_true", help="Include Wayback Machine archive years (pre-2023)")
 
     args = parser.parse_args()
 
@@ -728,7 +950,8 @@ Examples:
     start_time = time.time()
 
     for committee_key in committees:
-        stats = scrape_committee(committee_key, years, dry_run=args.dry_run)
+        stats = scrape_committee(committee_key, years, dry_run=args.dry_run,
+                                include_archive=args.archive)
         for k in total_stats:
             total_stats[k] += stats[k]
 
