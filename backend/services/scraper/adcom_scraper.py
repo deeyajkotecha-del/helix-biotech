@@ -1018,7 +1018,7 @@ Examples:
         if args.priority:
             committees = [k for k in committees if COMMITTEES[k]["priority"] <= args.priority]
     else:
-        committees = [c.strip().upper() for c in args.committee.split(",")]
+        committees = [c.strip() for c in args.committee.split(",")]
         for c in committees:
             if c not in COMMITTEES:
                 print(f"Unknown committee: {c}. Use --list to see all options.")
