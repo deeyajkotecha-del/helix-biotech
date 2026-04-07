@@ -6,6 +6,7 @@ import TranscriptViewer from './TranscriptViewer'
 import WebcastIngestForm from './WebcastIngestForm'
 import ClinicalTrialsTable from './ClinicalTrialsTable'
 import PowerSearch from './PowerSearch'
+import InsightCards from './InsightCards'
 
 interface Props {
   company: Company
@@ -502,6 +503,24 @@ export default function CompanyDetailView({ company, onBack, onCompanySearch }: 
         {!collapsedCats.has('power_search') && (
           <div style={{ padding: '12px' }}>
             <PowerSearch ticker={company.ticker} companyName={company.name} />
+          </div>
+        )}
+      </div>
+
+      {/* ---- INVESTOR INSIGHT ENGINE ---- */}
+      <div className="ev-docgroup">
+        <button
+          className={`ev-docgroup-header ${collapsedCats.has('insights') ? 'collapsed' : ''}`}
+          onClick={() => toggleCategory('insights')}
+        >
+          <span className="ev-docgroup-icon">💡</span>
+          <span className="ev-docgroup-label">Investor Insights</span>
+          <span className="ev-docgroup-count" style={{ background: '#EDE7F6', color: '#7B1FA2' }}>Engine</span>
+          <span className="ev-docgroup-arrow">{collapsedCats.has('insights') ? '▸' : '▾'}</span>
+        </button>
+        {!collapsedCats.has('insights') && (
+          <div style={{ padding: '12px' }}>
+            <InsightCards ticker={company.ticker} companyName={company.name} />
           </div>
         )}
       </div>

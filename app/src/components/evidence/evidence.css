@@ -2791,6 +2791,7 @@
 .ps-header-text { flex: 1; }
 .ps-title { margin: 0 0 4px; font-size: 16px; font-weight: 700; color: var(--ev-text-dark); }
 .ps-subtitle { margin: 0; font-size: 12px; color: var(--ev-text-light); line-height: 1.4; }
+.ps-cache-tag { font-size: 10px; background: #e8f5e9; color: #2E7D32; padding: 1px 6px; border-radius: 3px; margin-left: 6px; }
 .ps-discover-btn {
   padding: 10px 20px; border: none; border-radius: 8px;
   background: var(--ev-coral); color: #fff;
@@ -2942,4 +2943,129 @@
   .ps-asset-grid { grid-template-columns: 1fr; }
   .ps-drill-header-row, .ps-drill-row { grid-template-columns: 60px 100px 1fr 60px; }
   .ps-d-conditions, .ps-d-date { display: none; }
+}
+
+
+/* ============================================================
+   Insight Cards — Investor insight engine UI
+   ============================================================ */
+
+.ic-container { padding: 4px 0; }
+
+/* Loading */
+.ic-loading {
+  display: flex; align-items: center; gap: 10px;
+  padding: 24px 16px; color: var(--ev-text-mid); font-size: 13px;
+}
+.ic-loading-spinner {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--ev-border); border-top-color: var(--ev-coral);
+  animation: ps-spin 0.8s linear infinite;
+}
+.ic-error {
+  padding: 16px; color: #C62828; background: #FFF0F0;
+  border-radius: 8px; font-size: 13px; margin: 8px 0;
+}
+.ic-empty {
+  padding: 24px 16px; color: var(--ev-text-light); font-size: 13px;
+  text-align: center;
+}
+
+/* Filter chips */
+.ic-filters {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 8px 0 12px 0;
+}
+.ic-type-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 12px; border-radius: 16px;
+  border: 1px solid var(--ev-border); background: var(--ev-white);
+  font-size: 12px; color: var(--ev-text-mid); cursor: pointer;
+  transition: all 0.15s;
+}
+.ic-type-chip:hover { border-color: var(--ev-text-light); }
+.ic-type-chip.active {
+  background: var(--ev-cream); border-color: var(--ev-text-mid);
+  font-weight: 600;
+}
+
+/* Card grid */
+.ic-cards {
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+/* Individual card */
+.ic-card {
+  background: var(--ev-white); border: 1px solid var(--ev-border);
+  border-radius: 10px; padding: 14px 16px; cursor: pointer;
+  transition: all 0.15s;
+}
+.ic-card:hover { border-color: var(--ev-text-light); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.ic-card.expanded { border-color: var(--ev-coral-light); box-shadow: 0 2px 12px rgba(196,96,60,0.08); }
+
+/* Card header */
+.ic-card-header { margin-bottom: 8px; }
+.ic-card-tags { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.ic-type-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.3px; }
+.ic-conf-tag {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.ic-new-tag {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  background: #E8F5E9; color: #2E7D32; letter-spacing: 0.5px;
+}
+.ic-card-title {
+  font-size: 14px; font-weight: 600; color: var(--ev-text-dark);
+  margin: 0; line-height: 1.4;
+}
+
+/* Card body */
+.ic-card-body {
+  font-size: 13px; color: var(--ev-text-mid); line-height: 1.5;
+  margin: 0 0 4px 0;
+}
+
+/* Evidence section */
+.ic-evidence {
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--ev-border-light);
+}
+.ic-evidence-label {
+  display: block; font-size: 11px; font-weight: 600;
+  color: var(--ev-text-light); text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 6px;
+}
+.ic-evidence-item {
+  font-size: 12px; color: var(--ev-text-mid); line-height: 1.5;
+  padding: 3px 0 3px 4px;
+}
+
+/* Ranking table */
+.ic-ranking {
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid var(--ev-border-light);
+  overflow-x: auto;
+}
+.ic-ranking-table {
+  width: 100%; border-collapse: collapse; font-size: 12px;
+}
+.ic-ranking-table th {
+  text-align: left; padding: 6px 10px;
+  font-weight: 600; color: var(--ev-text-light);
+  border-bottom: 1px solid var(--ev-border);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px;
+}
+.ic-ranking-table td {
+  padding: 6px 10px; border-bottom: 1px solid var(--ev-border-light);
+  color: var(--ev-text-dark);
+}
+.ic-ranking-table tr:last-child td { border-bottom: none; }
+.ic-ranking-table tr:hover td { background: var(--ev-cream); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ic-ranking-table { font-size: 11px; }
+  .ic-ranking-table th, .ic-ranking-table td { padding: 4px 6px; }
 }

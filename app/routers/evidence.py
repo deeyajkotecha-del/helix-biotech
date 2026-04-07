@@ -823,21 +823,91 @@ def _get_search_module():
         return search_clinical_trials_paginated, extract_drug_assets
 
 
+def _get_neon_connection():
+    """Get a psycopg2 connection to Neon."""
+    import psycopg2
+    return psycopg2.connect(os.environ.get("NEON_DATABASE_URL", ""))
+
+
 @router.get("/api/power-search/assets")
-async def power_search_assets(ticker: str = None, company: str = None):
+async def power_search_assets(
+    ticker: str = None, company: str = None, refresh: bool = False,
+):
     """
-    Power Search Step 1: Discover ALL drug assets for a company.
+    Power Search Step 1: Full drug asset map for a company.
 
-    Paginates through ClinicalTrials.gov to get the full trial portfolio,
-    then extracts and groups unique drug interventions by phase/status.
+    Serves from Neon cache (<100ms) if available. Falls back to live
+    ClinicalTrials.gov fetch (~15s) for uncached companies or when
+    refresh=true is passed.
 
-    Returns a global asset tracker: every drug the company has in trials,
-    from approved/Phase 4 down to early Phase 1.
+    Cache is populated by precompute_assets.py (runs weekly).
     """
     if not ticker and not company:
         return JSONResponse({"error": "Provide ticker or company"}, status_code=400)
 
-    # Reuse the same ticker-to-sponsor mapping
+    tk = ticker.upper() if ticker else ""
+
+    # ── Try cache first (unless refresh requested) ──
+    if not refresh and tk:
+        try:
+            conn = _get_neon_connection()
+            cur = conn.cursor()
+
+            # Check summary
+            cur.execute(
+                "SELECT total_trials, total_assets, total_active, phase_breakdown, "
+                "top_assets, updated_at, sponsor_name "
+                "FROM company_asset_summary WHERE ticker = %s",
+                (tk,),
+            )
+            summary = cur.fetchone()
+
+            if summary:
+                total_trials, total_assets, total_active, phase_bk, top_assets, updated_at, sponsor_name = summary
+
+                # Fetch all assets for this ticker
+                cur.execute(
+                    "SELECT drug_name, drug_type, highest_phase, trial_count, "
+                    "active_count, phases, statuses, conditions "
+                    "FROM company_assets WHERE ticker = %s "
+                    "ORDER BY CASE highest_phase "
+                    "  WHEN 'PHASE4' THEN 5 WHEN 'PHASE3' THEN 4 "
+                    "  WHEN 'PHASE2,PHASE3' THEN 3 WHEN 'PHASE2' THEN 3 "
+                    "  WHEN 'PHASE1,PHASE2' THEN 2 WHEN 'PHASE1' THEN 2 "
+                    "  WHEN 'EARLY_PHASE1' THEN 1 ELSE 0 END DESC, "
+                    "trial_count DESC",
+                    (tk,),
+                )
+                rows = cur.fetchall()
+                conn.close()
+
+                asset_list = []
+                for row in rows:
+                    asset_list.append({
+                        "drug_name": row[0],
+                        "type": row[1],
+                        "highest_phase": row[2],
+                        "trial_count": row[3],
+                        "active_count": row[4],
+                        "phases": row[5] if isinstance(row[5], dict) else json.loads(row[5] or "{}"),
+                        "statuses": row[6] if isinstance(row[6], dict) else json.loads(row[6] or "{}"),
+                        "conditions": row[7] if isinstance(row[7], list) else json.loads(row[7] or "[]"),
+                    })
+
+                return JSONResponse({
+                    "sponsor": sponsor_name,
+                    "total_trials": total_trials,
+                    "total_assets": total_assets,
+                    "assets": asset_list,
+                    "cached": True,
+                    "cache_age": updated_at.isoformat() if updated_at else None,
+                })
+
+            conn.close()
+        except Exception as e:
+            print(f"Cache lookup failed (falling back to live): {e}")
+
+    # ── Live fallback: fetch from ClinicalTrials.gov ──
     TICKER_TO_SPONSOR = {
         "ABBV": "AbbVie", "AMGN": "Amgen", "BMY": "Bristol-Myers Squibb",
         "LLY": "Eli Lilly", "MRK": "Merck", "PFE": "Pfizer",
@@ -848,7 +918,6 @@ async def power_search_assets(ticker: str = None, company: str = None):
         "UTHR": "United Therapeutics", "ASND": "Ascendis Pharma",
         "NUVL": "Nuvalent", "RVMD": "Revolution Medicines",
         "IONS": "Ionis Pharmaceuticals", "SRPT": "Sarepta",
-        "ETNB": "89bio", "GHRS": "GH Research", "QURE": "uniQure",
         "VRDN": "Viridian Therapeutics", "PTCT": "PTC Therapeutics",
         "ERAS": "Erasca", "CELC": "Celcuity",
         "INCY": "Incyte", "BPMC": "Blueprint Medicines",
@@ -856,18 +925,13 @@ async def power_search_assets(ticker: str = None, company: str = None):
         "IOVA": "Iovance",
     }
 
-    sponsor = company or TICKER_TO_SPONSOR.get(ticker.upper(), ticker) if ticker else company
+    sponsor = company or TICKER_TO_SPONSOR.get(tk, tk) if tk else company
 
     try:
         search_paginated, extract_assets = _get_search_module()
-
-        # Fetch all trials (paginated — up to 1000)
         all_trials = search_paginated(sponsor=sponsor, max_pages=10, page_size=100)
-
-        # Extract drug assets
         assets = extract_assets(all_trials)
 
-        # Sort assets by highest phase (descending), then trial count
         PHASE_RANK = {
             "PHASE4": 5, "PHASE3": 4, "PHASE2,PHASE3": 3.5,
             "PHASE2": 3, "PHASE1,PHASE2": 2.5,
@@ -879,8 +943,6 @@ async def power_search_assets(ticker: str = None, company: str = None):
             reverse=True,
         )
 
-        # Build response — strip full trial lists from the overview (too large),
-        # keep just counts
         asset_list = []
         for name, info in sorted_assets:
             asset_list.append({
@@ -890,7 +952,7 @@ async def power_search_assets(ticker: str = None, company: str = None):
                 "trial_count": info["trial_count"],
                 "phases": info["phases"],
                 "statuses": info["statuses"],
-                "conditions": info["conditions"][:10],  # Top 10
+                "conditions": info["conditions"][:10],
                 "active_count": sum(
                     info["statuses"].get(s, 0)
                     for s in ["RECRUITING", "ACTIVE_NOT_RECRUITING",
@@ -903,6 +965,7 @@ async def power_search_assets(ticker: str = None, company: str = None):
             "total_trials": len(all_trials),
             "total_assets": len(asset_list),
             "assets": asset_list,
+            "cached": False,
         })
 
     except Exception as e:
@@ -960,6 +1023,34 @@ async def power_search_drug_trials(
         })
 
     except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+# ---------------------------------------------------------------------------
+# Investor Insight Engine
+# ---------------------------------------------------------------------------
+
+@router.get("/api/insights")
+async def get_insights(ticker: str = None):
+    """
+    Generate investor insight cards for a company.
+    Pulls from cached asset map + trial data in Neon.
+    """
+    if not ticker:
+        return JSONResponse({"error": "Provide ticker"}, status_code=400)
+
+    try:
+        from pathlib import Path
+        search_dir = str(Path(__file__).resolve().parent.parent.parent / "backend" / "services" / "search")
+        if search_dir not in sys.path:
+            sys.path.insert(0, search_dir)
+        from insight_engine import generate_insights
+
+        result = generate_insights(ticker.upper())
+        return JSONResponse(result)
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
         return JSONResponse({"error": str(e)}, status_code=500)
 
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 // ============================================================
 // Types
@@ -85,9 +85,11 @@ export default function PowerSearch({ ticker, companyName }: Props) {
   // Step 1 state — asset discovery
   const [assets, setAssets] = useState<Asset[]>([])
   const [totalTrials, setTotalTrials] = useState(0)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true) // Start loading immediately
   const [error, setError] = useState('')
   const [discovered, setDiscovered] = useState(false)
+  const [cached, setCached] = useState(false)
+  const [cacheAge, setCacheAge] = useState<string | null>(null)
 
   // Filters
   const [searchFilter, setSearchFilter] = useState('')
@@ -100,18 +102,19 @@ export default function PowerSearch({ ticker, companyName }: Props) {
   const [drugLoading, setDrugLoading] = useState(false)
   const [expandedTrial, setExpandedTrial] = useState<string | null>(null)
 
-  // ── Step 1: Discover all assets ──
-  const discoverAssets = async () => {
+  // ── Auto-load on mount (from cache = instant, or live = ~15s) ──
+  const fetchAssets = async (refresh = false) => {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch(
-        `/extract/api/power-search/assets?ticker=${ticker}&company=${encodeURIComponent(companyName)}`
-      )
+      const url = `/extract/api/power-search/assets?ticker=${ticker}&company=${encodeURIComponent(companyName)}${refresh ? '&refresh=true' : ''}`
+      const res = await fetch(url)
       const data = await res.json()
       if (data.error) throw new Error(data.error)
       setAssets(data.assets || [])
       setTotalTrials(data.total_trials || 0)
+      setCached(data.cached || false)
+      setCacheAge(data.cache_age || null)
       setDiscovered(true)
     } catch (e: any) {
       setError(e.message || 'Failed to discover assets')
@@ -119,6 +122,10 @@ export default function PowerSearch({ ticker, companyName }: Props) {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchAssets()
+  }, [ticker])
 
   // ── Step 2: Drill into a specific drug ──
   const drillIntoDrug = async (drugName: string) => {
@@ -281,24 +288,27 @@ export default function PowerSearch({ ticker, companyName }: Props) {
       {/* Header */}
       <div className="ps-header">
         <div className="ps-header-text">
-          <h3 className="ps-title">Power Search</h3>
+          <h3 className="ps-title">Pipeline Tracker</h3>
           <p className="ps-subtitle">
-            Discover every drug asset for {companyName} — then drill into any drug to see all its registered trials.
+            Every drug asset for {companyName} — click any to see all registered trials.
+            {cached && cacheAge && (
+              <span className="ps-cache-tag"> Cached {new Date(cacheAge).toLocaleDateString()}</span>
+            )}
           </p>
         </div>
-        {!discovered && (
-          <button className="ps-discover-btn" onClick={discoverAssets} disabled={loading}>
-            {loading ? 'Discovering...' : 'Discover All Assets'}
-          </button>
-        )}
       </div>
 
       {/* Loading */}
       {loading && (
         <div className="ps-loading">
           <div className="ps-loading-spinner" />
-          Scanning ClinicalTrials.gov for all {companyName} trials...
-          <span className="ps-loading-sub">This may take 10-20 seconds</span>
+          {cached === false && !discovered
+            ? <>Loading asset map...</>
+            : <>Scanning ClinicalTrials.gov for all {companyName} trials...</>
+          }
+          <span className="ps-loading-sub">
+            {cached === false && !discovered ? 'Checking cache...' : 'This may take 10-20 seconds'}
+          </span>
         </div>
       )}
 
@@ -352,11 +362,9 @@ export default function PowerSearch({ ticker, companyName }: Props) {
               />
               Active trials only
             </label>
-            {discovered && (
-              <button className="ps-refresh-btn" onClick={discoverAssets}>
-                Refresh
-              </button>
-            )}
+            <button className="ps-refresh-btn" onClick={() => fetchAssets(true)} title="Re-fetch from ClinicalTrials.gov">
+              {cached ? 'Refresh Live' : 'Refresh'}
+            </button>
           </div>
 
           {/* Asset grid */}
