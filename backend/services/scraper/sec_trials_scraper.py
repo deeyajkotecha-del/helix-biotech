@@ -91,6 +91,11 @@ COMPANY_CIKS = {
     "UTHR": "0001082554", "ASND": "0001612042",
     "DFTX": "0001813814",  # Formerly MindMed (MNMD)
     "LXEO": "0001907108",
+    # Expansion — Daisy's watchlist (2026-04-06)
+    "ETNB": "0001785173", "QURE": "0001590560", "VRDN": "0001590750",
+    "PTCT": "0001070081", "LBRX": "0001691082", "ERAS": "0001761918",
+    "RLMD": "0001553643",
+    # GHRS — foreign issuer (Irish), no CIK — skip SEC scraping
 }
 
 
@@ -99,7 +104,7 @@ COMPANY_CIKS = {
 # ============================================================================
 
     # Foreign private issuers (file 20-F/6-K instead of 10-K/10-Q/8-K)
-FOREIGN_ISSUERS = {"ASND", "NVS", "TAK", "AZN", "SNY", "GSK", "NVO", "DSNKY", "RHHBY", "ESALY"}
+FOREIGN_ISSUERS = {"ASND", "NVS", "TAK", "AZN", "SNY", "GSK", "NVO", "DSNKY", "RHHBY", "ESALY", "GHRS", "QURE"}
 
 def fetch_sec_filings(ticker, cik, filing_types=None, max_filings=5):
     """Fetch recent SEC filings from EDGAR. Returns list of filing metadata."""

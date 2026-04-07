@@ -152,6 +152,15 @@ COMPANY_DRUGS = {
     "ASND": {"sponsor": "Ascendis Pharma", "drugs": ["SKYTROFA", "YORVIPATH", "YUVIWEL", "lonapegsomatropin", "TransCon PTH", "TransCon CNP"]},
     "DFTX": {"sponsor": "Definium Therapeutics", "drugs": ["DT120", "DT402", "lysergide"]},
     "LXEO": {"sponsor": "Lexeo Therapeutics", "drugs": ["LX2006", "LX2020", "LX1001"]},
+    # Expansion — Daisy's watchlist (2026-04-06)
+    "ETNB": {"sponsor": "89bio", "drugs": ["pegozafermin", "TERN-501"]},
+    "GHRS": {"sponsor": "GH Research", "drugs": ["GH001", "GH002", "mebufotenin"]},
+    "QURE": {"sponsor": "uniQure", "drugs": ["HEMGENIX", "etranacogene dezaparvovec", "AMT-130"]},
+    "VRDN": {"sponsor": "Viridian Therapeutics", "drugs": ["VRDN-001", "veligrotug", "VRDN-003"]},
+    "PTCT": {"sponsor": "PTC Therapeutics", "drugs": ["TRANSLARNA", "UPSTAZA", "WAYLIVRA", "ataluren", "eladocagene exuparvovec", "sepiapterine"]},
+    "LBRX": {"sponsor": "LB Pharmaceuticals", "drugs": ["LB-102"]},
+    "ERAS": {"sponsor": "Erasca", "drugs": ["naporafenib", "ERAS-007", "ERAS-601"]},
+    "RLMD": {"sponsor": "Relmada Therapeutics", "drugs": ["REL-1017", "esmethadone"]},
 }
 
 

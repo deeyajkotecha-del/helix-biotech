@@ -782,6 +782,13 @@ async def get_clinical_trials(ticker: str = None, company: str = None):
         "DFTX": "Definium Therapeutics", "LXEO": "Lexeo Therapeutics",
         "NUVL": "Nuvalent", "RVMD": "Revolution Medicines",
         "IONS": "Ionis Pharmaceuticals", "SRPT": "Sarepta",
+        # Expansion — Daisy's watchlist
+        "ETNB": "89bio", "GHRS": "GH Research", "QURE": "uniQure",
+        "VRDN": "Viridian Therapeutics", "PTCT": "PTC Therapeutics",
+        "LBRX": "LB Pharmaceuticals", "ERAS": "Erasca",
+        "RLMD": "Relmada Therapeutics", "CELC": "Celcuity",
+        "INCY": "Incyte", "BPMC": "Blueprint Medicines",
+        "HRMY": "Harmony Biosciences", "JAZZ": "Jazz Pharmaceuticals",
     }
 
     sponsor = company or TICKER_TO_SPONSOR.get(ticker.upper(), ticker) if ticker else company

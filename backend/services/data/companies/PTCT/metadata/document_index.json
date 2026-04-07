@@ -1,0 +1,90 @@
+{
+  "ca482fc7-eb62-4ba7-af04-a7286441da38_1.pdf": {
+    "source_url": "https://ir.ptcbio.com/static-files/ca482fc7-eb62-4ba7-af04-a7286441da38",
+    "title": "PTC Corporate Presentation \u2013 February 2026",
+    "date": "2026-02-01",
+    "doc_type": "investor_presentation",
+    "sha256": "efdaa87dc278fb6d3283d38a333eb4efd989b2897f8deb9e4d9baa0ea26edcec",
+    "file_size_bytes": 2575164,
+    "scraped_at": "2026-04-06T21:09:16.106113+00:00",
+    "source_page": "https://ir.ptcbio.com/events-presentations",
+    "page_type": "events"
+  },
+  "f1647512-bf5c-4c45-abb5-e6edc4e144db_1.pdf": {
+    "source_url": "https://ir.ptcbio.com/static-files/f1647512-bf5c-4c45-abb5-e6edc4e144db",
+    "title": "2025 PTC Therapeutics R&D Day Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "cff74eefc1b0e6366c23bd9abe1eae5f5e0fdcb32bb66dbd1d598bec13446aad",
+    "file_size_bytes": 5266718,
+    "scraped_at": "2026-04-06T21:09:21.232167+00:00",
+    "source_page": "https://ir.ptcbio.com/events-presentations",
+    "page_type": "events"
+  },
+  "c0babb34-ab5f-442b-8a92-8733a00efebf_1.pdf": {
+    "source_url": "https://ir.ptcbio.com/static-files/c0babb34-ab5f-442b-8a92-8733a00efebf",
+    "title": "PIVOT-HD Results \u2013 May 2025",
+    "date": "2025-05-01",
+    "doc_type": "other",
+    "sha256": "2153b3f716c8d1b9dc63580ff48680f65e48feabac11eb690de3334d1dedcbc0",
+    "file_size_bytes": 710290,
+    "scraped_at": "2026-04-06T21:09:22.648915+00:00",
+    "source_page": "https://ir.ptcbio.com/events-presentations",
+    "page_type": "events"
+  },
+  "2431f234-a9ed-4d73-9e36-379bf0700c75_1.pdf": {
+    "source_url": "https://ir.ptcbio.com/static-files/2431f234-a9ed-4d73-9e36-379bf0700c75",
+    "title": "APHENITY Genetic Variant Analysis",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "dadc10ffdee5b0b6876d9df112cb1aa636821d39cb7ee950d583ce5d3f00acdf",
+    "file_size_bytes": 235582,
+    "scraped_at": "2026-04-06T21:09:23.305369+00:00",
+    "source_page": "https://ir.ptcbio.com/events-presentations",
+    "page_type": "events"
+  },
+  "ae7ba799-0d48-4e88-ad9c-44bb3c15f9f0_1.pdf": {
+    "source_url": "https://ir.ptcbio.com/static-files/ae7ba799-0d48-4e88-ad9c-44bb3c15f9f0",
+    "title": "APHENITY Topline Results Updated Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "880a8dce3a5310aa2c76052ab4a68bcb76a48782f583850f921ec9a54a377dde",
+    "file_size_bytes": 594583,
+    "scraped_at": "2026-04-06T21:09:24.649875+00:00",
+    "source_page": "https://ir.ptcbio.com/events-presentations",
+    "page_type": "events"
+  },
+  "bafa3754-05fe-4514-94b1-fb204adb0f8c_1.pdf": {
+    "source_url": "https://ir.ptcbio.com/static-files/bafa3754-05fe-4514-94b1-fb204adb0f8c",
+    "title": "PKU Deep Dive Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "73324c181a0b47b0bc7a42dc70e5c5a228e10b5ca413f9d2b2a68c5bd47decde",
+    "file_size_bytes": 3308734,
+    "scraped_at": "2026-04-06T21:09:28.538057+00:00",
+    "source_page": "https://ir.ptcbio.com/events-presentations",
+    "page_type": "events"
+  },
+  "13448bcb-111c-4c98-a716-d1ed989a7290_1.pdf": {
+    "source_url": "https://ir.ptcbio.com/static-files/13448bcb-111c-4c98-a716-d1ed989a7290",
+    "title": "MOVE-FA Topline Results Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "95e47d2d2a3809fa1c45d77ef527bd3e6bdf0f71b373f52093d01cd487ca61ba",
+    "file_size_bytes": 1270990,
+    "scraped_at": "2026-04-06T21:09:30.393007+00:00",
+    "source_page": "https://ir.ptcbio.com/events-presentations",
+    "page_type": "events"
+  },
+  "c772b8a8-38ba-4c29-9d7d-aa4032eb9b36_1.pdf": {
+    "source_url": "https://ir.ptcbio.com/static-files/c772b8a8-38ba-4c29-9d7d-aa4032eb9b36",
+    "title": "Q4 2025 FLS",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "2b6563383d6773d48a404d2769395c42fcc694588695ccfd6ae354daa65540ea",
+    "file_size_bytes": 147157,
+    "scraped_at": "2026-04-06T21:09:32.376707+00:00",
+    "source_page": "https://ir.ptcbio.com/events-presentations",
+    "page_type": "events"
+  }
+}

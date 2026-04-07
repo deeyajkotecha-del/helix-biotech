@@ -756,6 +756,76 @@ ONCOLOGY_COMPANIES = {
             {"type": "press", "url": "https://ir.lexeotx.com/news-events/news-releases", "platform": "standard", "content_type": "text"},
         ],
     },
+
+    # =========================================================================
+    # EXPANSION — Daisy's watchlist (added 2026-04-06)
+    # =========================================================================
+
+    "ETNB": {
+        "name": "89bio",
+        "category": "metabolic",
+        "pages": [
+            {"type": "events", "url": "https://ir.89bio.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.89bio.com/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "GHRS": {
+        "name": "GH Research",
+        "category": "psychiatry",
+        "pages": [
+            {"type": "events", "url": "https://investor.ghres.com/news-events/presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://investor.ghres.com/news-events/news-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "QURE": {
+        "name": "uniQure",
+        "category": "gene_therapy",
+        "pages": [
+            {"type": "events", "url": "https://www.uniqure.com/investors-media/events-presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://www.uniqure.com/investors-media/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "VRDN": {
+        "name": "Viridian Therapeutics",
+        "category": "immunology",
+        "pages": [
+            {"type": "events", "url": "https://investors.viridiantherapeutics.com/events-and-presentations/", "platform": "notified", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.viridiantherapeutics.com/news/", "platform": "notified", "content_type": "text"},
+        ],
+    },
+    "PTCT": {
+        "name": "PTC Therapeutics",
+        "category": "rare_disease",
+        "pages": [
+            {"type": "events", "url": "https://ir.ptcbio.com/events-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.ptcbio.com/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "LBRX": {
+        "name": "LB Pharmaceuticals",
+        "category": "psychiatry",
+        "pages": [
+            {"type": "events", "url": "https://lbpharma.us/", "platform": "custom", "content_type": "documents"},
+            # IPO Sep 2025, limited IR infrastructure — check events on main site
+        ],
+    },
+    "ERAS": {
+        "name": "Erasca",
+        "category": "oncology",
+        "pages": [
+            {"type": "events", "url": "https://investors.erasca.com/news-events/presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "events", "url": "https://investors.erasca.com/news-events/events", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.erasca.com/news-events/news-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "RLMD": {
+        "name": "Relmada Therapeutics",
+        "category": "psychiatry",
+        "pages": [
+            {"type": "events", "url": "https://www.relmada.com/for-investors/ir-calendar", "platform": "custom", "content_type": "documents"},
+            {"type": "press", "url": "https://www.relmada.com/for-investors/news", "platform": "custom", "content_type": "text"},
+        ],
+    },
 }
 
 

@@ -142,6 +142,44 @@ const CATEGORY_META: Record<string, { label: string; icon: string }> = {
   other:           { label: 'Other Documents',                    icon: '📁' },
 }
 
+/**
+ * Extract an approximate date (as epoch ms) from a document title.
+ * Handles patterns like "Q4 2019", "Fourth-Quarter 2025", "2024 Financial Results",
+ * "First-Quarter 2023", "ASCO 2025", etc. Returns null if no date found.
+ */
+function extractDateFromTitle(title: string): number | null {
+  if (!title) return null
+  const t = title.toLowerCase()
+
+  // Map quarter words/numbers to month approximations
+  const quarterMonth: Record<string, number> = {
+    'q1': 3, 'q2': 6, 'q3': 9, 'q4': 12,
+    'first': 3, 'second': 6, 'third': 9, 'fourth': 12,
+    '1st': 3, '2nd': 6, '3rd': 9, '4th': 12,
+  }
+
+  // Try "Q4 2019" or "Third-Quarter 2025" or "Full-Year 2024"
+  const qMatch = t.match(/(?:(q[1-4]|first|second|third|fourth|1st|2nd|3rd|4th)[\s-]*(?:quarter)?)\s+(\d{4})/)
+  if (qMatch) {
+    const month = quarterMonth[qMatch[1]] || 6
+    return new Date(parseInt(qMatch[2]), month - 1, 15).getTime()
+  }
+
+  // Try "Full-Year ... 2024" or "full year 2024"
+  const fyMatch = t.match(/full[\s-]*year.*?(\d{4})/)
+  if (fyMatch) {
+    return new Date(parseInt(fyMatch[1]), 11, 31).getTime()  // Dec 31 of that year
+  }
+
+  // Try standalone 4-digit year (e.g., "2017 AbbVie Strategic Update" or "ASCO 2025")
+  const yearMatch = t.match(/\b(20[12]\d)\b/)
+  if (yearMatch) {
+    return new Date(parseInt(yearMatch[1]), 5, 15).getTime()  // Mid-year estimate
+  }
+
+  return null
+}
+
 function groupDocsByCategory(docs: DocumentItem[], _ticker: string, _companyName: string): DocCategory[] {  // eslint-disable-line
   const groups: Record<string, DocumentItem[]> = {}
 
@@ -151,13 +189,15 @@ function groupDocsByCategory(docs: DocumentItem[], _ticker: string, _companyName
     groups[cat].push(doc)
   }
 
-  // Sort each group by date (newest first)
+  // Sort each group by date (newest first), with title-based date extraction as fallback
   for (const cat of Object.keys(groups)) {
     groups[cat].sort((a, b) => {
-      if (!a.date && !b.date) return 0
-      if (!a.date) return 1
-      if (!b.date) return -1
-      return new Date(b.date).getTime() - new Date(a.date).getTime()
+      const da = a.date ? new Date(a.date).getTime() : extractDateFromTitle(a.title)
+      const db = b.date ? new Date(b.date).getTime() : extractDateFromTitle(b.title)
+      if (!da && !db) return 0
+      if (!da) return 1
+      if (!db) return -1
+      return db - da
     })
   }
 
@@ -473,8 +513,13 @@ export default function CompanyDetailView({ company, onBack, onCompanySearch }: 
                     </span>
                   </div>
                   <div className="ev-docgroup-row-meta">
-                    {doc.date && (
-                      <span className="ev-docgroup-date">{formatDateShort(doc.date)}</span>
+                    {(doc.date || extractDateFromTitle(doc.title)) && (
+                      <span className="ev-docgroup-date">
+                        {doc.date ? formatDateShort(doc.date) : (() => {
+                          const ts = extractDateFromTitle(doc.title)
+                          return ts ? new Date(ts).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : ''
+                        })()}
+                      </span>
                     )}
                     {isAnalyzable(doc) ? (
                       <button

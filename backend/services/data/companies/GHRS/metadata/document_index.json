@@ -1,0 +1,35 @@
+{
+  "e71a28bb-8975-47a7-a2d5-2e2f10dc7f21.pdf": {
+    "source_url": "https://investor.ghres.com/static-files/e71a28bb-8975-47a7-a2d5-2e2f10dc7f21",
+    "title": "Corporate PresentationMar 05, 2026",
+    "date": "2026-03-05",
+    "doc_type": "investor_presentation",
+    "sha256": "263c09b34722ea5612453fc888821ea42d98e2270b51575d9f2e2c4380d25d56",
+    "file_size_bytes": 753192,
+    "scraped_at": "2026-04-06T21:10:44.393746+00:00",
+    "source_page": "https://investor.ghres.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "68e55af4-a7da-499c-aa99-2e0656b6ab89.pdf": {
+    "source_url": "https://investor.ghres.com/static-files/68e55af4-a7da-499c-aa99-2e0656b6ab89",
+    "title": "GH Research R&D UpdateJul 23, 2025",
+    "date": "2026-03-05",
+    "doc_type": "investor_presentation",
+    "sha256": "4040215441b1b136e214851f4e808b1260e802763c379eb0c0628145e1ff11be",
+    "file_size_bytes": 560966,
+    "scraped_at": "2026-04-06T21:10:44.908415+00:00",
+    "source_page": "https://investor.ghres.com/news-events/presentations",
+    "page_type": "events"
+  },
+  "9e08449f-c5bb-42c2-98c6-f52c3aa5f6c3.pdf": {
+    "source_url": "https://investor.ghres.com/static-files/9e08449f-c5bb-42c2-98c6-f52c3aa5f6c3",
+    "title": "GH001 Clinical Data PresentationFeb 03, 2025",
+    "date": "2026-03-05",
+    "doc_type": "investor_presentation",
+    "sha256": "c0873af9ecd58d918b15bf3fb6863eeb584f95215cfa5f6c4eabf3e9f7c9ddcb",
+    "file_size_bytes": 757670,
+    "scraped_at": "2026-04-06T21:10:45.572320+00:00",
+    "source_page": "https://investor.ghres.com/news-events/presentations",
+    "page_type": "events"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "uniQure_January2026_01.12.26_2.pdf": {
+    "source_url": "https://cdn.craft.cloud/fe68e1a2-b284-4f69-ba29-921f065edf17/assets/uploads/uniQure_January2026_01.12.26_2.pdf",
+    "title": "View Presentation",
+    "date": "2026-01-01",
+    "doc_type": "other",
+    "sha256": "020dfa0f8b08b8a0ecfd4b9ca2cfa8d1cd6d7d6edf86b5464a96df20f6f76a0e",
+    "file_size_bytes": 3062576,
+    "scraped_at": "2026-04-06T21:10:48.888026+00:00",
+    "source_page": "https://www.uniqure.com/investors-media/events-presentations",
+    "page_type": "events"
+  },
+  "AMT-130-Pivotal-Sept-2025_final_09.24.25.pdf": {
+    "source_url": "https://cdn.craft.cloud/fe68e1a2-b284-4f69-ba29-921f065edf17/assets/uploads/AMT-130-Pivotal-Sept-2025_final_09.24.25.pdf",
+    "title": "View Presentation",
+    "date": "2025-09-01",
+    "doc_type": "other",
+    "sha256": "6c5bb0b17f8087a89aa5acc2989b1e84ea67d151cb319beea9fa34acb50cd685",
+    "file_size_bytes": 2291639,
+    "scraped_at": "2026-04-06T21:10:49.846850+00:00",
+    "source_page": "https://www.uniqure.com/investors-media/events-presentations",
+    "page_type": "events"
+  },
+  "CHDI-2026Feb-AMT-130-striatal-volumes-FINAL-PDF.pdf": {
+    "source_url": "https://cdn.craft.cloud/fe68e1a2-b284-4f69-ba29-921f065edf17/assets/uploads/CHDI-2026Feb-AMT-130-striatal-volumes-FINAL-PDF.pdf",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "ef717f3462e2a88bec738d475621d1d897dad4d068d8458a9ec58add34ad47f6",
+    "file_size_bytes": 860617,
+    "scraped_at": "2026-04-06T21:10:50.926401+00:00",
+    "source_page": "https://www.uniqure.com/investors-media/events-presentations",
+    "page_type": "events"
+  },
+  "WORLDSymp2026_Banikazemi_02062026_AMT191.pdf": {
+    "source_url": "https://cdn.craft.cloud/fe68e1a2-b284-4f69-ba29-921f065edf17/assets/uploads/WORLDSymp2026_Banikazemi_02062026_AMT191.pdf",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "5a9e9e556eeed8e5462f2cc86f8fda879accf02430a8c3ba282b9182632013dd",
+    "file_size_bytes": 1771483,
+    "scraped_at": "2026-04-06T21:10:51.605096+00:00",
+    "source_page": "https://www.uniqure.com/investors-media/events-presentations",
+    "page_type": "events"
+  },
+  "AMT-260-GenTLE-ETDD-2025_FINAL.pdf": {
+    "source_url": "https://cdn.craft.cloud/fe68e1a2-b284-4f69-ba29-921f065edf17/assets/uploads/AMT-260-GenTLE-ETDD-2025_FINAL.pdf",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "ffe82188d9c6a33271d6f10e0b821fbc867aa9768d3cef9ca98c44369ea2b423",
+    "file_size_bytes": 500996,
+    "scraped_at": "2026-04-06T21:10:52.479038+00:00",
+    "source_page": "https://www.uniqure.com/investors-media/events-presentations",
+    "page_type": "events"
+  },
+  "Gene-Therapy-Information.pdf": {
+    "source_url": "https://cdn.craft.cloud/fe68e1a2-b284-4f69-ba29-921f065edf17/assets/uploads/Gene-Therapy-Information.pdf",
+    "title": "View Presentation",
+    "date": null,
+    "doc_type": "other",
+    "sha256": "5ba4638c5e734704b015807a1041880d7c2dc6a8c02e80c1527cd07cc9a84baa",
+    "file_size_bytes": 588612,
+    "scraped_at": "2026-04-06T21:10:53.337180+00:00",
+    "source_page": "https://www.uniqure.com/investors-media/events-presentations",
+    "page_type": "events"
+  }
+}

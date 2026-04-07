@@ -105,6 +105,17 @@ SEARCH_QUERIES = {
     # argenx / Kymera (already in portfolio)
     "ARGX": ["argenx OR efgartigimod OR vyvgart"],
     "KYMR": ["kymera therapeutics OR KT-621 OR STAT6 degrader"],
+    # Expansion — Daisy's watchlist (2026-04-06)
+    "ETNB": ["89bio OR pegozafermin OR NASH MASH fibrosis FGF21"],
+    "GHRS": ["GH Research OR GH001 OR mebufotenin OR 5-MeO-DMT treatment-resistant depression"],
+    "QURE": ["uniQure OR etranacogene dezaparvovec OR AMT-130 OR hemgenix OR huntington gene therapy"],
+    "VRDN": ["viridian therapeutics OR veligrotug OR VRDN-001 OR thyroid eye disease FcRn"],
+    "PTCT": ["PTC therapeutics OR ataluren OR sepiapterine OR TRANSLARNA OR UPSTAZA OR nonsense mutation"],
+    "LBRX": ["LB pharmaceuticals OR LB-102 OR bifeprunox OR schizophrenia partial agonist"],
+    "ERAS": ["erasca OR naporafenib OR ERAS-007 OR ERAS-601 OR RAS MAPK pathway"],
+    "RLMD": ["relmada therapeutics OR esmethadone OR REL-1017 OR NMDA antagonist depression"],
+    "UTHR": ["united therapeutics OR treprostinil OR ralinepag OR tyvaso OR pulmonary arterial hypertension"],
+    "ASND": ["ascendis pharma OR lonapegsomatropin OR TransCon PTH OR TransCon CNP OR skytrofa"],
 }
 
 

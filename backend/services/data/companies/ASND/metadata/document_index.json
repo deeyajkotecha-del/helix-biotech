@@ -1,111 +1,111 @@
 {
-  "ee980e6b-99c6-43db-a60d-22877b1d8d8f.pdf": {
+  "ee980e6b-99c6-43db-a60d-22877b1d8d8f_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/ee980e6b-99c6-43db-a60d-22877b1d8d8f",
     "title": "ACMG 2026: ApproaCH Week 104 Data",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "62fe239b28d01fa1d794305ed6deb964748ae5d9b6f83ffe8471cd3027214356",
     "file_size_bytes": 935425,
-    "scraped_at": "2026-04-06T17:44:59.509283+00:00",
+    "scraped_at": "2026-04-06T21:10:21.132107+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   },
-  "6904231b-b700-4988-b131-9fd710d1f867.pdf": {
+  "6904231b-b700-4988-b131-9fd710d1f867_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/6904231b-b700-4988-b131-9fd710d1f867",
     "title": "YUVIWEL\u00ae (navepegritide) FDA Approval",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "4e0a2f817faca6f99d06ab85871704a721f8488970baa82a6715783c6e7dcfac",
     "file_size_bytes": 1112044,
-    "scraped_at": "2026-04-06T17:45:00.199432+00:00",
+    "scraped_at": "2026-04-06T21:10:22.099823+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   },
-  "4b8d1312-c621-4bcc-90cf-e232a199fa23.pdf": {
+  "4b8d1312-c621-4bcc-90cf-e232a199fa23_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/4b8d1312-c621-4bcc-90cf-e232a199fa23",
     "title": "44th Annual J.P. Morgan Healthcare Conference Presentation",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "2a2579655d44f5f997d9a6ff7a61403996bebda44c1077d45a0bc6db7664e0ba",
     "file_size_bytes": 2143119,
-    "scraped_at": "2026-04-06T17:45:00.874732+00:00",
+    "scraped_at": "2026-04-06T21:10:23.608200+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   },
-  "d31aa100-8f1a-4470-b4ce-5ee41f7e5698.pdf": {
+  "d31aa100-8f1a-4470-b4ce-5ee41f7e5698_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/d31aa100-8f1a-4470-b4ce-5ee41f7e5698",
     "title": "COACH Trial Topline Week 52 Data",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "cdb3179ae9a5bd5277b22bf95aac06fcfac108eeba02e2508339146938033bf1",
     "file_size_bytes": 597330,
-    "scraped_at": "2026-04-06T17:45:01.562107+00:00",
+    "scraped_at": "2026-04-06T21:10:24.494893+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   },
-  "76489af0-563c-4503-adc8-4faf69450323.pdf": {
+  "76489af0-563c-4503-adc8-4faf69450323_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/76489af0-563c-4503-adc8-4faf69450323",
     "title": "ENDO 2025: PaTHway 3-Year Data",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "889ac80df25d527c31a22fc1d92d3f2b8648527b2f2bc738dc5adc43a6aa4fcd",
     "file_size_bytes": 1003555,
-    "scraped_at": "2026-04-06T17:45:02.177228+00:00",
+    "scraped_at": "2026-04-06T21:10:25.570133+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   },
-  "95983d03-857c-414e-8ac6-380936443724.pdf": {
+  "95983d03-857c-414e-8ac6-380936443724_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/95983d03-857c-414e-8ac6-380936443724",
     "title": "COACH Trial Interim Topline Week 26 Data",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "8ca12829b41c2813ba53c16cef1a9a6d4860b1c5dd601de33ce2788e40164b2b",
     "file_size_bytes": 672908,
-    "scraped_at": "2026-04-06T17:45:02.867130+00:00",
+    "scraped_at": "2026-04-06T21:10:26.531320+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   },
-  "d96c6a44-3362-4dbc-b9e0-995ea0754cd1.pdf": {
-    "source_url": "https://investors.ascendispharma.com/static-files/d96c6a44-3362-4dbc-b9e0-995ea0754cd1",
-    "title": "ESPE & ESE 2025: PaTH Forward 4-Year Data",
-    "date": null,
-    "doc_type": "investor_presentation",
-    "sha256": "7c973c05a4fdf078fb4d4d966876ab236579c856bb3dbec2cfcf2e843b9d4e9f",
-    "file_size_bytes": 523128,
-    "scraped_at": "2026-04-06T17:45:03.460085+00:00",
-    "source_page": "https://investors.ascendispharma.com/events-and-presentations",
-    "page_type": "events"
-  },
-  "da3ccf38-4357-4f01-818a-654c79844ae2.pdf": {
+  "da3ccf38-4357-4f01-818a-654c79844ae2_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/da3ccf38-4357-4f01-818a-654c79844ae2",
     "title": "ESPE & ESE 2025: ApproaCH 52-Week Bone Morphometry",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "7796a70ef823b64b6b0688b46d99f7767167b34956ff8ed818cae4d3e3ea4c94",
     "file_size_bytes": 1009231,
-    "scraped_at": "2026-04-06T17:45:04.062777+00:00",
+    "scraped_at": "2026-04-06T21:10:27.582407+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   },
-  "2780cf91-81d2-495c-bc3d-088d7e098bbb.pdf": {
+  "d96c6a44-3362-4dbc-b9e0-995ea0754cd1_1.pdf": {
+    "source_url": "https://investors.ascendispharma.com/static-files/d96c6a44-3362-4dbc-b9e0-995ea0754cd1",
+    "title": "ESPE & ESE 2025: PaTH Forward 4-Year Data",
+    "date": null,
+    "doc_type": "investor_presentation",
+    "sha256": "7c973c05a4fdf078fb4d4d966876ab236579c856bb3dbec2cfcf2e843b9d4e9f",
+    "file_size_bytes": 523128,
+    "scraped_at": "2026-04-06T21:10:28.245674+00:00",
+    "source_page": "https://investors.ascendispharma.com/events-and-presentations",
+    "page_type": "events"
+  },
+  "2780cf91-81d2-495c-bc3d-088d7e098bbb_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/2780cf91-81d2-495c-bc3d-088d7e098bbb",
     "title": "43rd Annual J.P. Morgan Healthcare Conference Presentation",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "e30d7f71ce9d338077dcfa9b9ce1ec55045a053dbb0375053fae89d40254d06c",
     "file_size_bytes": 2021546,
-    "scraped_at": "2026-04-06T17:45:05.081250+00:00",
+    "scraped_at": "2026-04-06T21:10:29.812023+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   },
-  "ac6e8fb8-8ab9-4c5c-b25c-14a90f766b48.pdf": {
+  "ac6e8fb8-8ab9-4c5c-b25c-14a90f766b48_1.pdf": {
     "source_url": "https://investors.ascendispharma.com/static-files/ac6e8fb8-8ab9-4c5c-b25c-14a90f766b48",
     "title": "TransCon\u2122 CNP (navepegritide) ApproaCH Trial Topline Results",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "42aff2542f6e5cb98d7e62b7d06a292c6d751ac6128b8c5e804473eb11d8f40a",
     "file_size_bytes": 656484,
-    "scraped_at": "2026-04-06T17:45:05.547454+00:00",
+    "scraped_at": "2026-04-06T21:10:30.584646+00:00",
     "source_page": "https://investors.ascendispharma.com/events-and-presentations",
     "page_type": "events"
   }
