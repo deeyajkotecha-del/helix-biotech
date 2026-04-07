@@ -313,102 +313,112 @@ def discover_meetings_from_archive(committee_key: str, archive_url: str, year: i
         return []
 
     meetings = []
+    direct_docs = []
     main_content = soup.find("main") or soup.find("div", class_="field--name-body") or soup
 
-    for link in main_content.find_all("a", href=True):
-        href = link["href"]
-        text = link.get_text(strip=True)
-
-        if not text or len(text) < 10:
-            continue
-
-        # Check if this looks like a meeting link
-        is_meeting = bool(re.search(
-            r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d",
-            text.lower()
-        ))
-
-        if not is_meeting:
-            continue
-
-        # Resolve the URL: could be relative to archive.org or fda.gov
-        if href.startswith("/web/"):
-            # Wayback Machine relative link — extract the original FDA URL
-            # Format: /web/20201030235938/https://www.fda.gov/...
-            wb_match = re.search(r"/web/\d+/(https?://.*)", href)
-            if wb_match:
-                full_url = wb_match.group(1)
-            else:
-                full_url = f"{WAYBACK_BASE}{href}"
-        elif href.startswith("http"):
-            full_url = href
-        else:
-            full_url = urljoin(archive_url, href)
-
-        # For archive meetings, use the Wayback URL as primary (fda.gov pages are often gone)
-        # but extract the fda.gov URL as fallback for newer pages that might still be live
-        fda_url = None
-        wb_match = re.search(r"web\.archive\.org/web/\d+/(https?://[^\"'\s]+)", full_url)
-        if wb_match:
-            fda_url = wb_match.group(1)
-
-        # Extract date
-        date_match = re.search(
-            r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2}),?\s*(\d{4})",
-            text.lower()
-        )
-        meeting_date = ""
-        if date_match:
-            try:
-                month_str, day_str, year_str = date_match.groups()
-                dt = datetime.strptime(f"{month_str} {day_str} {year_str}", "%B %d %Y")
-                meeting_date = dt.strftime("%Y-%m-%d")
-            except ValueError:
-                pass
-
-        meetings.append({
-            "committee": committee_key,
-            "committee_name": info["name"],
-            "title": text,
-            "date": meeting_date,
-            "url": full_url,  # Wayback URL as primary for archive meetings
-            "archive_url": fda_url,  # Original fda.gov URL as fallback
-            "year": year,
-        })
-
-    # Also check for direct PDF links on archive pages
+    # --- First pass: collect all direct PDF links (these are the most reliable) ---
     for link in main_content.find_all("a", href=True):
         href = link["href"]
         text = link.get_text(strip=True)
         if not text:
             continue
 
-        # Look for PDF download links
+        # Look for PDF download links (/media/{id}/download)
         if "/media/" in href and "/download" in href:
-            # Resolve to fda.gov URL
-            if "web.archive.org" in href:
-                wb_match = re.search(r"web\.archive\.org/web/\d+/(https?://[^\"'\s]+)", href)
-                if wb_match:
-                    full_url = wb_match.group(1)
-                else:
-                    full_url = href
+            # Resolve to fda.gov URL (strip Wayback prefix)
+            wb_match = re.search(r"/web/\d+/(https?://[^\"'\s]+)", href)
+            if wb_match:
+                full_url = wb_match.group(1)
+            elif href.startswith("http"):
+                full_url = href
             elif href.startswith("/"):
                 full_url = f"{FDA_BASE}{href}"
             else:
-                full_url = href
+                full_url = urljoin(FDA_BASE, href)
 
-            meetings.append({
+            # Try to extract a meeting date from the title
+            date_match = re.search(
+                r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2}),?\s*(\d{4})",
+                text.lower()
+            )
+            meeting_date = ""
+            if date_match:
+                try:
+                    month_str, day_str, year_str = date_match.groups()
+                    dt = datetime.strptime(f"{month_str} {day_str} {year_str}", "%B %d %Y")
+                    meeting_date = dt.strftime("%Y-%m-%d")
+                except ValueError:
+                    pass
+
+            direct_docs.append({
                 "committee": committee_key,
                 "committee_name": info["name"],
                 "title": text,
-                "date": "",
+                "date": meeting_date,
                 "url": full_url,
                 "year": year,
                 "is_direct_doc": True,
             })
 
-    print(f"    Found {len(meetings)} meetings/documents from archive")
-    return meetings
+    # --- Second pass: find meeting pages (only for years 2019+ where docs aren't on materials page) ---
+    # For older years (pre-2019), the direct docs on the materials page are sufficient.
+    # For 2019+, we need to follow meeting links to find document sub-pages.
+    if year >= 2019 and not direct_docs:
+        for link in main_content.find_all("a", href=True):
+            href = link["href"]
+            text = link.get_text(strip=True)
+
+            if not text or len(text) < 10:
+                continue
+
+            is_meeting = bool(re.search(
+                r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+\d",
+                text.lower()
+            ))
+
+            if not is_meeting:
+                continue
+
+            # Resolve URL
+            if href.startswith("/web/"):
+                full_url = f"{WAYBACK_BASE}{href}"
+            elif href.startswith("http"):
+                full_url = href
+            else:
+                full_url = urljoin(archive_url, href)
+
+            # Extract fda.gov URL from Wayback
+            fda_url = None
+            wb_match = re.search(r"web\.archive\.org/web/\d+/(https?://[^\"'\s]+)", full_url)
+            if wb_match:
+                fda_url = wb_match.group(1)
+
+            date_match = re.search(
+                r"(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2}),?\s*(\d{4})",
+                text.lower()
+            )
+            meeting_date = ""
+            if date_match:
+                try:
+                    month_str, day_str, year_str = date_match.groups()
+                    dt = datetime.strptime(f"{month_str} {day_str} {year_str}", "%B %d %Y")
+                    meeting_date = dt.strftime("%Y-%m-%d")
+                except ValueError:
+                    pass
+
+            meetings.append({
+                "committee": committee_key,
+                "committee_name": info["name"],
+                "title": text,
+                "date": meeting_date,
+                "url": full_url,
+                "archive_url": fda_url,
+                "year": year,
+            })
+
+    all_items = meetings + direct_docs
+    print(f"    Found {len(all_items)} items from archive ({len(direct_docs)} direct docs, {len(meetings)} meeting pages)")
+    return all_items
 
 
 # ===========================================================================
@@ -434,7 +444,23 @@ def fetch_page(url: str, retries: int = 2) -> BeautifulSoup | None:
 
 
 def download_pdf(url: str, dest_path: str) -> bool:
-    """Download a PDF file to dest_path. Returns True on success."""
+    """Download a PDF file to dest_path. Falls back to Wayback Machine on 404."""
+    # Try direct download first
+    success = _download_pdf_direct(url, dest_path)
+    if success:
+        return True
+
+    # If fda.gov returned 404, try Wayback Machine
+    if "fda.gov" in url:
+        wayback_url = f"https://web.archive.org/web/2023/{url}"
+        print(f"      Trying Wayback fallback...")
+        return _download_pdf_direct(wayback_url, dest_path)
+
+    return False
+
+
+def _download_pdf_direct(url: str, dest_path: str) -> bool:
+    """Direct PDF download helper."""
     try:
         resp = requests.get(url, headers=HEADERS, timeout=60, stream=True)
         if resp.status_code != 200:
