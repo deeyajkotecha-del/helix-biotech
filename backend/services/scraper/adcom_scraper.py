@@ -323,8 +323,14 @@ def discover_meetings_from_archive(committee_key: str, archive_url: str, year: i
         if not text:
             continue
 
-        # Look for PDF download links (/media/{id}/download)
-        if "/media/" in href and "/download" in href:
+        # Look for PDF download links:
+        #   New FDA CMS (2016+): /media/{id}/download
+        #   Old FDA CMS (pre-2016): /downloads/AdvisoryCommittees/.../UCM{id}...
+        is_pdf_link = (
+            ("/media/" in href and "/download" in href) or
+            ("/downloads/" in href.lower() and "advisorycommittees" in href.lower())
+        )
+        if is_pdf_link:
             # Resolve to fda.gov URL (strip Wayback prefix)
             wb_match = re.search(r"/web/\d+/(https?://[^\"'\s]+)", href)
             if wb_match:
@@ -608,7 +614,13 @@ def scrape_meeting_documents(meeting: dict) -> list[dict]:
         text = link.get_text(strip=True)
 
         # Look for downloadable documents (PDFs hosted on FDA)
-        if "/media/" in href and "/download" in href and text:
+        #   New CMS: /media/{id}/download
+        #   Old CMS: /downloads/AdvisoryCommittees/.../UCM...
+        is_pdf_link = (
+            ("/media/" in href and "/download" in href) or
+            ("/downloads/" in href.lower() and "advisorycommittees" in href.lower())
+        )
+        if is_pdf_link and text:
             # Handle Wayback-rewritten URLs: extract the original fda.gov URL
             wb_match = re.search(r"/web/\d+/(https?://[^\"'\s]+)", href)
             if wb_match:
