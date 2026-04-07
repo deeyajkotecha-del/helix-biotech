@@ -526,18 +526,30 @@ def process_and_embed(meeting: dict, doc: dict, dry_run: bool = False) -> bool:
 
     # Extract text
     try:
-        from embed_documents import extract_text_from_pdf, semantic_chunk_document
-        text, page_count = extract_text_from_pdf(tmp_path)
-        if not text or len(text.split()) < 50:
+        # Add embed_documents directory to path
+        _SEARCH_DIR = os.path.join(os.path.dirname(_THIS_DIR), "search")
+        if _SEARCH_DIR not in sys.path:
+            sys.path.insert(0, _SEARCH_DIR)
+        from embed_documents import extract_text_with_pages, semantic_chunk_document
+
+        pages = extract_text_with_pages(tmp_path)
+        if not pages:
             print(f"      No extractable text in PDF")
             os.unlink(tmp_path)
             return False
 
-        word_count = len(text.split())
+        page_count = len(pages)
+        all_text = " ".join(p["text"] for p in pages)
+        word_count = len(all_text.split())
+        if word_count < 50:
+            print(f"      Too little text ({word_count} words)")
+            os.unlink(tmp_path)
+            return False
+
         print(f"      {word_count} words across {page_count} pages")
 
-        # Chunk
-        chunks = semantic_chunk_document(text, max_chunk_tokens=500)
+        # Chunk using the page-aware chunker
+        chunks = semantic_chunk_document(pages)
         print(f"      Split into {len(chunks)} chunks")
 
         # Embed and store
@@ -579,7 +591,7 @@ def process_and_embed(meeting: dict, doc: dict, dry_run: bool = False) -> bool:
         batch_size = 20
         for i in range(0, len(chunks), batch_size):
             batch = chunks[i:i + batch_size]
-            texts = [c["text"] for c in batch]
+            texts = [c["content"] for c in batch]
             embeddings = vo.embed(texts, model="voyage-3", input_type="document").embeddings
 
             for j, (chunk, embedding) in enumerate(zip(batch, embeddings)):
@@ -589,10 +601,10 @@ def process_and_embed(meeting: dict, doc: dict, dry_run: bool = False) -> bool:
                 """, (
                     doc_id,
                     i + j,
-                    chunk.get("page", 0),
-                    chunk.get("section", ""),
-                    chunk["text"],
-                    len(chunk["text"].split()),
+                    chunk.get("page_number", 0),
+                    chunk.get("section_title", ""),
+                    chunk["content"],
+                    chunk.get("token_count", len(chunk["content"].split())),
                     json.dumps(embedding),
                 ))
 
