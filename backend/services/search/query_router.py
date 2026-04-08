@@ -112,6 +112,19 @@ try:
 except ImportError:
     ENRICHMENT_AVAILABLE = False
 
+# Source-priority routing — intelligent document selection by query type
+try:
+    from source_router import (
+        prioritized_search,
+        get_adcom_context,
+        detect_query_type,
+        format_source_routing_for_claude,
+    )
+    SOURCE_ROUTER_AVAILABLE = True
+except ImportError:
+    SOURCE_ROUTER_AVAILABLE = False
+    print("  ⚠ Source router not loaded — flat RAG search only")
+
 # IR events scraper — provides conference events, posters, catalysts
 try:
     from ir_events_scraper import get_events_for_query, format_events_for_claude, get_upcoming_catalysts
@@ -1061,6 +1074,19 @@ def synthesize_answer(query: str, data: dict, plan: dict) -> dict:
             indication=plan.get("ct_condition", "")
         ))
 
+    # --- AdCom structured intelligence (from source router) ---
+    adcom_ctx = data.get("adcom_context", {})
+    if adcom_ctx.get("formatted"):
+        context_parts.append(adcom_ctx["formatted"])
+        print(f"  AdCom context: {len(adcom_ctx.get('products', []))} products injected")
+
+    # --- Source priority directive (tells Claude which sources to trust) ---
+    routing = data.get("source_routing")
+    if routing and SOURCE_ROUTER_AVAILABLE:
+        routing_directive = format_source_routing_for_claude(routing)
+        if routing_directive:
+            context_parts.append(routing_directive)
+
     # RAG context
     if data.get("rag_results"):
         rag_context = rag_search.format_context_for_claude(data["rag_results"])
@@ -1462,6 +1488,22 @@ def answer_query(query: str) -> dict:
     print(f"  RAG chunks: {len(data['rag_results'])}, Trials: {len(data['trials'])}, "
           f"FDA: {len(data['fda_drugs'])}, Papers: {len(data['papers'])}, "
           f"Global landscape: {landscape_count} assets")
+
+    # Step 2.5: Source-priority routing — reweight RAG results + pull AdCom context
+    if SOURCE_ROUTER_AVAILABLE:
+        try:
+            routing = prioritized_search(query, plan, top_k=25)
+            # Replace flat RAG results with priority-weighted results
+            if routing.get("rag_results"):
+                data["rag_results"] = routing["rag_results"]
+            # Add structured AdCom intelligence
+            data["adcom_context"] = routing.get("adcom_context", {})
+            data["source_routing"] = routing
+            qtype = routing.get("query_type", "general")
+            mclasses = routing.get("mechanism_classes", [])
+            print(f"  Source routing: {qtype} | mechanism_classes: {mclasses}")
+        except Exception as e:
+            print(f"  Source routing failed (falling back to flat): {e}")
 
     # Step 3: Synthesize answer
     result = synthesize_answer(query, data, plan)
