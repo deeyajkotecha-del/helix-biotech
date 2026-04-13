@@ -111,6 +111,70 @@ def _lookup_doc_path(doc_id: int):
 
 
 # ---------------------------------------------------------------------------
+# Slide image caching — persist extracted images so they survive PDF removal
+# ---------------------------------------------------------------------------
+
+_slide_images_table_ready = False
+
+def _ensure_slide_images_table():
+    """Create the slide_images table if it doesn't exist yet."""
+    global _slide_images_table_ready
+    if _slide_images_table_ready:
+        return
+    try:
+        conn = _get_db()
+        cur = conn.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS slide_images (
+                id SERIAL PRIMARY KEY,
+                document_id INTEGER NOT NULL,
+                page_number INTEGER NOT NULL,
+                image_b64 TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(document_id, page_number)
+            )
+        """)
+        cur.close()
+        _slide_images_table_ready = True
+    except Exception as e:
+        print(f"  [deck] Could not create slide_images table: {e}")
+
+
+def _cache_slide_images(doc_id: int, slides: list):
+    """Store extracted slide images in DB for future use (skips if already cached)."""
+    _ensure_slide_images_table()
+    conn = _get_db()
+    cur = conn.cursor()
+
+    # Check if images are already cached for this document
+    cur.execute("SELECT COUNT(*) FROM slide_images WHERE document_id = %s", (doc_id,))
+    existing = cur.fetchone()[0]
+    if existing > 0:
+        cur.close()
+        return  # Already cached, nothing to do
+
+    cached = 0
+    for slide in slides:
+        img = slide.get("image_b64", "")
+        page = slide.get("slide_number", 0)
+        if img and page:
+            try:
+                cur.execute(
+                    """INSERT INTO slide_images (document_id, page_number, image_b64)
+                       VALUES (%s, %s, %s)
+                       ON CONFLICT (document_id, page_number) DO NOTHING""",
+                    (doc_id, page, img),
+                )
+                cached += 1
+            except Exception:
+                pass  # Skip individual slide errors
+
+    cur.close()
+    if cached:
+        print(f"  [deck] Cached {cached} slide images for doc {doc_id}")
+
+
+# ---------------------------------------------------------------------------
 # Request models
 # ---------------------------------------------------------------------------
 
@@ -155,17 +219,13 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
 
     file_path, ticker, company_name, title = lookup
 
-    # Try PDF extraction first
-    if file_path and os.path.exists(file_path):
-        result = extract_slides_only(file_path, include_images=images)
-        result["doc_id"] = doc_id
-        result["ticker"] = ticker or ""
-        result["company_name"] = company_name or ""
-        result["title"] = title or ""
-        return JSONResponse(result)
+    # ── CACHE-FIRST STRATEGY ──
+    # Check the slide_images DB cache BEFORE re-extracting from PDF.
+    # This avoids redundant PDF rendering and saves compute costs.
+    # Only fall through to PDF extraction on a cache miss.
 
-    # Fallback: check slide_images table for pre-rendered images, then chunks
     try:
+        _ensure_slide_images_table()
         conn = _get_db()
         cur = conn.cursor()
 
@@ -183,15 +243,7 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
         """, (doc_id,))
         chunk_rows = cur.fetchall()
 
-        if not image_pages and not chunk_rows:
-            cur.close()
-            return JSONResponse({
-                "error": "No content found for this document.",
-                "doc_id": doc_id,
-            }, status_code=404)
-
-        # If we have pre-rendered images, build slides with LAZY image loading
-        # Only load the first slide's image; rest are fetched on demand via /slide-image
+        # ── CACHE HIT: serve from slide_images table (fast, no PDF needed) ──
         if image_pages:
             chunk_text_by_page: dict[int, tuple[str, str]] = {}
             for chunk_idx, section, content, tokens, page_num in chunk_rows:
@@ -200,14 +252,12 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
 
             # Load only the first slide's image to keep initial response small
             first_img_b64 = ""
-            if image_pages:
-                cur.execute("""
-                    SELECT image_b64 FROM slide_images
-                    WHERE document_id = %s AND page_number = %s
-                """, (doc_id, image_pages[0]))
-                row = cur.fetchone()
-                first_img_b64 = row[0] if row else ""
-
+            cur.execute("""
+                SELECT image_b64 FROM slide_images
+                WHERE document_id = %s AND page_number = %s
+            """, (doc_id, image_pages[0]))
+            row = cur.fetchone()
+            first_img_b64 = row[0] if row else ""
             cur.close()
 
             slides = []
@@ -223,6 +273,7 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
                     "has_image": True,  # Signal that image can be lazy-loaded
                 })
 
+            print(f"  [deck] Cache HIT for doc {doc_id}: serving {len(slides)} slides from DB")
             return JSONResponse({
                 "doc_id": doc_id,
                 "ticker": ticker or "",
@@ -234,7 +285,45 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
                 "lazy_images": True,  # Tell frontend to use /slide-image endpoint
             })
 
-        # No images available — text-only fallback from chunks
+        cur.close()
+    except Exception as e:
+        print(f"  [deck] Cache lookup failed (will try PDF): {e}")
+
+    # ── CACHE MISS: extract from PDF on disk, then cache for next time ──
+    if file_path and os.path.exists(file_path):
+        print(f"  [deck] Cache MISS for doc {doc_id}: extracting from PDF")
+        result = extract_slides_only(file_path, include_images=images)
+        result["doc_id"] = doc_id
+        result["ticker"] = ticker or ""
+        result["company_name"] = company_name or ""
+        result["title"] = title or ""
+
+        # Cache slide images in DB so next request is instant (no re-extraction)
+        if images and result.get("slides"):
+            try:
+                _cache_slide_images(doc_id, result["slides"])
+            except Exception as e:
+                print(f"  [deck] Image caching failed (non-fatal): {e}")
+
+        return JSONResponse(result)
+
+    # ── NO CACHE, NO PDF: text-only fallback from chunks ──
+    try:
+        conn = _get_db()
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT chunk_index, section_title, content, token_count, page_number
+            FROM chunks WHERE document_id = %s ORDER BY chunk_index
+        """, (doc_id,))
+        chunk_rows = cur.fetchall()
+        cur.close()
+
+        if not chunk_rows:
+            return JSONResponse({
+                "error": "No content found for this document.",
+                "doc_id": doc_id,
+            }, status_code=404)
+
         slides = []
         for row in chunk_rows:
             chunk_idx, section, content, tokens, page_num = row
@@ -299,19 +388,11 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
 
     file_path = lookup[0]
 
-    # If PDF is on disk, use full slide analysis (with image)
-    if file_path and os.path.exists(file_path):
-        result = await analyze_single_slide(
-            pdf_path=file_path,
-            slide_number=request.slide_number,
-            ticker=request.ticker,
-            company_name=request.company_name,
-            exclude_doc_id=request.doc_id,
-        )
-        return JSONResponse(result)
-
-    # Fallback: use slide_images + chunks from DB
+    # ── CACHE-FIRST: check DB for cached image + text before touching PDF ──
+    slide_image = ""
+    chunk_text = ""
     try:
+        _ensure_slide_images_table()
         conn = _get_db()
         cur = conn.cursor()
 
@@ -331,7 +412,6 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
         """, (request.doc_id, request.slide_number))
         text_row = cur.fetchone()
         if not text_row:
-            # Fallback: try chunk_index (slide_number is 1-indexed)
             cur.execute("""
                 SELECT content, section_title FROM chunks
                 WHERE document_id = %s AND chunk_index = %s
@@ -340,11 +420,12 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
         cur.close()
 
         chunk_text = text_row[0] if text_row else ""
+    except Exception as e:
+        print(f"  [deck] Cache lookup for analysis failed: {e}")
 
-        if not chunk_text and not slide_image:
-            return JSONResponse({"error": "Slide/chunk not found"}, status_code=404)
-
-        # Use analyze_single_slide with text override + image from DB
+    # If we have a cached image, use it with text override — no PDF needed
+    if slide_image:
+        print(f"  [deck] Analyze slide {request.slide_number}: using cached image (no PDF extraction)")
         result = await analyze_single_slide(
             pdf_path=None,
             slide_number=request.slide_number,
@@ -353,12 +434,34 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
             exclude_doc_id=request.doc_id,
             slide_text_override=chunk_text or "(No text extracted for this slide)",
         )
-        # Attach the stored image so the frontend can display it
-        if slide_image:
-            result["image_b64"] = slide_image
+        result["image_b64"] = slide_image
         return JSONResponse(result)
-    except Exception as e:
-        return JSONResponse({"error": f"Analysis failed: {e}"}, status_code=500)
+
+    # Cache miss — fall back to PDF on disk
+    if file_path and os.path.exists(file_path):
+        print(f"  [deck] Analyze slide {request.slide_number}: cache miss, extracting from PDF")
+        result = await analyze_single_slide(
+            pdf_path=file_path,
+            slide_number=request.slide_number,
+            ticker=request.ticker,
+            company_name=request.company_name,
+            exclude_doc_id=request.doc_id,
+        )
+        return JSONResponse(result)
+
+    # No image, no PDF — text-only analysis
+    if chunk_text:
+        result = await analyze_single_slide(
+            pdf_path=None,
+            slide_number=request.slide_number,
+            ticker=request.ticker,
+            company_name=request.company_name,
+            exclude_doc_id=request.doc_id,
+            slide_text_override=chunk_text,
+        )
+        return JSONResponse(result)
+
+    return JSONResponse({"error": "Slide/chunk not found"}, status_code=404)
 
 
 @router.post("/compare")

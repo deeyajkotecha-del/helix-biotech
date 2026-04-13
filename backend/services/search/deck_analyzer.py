@@ -18,18 +18,23 @@ import os
 import sys
 import re
 import json
+import time
 import base64
 import asyncio
 from io import BytesIO
 from pathlib import Path
 from typing import Optional
 
+import anthropic
+
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 CLAUDE_MODEL = "claude-sonnet-4-20250514"
+OPENAI_FALLBACK_MODEL = "gpt-4o"  # Separate provider fallback when Anthropic API is down
 
 # ---------------------------------------------------------------------------
 # Lazy imports (heavy libs)
@@ -74,6 +79,126 @@ def _get_claude():
         except ImportError:
             print("  [deck] anthropic library not installed")
     return _anthropic_client
+
+
+CLAUDE_FALLBACK_MODEL = "claude-haiku-4-5-20251001"
+
+_openai_client = None
+
+
+def _get_openai():
+    """Get or create OpenAI client for fallback routing."""
+    global _openai_client
+    if _openai_client is None:
+        if not OPENAI_API_KEY:
+            return None
+        try:
+            import openai
+            _openai_client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        except ImportError:
+            print("  [deck] openai package not installed — OpenAI fallback disabled")
+    return _openai_client
+
+
+def _openai_fallback(label: str, **kwargs):
+    """
+    Last-resort fallback: translate a Claude API call to OpenAI format.
+    Converts Anthropic message format → OpenAI chat completion format.
+    Returns the text response or None on failure.
+    """
+    oai = _get_openai()
+    if oai is None:
+        return None
+
+    print(f"  [deck] {label}: Anthropic API unavailable, falling back to OpenAI {OPENAI_FALLBACK_MODEL}")
+
+    # Build OpenAI messages from Anthropic format
+    oai_messages = []
+    system_text = kwargs.get("system", "")
+    if system_text:
+        oai_messages.append({"role": "system", "content": system_text})
+
+    for msg in kwargs.get("messages", []):
+        role = msg.get("role", "user")
+        content = msg.get("content", "")
+
+        # If content is a list (multimodal), convert to OpenAI format
+        if isinstance(content, list):
+            oai_parts = []
+            for part in content:
+                if part.get("type") == "text":
+                    oai_parts.append({"type": "text", "text": part["text"]})
+                elif part.get("type") == "image":
+                    # Convert Anthropic base64 image → OpenAI image_url format
+                    src = part.get("source", {})
+                    media_type = src.get("media_type", "image/jpeg")
+                    data = src.get("data", "")
+                    if data:
+                        oai_parts.append({
+                            "type": "image_url",
+                            "image_url": {"url": f"data:{media_type};base64,{data}"},
+                        })
+            oai_messages.append({"role": role, "content": oai_parts})
+        else:
+            oai_messages.append({"role": role, "content": content})
+
+    try:
+        response = oai.chat.completions.create(
+            model=OPENAI_FALLBACK_MODEL,
+            max_tokens=kwargs.get("max_tokens", 1200),
+            messages=oai_messages,
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print(f"  [deck] {label}: OpenAI fallback also failed: {e}")
+        return None
+
+
+def _call_claude_with_retry(client, label: str, max_retries: int = 3, fallback_model: bool = True, **kwargs):
+    """
+    Call Claude API with 3-tier fallback:
+      1. Sonnet (primary) — retry up to 3x with backoff
+      2. Haiku (Anthropic fallback) — try once if Sonnet is overloaded
+      3. OpenAI GPT-4o (provider fallback) — try once if entire Anthropic API is down
+
+    Returns an Anthropic response object, or a "fake" object wrapping OpenAI text.
+    """
+    for attempt in range(max_retries):
+        try:
+            response = client.messages.create(**kwargs)
+            return response
+        except anthropic.APIStatusError as e:
+            if e.status_code == 529 and attempt < max_retries - 1:
+                wait = 2 ** attempt  # 1s, 2s, 4s
+                print(f"  [deck] {label}: API overloaded, retrying in {wait}s (attempt {attempt + 1}/{max_retries})")
+                time.sleep(wait)
+            elif e.status_code == 529 and attempt == max_retries - 1:
+                # All retries exhausted on primary model
+
+                # Tier 2: Try Haiku
+                if fallback_model and kwargs.get("model") != CLAUDE_FALLBACK_MODEL:
+                    print(f"  [deck] {label}: Trying Haiku fallback...")
+                    kwargs_haiku = {**kwargs, "model": CLAUDE_FALLBACK_MODEL}
+                    try:
+                        response = client.messages.create(**kwargs_haiku)
+                        return response
+                    except Exception as haiku_err:
+                        print(f"  [deck] {label}: Haiku also failed: {haiku_err}")
+
+                # Tier 3: Try OpenAI
+                oai_text = _openai_fallback(label, **kwargs)
+                if oai_text:
+                    # Wrap in a simple object so callers can do response.content[0].text
+                    class _FakeBlock:
+                        def __init__(self, t): self.text = t
+                    class _FakeResponse:
+                        def __init__(self, t): self.content = [_FakeBlock(t)]
+                    return _FakeResponse(oai_text)
+
+                raise e  # Everything failed
+            else:
+                raise
+    return None  # Should not reach here
 
 
 def _get_rag_search():
@@ -292,17 +417,25 @@ async def generate_slide_commentary(
     )
     user_content.append({"type": "text", "text": prompt})
 
+    # Retry with exponential backoff on 529 + fallback to Haiku if Sonnet is down
     try:
-        response = client.messages.create(
+        response = _call_claude_with_retry(
+            client,
+            label=f"commentary slide {slide_number}",
             model=CLAUDE_MODEL,
             max_tokens=1200,
             system=SLIDE_ANALYSIS_SYSTEM,
             messages=[{"role": "user", "content": user_content}],
         )
-        return response.content[0].text
+        if response:
+            return response.content[0].text
+        return "_Commentary temporarily unavailable — the AI service is busy. Please click Re-analyze to try again._"
+    except anthropic.APIStatusError as e:
+        print(f"  [deck] Claude API error for slide {slide_number}: {e}")
+        return "_Commentary temporarily unavailable — the AI service is busy. Please click Re-analyze to try again._"
     except Exception as e:
         print(f"  [deck] Claude commentary failed for slide {slide_number}: {e}")
-        return f"_Commentary generation failed: {e}_"
+        return "_Commentary generation failed. Please click Re-analyze to try again._"
 
 
 # ===========================================================================
@@ -500,12 +633,16 @@ async def extract_slide_references(
     })
 
     try:
-        response = client.messages.create(
+        response = _call_claude_with_retry(
+            client,
+            label="reference extraction",
             model=CLAUDE_MODEL,
             max_tokens=2000,
             system=REFERENCE_EXTRACTION_PROMPT,
             messages=[{"role": "user", "content": user_content}],
         )
+        if not response:
+            return []
         text = response.content[0].text.strip()
         # Parse JSON — handle markdown code blocks
         if text.startswith("```"):
@@ -622,12 +759,16 @@ async def _generate_deck_summary(
     )
 
     try:
-        response = client.messages.create(
+        response = _call_claude_with_retry(
+            client,
+            label="deck summary",
             model=CLAUDE_MODEL,
             max_tokens=1000,
             system="You are a senior biotech investment analyst writing a deck review memo.",
             messages=[{"role": "user", "content": prompt}],
         )
+        if not response:
+            return "_Summary temporarily unavailable — the AI service is busy._"
         return response.content[0].text
     except Exception as e:
         return f"_Summary generation failed: {e}_"
@@ -734,7 +875,9 @@ async def compare_slides_to_document(
 
         compare_doc_title = doc_chunks[0].get("title", "comparison document") if doc_chunks else "document"
 
-        response = client.messages.create(
+        response = _call_claude_with_retry(
+            client,
+            label="slide comparison",
             model=CLAUDE_MODEL,
             max_tokens=600,
             system="You are a biotech investment analyst comparing data across documents.",
@@ -746,6 +889,8 @@ async def compare_slides_to_document(
             )}],
         )
 
+        comparison_text = response.content[0].text if response else "_Comparison temporarily unavailable — the AI service is busy._"
+
         return {
             "compare_doc_title": compare_doc_title,
             "related_chunks": [{
@@ -754,7 +899,7 @@ async def compare_slides_to_document(
                 "page_number": c.get("page_number", 0),
                 "similarity": c.get("similarity", 0),
             } for c in top_chunks],
-            "comparison": response.content[0].text,
+            "comparison": comparison_text,
         }
 
     except Exception as e:
