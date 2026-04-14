@@ -117,7 +117,8 @@ def _lookup_doc_path(doc_id: int):
 _slide_images_table_ready = False
 
 def _ensure_slide_images_table():
-    """Create the slide_images table if it doesn't exist yet."""
+    """Create the slide_images table if it doesn't exist yet.
+    Also adds slide_text column if upgrading from older schema."""
     global _slide_images_table_ready
     if _slide_images_table_ready:
         return
@@ -130,9 +131,14 @@ def _ensure_slide_images_table():
                 document_id INTEGER NOT NULL,
                 page_number INTEGER NOT NULL,
                 image_b64 TEXT NOT NULL,
+                slide_text TEXT DEFAULT '',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE(document_id, page_number)
             )
+        """)
+        # Add slide_text column if upgrading from older schema
+        cur.execute("""
+            ALTER TABLE slide_images ADD COLUMN IF NOT EXISTS slide_text TEXT DEFAULT ''
         """)
         cur.close()
         _slide_images_table_ready = True
@@ -157,13 +163,16 @@ def _cache_slide_images(doc_id: int, slides: list):
     for slide in slides:
         img = slide.get("image_b64", "")
         page = slide.get("slide_number", 0)
+        text = slide.get("text", "")
         if img and page:
             try:
                 cur.execute(
-                    """INSERT INTO slide_images (document_id, page_number, image_b64)
-                       VALUES (%s, %s, %s)
-                       ON CONFLICT (document_id, page_number) DO NOTHING""",
-                    (doc_id, page, img),
+                    """INSERT INTO slide_images (document_id, page_number, image_b64, slide_text)
+                       VALUES (%s, %s, %s, %s)
+                       ON CONFLICT (document_id, page_number)
+                       DO UPDATE SET slide_text = EXCLUDED.slide_text
+                       WHERE slide_images.slide_text IS NULL OR slide_images.slide_text = ''""",
+                    (doc_id, page, img, text),
                 )
                 cached += 1
             except Exception:
@@ -229,14 +238,16 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
         conn = _get_db()
         cur = conn.cursor()
 
-        # 1) Check how many pre-rendered slide images exist (without loading blob data)
+        # 1) Check for cached slide images + per-page text
         cur.execute("""
-            SELECT page_number FROM slide_images
+            SELECT page_number, slide_text FROM slide_images
             WHERE document_id = %s ORDER BY page_number
         """, (doc_id,))
-        image_pages = [r[0] for r in cur.fetchall()]
+        cached_slides = cur.fetchall()  # [(page_num, slide_text), ...]
+        image_pages = [r[0] for r in cached_slides]
+        slide_text_by_page = {r[0]: r[1] or "" for r in cached_slides}
 
-        # 2) Always load chunks for text content
+        # 2) Load chunks as fallback text source (for slides without per-page text)
         cur.execute("""
             SELECT chunk_index, section_title, content, token_count, page_number
             FROM chunks WHERE document_id = %s ORDER BY chunk_index
@@ -245,6 +256,7 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
 
         # ── CACHE HIT: serve from slide_images table (fast, no PDF needed) ──
         if image_pages:
+            # Build chunk lookup as fallback only for slides missing per-page text
             chunk_text_by_page: dict[int, tuple[str, str]] = {}
             for chunk_idx, section, content, tokens, page_num in chunk_rows:
                 if page_num is not None and page_num not in chunk_text_by_page:
@@ -262,7 +274,14 @@ async def deck_extract_slides(doc_id: int, images: bool = True):
 
             slides = []
             for i, page_num in enumerate(image_pages):
-                text, section = chunk_text_by_page.get(page_num, ("", ""))
+                # Prefer per-page text from slide_images (accurate), fall back to chunks
+                page_text = slide_text_by_page.get(page_num, "")
+                if page_text:
+                    text = page_text
+                    section = ""
+                else:
+                    text, section = chunk_text_by_page.get(page_num, ("", ""))
+
                 slides.append({
                     "slide_number": page_num,
                     "text": text,
@@ -357,7 +376,7 @@ async def get_slide_image(doc_id: int, page_number: int):
         conn = _get_db()
         cur = conn.cursor()
         cur.execute("""
-            SELECT image_b64 FROM slide_images
+            SELECT image_b64, slide_text FROM slide_images
             WHERE document_id = %s AND page_number = %s
         """, (doc_id, page_number))
         row = cur.fetchone()
@@ -366,7 +385,10 @@ async def get_slide_image(doc_id: int, page_number: int):
         if not row:
             return JSONResponse({"error": "Image not found"}, status_code=404)
 
-        return JSONResponse({"image_b64": row[0]})
+        result = {"image_b64": row[0]}
+        if row[1]:
+            result["slide_text"] = row[1]
+        return JSONResponse(result)
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
 
@@ -388,7 +410,7 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
 
     file_path = lookup[0]
 
-    # ── CACHE-FIRST: check DB for cached image + text before touching PDF ──
+    # ── CACHE-FIRST: check DB for cached image + per-page text before touching PDF ──
     slide_image = ""
     chunk_text = ""
     try:
@@ -396,36 +418,41 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
         conn = _get_db()
         cur = conn.cursor()
 
-        # 1) Try to get the pre-rendered image for this slide
+        # 1) Try to get the pre-rendered image AND per-page text for this slide
         cur.execute("""
-            SELECT image_b64 FROM slide_images
+            SELECT image_b64, slide_text FROM slide_images
             WHERE document_id = %s AND page_number = %s
         """, (request.doc_id, request.slide_number))
         img_row = cur.fetchone()
         slide_image = img_row[0] if img_row else ""
+        per_page_text = img_row[1] if img_row and img_row[1] else ""
 
-        # 2) Get text content — try by page_number first, then chunk_index
-        cur.execute("""
-            SELECT content, section_title FROM chunks
-            WHERE document_id = %s AND page_number = %s
-            ORDER BY chunk_index LIMIT 1
-        """, (request.doc_id, request.slide_number))
-        text_row = cur.fetchone()
-        if not text_row:
+        # 2) Use per-page text if available (accurate), fall back to chunks
+        if per_page_text:
+            chunk_text = per_page_text
+        else:
             cur.execute("""
                 SELECT content, section_title FROM chunks
-                WHERE document_id = %s AND chunk_index = %s
-            """, (request.doc_id, request.slide_number - 1))
+                WHERE document_id = %s AND page_number = %s
+                ORDER BY chunk_index LIMIT 1
+            """, (request.doc_id, request.slide_number))
             text_row = cur.fetchone()
+            if not text_row:
+                cur.execute("""
+                    SELECT content, section_title FROM chunks
+                    WHERE document_id = %s AND chunk_index = %s
+                """, (request.doc_id, request.slide_number - 1))
+                text_row = cur.fetchone()
+            chunk_text = text_row[0] if text_row else ""
         cur.close()
 
         chunk_text = text_row[0] if text_row else ""
     except Exception as e:
         print(f"  [deck] Cache lookup for analysis failed: {e}")
 
-    # If we have a cached image, use it with text override — no PDF needed
+    # If we have a cached image, send it to Claude for vision analysis — no PDF needed
     if slide_image:
-        print(f"  [deck] Analyze slide {request.slide_number}: using cached image (no PDF extraction)")
+        print(f"  [deck] Analyze slide {request.slide_number}: using cached image for vision analysis (no PDF extraction)")
         result = await analyze_single_slide(
             pdf_path=None,
             slide_number=request.slide_number,
@@ -433,8 +460,11 @@ async def deck_analyze_slide(request: DeckSlideAnalyzeRequest):
             company_name=request.company_name,
             exclude_doc_id=request.doc_id,
             slide_text_override=chunk_text or "(No text extracted for this slide)",
+            slide_image_override=slide_image,  # Claude sees the actual slide image
         )
-        result["image_b64"] = slide_image
+        # Ensure the image is in the response for frontend display too
+        if "image_b64" not in result or not result["image_b64"]:
+            result["image_b64"] = slide_image
         return JSONResponse(result)
 
     # Cache miss — fall back to PDF on disk

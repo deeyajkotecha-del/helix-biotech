@@ -544,15 +544,17 @@ async def analyze_single_slide(
     company_name: str = "",
     exclude_doc_id: int = None,
     slide_text_override: str = None,
+    slide_image_override: str = None,
 ) -> dict:
     """Analyze a single slide — useful for on-demand analysis in the UI.
-    If slide_text_override is provided, uses that text instead of extracting from PDF.
-    This enables text-only analysis when the PDF isn't available on disk."""
+    If slide_text_override / slide_image_override are provided, uses those
+    instead of extracting from PDF. This enables cached analysis without
+    re-rendering the PDF every time."""
 
-    if slide_text_override is not None:
-        # Text-only mode: no PDF needed
-        slide_text = slide_text_override
-        slide_image = ""
+    if slide_text_override is not None or slide_image_override is not None:
+        # Cached mode: use provided text + image, no PDF needed
+        slide_text = slide_text_override or ""
+        slide_image = slide_image_override or ""
     else:
         slides = extract_slides(pdf_path)
         if slide_number < 1 or slide_number > len(slides):
