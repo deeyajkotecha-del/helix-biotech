@@ -158,11 +158,32 @@ REGIONAL_SOURCES = {
             "focus": "Clinical trial readouts and data presentations",
         },
         {
+            "name": "FiercePharma — All News",
+            "url": "https://www.fiercepharma.com/rss/xml",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "All FiercePharma headlines — FDA approvals, deals, clinical data, company news",
+        },
+        {
             "name": "FiercePharma — Pipeline",
             "url": "https://www.fiercepharma.com/pipeline/feed",
             "parse_type": "rss",
             "language": "en",
             "focus": "Pipeline updates across pharma (sister publication)",
+        },
+        {
+            "name": "FiercePharma — Manufacturing",
+            "url": "https://www.fiercepharma.com/manufacturing/feed",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "Manufacturing, supply chain, CMO/CDMO news",
+        },
+        {
+            "name": "FiercePharma — Pharma",
+            "url": "https://www.fiercepharma.com/pharma/feed",
+            "parse_type": "rss",
+            "language": "en",
+            "focus": "Pharma company news, earnings, strategy, regulatory decisions",
         },
         {
             "name": "Endpoints News",
@@ -473,8 +494,12 @@ def parse_rss_feed(source):
             elif hasattr(entry, "description"):
                 summary = BeautifulSoup(entry.description, "html.parser").get_text(strip=True)
 
+            # Some feeds (FiercePharma) wrap titles in <a> tags — strip HTML
+            raw_title = entry.get("title", "").strip()
+            clean_title = BeautifulSoup(raw_title, "html.parser").get_text(strip=True)
+
             articles.append({
-                "title": entry.get("title", "").strip(),
+                "title": clean_title,
                 "url": entry.get("link", ""),
                 "published": pub_date,
                 "summary": summary[:2000],
