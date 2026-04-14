@@ -8,7 +8,8 @@ import {
   EnrichmentPage,
   GlobalPage,
   ForecasterPage,
-  DeckAnalyzerPage
+  DeckAnalyzerPage,
+  EvidenceChatPage
 } from './components/evidence';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/global" element={<GlobalPage />} />
         <Route path="/forecaster" element={<ForecasterPage />} />
         <Route path="/deck-analyzer" element={<DeckAnalyzerPage />} />
+        <Route path="/chat" element={<EvidenceChatPage />} />
       </Route>
 
       {/* Legacy search route (no sidebar) */}

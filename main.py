@@ -125,14 +125,22 @@ app.include_router(oauth_router, prefix="/api/oauth", tags=["OAuth"])
 # Frontend Routes
 # =============================================================================
 
-# Search page — serves the React SPA (Open Evidence-style search)
+# SPA Routes — serve the React app for all client-side routes
+_SPA_ROUTES = ["/search", "/chat", "/directory", "/enrichment", "/global", "/forecaster", "/deck-analyzer"]
+
 @app.get("/search", response_class=HTMLResponse)
-async def serve_search():
-    """Serve the React SPA for the search page."""
+@app.get("/chat", response_class=HTMLResponse)
+@app.get("/directory", response_class=HTMLResponse)
+@app.get("/enrichment", response_class=HTMLResponse)
+@app.get("/global", response_class=HTMLResponse)
+@app.get("/forecaster", response_class=HTMLResponse)
+@app.get("/deck-analyzer", response_class=HTMLResponse)
+async def serve_spa():
+    """Serve the React SPA for all client-side routes."""
     react_index = BASE_DIR / "app" / "dist" / "index.html"
     if react_index.exists():
         return FileResponse(react_index)
-    return HTMLResponse("<h1>Search page not built yet</h1><p>Run <code>cd app && npm run build</code> to build the React frontend.</p>", status_code=503)
+    return HTMLResponse("<h1>App not built yet</h1><p>Run <code>cd app && npm run build</code> to build the React frontend.</p>", status_code=503)
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_index():
