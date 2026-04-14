@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, FormEvent } from 'react'
 import EvidenceAnswerPanel from './EvidenceAnswerPanel'
 import EvidenceSourceSidebar from './EvidenceSourceSidebar'
-import type { SearchResult, SearchSource, QueryPlan, SearchMetadata, SearchTiming } from './types'
+import type { SearchSource, QueryPlan, SearchMetadata, SearchTiming } from './types'
 import './evidence.css'
 
 /* ───────── Types ───────── */
