@@ -6,7 +6,6 @@ export default function AppLayout() {
 
   const navItems = [
     { path: '/', label: 'Search', icon: SearchIcon },
-    { path: '/chat', label: 'Chat', icon: ChatIcon },
     { path: '/companies', label: 'Companies', icon: CompaniesIcon },
     { path: '/directory', label: 'Directory', icon: DirectoryIcon },
     { path: '/enrichment', label: 'Enrichment', icon: EnrichmentIcon },
@@ -108,14 +107,6 @@ function GlobalIcon() {
       <circle cx="12" cy="12" r="10"></circle>
       <path d="M2 12h20"></path>
       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-    </svg>
-  )
-}
-
-function ChatIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
     </svg>
   )
 }

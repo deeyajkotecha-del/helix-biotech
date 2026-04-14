@@ -1,5 +1,4 @@
 import { Routes, Route } from 'react-router-dom';
-import { SearchPage } from './components/search';
 import {
   EvidencePage,
   AppLayout,
@@ -9,7 +8,6 @@ import {
   GlobalPage,
   ForecasterPage,
   DeckAnalyzerPage,
-  EvidenceChatPage
 } from './components/evidence';
 
 function App() {
@@ -18,6 +16,7 @@ function App() {
       {/* Main layout with sidebar navigation */}
       <Route element={<AppLayout />}>
         <Route path="/" element={<EvidencePage />} />
+        <Route path="/search" element={<EvidencePage />} />
         <Route path="/extract" element={<EvidencePage />} />
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/directory" element={<DirectoryPage />} />
@@ -25,11 +24,7 @@ function App() {
         <Route path="/global" element={<GlobalPage />} />
         <Route path="/forecaster" element={<ForecasterPage />} />
         <Route path="/deck-analyzer" element={<DeckAnalyzerPage />} />
-        <Route path="/chat" element={<EvidenceChatPage />} />
       </Route>
-
-      {/* Legacy search route (no sidebar) */}
-      <Route path="/search" element={<SearchPage />} />
     </Routes>
   );
 }
