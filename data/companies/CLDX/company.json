@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "CLDX",
+    "company_name": "Celldex Therapeutics",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Celldex Therapeutics",
+    "ticker": "CLDX",
+    "exchange": "NASDAQ",
+    "headquarters": "Hampton, NJ",
+    "website": "https://www.celldex.com",
+    "ir_contact": "investors@celldex.com",
+    "one_liner": "Bispecific antibodies targeting mast cell-driven diseases including chronic urticaria",
+    "company_description": "Celldex Therapeutics is developing barzolvolimab, a KIT-targeting antibody that depletes mast cells. Breakthrough Phase 2 data in chronic spontaneous urticaria (CSU) showed near-complete resolution of hives and itch in patients refractory to standard therapy."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Celldex's barzolvolimab is the most compelling new mechanism in chronic urticaria since omalizumab (Xolair), with Phase 2 data showing unprecedented complete response rates in CSU. If Phase 3 confirms, this is a multi-billion dollar asset in a $5B+ market.",
+    "key_value_drivers": [
+      "Barzolvolimab: Anti-KIT mast cell depleter with complete response rates >50% in CSU Phase 2",
+      "Phase 3 CELESTE-1 and CELESTE-2 in CSU enrolling \u2014 pivotal data expected 2026-2027",
+      "Mast cell depletion approach: potential beyond CSU into CIndU, prurigo nodularis, mastocytosis",
+      "Xolair patent cliff + incomplete efficacy creates a massive switching opportunity"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Barzolvolimab: Anti-KIT mast cell depleter with complete response rates >50% in CSU Phase 2",
+      "Phase 3 CELESTE-1 and CELESTE-2 in CSU enrolling \u2014 pivotal data expected 2026-2027",
+      "Mast cell depletion approach: potential beyond CSU into CIndU, prurigo nodularis, mastocytosis"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 3,
+    "programs": [
+      {
+        "asset": "Barzolvolimab",
+        "target": "KIT",
+        "stage": "Phase 3",
+        "indications": "Chronic spontaneous urticaria",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 CELESTE data 2026-2027"
+      },
+      {
+        "asset": "Barzolvolimab",
+        "target": "KIT",
+        "stage": "Phase 2",
+        "indications": "CIndU, prurigo nodularis",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 expansion data"
+      },
+      {
+        "asset": "CDX-527",
+        "target": "PD-L1 x CD27",
+        "stage": "Phase 1",
+        "indications": "Solid tumors",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "antibody",
+    "description": "Celldex Therapeutics is developing barzolvolimab, a KIT-targeting antibody that depletes mast cells. Breakthrough Phase 2 data in chronic spontaneous urticaria (CSU) showed near-complete resolution of"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

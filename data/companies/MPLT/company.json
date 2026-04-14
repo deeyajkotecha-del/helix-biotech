@@ -1,0 +1,76 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "MPLT",
+    "company_name": "Maplight Therapeutics",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Maplight Therapeutics",
+    "ticker": "MPLT",
+    "exchange": "NASDAQ",
+    "headquarters": "San Diego, CA",
+    "website": "https://www.maplighttherapeutics.com",
+    "ir_contact": "investors@maplighttherapeutics.com",
+    "one_liner": "Developing ML-007 (5-HT2A agonist) for neuropsychiatric disorders including schizophrenia and treatment-resistant depression",
+    "company_description": "Maplight Therapeutics is a clinical-stage neuroscience company developing ML-007, a selective 5-HT2A receptor agonist for neuropsychiatric disorders. The approach leverages psychedelic-inspired pharmacology without hallucinogenic effects for potential use in schizophrenia negative symptoms and treatment-resistant depression."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Maplight is developing next-generation serotonergic therapies that capture the neuroplasticity benefits of psychedelic-class compounds without the hallucinogenic burden. If ML-007 demonstrates efficacy in schizophrenia negative symptoms \u2014 an area with zero approved treatments \u2014 this would be a transformative first-in-class therapy.",
+    "key_value_drivers": [
+      "ML-007: Selective 5-HT2A agonist \u2014 psychedelic-inspired but non-hallucinogenic",
+      "Targeting schizophrenia negative symptoms \u2014 no approved treatments exist",
+      "Phase 2 readout could validate a new class of serotonergic neuroplastogens",
+      "Treatment-resistant depression expansion \u2014 large market if mechanism validates"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "ML-007: Selective 5-HT2A agonist \u2014 psychedelic-inspired but non-hallucinogenic",
+      "Targeting schizophrenia negative symptoms \u2014 no approved treatments exist",
+      "Phase 2 readout could validate a new class of serotonergic neuroplastogens"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 2,
+    "clinical_stage": 2,
+    "programs": [
+      {
+        "asset": "ML-007",
+        "target": "5-HT2A",
+        "stage": "Phase 2",
+        "indications": "Schizophrenia (negative symptoms)",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 data 2026"
+      },
+      {
+        "asset": "ML-007",
+        "target": "5-HT2A",
+        "stage": "Phase 1",
+        "indications": "Treatment-resistant depression",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "small_molecule",
+    "description": "Maplight Therapeutics is a clinical-stage neuroscience company developing ML-007, a selective 5-HT2A receptor agonist for neuropsychiatric disorders. The approach leverages psychedelic-inspired pharma"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

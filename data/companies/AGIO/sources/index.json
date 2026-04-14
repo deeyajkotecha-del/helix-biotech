@@ -1,0 +1,284 @@
+{
+  "ticker": "AGIO",
+  "last_scraped": "2026-04-09T14:51:43.707127",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "AGIO 10-K \u2014 2026-02-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000025/agio-20251231.htm",
+      "date": "2026-02-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AGIO 8-K \u2014 2026-02-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000023/agio-20260212.htm",
+      "date": "2026-02-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AGIO 8-K \u2014 2026-01-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922226000018/agio-20260112.htm",
+      "date": "2026-01-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AGIO 10-Q \u2014 2025-10-30",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922225000116/agio-20250930.htm",
+      "date": "2025-10-30"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AGIO 8-K \u2014 2025-10-30",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922225000114/agio-20251030.htm",
+      "date": "2025-10-30"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AGIO 8-K \u2014 2025-08-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922225000090/agio-20250804.htm",
+      "date": "2025-08-04"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AGIO 10-Q \u2014 2025-07-31",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922225000089/agio-20250630.htm",
+      "date": "2025-07-31"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AGIO 8-K \u2014 2025-07-31",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922225000087/agio-20250731.htm",
+      "date": "2025-07-31"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AGIO 8-K \u2014 2025-07-08",
+      "url": "https://www.sec.gov/Archives/edgar/data/1439222/000143922225000076/agio-20250703.htm",
+      "date": "2025-07-08"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Acquired Pyruvate Kinase Deficiency In Clonal Myeloid Neoplasms",
+      "url": "https://clinicaltrials.gov/study/NCT04902833",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Evaluating the Efficacy and Safety of Mitapivat in Participants With Non-Transfusion-Dependent Alpha- or Beta-Thalassemia (\u03b1- or \u03b2-NTDT)",
+      "url": "https://clinicaltrials.gov/study/NCT04770753",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate the Efficacy and Safety of Mitapivat in Pediatric Participants With Pyruvate Kinase Deficiency (PKD) Who Are Not Regularly Transfused, Followed by a 5-Year Extension Period",
+      "url": "https://clinicaltrials.gov/study/NCT05175105",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Evaluating the Efficacy and Safety of Mitapivat (AG-348) in Participants With Sickle Cell Disease (RISE UP)",
+      "url": "https://clinicaltrials.gov/study/NCT05031780",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Investigate the Efficacy, Pharmacokinetics, and Safety of Mitapivat in Pediatric Participants With Transfusion-Dependent Alpha- or Beta-Thalassemia (\u03b1- or \u03b2-TDT)",
+      "url": "https://clinicaltrials.gov/study/NCT07506863",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "To Assess Safety of Mitapivat and Provide Proof of Concept of the Efficacy of the Drug in Patients With RBC Membranopathies or CDAII.",
+      "url": "https://clinicaltrials.gov/study/NCT07055243",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of Tebapivat (AG-946) in Participants With Anemia Due to Lower-Risk Myelodysplastic Syndromes (LR-MDS)",
+      "url": "https://clinicaltrials.gov/study/NCT05490446",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Dose-Finding Study of Tebapivat to Assess Efficacy, and Safety in Participants With Sickle Cell Disease (SCD)",
+      "url": "https://clinicaltrials.gov/study/NCT06924970",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Investigate the Efficacy, Pharmacokinetics, and Safety of Mitapivat in Pediatric Participants With \u03b1- or \u03b2-Non-Transfusion-Dependent Thalassemia",
+      "url": "https://clinicaltrials.gov/study/NCT07517133",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate the Efficacy and Safety of Mitapivat in Pediatric Participants With Pyruvate Kinase Deficiency (PKD) Who Are Regularly Transfused, Followed by a 5-Year Extension Period",
+      "url": "https://clinicaltrials.gov/study/NCT05144256",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Determine the Efficacy, Safety, Pharmacokinetics, and Pharmacodynamics of AG-348 in Adult Participants With Non-transfusion-dependent Thalassemia",
+      "url": "https://clinicaltrials.gov/study/NCT03692052",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Determine the Safety and Tolerability of AG-236 and How it is Absorbed, Broken Down, and Eliminated From the Body in Healthy Participants",
+      "url": "https://clinicaltrials.gov/study/NCT07075640",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Pyruvate Kinase Deficiency Global Longitudinal Registry",
+      "url": "https://clinicaltrials.gov/study/NCT03481738",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Evaluating the Efficacy and Safety of Mitapivat in Participants With Transfusion-Dependent Alpha- or Beta-Thalassemia (\u03b1- or \u03b2-TDT)",
+      "url": "https://clinicaltrials.gov/study/NCT04770779",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate Safety, Tolerability, Pharmacokinetics, and Pharmacodynamics of AG-181 in Subjects With Phenylketonuria",
+      "url": "https://clinicaltrials.gov/study/NCT07241234",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Provide Continued Access to Mitapivat for Participants Who Previously Completed an Agios-Sponsored Mitapivat Study",
+      "url": "https://clinicaltrials.gov/study/NCT05777993",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "AG-120 in People With IDH1 Mutant Chondrosarcoma",
+      "url": "https://clinicaltrials.gov/study/NCT04278781",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Long-term mitapivat treatment is safe and efficacious in patients with sickle cell disease.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41809202/",
+      "date": "2025 Sep"
+    },
+    {
+      "type": "publication",
+      "title": "Economic burden of non-transfusion-dependent thalassemia in the United States.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41632448/",
+      "date": "2026 Dec"
+    },
+    {
+      "type": "publication",
+      "title": "Single-cell proteogenomic analysis of clonal evolution in PDX models of AML treated with IDH inhibitors.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41574313/",
+      "date": "2026 Feb"
+    },
+    {
+      "type": "publication",
+      "title": "MAPK Pathway Mutations Emerge in Mutant IDH1 Inhibitor-Resistant Cholangiocarcinoma and Attenuate the IFN Response.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41460204/",
+      "date": "2026 Mar 2"
+    },
+    {
+      "type": "publication",
+      "title": "Phenotypic Screening with Primary and Human iPSC-derived Neurons.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41359787/",
+      "date": "2004"
+    },
+    {
+      "type": "publication",
+      "title": "Methionine regulates antitumor function of CD8(+) T cells through polyamine synthesis.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41256484/",
+      "date": "2025 Oct 5"
+    },
+    {
+      "type": "publication",
+      "title": "Eltrombopag for Newly Diagnosed Pediatric Immune Thrombocytopenia Requiring Treatment: The PINES Randomized Clinical Trial.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41123939/",
+      "date": "2025 Nov 25"
+    },
+    {
+      "type": "publication",
+      "title": "Bayesian mediation analysis using patient-reported outcomes from AI chatbots to infer causal pathways in clinical trials.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40705787/",
+      "date": "2025"
+    },
+    {
+      "type": "publication",
+      "title": "Mitapivat in adults with non-transfusion-dependent \u03b1-thalassaemia or \u03b2-thalassaemia (ENERGIZE): a phase 3, international, randomised, double-blind, placebo-controlled trial.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40544857/",
+      "date": "2025 Jul 5"
+    },
+    {
+      "type": "publication",
+      "title": "Interference and Artifacts in High-content Screening.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40435339/",
+      "date": "2004"
+    },
+    {
+      "type": "publication",
+      "title": "Three-year safety, efficacy, and renal outcomes of mitapivat treatment in sickle cell disease: results from the phase 2 open-label study.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41742872/",
+      "date": "2026 Feb 26"
+    },
+    {
+      "type": "publication",
+      "title": "Pyruvate Kinase Activators for Sickle Cell Disease: An Exploratory Systematic Review and Meta-Analysis.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41742605/",
+      "date": "2026 Feb 25"
+    },
+    {
+      "type": "publication",
+      "title": "Beta-Thalassemia.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20301599/",
+      "date": "1993"
+    },
+    {
+      "type": "publication",
+      "title": "Discovery of 8-quinolinesulfonamide phenylimidazole-based PKM2 agonists for the prevention and delay of aortic dissection.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41420891/",
+      "date": "2026 Feb 15"
+    },
+    {
+      "type": "publication",
+      "title": "S-Nitrosylation of Pyruvate Kinase Isoform 2 Drives Cardiac Fibrosis by Promoting Mitochondrial Fission.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41368700/",
+      "date": "2026 Feb 3"
+    },
+    {
+      "type": "publication",
+      "title": "Mitapivat-Associated Adverse Effects and Potential Mechanistic: Insights From Real-World Data.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41078292/",
+      "date": "2025 Oct"
+    },
+    {
+      "type": "publication",
+      "title": "Metabolomics in sickle cell disease: Current knowledge and gaps - A scoping review.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40945973/",
+      "date": "2025 Nov"
+    },
+    {
+      "type": "publication",
+      "title": "The ENERGIZE trial: Is mitapivat ready to take center stage in NTDT management?",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40945502/",
+      "date": "2025 Sep 12"
+    },
+    {
+      "type": "publication",
+      "title": "Potent Fluorescent Probe for Target-Engagement Studies of Allosteric Pyruvate Kinase Modulators.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40884041/",
+      "date": "2025 Oct 13"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 9,
+    "clinical_trials": 17,
+    "publications": 19,
+    "conference_posters": 0,
+    "total": 45
+  }
+}

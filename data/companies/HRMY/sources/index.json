@@ -1,0 +1,218 @@
+{
+  "ticker": "HRMY",
+  "last_scraped": "2026-04-09T14:55:27.444383",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "HRMY DEF 14A \u2014 2026-04-03",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465926039449/hrmy-20260514xdef14a.htm",
+      "date": "2026-04-03"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 8-K \u2014 2026-04-02",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465926038888/hrmy-20260331x8k.htm",
+      "date": "2026-04-02"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 10-K \u2014 2026-02-24",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465926018859/hrmy-20251231x10k.htm",
+      "date": "2026-02-24"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 8-K \u2014 2026-02-24",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465926018858/hrmy-20260224x8k.htm",
+      "date": "2026-02-24"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 8-K \u2014 2026-01-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465926002731/hrmy-20260112x8k.htm",
+      "date": "2026-01-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 10-Q \u2014 2025-11-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465925105962/hrmy-20250930x10q.htm",
+      "date": "2025-11-04"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 8-K \u2014 2025-11-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465925105942/hrmy-20251104x8k.htm",
+      "date": "2025-11-04"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 8-K \u2014 2025-10-23",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465925101688/hrmy-20251023x8k.htm",
+      "date": "2025-10-23"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 8-K \u2014 2025-09-24",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000110465925092776/hrmy-20250924x8k.htm",
+      "date": "2025-09-24"
+    },
+    {
+      "type": "sec_filing",
+      "title": "HRMY 10-Q \u2014 2025-08-05",
+      "url": "https://www.sec.gov/Archives/edgar/data/1802665/000155837025010185/hrmy-20250630x10q.htm",
+      "date": "2025-08-05"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of Pitolisant in Participants With Prader-Willi Syndrome",
+      "url": "https://clinicaltrials.gov/study/NCT07219485",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "WAKIX\u00ae (Pitolisant) Pregnancy Registry",
+      "url": "https://clinicaltrials.gov/study/NCT05536011",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Phase 2 Study to Evaluate the Safety and Efficacy of Pitolisant in Patients With Prader-Willi Syndrome, Followed by an Open Label Extension",
+      "url": "https://clinicaltrials.gov/study/NCT04257929",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Phase 3 Efficacy and Safety Study of HBS-301 in Participants With Idiopathic Hypersomnia (IH)",
+      "url": "https://clinicaltrials.gov/study/NCT07500090",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of Pitolisant in Patients With Prader-Willi Syndrome",
+      "url": "https://clinicaltrials.gov/study/NCT06366464",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of EPX-100 (Clemizole Hydrochloride) in Participants With Dravet Syndrome",
+      "url": "https://clinicaltrials.gov/study/NCT04462770",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "An Efficacy and Safety Study of Clemizole HCl in Patients With Lennox-Gastaut Syndrome",
+      "url": "https://clinicaltrials.gov/study/NCT05066217",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Caregiver-perceived behavioral challenges in fragile X syndrome and implications for measuring treatment benefit in clinical trials.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41920238/",
+      "date": "2026 Apr 1"
+    },
+    {
+      "type": "publication",
+      "title": "Phase 2, open-label INSPIRE trial to assess the tolerability and effectiveness of transdermal cannabidiol gel in children and adolescents with 22q11.2 deletion syndrome (ZYN2-CL-031).",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41888667/",
+      "date": "2026 Mar 26"
+    },
+    {
+      "type": "publication",
+      "title": "Long-term safety and tolerability of transdermal cannabidiol gel in children and adolescents with Fragile X syndrome (ZYN2-CL-017): an interim analysis of an ongoing open-label extension study.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41254489/",
+      "date": "2025 Nov 18"
+    },
+    {
+      "type": "publication",
+      "title": "A proof-of-concept study of pitolisant for excessive daytime sleepiness in patients with Prader-Willi syndrome.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40605372/",
+      "date": "2025 Nov 1"
+    },
+    {
+      "type": "publication",
+      "title": "Use of Basket Trials to Solve Sleep Problems in Patients with Rare Diseases.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39584973/",
+      "date": "2024 Nov 5"
+    },
+    {
+      "type": "publication",
+      "title": "Ensuring Stakeholder Feedback in the Design and Conduct of Clinical Trials for Rare Diseases: ISCTM Position Paper of the Orphan Disease Working Group.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38495603/",
+      "date": "2024 Jan-Mar"
+    },
+    {
+      "type": "publication",
+      "title": "Safety and Efficacy of Apitegromab in Patients With Spinal Muscular Atrophy Types 2 and 3: The Phase 2 TOPAZ Study.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38330285/",
+      "date": "2024 Mar 12"
+    },
+    {
+      "type": "publication",
+      "title": "Pitolisant.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/36701509/",
+      "date": "2006"
+    },
+    {
+      "type": "publication",
+      "title": "[Therapeutic potential of histamine N-methyltransferase inhibition for the treatment of hypersomnia].",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41765433/",
+      "date": "2026"
+    },
+    {
+      "type": "publication",
+      "title": "Antiseizure Medications that Did Not Reach the Epilepsy Market: An Assessment of Factors Contributing to Their Failed Clinical Development Over the Last Three Decades.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41764707/",
+      "date": "2026 Mar 1"
+    },
+    {
+      "type": "publication",
+      "title": "Samelisant (SUVN-G3031), a histamine H3 receptor inverse agonist, as a potential treatment for narcolepsy: a phase-2 drug evaluation.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41725284/",
+      "date": "2026 Mar"
+    },
+    {
+      "type": "publication",
+      "title": "The dual G9a inhibitor and histamine H3 receptor antagonist A-366 improves repetitive and social behaviors and attenuates neuroinflammation in BTBR T\u2009+\u2009tf/J mice.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41634139/",
+      "date": "2026 Feb 3"
+    },
+    {
+      "type": "publication",
+      "title": "Pharmacological modulation of wakefulness and extracellular hypothalamic histamine release in adult male mice using TAK-925, modafinil, pitolisant, MK-8133 and Lu AF11167.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41621699/",
+      "date": "2026 May 15"
+    },
+    {
+      "type": "publication",
+      "title": "Pitolisant-associated mania - a case report.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41606500/",
+      "date": "2026 Jan 29"
+    },
+    {
+      "type": "publication",
+      "title": "Rational Design, Synthesis and Pharmacological Evaluation of Chalcones as Dual-Acting Compounds-Histamine H(3) Receptor Ligands and MAO-B Inhibitors.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41596234/",
+      "date": "2026 Jan 6"
+    },
+    {
+      "type": "publication",
+      "title": "A real-world study on the treatment of pediatric narcolepsy with pitolisant in China.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41588264/",
+      "date": "2026 Jan 27"
+    },
+    {
+      "type": "publication",
+      "title": "Pitolisant Inhibits Alcohol Drinking and Improves Withdrawal Negative Affect Through Lateral Habenula Histaminergic Signaling in Mice.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41492821/",
+      "date": "2026 Jan"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 7,
+    "publications": 17,
+    "conference_posters": 0,
+    "total": 34
+  }
+}

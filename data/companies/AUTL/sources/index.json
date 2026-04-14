@@ -1,0 +1,116 @@
+{
+  "ticker": "AUTL",
+  "last_scraped": "2026-04-09T14:48:40.183749",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "AUTL 8-K \u2014 2026-04-08",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000043/autl-20260408.htm",
+      "date": "2026-04-08"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 10-K \u2014 2026-03-27",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000038/autl-20251231.htm",
+      "date": "2026-03-27"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 8-K \u2014 2026-03-27",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000032/autl-20260327.htm",
+      "date": "2026-03-27"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 8-K \u2014 2026-01-26",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000019/autl-20260121.htm",
+      "date": "2026-01-26"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 8-K \u2014 2026-01-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000012/autl-20260112.htm",
+      "date": "2026-01-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 8-K \u2014 2025-12-02",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000095/autl-20251201.htm",
+      "date": "2025-12-02"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 10-Q \u2014 2025-11-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000088/autl-20250930.htm",
+      "date": "2025-11-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 8-K \u2014 2025-11-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000081/autl-20251112.htm",
+      "date": "2025-11-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 10-Q \u2014 2025-08-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000067/autl-20250630.htm",
+      "date": "2025-08-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AUTL 8-K \u2014 2025-08-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000064/autl-20250812.htm",
+      "date": "2025-08-12"
+    },
+    {
+      "type": "publication",
+      "title": "Tumor burden-guided dosing contributes to mitigation of immunotoxicities following treatment with obecabtagene autoleucel in adult patients with relapsed/refractory B-cell acute lymphoblastic leukemia",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41504229/",
+      "date": "2026 Jan 8"
+    },
+    {
+      "type": "publication",
+      "title": "ARM's Perspective on the First Joint Clinical Assessments for ATMPs: Challenges and Opportunities on the Path Ahead.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40276090/",
+      "date": "2025 Jun"
+    },
+    {
+      "type": "publication",
+      "title": "Reply to: Oligoclonality of TRBC1 and TRBC2 in T cell lymphomas as mechanism of primary resistance to TRBC-directed CAR T cell therapies.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39880830/",
+      "date": "2025 Jan 29"
+    },
+    {
+      "type": "publication",
+      "title": "Obecabtagene Autoleucel in Adults with B-Cell Acute Lymphoblastic Leukemia.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39602653/",
+      "date": "2024 Dec 12"
+    },
+    {
+      "type": "publication",
+      "title": "TRBC1-CAR T cell therapy in peripheral T cell lymphoma: a phase 1/2 trial.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39528665/",
+      "date": "2025 Jan"
+    },
+    {
+      "type": "publication",
+      "title": "Structure-guided engineering of immunotherapies targeting TRBC1 and TRBC2 in T cell malignancies.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38383515/",
+      "date": "2024 Feb 21"
+    },
+    {
+      "type": "publication",
+      "title": "Designer Small-Molecule Control System Based on Minocycline-Induced Disruption of Protein-Protein Interaction.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38243811/",
+      "date": "2024 Feb 16"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 0,
+    "publications": 7,
+    "conference_posters": 0,
+    "total": 17
+  }
+}

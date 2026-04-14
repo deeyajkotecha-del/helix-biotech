@@ -1,0 +1,200 @@
+{
+  "ticker": "KRYS",
+  "last_scraped": "2026-04-09T14:56:01.743555",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "KRYS DEF 14A \u2014 2026-04-03",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127926000036/krys-20260403.htm",
+      "date": "2026-04-03"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 8-K \u2014 2026-02-17",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127926000018/krys-20260217.htm",
+      "date": "2026-02-17"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 10-K \u2014 2026-02-17",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127926000016/krys-20251231.htm",
+      "date": "2026-02-17"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 8-K \u2014 2026-01-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127926000008/krys-20260111.htm",
+      "date": "2026-01-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 8-K \u2014 2026-01-08",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127926000005/krys-20260108.htm",
+      "date": "2026-01-08"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 8-K \u2014 2025-12-23",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127925000092/krys-20251223.htm",
+      "date": "2025-12-23"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 8-K \u2014 2025-11-03",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127925000088/krys-20251103.htm",
+      "date": "2025-11-03"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 10-Q \u2014 2025-11-03",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127925000087/krys-20250930.htm",
+      "date": "2025-11-03"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 8-K \u2014 2025-10-22",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127925000082/krys-20251022.htm",
+      "date": "2025-10-22"
+    },
+    {
+      "type": "sec_filing",
+      "title": "KRYS 8-K \u2014 2025-08-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1711279/000171127925000078/krys-20250804.htm",
+      "date": "2025-08-04"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Assessing KB707 for the Treatment of Locally Advanced or Metastatic Solid Tumors",
+      "url": "https://clinicaltrials.gov/study/NCT05970497",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Comparing KB801 Verse Placebo in Patients With Stage 2 or 3 Neurotrophic Keratitis",
+      "url": "https://clinicaltrials.gov/study/NCT06999733",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Long-Term Follow-up Protocol",
+      "url": "https://clinicaltrials.gov/study/NCT04917887",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Natural History Study of Corneal Abrasions in Patients With Dystrophic Epidermolysis Bullosa (DEB)",
+      "url": "https://clinicaltrials.gov/study/NCT06563414",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Assessing KB407 for the Treatment of Cystic Fibrosis",
+      "url": "https://clinicaltrials.gov/study/NCT05504837",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Phase I Study of KB301, a Replication-Incompetent, Non-Integrating Vector Expressing Human Type III Collagen (COL3) for the Treatment of Superficial Skin Depressions",
+      "url": "https://clinicaltrials.gov/study/NCT04540900",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Assessing KB707 for the Treatment of Advanced Solid Tumor Malignancies Affecting the Lungs",
+      "url": "https://clinicaltrials.gov/study/NCT06228326",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of KB408 for the Treatment of Alpha-1 Antitrypsin Deficiency",
+      "url": "https://clinicaltrials.gov/study/NCT06049082",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Assessing KB304 for the Treatment of Wrinkles in Women",
+      "url": "https://clinicaltrials.gov/study/NCT06724900",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study Comparing KB803 and Matched Placebo in Patients With Dystrophic Epidermolysis Bullosa",
+      "url": "https://clinicaltrials.gov/study/NCT07016750",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Efficacy and Safety of the Topical Gene Therapy Beremagene Geperpavec-svdt (B-VEC) in an Open-Label Study of Japanese Subjects With Dystrophic Epidermolysis Bullosa.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40667654/",
+      "date": "2025 Oct"
+    },
+    {
+      "type": "publication",
+      "title": "Correction to: Long-Term Safety and Tolerability of Beremagene Geperpavec-svdt (B-VEC) in an Open-Label Extension Study of Patients with Dystrophic Epidermolysis Bullosa.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40464880/",
+      "date": "2025 Jul"
+    },
+    {
+      "type": "publication",
+      "title": "Long-Term Safety and Tolerability of Beremagene Geperpavec-svdt (B-VEC) in an Open-Label Extension Study of Patients with Dystrophic Epidermolysis Bullosa.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40220208/",
+      "date": "2025 Jul"
+    },
+    {
+      "type": "publication",
+      "title": "Wound behavior in dystrophic epidermolysis bullosa: A retrospective natural history case series.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38971181/",
+      "date": "2024 Nov"
+    },
+    {
+      "type": "publication",
+      "title": "Transmission of viable Haemophilus ducreyi by Musca domestica.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38814945/",
+      "date": "2024 May"
+    },
+    {
+      "type": "publication",
+      "title": "Ocular Gene Therapy in a Patient with Dystrophic Epidermolysis Bullosa.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38324486/",
+      "date": "2024 Feb 8"
+    },
+    {
+      "type": "publication",
+      "title": "Estimated Spending on Beremagene Geperpavec for Dystrophic Epidermolysis Bullosa.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38294784/",
+      "date": "2024 Mar 1"
+    },
+    {
+      "type": "publication",
+      "title": "Developing CRISPR-Based Therapies for Epidermolysis Bullosa: A Comprehensive Review of Current Strategies.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41731282/",
+      "date": "2026 Apr"
+    },
+    {
+      "type": "publication",
+      "title": "Prademagene zamikeracel (Zevaskyn) for recessive dystrophic epidermolysis bullosa.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40651024/",
+      "date": "2025 Jul 21"
+    },
+    {
+      "type": "publication",
+      "title": "Towards Extracellular Vesicles in the Treatment of Epidermolysis Bullosa.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40564391/",
+      "date": "2025 May 27"
+    },
+    {
+      "type": "publication",
+      "title": "VYJUVEK for dystrophic epidermolysis bullosa: Ethical dilemmas in access and pricing.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40158551/",
+      "date": "2026 Jan"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 10,
+    "publications": 11,
+    "conference_posters": 0,
+    "total": 31
+  }
+}

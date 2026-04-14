@@ -1,0 +1,260 @@
+{
+  "ticker": "CLDX",
+  "last_scraped": "2026-04-09T14:50:24.165017",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "CLDX 8-K \u2014 2026-04-02",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000110465926038882/tm267111d2_8k.htm",
+      "date": "2026-04-02"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 10-K \u2014 2026-02-25",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000110465926019652/cldx-20251231x10k.htm",
+      "date": "2026-02-25"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 8-K \u2014 2026-02-25",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000117184326001098/f8k_022526.htm",
+      "date": "2026-02-25"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 10-Q \u2014 2025-11-10",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000110465925109137/cldx-20250930x10q.htm",
+      "date": "2025-11-10"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 8-K \u2014 2025-11-10",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000117184325007179/f8k_111025.htm",
+      "date": "2025-11-10"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 8-K \u2014 2025-08-19",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000110465925080248/tm2523903d1_8k.htm",
+      "date": "2025-08-19"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 10-Q \u2014 2025-08-07",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000141057825001610/cldx-20250630x10q.htm",
+      "date": "2025-08-07"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 8-K \u2014 2025-08-07",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000117184325005181/f8k_080625.htm",
+      "date": "2025-08-07"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 8-K \u2014 2025-06-06",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000110465925057066/tm2517205d1_8k.htm",
+      "date": "2025-06-06"
+    },
+    {
+      "type": "sec_filing",
+      "title": "CLDX 10-Q \u2014 2025-05-08",
+      "url": "https://www.sec.gov/Archives/edgar/data/744218/000141057825001111/cldx-20250331x10q.htm",
+      "date": "2025-05-08"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Investigate Efficacy, Safety and Tolerability of Barzolvolimab Versus Placebo in Adults With Cold Induced Urticaria and Symptomatic Dermographism Inadequately Controlled by H1-antihistamine",
+      "url": "https://clinicaltrials.gov/study/NCT07266402",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Pembrolizumab Combined With Bevacizumab With or Without Agonist Anti-CD40 CDX-1140 for the Treatment of Patients With Recurrent Ovarian Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT05231122",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "CD40 Agonist, Flt3 Ligand, and Chemotherapy in HER2 Negative Breast Cancer",
+      "url": "https://clinicaltrials.gov/study/NCT05029999",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of CDX-622 in Participants With Mild to Moderate Asthma",
+      "url": "https://clinicaltrials.gov/study/NCT07330778",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Phase 3 Study of Barzolvolimab in Participants With Chronic Spontaneous Urticaria (CSU)",
+      "url": "https://clinicaltrials.gov/study/NCT06455202",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "DC Migration Study to Evaluate TReg Depletion In GBM Patients With and Without Varlilumab",
+      "url": "https://clinicaltrials.gov/study/NCT03688178",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of Barzolvolimab in Patients With Prurigo Nodularis",
+      "url": "https://clinicaltrials.gov/study/NCT06366750",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Phase I Study of CDX-622",
+      "url": "https://clinicaltrials.gov/study/NCT06650761",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Personalized TCR-T: Study of Adoptively Transferred T-cell Receptor Gene-engineered T Cells (TCR-T)",
+      "url": "https://clinicaltrials.gov/study/NCT05349890",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Converting HR+ Breast Cancer Into an Individualized Vaccine",
+      "url": "https://clinicaltrials.gov/study/NCT03804944",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Long-term Efficacy and Safety Extension (LTE) Study of Barzolvolimab in Participants With Chronic Spontaneous Urticaria",
+      "url": "https://clinicaltrials.gov/study/NCT07256392",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "NeoVax + CDX-301 and Nivolumab or Pembrolizumab in Melanoma",
+      "url": "https://clinicaltrials.gov/study/NCT04930783",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Phase 3 Study of Barzolvolimab in Participants With Chronic Spontaneous Urticaria",
+      "url": "https://clinicaltrials.gov/study/NCT06445023",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of Barzolvolimab in Patients With Atopic Dermatitis",
+      "url": "https://clinicaltrials.gov/study/NCT06727552",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Randomized dose-finding study of anti-KIT barzolvolimab in patients with chronic spontaneous urticaria.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41747871/",
+      "date": "2026 Feb 24"
+    },
+    {
+      "type": "publication",
+      "title": "IL-10R inhibition induces neutrophil tumoricidal activity.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41499552/",
+      "date": "2026 Jan 7"
+    },
+    {
+      "type": "publication",
+      "title": "CD27 agonism enhances long-lived CD4 T cell vaccine responses critical for antitumor immunity.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41417923/",
+      "date": "2025 Dec 19"
+    },
+    {
+      "type": "publication",
+      "title": "Interactions of Antibody Drug Conjugate Anti-Tubulin and Topoisomerase I Inhibitor Payloads with Radiotherapy to Potentiate Immunotherapy.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41133986/",
+      "date": "2025 Oct 24"
+    },
+    {
+      "type": "publication",
+      "title": "On the Kinetics of Human Skin Mast Cell Depletion and Repopulation Following KIT Inhibition.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41133917/",
+      "date": "2026 Feb"
+    },
+    {
+      "type": "publication",
+      "title": "CD27 Agonist Antibodies Mediate Clinical Responses through Intratumoral Stimulation in B-cell Malignancies: Multicenter RiVa Trial.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40920567/",
+      "date": "2025 Nov 14"
+    },
+    {
+      "type": "publication",
+      "title": "Safety and efficacy of barzolvolimab, an anti-KIT monoclonal antibody, in adults with moderate-to-severe prurigo nodularis: A randomized phase 1b intravenous single dose study.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40840687/",
+      "date": "2025 Dec"
+    },
+    {
+      "type": "publication",
+      "title": "A humanized anaplastic lymphoma kinase (ALK)-directed antibody-drug conjugate with pyrrolobenzodiazepine payload demonstrates efficacy in ALK-expressing cancers.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40813394/",
+      "date": "2025 Aug 15"
+    },
+    {
+      "type": "publication",
+      "title": "Depletion of mast cells with barzolvolimab, an anti-KIT antibody, does not affect mast cell progenitors.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40439351/",
+      "date": "2025 Nov"
+    },
+    {
+      "type": "publication",
+      "title": "Anti-KIT Barzolvolimab for Chronic Spontaneous Urticaria.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40415544/",
+      "date": "2025 Aug"
+    },
+    {
+      "type": "publication",
+      "title": "Challenges in Differentiating Chronic Inducible Urticaria from Chronic Spontaneous Urticaria.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41877821/",
+      "date": "2026"
+    },
+    {
+      "type": "publication",
+      "title": "Systemic Treatments for Chronic Spontaneous Urticaria: Anti-IgE and Beyond.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41654334/",
+      "date": "2026 Feb"
+    },
+    {
+      "type": "publication",
+      "title": "Improvement of Chronic Spontaneous Urticaria After Glucagon-Like Peptide\u00a01 Receptor Agonist Therapy: Report of Two Cases.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41535531/",
+      "date": "2026 Feb"
+    },
+    {
+      "type": "publication",
+      "title": "Emerging IgE and non-IgE targeted therapies for chronic urticaria.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41270830/",
+      "date": "2026 Mar"
+    },
+    {
+      "type": "publication",
+      "title": "The Role of Mast Cells in the Pathophysiology of Chronic Prurigo.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41137821/",
+      "date": "2026 Apr"
+    },
+    {
+      "type": "publication",
+      "title": "Biologic and small molecule therapies in chronic spontaneous urticaria: an update.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40747638/",
+      "date": "2025 Oct 1"
+    },
+    {
+      "type": "publication",
+      "title": "Exploring treatment options for pediatric refractory chronic urticaria.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40702781/",
+      "date": "2025 Aug"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 14,
+    "publications": 17,
+    "conference_posters": 0,
+    "total": 41
+  }
+}

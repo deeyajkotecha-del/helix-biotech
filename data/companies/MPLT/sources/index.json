@@ -1,0 +1,110 @@
+{
+  "ticker": "MPLT",
+  "last_scraped": "2026-04-09T14:56:04.293747",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "MPLT 10-K \u2014 2026-03-26",
+      "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312526125072/mplt-20251231.htm",
+      "date": "2026-03-26"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MPLT 8-K \u2014 2026-03-26",
+      "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312526125062/mplt-20260326.htm",
+      "date": "2026-03-26"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MPLT 8-K \u2014 2026-01-09",
+      "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312526008267/mplt-20260109.htm",
+      "date": "2026-01-09"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MPLT 10-Q \u2014 2025-12-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312525307453/mplt-20250930.htm",
+      "date": "2025-12-04"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MPLT 8-K \u2014 2025-12-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312525307450/mplt-20251204.htm",
+      "date": "2025-12-04"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MPLT 8-K \u2014 2025-10-29",
+      "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312525255041/d89036d8k.htm",
+      "date": "2025-10-29"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MPLT S-1 \u2014 2025-09-19",
+      "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312525209084/d741179ds1.htm",
+      "date": "2025-09-19"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Assess the Efficacy and Safety of ML-007C-MA for the Treatment of Inpatient Adults With Schizophrenia",
+      "url": "https://clinicaltrials.gov/study/NCT07038876",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "An Open-Label Study of ML-007C-MA in Adults With Alzheimer's Disease Psychosis",
+      "url": "https://clinicaltrials.gov/study/NCT07459660",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Assess the Efficacy and Safety of ML-007C-MA for the Treatment of Alzheimer's Disease Psychosis",
+      "url": "https://clinicaltrials.gov/study/NCT06887192",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Long-Term Open-Label Study of ML-007C-MA in Adults With Schizophrenia",
+      "url": "https://clinicaltrials.gov/study/NCT07459647",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "ML-004 Open-Label Extension Study in Adults and Adolescents With Autism Spectrum Disorders (ASD)",
+      "url": "https://clinicaltrials.gov/study/NCT05889273",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "ML-004 in Adolescents and Adults With Autism Spectrum Disorders (ASD)",
+      "url": "https://clinicaltrials.gov/study/NCT05081245",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Need-selective gating of dopamine neuron cue responses by real and virtual hunger.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41542643/",
+      "date": "2025 Dec 2"
+    },
+    {
+      "type": "publication",
+      "title": "A novel, experimental design to assess rapid antidepressant action: Results from a phase 1b randomized trial of NV-5138.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41512716/",
+      "date": "2026 Mar"
+    },
+    {
+      "type": "publication",
+      "title": "Preclinical efficacy of the muscarinic agonist ML-007 in psychosis models depends on both M(1) and M(4) receptors.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41046244/",
+      "date": "2026 Apr"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 7,
+    "clinical_trials": 6,
+    "publications": 3,
+    "conference_posters": 0,
+    "total": 16
+  }
+}

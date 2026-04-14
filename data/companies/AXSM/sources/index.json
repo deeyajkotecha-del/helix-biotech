@@ -1,0 +1,188 @@
+{
+  "ticker": "AXSM",
+  "last_scraped": "2026-04-09T14:50:27.607570",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "AXSM 8-K \u2014 2026-04-01",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312526135669/axsm-20260401.htm",
+      "date": "2026-04-01"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 10-K \u2014 2026-02-23",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312526064267/axsm-20251231.htm",
+      "date": "2026-02-23"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 8-K \u2014 2026-02-23",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312526062421/axsm-20260223.htm",
+      "date": "2026-02-23"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 8-K \u2014 2026-02-17",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312526053009/axsm-20260217.htm",
+      "date": "2026-02-17"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 8-K \u2014 2026-01-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312526009744/axsm-20260112.htm",
+      "date": "2026-01-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 8-K \u2014 2025-12-31",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312525337644/axsm-20251231.htm",
+      "date": "2025-12-31"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 10-Q \u2014 2025-11-03",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312525262664/axsm-20250930.htm",
+      "date": "2025-11-03"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 8-K \u2014 2025-11-03",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000119312525261651/axsm-20251103.htm",
+      "date": "2025-11-03"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 8-K \u2014 2025-08-20",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000157942825000007/axsm-20250819.htm",
+      "date": "2025-08-20"
+    },
+    {
+      "type": "sec_filing",
+      "title": "AXSM 10-Q \u2014 2025-08-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1579428/000095017025102148/axsm-20250630.htm",
+      "date": "2025-08-04"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Clinical Assessment of Response in the Treatment of Depression With Daytime Sleepiness Using Solriamfetol",
+      "url": "https://clinicaltrials.gov/study/NCT07484217",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Open-Label Safety Study of Solriamfetol in Subjects With Binge Eating Disorder",
+      "url": "https://clinicaltrials.gov/study/NCT06878976",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Elucidating TAAR-1, Dopamine, and Norepinephrine in Binge Eating Disorder Using Solriamfetol",
+      "url": "https://clinicaltrials.gov/study/NCT06413433",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Solriamfetol and CBT-I in Patients With Insomnia Disorder",
+      "url": "https://clinicaltrials.gov/study/NCT05838430",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate the Efficacy of AXS-05 Compared to Bupropion in Preventing the Relapse of Depressive Symptoms",
+      "url": "https://clinicaltrials.gov/study/NCT06223880",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Solriamfetol for the Treatment of Multiple Sclerosis Fatigue",
+      "url": "https://clinicaltrials.gov/study/NCT06170970",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Fibromyalgia Response With Esreboxetine Evaluated Using a Randomized Withdrawal Research Design",
+      "url": "https://clinicaltrials.gov/study/NCT07398417",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Studying Solriamfetol Modulation of TAAR-1, Dopamine, and Norepinephrine in Shift Work Disorder (SUSTAIN)",
+      "url": "https://clinicaltrials.gov/study/NCT06568367",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "SUNOSI\u00ae (Solriamfetol) Pregnancy Registry",
+      "url": "https://clinicaltrials.gov/study/NCT06413420",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Real-World Switch Rates, Treatment Patterns, and Healthcare Costs Among Patients With Spasticity Treated With Botulinum Toxins.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41910937/",
+      "date": "2026 Mar 30"
+    },
+    {
+      "type": "publication",
+      "title": "Solriamfetol for Excessive Sleepiness in Early-Morning Shift Work Disorder.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41590992/",
+      "date": "2026 Feb"
+    },
+    {
+      "type": "publication",
+      "title": "Deuteration may reduce the efficacy of dextromethorphan in treating agitation in Alzheimer's disease.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40490784/",
+      "date": "2025 Jun 9"
+    },
+    {
+      "type": "publication",
+      "title": "Correction to: SURWEY real-world study of solriamfetol: initiation, titration, safety, efficacy, and follow-up experience for patients with obstructive sleep apnea in Germany.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40202544/",
+      "date": "2025 Apr 9"
+    },
+    {
+      "type": "publication",
+      "title": "Patients with obstructive sleep apnea in Germany.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40014191/",
+      "date": "2025 Feb 27"
+    },
+    {
+      "type": "publication",
+      "title": "Results of the Solriamfetol's Effect on Cognitive Health in Apnea Participants During a Randomized Placebo-Controlled Study (SHARP): A Randomized Placebo-Controlled Double-Blind Repeated-Measures Cros",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39528111/",
+      "date": "2025 Mar"
+    },
+    {
+      "type": "publication",
+      "title": "A Retrospective Cohort Study to Determine Real-World Treatment Patterns in Patients with S\u00e9zary Syndrome in the United States.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39305456/",
+      "date": "2024 Dec"
+    },
+    {
+      "type": "publication",
+      "title": "Real-world treatment patterns of patients with major depressive disorder treated with Auvelity in the United States.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39042111/",
+      "date": "2024 Jan-Dec"
+    },
+    {
+      "type": "publication",
+      "title": "A real-world observational study assessing relationships between excessive daytime sleepiness and patient satisfaction in obstructive sleep apnea.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38154148/",
+      "date": "2024 Feb"
+    },
+    {
+      "type": "publication",
+      "title": "Proteomic insights into the pathophysiology of periodic limb movements and restless legs syndrome.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37563071/",
+      "date": "2024 Feb"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 9,
+    "publications": 10,
+    "conference_posters": 0,
+    "total": 29
+  }
+}

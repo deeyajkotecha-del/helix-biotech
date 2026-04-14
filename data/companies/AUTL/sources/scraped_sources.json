@@ -1,0 +1,206 @@
+{
+  "ticker": "AUTL",
+  "company": "Autolus Therapeutics",
+  "scraped_at": "2026-04-09T14:48:36.086377",
+  "drug_names_searched": [
+    "AUTO6NG",
+    "Obe-cel (Aucatzyl)",
+    "Obe-cel",
+    "AUTO1/22",
+    "Aucatzyl"
+  ],
+  "sources": {
+    "presentations": [],
+    "sec_filings": [
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "AUTL 8-K \u2014 2026-04-08",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000043/autl-20260408.htm",
+        "date": "2026-04-08",
+        "accession": "0001730463-26-000043",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610783"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-K",
+        "title": "AUTL 10-K \u2014 2026-03-27",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000038/autl-20251231.htm",
+        "date": "2026-03-27",
+        "accession": "0001730463-26-000038",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610803"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "AUTL 8-K \u2014 2026-03-27",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000032/autl-20260327.htm",
+        "date": "2026-03-27",
+        "accession": "0001730463-26-000032",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610807"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "AUTL 8-K \u2014 2026-01-26",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000019/autl-20260121.htm",
+        "date": "2026-01-26",
+        "accession": "0001730463-26-000019",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610813"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "AUTL 8-K \u2014 2026-01-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046326000012/autl-20260112.htm",
+        "date": "2026-01-12",
+        "accession": "0001730463-26-000012",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610816"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "AUTL 8-K \u2014 2025-12-02",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000095/autl-20251201.htm",
+        "date": "2025-12-02",
+        "accession": "0001730463-25-000095",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610820"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "AUTL 10-Q \u2014 2025-11-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000088/autl-20250930.htm",
+        "date": "2025-11-12",
+        "accession": "0001730463-25-000088",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610823"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "AUTL 8-K \u2014 2025-11-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000081/autl-20251112.htm",
+        "date": "2025-11-12",
+        "accession": "0001730463-25-000081",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610826"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "AUTL 10-Q \u2014 2025-08-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000067/autl-20250630.htm",
+        "date": "2025-08-12",
+        "accession": "0001730463-25-000067",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610829"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "AUTL 8-K \u2014 2025-08-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/1730463/000173046325000064/autl-20250812.htm",
+        "date": "2025-08-12",
+        "accession": "0001730463-25-000064",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:48:36.610834"
+      }
+    ],
+    "clinical_trials": [],
+    "publications": [
+      {
+        "type": "publication",
+        "pmid": "41504229",
+        "title": "Tumor burden-guided dosing contributes to mitigation of immunotoxicities following treatment with obecabtagene autoleucel in adult patients with relapsed/refractory B-cell acute lymphoblastic leukemia.",
+        "journal": "Haematologica",
+        "authors": "Jabbour E, Sandhu KS, Shaughnessy P et al.",
+        "date": "2026 Jan 8",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41504229/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:48:37.923014"
+      },
+      {
+        "type": "publication",
+        "pmid": "40276090",
+        "title": "ARM's Perspective on the First Joint Clinical Assessments for ATMPs: Challenges and Opportunities on the Path Ahead.",
+        "journal": "Journal of market access & health policy",
+        "authors": "Morgese P, Majors S, Patel D",
+        "date": "2025 Jun",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40276090/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:48:37.923049"
+      },
+      {
+        "type": "publication",
+        "pmid": "39880830",
+        "title": "Reply to: Oligoclonality of TRBC1 and TRBC2 in T cell lymphomas as mechanism of primary resistance to TRBC-directed CAR T cell therapies.",
+        "journal": "Nature communications",
+        "authors": "Ferrari M, Parekh F, Maciocia P et al.",
+        "date": "2025 Jan 29",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39880830/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:48:37.923071"
+      },
+      {
+        "type": "publication",
+        "pmid": "39602653",
+        "title": "Obecabtagene Autoleucel in Adults with B-Cell Acute Lymphoblastic Leukemia.",
+        "journal": "The New England journal of medicine",
+        "authors": "Roddie C, Sandhu KS, Tholouli E et al.",
+        "date": "2024 Dec 12",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39602653/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:48:37.923075"
+      },
+      {
+        "type": "publication",
+        "pmid": "39528665",
+        "title": "TRBC1-CAR T cell therapy in peripheral T cell lymphoma: a phase 1/2 trial.",
+        "journal": "Nature medicine",
+        "authors": "Cwynarski K, Iacoboni G, Tholouli E et al.",
+        "date": "2025 Jan",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39528665/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:48:37.923091"
+      },
+      {
+        "type": "publication",
+        "pmid": "38383515",
+        "title": "Structure-guided engineering of immunotherapies targeting TRBC1 and TRBC2 in T cell malignancies.",
+        "journal": "Nature communications",
+        "authors": "Ferrari M, Righi M, Baldan V et al.",
+        "date": "2024 Feb 21",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38383515/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:48:37.923095"
+      },
+      {
+        "type": "publication",
+        "pmid": "38243811",
+        "title": "Designer Small-Molecule Control System Based on Minocycline-Induced Disruption of Protein-Protein Interaction.",
+        "journal": "ACS chemical biology",
+        "authors": "Jha R, Kinna A, Hotblack A et al.",
+        "date": "2024 Feb 16",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38243811/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:48:37.923099"
+      }
+    ],
+    "conference_posters": []
+  },
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 0,
+    "publications": 7,
+    "conference_posters": 0,
+    "total": 17
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "DYN",
+    "company_name": "Dyne Therapeutics",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Dyne Therapeutics",
+    "ticker": "DYN",
+    "exchange": "NASDAQ",
+    "headquarters": "Waltham, MA",
+    "website": "https://www.dfrx.com",
+    "ir_contact": "investors@dfrx.com",
+    "one_liner": "FORCE platform delivering oligonucleotide therapies to muscle \u2014 lead programs in DM1 and Duchenne",
+    "company_description": "Dyne Therapeutics is developing muscle-targeted RNA therapeutics using its FORCE (Fab-Oligonucleotide Conjugate for Effective delivery) platform. The platform conjugates antibody fragments to oligonucleotides for enhanced muscle delivery. Lead programs target myotonic dystrophy type 1 (DM1) and Duchenne muscular dystrophy (DMD)."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Dyne's FORCE platform solves the oligonucleotide muscle delivery problem that has limited prior RNA therapies. If DYNE-101 confirms Phase 1/2 splicing correction and functional improvement in DM1, this platform could dominate muscle genetic diseases \u2014 a space with minimal competition and high unmet need.",
+    "key_value_drivers": [
+      "DYNE-101: FORCE-conjugated antisense for DM1 \u2014 Phase 1/2 showing meaningful splicing correction",
+      "DYNE-251: FORCE-conjugated exon-skipping for DMD \u2014 competing with Sarepta's gene therapy approach",
+      "FORCE platform: antibody-oligonucleotide conjugates achieve 10-30x greater muscle exposure than naked oligos",
+      "Large rare disease markets: DM1 (~80K US patients), DMD (~15K US) with few effective treatments"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "DYNE-101: FORCE-conjugated antisense for DM1 \u2014 Phase 1/2 showing meaningful splicing correction",
+      "DYNE-251: FORCE-conjugated exon-skipping for DMD \u2014 competing with Sarepta's gene therapy approach",
+      "FORCE platform: antibody-oligonucleotide conjugates achieve 10-30x greater muscle exposure than naked oligos"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 2,
+    "programs": [
+      {
+        "asset": "DYNE-101",
+        "target": "DMPK (antisense)",
+        "stage": "Phase 1/2",
+        "indications": "Myotonic dystrophy type 1",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1/2 updated data 2026"
+      },
+      {
+        "asset": "DYNE-251",
+        "target": "Dystrophin exon 51",
+        "stage": "Phase 1/2",
+        "indications": "Duchenne muscular dystrophy",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1/2 data 2026"
+      },
+      {
+        "asset": "DYNE-302",
+        "target": "DMPK (next-gen)",
+        "stage": "Preclinical",
+        "indications": "DM1",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "IND filing"
+      }
+    ]
+  },
+  "platform": {
+    "name": "rna_therapeutics",
+    "description": "Dyne Therapeutics is developing muscle-targeted RNA therapeutics using its FORCE (Fab-Oligonucleotide Conjugate for Effective delivery) platform. The platform conjugates antibody fragments to oligonuc"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

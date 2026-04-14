@@ -826,6 +826,115 @@ ONCOLOGY_COMPANIES = {
             {"type": "press", "url": "https://www.relmada.com/for-investors/news", "platform": "custom", "content_type": "text"},
         ],
     },
+
+    # =========================================================================
+    # NEW ADDITIONS — April 2026 (Daisy's watchlist expansion)
+    # =========================================================================
+
+    "AUTL": {
+        "name": "Autolus Therapeutics",
+        "category": "cell_therapy",
+        "pages": [
+            {"type": "events", "url": "https://ir.autolus.com/news-events/events", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.autolus.com/news-events/press-releases", "platform": "standard", "content_type": "text"},
+            {"type": "publications", "url": "https://www.autolus.com/science/publications", "platform": "standard", "content_type": "documents"},
+        ],
+    },
+    "ANNX": {
+        "name": "Annexon Biosciences",
+        "category": "immunology",
+        "pages": [
+            {"type": "events", "url": "https://ir.annexonbio.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.annexonbio.com/press-releases", "platform": "q4", "content_type": "text"},
+            {"type": "publications", "url": "https://www.annexonbio.com/publications", "platform": "standard", "content_type": "documents"},
+        ],
+    },
+    "CLDX": {
+        "name": "Celldex Therapeutics",
+        "category": "immunology",
+        "pages": [
+            {"type": "events", "url": "https://ir.celldex.com/news-events/events", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.celldex.com/news-events/press-releases", "platform": "q4", "content_type": "text"},
+            {"type": "publications", "url": "https://www.celldex.com/science/publications", "platform": "standard", "content_type": "documents"},
+        ],
+    },
+    "DYN": {
+        "name": "Dyne Therapeutics",
+        "category": "rare_disease",
+        "pages": [
+            {"type": "events", "url": "https://ir.dfrx.com/news-events/events-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.dfrx.com/news-events/press-releases", "platform": "q4", "content_type": "text"},
+            {"type": "publications", "url": "https://www.dfrx.com/publications", "platform": "standard", "content_type": "documents"},
+        ],
+    },
+    "MBX": {
+        "name": "MBX Biosciences",
+        "category": "endocrinology",
+        "pages": [
+            {"type": "events", "url": "https://ir.mbxbio.com/news-events/events-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.mbxbio.com/news-events/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "RAPT": {
+        "name": "RAPT Therapeutics",
+        "category": "immunology",
+        "pages": [
+            {"type": "events", "url": "https://ir.rapt.com/events-and-presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.rapt.com/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "AGIO": {
+        "name": "Agios Pharmaceuticals",
+        "category": "hematology",
+        "pages": [
+            {"type": "events", "url": "https://investor.agios.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://investor.agios.com/press-releases", "platform": "q4", "content_type": "text"},
+            {"type": "publications", "url": "https://www.agios.com/scientific-publications", "platform": "standard", "content_type": "documents"},
+        ],
+    },
+    "IMVT": {
+        "name": "Immunovant",
+        "category": "autoimmune",
+        "pages": [
+            {"type": "events", "url": "https://ir.immunovant.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.immunovant.com/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "FOLD": {
+        "name": "Amicus Therapeutics",
+        "category": "rare_disease",
+        "pages": [
+            {"type": "events", "url": "https://ir.amicusrx.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.amicusrx.com/press-releases", "platform": "q4", "content_type": "text"},
+            {"type": "publications", "url": "https://www.amicusrx.com/our-science/scientific-publications", "platform": "standard", "content_type": "documents"},
+        ],
+    },
+    "KRYS": {
+        "name": "Krystal Biotech",
+        "category": "gene_therapy",
+        "pages": [
+            {"type": "events", "url": "https://ir.krystalbio.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.krystalbio.com/press-releases", "platform": "q4", "content_type": "text"},
+            {"type": "publications", "url": "https://www.krystalbio.com/our-science/publications", "platform": "standard", "content_type": "documents"},
+        ],
+    },
+    "MPLT": {
+        "name": "Maplight Therapeutics",
+        "category": "neuroscience",
+        "pages": [
+            {"type": "events", "url": "https://ir.maplighttherapeutics.com/events-and-presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.maplighttherapeutics.com/press-releases", "platform": "standard", "content_type": "text"},
+        ],
+    },
+    "SLN": {
+        "name": "Silence Therapeutics",
+        "category": "cardiovascular",
+        "pages": [
+            {"type": "events", "url": "https://ir.silence-therapeutics.com/events-and-presentations", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.silence-therapeutics.com/press-releases", "platform": "standard", "content_type": "text"},
+            {"type": "publications", "url": "https://www.silence-therapeutics.com/science/publications", "platform": "standard", "content_type": "documents"},
+        ],
+    },
 }
 
 

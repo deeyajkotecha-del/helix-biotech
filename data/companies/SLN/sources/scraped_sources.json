@@ -1,0 +1,490 @@
+{
+  "ticker": "SLN",
+  "company": "Silence Therapeutics",
+  "scraped_at": "2026-04-09T14:56:04.297132",
+  "drug_names_searched": [
+    "Undisclosed",
+    "SLN360",
+    "Zerlasiran"
+  ],
+  "sources": {
+    "presentations": [],
+    "sec_filings": [
+      {
+        "type": "sec_filing",
+        "filing_type": "10-K",
+        "title": "SLN 10-K \u2014 2026-03-05",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312526092591/sln-20251231.htm",
+        "date": "2026-03-05",
+        "accession": "0001193125-26-092591",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716693"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "SLN 8-K \u2014 2026-03-05",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312526092578/sln-20260305.htm",
+        "date": "2026-03-05",
+        "accession": "0001193125-26-092578",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716713"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "SLN 8-K \u2014 2025-12-22",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312525327575/sln-20251218.htm",
+        "date": "2025-12-22",
+        "accession": "0001193125-25-327575",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716718"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "SLN 8-K \u2014 2025-12-15",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312525319156/sln-20251214.htm",
+        "date": "2025-12-15",
+        "accession": "0001193125-25-319156",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716721"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "SLN 10-Q \u2014 2025-11-06",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312525268116/sln-20250930.htm",
+        "date": "2025-11-06",
+        "accession": "0001193125-25-268116",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716724"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "SLN 8-K \u2014 2025-11-06",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312525268102/sln-20251106.htm",
+        "date": "2025-11-06",
+        "accession": "0001193125-25-268102",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716727"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "SLN 8-K \u2014 2025-10-23",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312525247692/sln-20251023.htm",
+        "date": "2025-10-23",
+        "accession": "0001193125-25-247692",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716730"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "SLN 8-K \u2014 2025-08-14",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312525180313/d68551d8k.htm",
+        "date": "2025-08-14",
+        "accession": "0001193125-25-180313",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716734"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "SLN 10-Q \u2014 2025-08-07",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000095017025104593/sln-20250630.htm",
+        "date": "2025-08-07",
+        "accession": "0000950170-25-104593",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716736"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "SLN 8-K \u2014 2025-08-07",
+        "url": "https://www.sec.gov/Archives/edgar/data/1479615/000119312525174958/d14149d8k.htm",
+        "date": "2025-08-07",
+        "accession": "0001193125-25-174958",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:04.716739"
+      }
+    ],
+    "clinical_trials": [
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT05499013",
+        "title": "Study to Assess SLN124 in Patients With Polycythemia Vera",
+        "phase": "PHASE1, PHASE2",
+        "status": "ACTIVE_NOT_RECRUITING",
+        "conditions": "Polycythemia Vera",
+        "interventions": "SLN124, Placebo",
+        "enrollment": null,
+        "start_date": "2023-01-26",
+        "completion_date": "2026-09",
+        "url": "https://clinicaltrials.gov/study/NCT05499013",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:56:05.007138"
+      }
+    ],
+    "publications": [
+      {
+        "type": "publication",
+        "pmid": "41864061",
+        "title": "Characterization of siRNA product-related impurities by hydrophilic interaction liquid chromatography (HILIC) coupled with mass spectrometry.",
+        "journal": "Journal of chromatography. A",
+        "authors": "Graglia M, Yeldell SB, Demtschenko N et al.",
+        "date": "2026 May 24",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41864061/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854195"
+      },
+      {
+        "type": "publication",
+        "pmid": "41057649",
+        "title": "Separation of PS diastereomers in GalNAc-conjugated siRNA-a comparative study of chromatographic and ion mobility mass spectrometry approaches.",
+        "journal": "Analytical and bioanalytical chemistry",
+        "authors": "Bill MK, Graglia M, Riley JA et al.",
+        "date": "2025 Nov",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41057649/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854216"
+      },
+      {
+        "type": "publication",
+        "pmid": "40233319",
+        "title": "Maternal Tmprss6 is required for hepcidin suppression and fetal health.",
+        "journal": "Blood",
+        "authors": "Fielding KL, Bennett C, Pettikiriarachchi A et al.",
+        "date": "2025 Jun 19",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40233319/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854222"
+      },
+      {
+        "type": "publication",
+        "pmid": "40154791",
+        "title": "Enhancing hemostasis potency in hemophilia with a small interfering ribonucleic acid targeting protein S.",
+        "journal": "Journal of thrombosis and haemostasis : JTH",
+        "authors": "Eladnani RP, Schaeper U, Diab R et al.",
+        "date": "2025 Jul",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40154791/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854226"
+      },
+      {
+        "type": "publication",
+        "pmid": "39912803",
+        "title": "Assessing Hybridization-Dependent Off-Target Risk for Therapeutic Oligonucleotides: Updated Industry Recommendations.",
+        "journal": "Nucleic acid therapeutics",
+        "authors": "Andersson P, Burel SA, Estrella H et al.",
+        "date": "2025 Feb",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39912803/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854231"
+      },
+      {
+        "type": "publication",
+        "pmid": "39846858",
+        "title": "Opportunities for More Tailored Approaches to Genotoxicity Testing and Carcinogenicity Strategy for Oligonucleotide Therapeutics: Outcome of an Industry Survey.",
+        "journal": "Nucleic acid therapeutics",
+        "authors": "Parry JD, Harper TA Jr, Andersson P et al.",
+        "date": "2025 Feb",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39846858/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854236"
+      },
+      {
+        "type": "publication",
+        "pmid": "39641635",
+        "title": "Modulatory effects of CNNM4 on protein- l -isoaspartyl- O -methyltransferase repair function during alcohol-induced hepatic damage.",
+        "journal": "Hepatology (Baltimore, Md.)",
+        "authors": "Gonz\u00e1lez-Recio I, Goikoetxea-Usandizaga N, Rejano-Gordillo CM et al.",
+        "date": "2025 Aug 1",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39641635/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854241"
+      },
+      {
+        "type": "publication",
+        "pmid": "39556769",
+        "title": "Zerlasiran-A Small-Interfering RNA Targeting Lipoprotein(a): A Phase 2 Randomized Clinical Trial.",
+        "journal": "JAMA",
+        "authors": "Nissen SE, Wang Q, Nicholls SJ et al.",
+        "date": "2024 Dec 17",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39556769/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854246"
+      },
+      {
+        "type": "publication",
+        "pmid": "39391764",
+        "title": "The beauty of symmetry: siRNA phosphorodithioate modifications reduce stereocomplexity, ease analysis, and can improve in\u00a0vivo potency.",
+        "journal": "Molecular therapy. Nucleic acids",
+        "authors": "Sch\u00f6llkopf S, Rathjen S, Graglia M et al.",
+        "date": "2024 Dec 10",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39391764/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854251"
+      },
+      {
+        "type": "publication",
+        "pmid": "38587822",
+        "title": "Single Ascending and Multiple-Dose Trial of Zerlasiran, a Short Interfering RNA Targeting Lipoprotein(a): A Randomized Clinical Trial.",
+        "journal": "JAMA",
+        "authors": "Nissen SE, Wolski K, Watts GF et al.",
+        "date": "2024 May 14",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38587822/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:06.854255"
+      },
+      {
+        "type": "publication",
+        "pmid": "41954614",
+        "title": "Clinical utility of effect-site concentration simulation during remimazolam general anesthesia.",
+        "journal": "Journal of anesthesia",
+        "authors": "Morimoto Y, Yoshimura M, Koga M",
+        "date": "2026 Apr 9",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41954614/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682945"
+      },
+      {
+        "type": "publication",
+        "pmid": "41949949",
+        "title": "The University of Jendouba's Comprehensive Digital Framework for Research Ethics Management: An Integrated System with Real-Time Verification, Surprise Audits, and Public Access through QR Codes and DOIs.",
+        "journal": "La Tunisie medicale",
+        "authors": "Dergaa I, Dhahbi W, Guelmemi N et al.",
+        "date": "2025 Nov 1",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41949949/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682962"
+      },
+      {
+        "type": "publication",
+        "pmid": "41929234",
+        "title": "A cascade via CD276/PI3K/SIRT1/E-Cad in overcoming contact inhibition of proliferation in hepatocellular carcinoma cells.",
+        "journal": "Molecular and clinical oncology",
+        "authors": "Yu X, Su R, Cao G et al.",
+        "date": "2026 May",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41929234/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682966"
+      },
+      {
+        "type": "publication",
+        "pmid": "41915848",
+        "title": "Toxicity, Chemistry, and Public Health Relevance of Emerging Nicotine Analog Vapes, Pods, and Pouches.",
+        "journal": "Chemical research in toxicology",
+        "authors": "Raghu R, Sengupta M, Lin K et al.",
+        "date": "2026 Mar 31",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41915848/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682969"
+      },
+      {
+        "type": "publication",
+        "pmid": "41910627",
+        "title": "Do Published Orthopaedic RCTs Match Their Registered Protocols? A 6-year Analysis of Leading Orthopaedic Journals.",
+        "journal": "Clinical orthopaedics and related research",
+        "authors": "Poursalehian M, Sahebi M, Tajvidi M et al.",
+        "date": "2026 Mar 25",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41910627/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682972"
+      },
+      {
+        "type": "publication",
+        "pmid": "41890551",
+        "title": "Analysis of 386 alternative medicinal products implicated in liver injury reveal clinically relevant associations with potentially hepatotoxic botanicals, pharmaceutical adulteration, heavy metal contamination, and undisclosed animal content.",
+        "journal": "Frontiers in gastroenterology (Lausanne, Switzerland)",
+        "authors": "Philips CA, Oommen TT, Theruvath AH et al.",
+        "date": "2026",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41890551/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682975"
+      },
+      {
+        "type": "publication",
+        "pmid": "41890432",
+        "title": "Gambling and hidden practices in forensic psychiatry: a qualitative study of ambivalence, autonomy, and negotiated care.",
+        "journal": "Frontiers in psychiatry",
+        "authors": "Hansen RM, S\u00f8rensen LU, Kristiansen S et al.",
+        "date": "2026",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41890432/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682978"
+      },
+      {
+        "type": "publication",
+        "pmid": "41856155",
+        "title": "Service needs of people living with HIV in the UK (Positive Voices 2022): a cross-sectional survey.",
+        "journal": "The lancet. HIV",
+        "authors": "Williamson A, Lampe FC, Aghaizu A et al.",
+        "date": "2026 Apr",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41856155/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682982"
+      },
+      {
+        "type": "publication",
+        "pmid": "41834929",
+        "title": "Farnesoid X Receptor-Mediated Bile Acids Regulation in Cholestasis.",
+        "journal": "Indian journal of clinical biochemistry : IJCB",
+        "authors": "Mohammed TA, Zalzala MH",
+        "date": "2026 Apr",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41834929/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682985"
+      },
+      {
+        "type": "publication",
+        "pmid": "41834718",
+        "title": "Relationships between Botulinum Toxin type, administer, and location with odds of adverse events.",
+        "journal": "Clinical and experimental dermatology",
+        "authors": "Smith L, Rahmati M, Lopez Gil JF et al.",
+        "date": "2026 Mar 16",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41834718/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:07.682988"
+      },
+      {
+        "type": "publication",
+        "pmid": "41616414",
+        "title": "From physiopathology to treatment of familial hypercholesterolemia: Existing and emerging pharmacotherapies.",
+        "journal": "Pharmacological reviews",
+        "authors": "Cicero AFG, Mahjoubin-Tehran M, Reiner \u017d et al.",
+        "date": "2026 Mar",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41616414/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:08.502621"
+      },
+      {
+        "type": "publication",
+        "pmid": "41453575",
+        "title": "Structure-guided dissection of the genetic variations within human LPA locus and its role in the development of cardiovascular diseases.",
+        "journal": "Progress in lipid research",
+        "authors": "Antipenko I, Stepanova A, Shkurnikov M et al.",
+        "date": "2025 Dec 24",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41453575/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:08.502637"
+      },
+      {
+        "type": "publication",
+        "pmid": "41381044",
+        "title": "Clinical Response to Elevated Lipoprotein(a): Practical Approach for Risk Management in the Absence of Targeted Therapies.",
+        "journal": "Seminars in thrombosis and hemostasis",
+        "authors": "Sanchis-Gomar F, Lippi G",
+        "date": "2025 Dec 22",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41381044/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:08.502642"
+      },
+      {
+        "type": "publication",
+        "pmid": "40453040",
+        "title": "Small Interfering RNA (siRNA) in Dyslipidemia: A Systematic Review on Safety and Efficacy of siRNA.",
+        "journal": "Journal of experimental pharmacology",
+        "authors": "Alla SSM, Shah DJ, Meyur S et al.",
+        "date": "2025",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40453040/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:08.502645"
+      },
+      {
+        "type": "publication",
+        "pmid": "40338464",
+        "title": "Small interfering RNA effect on lipoprotein(a): a systematic review.",
+        "journal": "The Egyptian heart journal : (EHJ) : official bulletin of the Egyptian Society of Cardiology",
+        "authors": "Almaadawy O, Hesn MM, Elsalamony YA et al.",
+        "date": "2025 May 8",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40338464/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:08.502649"
+      },
+      {
+        "type": "publication",
+        "pmid": "38381282",
+        "title": "Targeting Lipoprotein(a): Can RNA Therapeutics Provide the Next Step in the Prevention of Cardiovascular Disease?",
+        "journal": "Cardiology and therapy",
+        "authors": "Thau H, Neuber S, Emmert MY et al.",
+        "date": "2024 Mar",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38381282/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:08.502653"
+      }
+    ],
+    "conference_posters": [
+      {
+        "type": "conference_poster",
+        "pmid": "41079435",
+        "title": "Algorithm-based effective recognition of acquired hemophilia A and other causes of isolated prolonged activated partial thromboplastin time within large blood sample series.",
+        "journal": "Research and practice in thrombosis and haemostasis",
+        "date": "2025 Aug",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41079435/",
+        "source": "pubmed_conference",
+        "scraped_at": "2026-04-09T14:56:09.636452"
+      },
+      {
+        "type": "conference_poster",
+        "pmid": "39360321",
+        "title": "Potential applications of microbial genomics in nuclear non-proliferation.",
+        "journal": "Frontiers in microbiology",
+        "date": "2024",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39360321/",
+        "source": "pubmed_conference",
+        "scraped_at": "2026-04-09T14:56:09.636468"
+      },
+      {
+        "type": "conference_poster",
+        "pmid": "38878324",
+        "title": "Assessment of the current and emerging criteria for the histopathological classification of lung neuroendocrine tumours in the lungNENomics project.",
+        "journal": "ESMO open",
+        "date": "2024 Jun",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38878324/",
+        "source": "pubmed_conference",
+        "scraped_at": "2026-04-09T14:56:09.636471"
+      },
+      {
+        "type": "conference_poster",
+        "pmid": "38553458",
+        "title": "A bioinformatics approach to elucidate conserved genes and pathways in C. elegans as an animal model for cardiovascular research.",
+        "journal": "Scientific reports",
+        "date": "2024 Mar 29",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38553458/",
+        "source": "pubmed_conference",
+        "scraped_at": "2026-04-09T14:56:09.636473"
+      },
+      {
+        "type": "conference_poster",
+        "pmid": "38538510",
+        "title": "Financial Conflicts of Interest Among Physician Authors of ACR Appropriateness Criteria.",
+        "journal": "Academic radiology",
+        "date": "2024 Jun",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38538510/",
+        "source": "pubmed_conference",
+        "scraped_at": "2026-04-09T14:56:09.636475"
+      },
+      {
+        "type": "conference_poster",
+        "pmid": "38234826",
+        "title": "Conserved Cardiovascular Network: Bioinformatics Insights into Genes and Pathways for Establishing Caenorhabditis elegans as an Animal Model for Cardiovascular Diseases.",
+        "journal": "bioRxiv : the preprint server for biology",
+        "date": "2024 Jan 7",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38234826/",
+        "source": "pubmed_conference",
+        "scraped_at": "2026-04-09T14:56:09.636477"
+      }
+    ]
+  },
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 1,
+    "publications": 26,
+    "conference_posters": 6,
+    "total": 43
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "AXSM",
+    "company_name": "Axsome Therapeutics",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Axsome Therapeutics",
+    "ticker": "AXSM",
+    "exchange": "NASDAQ",
+    "headquarters": "New York, NY",
+    "website": "https://www.axsome.com",
+    "ir_contact": "investors@axsome.com",
+    "one_liner": "Commercial-stage CNS company with Auvelity (MDD) and pipeline across migraine, narcolepsy, Alzheimer's agitation",
+    "company_description": "Axsome Therapeutics is a commercial-stage biopharmaceutical company focused on CNS disorders. Lead product Auvelity (dextromethorphan-bupropion) is approved for MDD with a rapid-onset mechanism. Pipeline includes AXS-07 (migraine), AXS-12 (narcolepsy), and AXS-05 for Alzheimer's agitation."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Axsome is building a CNS franchise around Auvelity's commercial ramp in MDD \u2014 the only rapid-acting oral antidepressant \u2014 while advancing a pipeline that could deliver multiple additional products in migraine, narcolepsy, and Alzheimer's agitation, each addressing massive underserved markets.",
+    "key_value_drivers": [
+      "Auvelity: Rapid-onset oral antidepressant, only NMDA modulator approved for MDD \u2014 commercial ramp accelerating",
+      "AXS-07 (MoSEIC): NDA under review for acute migraine, differentiated oral formulation",
+      "AXS-05: Phase 3 in Alzheimer's agitation \u2014 a market with no approved oral therapy",
+      "AXS-12 (reboxetine): Phase 3 for narcolepsy, potential best-in-class wake-promoting agent"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Auvelity: Rapid-onset oral antidepressant, only NMDA modulator approved for MDD \u2014 commercial ramp accelerating",
+      "AXS-07 (MoSEIC): NDA under review for acute migraine, differentiated oral formulation",
+      "AXS-05: Phase 3 in Alzheimer's agitation \u2014 a market with no approved oral therapy"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 4,
+    "clinical_stage": 3,
+    "programs": [
+      {
+        "asset": "Auvelity",
+        "target": "NMDA/sigma-1",
+        "stage": "Approved/Commercial",
+        "indications": "MDD",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Commercial ramp + line extensions"
+      },
+      {
+        "asset": "AXS-07 (MoSEIC)",
+        "target": "CGRP/5-HT",
+        "stage": "NDA Filed",
+        "indications": "Acute migraine",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "FDA decision"
+      },
+      {
+        "asset": "AXS-05",
+        "target": "NMDA/sigma-1",
+        "stage": "Phase 3",
+        "indications": "Alzheimer's agitation",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 data"
+      },
+      {
+        "asset": "AXS-12 (reboxetine)",
+        "target": "NRI",
+        "stage": "Phase 3",
+        "indications": "Narcolepsy",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "small_molecule",
+    "description": "Axsome Therapeutics is a commercial-stage biopharmaceutical company focused on CNS disorders. Lead product Auvelity (dextromethorphan-bupropion) is approved for MDD with a rapid-onset mechanism. Pipel"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

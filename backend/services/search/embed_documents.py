@@ -41,6 +41,13 @@ try:
 except ImportError:
     OCR_AVAILABLE = False
 
+# PyMuPDF for rendering page images to cache in slide_images table
+try:
+    import fitz as _fitz_module
+    FITZ_AVAILABLE = True
+except ImportError:
+    FITZ_AVAILABLE = False
+
 # --- Config ---
 DATABASE_URL = os.environ.get("NEON_DATABASE_URL", "")
 VOYAGE_API_KEY = os.environ.get("VOYAGE_API_KEY", "")
@@ -352,6 +359,50 @@ def embed_chunks(vo_client, chunks: list[dict]) -> list[list[float]]:
     return all_embeddings
 
 
+def cache_slide_images(conn, doc_id: int, file_path: str):
+    """Render PDF pages and cache as base64 JPEG in the slide_images table."""
+    if not FITZ_AVAILABLE:
+        return  # Silently skip if PyMuPDF isn't installed
+
+    cur = conn.cursor()
+    try:
+        # Ensure table exists
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS slide_images (
+                id SERIAL PRIMARY KEY,
+                document_id INTEGER NOT NULL,
+                page_number INTEGER NOT NULL,
+                image_b64 TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(document_id, page_number)
+            )
+        """)
+
+        # Render each page
+        import base64
+        doc = _fitz_module.open(file_path)
+        cached = 0
+        for i in range(len(doc)):
+            page = doc[i]
+            mat = _fitz_module.Matrix(1.5, 1.5)
+            pix = page.get_pixmap(matrix=mat)
+            img_b64 = base64.b64encode(pix.tobytes("jpeg")).decode("utf-8")
+            cur.execute(
+                """INSERT INTO slide_images (document_id, page_number, image_b64)
+                   VALUES (%s, %s, %s)
+                   ON CONFLICT (document_id, page_number) DO NOTHING""",
+                (doc_id, i + 1, img_b64),
+            )
+            cached += 1
+        doc.close()
+        conn.commit()
+        print(f"    Cached {cached} slide images for doc {doc_id}")
+    except Exception as e:
+        print(f"    Slide image caching failed (non-fatal): {e}")
+    finally:
+        cur.close()
+
+
 def process_document(conn, vo_client, ticker: str, filename: str, file_path: str, metadata: dict):
     """Process a single PDF: extract, semantic-chunk, embed, and store."""
     cur = conn.cursor()
@@ -428,6 +479,10 @@ def process_document(conn, vo_client, ticker: str, filename: str, file_path: str
     conn.commit()
     cur.close()
     print(f"    Stored {stored} chunks for {filename}")
+
+    # Cache slide images so the deck analyzer can show them even without the PDF
+    cache_slide_images(conn, doc_id, file_path)
+
     return True
 
 
@@ -474,6 +529,9 @@ def main():
     companies_dir = os.path.join(LIBRARY_PATH, "companies")
     if not os.path.isdir(companies_dir):
         print(f"ERROR: Companies folder not found at {companies_dir}")
+        print(f"  LIBRARY_PATH = {LIBRARY_PATH!r}")
+        print(f"  Resolved to: {os.path.abspath(companies_dir)}")
+        print(f"  Hint: Set LIBRARY_PATH=backend/services/data in your .env")
         sys.exit(1)
 
     tickers = [args.ticker.upper()] if args.ticker else sorted(os.listdir(companies_dir))

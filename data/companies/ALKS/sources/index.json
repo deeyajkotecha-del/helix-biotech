@@ -1,0 +1,278 @@
+{
+  "ticker": "ALKS",
+  "last_scraped": "2026-04-09T14:54:19.074355",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "ALKS DEF 14A \u2014 2026-04-06",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312526143977/alks-20260406.htm",
+      "date": "2026-04-06"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 8-K \u2014 2026-02-25",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312526068927/alks-20260224.htm",
+      "date": "2026-02-25"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 10-K \u2014 2026-02-25",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312526068925/alks-20251231.htm",
+      "date": "2026-02-25"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 8-K \u2014 2026-02-25",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312526068512/alks-20260225.htm",
+      "date": "2026-02-25"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 8-K \u2014 2026-02-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312526047682/d43532d8k.htm",
+      "date": "2026-02-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 8-K \u2014 2026-01-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312526009813/alks-20260112.htm",
+      "date": "2026-01-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 8-K \u2014 2026-01-06",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312526003453/alks-20260106.htm",
+      "date": "2026-01-06"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 8-K \u2014 2025-11-19",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312525286909/d858713d8k.htm",
+      "date": "2025-11-19"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 8-K \u2014 2025-11-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312525276161/alks-20251112.htm",
+      "date": "2025-11-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "ALKS 10-Q \u2014 2025-10-28",
+      "url": "https://www.sec.gov/Archives/edgar/data/1520262/000119312525252524/alks-20250930.htm",
+      "date": "2025-10-28"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate the Efficacy and Safety of ALKS 2680 in Adults With Narcolepsy Type 1",
+      "url": "https://clinicaltrials.gov/study/NCT07455383",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate the Efficacy and Safety of ALKS 2680 in Adults With Narcolepsy Type 2",
+      "url": "https://clinicaltrials.gov/study/NCT07502443",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Neuroplasticity in Maternal Opioid Use Disorder (OUD)",
+      "url": "https://clinicaltrials.gov/study/NCT05495984",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate the Safety and Effectiveness of ALKS 2680 in Subjects With Idiopathic Hypersomnia",
+      "url": "https://clinicaltrials.gov/study/NCT06843590",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Naltrexone in AUD Reward Drinkers",
+      "url": "https://clinicaltrials.gov/study/NCT05028062",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Long-Term Study of ALKS 2680 in Subjects With Narcolepsy and Idiopathic Hypersomnia",
+      "url": "https://clinicaltrials.gov/study/NCT06767683",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Study to Evaluate Weight Gain as Assessed by Change in BMI Z-score in Pediatric Subjects With Schizophrenia or Bipolar I Disorder",
+      "url": "https://clinicaltrials.gov/study/NCT05303064",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Long-term Safety Extension Study of OLZ/SAM in Pediatric Subjects",
+      "url": "https://clinicaltrials.gov/study/NCT04987229",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "National Pregnancy Registry for Psychiatric Medications",
+      "url": "https://clinicaltrials.gov/study/NCT01246765",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "The Efficacy of Olanzapine/Samidorphan on Negative Symptoms: A Post Hoc Analysis of 56-Week Treatment in Patients With Schizophrenia.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41944743/",
+      "date": "2026 Mar 9"
+    },
+    {
+      "type": "publication",
+      "title": "Acoustic Monitoring of Lubrication and Compaction Effects on Tablet Performance Using Broadband Acoustic Resonance Dissolution Spectroscopy.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41797342/",
+      "date": "2026 Apr 6"
+    },
+    {
+      "type": "publication",
+      "title": "Lipid Droplets in Cancer: New Insights and Therapeutic Potential.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41596564/",
+      "date": "2026 Jan 16"
+    },
+    {
+      "type": "publication",
+      "title": "Future directions in drug-drug interaction evaluations: Industry perspective on the ICH M12 guidance.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41494463/",
+      "date": "2026 Feb"
+    },
+    {
+      "type": "publication",
+      "title": "The MEK-RAF molecular glue IK-595 has potent antitumor activity across RAS/MAPK pathway-altered cancers.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41482524/",
+      "date": "2026 Jan"
+    },
+    {
+      "type": "publication",
+      "title": "Self-Reported Cognitive Impairments in Office-Based Treatment for Opioid Use Disorder with Buprenorphine or Extended-Release Naltrexone.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41323741/",
+      "date": "2025 Jan-Dec"
+    },
+    {
+      "type": "publication",
+      "title": "Aripiprazole Lauroxil Every 2\u00a0Months for the Treatment of Adults With Schizophrenia: A Post Hoc Analysis of Efficacy by Baseline Severity of Illness From Phase 3b Clinical Trial Data.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41244068/",
+      "date": "2025 Jan"
+    },
+    {
+      "type": "publication",
+      "title": "Treatment Patterns and Outcomes from OASIS: A Prospective Observational Study of Long-Acting Injectables in Schizophrenia.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41019822/",
+      "date": "2025"
+    },
+    {
+      "type": "publication",
+      "title": "Treatment Patterns and Healthcare Resource Utilization Following Initiation of Aripiprazole Lauroxil Using a 1-Day Initiation Regimen in Patients with Schizophrenia.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40560526/",
+      "date": "2025 Sep"
+    },
+    {
+      "type": "publication",
+      "title": "Factors associated with receipt of second injection of naltrexone for opioid use disorder: Secondary analysis of 5 clinical trials.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40483600/",
+      "date": "2025 Nov"
+    },
+    {
+      "type": "publication",
+      "title": "Case Series: Simultaneous Use of Long-Acting Injectable Antipsychotics and Vivitrol or Long-Acting Buprenorphine in Dual Diagnosis Patients with Bipolar Disorder and Substance Use Disorders.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41821992/",
+      "date": "2026 Mar 11"
+    },
+    {
+      "type": "publication",
+      "title": "Naltrexone.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30000298/",
+      "date": "2006"
+    },
+    {
+      "type": "publication",
+      "title": "Lived Experiences of Medication for Opioid Use Disorder: Clients' Perspectives on Formulation and Treatment.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41306932/",
+      "date": "2025 Jan-Dec"
+    },
+    {
+      "type": "publication",
+      "title": "Letter: Safety and Tolerability of Injectable Extended-Release Naltrexone for the Management of Alcohol Use Disorder in Advanced Alcohol-Associated Liver Disease-Authors' Reply.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41186156/",
+      "date": "2025 Dec"
+    },
+    {
+      "type": "publication",
+      "title": "Long-acting naltrexone restores network connectivity in subjects with co-morbid cannabis and opioid use disorder.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41000850/",
+      "date": "2025 Sep 19"
+    },
+    {
+      "type": "publication",
+      "title": "Safety and Tolerability of Injectable Extended-Release Naltrexone for the Management of Alcohol Use Disorder in Advanced Alcohol-Associated Liver Disease.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40515940/",
+      "date": "2025 Oct"
+    },
+    {
+      "type": "publication",
+      "title": "Social Network Barriers to Extended-Release Naltrexone Within Rural Appalachia: Perspectives from Justice-Involved Clients and Clinicians.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39810404/",
+      "date": "2025"
+    },
+    {
+      "type": "publication",
+      "title": "A case of naltrexone-induced acute eosinophilic pneumonia.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38697684/",
+      "date": "2024 May 2"
+    },
+    {
+      "type": "publication",
+      "title": "Blood pressure response to extended-release naltrexone in heroin and prescription opioid users and its implications for cardiovascular morbidity.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38555861/",
+      "date": "2025 Jan-Mar"
+    },
+    {
+      "type": "publication",
+      "title": "Attitudes toward extended-release naltrexone treatment for opioid use disorder among African Americans.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38492256/",
+      "date": "2024 Apr 1"
+    },
+    {
+      "type": "publication",
+      "title": "Less frequent intravenous dosing of nemvaleukin alfa in patients with advanced solid tumors: the phase 1/2 ARTISTRY-3 trial.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40990800/",
+      "date": "2025 Oct 1"
+    },
+    {
+      "type": "publication",
+      "title": "Nemvaleukin alfa monotherapy in patients with advanced melanoma and renal cell carcinoma: results from the phase 1/2 non-randomized ARTISTRY-1 trial.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40759440/",
+      "date": "2025 Aug 4"
+    },
+    {
+      "type": "publication",
+      "title": "Nemvaleukin alfa, a modified interleukin-2 cytokine, as monotherapy and with pembrolizumab in patients with advanced solid tumors (ARTISTRY-1).",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39567211/",
+      "date": "2024 Nov 20"
+    },
+    {
+      "type": "publication",
+      "title": "Correction: Novel engineered IL-2 Nemvaleukin alfa combined with PD1 checkpoint blockade enhances the systemic anti-tumor responses of radiation therapy.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39256857/",
+      "date": "2024 Sep 10"
+    },
+    {
+      "type": "publication",
+      "title": "Novel engineered IL-2 Nemvaleukin alfa combined with PD1 checkpoint blockade enhances the systemic anti-tumor responses of radiation therapy.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39218928/",
+      "date": "2024 Sep 2"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 9,
+    "publications": 25,
+    "conference_posters": 0,
+    "total": 44
+  }
+}

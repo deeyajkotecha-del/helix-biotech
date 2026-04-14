@@ -1,0 +1,219 @@
+{
+  "ticker": "MPLT",
+  "company": "Maplight Therapeutics",
+  "scraped_at": "2026-04-09T14:56:01.746963",
+  "drug_names_searched": [
+    "ML-007"
+  ],
+  "sources": {
+    "presentations": [],
+    "sec_filings": [
+      {
+        "type": "sec_filing",
+        "filing_type": "10-K",
+        "title": "MPLT 10-K \u2014 2026-03-26",
+        "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312526125072/mplt-20251231.htm",
+        "date": "2026-03-26",
+        "accession": "0001193125-26-125072",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:02.199118"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "MPLT 8-K \u2014 2026-03-26",
+        "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312526125062/mplt-20260326.htm",
+        "date": "2026-03-26",
+        "accession": "0001193125-26-125062",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:02.199135"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "MPLT 8-K \u2014 2026-01-09",
+        "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312526008267/mplt-20260109.htm",
+        "date": "2026-01-09",
+        "accession": "0001193125-26-008267",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:02.199140"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "MPLT 10-Q \u2014 2025-12-04",
+        "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312525307453/mplt-20250930.htm",
+        "date": "2025-12-04",
+        "accession": "0001193125-25-307453",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:02.199143"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "MPLT 8-K \u2014 2025-12-04",
+        "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312525307450/mplt-20251204.htm",
+        "date": "2025-12-04",
+        "accession": "0001193125-25-307450",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:02.199145"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "MPLT 8-K \u2014 2025-10-29",
+        "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312525255041/d89036d8k.htm",
+        "date": "2025-10-29",
+        "accession": "0001193125-25-255041",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:02.199148"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "S-1",
+        "title": "MPLT S-1 \u2014 2025-09-19",
+        "url": "https://www.sec.gov/Archives/edgar/data/1770069/000119312525209084/d741179ds1.htm",
+        "date": "2025-09-19",
+        "accession": "0001193125-25-209084",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:56:02.199153"
+      }
+    ],
+    "clinical_trials": [
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT07038876",
+        "title": "A Study to Assess the Efficacy and Safety of ML-007C-MA for the Treatment of Inpatient Adults With Schizophrenia",
+        "phase": "PHASE2",
+        "status": "RECRUITING",
+        "conditions": "Schizophrenia",
+        "interventions": "Placebo, ML-007C-MA BID, ML-007C-MA QD",
+        "enrollment": null,
+        "start_date": "2025-06-27",
+        "completion_date": "2026-08",
+        "url": "https://clinicaltrials.gov/study/NCT07038876",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:56:02.583757"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT07459660",
+        "title": "An Open-Label Study of ML-007C-MA in Adults With Alzheimer's Disease Psychosis",
+        "phase": "PHASE2",
+        "status": "NOT_YET_RECRUITING",
+        "conditions": "Psychosis Associated With Alzheimer's Disease",
+        "interventions": "ML-007C-MA",
+        "enrollment": null,
+        "start_date": "2026-03",
+        "completion_date": "2029-03",
+        "url": "https://clinicaltrials.gov/study/NCT07459660",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:56:02.583785"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT06887192",
+        "title": "A Study to Assess the Efficacy and Safety of ML-007C-MA for the Treatment of Alzheimer's Disease Psychosis",
+        "phase": "PHASE2",
+        "status": "RECRUITING",
+        "conditions": "Psychosis Associated With Alzheimer's Disease",
+        "interventions": "ML-007C-MA, Placebo",
+        "enrollment": null,
+        "start_date": "2025-08-15",
+        "completion_date": "2027-12",
+        "url": "https://clinicaltrials.gov/study/NCT06887192",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:56:02.583792"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT07459647",
+        "title": "A Long-Term Open-Label Study of ML-007C-MA in Adults With Schizophrenia",
+        "phase": "PHASE2",
+        "status": "NOT_YET_RECRUITING",
+        "conditions": "Schizophrenia",
+        "interventions": "ML-007C-MA",
+        "enrollment": null,
+        "start_date": "2026-03",
+        "completion_date": "2030-02",
+        "url": "https://clinicaltrials.gov/study/NCT07459647",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:56:02.583797"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT05889273",
+        "title": "ML-004 Open-Label Extension Study in Adults and Adolescents With Autism Spectrum Disorders (ASD)",
+        "phase": "PHASE2",
+        "status": "ENROLLING_BY_INVITATION",
+        "conditions": "Autism Spectrum Disorder",
+        "interventions": "ML-004 (IR)/(ER) tablet",
+        "enrollment": null,
+        "start_date": "2023-06-01",
+        "completion_date": "2027-11",
+        "url": "https://clinicaltrials.gov/study/NCT05889273",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:56:02.583803"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT05081245",
+        "title": "ML-004 in Adolescents and Adults With Autism Spectrum Disorders (ASD)",
+        "phase": "PHASE2",
+        "status": "ACTIVE_NOT_RECRUITING",
+        "conditions": "Autism Spectrum Disorder",
+        "interventions": "ML-004 (IR)/(ER) tablet, ML-004 Placebo",
+        "enrollment": null,
+        "start_date": "2022-09-13",
+        "completion_date": "2026-10",
+        "url": "https://clinicaltrials.gov/study/NCT05081245",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:56:02.583810"
+      }
+    ],
+    "publications": [
+      {
+        "type": "publication",
+        "pmid": "41542643",
+        "title": "Need-selective gating of dopamine neuron cue responses by real and virtual hunger.",
+        "journal": "bioRxiv : the preprint server for biology",
+        "authors": "Mamaligas AA, Berke JD, Kreitzer AC et al.",
+        "date": "2025 Dec 2",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41542643/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:03.446606"
+      },
+      {
+        "type": "publication",
+        "pmid": "41512716",
+        "title": "A novel, experimental design to assess rapid antidepressant action: Results from a phase 1b randomized trial of NV-5138.",
+        "journal": "Journal of psychiatric research",
+        "authors": "Targum SD, Sanacora G, Formella AE et al.",
+        "date": "2026 Mar",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41512716/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:03.446622"
+      },
+      {
+        "type": "publication",
+        "pmid": "41046244",
+        "title": "Preclinical efficacy of the muscarinic agonist ML-007 in psychosis models depends on both M(1) and M(4) receptors.",
+        "journal": "Neuropsychopharmacology : official publication of the American College of Neuropsychopharmacology",
+        "authors": "Chatterjee S, Soria M, Norville ZC et al.",
+        "date": "2026 Apr",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41046244/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:56:03.446625"
+      }
+    ],
+    "conference_posters": []
+  },
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 7,
+    "clinical_trials": 6,
+    "publications": 3,
+    "conference_posters": 0,
+    "total": 16
+  }
+}

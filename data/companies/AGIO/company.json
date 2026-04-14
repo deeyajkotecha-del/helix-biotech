@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "AGIO",
+    "company_name": "Agios Pharmaceuticals",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Agios Pharmaceuticals",
+    "ticker": "AGIO",
+    "exchange": "NASDAQ",
+    "headquarters": "Cambridge, MA",
+    "website": "https://www.agios.com",
+    "ir_contact": "investors@agios.com",
+    "one_liner": "Rare genetic disease company with Pyrukynd (mitapivat) approved for pyruvate kinase deficiency and expanding into thalassemia/SCD",
+    "company_description": "Agios Pharmaceuticals is focused on genetically defined diseases. Lead product Pyrukynd (mitapivat) is the first approved oral treatment for pyruvate kinase deficiency. The company is expanding mitapivat into thalassemia and sickle cell disease \u2014 massive markets with limited treatment options."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Agios is expanding Pyrukynd from the niche PKD market into thalassemia and sickle cell disease, where oral PKR activation could reduce transfusion burden and hemolysis. The thalassemia Phase 3 ENERGIZE data is pivotal \u2014 success unlocks a multi-billion dollar franchise.",
+    "key_value_drivers": [
+      "Pyrukynd (mitapivat): Approved for PKD, expanding into thalassemia and SCD",
+      "Phase 3 ENERGIZE/ENERGIZE-T in thalassemia \u2014 pivotal data expected",
+      "Phase 2/3 in sickle cell disease \u2014 oral PKR activation could complement gene therapy",
+      "Oral mechanism addressing hemolysis at the root cause (PKR activation in red blood cells)"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Pyrukynd (mitapivat): Approved for PKD, expanding into thalassemia and SCD",
+      "Phase 3 ENERGIZE/ENERGIZE-T in thalassemia \u2014 pivotal data expected",
+      "Phase 2/3 in sickle cell disease \u2014 oral PKR activation could complement gene therapy"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 3,
+    "programs": [
+      {
+        "asset": "Pyrukynd (mitapivat)",
+        "target": "PKR activator",
+        "stage": "Approved/Commercial",
+        "indications": "Pyruvate kinase deficiency",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Commercial ramp + label expansion"
+      },
+      {
+        "asset": "Mitapivat",
+        "target": "PKR activator",
+        "stage": "Phase 3",
+        "indications": "Thalassemia",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 ENERGIZE data"
+      },
+      {
+        "asset": "Mitapivat",
+        "target": "PKR activator",
+        "stage": "Phase 2/3",
+        "indications": "Sickle cell disease",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2/3 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "small_molecule",
+    "description": "Agios Pharmaceuticals is focused on genetically defined diseases. Lead product Pyrukynd (mitapivat) is the first approved oral treatment for pyruvate kinase deficiency. The company is expanding mitapi"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

@@ -1,0 +1,75 @@
+{
+  "ticker": "RAPT",
+  "company": "RAPT Therapeutics",
+  "scraped_at": "2026-04-09T14:51:05.154101",
+  "drug_names_searched": [
+    "RPT193",
+    "Zelnecirnon",
+    "Zelnecirnon (RPT193)"
+  ],
+  "sources": {
+    "presentations": [],
+    "sec_filings": [],
+    "clinical_trials": [
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT07220811",
+        "title": "Phase 2b Study of RPT904 as Monotherapy in Participants With IgE-Mediated Food Allergy",
+        "phase": "PHASE2",
+        "status": "RECRUITING",
+        "conditions": "Ig-E Mediated Food Allergy",
+        "interventions": "RPT904, RPT904, Placebo",
+        "enrollment": null,
+        "start_date": "2025-10-22",
+        "completion_date": "2027-04",
+        "url": "https://clinicaltrials.gov/study/NCT07220811",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:51:05.770513"
+      }
+    ],
+    "publications": [
+      {
+        "type": "publication",
+        "pmid": "41576212",
+        "title": "Discovery and Characterization of Zelnecirnon (RPT193), a Potent and Selective CCR4 Antagonist for Allergic Disorders.",
+        "journal": "Journal of medicinal chemistry",
+        "authors": "Zibinsky M, Bradford D, Brockstedt DG et al.",
+        "date": "2026 Feb 12",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41576212/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:51:06.690665"
+      },
+      {
+        "type": "publication",
+        "pmid": "37984453",
+        "title": "Clinical and molecular effects of oral CCR4 antagonist RPT193 in atopic dermatitis: A Phase 1 study.",
+        "journal": "Allergy",
+        "authors": "Bissonnette R, DuBois J, Facheris P et al.",
+        "date": "2024 Apr",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/37984453/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:51:06.690698"
+      },
+      {
+        "type": "publication",
+        "pmid": "41950080",
+        "title": "Structure basis for C-C chemokine receptor 4 modulation by orthosteric and allosteric antagonists.",
+        "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+        "authors": "Zhou N, Wang R, Chen B et al.",
+        "date": "2026 Apr 14",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41950080/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:51:07.505108"
+      }
+    ],
+    "conference_posters": []
+  },
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 0,
+    "clinical_trials": 1,
+    "publications": 3,
+    "conference_posters": 0,
+    "total": 4
+  }
+}

@@ -273,6 +273,36 @@ Return a JSON object with this EXACT v2.1 schema:
       "importance": "<critical / high / medium / low>",
       "what_to_watch": "<specific metrics or outcomes to monitor>"
     }}
+  ],
+  "strategic_emphasis": {{
+    "inferred_priority_ranking": [
+      {{
+        "program": "<asset name>",
+        "therapeutic_area": "<TA>",
+        "conviction_level": "<highest / high / moderate / exploratory>",
+        "evidence": "<why — e.g., largest enrollment, most trials, manufacturing investment, wholly-owned>"
+      }}
+    ],
+    "trial_frequency_by_ta": {{
+      "<therapeutic area>": {{
+        "active_trials": 0,
+        "total_enrollment": 0,
+        "phase_3_count": 0,
+        "expansion_signals": "<any non-obvious indications being pursued>"
+      }}
+    }},
+    "resource_signals": [
+      "<any manufacturing investments, hiring patterns, facility expansions, CDMO partnerships mentioned>"
+    ],
+    "platform_strategy": "<is the company pursuing one drug for one indication, or expanding a platform across multiple TAs? What does the trial portfolio structure reveal about ambition?>"
+  }},
+  "portfolio_gaps": [
+    {{
+      "gap_type": "<geographic / indication / modality / combination>",
+      "description": "<what's missing — e.g., no China filing despite global opportunity>",
+      "market_context": "<TAM or competitive context for this gap>",
+      "competitor_activity": "<who IS pursuing this that the company is not>"
+    }}
   ]
 }}
 ```
@@ -285,6 +315,10 @@ CRITICAL GUIDELINES:
 5. key_value_drivers should be specific and data-backed.
 6. Use null for unknown values, never "N/A" or empty strings.
 7. key_debates should capture what sophisticated investors are debating.
+8. strategic_emphasis.inferred_priority_ranking: Rank programs by INFERRED conviction, not just phase. Evidence includes: enrollment size (bigger = higher conviction), trial count per indication, whether wholly-owned vs partnered, manufacturing investment, speed of development. A Phase 2 program with 3 expansion cohorts and $200M manufacturing investment may be higher conviction than a Phase 3 program that's been partnered out.
+9. trial_frequency_by_ta: Count trials per therapeutic area. Multiple trials in the same TA = strategic commitment. Single trial = optionality play.
+10. portfolio_gaps: Identify what the company is NOT doing that their platform/technology COULD support. Look for indications where competitors are active but this company has no program, geographies with no regulatory filings, combinations not being tested.
+11. NOVELTY RULE: core_thesis and key_value_drivers must contain insights that a sophisticated investor couldn't get from a 30-second Google search. Lead with what's non-obvious.
 
 Return ONLY the JSON object, no additional text.'''
 

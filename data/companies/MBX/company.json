@@ -1,0 +1,76 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "MBX",
+    "company_name": "MBX Biosciences",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "MBX Biosciences",
+    "ticker": "MBX",
+    "exchange": "NASDAQ",
+    "headquarters": "Carmel, IN",
+    "website": "https://www.mbxbio.com",
+    "ir_contact": "investors@mbxbio.com",
+    "one_liner": "Precision endocrinology company developing long-acting peptide therapies for hypoparathyroidism and obesity",
+    "company_description": "MBX Biosciences is a precision endocrinology company developing novel peptide therapeutics using its proprietary Precision Endocrine Peptide (PEP) platform. Lead program MBX 2109 is a long-acting PTH prodrug for hypoparathyroidism, with MBX 1416 (GLP-1/glucagon dual agonist) in obesity."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "MBX 2109 is designed to be a best-in-class long-acting PTH replacement for hypoparathyroidism \u2014 an underserved endocrine disorder affecting ~200K patients. If Phase 2 data confirms sustained calcium normalization with weekly dosing, MBX could compete directly with Ascendis' TransCon PTH (Yorvipath).",
+    "key_value_drivers": [
+      "MBX 2109: Weekly PTH prodrug for hypoparathyroidism \u2014 competing with Yorvipath (daily dosing)",
+      "Phase 2 data showing sustained normalization of serum calcium with convenient weekly dosing",
+      "MBX 1416: GLP-1/glucagon dual agonist for obesity with potential for body composition benefits",
+      "PEP platform enables extended half-life for endocrine peptides \u2014 pipeline expansion potential"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "MBX 2109: Weekly PTH prodrug for hypoparathyroidism \u2014 competing with Yorvipath (daily dosing)",
+      "Phase 2 data showing sustained normalization of serum calcium with convenient weekly dosing",
+      "MBX 1416: GLP-1/glucagon dual agonist for obesity with potential for body composition benefits"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 2,
+    "clinical_stage": 2,
+    "programs": [
+      {
+        "asset": "MBX 2109",
+        "target": "PTH receptor",
+        "stage": "Phase 2",
+        "indications": "Hypoparathyroidism",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 data 2026"
+      },
+      {
+        "asset": "MBX 1416",
+        "target": "GLP-1R/GCGR",
+        "stage": "Phase 1",
+        "indications": "Obesity",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1 data 2026"
+      }
+    ]
+  },
+  "platform": {
+    "name": "peptide",
+    "description": "MBX Biosciences is a precision endocrinology company developing novel peptide therapeutics using its proprietary Precision Endocrine Peptide (PEP) platform. Lead program MBX 2109 is a long-acting PTH "
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

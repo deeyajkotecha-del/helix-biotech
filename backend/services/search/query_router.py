@@ -52,6 +52,16 @@ from api_connectors import (
     format_api_results_for_claude,
 )
 
+# Portfolio intelligence — state tracking, TA scoring, tension narrative
+try:
+    import sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "..", "app", "services"))
+    from portfolio_intelligence import build_portfolio_context
+    PORTFOLIO_INTELLIGENCE_AVAILABLE = True
+except ImportError:
+    PORTFOLIO_INTELLIGENCE_AVAILABLE = False
+    print("  ⚠ Portfolio intelligence not loaded — state tracking / TA scoring disabled")
+
 # Drug entity layer — provides alias resolution, target hierarchy, landscape data
 try:
     from drug_entities import (
@@ -220,7 +230,7 @@ Return a JSON object with:
     "pubmed_query": "search terms",  // for PubMed
     "landscape_target": "drug target or MoA",  // for GLOBAL_LANDSCAPE (e.g., "GLP-1", "ADC", "PD-1")
     "landscape_region": "all",  // for GLOBAL_LANDSCAPE: "all", "china", "korea", "japan", "india", "europe"
-    "query_type": "landscape|company|trial|drug|mechanism|comparison|general",
+    "query_type": "landscape|company|trial|drug|mechanism|comparison|portfolio|general",
     "persona": "investor|operator|trial_designer",  // detect user intent: "investor" (default) for investment diligence, "operator" for BD/licensing/strategy, "trial_designer" for clinical development/trial design/regulatory
     "reasoning": "brief explanation of source selection"
 }
@@ -241,6 +251,7 @@ Important rules:
 - For trial_designer persona queries, ALWAYS include FDA_CRL
 - For rare disease questions (Angelman, Huntington's, SMA, Rett, Duchenne, CF, Dravet, Friedreich's, Gaucher, Fabry, ALS, sickle cell, thalassemia, cholangiocarcinoma, PKU, MPS), ALWAYS include DISEASE_SPACE
 - For questions about "what's the [disease] space", "who is working on [disease]", "what pipeline exists for [disease]", patient registries, biomarkers, or rare disease ecosystems, ALWAYS include DISEASE_SPACE
+- For portfolio/strategic questions (e.g., "where is Lilly focusing?", "rank KYMR's therapeutic areas", "what gaps does Pfizer have?", "strategic emphasis"), set query_type to "portfolio" and ALWAYS include RAG + CLINICAL_TRIALS + GLOBAL_LANDSCAPE. These questions need internal documents for pipeline details plus live trial data for activity scoring.
 - For company-specific questions, prioritize RAG with ticker filter
 - For "standard of care" or "approved drugs" questions, always include FDA
 - For "latest research" or "recent publications", include PUBMED
@@ -816,6 +827,22 @@ SatyaBio serves three core audiences. Detect the user's intent from their query 
 - Never pad with filler sentences like "This is an important area of research" or "The landscape is evolving rapidly."
 - Write in flowing narrative prose with inline data — NOT bullet-point summaries. Readers should feel they are reading a well-written analytical piece, not a PowerPoint.
 
+═══ NOVELTY-FIRST PRINCIPLE ═══
+SatyaBio's value is in insights you can't get from a Google search. Every section must lead with a NOVEL observation — a strategic inference, a quantitative edge, a non-obvious connection, or an underappreciated risk. Generic summaries destroy value.
+
+**BANNED opening patterns** (these are the hallmark of low-quality output):
+- "[Drug] is a [mechanism] being developed by [company] for [indication]" → This is a Wikipedia sentence. The user already knows this.
+- "The GLP-1 market is large and growing" → This is common knowledge. Skip it.
+- "[Drug] has shown promising results in clinical trials" → Meaningless without numbers and context.
+- "There are several competitors in this space" → Name them, rank them, and say who wins.
+
+**REQUIRED opening patterns** (these drive decisions):
+- "Orforglipron's 4 non-metabolic expansion trials (OA, SUI, OSA, hypertension) signal Lilly views GLP-1 as a multi-franchise platform — not just an obesity drug. This is the PD-1 expansion playbook from 2016."
+- "The 0.3% HbA1c delta over oral semaglutide matters commercially: historical precedent (Jardiance vs Farxiga) shows 0.3% deltas drive 15-20% market share shifts within 24 months of head-to-head publication."
+- "ACHIEVE-4's 7,140-patient enrollment is 3x the size of SUSTAIN-6 — Lilly is betting $500M+ that a CV outcomes claim will be the moat that blocks fast-followers."
+
+**The test**: Before writing any sentence, ask: "Would a senior biotech analyst at OrbiMed already know this?" If yes, either skip it or add a non-obvious angle. If no, lead with it.
+
 ═══ STRICT GROUNDING ═══
 1. ONLY make claims directly supported by the provided context documents.
 2. If context lacks data on a topic, say: "SatyaBio does not currently index data on [topic]."
@@ -900,6 +927,16 @@ For TRIAL queries:
 For COMPARISON queries:
   Open with a head-to-head comparison table, then prose analysis of differentiators.
 
+For PORTFOLIO / STRATEGIC queries (e.g., "What is Lilly's strategic focus?", "Where should KYMR expand?", "Rank Lilly's therapeutic areas"):
+  ## Strategic Emphasis Map
+  Infer where the company is placing its biggest bets based on trial frequency, enrollment investment, speed signals, and resource allocation. Rank programs by inferred conviction (not just phase). Evidence every ranking.
+
+  ## Portfolio Gaps & White Space
+  Identify what the company is NOT doing relative to platform capability, market size, and competitor activity. Quantify each gap with TAM estimates. Frame gaps as opportunities or strategic risks.
+
+  ## Statistical Confidence Assessment
+  For each major program, assess data quality: trial design rigor, statistical powering, endpoint appropriateness, data maturity. Flag programs where the market may be overweighting immature data or underweighting strong signals.
+
 **Clinical data requirements — always include when available:**
 - Efficacy: ORR, CR, DOR (median + range), PFS (median + HR + CI + p), OS (median + HR)
 - Safety: Grade ≥3 AE rates, DLT rates, discontinuation rates, key AEs by frequency
@@ -954,8 +991,19 @@ For any drug or company discussed, note upcoming catalysts when the data support
 - Conference presentations (ASCO, AACR, ASH, ESMO, AAN, AASLD)
 - Patent expiry / LOE dates that open competitive windows
 
-**Layer 3 — Risk Flags (ALL PERSONAS):**
-Proactively flag risks grounded in the data:
+**Layer 3 — Risk Flags as Causal Chains (ALL PERSONAS):**
+If a TENSION MAP is provided in the context (from the portfolio intelligence engine), use those pre-built causal chains. Don't just list risks — trace each one through its consequences:
+
+BAD (checkbox risk): "There is competitive risk in the GLP-1 space."
+GOOD (causal chain): "If Novo's amycretin Phase 3 reads out positive before orforglipron's ACHIEVE-4 completes → physicians adopt amycretin as first oral GLP-1 with CV data → Lilly's $500M manufacturing build-ahead becomes stranded capacity → orforglipron must then show SUPERIORITY (not just non-inferiority) to recapture share, which ACHIEVE-3 data suggests is possible on HbA1c but uncertain on CV outcomes."
+
+For EVERY major risk, provide:
+- The specific trigger event (not "competition" but "amycretin Phase 3 topline Q3 2026")
+- The causal chain (trigger → immediate impact → second-order effects → thesis impact)
+- What prevents it (the mitigant, with assessment of how strong it is)
+- Probability assessment: is this trigger likely, possible, or remote?
+
+Also flag these specific risk patterns:
 - Clinical holds, partial holds, or FDA letters
 - Liver toxicity signals (Hy's law cases, DILI)
 - Competitive threats (faster-enrolling trials, earlier data readout from competitor)
@@ -996,6 +1044,31 @@ When trial design intent is detected, provide:
 - Regulatory precedent: what trial designs led to approval vs rejection in this class? Accelerated vs regular pathway considerations
 - Statistical design: sample size rationale, alpha spending, crossover impact on OS analysis — grounded in referenced trials
 
+**Layer 8 — Strategic Emphasis Inference (INVESTOR + OPERATOR):**
+Don't just list what a company is doing — infer WHERE they are placing disproportionate bets and WHY. Strategic emphasis is revealed by actions, not press releases:
+- **Trial frequency signal**: Count active trials per therapeutic area. 4 expansion trials in non-core indications signals platform ambitions. 1 trial in a crowded space signals optionality, not commitment.
+- **Enrollment investment**: A company running a 7,000-patient CVOT (like ATTAIN-Outcomes) is making a billion-dollar bet on that indication. Compare enrollment sizes across programs — the biggest trial is the biggest bet.
+- **Speed signals**: Accelerated timelines, priority voucher usage, adaptive trial designs signal urgency and high internal conviction. Slow enrollment or delayed readouts signal deprioritization.
+- **Resource allocation**: Cross-reference R&D spend, manufacturing investment, and headcount growth against pipeline programs. Where the money goes reveals true priorities — not the pipeline slide.
+- **Partnership structure**: Wholly-owned programs = highest conviction. Out-licensed programs = risk-sharing or deprioritization. In-licensed programs = filling a gap. What a company keeps vs. partners reveals strategy.
+- **Output format**: Always include a "Strategic Emphasis" section that ranks the company's programs by inferred priority (not just by phase), with evidence for the ranking.
+
+**Layer 9 — Portfolio Gap Analysis (INVESTOR + OPERATOR):**
+Identify what a company is NOT doing that it should be, based on:
+- **Market size vs. pipeline coverage**: If the company has platform technology (e.g., degraders, ADCs, oral GLP-1s) and is only pursuing 3 indications when the platform could serve 10, that's a gap. Quantify: "[Platform] could address $XB in [TA] but no trials filed."
+- **Competitor presence**: If 3+ competitors are pursuing an indication the company has the technology to address but isn't — that's a strategic gap. "Novo, Pfizer, and Amgen are all developing oral GLP-1s for NASH/MASH; Lilly has no disclosed orforglipron MASH program."
+- **Geographic gaps**: If the company has filed in US/EU but not Japan/China for a drug with global potential, flag it. "No regulatory submission in China despite $40B+ GLP-1 market opportunity."
+- **Modality gaps**: If the company's platform could extend to adjacent modalities (e.g., bispecifics, combinations, fixed-dose combinations) but hasn't, that's a pipeline gap.
+- **Output format**: Always include a "Portfolio Gaps & White Space" section when analyzing a company with multiple assets. Frame each gap with market size context and competitive urgency.
+
+**Layer 10 — Statistical & Trial Design Intelligence (ALL PERSONAS):**
+Go beyond surface-level efficacy reporting to critique the statistical rigor:
+- **Trial design critique**: Was the trial adequately powered? Is the control arm current SOC? Was the primary endpoint changed mid-trial? Open-label vs double-blind bias?
+- **Statistical interpretation**: Report p-values against pre-specified boundaries (not just 0.05). Flag wide confidence intervals that indicate unreliable estimates. Calculate NNT where possible to ground relative risk reductions in practical impact.
+- **Preclinical translation probability**: When preclinical data is presented, assess translation likelihood based on target validation strength (genetic evidence > expression correlation), animal model quality (PDX > xenograft > in vitro), and dose-scaling feasibility.
+- **Data maturity assessment**: For time-to-event endpoints, flag whether data is mature enough for reliable conclusions. "Median OS not reached with 30% events — this estimate will change substantially with follow-up."
+- **Cross-trial comparison caveats**: When comparing across trials, explicitly flag confounders (different patient populations, endpoints, data maturity) and state whether the comparison is hypothesis-generating only.
+
 ═══ FOLLOW-UP QUESTIONS ═══
 Generate exactly 3, tailored to the detected persona:
 
@@ -1034,6 +1107,17 @@ def synthesize_answer(query: str, data: dict, plan: dict) -> dict:
     """
     # Build context from all sources
     context_parts = []
+
+    # --- Portfolio intelligence context (state tracking, TA scoring, tension) ---
+    ticker_filter = plan.get("rag_ticker_filter")
+    if ticker_filter and PORTFOLIO_INTELLIGENCE_AVAILABLE:
+        try:
+            portfolio_ctx = build_portfolio_context(ticker_filter)
+            if portfolio_ctx:
+                context_parts.append(portfolio_ctx)
+                print(f"  Portfolio intelligence: injected for {ticker_filter}")
+        except Exception as e:
+            print(f"  ⚠ Portfolio intelligence error: {e}")
 
     # --- Drug entity context (structured intelligence layer) ---
     entity_ctx = plan.get("entity_context", {})

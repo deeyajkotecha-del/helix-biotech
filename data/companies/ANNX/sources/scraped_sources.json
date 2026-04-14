@@ -1,0 +1,247 @@
+{
+  "ticker": "ANNX",
+  "company": "Annexon Biosciences",
+  "scraped_at": "2026-04-09T14:48:40.188931",
+  "drug_names_searched": [
+    "ANX005",
+    "ANX007"
+  ],
+  "sources": {
+    "presentations": [],
+    "sec_filings": [
+      {
+        "type": "sec_filing",
+        "filing_type": "10-K",
+        "title": "ANNX 10-K \u2014 2026-03-30",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000119312526131782/annx-20251231.htm",
+        "date": "2026-03-30",
+        "accession": "0001193125-26-131782",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322787"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "ANNX 8-K \u2014 2026-03-30",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000119312526131746/annx-20260330.htm",
+        "date": "2026-03-30",
+        "accession": "0001193125-26-131746",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322820"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "ANNX 8-K \u2014 2026-02-17",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000119312526054695/d21497d8k.htm",
+        "date": "2026-02-17",
+        "accession": "0001193125-26-054695",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322824"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "ANNX 8-K \u2014 2026-01-14",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000119312526012918/d31215d8k.htm",
+        "date": "2026-01-14",
+        "accession": "0001193125-26-012918",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322826"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "ANNX 8-K \u2014 2026-01-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000119312526009740/d75965d8k.htm",
+        "date": "2026-01-12",
+        "accession": "0001193125-26-009740",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322828"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "ANNX 8-K \u2014 2025-11-14",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000119312525283191/d874883d8k.htm",
+        "date": "2025-11-14",
+        "accession": "0001193125-25-283191",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322830"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "ANNX 10-Q \u2014 2025-11-10",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000119312525274240/annx-20250930.htm",
+        "date": "2025-11-10",
+        "accession": "0001193125-25-274240",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322832"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "ANNX 8-K \u2014 2025-11-10",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000119312525274220/annx-20251110.htm",
+        "date": "2025-11-10",
+        "accession": "0001193125-25-274220",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322834"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "ANNX 10-Q \u2014 2025-08-14",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000095017025108869/annx-20250630.htm",
+        "date": "2025-08-14",
+        "accession": "0000950170-25-108869",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322836"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "ANNX 8-K \u2014 2025-08-14",
+        "url": "https://www.sec.gov/Archives/edgar/data/1528115/000095017025108859/annx-20250814.htm",
+        "date": "2025-08-14",
+        "accession": "0000950170-25-108859",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:11.322838"
+      }
+    ],
+    "clinical_trials": [],
+    "publications": [
+      {
+        "type": "publication",
+        "pmid": "41905721",
+        "title": "Accelerating medicines to patients: A Bayesian quantitative evidence-based decision-making framework with interim monitoring.",
+        "journal": "Contemporary clinical trials",
+        "authors": "Gu Y, Geng Z, Zhan T et al.",
+        "date": "2026 Mar 27",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41905721/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:12.528729"
+      },
+      {
+        "type": "publication",
+        "pmid": "41787606",
+        "title": "An Open-Label Phase 1b Study of the Safety, Pharmacokinetics, Pharmacodynamics, and Clinical Activity of ANX005 in Patients with Huntington's Disease.",
+        "journal": "Movement disorders : official journal of the Movement Disorder Society",
+        "authors": "Kumar R, Agarwal P, Anderson K et al.",
+        "date": "2026 Mar 5",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41787606/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:12.528742"
+      },
+      {
+        "type": "publication",
+        "pmid": "40382320",
+        "title": "Targeting C1q prevents microglia-mediated synaptic removal in neuropathic pain.",
+        "journal": "Nature communications",
+        "authors": "Yousefpour N, Tansley SN, Locke S et al.",
+        "date": "2025 May 17",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40382320/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:12.528745"
+      },
+      {
+        "type": "publication",
+        "pmid": "40280868",
+        "title": "Plasma C4d levels correlate with treatment response and renal activity in proliferative lupus nephritis.",
+        "journal": "Rheumatology (Oxford, England)",
+        "authors": "Zickert A, Gr\u00f6nwall C, Juto A et al.",
+        "date": "2025 Aug 1",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40280868/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:12.528748"
+      },
+      {
+        "type": "publication",
+        "pmid": "38827491",
+        "title": "Strong versus Weak Data Labeling for Artificial Intelligence Algorithms in the Measurement of Geographic Atrophy.",
+        "journal": "Ophthalmology science",
+        "authors": "Domalpally A, Slater R, Linderman RE et al.",
+        "date": "2024 Sep-Oct",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38827491/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:12.528750"
+      },
+      {
+        "type": "publication",
+        "pmid": "40874597",
+        "title": "Therapeutic strategies for Huntington's disease: current approaches and future direction.",
+        "journal": "Neurodegenerative disease management",
+        "authors": "Gulzar M, Kauser S, Khan S et al.",
+        "date": "2026 Apr",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40874597/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:13.888133"
+      },
+      {
+        "type": "publication",
+        "pmid": "40506687",
+        "title": "Microglia in the Rostral Ventromedial Medulla Mediate Synaptic Pruning via the C1q/C3-CR3 Signaling Pathway-A Mechanism for the Chronic Orofacial Pain.",
+        "journal": "Molecular neurobiology",
+        "authors": "Huang X, Zeng J, Hu Z et al.",
+        "date": "2025 Oct",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40506687/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:13.888144"
+      },
+      {
+        "type": "publication",
+        "pmid": "40438570",
+        "title": "Evolving understanding of Guillain-Barr\u00e9 syndrome pathophysiology and the central role of the classical complement pathway in axonal injury.",
+        "journal": "Frontiers in neurology",
+        "authors": "Gorson KC",
+        "date": "2025",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40438570/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:13.888147"
+      },
+      {
+        "type": "publication",
+        "pmid": "40375604",
+        "title": "Correction to \"Results From a Phase 1 Study Evaluating the Safety, Tolerability, Pharmacokinetics, Pharmacodynamics, and Efficacy of ANX005, a C1q Inhibitor, in Patients With Guillain-Barr\u00e9 Syndrome\".",
+        "journal": "Journal of the peripheral nervous system : JPNS",
+        "authors": "",
+        "date": "2025 Jun",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40375604/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:13.888149"
+      },
+      {
+        "type": "publication",
+        "pmid": "40000167",
+        "title": "Results From a Phase 1 Study Evaluating the Safety, Tolerability, Pharmacokinetics, Pharmacodynamics, and Efficacy of ANX005, a C1q Inhibitor, in Patients With Guillain-Barr\u00e9 Syndrome.",
+        "journal": "Journal of the peripheral nervous system : JPNS",
+        "authors": "Mohammad QD, Islam Z, Papri N et al.",
+        "date": "2025 Mar",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40000167/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:13.888152"
+      },
+      {
+        "type": "publication",
+        "pmid": "38556890",
+        "title": "Complement C1q-mediated microglial synaptic elimination by enhancing desialylation underlies sevoflurane-induced developmental neurotoxicity.",
+        "journal": "Cell & bioscience",
+        "authors": "Wang G, Liu HY, Meng XW et al.",
+        "date": "2024 Apr 1",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38556890/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:13.888154"
+      }
+    ],
+    "conference_posters": []
+  },
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 0,
+    "publications": 11,
+    "conference_posters": 0,
+    "total": 21
+  }
+}

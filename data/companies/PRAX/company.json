@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "PRAX",
+    "company_name": "Praxis Precision Medicine",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Praxis Precision Medicine",
+    "ticker": "PRAX",
+    "exchange": "NASDAQ",
+    "headquarters": "Cambridge, MA",
+    "website": "https://www.praxismedicines.com",
+    "ir_contact": "investors@praxismedicines.com",
+    "one_liner": "Developing T-type calcium channel modulators for essential tremor and epilepsy",
+    "company_description": "Praxis Precision Medicine is a neuroscience company developing therapies for neurological disorders. Lead asset ulixacaltamide (PRAX-944) is a selective T-type calcium channel modulator in Phase 2/3 for essential tremor with pivotal data expected, and expanded into focal epilepsy."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Praxis is developing ulixacaltamide, a first-in-class T-type calcium channel blocker for essential tremor \u2014 a massive underserved market with 7M+ US patients and no new drug class in decades. Phase 2b TEMPO data showed significant tremor reduction vs placebo.",
+    "key_value_drivers": [
+      "Ulixacaltamide (PRAX-944): Phase 2/3 pivotal in essential tremor, 7M+ patient market",
+      "Phase 2b TEMPO showed statistically significant tremor reduction",
+      "First new mechanism for ET since propranolol \u2014 blockbuster potential if Phase 3 succeeds",
+      "PRAX-562: NaV1.2 activator for SCN2A-related epilepsy (genetic precision approach)"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Ulixacaltamide (PRAX-944): Phase 2/3 pivotal in essential tremor, 7M+ patient market",
+      "Phase 2b TEMPO showed statistically significant tremor reduction",
+      "First new mechanism for ET since propranolol \u2014 blockbuster potential if Phase 3 succeeds"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 3,
+    "programs": [
+      {
+        "asset": "Ulixacaltamide (PRAX-944)",
+        "target": "T-type calcium channel",
+        "stage": "Phase 2/3",
+        "indications": "Essential tremor",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 TEMPO-3 data 2026"
+      },
+      {
+        "asset": "PRAX-944",
+        "target": "T-type calcium channel",
+        "stage": "Phase 2",
+        "indications": "Focal epilepsy",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 data"
+      },
+      {
+        "asset": "PRAX-562",
+        "target": "NaV1.2",
+        "stage": "Phase 1",
+        "indications": "SCN2A epilepsy",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "small_molecule",
+    "description": "Praxis Precision Medicine is a neuroscience company developing therapies for neurological disorders. Lead asset ulixacaltamide (PRAX-944) is a selective T-type calcium channel modulator in Phase 2/3 f"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

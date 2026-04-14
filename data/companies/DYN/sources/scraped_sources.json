@@ -1,0 +1,302 @@
+{
+  "ticker": "DYN",
+  "company": "Dyne Therapeutics",
+  "scraped_at": "2026-04-09T14:50:27.611969",
+  "drug_names_searched": [
+    "DYNE-251",
+    "DYNE-101",
+    "DYNE-302"
+  ],
+  "sources": {
+    "presentations": [],
+    "sec_filings": [
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "DYN 8-K \u2014 2026-03-02",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312526084207/dyn-20260302.htm",
+        "date": "2026-03-02",
+        "accession": "0001193125-26-084207",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192160"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-K",
+        "title": "DYN 10-K \u2014 2026-03-02",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312526084178/dyn-20251231.htm",
+        "date": "2026-03-02",
+        "accession": "0001193125-26-084178",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192186"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "DYN 8-K \u2014 2026-01-12",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312526009782/dyn-20260112.htm",
+        "date": "2026-01-12",
+        "accession": "0001193125-26-009782",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192190"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "DYN 8-K \u2014 2025-12-23",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525329511/dyn-20251222.htm",
+        "date": "2025-12-23",
+        "accession": "0001193125-25-329511",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192193"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "DYN 8-K \u2014 2025-12-10",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525314249/d76666d8k.htm",
+        "date": "2025-12-10",
+        "accession": "0001193125-25-314249",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192196"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "DYN 8-K \u2014 2025-12-08",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525311221/d16982d8k.htm",
+        "date": "2025-12-08",
+        "accession": "0001193125-25-311221",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192198"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "DYN 8-K \u2014 2025-12-08",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525310516/d16518d8k.htm",
+        "date": "2025-12-08",
+        "accession": "0001193125-25-310516",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192201"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "DYN 8-K \u2014 2025-11-05",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525266979/dyn-20251105.htm",
+        "date": "2025-11-05",
+        "accession": "0001193125-25-266979",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192205"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "DYN 10-Q \u2014 2025-11-05",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525266882/dyn-20250930.htm",
+        "date": "2025-11-05",
+        "accession": "0001193125-25-266882",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192207"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "DYN 8-K \u2014 2025-10-02",
+        "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525228317/dyn-20251001.htm",
+        "date": "2025-10-02",
+        "accession": "0001193125-25-228317",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:50:58.192210"
+      }
+    ],
+    "clinical_trials": [
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT03458832",
+        "title": "Clinical Trial Readiness to Solve Barriers to Drug Development in FSHD",
+        "phase": "N/A",
+        "status": "RECRUITING",
+        "conditions": "Facioscapulohumeral Muscular Dystrophy",
+        "interventions": "FSHD-specific functional rating scale, Electrical Impedance Myography",
+        "enrollment": null,
+        "start_date": "2018-03-05",
+        "completion_date": "2027-06",
+        "url": "https://clinicaltrials.gov/study/NCT03458832",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:50:58.546305"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT07486934",
+        "title": "Efficacy, Safety, and Tolerability of DYNE-101 in Participants With Myotonic Dystrophy Type 1",
+        "phase": "PHASE3",
+        "status": "NOT_YET_RECRUITING",
+        "conditions": "Myotonic Dystrophy Type 1 (DM1), DM1, Myotonic Dystrophy",
+        "interventions": "DYNE-101, Placebo",
+        "enrollment": null,
+        "start_date": "2026-04",
+        "completion_date": "2028-07",
+        "url": "https://clinicaltrials.gov/study/NCT07486934",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:50:58.546318"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT04635891",
+        "title": "Motor Outcomes to Validate Evaluations in FSHD (MOVE FSHD)",
+        "phase": "N/A",
+        "status": "RECRUITING",
+        "conditions": "FSHD",
+        "interventions": "",
+        "enrollment": null,
+        "start_date": "2020-12-15",
+        "completion_date": "2027-12",
+        "url": "https://clinicaltrials.gov/study/NCT04635891",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:50:58.546322"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT05524883",
+        "title": "Safety, Tolerability, Pharmacodynamic, Efficacy, and Pharmacokinetic Study of DYNE-251 in Participants With Duchenne Muscular Dystrophy Amenable to Exon 51 Skipping",
+        "phase": "PHASE1, PHASE2",
+        "status": "ACTIVE_NOT_RECRUITING",
+        "conditions": "Duchenne Muscular Dystrophy (DMD)",
+        "interventions": "DYNE-251, Placebo",
+        "enrollment": null,
+        "start_date": "2022-08-12",
+        "completion_date": "2029-11",
+        "url": "https://clinicaltrials.gov/study/NCT05524883",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:50:58.546325"
+      },
+      {
+        "type": "clinical_trial",
+        "nct_id": "NCT05481879",
+        "title": "Safety, Tolerability, Pharmacodynamic, Efficacy, and Pharmacokinetic Study of DYNE-101 in Participants With Myotonic Dystrophy Type 1",
+        "phase": "PHASE1, PHASE2",
+        "status": "RECRUITING",
+        "conditions": "Myotonic Dystrophy Type 1 (DM1)",
+        "interventions": "DYNE-101, Placebo",
+        "enrollment": null,
+        "start_date": "2022-09-05",
+        "completion_date": "2029-07",
+        "url": "https://clinicaltrials.gov/study/NCT05481879",
+        "source": "clinicaltrials_gov",
+        "scraped_at": "2026-04-09T14:50:58.546328"
+      }
+    ],
+    "publications": [
+      {
+        "type": "publication",
+        "pmid": "41764034",
+        "title": "Clinical and healthcare burden of myotonic dystrophy type 1 (DM1) in the United States: a claims-based study.",
+        "journal": "Journal of medical economics",
+        "authors": "Hamel JI, Samnaliev M, Do L et al.",
+        "date": "2026 Dec",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41764034/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:50:59.493179"
+      },
+      {
+        "type": "publication",
+        "pmid": "41609129",
+        "title": "2025 White Paper on Recent Issues in Bioanalysis: Biomarkers Calibrators & Stability; Evaluation of NULISA; Neurofilament & Autoantibody Biomarker Assays; Removing IgM Interference; ELISpot & FluoroSpot Best Practices; Modular HD Cytometry; Single-cell Analysis Imaging Cytometry (PART 2A - Recommendations on Biomarkers Discovery, Development, Validation & Regulatory Approval, Ligand-Binding Assays (LBA) and Cell-Based Assays (CBA) PART 2B - Regulatory Agencies' Input on Biomarkers, IVD/CDx and Biomarker Assay Validation (BAV)).",
+        "journal": "Bioanalysis",
+        "authors": "Hersey S, McGuire K, Kholmanskikh O et al.",
+        "date": "2025 Dec",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41609129/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:50:59.493214"
+      },
+      {
+        "type": "publication",
+        "pmid": "41289766",
+        "title": "287th ENMC international workshop: Harmonization and federated analysis of myotonic dystrophy registries to model heterogeneous disease trajectories. Hoofddorp, the Netherlands, 28-30 March 2025.",
+        "journal": "Neuromuscular disorders : NMD",
+        "authors": "la Fontaine LA, van As D, Bassez G et al.",
+        "date": "2026 Jan",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41289766/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:50:59.493221"
+      },
+      {
+        "type": "publication",
+        "pmid": "41100957",
+        "title": "279th ENMC international workshop: Classification, clinical care, outcome measures and biomarkers in childhood onset facioscapulohumeral dystrophy: towards standardizing clinical care and ensuring clinical trial readiness. Hoofddorp, The Netherlands, 1-3 November 2024.",
+        "journal": "Neuromuscular disorders : NMD",
+        "authors": "Dijkstra JN, Henzi BC, Mathews KD et al.",
+        "date": "2025 Oct",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41100957/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:50:59.493227"
+      },
+      {
+        "type": "publication",
+        "pmid": "40808372",
+        "title": "Changes in RNA splicing as a surrogate endpoint for myotonic dystrophy Type 1 (DM1) clinical trials.",
+        "journal": "Journal of neuromuscular diseases",
+        "authors": "Berglund JA, Novack A, Ivanovska Holder I et al.",
+        "date": "2025 Aug 14",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40808372/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:50:59.493232"
+      },
+      {
+        "type": "publication",
+        "pmid": "40111538",
+        "title": "A Framework for Quantitative Systems Pharmacology\u00a0Model Execution.",
+        "journal": "Handbook of experimental pharmacology",
+        "authors": "Sokolov V, Peskov K, Helmlinger G",
+        "date": "2025",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40111538/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:50:59.493240"
+      },
+      {
+        "type": "publication",
+        "pmid": "39827287",
+        "title": "FORCE platform overcomes barriers of oligonucleotide delivery to muscle and corrects myotonic dystrophy features in preclinical models.",
+        "journal": "Communications medicine",
+        "authors": "Weeden T, Picariello T, Quinn B et al.",
+        "date": "2025 Jan 18",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39827287/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:50:59.493247"
+      },
+      {
+        "type": "publication",
+        "pmid": "38167117",
+        "title": "Patient engagement in clinical trial design for rare neuromuscular disorders: impact on the DELIVER and ACHIEVE clinical trials.",
+        "journal": "Research involvement and engagement",
+        "authors": "Furlong P, Dugar A, White M",
+        "date": "2024 Jan 2",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/38167117/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:50:59.493252"
+      },
+      {
+        "type": "publication",
+        "pmid": "41260310",
+        "title": "From molecular convergence to clinical divergence: Comparative pathogenic mechanisms and therapeutic trajectories in C9orf72-ALS/FTD and myotonic dystrophy.",
+        "journal": "Neurobiology of disease",
+        "authors": "Alberti C, Parente V, Corti S et al.",
+        "date": "2025 Dec",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41260310/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:51:00.534580"
+      }
+    ],
+    "conference_posters": []
+  },
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 5,
+    "publications": 9,
+    "conference_posters": 0,
+    "total": 24
+  }
+}

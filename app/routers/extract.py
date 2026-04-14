@@ -121,6 +121,48 @@ def _extract_page_images(pdf_path: str, max_pages: int = 40) -> list:
     return images
 
 
+def _cache_uploaded_slide_images(doc_id: int, page_images: list):
+    """Cache the page images from an upload session into the slide_images table."""
+    import psycopg2
+    db_url = os.environ.get("NEON_DATABASE_URL", "")
+    if not db_url:
+        return
+
+    conn = psycopg2.connect(db_url)
+    conn.autocommit = True
+    cur = conn.cursor()
+
+    # Ensure table exists
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS slide_images (
+            id SERIAL PRIMARY KEY,
+            document_id INTEGER NOT NULL,
+            page_number INTEGER NOT NULL,
+            image_b64 TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(document_id, page_number)
+        )
+    """)
+
+    cached = 0
+    for img in page_images:
+        page_num = img.get("page", 0)
+        img_b64 = img.get("image_base64", "")
+        if page_num and img_b64:
+            cur.execute(
+                """INSERT INTO slide_images (document_id, page_number, image_b64)
+                   VALUES (%s, %s, %s)
+                   ON CONFLICT (document_id, page_number) DO NOTHING""",
+                (doc_id, page_num, img_b64),
+            )
+            cached += 1
+
+    cur.close()
+    conn.close()
+    if cached:
+        print(f"  Cached {cached} slide images for doc {doc_id}")
+
+
 def _get_sid(request: Request) -> str:
     sid = request.cookies.get("analyst_sid")
     if not sid:
@@ -329,9 +371,19 @@ async def save_to_library(request: Request):
             filename=filename,
             doc_type="uploaded_pdf",
         )
+
+        # Cache slide images in DB so deck analyzer can display them later
+        doc_id = result.get("doc_id")
+        page_images = doc.get("page_images", [])
+        if doc_id and page_images:
+            try:
+                _cache_uploaded_slide_images(doc_id, page_images)
+            except Exception as img_err:
+                print(f"  Slide image caching failed (non-fatal): {img_err}")
+
         return JSONResponse(content={
             "success": True,
-            "doc_id": result.get("doc_id"),
+            "doc_id": doc_id,
             "chunks": result.get("chunks_stored", 0),
             "message": f"Saved to library: {doc_title} ({ticker})",
         })

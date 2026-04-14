@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "KRYS",
+    "company_name": "Krystal Biotech",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Krystal Biotech",
+    "ticker": "KRYS",
+    "exchange": "NASDAQ",
+    "headquarters": "Pittsburgh, PA",
+    "website": "https://www.krystalbio.com",
+    "ir_contact": "investors@krystalbio.com",
+    "one_liner": "Gene therapy company with Vyjuvek (beremagene geperpavec) approved for dystrophic epidermolysis bullosa, expanding into aesthetics",
+    "company_description": "Krystal Biotech is a gene therapy company using its redosable HSV-1 vector platform. Lead product Vyjuvek is the first FDA-approved gene therapy for dystrophic epidermolysis bullosa (DEB). The company is expanding into cystic fibrosis (inhaled KB407) and aesthetics (KB707 for skin rejuvenation)."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Krystal's redosable HSV-1 vector platform is differentiated \u2014 unlike AAV gene therapies, Krystal's approach allows repeat dosing. Vyjuvek is commercializing in DEB with strong uptake, while KB407 (inhaled gene therapy for CF) and the aesthetics pipeline (KB707) offer large-market expansion opportunities.",
+    "key_value_drivers": [
+      "Vyjuvek: First gene therapy for DEB, commercial ramp with strong early uptake",
+      "Redosable HSV-1 platform: No anti-drug antibody barrier to repeat dosing \u2014 unique advantage",
+      "KB407: Inhaled CFTR gene therapy for cystic fibrosis \u2014 addressing all CF mutations, not just specific genotypes",
+      "KB707: Aesthetics (skin rejuvenation) \u2014 massive market potential if clinical data supports"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Vyjuvek: First gene therapy for DEB, commercial ramp with strong early uptake",
+      "Redosable HSV-1 platform: No anti-drug antibody barrier to repeat dosing \u2014 unique advantage",
+      "KB407: Inhaled CFTR gene therapy for cystic fibrosis \u2014 addressing all CF mutations, not just specific genotypes"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 3,
+    "programs": [
+      {
+        "asset": "Vyjuvek",
+        "target": "COL7A1 gene",
+        "stage": "Approved/Commercial",
+        "indications": "Dystrophic EB",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Revenue ramp + label expansion"
+      },
+      {
+        "asset": "KB407",
+        "target": "CFTR gene",
+        "stage": "Phase 1/2",
+        "indications": "Cystic fibrosis",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1/2 data 2026"
+      },
+      {
+        "asset": "KB707",
+        "target": "COL7A1 (aesthetics)",
+        "stage": "Phase 1",
+        "indications": "Skin rejuvenation",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "gene_therapy",
+    "description": "Krystal Biotech is a gene therapy company using its redosable HSV-1 vector platform. Lead product Vyjuvek is the first FDA-approved gene therapy for dystrophic epidermolysis bullosa (DEB). The company"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

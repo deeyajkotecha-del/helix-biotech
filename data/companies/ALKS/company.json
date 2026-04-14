@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "ALKS",
+    "company_name": "Alkermes",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Alkermes",
+    "ticker": "ALKS",
+    "exchange": "NASDAQ",
+    "headquarters": "Dublin, Ireland",
+    "website": "https://www.alkermes.com",
+    "ir_contact": "investors@alkermes.com",
+    "one_liner": "Profitable CNS/oncology company with Vivitrol, Aristada, Lybalvi, and nemvaleukin in immuno-oncology",
+    "company_description": "Alkermes is a profitable biopharmaceutical company with a commercial CNS franchise (Vivitrol for opioid dependence, Aristada for schizophrenia, Lybalvi for schizophrenia/bipolar) and an oncology pipeline centered on nemvaleukin alfa, an engineered IL-2 variant in development for solid tumors."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Alkermes is an underappreciated profitable biopharma with a stable CNS franchise generating $1.5B+ revenue and a free optionality play on nemvaleukin in oncology. Lybalvi's rapid commercial uptake in schizophrenia and the potential for nemvaleukin in combination IO regimens offer upside catalysts.",
+    "key_value_drivers": [
+      "Lybalvi: Rapid commercial ramp in schizophrenia \u2014 olanzapine without metabolic side effects",
+      "Vivitrol + Aristada: Stable long-acting injectable franchise in addiction and schizophrenia",
+      "Profitable and cash-generating \u2014 FCF supports buybacks and pipeline investment",
+      "Nemvaleukin alfa: Engineered IL-2 in Phase 2/3 for ovarian cancer and melanoma"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Lybalvi: Rapid commercial ramp in schizophrenia \u2014 olanzapine without metabolic side effects",
+      "Vivitrol + Aristada: Stable long-acting injectable franchise in addiction and schizophrenia",
+      "Profitable and cash-generating \u2014 FCF supports buybacks and pipeline investment"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 3,
+    "programs": [
+      {
+        "asset": "Lybalvi",
+        "target": "D2/5-HT2A + opioid",
+        "stage": "Approved/Commercial",
+        "indications": "Schizophrenia, bipolar I",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Commercial ramp"
+      },
+      {
+        "asset": "Vivitrol",
+        "target": "Opioid antagonist",
+        "stage": "Approved/Commercial",
+        "indications": "Opioid/alcohol dependence",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Steady revenue"
+      },
+      {
+        "asset": "Nemvaleukin alfa",
+        "target": "IL-2",
+        "stage": "Phase 2/3",
+        "indications": "Ovarian cancer, melanoma",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "small_molecule_biologics",
+    "description": "Alkermes is a profitable biopharmaceutical company with a commercial CNS franchise (Vivitrol for opioid dependence, Aristada for schizophrenia, Lybalvi for schizophrenia/bipolar) and an oncology pipel"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

@@ -1,0 +1,182 @@
+{
+  "ticker": "FOLD",
+  "last_scraped": "2026-04-09T14:54:53.431275",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "FOLD 8-K \u2014 2026-03-03",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000114036126007544/ny20062454x6_8k.htm",
+      "date": "2026-03-03"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 10-K \u2014 2026-02-20",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000117887926000005/fold-20251231.htm",
+      "date": "2026-02-20"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 8-K \u2014 2026-02-20",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000110465926018127/tm266897d1_8k.htm",
+      "date": "2026-02-20"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 8-K \u2014 2026-01-26",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000114036126002299/ef20063881_8k.htm",
+      "date": "2026-01-26"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 8-K \u2014 2025-12-19",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000114036125046134/ef20061157_8k.htm",
+      "date": "2025-12-19"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 10-Q \u2014 2025-11-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000117887925000015/fold-20250930.htm",
+      "date": "2025-11-04"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 8-K \u2014 2025-11-04",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000110465925105927/tm2530124d1_8k.htm",
+      "date": "2025-11-04"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 10-Q \u2014 2025-07-31",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000117887925000011/fold-20250630.htm",
+      "date": "2025-07-31"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 8-K \u2014 2025-07-31",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000110465925072447/tm2522155d1_8k.htm",
+      "date": "2025-07-31"
+    },
+    {
+      "type": "sec_filing",
+      "title": "FOLD 8-K \u2014 2025-06-05",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178879/000110465925056821/tm2517200d1_8k.htm",
+      "date": "2025-06-05"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of Migalastat in Pediatric Subjects (2 to <12 Yrs) With Fabry Disease and Amenable GLA Variants",
+      "url": "https://clinicaltrials.gov/study/NCT06904261",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate the Safety, Efficacy, PK, PD and Immunogenicity of Cipaglucosidase Alfa/Miglustat in IOPD Subjects Aged 0 to <18",
+      "url": "https://clinicaltrials.gov/study/NCT04808505",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "ZIP Study-OL Study of Safety, PK, Efficacy, PD, Immunogenicity of ATB200/AT2221 in Pediatrics Aged 0 to < 18 y.o. w/LOPD",
+      "url": "https://clinicaltrials.gov/study/NCT03911505",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Global Prospective Observational Study of Women With Fabry Disease and Their Infants During Pregnancy and Breastfeeding",
+      "url": "https://clinicaltrials.gov/study/NCT04252066",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Global Prospective Observational Registry of Patients With Pompe Disease",
+      "url": "https://clinicaltrials.gov/study/NCT06121011",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate Migalastat in Fabry Subjects With Amenable GLA Variant and Renal Disease",
+      "url": "https://clinicaltrials.gov/study/NCT04020055",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study of Patients With Fabry Disease (US Specific)",
+      "url": "https://clinicaltrials.gov/study/NCT06906367",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Treatment-related benefit and satisfaction in patients with Fabry disease in France: insight into patients' expectations and preferences from the prospective, non-interventional SATIS-Fab study.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41923254/",
+      "date": "2026 Apr 1"
+    },
+    {
+      "type": "publication",
+      "title": "Longitudinal deep multi-omics profiling in a CLN3(\u0394ex7/8) minipig model identifies biomarker signatures of disease.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41775934/",
+      "date": "2026 Mar 3"
+    },
+    {
+      "type": "publication",
+      "title": "Miglustat: a first-in-class enzyme stabilizer for cipaglucosidase alfa for the treatment of late-onset Pompe disease.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41769220/",
+      "date": "2026 Jan-Dec"
+    },
+    {
+      "type": "publication",
+      "title": "Comparing the efficacy of cipaglucosidase alfa plus miglustat with alglucosidase alfa for late-onset Pompe disease: an expanded network meta-analysis utilizing patient-level and aggregate data.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41757410/",
+      "date": "2026 Mar"
+    },
+    {
+      "type": "publication",
+      "title": "Mapping glycogen accumulation and treatment effect in Pompe disease with saturation transfer MRI.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41720458/",
+      "date": "2026 Mar"
+    },
+    {
+      "type": "publication",
+      "title": "Clinically important improvements in 6-minute walk distance and forced vital capacity in adults with late-onset Pompe disease switching from alglucosidase alfa to cipaglucosidase alfa plus miglustat i",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41650629/",
+      "date": "2026 Mar"
+    },
+    {
+      "type": "publication",
+      "title": "Safety of home administration of cipaglucosidase alfa plus miglustat in late-onset Pompe disease: results from multiple clinical trials.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41631150/",
+      "date": "2026 Jan-Dec"
+    },
+    {
+      "type": "publication",
+      "title": "Team Science and Nursing Scholarship.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41566603/",
+      "date": "2026 Feb 1"
+    },
+    {
+      "type": "publication",
+      "title": "Cipaglucosidase alfa plus miglustat in Pompe disease: two non-ambulatory patients switching from high\u2011dose, high-frequency alglucosidase alfa.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41270519/",
+      "date": "2025 Nov"
+    },
+    {
+      "type": "publication",
+      "title": "Development of a Competency Framework for Medical Affairs Professionals in Australasia.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41014444/",
+      "date": "2026 Jan"
+    },
+    {
+      "type": "publication",
+      "title": "Key considerations for measuring \u03b1-galactosidase A activity after long-term migalastat therapy-Avoiding in vitro inhibition effects.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41852515/",
+      "date": "2026 Jun"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 7,
+    "publications": 11,
+    "conference_posters": 0,
+    "total": 28
+  }
+}

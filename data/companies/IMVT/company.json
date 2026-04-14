@@ -1,0 +1,92 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "IMVT",
+    "company_name": "Immunovant",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Immunovant",
+    "ticker": "IMVT",
+    "exchange": "NASDAQ",
+    "headquarters": "New York, NY",
+    "website": "https://www.immunovant.com",
+    "ir_contact": "investors@immunovant.com",
+    "one_liner": "Anti-FcRn antibody batoclimab in Phase 3 across multiple autoimmune diseases including MG, TED, and CIDP",
+    "company_description": "Immunovant is developing batoclimab, a subcutaneous anti-FcRn antibody that reduces pathogenic IgG antibodies. The company is running a broad Phase 3 program across myasthenia gravis, thyroid eye disease, CIDP, and warm autoimmune hemolytic anemia. Roivant Sciences is the majority shareholder."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Immunovant's batoclimab is positioned to be a leading anti-FcRn therapy, competing with argenx's Vyvgart but with subcutaneous convenience and a broader indication strategy. Multiple Phase 3 readouts in 2026-2027 could establish batoclimab as a multi-billion dollar franchise across IgG-mediated autoimmune diseases.",
+    "key_value_drivers": [
+      "Batoclimab: SC anti-FcRn with Phase 3 programs in MG, TED, CIDP, wAIHA",
+      "Competing with argenx Vyvgart but with convenient SC dosing and potential best-in-class IgG reduction",
+      "Phase 3 MYALL (MG) data expected \u2014 could enable first NDA filing",
+      "Roivant backing provides commercial infrastructure and funding through multiple readouts"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Batoclimab: SC anti-FcRn with Phase 3 programs in MG, TED, CIDP, wAIHA",
+      "Competing with argenx Vyvgart but with convenient SC dosing and potential best-in-class IgG reduction",
+      "Phase 3 MYALL (MG) data expected \u2014 could enable first NDA filing"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 4,
+    "clinical_stage": 4,
+    "programs": [
+      {
+        "asset": "Batoclimab",
+        "target": "FcRn",
+        "stage": "Phase 3",
+        "indications": "Myasthenia gravis",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 MYALL data 2026"
+      },
+      {
+        "asset": "Batoclimab",
+        "target": "FcRn",
+        "stage": "Phase 3",
+        "indications": "Thyroid eye disease",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 data"
+      },
+      {
+        "asset": "Batoclimab",
+        "target": "FcRn",
+        "stage": "Phase 3",
+        "indications": "CIDP",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 data"
+      },
+      {
+        "asset": "Batoclimab",
+        "target": "FcRn",
+        "stage": "Phase 2/3",
+        "indications": "wAIHA",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2/3 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "antibody",
+    "description": "Immunovant is developing batoclimab, a subcutaneous anti-FcRn antibody that reduces pathogenic IgG antibodies. The company is running a broad Phase 3 program across myasthenia gravis, thyroid eye dise"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "AUTL",
+    "company_name": "Autolus Therapeutics",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Autolus Therapeutics",
+    "ticker": "AUTL",
+    "exchange": "NASDAQ",
+    "headquarters": "London, UK",
+    "website": "https://www.autolus.com",
+    "ir_contact": "investors@autolus.com",
+    "one_liner": "Next-gen CAR-T cell therapy company with obe-cel (Aucatzyl) approved for r/r adult ALL",
+    "company_description": "Autolus is a clinical-stage biopharmaceutical company developing next-generation programmed T cell therapies. Lead program obe-cel (Aucatzyl) received FDA approval for relapsed/refractory adult B-cell ALL in November 2024, becoming one of few CAR-T therapies with a manageable safety profile enabling outpatient administration."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Autolus is commercializing obe-cel (Aucatzyl), a differentiated CAR-T with best-in-class CRS/ICANS safety in adult ALL, and expanding into autoimmune diseases with a next-gen platform that could unlock a massive new market for cell therapy.",
+    "key_value_drivers": [
+      "Aucatzyl approved for adult ALL \u2014 only CAR-T with low-grade CRS enabling outpatient dosing",
+      "Autoimmune expansion: AUTO1/22 dual-targeting CD19/BCMA in lupus and other autoimmune diseases",
+      "Platform generates next-gen constructs with enhanced persistence and reduced toxicity",
+      "Commercial ramp in ALL with potential to capture significant share from Tecartus"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Aucatzyl approved for adult ALL \u2014 only CAR-T with low-grade CRS enabling outpatient dosing",
+      "Autoimmune expansion: AUTO1/22 dual-targeting CD19/BCMA in lupus and other autoimmune diseases",
+      "Platform generates next-gen constructs with enhanced persistence and reduced toxicity"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 3,
+    "programs": [
+      {
+        "asset": "Obe-cel (Aucatzyl)",
+        "target": "CD19",
+        "stage": "Approved/Commercial",
+        "indications": "Adult ALL",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Commercial launch ramp + label expansion"
+      },
+      {
+        "asset": "AUTO1/22",
+        "target": "CD19/BCMA",
+        "stage": "Phase 1",
+        "indications": "Lupus, autoimmune",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1 data 2026"
+      },
+      {
+        "asset": "AUTO6NG",
+        "target": "GD2",
+        "stage": "Phase 1",
+        "indications": "Neuroblastoma",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "cell_therapy",
+    "description": "Autolus is a clinical-stage biopharmaceutical company developing next-generation programmed T cell therapies. Lead program obe-cel (Aucatzyl) received FDA approval for relapsed/refractory adult B-cell"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

@@ -1,0 +1,158 @@
+{
+  "ticker": "DYN",
+  "last_scraped": "2026-04-09T14:51:01.585296",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "DYN 8-K \u2014 2026-03-02",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312526084207/dyn-20260302.htm",
+      "date": "2026-03-02"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 10-K \u2014 2026-03-02",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312526084178/dyn-20251231.htm",
+      "date": "2026-03-02"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 8-K \u2014 2026-01-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312526009782/dyn-20260112.htm",
+      "date": "2026-01-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 8-K \u2014 2025-12-23",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525329511/dyn-20251222.htm",
+      "date": "2025-12-23"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 8-K \u2014 2025-12-10",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525314249/d76666d8k.htm",
+      "date": "2025-12-10"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 8-K \u2014 2025-12-08",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525311221/d16982d8k.htm",
+      "date": "2025-12-08"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 8-K \u2014 2025-12-08",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525310516/d16518d8k.htm",
+      "date": "2025-12-08"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 8-K \u2014 2025-11-05",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525266979/dyn-20251105.htm",
+      "date": "2025-11-05"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 10-Q \u2014 2025-11-05",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525266882/dyn-20250930.htm",
+      "date": "2025-11-05"
+    },
+    {
+      "type": "sec_filing",
+      "title": "DYN 8-K \u2014 2025-10-02",
+      "url": "https://www.sec.gov/Archives/edgar/data/1818794/000119312525228317/dyn-20251001.htm",
+      "date": "2025-10-02"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Clinical Trial Readiness to Solve Barriers to Drug Development in FSHD",
+      "url": "https://clinicaltrials.gov/study/NCT03458832",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Efficacy, Safety, and Tolerability of DYNE-101 in Participants With Myotonic Dystrophy Type 1",
+      "url": "https://clinicaltrials.gov/study/NCT07486934",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Motor Outcomes to Validate Evaluations in FSHD (MOVE FSHD)",
+      "url": "https://clinicaltrials.gov/study/NCT04635891",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Safety, Tolerability, Pharmacodynamic, Efficacy, and Pharmacokinetic Study of DYNE-251 in Participants With Duchenne Muscular Dystrophy Amenable to Exon 51 Skipping",
+      "url": "https://clinicaltrials.gov/study/NCT05524883",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Safety, Tolerability, Pharmacodynamic, Efficacy, and Pharmacokinetic Study of DYNE-101 in Participants With Myotonic Dystrophy Type 1",
+      "url": "https://clinicaltrials.gov/study/NCT05481879",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Clinical and healthcare burden of myotonic dystrophy type 1 (DM1) in the United States: a claims-based study.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41764034/",
+      "date": "2026 Dec"
+    },
+    {
+      "type": "publication",
+      "title": "2025 White Paper on Recent Issues in Bioanalysis: Biomarkers Calibrators & Stability; Evaluation of NULISA; Neurofilament & Autoantibody Biomarker Assays; Removing IgM Interference; ELISpot & FluoroSp",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41609129/",
+      "date": "2025 Dec"
+    },
+    {
+      "type": "publication",
+      "title": "287th ENMC international workshop: Harmonization and federated analysis of myotonic dystrophy registries to model heterogeneous disease trajectories. Hoofddorp, the Netherlands, 28-30 March 2025.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41289766/",
+      "date": "2026 Jan"
+    },
+    {
+      "type": "publication",
+      "title": "279th ENMC international workshop: Classification, clinical care, outcome measures and biomarkers in childhood onset facioscapulohumeral dystrophy: towards standardizing clinical care and ensuring cli",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41100957/",
+      "date": "2025 Oct"
+    },
+    {
+      "type": "publication",
+      "title": "Changes in RNA splicing as a surrogate endpoint for myotonic dystrophy Type 1 (DM1) clinical trials.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40808372/",
+      "date": "2025 Aug 14"
+    },
+    {
+      "type": "publication",
+      "title": "A Framework for Quantitative Systems Pharmacology\u00a0Model Execution.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40111538/",
+      "date": "2025"
+    },
+    {
+      "type": "publication",
+      "title": "FORCE platform overcomes barriers of oligonucleotide delivery to muscle and corrects myotonic dystrophy features in preclinical models.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39827287/",
+      "date": "2025 Jan 18"
+    },
+    {
+      "type": "publication",
+      "title": "Patient engagement in clinical trial design for rare neuromuscular disorders: impact on the DELIVER and ACHIEVE clinical trials.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38167117/",
+      "date": "2024 Jan 2"
+    },
+    {
+      "type": "publication",
+      "title": "From molecular convergence to clinical divergence: Comparative pathogenic mechanisms and therapeutic trajectories in C9orf72-ALS/FTD and myotonic dystrophy.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41260310/",
+      "date": "2025 Dec"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 5,
+    "publications": 9,
+    "conference_posters": 0,
+    "total": 24
+  }
+}

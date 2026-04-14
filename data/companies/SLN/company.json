@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "SLN",
+    "company_name": "Silence Therapeutics",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Silence Therapeutics",
+    "ticker": "SLN",
+    "exchange": "NASDAQ",
+    "headquarters": "London, UK",
+    "website": "https://www.silence-therapeutics.com",
+    "ir_contact": "investors@silence-therapeutics.com",
+    "one_liner": "mRNAi GOLD platform delivering GalNAc-siRNA therapies \u2014 lead program zerlasiran for cardiovascular Lp(a) reduction",
+    "company_description": "Silence Therapeutics is developing short interfering RNA (siRNA) therapeutics using its mRNAi GOLD GalNAc conjugate platform. Lead program zerlasiran targets lipoprotein(a) for cardiovascular risk reduction, competing with Novartis' pelacarsen and Amgen's olpasiran in the Lp(a) lowering space."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Silence's zerlasiran is a GalNAc-siRNA targeting Lp(a) with potential best-in-class dosing convenience (quarterly SC injection). The Lp(a) space is poised to become a blockbuster market if CVOT data confirms Lp(a) lowering reduces cardiovascular events. AstraZeneca's licensing deal validates the platform.",
+    "key_value_drivers": [
+      "Zerlasiran: GalNAc-siRNA for Lp(a) reduction \u2014 quarterly dosing, deep Lp(a) lowering >90%",
+      "AstraZeneca partnership: Licensed zerlasiran for up to $4B+ in milestones",
+      "Lp(a) market: If CVOTs confirm event reduction, addressable population is 60M+ globally",
+      "mRNAi GOLD platform: Pipeline expansion into complement (SLN360), PCSK9, and undisclosed targets"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Zerlasiran: GalNAc-siRNA for Lp(a) reduction \u2014 quarterly dosing, deep Lp(a) lowering >90%",
+      "AstraZeneca partnership: Licensed zerlasiran for up to $4B+ in milestones",
+      "Lp(a) market: If CVOTs confirm event reduction, addressable population is 60M+ globally"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 2,
+    "programs": [
+      {
+        "asset": "Zerlasiran",
+        "target": "LPA (Lp(a))",
+        "stage": "Phase 3",
+        "indications": "Cardiovascular (Lp(a) lowering)",
+        "ownership": "Partnered (AstraZeneca)",
+        "next_catalyst": "Phase 3 data + AZ-led development"
+      },
+      {
+        "asset": "SLN360",
+        "target": "Complement",
+        "stage": "Phase 1",
+        "indications": "Complement-mediated diseases",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 1 data"
+      },
+      {
+        "asset": "Undisclosed",
+        "target": "PCSK9",
+        "stage": "Preclinical",
+        "indications": "Hypercholesterolemia",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "IND filing"
+      }
+    ]
+  },
+  "platform": {
+    "name": "rna_therapeutics",
+    "description": "Silence Therapeutics is developing short interfering RNA (siRNA) therapeutics using its mRNAi GOLD GalNAc conjugate platform. Lead program zerlasiran targets lipoprotein(a) for cardiovascular risk red"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "FOLD",
+    "company_name": "Amicus Therapeutics",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Amicus Therapeutics",
+    "ticker": "FOLD",
+    "exchange": "NASDAQ",
+    "headquarters": "Philadelphia, PA",
+    "website": "https://www.amicusrx.com",
+    "ir_contact": "investors@amicusrx.com",
+    "one_liner": "Rare disease leader with Galafold (Fabry) and Pombiliti+Opfolda (Pompe) \u2014 approaching profitability",
+    "company_description": "Amicus Therapeutics is a rare disease biotechnology company with two commercial products: Galafold (migalastat) for Fabry disease and Pombiliti + Opfolda (cipaglucosidase alfa + miglustat) for Pompe disease. The company is approaching profitability with a growing revenue base."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Amicus is approaching a profitability inflection point with two growing rare disease franchises. Galafold is the only oral therapy for Fabry disease, and Pombiliti+Opfolda offers best-in-class ERT for Pompe. Revenue growth + operating leverage should drive the P&L crossover to sustained profitability.",
+    "key_value_drivers": [
+      "Galafold: Only oral Fabry disease therapy, growing globally with strong patient retention",
+      "Pombiliti+Opfolda: Next-gen ERT for Pompe disease, head-to-head superior to Lumizyme in PROPEL study",
+      "Profitability inflection: Company approaching cash flow breakeven with dual revenue streams",
+      "Gene therapy pipeline: AT-GAA next-gen and Fabry gene therapy in preclinical"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Galafold: Only oral Fabry disease therapy, growing globally with strong patient retention",
+      "Pombiliti+Opfolda: Next-gen ERT for Pompe disease, head-to-head superior to Lumizyme in PROPEL study",
+      "Profitability inflection: Company approaching cash flow breakeven with dual revenue streams"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 2,
+    "programs": [
+      {
+        "asset": "Galafold (migalastat)",
+        "target": "GLA chaperone",
+        "stage": "Approved/Commercial",
+        "indications": "Fabry disease",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Revenue growth + new markets"
+      },
+      {
+        "asset": "Pombiliti + Opfolda",
+        "target": "GAA ERT + chaperone",
+        "stage": "Approved/Commercial",
+        "indications": "Pompe disease",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Market penetration vs Lumizyme"
+      },
+      {
+        "asset": "AT-GAA gene therapy",
+        "target": "GAA gene",
+        "stage": "Preclinical",
+        "indications": "Pompe disease",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "IND filing"
+      }
+    ]
+  },
+  "platform": {
+    "name": "small_molecule_biologics",
+    "description": "Amicus Therapeutics is a rare disease biotechnology company with two commercial products: Galafold (migalastat) for Fabry disease and Pombiliti + Opfolda (cipaglucosidase alfa + miglustat) for Pompe d"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

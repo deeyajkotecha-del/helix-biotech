@@ -1,0 +1,67 @@
+{
+  "ticker": "KYMR",
+  "snapshot_date": "2026-04-09T10:27:44.397175",
+  "snapshot_id": "8a34c3ea3c90",
+  "pipeline": {
+    "kt-621": {
+      "stage": "Phase 2b",
+      "target": "STAT6",
+      "indications": "AD, Asthma, COPD, EoE, CRSwNP, CSU, PN, BP",
+      "next_catalyst": "BROADEN2 Phase 2b AD data - Mid-2027"
+    },
+    "kt-579": {
+      "stage": "Phase 1 starting Q1 2026",
+      "target": "IRF5",
+      "indications": "SLE, Sj\u00f6gren's, RA, IBD, SSc, DM",
+      "next_catalyst": "Phase 1 HV data - 2H 2026"
+    },
+    "kt-485": {
+      "stage": "Phase 1 expected 2026",
+      "target": "IRAK4",
+      "indications": "HS, AD, Asthma, COPD, RA, SLE, IBD",
+      "next_catalyst": "Phase 1 start - 2026"
+    },
+    "cdk2-molecular-glue": {
+      "stage": "Preclinical",
+      "target": "CDK2",
+      "indications": "Breast cancer, solid tumors",
+      "next_catalyst": "IND filing"
+    }
+  },
+  "trials": {},
+  "catalysts": [],
+  "financials": {
+    "note": "Specific financials not provided in presentation - refer to SEC filings",
+    "cash_runway": "Into 2029 (per presentation)",
+    "partnerships_value": {
+      "sanofi_irak4": {
+        "upfront": "$150M received",
+        "milestones": "Up to $2B",
+        "royalties": "Tiered double-digit"
+      },
+      "gilead_cdk2": {
+        "upfront": "$85M",
+        "milestones": "Up to $750M"
+      }
+    }
+  },
+  "strategic_emphasis": null,
+  "portfolio_gaps": [],
+  "thesis": "Kymera is the first company to clinically demonstrate that oral protein degraders can match injectable biologic efficacy in immunology, potentially transforming treatment paradigms for >140M patients with Type 2 inflammation and autoimmune diseases.",
+  "bull_case": [
+    "KT-621 Phase 1b data matches Dupixent - oral could transform $20B+ market",
+    "KT-579 preclinical is best-in-class - 100% survival vs 67% vehicle in lupus",
+    "Platform validated across STAT6, IRF5, IRAK4 - multiple shots on goal",
+    "Strategic partnerships (Sanofi, Gilead) validate platform and provide funding",
+    "Oral convenience could expand market penetration from 1-3% to 10%+",
+    "Cash runway into 2029 - no near-term financing risk"
+  ],
+  "bear_case": [
+    "KT-621 Phase 1b was open-label - need placebo-controlled data to confirm",
+    "First-in-class transcription factor degraders - unknown unknowns",
+    "KT-474 QTc issue raises questions (though KT-485 designed to address)",
+    "Long development timelines - Phase 2b data not until 2027",
+    "Competitive pressure from Dupixent ($13B franchise) and JAK inhibitors",
+    "SLE (KT-579 target indication) is notoriously difficult"
+  ]
+}

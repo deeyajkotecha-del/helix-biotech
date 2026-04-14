@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "ANNX",
+    "company_name": "Annexon Biosciences",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Annexon Biosciences",
+    "ticker": "ANNX",
+    "exchange": "NASDAQ",
+    "headquarters": "South San Francisco, CA",
+    "website": "https://www.annexonbio.com",
+    "ir_contact": "investors@annexonbio.com",
+    "one_liner": "Complement C1q inhibitor targeting geographic atrophy and autoimmune diseases",
+    "company_description": "Annexon Biosciences is developing ANX007, a monoclonal antibody that inhibits C1q, the initiating molecule of the classical complement pathway. Lead program is in geographic atrophy (GA) secondary to AMD, with differentiated data showing structural preservation beyond lesion growth reduction."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Annexon's ANX007 targets C1q upstream of existing complement therapies, potentially offering superior efficacy in geographic atrophy by preserving photoreceptors and RPE structure \u2014 not just slowing lesion growth \u2014 in a $5B+ market dominated by Apellis and Astellas.",
+    "key_value_drivers": [
+      "ANX007: Phase 3 ARCHER in GA \u2014 differentiated endpoint of structural preservation",
+      "C1q inhibition works upstream of C3/C5, potentially more complete pathway blockade",
+      "Phase 2 data showed photoreceptor preservation + lesion growth reduction",
+      "Warm autoimmune hemolytic anemia (wAIHA) Phase 2 expansion"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "ANX007: Phase 3 ARCHER in GA \u2014 differentiated endpoint of structural preservation",
+      "C1q inhibition works upstream of C3/C5, potentially more complete pathway blockade",
+      "Phase 2 data showed photoreceptor preservation + lesion growth reduction"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 3,
+    "programs": [
+      {
+        "asset": "ANX007",
+        "target": "C1q",
+        "stage": "Phase 3",
+        "indications": "Geographic atrophy",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 ARCHER interim data"
+      },
+      {
+        "asset": "ANX007",
+        "target": "C1q",
+        "stage": "Phase 2",
+        "indications": "wAIHA",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 data"
+      },
+      {
+        "asset": "ANX005",
+        "target": "C1q (IV)",
+        "stage": "Phase 2",
+        "indications": "GBS, CIDP",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 GBS data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "antibody",
+    "description": "Annexon Biosciences is developing ANX007, a monoclonal antibody that inhibits C1q, the initiating molecule of the classical complement pathway. Lead program is in geographic atrophy (GA) secondary to "
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

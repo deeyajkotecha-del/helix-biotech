@@ -1,0 +1,150 @@
+{
+  "ticker": "PRAX",
+  "company": "Praxis Precision Medicine",
+  "scraped_at": "2026-04-09T14:49:14.929327",
+  "drug_names_searched": [
+    "Ulixacaltamide (PRAX-944)",
+    "Ulixacaltamide",
+    "PRAX-944",
+    "PRAX-562"
+  ],
+  "sources": {
+    "presentations": [],
+    "sec_filings": [
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "PRAX 8-K \u2014 2026-04-06",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954826000031/prax-20260406.htm",
+        "date": "2026-04-06",
+        "accession": "0001689548-26-000031",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612447"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-K",
+        "title": "PRAX 10-K \u2014 2026-02-19",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954826000029/prax-20251231.htm",
+        "date": "2026-02-19",
+        "accession": "0001689548-26-000029",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612528"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "PRAX 8-K \u2014 2026-02-19",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954826000028/prax-20260219.htm",
+        "date": "2026-02-19",
+        "accession": "0001689548-26-000028",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612534"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "PRAX 8-K \u2014 2026-01-08",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954826000005/prax-20260108.htm",
+        "date": "2026-01-08",
+        "accession": "0001689548-26-000005",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612542"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "PRAX 8-K \u2014 2026-01-07",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000110465926001825/tm261686d3_8k.htm",
+        "date": "2026-01-07",
+        "accession": "0001104659-26-001825",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612545"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "PRAX 8-K \u2014 2026-01-06",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954826000002/prax-20260106.htm",
+        "date": "2026-01-06",
+        "accession": "0001689548-26-000002",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612549"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "PRAX 8-K \u2014 2025-12-29",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954825000118/prax-20251229.htm",
+        "date": "2025-12-29",
+        "accession": "0001689548-25-000118",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612553"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "PRAX 8-K \u2014 2025-12-11",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954825000116/prax-20251209.htm",
+        "date": "2025-12-11",
+        "accession": "0001689548-25-000116",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612557"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "8-K",
+        "title": "PRAX 8-K \u2014 2025-12-08",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954825000114/prax-20251204.htm",
+        "date": "2025-12-08",
+        "accession": "0001689548-25-000114",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612560"
+      },
+      {
+        "type": "sec_filing",
+        "filing_type": "10-Q",
+        "title": "PRAX 10-Q \u2014 2025-11-05",
+        "url": "https://www.sec.gov/Archives/edgar/data/1689548/000168954825000111/prax-20250930.htm",
+        "date": "2025-11-05",
+        "accession": "0001689548-25-000111",
+        "source": "sec_edgar",
+        "scraped_at": "2026-04-09T14:49:46.612565"
+      }
+    ],
+    "clinical_trials": [],
+    "publications": [
+      {
+        "type": "publication",
+        "pmid": "40998073",
+        "title": "K(V)7.2 channel dysfunction delays neuronal maturation and undermines early network development in a hiPSC model of KCNQ2-DEE.",
+        "journal": "Neurobiology of disease",
+        "authors": "Rosa F, Theiss S, Krepp S et al.",
+        "date": "2025 Nov",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40998073/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:48.083063"
+      },
+      {
+        "type": "publication",
+        "pmid": "39733957",
+        "title": "Developmental dysfunction in a preclinical model of Kcnq2 developmental and epileptic encephalopathy.",
+        "journal": "Neurobiology of disease",
+        "authors": "Mao M, Jancovski N, Kushner Y et al.",
+        "date": "2025 Feb",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39733957/",
+        "source": "pubmed",
+        "scraped_at": "2026-04-09T14:49:48.083078"
+      }
+    ],
+    "conference_posters": []
+  },
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 0,
+    "publications": 2,
+    "conference_posters": 0,
+    "total": 12
+  }
+}

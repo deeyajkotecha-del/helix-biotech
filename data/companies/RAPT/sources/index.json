@@ -1,0 +1,38 @@
+{
+  "ticker": "RAPT",
+  "last_scraped": "2026-04-09T14:51:09.267428",
+  "sources": [
+    {
+      "type": "clinical_trial",
+      "title": "Phase 2b Study of RPT904 as Monotherapy in Participants With IgE-Mediated Food Allergy",
+      "url": "https://clinicaltrials.gov/study/NCT07220811",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Discovery and Characterization of Zelnecirnon (RPT193), a Potent and Selective CCR4 Antagonist for Allergic Disorders.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41576212/",
+      "date": "2026 Feb 12"
+    },
+    {
+      "type": "publication",
+      "title": "Clinical and molecular effects of oral CCR4 antagonist RPT193 in atopic dermatitis: A Phase 1 study.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37984453/",
+      "date": "2024 Apr"
+    },
+    {
+      "type": "publication",
+      "title": "Structure basis for C-C chemokine receptor 4 modulation by orthosteric and allosteric antagonists.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41950080/",
+      "date": "2026 Apr 14"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 0,
+    "clinical_trials": 1,
+    "publications": 3,
+    "conference_posters": 0,
+    "total": 4
+  }
+}

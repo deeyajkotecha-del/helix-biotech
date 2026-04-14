@@ -101,7 +101,7 @@ export default function EvidenceChatPage() {
 
     try {
       const history = buildHistory()
-      const res = await fetch('/extract/api/search', {
+      const res = await fetch('/api/search/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: q, history }),

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { Company, DocumentItem, WebcastItem, WebcastSearchResult, TranscriptView } from './types'
 import DeckAnalyzerPanel from './DeckAnalyzerPanel'
@@ -265,6 +265,52 @@ function eventTypeLabel(t: string) {
 
 
 // ============================================================
+// Stock Price Widget — TradingView mini chart
+// ============================================================
+
+function StockMiniChart({ ticker }: { ticker: string }) {
+  const containerRef = React.useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!containerRef.current) return
+    // Clear any previous widget
+    containerRef.current.innerHTML = ''
+
+    const script = document.createElement('script')
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js'
+    script.async = true
+    script.type = 'text/javascript'
+    script.innerHTML = JSON.stringify({
+      symbol: ticker,
+      width: '100%',
+      height: 220,
+      locale: 'en',
+      dateRange: '3M',
+      colorTheme: 'light',
+      isTransparent: true,
+      autosize: false,
+      largeChartUrl: '',
+      noTimeScale: false,
+      chartOnly: false,
+    })
+    containerRef.current.appendChild(script)
+  }, [ticker])
+
+  return (
+    <div className="ev-stock-widget" style={{
+      margin: '12px 0',
+      borderRadius: '10px',
+      overflow: 'hidden',
+      border: '1px solid #e5e7eb',
+      background: '#fff',
+    }}>
+      <div ref={containerRef} />
+    </div>
+  )
+}
+
+
+// ============================================================
 // Component
 // ============================================================
 
@@ -456,6 +502,9 @@ export default function CompanyDetailView({ company, onBack, onCompanySearch }: 
           <span>{company.doc_page_count} pages indexed</span>
         </div>
       </div>
+
+      {/* Stock Price Chart */}
+      <StockMiniChart ticker={company.ticker} />
 
       {/* Actions */}
       <div className="ev-company-actions">

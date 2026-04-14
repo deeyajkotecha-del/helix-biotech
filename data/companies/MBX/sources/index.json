@@ -1,0 +1,128 @@
+{
+  "ticker": "MBX",
+  "last_scraped": "2026-04-09T14:51:05.149386",
+  "sources": [
+    {
+      "type": "sec_filing",
+      "title": "MBX 10-K \u2014 2026-03-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312526103121/mbx-20251231.htm",
+      "date": "2026-03-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 8-K \u2014 2026-03-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312526103118/mbx-20260312.htm",
+      "date": "2026-03-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 8-K \u2014 2026-03-09",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312526097611/mbx-20260309.htm",
+      "date": "2026-03-09"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 8-K \u2014 2026-02-27",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312526079286/mbx-20260224.htm",
+      "date": "2026-02-27"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 8-K \u2014 2026-02-05",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312526039475/mbx-20260204.htm",
+      "date": "2026-02-05"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 8-K \u2014 2026-01-22",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312526018700/mbx-20260120.htm",
+      "date": "2026-01-22"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 8-K \u2014 2026-01-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312526009642/mbx-20260111.htm",
+      "date": "2026-01-12"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 10-Q \u2014 2025-11-06",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312525268148/mbx-20250930.htm",
+      "date": "2025-11-06"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 8-K \u2014 2025-11-06",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312525268146/mbx-20251031.htm",
+      "date": "2025-11-06"
+    },
+    {
+      "type": "sec_filing",
+      "title": "MBX 8-K \u2014 2025-09-26",
+      "url": "https://www.sec.gov/Archives/edgar/data/1776111/000119312525220432/mbx-20250924.htm",
+      "date": "2025-09-26"
+    },
+    {
+      "type": "clinical_trial",
+      "title": "A Study to Evaluate the Safety, Tolerability, Pharmacokinetics, and Pharmacodynamics of MBX 4291 in Adult Participants With Obesity",
+      "url": "https://clinicaltrials.gov/study/NCT07142707",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Study to Evaluate Efficacy and Dose Response of Imapextide (STEADI)",
+      "url": "https://clinicaltrials.gov/study/NCT07029412",
+      "date": null
+    },
+    {
+      "type": "clinical_trial",
+      "title": "Extension Study to Evaluate the Long-Term Safety and Tolerability of MBX 2109 in Patients With Hypoparathyroidism",
+      "url": "https://clinicaltrials.gov/study/NCT06531941",
+      "date": null
+    },
+    {
+      "type": "publication",
+      "title": "Discovery and characterization of canvuparatide, a once-weekly parathyroid hormone analog for the treatment of hypoparathyroidism.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41780637/",
+      "date": "2026 Mar 2"
+    },
+    {
+      "type": "publication",
+      "title": "Sustained Action of Imapextide, a Glucagon-Like Peptide-1 Receptor Antagonist, in Healthy Volunteers.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41437319/",
+      "date": "2025 Dec 24"
+    },
+    {
+      "type": "publication",
+      "title": "MBX 2109, A Once-Weekly Parathyroid Hormone Replacement Therapy Prodrug: Phase 1, First-In-Human, Randomized Trial.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39574220/",
+      "date": "2025 Mar 17"
+    },
+    {
+      "type": "publication",
+      "title": "Developing a pragmatic consensus procedure supporting the ICH S1B(R1) weight of evidence carcinogenicity assessment.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38646442/",
+      "date": "2024"
+    },
+    {
+      "type": "publication",
+      "title": "Exploring the Potential of Weekly Parathyroid Hormone Therapy for Hypoparathyroidism.",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39834210/",
+      "date": "2025 Oct 16"
+    },
+    {
+      "type": "publication",
+      "title": "Correction to: \"MBX 2109, A Once-Weekly Parathyroid Hormone Replacement Therapy Prodrug: Phase 1, First-In-Human, Randomized Trial\".",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39804768/",
+      "date": "2025 Mar 17"
+    }
+  ],
+  "totals": {
+    "presentations": 0,
+    "sec_filings": 10,
+    "clinical_trials": 3,
+    "publications": 6,
+    "conference_posters": 0,
+    "total": 19
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "HRMY",
+    "company_name": "Harmony Biosciences",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "Harmony Biosciences",
+    "ticker": "HRMY",
+    "exchange": "NASDAQ",
+    "headquarters": "Plymouth Meeting, PA",
+    "website": "https://www.harmonybiosciences.com",
+    "ir_contact": "investors@harmonybiosciences.com",
+    "one_liner": "Commercial-stage sleep medicine company with Wakix (pitolisant) for narcolepsy and expanding into new indications",
+    "company_description": "Harmony Biosciences is a commercial-stage CNS company focused on sleep disorders. Lead product Wakix (pitolisant) is the first and only histamine-3 receptor inverse agonist approved for excessive daytime sleepiness and cataplexy in narcolepsy. The company is expanding Wakix into new indications including idiopathic hypersomnia and Prader-Willi syndrome."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "Harmony is a profitable, growing rare neurology company with Wakix generating $600M+ annual revenue in narcolepsy. Label expansion into idiopathic hypersomnia and Prader-Willi syndrome could significantly expand the addressable market, and the company's strong cash flow supports M&A.",
+    "key_value_drivers": [
+      "Wakix: $600M+ revenue with continued narcolepsy market penetration",
+      "Idiopathic hypersomnia sNDA filed \u2014 potential to nearly double addressable market",
+      "Prader-Willi syndrome Phase 3 \u2014 unmet need with no approved treatments for sleepiness",
+      "Highly profitable with strong FCF \u2014 well-positioned for BD/M&A"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Wakix: $600M+ revenue with continued narcolepsy market penetration",
+      "Idiopathic hypersomnia sNDA filed \u2014 potential to nearly double addressable market",
+      "Prader-Willi syndrome Phase 3 \u2014 unmet need with no approved treatments for sleepiness"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 3,
+    "clinical_stage": 2,
+    "programs": [
+      {
+        "asset": "Wakix (pitolisant)",
+        "target": "H3R inverse agonist",
+        "stage": "Approved/Commercial",
+        "indications": "Narcolepsy (EDS + cataplexy)",
+        "ownership": "Licensed (Bioprojet)",
+        "next_catalyst": "Revenue growth"
+      },
+      {
+        "asset": "Pitolisant",
+        "target": "H3R inverse agonist",
+        "stage": "sNDA Filed",
+        "indications": "Idiopathic hypersomnia",
+        "ownership": "Licensed",
+        "next_catalyst": "FDA decision"
+      },
+      {
+        "asset": "Pitolisant",
+        "target": "H3R inverse agonist",
+        "stage": "Phase 3",
+        "indications": "Prader-Willi syndrome",
+        "ownership": "Licensed",
+        "next_catalyst": "Phase 3 data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "small_molecule",
+    "description": "Harmony Biosciences is a commercial-stage CNS company focused on sleep disorders. Lead product Wakix (pitolisant) is the first and only histamine-3 receptor inverse agonist approved for excessive dayt"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}

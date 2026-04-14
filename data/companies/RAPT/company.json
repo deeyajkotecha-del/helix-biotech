@@ -1,0 +1,76 @@
+{
+  "_metadata": {
+    "version": "2.0",
+    "ticker": "RAPT",
+    "company_name": "RAPT Therapeutics",
+    "data_source": "Scaffold \u2014 awaiting IR presentation extraction",
+    "extraction_date": "2026-04-09"
+  },
+  "company": {
+    "name": "RAPT Therapeutics",
+    "ticker": "RAPT",
+    "exchange": "NASDAQ",
+    "headquarters": "South San Francisco, CA",
+    "website": "https://www.rapt.com",
+    "ir_contact": "investors@rapt.com",
+    "one_liner": "Oral CCR4 antagonist zelnecirnon in Phase 3 for atopic dermatitis \u2014 competing in the oral inflammation space",
+    "company_description": "RAPT Therapeutics is developing zelnecirnon (RPT193), an oral CCR4 antagonist for atopic dermatitis and other Type 2 inflammatory diseases. CCR4 is a chemokine receptor critical for Th2 cell migration. Phase 2 data showed significant improvement in EASI scores in moderate-to-severe AD."
+  },
+  "investment_thesis_summary": {
+    "core_thesis": "RAPT's zelnecirnon is a differentiated oral small molecule targeting CCR4, a novel mechanism in atopic dermatitis. If Phase 3 confirms Phase 2 efficacy, zelnecirnon could be a convenient oral alternative to injectable biologics in a $15B+ AD market.",
+    "key_value_drivers": [
+      "Zelnecirnon (RPT193): Phase 3 in moderate-to-severe atopic dermatitis",
+      "Novel CCR4 mechanism \u2014 blocks Th2 cell trafficking, complementary to existing therapies",
+      "Phase 2 data showed dose-dependent EASI-75 improvement vs placebo",
+      "Oral dosing advantage over injectable Dupixent/Adbry in a massive market"
+    ]
+  },
+  "investment_analysis": {
+    "bull_case": [
+      "Zelnecirnon (RPT193): Phase 3 in moderate-to-severe atopic dermatitis",
+      "Novel CCR4 mechanism \u2014 blocks Th2 cell trafficking, complementary to existing therapies",
+      "Phase 2 data showed dose-dependent EASI-75 improvement vs placebo"
+    ],
+    "bear_case": [
+      "Awaiting detailed extraction from IR presentations"
+    ],
+    "key_debates": []
+  },
+  "pipeline_summary": {
+    "total_programs": 2,
+    "clinical_stage": 2,
+    "programs": [
+      {
+        "asset": "Zelnecirnon (RPT193)",
+        "target": "CCR4",
+        "stage": "Phase 3",
+        "indications": "Atopic dermatitis",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 3 data 2026-2027"
+      },
+      {
+        "asset": "RPT193",
+        "target": "CCR4",
+        "stage": "Phase 2",
+        "indications": "Asthma, EoE",
+        "ownership": "Wholly-owned",
+        "next_catalyst": "Phase 2 expansion data"
+      }
+    ]
+  },
+  "platform": {
+    "name": "small_molecule",
+    "description": "RAPT Therapeutics is developing zelnecirnon (RPT193), an oral CCR4 antagonist for atopic dermatitis and other Type 2 inflammatory diseases. CCR4 is a chemokine receptor critical for Th2 cell migration"
+  },
+  "financials": {
+    "cash_position": "Awaiting extraction",
+    "cash_runway": "Awaiting extraction"
+  },
+  "market_opportunity": {},
+  "competitive_positioning": {},
+  "management": {},
+  "catalysts_2026": [],
+  "catalysts_2027": [],
+  "risks": [],
+  "sources": []
+}
