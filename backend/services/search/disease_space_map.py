@@ -902,13 +902,105 @@ def build_disease_space(
     return space
 
 
+def _load_drug_canonical_map() -> dict[str, str]:
+    """Build a map of {alias_lowered: canonical_name} from the drugs/drug_aliases tables.
+    Used to collapse variants like 'Naltrexone For Extended Release Injectable Suspension',
+    'Extended release injectable naltrexone (Vivitrol)', 'Oral naltrexone' → 'VIVITROL'.
+    Returns empty dict on DB failure (safe fallback)."""
+    try:
+        import os
+        import psycopg2
+        from dotenv import load_dotenv
+        load_dotenv()
+        dsn = os.environ.get("NEON_DATABASE_URL") or os.environ.get("DATABASE_URL")
+        if not dsn:
+            return {}
+        conn = psycopg2.connect(dsn)
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT d.canonical_name, a.alias
+            FROM drugs d
+            LEFT JOIN drug_aliases a ON a.drug_id = d.drug_id
+        """)
+        mapping = {}
+        for canonical, alias in cur.fetchall():
+            if canonical:
+                mapping[canonical.lower().strip()] = canonical
+                if alias:
+                    mapping[alias.lower().strip()] = canonical
+        cur.close()
+        conn.close()
+        return mapping
+    except Exception as e:
+        print(f"  ⚠ Drug canonical map unavailable: {e}")
+        return {}
+
+
+def _normalize_drug_name(raw: str, canonical_map: dict[str, str]) -> str:
+    """Map a raw drug/intervention name to its canonical form.
+    Handles three cases:
+      1. Exact alias match (e.g. 'naltrexone' → 'VIVITROL')
+      2. Substring match (e.g. 'Extended release injectable naltrexone (Vivitrol)'
+         contains 'vivitrol' → 'VIVITROL')
+      3. No match — return original (lowercased/stripped for consistent keys)
+    """
+    s = (raw or "").lower().strip()
+    if not s:
+        return s
+    # 1. Exact match
+    if s in canonical_map:
+        return canonical_map[s].lower()
+    # 2. Try stripping common suffixes/parentheticals: "drug (something)" → "drug"
+    import re
+    stripped = re.sub(r"\s*\([^)]*\)\s*", " ", s).strip()
+    if stripped and stripped in canonical_map:
+        return canonical_map[stripped].lower()
+    # 3. Substring match — look for any canonical name or alias as a substring
+    # Prefer longer matches first to avoid "xeno" matching inside "xenolepsy".
+    # Skip very short aliases (<4 chars) to avoid false positives.
+    candidates = sorted(
+        (k for k in canonical_map if len(k) >= 4 and k in s),
+        key=len, reverse=True,
+    )
+    if candidates:
+        return canonical_map[candidates[0]].lower()
+    return s
+
+
+# Module-level cache — built lazily on first dedup call
+_CANONICAL_MAP_CACHE: dict | None = None
+
+
 def _deduplicate_programs(programs: list[dict]) -> list[dict]:
-    """Deduplicate programs by drug name, keeping highest-confidence version."""
+    """Deduplicate programs by drug name, keeping highest-confidence version.
+    Normalizes names through the drug entity DB so VIVITROL variants collapse into one."""
+    global _CANONICAL_MAP_CACHE
+    if _CANONICAL_MAP_CACHE is None:
+        _CANONICAL_MAP_CACHE = _load_drug_canonical_map()
+    canonical_map = _CANONICAL_MAP_CACHE
+
+    # Drop obviously-non-drug interventions (behavioral/training/placebo/standard of care)
+    NON_DRUG_PATTERNS = (
+        "computerized", "cognitive training", "skills training", "behavioral therapy",
+        "placebo", "standard of care", "sham", "educational", "counseling",
+        "questionnaire", "survey", "dietary", "exercise", "physical therapy",
+    )
+    filtered = []
+    for p in programs:
+        name = (p.get("drug_name") or "").lower()
+        if any(pat in name for pat in NON_DRUG_PATTERNS):
+            continue
+        filtered.append(p)
+    programs = filtered
+
     seen = {}
     confidence_rank = {"validated": 3, "ctgov_only": 2, "foundation_reported": 1}
 
     for p in programs:
-        key = p["drug_name"].lower().strip()
+        key = _normalize_drug_name(p["drug_name"], canonical_map)
+        # If we normalized to a canonical name, update drug_name to canonical form
+        if key in canonical_map:
+            p["drug_name"] = canonical_map[key]
         existing = seen.get(key)
         if not existing:
             seen[key] = p

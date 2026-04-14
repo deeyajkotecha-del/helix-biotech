@@ -250,6 +250,71 @@ def search_clinical_trials_paginated(
     return all_results
 
 
+# Module-level cache for drug alias → canonical mapping
+_DRUG_ALIAS_MAP_CACHE: dict | None = None
+
+
+def _get_drug_alias_map() -> dict[str, str]:
+    """Load {alias_lower: canonical_name} from drugs + drug_aliases. Cached."""
+    global _DRUG_ALIAS_MAP_CACHE
+    if _DRUG_ALIAS_MAP_CACHE is not None:
+        return _DRUG_ALIAS_MAP_CACHE
+    try:
+        import os
+        import psycopg2
+        try:
+            from dotenv import load_dotenv
+            load_dotenv()
+        except Exception:
+            pass
+        dsn = os.environ.get("NEON_DATABASE_URL") or os.environ.get("DATABASE_URL")
+        if not dsn:
+            _DRUG_ALIAS_MAP_CACHE = {}
+            return _DRUG_ALIAS_MAP_CACHE
+        conn = psycopg2.connect(dsn)
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT d.canonical_name, a.alias
+            FROM drugs d LEFT JOIN drug_aliases a ON a.drug_id = d.drug_id
+        """)
+        m = {}
+        for canonical, alias in cur.fetchall():
+            if canonical:
+                m[canonical.lower().strip()] = canonical
+                if alias:
+                    m[alias.lower().strip()] = canonical
+        cur.close()
+        conn.close()
+        _DRUG_ALIAS_MAP_CACHE = m
+    except Exception:
+        _DRUG_ALIAS_MAP_CACHE = {}
+    return _DRUG_ALIAS_MAP_CACHE
+
+
+def _normalize_intervention_name(raw: str, alias_map: dict[str, str]) -> str:
+    """Map an intervention name (e.g. 'Extended release injectable naltrexone (Vivitrol)')
+    to its canonical drug name (e.g. 'VIVITROL') using the entity DB.
+    Falls back to the original name if no match."""
+    import re
+    if not raw:
+        return raw
+    s = raw.lower().strip()
+    if s in alias_map:
+        return alias_map[s]
+    # Strip parentheticals: "foo (Bar)" → "foo"
+    stripped = re.sub(r"\s*\([^)]*\)\s*", " ", s).strip()
+    if stripped and stripped in alias_map:
+        return alias_map[stripped]
+    # Substring: find the longest alias (≥4 chars) that appears in the raw name
+    candidates = sorted(
+        (k for k in alias_map if len(k) >= 4 and k in s),
+        key=len, reverse=True,
+    )
+    if candidates:
+        return alias_map[candidates[0]]
+    return raw
+
+
 def extract_drug_assets(trials: list[dict]) -> dict:
     """
     Given a list of trials, extract unique drug assets and group trials by drug.
@@ -269,6 +334,9 @@ def extract_drug_assets(trials: list[dict]) -> dict:
     """
     import re
 
+    # Load drug alias map for canonical-name normalization
+    alias_map = _get_drug_alias_map()
+
     # Common non-drug intervention names to exclude
     EXCLUDE_NAMES = {
         "placebo", "standard of care", "standard care", "best supportive care",
@@ -277,6 +345,12 @@ def extract_drug_assets(trials: list[dict]) -> dict:
         "other", "procedure", "device", "dietary supplement", "behavioral",
         "radiation", "combination product", "diagnostic test",
     }
+    # Patterns that indicate a non-drug intervention (behavioral, training, etc.)
+    EXCLUDE_PATTERNS = (
+        "computerized", "cognitive training", "skills training", "behavioral therapy",
+        "educational", "counseling", "questionnaire", "survey", "dietary",
+        "exercise program", "physical therapy", "sham", "placebo",
+    )
 
     PHASE_RANK = {
         "PHASE4": 5, "PHASE3": 4, "PHASE2,PHASE3": 3.5,
@@ -303,20 +377,26 @@ def extract_drug_assets(trials: list[dict]) -> dict:
             # Skip entries that look like dosage descriptions
             if re.match(r'^\d+\s*(mg|ml|mcg|ug|µg|g)\b', name_lower):
                 continue
+            # Skip behavioral / non-drug interventions
+            if any(pat in name_lower for pat in EXCLUDE_PATTERNS):
+                continue
 
-            # Normalize: case-insensitive grouping, use title-case for display
-            # Check if a case-insensitive match already exists
-            display_name = name
+            # Normalize via the drug entity DB — collapses variants like
+            # "Extended release injectable naltrexone (Vivitrol)", "Vivitrol",
+            # "Naltrexone XR" → canonical "VIVITROL"
+            canonical = _normalize_intervention_name(name, alias_map)
+            display_name = canonical if canonical != name else name
+
+            # Fallback: case-insensitive grouping with existing keys
             matched_key = None
             for existing_key in assets:
-                if existing_key.lower() == name.lower():
+                if existing_key.lower() == display_name.lower():
                     matched_key = existing_key
                     break
             if matched_key:
                 display_name = matched_key
-            elif name == name.lower():
-                # If all lowercase, title-case it
-                display_name = name.title()
+            elif display_name == display_name.lower():
+                display_name = display_name.title()
 
             if display_name not in assets:
                 assets[display_name] = {

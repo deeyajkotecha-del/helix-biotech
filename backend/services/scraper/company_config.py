@@ -935,6 +935,66 @@ ONCOLOGY_COMPANIES = {
             {"type": "publications", "url": "https://www.silence-therapeutics.com/science/publications", "platform": "standard", "content_type": "documents"},
         ],
     },
+
+    # =========================================================================
+    # APRIL 2026 WATCHLIST EXPANSION — Rare disease, GPCR, neuromuscular, Roivant "vants"
+    # =========================================================================
+
+    "ZVRA": {
+        "name": "Zevra Therapeutics",
+        "category": "rare_disease",
+        "pages": [
+            {"type": "events", "url": "https://investors.zevra.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.zevra.com/news-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "TECX": {
+        "name": "Tectonic Therapeutic",
+        "category": "cardiovascular",  # GPCR-modulating antibodies; lead TX45 in PH-HFpEF
+        "pages": [
+            {"type": "events", "url": "https://investors.tectonictx.com/events-and-presentations/events", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.tectonictx.com/news-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "SRRK": {
+        "name": "Scholar Rock",
+        "category": "neuromuscular",
+        "pages": [
+            {"type": "events", "url": "https://investors.scholarrock.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.scholarrock.com/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "NKTR": {
+        "name": "Nektar Therapeutics",
+        "category": "immunology",
+        "pages": [
+            {"type": "events", "url": "https://ir.nektar.com/events-and-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://ir.nektar.com/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    "AMLX": {
+        "name": "Amylyx Pharmaceuticals",
+        "category": "neurodegenerative",
+        "pages": [
+            {"type": "events", "url": "https://investors.amylyx.com/events-presentations", "platform": "q4", "content_type": "documents"},
+            {"type": "press", "url": "https://investors.amylyx.com/press-releases", "platform": "q4", "content_type": "text"},
+        ],
+    },
+    # Organon — acquired Dermavant Sciences (VTAMA/tapinarof) in 2024
+    "OGN": {
+        "name": "Organon",
+        "category": "dermatology",  # plus women's health; VTAMA is the key acquired asset from Dermavant
+        "notes": "Tracks Dermavant assets including VTAMA (tapinarof) for plaque psoriasis/AD",
+        "pages": [
+            {"type": "events", "url": "https://www.organon.com/investor-relations/events-and-presentations/", "platform": "standard", "content_type": "documents"},
+            {"type": "press", "url": "https://www.organon.com/media/press-releases/", "platform": "standard", "content_type": "text"},
+        ],
+    },
+
+    # NOTE: Priovant Therapeutics is a private Roivant subsidiary — tracked under ROIV docs
+    # rather than as a separate ticker. Brepocitinib (PF-06700841) coverage flows via ROIV.
+    # Similarly, Dermavant was private then acquired by Organon (OGN above) — historical
+    # Dermavant publications may be cross-referenced under ROIV pre-acquisition.
 }
 
 
