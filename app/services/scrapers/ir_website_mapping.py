@@ -528,6 +528,170 @@ IR_WEBSITE_MAP = {
         "priority": "MEDIUM",
         "notes": "RNA therapeutics leader"
     },
+
+    # ==========================================================================
+    # NEW ADDITIONS — April 2026
+    # ==========================================================================
+
+    "AUTL": {
+        "name": "Autolus Therapeutics",
+        "ir_url": "https://ir.autolus.com",
+        "presentations_url": "https://ir.autolus.com/events-and-presentations",
+        "sec_filings": "https://ir.autolus.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$2B",
+        "priority": "HIGH"
+    },
+
+    "ANNX": {
+        "name": "Annexon Biosciences",
+        "ir_url": "https://ir.annexonbio.com",
+        "presentations_url": "https://ir.annexonbio.com/events-and-presentations",
+        "sec_filings": "https://ir.annexonbio.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$1.5B",
+        "priority": "HIGH"
+    },
+
+    "PRAX": {
+        "name": "Praxis Precision Medicine",
+        "ir_url": "https://ir.praxismedicines.com",
+        "presentations_url": "https://ir.praxismedicines.com/events-and-presentations",
+        "sec_filings": "https://ir.praxismedicines.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$3B",
+        "priority": "HIGH"
+    },
+
+    "CLDX": {
+        "name": "Celldex Therapeutics",
+        "ir_url": "https://ir.celldex.com",
+        "presentations_url": "https://ir.celldex.com/events-and-presentations",
+        "sec_filings": "https://ir.celldex.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$4B",
+        "priority": "HIGH"
+    },
+
+    "AXSM": {
+        "name": "Axsome Therapeutics",
+        "ir_url": "https://ir.axsome.com",
+        "presentations_url": "https://ir.axsome.com/events-and-presentations",
+        "sec_filings": "https://ir.axsome.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$5B",
+        "priority": "HIGH"
+    },
+
+    "DYN": {
+        "name": "Dyne Therapeutics",
+        "ir_url": "https://ir.dfrx.com",
+        "presentations_url": "https://ir.dfrx.com/events-and-presentations",
+        "sec_filings": "https://ir.dfrx.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$2.5B",
+        "priority": "HIGH"
+    },
+
+    "MBX": {
+        "name": "MBX Biosciences",
+        "ir_url": "https://ir.mbxbio.com",
+        "presentations_url": "https://ir.mbxbio.com/events-and-presentations",
+        "sec_filings": "https://ir.mbxbio.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$1.5B",
+        "priority": "HIGH"
+    },
+
+    "RAPT": {
+        "name": "RAPT Therapeutics",
+        "ir_url": "https://ir.rapt.com",
+        "presentations_url": "https://ir.rapt.com/events-and-presentations",
+        "sec_filings": "https://ir.rapt.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$2B",
+        "priority": "HIGH"
+    },
+
+    "AGIO": {
+        "name": "Agios Pharmaceuticals",
+        "ir_url": "https://investor.agios.com",
+        "presentations_url": "https://investor.agios.com/events-and-presentations",
+        "sec_filings": "https://investor.agios.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$3B",
+        "priority": "HIGH"
+    },
+
+    "IMVT": {
+        "name": "Immunovant",
+        "ir_url": "https://ir.immunovant.com",
+        "presentations_url": "https://ir.immunovant.com/events-and-presentations",
+        "sec_filings": "https://ir.immunovant.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$5B",
+        "priority": "HIGH"
+    },
+
+    "ALKS": {
+        "name": "Alkermes",
+        "ir_url": "https://investor.alkermes.com",
+        "presentations_url": "https://investor.alkermes.com/investor-events-presentations",
+        "sec_filings": "https://investor.alkermes.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "Earnings Slides", "R&D Day", "JPM", "Narcolepsy"],
+        "market_cap": "$6B",
+        "priority": "HIGH"
+    },
+
+    "FOLD": {
+        "name": "Amicus Therapeutics",
+        "ir_url": "https://ir.amicusrx.com",
+        "presentations_url": "https://ir.amicusrx.com/events-and-presentations",
+        "sec_filings": "https://ir.amicusrx.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$4B",
+        "priority": "HIGH"
+    },
+
+    "HRMY": {
+        "name": "Harmony Biosciences",
+        "ir_url": "https://ir.harmonybiosciences.com",
+        "presentations_url": "https://ir.harmonybiosciences.com/events-and-presentations",
+        "sec_filings": "https://ir.harmonybiosciences.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$3.5B",
+        "priority": "HIGH"
+    },
+
+    "KRYS": {
+        "name": "Krystal Biotech",
+        "ir_url": "https://ir.krystalbio.com",
+        "presentations_url": "https://ir.krystalbio.com/events-and-presentations",
+        "sec_filings": "https://ir.krystalbio.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$5B",
+        "priority": "HIGH"
+    },
+
+    "MPLT": {
+        "name": "Maplight Therapeutics",
+        "ir_url": "https://ir.maplighttherapeutics.com",
+        "presentations_url": "https://ir.maplighttherapeutics.com/events-and-presentations",
+        "sec_filings": "https://ir.maplighttherapeutics.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$500M",
+        "priority": "HIGH"
+    },
+
+    "SLN": {
+        "name": "Silence Therapeutics",
+        "ir_url": "https://ir.silence-therapeutics.com",
+        "presentations_url": "https://ir.silence-therapeutics.com/events-and-presentations",
+        "sec_filings": "https://ir.silence-therapeutics.com/sec-filings",
+        "presentation_patterns": ["Corporate Presentation", "Investor Presentation", "R&D Day"],
+        "market_cap": "$1B",
+        "priority": "HIGH"
+    },
 }
 
 

@@ -677,7 +677,11 @@ class OncologyScraper:
             return self.find_documents(url, platform)
 
     def _find_events_q4_years(self, url: str) -> list[dict]:
-        """Q4 platform: scan events page for each year via ?year=YYYY."""
+        """Q4 platform: scan events page for each year via ?year=YYYY.
+
+        Falls back to Drupal-style ?page= pagination if year-based
+        scanning finds 0 documents (used by Alkermes, etc.).
+        """
         all_docs = []
         seen_urls = set()
 
@@ -697,6 +701,41 @@ class OncologyScraper:
                     all_docs.append(doc)
                     new_count += 1
             logger.info("    Year %d: %d new document(s)", year, new_count)
+
+        # Fallback: if ?year= scanning found nothing, try Drupal-style
+        # page pagination (?page=0,N,0) — used by Alkermes and similar Q4
+        # Drupal sites where events are paginated, not year-filtered.
+        if not all_docs:
+            logger.info("    Year scan found 0 docs, trying page pagination...")
+
+            # First, scan the base URL (page 1)
+            base_docs = self.find_documents(url, "q4")
+            for doc in base_docs:
+                if doc["url"] not in seen_urls:
+                    seen_urls.add(doc["url"])
+                    all_docs.append(doc)
+            logger.info("    Page 1: %d document(s)", len(base_docs))
+
+            # Then paginate through pages 2-5
+            MAX_PAGES = 5
+            for page_num in range(1, MAX_PAGES):
+                time.sleep(PAGE_DELAY)
+                sep = "&" if "?" in url else "?"
+                page_url = f"{url}{sep}page=0%2C{page_num}%2C0"
+                logger.info("    Page %d: %s", page_num + 1, page_url)
+
+                docs = self.find_documents(page_url, "q4")
+                new_count = 0
+                for doc in docs:
+                    if doc["url"] not in seen_urls:
+                        seen_urls.add(doc["url"])
+                        all_docs.append(doc)
+                        new_count += 1
+                logger.info("    Page %d: %d new document(s)", page_num + 1, new_count)
+
+                # Stop if page returned 0 new docs
+                if new_count == 0:
+                    break
 
         return all_docs
 
