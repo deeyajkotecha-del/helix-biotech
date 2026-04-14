@@ -167,10 +167,27 @@ def extract_date_iso(text: str, url: str = "") -> str | None:
     return None
 
 
+_GENERIC_LINK_TEXTS = {
+    "see publication", "see poster", "see abstract", "see presentation",
+    "download", "download pdf", "view", "view pdf", "click here",
+    "pdf", "open", "read more", "learn more", "full text",
+}
+
+
+def _title_from_filename(href: str) -> str:
+    """Derive a human-readable title from a URL's filename."""
+    filename = Path(urlparse(href).path).stem
+    return filename.replace("-", " ").replace("_", " ").title()
+
+
 def _extract_link_title(link) -> str:
     """Extract a human-readable title from a BeautifulSoup <a> element."""
     text = link.get_text(strip=True)
-    if text and len(text) > 3:
+
+    # Skip generic link texts — the filename usually has better info
+    is_generic = text and text.lower().strip() in _GENERIC_LINK_TEXTS
+
+    if text and len(text) > 3 and not is_generic:
         return text
     if link.get("title"):
         return link["title"]
@@ -180,10 +197,11 @@ def _extract_link_title(link) -> str:
     if parent:
         parent_text = parent.get_text(strip=True)
         if parent_text and len(parent_text) < 200:
-            return parent_text
+            # Check parent text isn't also generic
+            if parent_text.lower().strip() not in _GENERIC_LINK_TEXTS:
+                return parent_text
     href = link.get("href", "")
-    filename = Path(urlparse(href).path).stem
-    return filename.replace("-", " ").replace("_", " ").title()
+    return _title_from_filename(href)
 
 
 def classify_doc_type(url: str, title: str) -> str:

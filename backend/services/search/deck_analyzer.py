@@ -33,8 +33,16 @@ import anthropic
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-CLAUDE_MODEL = "claude-sonnet-4-20250514"
-OPENAI_FALLBACK_MODEL = "gpt-4o"  # Separate provider fallback when Anthropic API is down
+
+# ── Model routing: right model for the job ──
+# VISION (needs to read charts, KM curves, waterfall plots) → Sonnet
+# TEXT-ONLY (summarizing, parsing, comparing text) → Haiku (faster + cheaper)
+CLAUDE_VISION_MODEL = "claude-sonnet-4-20250514"    # Slide commentary with images
+CLAUDE_FAST_MODEL = "claude-haiku-4-5-20251001"     # Summaries, references, comparisons
+OPENAI_FALLBACK_MODEL = "gpt-4o"                     # Last resort when Anthropic is down
+
+# Legacy alias (used in fallback chain)
+CLAUDE_MODEL = CLAUDE_VISION_MODEL
 
 # ---------------------------------------------------------------------------
 # Lazy imports (heavy libs)
@@ -81,7 +89,8 @@ def _get_claude():
     return _anthropic_client
 
 
-CLAUDE_FALLBACK_MODEL = "claude-haiku-4-5-20251001"
+# Legacy alias — kept for reference, CLAUDE_FAST_MODEL is now used directly
+CLAUDE_FALLBACK_MODEL = CLAUDE_FAST_MODEL
 
 _openai_client = None
 
@@ -156,13 +165,21 @@ def _openai_fallback(label: str, **kwargs):
 
 def _call_claude_with_retry(client, label: str, max_retries: int = 3, fallback_model: bool = True, **kwargs):
     """
-    Call Claude API with 3-tier fallback:
-      1. Sonnet (primary) — retry up to 3x with backoff
-      2. Haiku (Anthropic fallback) — try once if Sonnet is overloaded
-      3. OpenAI GPT-4o (provider fallback) — try once if entire Anthropic API is down
+    Call Claude API with smart fallback:
+
+    If primary is Sonnet (vision tasks):
+      1. Sonnet — retry up to 3x with backoff
+      2. Haiku — try once (Anthropic still works, just Sonnet overloaded)
+      3. OpenAI GPT-4o — try once (entire Anthropic API down)
+
+    If primary is already Haiku (text tasks):
+      1. Haiku — retry up to 3x with backoff
+      2. OpenAI GPT-4o — try once (skip Haiku→Haiku, go straight to OpenAI)
 
     Returns an Anthropic response object, or a "fake" object wrapping OpenAI text.
     """
+    primary_model = kwargs.get("model", CLAUDE_VISION_MODEL)
+
     for attempt in range(max_retries):
         try:
             response = client.messages.create(**kwargs)
@@ -175,10 +192,10 @@ def _call_claude_with_retry(client, label: str, max_retries: int = 3, fallback_m
             elif e.status_code == 529 and attempt == max_retries - 1:
                 # All retries exhausted on primary model
 
-                # Tier 2: Try Haiku
-                if fallback_model and kwargs.get("model") != CLAUDE_FALLBACK_MODEL:
-                    print(f"  [deck] {label}: Trying Haiku fallback...")
-                    kwargs_haiku = {**kwargs, "model": CLAUDE_FALLBACK_MODEL}
+                # Tier 2: Try Haiku (only if primary was Sonnet — no point trying Haiku→Haiku)
+                if fallback_model and primary_model != CLAUDE_FAST_MODEL:
+                    print(f"  [deck] {label}: Sonnet overloaded, trying Haiku...")
+                    kwargs_haiku = {**kwargs, "model": CLAUDE_FAST_MODEL}
                     try:
                         response = client.messages.create(**kwargs_haiku)
                         return response
@@ -417,12 +434,13 @@ async def generate_slide_commentary(
     )
     user_content.append({"type": "text", "text": prompt})
 
-    # Retry with exponential backoff on 529 + fallback to Haiku if Sonnet is down
+    # Use Sonnet when we have an image (needs vision), Haiku for text-only slides
+    model = CLAUDE_VISION_MODEL if slide_image_b64 else CLAUDE_FAST_MODEL
     try:
         response = _call_claude_with_retry(
             client,
-            label=f"commentary slide {slide_number}",
-            model=CLAUDE_MODEL,
+            label=f"commentary slide {slide_number} ({'vision' if slide_image_b64 else 'text'})",
+            model=model,
             max_tokens=1200,
             system=SLIDE_ANALYSIS_SYSTEM,
             messages=[{"role": "user", "content": user_content}],
@@ -635,10 +653,11 @@ async def extract_slide_references(
     })
 
     try:
+        # References are structured parsing — Haiku handles this well and fast
         response = _call_claude_with_retry(
             client,
             label="reference extraction",
-            model=CLAUDE_MODEL,
+            model=CLAUDE_FAST_MODEL,
             max_tokens=2000,
             system=REFERENCE_EXTRACTION_PROMPT,
             messages=[{"role": "user", "content": user_content}],
@@ -761,10 +780,11 @@ async def _generate_deck_summary(
     )
 
     try:
+        # Summaries are text synthesis — Haiku is fast + cheap for this
         response = _call_claude_with_retry(
             client,
             label="deck summary",
-            model=CLAUDE_MODEL,
+            model=CLAUDE_FAST_MODEL,
             max_tokens=1000,
             system="You are a senior biotech investment analyst writing a deck review memo.",
             messages=[{"role": "user", "content": prompt}],
@@ -877,10 +897,11 @@ async def compare_slides_to_document(
 
         compare_doc_title = doc_chunks[0].get("title", "comparison document") if doc_chunks else "document"
 
+        # Comparisons are text reasoning — Haiku handles this well
         response = _call_claude_with_retry(
             client,
             label="slide comparison",
-            model=CLAUDE_MODEL,
+            model=CLAUDE_FAST_MODEL,
             max_tokens=600,
             system="You are a biotech investment analyst comparing data across documents.",
             messages=[{"role": "user", "content": (

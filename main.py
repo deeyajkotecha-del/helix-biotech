@@ -86,9 +86,19 @@ async def startup_event():
     from app.database import init_db
     init_db()
 
+    # One-time fix: repair generic document titles in DB
+    try:
+        from backend.scripts.fix_generic_titles import fix_database, GENERIC_TITLES
+        fixed = fix_database(dry_run=False)
+        if fixed:
+            print(f"  [startup] Fixed {fixed} generic document titles in DB")
+    except Exception as e:
+        print(f"  [startup] Title fix skipped: {e}")
+
 # Include API routers
-from app.routers import auth_router, documents_router, admin_router, sources_router, citations_router, services_router, clinical_router, extract_router, market_router, search_router
+from app.routers import auth_router, documents_router, admin_router, sources_router, citations_router, services_router, clinical_router, extract_router, market_router, search_router, ownership_router
 from app.routers.company import router as company_router
+from app.routers.oauth import router as oauth_router
 
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(documents_router, prefix="/api/documents", tags=["Documents"])
@@ -101,6 +111,8 @@ app.include_router(clinical_router, prefix="/api/clinical", tags=["Clinical"])
 app.include_router(extract_router, prefix="/extract", tags=["Extract"])
 app.include_router(market_router, prefix="/api/market-data", tags=["Market Data"])
 app.include_router(search_router, prefix="/api/search", tags=["Search"])
+app.include_router(ownership_router, prefix="/api/ownership", tags=["Ownership & 13F"])
+app.include_router(oauth_router, prefix="/api/oauth", tags=["OAuth"])
 
 # =============================================================================
 # Frontend Routes

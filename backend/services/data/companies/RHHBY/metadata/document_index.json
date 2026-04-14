@@ -1,7 +1,7 @@
 {
   "sleuro-event-final_wo_notes.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/92e49db944/sleuro-event-final_wo_notes.pdf",
-    "title": "PDF",
+    "title": "Sleuro Event Final Wo Notes",
     "date": null,
     "doc_type": "other",
     "sha256": "a3884fcd07c0fa2bae2ea727864d5683b5375cae32b72feff783a881d5fe601f",
@@ -12,7 +12,7 @@
   },
   "260209_actrims_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/4ea2b884ce/260209_actrims_final.pdf",
-    "title": "PDF",
+    "title": "260209 Actrims Final",
     "date": null,
     "doc_type": "other",
     "sha256": "532f0b1ce134fba00d6d6d5f312e035165030ac6dc7a845a259ad2b371dce5c6",
@@ -23,7 +23,7 @@
   },
   "ar25e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/fa3c863601/ar25e.pdf",
-    "title": "PDF",
+    "title": "Ar25E",
     "date": null,
     "doc_type": "other",
     "sha256": "111a16ec739a16fd93cb3554d9631dd68807c83928423e17377fd7204b65c064",
@@ -34,7 +34,7 @@
   },
   "fb25e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/fca190f63e/fb25e.pdf",
-    "title": "PDF",
+    "title": "Fb25E",
     "date": null,
     "doc_type": "other",
     "sha256": "71f16c1e56d2516a08426ecc0edf9a6dba2d6071a36c61f1b284036fc7fdb318",
@@ -45,7 +45,7 @@
   },
   "ar25d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/9993a9ea1a/ar25d.pdf",
-    "title": "PDF",
+    "title": "Ar25D",
     "date": null,
     "doc_type": "other",
     "sha256": "014ff8d56c67ea8b05b1005aff1b88ab3649ba52cda7f1eac8b533e5307af6a4",
@@ -56,7 +56,7 @@
   },
   "fb25d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/4b728dadb5/fb25d.pdf",
-    "title": "PDF",
+    "title": "Fb25D",
     "date": null,
     "doc_type": "other",
     "sha256": "b81f93adfcb92c67fe9ff61ff625d34105712205ea438a08ff505bf543740062",
@@ -67,7 +67,7 @@
   },
   "irp260129.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/dea78e334b/irp260129.pdf",
-    "title": "PDF",
+    "title": "Irp260129",
     "date": null,
     "doc_type": "other",
     "sha256": "a494d1bc284d402b09f6dc5f58e4a967c805c4be45d63bb4a3d066c29acc03e8",
@@ -78,7 +78,7 @@
   },
   "irp260129-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/2aefa879f4/irp260129-a.pdf",
-    "title": "PDF",
+    "title": "Irp260129 A",
     "date": null,
     "doc_type": "other",
     "sha256": "92bd0b0aa28ddfa3c69fb87aa7a39a0d8eea6cd970c4a29bb4352609263c9488",
@@ -89,7 +89,7 @@
   },
   "260115_roche_octavian_presentation-2.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/8d98dda1d5/260115_roche_octavian_presentation-2.pdf",
-    "title": "PDF",
+    "title": "260115 Roche Octavian Presentation 2",
     "date": null,
     "doc_type": "other",
     "sha256": "8c49b6186a4f0ff31c7c1d584745a7331eb1b0b1ee00cbc0f25ca4a914f7eb82",
@@ -100,7 +100,7 @@
   },
   "20260111_jpmorgan_finalf.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/831b2f4535/20260111_jpmorgan_finalf.pdf",
-    "title": "PDF",
+    "title": "20260111 Jpmorgan Finalf",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "6f22a2eebe572a21003ac5d9ef01798d1609413135fa7e0b14f6eb21c134ac2d",
@@ -111,7 +111,7 @@
   },
   "final_20251211_sabcs-roche-s-virtual-oncology-investor-event.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/55a0097f19/final_20251211_sabcs-roche-s-virtual-oncology-investor-event.pdf",
-    "title": "PDF",
+    "title": "Final 20251211 Sabcs Roche S Virtual Oncology Investor Event",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "022c08fbeb1435ba457a49a1d76481f8dccaf2011a2c01f8ee4f08d484bc5fbe",
@@ -122,7 +122,7 @@
   },
   "20251117_roche_jefferies_presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/24c0f1157b/20251117_roche_jefferies_presentation.pdf",
-    "title": "PDF",
+    "title": "20251117 Roche Jefferies Presentation",
     "date": null,
     "doc_type": "other",
     "sha256": "29a6a7ca8a170d0ba652d49ae26d239f4b993c3c2e5df95fd1b6e0bbb9ad323d",
@@ -133,7 +133,7 @@
   },
   "20251117_roche_wolfe_presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/7acf9ac30b/20251117_roche_wolfe_presentation.pdf",
-    "title": "PDF",
+    "title": "20251117 Roche Wolfe Presentation",
     "date": null,
     "doc_type": "other",
     "sha256": "852ea1770f1cc4fe35bac81cd8dc3414c39a818ee6b506e53ce9d5b71868801e",
@@ -144,7 +144,7 @@
   },
   "20251106_roche_zkb_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/bf47753d9f/20251106_roche_zkb_final.pdf",
-    "title": "PDF",
+    "title": "20251106 Roche Zkb Final",
     "date": null,
     "doc_type": "other",
     "sha256": "e96020333706369d8a88177f9adcf09760a4d95de5045155e8140074d8aede8c",
@@ -155,7 +155,7 @@
   },
   "irp251023-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/1025ff0e1f/irp251023-a.pdf",
-    "title": "PDF",
+    "title": "Irp251023 A",
     "date": null,
     "doc_type": "other",
     "sha256": "c3fba18021a56138bfd4410b83f463236154f800b9bb0759ebba02dd9c38aa01",
@@ -166,7 +166,7 @@
   },
   "irp251023.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/a22e1c7d2f/irp251023.pdf",
-    "title": "PDF",
+    "title": "Irp251023",
     "date": null,
     "doc_type": "other",
     "sha256": "fce4a5c42bb6a93ecbac1bed7531c0a984eac912800a86d2548f706046a597a4",
@@ -177,7 +177,7 @@
   },
   "aspors-aao-2025-ir-event_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/e88bda5bfd/aspors-aao-2025-ir-event_final.pdf",
-    "title": "PDF",
+    "title": "Aspors Aao 2025 Ir Event Final",
     "date": null,
     "doc_type": "other",
     "sha256": "9f07bb10a2c5638849fb133afb01a8e18fce11813c8778927298bd7090f7e87a",
@@ -188,7 +188,7 @@
   },
   "20250922_pharma-day-2025_vf_online.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/059c686d27/20250922_pharma-day-2025_vf_online.pdf",
-    "title": "PDF",
+    "title": "20250922 Pharma Day 2025 Vf Online",
     "date": null,
     "doc_type": "other",
     "sha256": "f33ad1141e35f288da6669ba0b6c268bdac2213bca95d4cdc611d67ca2ab9c49",
@@ -199,7 +199,7 @@
   },
   "20250922_epi-2025_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/b49f2368dc/20250922_epi-2025_final.pdf",
-    "title": "PDF",
+    "title": "20250922 Epi 2025 Final",
     "date": null,
     "doc_type": "other",
     "sha256": "79a6ef556815782c34c53cacc327e441b5ef01c8d7eddab36a9064d67a26cb95",
@@ -210,7 +210,7 @@
   },
   "roche-diagnostics.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/72a99721f3/roche-diagnostics.pdf",
-    "title": "PDF",
+    "title": "Roche Diagnostics",
     "date": null,
     "doc_type": "other",
     "sha256": "c7e1806578832dded14f837dffa5c35e169c58bf77c6200903fe4ccb17787e3b",
@@ -221,7 +221,7 @@
   },
   "hy25e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/2d95c66259/hy25e.pdf",
-    "title": "PDF",
+    "title": "Hy25E",
     "date": null,
     "doc_type": "other",
     "sha256": "85e166cc2061d22bb5d1856b8629b9a230dff9d7bc8f74c58498ed72fff0d7d6",
@@ -232,7 +232,7 @@
   },
   "hy25d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/285806537b/hy25d.pdf",
-    "title": "PDF",
+    "title": "Hy25D",
     "date": null,
     "doc_type": "other",
     "sha256": "000d79e42ac0122758cfe36df09dfe71abe9b02ea06df6a849cfab88bb0bd105",
@@ -243,7 +243,7 @@
   },
   "irp250724-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/184f41bf07/irp250724-a.pdf",
-    "title": "PDF",
+    "title": "Irp250724 A",
     "date": null,
     "doc_type": "other",
     "sha256": "a14bafaf5d1c8e0ca0b8ffb2c619fe2c99f5de6e038704e718c75559b8ba5003",
@@ -254,7 +254,7 @@
   },
   "irp250724.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/cc1705dc16/irp250724.pdf",
-    "title": "PDF",
+    "title": "Irp250724",
     "date": null,
     "doc_type": "other",
     "sha256": "c15d18657277e8b952ec9d54bfda6b0bac03c64987e0a7af309f21ba161cf35e",
@@ -265,7 +265,7 @@
   },
   "june-23-eha_icml_isth-event-final3.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/fd0eab7325/june-23-eha_icml_isth-event-final3.pdf",
-    "title": "PDF",
+    "title": "June 23 Eha Icml Isth Event Final3",
     "date": null,
     "doc_type": "other",
     "sha256": "35a6a316c6e835e64c4c7ea06c507b49b65953f1a4e81bc969735fba85982053",
@@ -276,7 +276,7 @@
   },
   "040608_jefferies_london.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/3597d5cb50/040608_jefferies_london.pdf",
-    "title": "PDF",
+    "title": "040608 Jefferies London",
     "date": null,
     "doc_type": "other",
     "sha256": "24664894a68dc32e40f2d315237ed094beff7710123c8ebe028e66e2a1a30c57",
@@ -287,7 +287,7 @@
   },
   "diagnostics-day-20-05-2025.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/7656180b53/diagnostics-day-20-05-2025.pdf",
-    "title": "PDF",
+    "title": "Diagnostics Day 20 05 2025",
     "date": null,
     "doc_type": "other",
     "sha256": "5afd5d3e6f6d53337528dcbfe12677eaba035903614c0e46d4a3e686005e4deb",
@@ -298,7 +298,7 @@
   },
   "irp250424.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/0cd9054dc9/irp250424.pdf",
-    "title": "PDF",
+    "title": "Irp250424",
     "date": null,
     "doc_type": "other",
     "sha256": "a7054f2ea957eb343d53315e6b2ef5fba025ec073930dacd450cc4443b25fe4e",
@@ -309,7 +309,7 @@
   },
   "irp250424-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/a04e4301c3/irp250424-a.pdf",
-    "title": "PDF",
+    "title": "Irp250424 A",
     "date": null,
     "doc_type": "other",
     "sha256": "9a3e3902e9472942a7838ab9db55eeac436c7502fc264f3187e6365c4d8d0685",
@@ -320,7 +320,7 @@
   },
   "neurology-ir-event_adpd_04-apr2025-finalfinal_wo-speaker-notes.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/6d66b8d069/neurology-ir-event_adpd_04-apr2025-finalfinal_wo-speaker-notes.pdf",
-    "title": "PDF",
+    "title": "Neurology Ir Event Adpd 04 Apr2025 Finalfinal Wo Speaker Notes",
     "date": null,
     "doc_type": "other",
     "sha256": "0abc9c3b19d44760e9173fce0366ae6279aab6ecbd48902b79f6aa031b1151fb",
@@ -331,7 +331,7 @@
   },
   "250320_roche_kepler.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/d60bf7e353/250320_roche_kepler.pdf",
-    "title": "PDF",
+    "title": "250320 Roche Kepler",
     "date": null,
     "doc_type": "other",
     "sha256": "1012e8e25badd202235a30d85cf7f64cdc134583ed69e3ebca9b7c249bd4eb6b",
@@ -342,7 +342,7 @@
   },
   "20250220_sbx-sequencing-ir-event.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/f3f0d645e5/20250220_sbx-sequencing-ir-event.pdf",
-    "title": "PDF",
+    "title": "20250220 Sbx Sequencing Ir Event",
     "date": null,
     "doc_type": "other",
     "sha256": "4d10cf19a3086062756d15c358336ea5e90702f33c7f8443de0d74b934af0fbd",
@@ -353,7 +353,7 @@
   },
   "wcn-ir-event_2025.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/75178ad7c7/wcn-ir-event_2025.pdf",
-    "title": "PDF",
+    "title": "Wcn Ir Event 2025",
     "date": null,
     "doc_type": "other",
     "sha256": "b4e931a727acb6efdee19be0a7ae66cd9a51bef7baddd59a831dbc06178412f6",
@@ -364,7 +364,7 @@
   },
   "irp250130.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/63b9606d3b/irp250130.pdf",
-    "title": "PDF",
+    "title": "Irp250130",
     "date": null,
     "doc_type": "other",
     "sha256": "688dc26106ed0d62d555a5c181786142177df809d71ead12ec7f313bb1565ae8",
@@ -375,7 +375,7 @@
   },
   "irp250130-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/15cb053605/irp250130-a.pdf",
-    "title": "PDF",
+    "title": "Irp250130 A",
     "date": null,
     "doc_type": "other",
     "sha256": "fb2970cf3f66e75975c75a145745167400fb04dc5aeb5f648d936c3c38a9788a",
@@ -386,7 +386,7 @@
   },
   "ar24e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/09457b2a19/ar24e.pdf",
-    "title": "PDF",
+    "title": "Ar24E",
     "date": null,
     "doc_type": "other",
     "sha256": "fb179e1464aea56fdcaa9663dc0b58d3af8830ee0fcab25eb497fdd36408279f",
@@ -397,7 +397,7 @@
   },
   "fb24e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/38d96ed8ec/fb24e.pdf",
-    "title": "PDF",
+    "title": "Fb24E",
     "date": null,
     "doc_type": "other",
     "sha256": "6eb1b73696849646b37a85dd12cec037de5391c3e157964e8d50fe9bc6947b14",
@@ -408,7 +408,7 @@
   },
   "ar24d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/e8591e7840/ar24d.pdf",
-    "title": "PDF",
+    "title": "Ar24D",
     "date": null,
     "doc_type": "other",
     "sha256": "9c946cf1606203059bd1c795780b8efabef6b9a23e1c970eb20739e17aaff956",
@@ -419,7 +419,7 @@
   },
   "fb24d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/e18563b1ce/fb24d.pdf",
-    "title": "PDF",
+    "title": "Fb24D",
     "date": null,
     "doc_type": "other",
     "sha256": "c929e9025fe4ccda525458595e6bf4b2473dc2870c20e3a22f244d57c64916ea",
@@ -430,7 +430,7 @@
   },
   "250113_roche_jpm.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/fa376d0c04/250113_roche_jpm.pdf",
-    "title": "PDF",
+    "title": "250113 Roche Jpm",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "0021303b00aa6f6797f7c8144c6787272e16bb7c99501da784c3ea9ec84afe82",
@@ -441,7 +441,7 @@
   },
   "250109_roche_octavian.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/23641649a2/250109_roche_octavian.pdf",
-    "title": "PDF",
+    "title": "250109 Roche Octavian",
     "date": null,
     "doc_type": "other",
     "sha256": "df8746e01da967f88bf390317deffc5f44354a02f0d15fe91b6f98e1f1d62060",
@@ -452,7 +452,7 @@
   },
   "241205_berenberg_presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/f74cf8b289/241205_berenberg_presentation.pdf",
-    "title": "PDF",
+    "title": "241205 Berenberg Presentation",
     "date": null,
     "doc_type": "other",
     "sha256": "f1b5ec68470189a3d8a2980ea06473da082700de913bd93fd454534ec054c472",
@@ -463,7 +463,7 @@
   },
   "241203_roche_kepler_cfo_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/4b502fd37b/241203_roche_kepler_cfo_wo.pdf",
-    "title": "PDF",
+    "title": "241203 Roche Kepler Cfo Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "29987fdd13dd499b4610fc23f5a4c181cf23d9760c792bfcabbd1c8a6bc1367c",
@@ -474,7 +474,7 @@
   },
   "241127_roche_bernstein.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/40d6c69d57/241127_roche_bernstein.pdf",
-    "title": "PDF",
+    "title": "241127 Roche Bernstein",
     "date": null,
     "doc_type": "other",
     "sha256": "89ece13d7c40cb144ede0ed8632e502c390c4d417a60b9da79bcdb17b139d320",
@@ -485,7 +485,7 @@
   },
   "digi_day2024_gred_final_online.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/c6928dc7e4/digi_day2024_gred_final_online.pdf",
-    "title": "PDF",
+    "title": "Digi Day2024 Gred Final Online",
     "date": null,
     "doc_type": "other",
     "sha256": "6399cf5273ba0907dfdf64b5849618152f1acc54d7ccea5833d4850788f07d2b",
@@ -496,7 +496,7 @@
   },
   "241120_jefferies_roche_presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/3399d7f57c/241120_jefferies_roche_presentation.pdf",
-    "title": "PDF",
+    "title": "241120 Jefferies Roche Presentation",
     "date": null,
     "doc_type": "other",
     "sha256": "6fde78eba10d00bb4f29d97915c20bd82b7a21120efc354fb3cc0a61a10546ee",
@@ -507,7 +507,7 @@
   },
   "241112_roche_presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/5e74a8b8a9/241112_roche_presentation.pdf?cv=1731407748994",
-    "title": "PDF",
+    "title": "241112 Roche Presentation",
     "date": null,
     "doc_type": "other",
     "sha256": "89917e8b54128d47226491d9185e4a354b2243b9f3776f74080b222b1d4b8024",
@@ -518,7 +518,7 @@
   },
   "ctad-ir-event-oct-31-2024-finalfor-pdf.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/30ffda4dd0/ctad-ir-event-oct-31-2024-finalfor-pdf.pdf",
-    "title": "PDF",
+    "title": "Ctad Ir Event Oct 31 2024 Finalfor Pdf",
     "date": "2024-10-31",
     "doc_type": "other",
     "sha256": "6c5ec2ee16a02cf802c4baa0fa48e8d33706a11f9e6e21ad3c9395d73a6c2ed2",
@@ -529,7 +529,7 @@
   },
   "irp231024-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/03b85564df/irp231024-a.pdf",
-    "title": "PDF",
+    "title": "Irp231024 A",
     "date": null,
     "doc_type": "other",
     "sha256": "66071ae4121b018d51ff86a6189342c841d0bc00261944fb30544f25faa36e45",
@@ -540,7 +540,7 @@
   },
   "irp231024.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/31805a2578/irp231024.pdf",
-    "title": "PDF",
+    "title": "Irp231024",
     "date": null,
     "doc_type": "other",
     "sha256": "b0eee56da3131c21192f828f6e17c24955fa36e01fe6284e42031965efc10a6d",
@@ -551,7 +551,7 @@
   },
   "pharma_day_20240930_final_online_v02.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/f513f69de2/pharma_day_20240930_final_online_v02.pdf",
-    "title": "PDF",
+    "title": "Pharma Day 20240930 Final Online V02",
     "date": null,
     "doc_type": "other",
     "sha256": "b568244bd51f164127a6c690eb56e9232d457cdb26c2dafd593e64979d14ad98",
@@ -562,7 +562,7 @@
   },
   "epi_2024.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/6b305cc045/epi_2024.pdf",
-    "title": "PDF",
+    "title": "Epi 2024",
     "date": null,
     "doc_type": "other",
     "sha256": "7e0312ec69430af28de3dca51a731ab30bcb91b3709d738ed05d75e5267e9197",
@@ -573,7 +573,7 @@
   },
   "240926_roche_bernstein_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/77d4b7e38b/240926_roche_bernstein_wo.pdf",
-    "title": "PDF",
+    "title": "240926 Roche Bernstein Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "f28d07cc8d713e76b7f6e0af2ce6c9ea54e886cb8e6de439c082c189ac4f92f5",
@@ -584,7 +584,7 @@
   },
   "240918_roche_presentation_bofa.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/47e7cb101e/240918_roche_presentation_bofa.pdf",
-    "title": "PDF",
+    "title": "240918 Roche Presentation Bofa",
     "date": null,
     "doc_type": "other",
     "sha256": "894b015c798a324b7032133157ff693439b055072964a6315cdb1bae1d2faacf",
@@ -595,7 +595,7 @@
   },
   "easd_final_to-share-130924.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/fd3ea522a9/easd_final_to-share-130924.pdf",
-    "title": "PDF",
+    "title": "Easd Final To Share 130924",
     "date": null,
     "doc_type": "other",
     "sha256": "86bde669968f02358e9e7f33c566cb8990fa0ca4c18c898d86b69a44d077c1a1",
@@ -606,7 +606,7 @@
   },
   "20240904_roche_msause_goldman_sachs.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/4b66dcaa97/20240904_roche_msause_goldman_sachs.pdf",
-    "title": "PDF",
+    "title": "20240904 Roche Msause Goldman Sachs",
     "date": null,
     "doc_type": "other",
     "sha256": "6657951b20b33e84f67939085a0b70653f32e8557768d0e5fdbd8bc51f2c3b7d",
@@ -617,7 +617,7 @@
   },
   "irp240725-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/26b92ed3d9/irp240725-a.pdf",
-    "title": "PDF",
+    "title": "Irp240725 A",
     "date": null,
     "doc_type": "other",
     "sha256": "52229df308ddd8e7eb388a44c63606a97f5bfe399270e17c645134d2b36b7480",
@@ -628,7 +628,7 @@
   },
   "irp240725.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/3c7ab36796/irp240725.pdf",
-    "title": "PDF",
+    "title": "Irp240725",
     "date": null,
     "doc_type": "other",
     "sha256": "085f94fea16af4f90a84a48c4276584fc13fe9e46d6817eea019e9ff78e352aa",
@@ -639,7 +639,7 @@
   },
   "hy24e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/b4e99fb76c/hy24e.pdf",
-    "title": "PDF",
+    "title": "Hy24E",
     "date": null,
     "doc_type": "other",
     "sha256": "27bb014d0d508f579b9a32dc6a4eb02f8f3060d11be644c0bc884c012dcfeeb5",
@@ -650,7 +650,7 @@
   },
   "hy24d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/8b386976c4/hy24d.pdf",
-    "title": "PDF",
+    "title": "Hy24D",
     "date": null,
     "doc_type": "other",
     "sha256": "e58e8901b4fef32f21c9a06eb0fd46cc6d4adf5a0ce8e6489bf078b9c29de3c1",
@@ -661,7 +661,7 @@
   },
   "20240723-ophthalmology-event.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/f26758efd4/20240723-ophthalmology-event.pdf",
-    "title": "PDF",
+    "title": "20240723 Ophthalmology Event",
     "date": null,
     "doc_type": "other",
     "sha256": "74a29bf3320ccbbe678a8ff667e873f1bb79876f0b47e4c1447a320a218f2ea4",
@@ -672,7 +672,7 @@
   },
   "hsbc-conference_neurology-vf_17062024_video-placeholder-removed.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/f6ca9dc0df/hsbc-conference_neurology-vf_17062024_video-placeholder-removed.pdf?cv=1718639688598",
-    "title": "PDF",
+    "title": "Hsbc Conference Neurology Vf 17062024 Video Placeholder Removed",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "1a5d8b5c82648b3387014816c35a4dc6000391825793d65962b988e8276dde75",
@@ -683,7 +683,7 @@
   },
   "roche-virtual-hematology-ir-event-june-16.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/68fa0fb258/roche-virtual-hematology-ir-event-june-16.pdf",
-    "title": "PDF",
+    "title": "Roche Virtual Hematology Ir Event June 16",
     "date": null,
     "doc_type": "other",
     "sha256": "c56cc99cdbd7042890e1dc84ff5059f5a7b63c63d441e0ddda089ba83de9c992",
@@ -694,7 +694,7 @@
   },
   "240606_exane_roche_final_wo-1.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/77100029a1/240606_exane_roche_final_wo-1.pdf",
-    "title": "PDF",
+    "title": "240606 Exane Roche Final Wo 1",
     "date": null,
     "doc_type": "other",
     "sha256": "5fcd96c7f69944c77bf57487f3e2e398f25c1e9db5fcdd32cba47af62c93aeb6",
@@ -705,7 +705,7 @@
   },
   "240605_jefferies_roche.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/9f1c2a4ef9/240605_jefferies_roche.pdf",
-    "title": "PDF",
+    "title": "240605 Jefferies Roche",
     "date": null,
     "doc_type": "other",
     "sha256": "6637f4011ec1193589f1146d73a96e6b9cfcdf93871e70c7b4fc17d91e7fe18a",
@@ -716,7 +716,7 @@
   },
   "asco-2024_ir-presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/879cd48453/asco-2024_ir-presentation.pdf",
-    "title": "PDF",
+    "title": "Asco 2024 Ir Presentation",
     "date": null,
     "doc_type": "poster",
     "sha256": "de2a2887ecb26903c1853cf196c9e1eec9b3aea67db09b3d38a2c1d8c74215bb",
@@ -727,7 +727,7 @@
   },
   "240529_bernstein_roche.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/87ab2fcc17/240529_bernstein_roche.pdf",
-    "title": "PDF",
+    "title": "240529 Bernstein Roche",
     "date": null,
     "doc_type": "other",
     "sha256": "49e5013d0aa7d9801f39332c0565a93735017e507788d297d45bafc38e16ffea",
@@ -738,7 +738,7 @@
   },
   "diagnostics-day-22-05-2024.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/70a97738d3/diagnostics-day-22-05-2024.pdf",
-    "title": "PDF",
+    "title": "Diagnostics Day 22 05 2024",
     "date": null,
     "doc_type": "other",
     "sha256": "af591dc120b36ba1e605ff3cee18d5a3f1633607353383ffd69a40bf592b9ea9",
@@ -749,7 +749,7 @@
   },
   "irp240424-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/cbba56da34/irp240424-a.pdf",
-    "title": "PDF",
+    "title": "Irp240424 A",
     "date": null,
     "doc_type": "other",
     "sha256": "0f7d72a72daeb9ebc2c59c3bd7cb5b88da312bb874f7ecc5fe17e5e777c0efb4",
@@ -760,7 +760,7 @@
   },
   "irp240424.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/14b2fa29c8/irp240424.pdf",
-    "title": "PDF",
+    "title": "Irp240424",
     "date": null,
     "doc_type": "other",
     "sha256": "d46e612a92370c31d69fdbb15ea2fdd5de49223c8218a74fb3e23ad60faa952a",
@@ -771,7 +771,7 @@
   },
   "roche-neurology-ir-event-2024.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/bdd463f4af/roche-neurology-ir-event-2024.pdf",
-    "title": "PDF",
+    "title": "Roche Neurology Ir Event 2024",
     "date": null,
     "doc_type": "other",
     "sha256": "3781151c6bae7aa6f91065bb4ca7cb23734948ce7cf15191d6ed42cc498d177a",
@@ -782,7 +782,7 @@
   },
   "irp240201-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/ac48d3ba3b/irp240201-a.pdf",
-    "title": "PDF",
+    "title": "Irp240201 A",
     "date": null,
     "doc_type": "other",
     "sha256": "9ac2751a6c434163aab8ea415ffc898256175109c48f496388c126d257ad601a",
@@ -793,7 +793,7 @@
   },
   "irp240201.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/1a564f0bae/irp240201.pdf",
-    "title": "PDF",
+    "title": "Irp240201",
     "date": null,
     "doc_type": "other",
     "sha256": "47b423061e942156e408f33f10f5c2017c15a39aec8fcf7d719ac47b1a238d87",
@@ -804,7 +804,7 @@
   },
   "ar23e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/98b8e2ba9d/ar23e.pdf",
-    "title": "PDF",
+    "title": "Ar23E",
     "date": null,
     "doc_type": "other",
     "sha256": "108c684c3a39b1dfda0ffdcfd15869364ea083a3b2386702d8794fd76ea01337",
@@ -815,7 +815,7 @@
   },
   "fb23e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/3b1fb647e2/fb23e.pdf",
-    "title": "PDF",
+    "title": "Fb23E",
     "date": null,
     "doc_type": "other",
     "sha256": "ba848de6ec5436e42457709c3245b377653fcb102f7bf045caf052ff784181a4",
@@ -826,7 +826,7 @@
   },
   "ar23d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/cca2d6ed28/ar23d.pdf",
-    "title": "PDF",
+    "title": "Ar23D",
     "date": null,
     "doc_type": "other",
     "sha256": "4bde1c753d55fe155015f56ec58eebd905049adc6f5aeb41367d40451879f05f",
@@ -837,7 +837,7 @@
   },
   "fb23d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/143938dd27/fb23d.pdf",
-    "title": "PDF",
+    "title": "Fb23D",
     "date": null,
     "doc_type": "other",
     "sha256": "14a6e802bc878025b6c4c998f93c6a7caa3e9f09f657a96acc4191f8b4950083",
@@ -848,7 +848,7 @@
   },
   "roche_octavian_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/9d3d781579/roche_octavian_final.pdf",
-    "title": "PDF",
+    "title": "Roche Octavian Final",
     "date": null,
     "doc_type": "other",
     "sha256": "f67eb6b4b07d984b33297b60aa2a0e913f79389c8b9f4cbe6b7737589626276c",
@@ -859,7 +859,7 @@
   },
   "roche_jpm_final_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/14e09b039c/roche_jpm_final_wo.pdf",
-    "title": "PDF",
+    "title": "Roche Jpm Final Wo",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "630c00e7ac8c9efa65082439d366bf272b3540a02468414bed09e529f94b58b7",
@@ -870,7 +870,7 @@
   },
   "ash-investor-event-20231212.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/ad18ac416b/ash-investor-event-20231212.pdf",
-    "title": "PDF",
+    "title": "Ash Investor Event 20231212",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "2cdcd3a845990e11df21f67994246322e488a40ca4e8021bab4db4a7cf0738bc",
@@ -881,7 +881,7 @@
   },
   "exane-bnp-paribas-12122023.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/87b1acfa68/exane-bnp-paribas-12122023.pdf",
-    "title": "PDF",
+    "title": "Exane Bnp Paribas 12122023",
     "date": null,
     "doc_type": "other",
     "sha256": "d2ab03874cb61c74ec9a9730e15d171cd24c2c860873245d3e2782a43ba0636c",
@@ -892,7 +892,7 @@
   },
   "231207_roche_berenberg.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/655c578b76/231207_roche_berenberg.pdf",
-    "title": "PDF",
+    "title": "231207 Roche Berenberg",
     "date": null,
     "doc_type": "other",
     "sha256": "ec032380ce9e037bd9a0a21c5269ead5f54b7fff3303e6e9b079e8a30ad710c5",
@@ -903,7 +903,7 @@
   },
   "20231129_digi-day.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/e60b81765d/20231129_digi-day.pdf",
-    "title": "PDF",
+    "title": "20231129 Digi Day",
     "date": null,
     "doc_type": "other",
     "sha256": "6e99f7813e38a14088309d75f2da2e9f5636cab3efc996385489abb4f469b074",
@@ -914,7 +914,7 @@
   },
   "231115_jefferies_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/09d6e2685a/231115_jefferies_wo.pdf",
-    "title": "PDF",
+    "title": "231115 Jefferies Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "b9a951edb01b00f540d99b23138feda0205be8ba7ee489c8a5772fcbd47340ee",
@@ -925,7 +925,7 @@
   },
   "roche_231102_zkb.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/7867238ee2/roche_231102_zkb.pdf",
-    "title": "PDF",
+    "title": "Roche 231102 Zkb",
     "date": null,
     "doc_type": "other",
     "sha256": "bb2e2f69794f8d6e3bef84ddf7390e2441cce8c43ce534665733dc7e2d81517c",
@@ -936,7 +936,7 @@
   },
   "neuroscience-update-ir-event-2023.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/ba10f1c23d/neuroscience-update-ir-event-2023.pdf",
-    "title": "PDF",
+    "title": "Neuroscience Update Ir Event 2023",
     "date": null,
     "doc_type": "other",
     "sha256": "e30d69e35c8a60e49a8df970a7e3103747df27786443823f777772c7446c6b38",
@@ -947,7 +947,7 @@
   },
   "irp231019-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/e8afe51e54/irp231019-a.pdf",
-    "title": "PDF",
+    "title": "Irp231019 A",
     "date": null,
     "doc_type": "other",
     "sha256": "974e303e936fa8c39f05d89f6540b3fafc9e8889d007153b0130ed2ec0a65873",
@@ -958,7 +958,7 @@
   },
   "irp231019.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/84b57800eb/irp231019.pdf",
-    "title": "PDF",
+    "title": "Irp231019",
     "date": null,
     "doc_type": "other",
     "sha256": "a57f6c72544377fe963c46378684a4cc3591c1ec25aee755447a7cc6937d9d38",
@@ -969,7 +969,7 @@
   },
   "pharma-day-2023.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/72a34572bc/pharma-day-2023.pdf",
-    "title": "PDF",
+    "title": "Pharma Day 2023",
     "date": null,
     "doc_type": "other",
     "sha256": "10656998f79f61c21d18d5e6dd10fb37ef358c29f2a9035b0ac8c9d3dda50cea",
@@ -980,7 +980,7 @@
   },
   "epidemiology_2023.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/393ca8361c/epidemiology_2023.pdf",
-    "title": "PDF",
+    "title": "Epidemiology 2023",
     "date": null,
     "doc_type": "other",
     "sha256": "6e20f0243add2ba99b5ad71a02efb68079041adf1c2b52fcea42de1b0693b9ba",
@@ -991,7 +991,7 @@
   },
   "irp230727-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/ab59fea455/irp230727-a.pdf",
-    "title": "PDF",
+    "title": "Irp230727 A",
     "date": null,
     "doc_type": "other",
     "sha256": "cc592b63cbe226b1d46c0a273af8bba847a6aeb6407f15498d3227326c506ada",
@@ -1002,7 +1002,7 @@
   },
   "irp230727.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/418a8c95c6/irp230727.pdf",
-    "title": "PDF",
+    "title": "Irp230727",
     "date": null,
     "doc_type": "other",
     "sha256": "1db2d955f3a08bed3c352d80d8d76e6e1d2169ada62ba7cd23f5427d3f43880b",
@@ -1013,7 +1013,7 @@
   },
   "hy23e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/40d59063c5/hy23e.pdf",
-    "title": "PDF",
+    "title": "Hy23E",
     "date": null,
     "doc_type": "other",
     "sha256": "1775efea732f3e2cf8339649a6f6fea76dfc40d774ee26415c093bb14846b3bd",
@@ -1024,7 +1024,7 @@
   },
   "hy23d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/6c485fe5d5/hy23d.pdf",
-    "title": "PDF",
+    "title": "Hy23D",
     "date": null,
     "doc_type": "other",
     "sha256": "85da500a9229b0293f76639ccc579d45c77ff631d9a3ade9083da87e54a162b4",
@@ -1035,7 +1035,7 @@
   },
   "230621_dbaccess_roche_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/59db4458dd/230621_dbaccess_roche_wo.pdf",
-    "title": "PDF",
+    "title": "230621 Dbaccess Roche Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "fe73d86518093d8fe48334d95e4460e73165df0f8f65a967870cc7bcbfe93ddb",
@@ -1046,7 +1046,7 @@
   },
   "ir-eha-event-2023.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/d5bb675241/ir-eha-event-2023.pdf",
-    "title": "PDF",
+    "title": "Ir Eha Event 2023",
     "date": null,
     "doc_type": "other",
     "sha256": "a40295e220971b00ac8ebb9d03181f0274ab79248fb73bb650273ee6d22dfa37",
@@ -1057,7 +1057,7 @@
   },
   "230608exane_roche_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/0a0d7bf122/230608exane_roche_wo.pdf",
-    "title": "PDF",
+    "title": "230608Exane Roche Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "c13cb7edbea6ec5682321a6658a54f97886c6cd0ef0c8ba57db31eff661cfb39",
@@ -1068,7 +1068,7 @@
   },
   "230607jefferies_roche_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/63496f3290/230607jefferies_roche_wo.pdf",
-    "title": "PDF",
+    "title": "230607Jefferies Roche Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "a86997649d586a5513924b50b2d25fd4274810ea6a67a069bbee5eea141f3977",
@@ -1079,7 +1079,7 @@
   },
   "230531bernstein_presentation_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/a716f0bd85/230531bernstein_presentation_final.pdf",
-    "title": "PDF",
+    "title": "230531Bernstein Presentation Final",
     "date": null,
     "doc_type": "other",
     "sha256": "1ead06e79b48210128fd6608a017e16ca3336559567e96b26d489367f4f02db8",
@@ -1090,7 +1090,7 @@
   },
   "ir-esg-event-2023.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/98698f32e5/ir-esg-event-2023.pdf",
-    "title": "PDF",
+    "title": "Ir Esg Event 2023",
     "date": null,
     "doc_type": "other",
     "sha256": "669beb180ef07033f8f671a0d7322fad49b43cec6a8869b0a4537758a4258897",
@@ -1101,7 +1101,7 @@
   },
   "irp230426-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/89db885417/irp230426-a.pdf",
-    "title": "PDF",
+    "title": "Irp230426 A",
     "date": null,
     "doc_type": "other",
     "sha256": "4b9da84983d6885a13880b81a5224d12a6933cf4cfed014806cd43a47b97c119",
@@ -1112,7 +1112,7 @@
   },
   "irp230426.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/acc7e95955/irp230426.pdf",
-    "title": "PDF",
+    "title": "Irp230426",
     "date": null,
     "doc_type": "other",
     "sha256": "313ce6c2fd5791c4ef61fb1696864cf06b82eab77b63b04d2a4c5f292d059752",
@@ -1123,7 +1123,7 @@
   },
   "angiogenesis-ir-event-2023_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/7966cb0395/angiogenesis-ir-event-2023_final.pdf",
-    "title": "PDF",
+    "title": "Angiogenesis Ir Event 2023 Final",
     "date": null,
     "doc_type": "other",
     "sha256": "f80adb109e6bd012e9a606416e3613ae7aa0dc2d3a98bab189340598d5dd7625",
@@ -1134,7 +1134,7 @@
   },
   "irp230202-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/f788f29b2f/irp230202-a.pdf",
-    "title": "PDF",
+    "title": "Irp230202 A",
     "date": null,
     "doc_type": "other",
     "sha256": "a404ae7b43e32f91f473578e2b1a1eb4ef37d0416d8b2d9d9fa8065fff1d1066",
@@ -1145,7 +1145,7 @@
   },
   "irp230202.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/07a64bfb85/irp230202.pdf",
-    "title": "PDF",
+    "title": "Irp230202",
     "date": null,
     "doc_type": "other",
     "sha256": "3d07cbe2c4c1f2cdc0584b00ebfe80bc97f814da08a0bbe033ba415407edb180",
@@ -1156,7 +1156,7 @@
   },
   "ar22e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/43f14540f2/ar22e.pdf",
-    "title": "PDF",
+    "title": "Ar22E",
     "date": null,
     "doc_type": "other",
     "sha256": "dc18324b9b746aeef3fd9727795356c7d0dd65ad80958d18a1e3cd46d4470587",
@@ -1167,7 +1167,7 @@
   },
   "fb22e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/537a274a55/fb22e.pdf",
-    "title": "PDF",
+    "title": "Fb22E",
     "date": null,
     "doc_type": "other",
     "sha256": "b93f4e06089cdc6a7df29e4969088d6a966b29e4ec0273d314914344429f9a7f",
@@ -1178,7 +1178,7 @@
   },
   "ar22d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/6156175089/ar22d.pdf",
-    "title": "PDF",
+    "title": "Ar22D",
     "date": null,
     "doc_type": "other",
     "sha256": "c36619afcc98706074f69740acc12070365651315ad5d1f6e3470f0c70a4e12c",
@@ -1189,7 +1189,7 @@
   },
   "fb22d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/c14c604cb1/fb22d.pdf",
-    "title": "PDF",
+    "title": "Fb22D",
     "date": null,
     "doc_type": "other",
     "sha256": "34a5573665f25d8108d50bfe2f8efee8faf18c8fb4ec44c06dad534263583c74",
@@ -1200,7 +1200,7 @@
   },
   "230112_octavian_presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/7c23e1dd3c/230112_octavian_presentation.pdf",
-    "title": "PDF",
+    "title": "230112 Octavian Presentation",
     "date": null,
     "doc_type": "other",
     "sha256": "3785633948d53ecc3b1e036608433633da2b7d6ddd3b03c67d870bf333fa4e3d",
@@ -1211,7 +1211,7 @@
   },
   "230110roche_jpm.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/2b6dc2a901/230110roche_jpm.pdf",
-    "title": "PDF",
+    "title": "230110Roche Jpm",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "91e734e0aed464bb8307308c50d02a46c95a5e57331c8a46b5221eb68d51a553",
@@ -1222,7 +1222,7 @@
   },
   "ash-investor-event-2022.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/937c65da06/ash-investor-event-2022.pdf",
-    "title": "PDF",
+    "title": "Ash Investor Event 2022",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "959aff5c2948f5b2480cb5f10a4608eb9383f4d31a63215392d2e4fffa55b111",
@@ -1233,7 +1233,7 @@
   },
   "20221202_sg_paris_presentation_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/b99e6ba9f6/20221202_sg_paris_presentation_wo.pdf",
-    "title": "PDF",
+    "title": "20221202 Sg Paris Presentation Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "5b7682c33dd4a5c1812f3e51660f9aa2f5d5fe95589c3b28d4608fbb1ec4ff91",
@@ -1244,7 +1244,7 @@
   },
   "20221116_roche_jefferies_conference_-london_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/fb4d31af31/20221116_roche_jefferies_conference_-london_wo.pdf",
-    "title": "PDF",
+    "title": "20221116 Roche Jefferies Conference London Wo",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "f8f5977b442f305940de7d8835ad98f2af69bc9b8f507deccfa422d0c75c725c",
@@ -1255,7 +1255,7 @@
   },
   "20221103zkb_presentation_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/fe81e201aa/20221103zkb_presentation_wo.pdf",
-    "title": "PDF",
+    "title": "20221103Zkb Presentation Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "54b14740e5d2d6fd799ca1a5de95c36c5d0a982b48161facf1d3872e293e7de6",
@@ -1266,7 +1266,7 @@
   },
   "irp221018-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/882a16d19a/irp221018-a.pdf",
-    "title": "PDF",
+    "title": "Irp221018 A",
     "date": null,
     "doc_type": "other",
     "sha256": "8e43cad26532089907ec8093de386de9a40c70b2475e9c762ad626d82410dd35",
@@ -1277,7 +1277,7 @@
   },
   "irp221018.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/33ca66c3c5/irp221018.pdf",
-    "title": "PDF",
+    "title": "Irp221018",
     "date": null,
     "doc_type": "other",
     "sha256": "0c3caf4fa521b3803c5cd6362871d346444405ad75fd803a0552dde66075a5eb",
@@ -1288,7 +1288,7 @@
   },
   "bernstein_conference_-london_09282022.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/d3fa88fe35/bernstein_conference_-london_09282022.pdf",
-    "title": "PDF",
+    "title": "Bernstein Conference London 09282022",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "df1beda6b4a7cc7d28be7a436a934381d2f4840989d745f84d93f346c081f9c9",
@@ -1299,7 +1299,7 @@
   },
   "baader_2022_09122022.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/348884e0ea/baader_2022_09122022.pdf",
-    "title": "PDF",
+    "title": "Baader 2022 09122022",
     "date": null,
     "doc_type": "other",
     "sha256": "88ac5675285bc220ab4689756107859c32b8b6ab5c3df0629d5eaf5b5e086360",
@@ -1310,7 +1310,7 @@
   },
   "pharma-day-2022_09112022_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/c17b0767f0/pharma-day-2022_09112022_final.pdf",
-    "title": "PDF",
+    "title": "Pharma Day 2022 09112022 Final",
     "date": null,
     "doc_type": "other",
     "sha256": "2fdf444f62ebdeb6dbf7009b2bf8404ac80406d4815e095333727741250c7f8e",
@@ -1321,7 +1321,7 @@
   },
   "epi_data_pharmaday_2022_09_12.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/5c182b0399/epi_data_pharmaday_2022_09_12.pdf",
-    "title": "PDF",
+    "title": "Epi Data Pharmaday 2022 09 12",
     "date": null,
     "doc_type": "press_release",
     "sha256": "ac27797f1293254a78e0683126d63ed24707dadba51bf621ce5488512f4bcfc6",
@@ -1332,7 +1332,7 @@
   },
   "rochedia_gs_2022_final_wo-speaker-notes-2.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/3a5e47e222/rochedia_gs_2022_final_wo-speaker-notes-2.pdf",
-    "title": "PDF",
+    "title": "Rochedia Gs 2022 Final Wo Speaker Notes 2",
     "date": null,
     "doc_type": "other",
     "sha256": "8fe9c443f41f7d7b9a1e07645afcfb1e62db094363a6cd9258a42af1303e7961",
@@ -1343,7 +1343,7 @@
   },
   "dia_aacc_2022.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/ba1a3d334b/dia_aacc_2022.pdf",
-    "title": "PDF",
+    "title": "Dia Aacc 2022",
     "date": null,
     "doc_type": "other",
     "sha256": "b317c45edb5155edd2f9815aae7640135c34a8424a3a34305419b8f9e8bd16e4",
@@ -1354,7 +1354,7 @@
   },
   "irp220721-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/950bd82823/irp220721-a.pdf",
-    "title": "PDF",
+    "title": "Irp220721 A",
     "date": null,
     "doc_type": "other",
     "sha256": "17467e37bb9292236ae2d76c27a5a4187b127b46e1aadb419d20afb9ec998f6c",
@@ -1365,7 +1365,7 @@
   },
   "irp220721.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/908ad6570e/irp220721.pdf",
-    "title": "PDF",
+    "title": "Irp220721",
     "date": null,
     "doc_type": "other",
     "sha256": "a6ad4d046fc90dca3a210a09b5e753385b152d7640acef1ec6d96056b2707609",
@@ -1376,7 +1376,7 @@
   },
   "hy22e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/1b6910a6cf/hy22e.pdf",
-    "title": "PDF",
+    "title": "Hy22E",
     "date": null,
     "doc_type": "other",
     "sha256": "b25aa6645b77a135cba98cca97a4f96a5bcc7399f99bf1c2a49c459f61579e95",
@@ -1387,7 +1387,7 @@
   },
   "hy22d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/88ebacbdb9/hy22d.pdf",
-    "title": "PDF",
+    "title": "Hy22D",
     "date": null,
     "doc_type": "other",
     "sha256": "a44739dc1a16eac93dd21b3e76531992dcc6962afc38d0c27c841baf341277d7",
@@ -1398,7 +1398,7 @@
   },
   "ir-asco-2022-event.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/ead275fc27/ir-asco-2022-event.pdf",
-    "title": "PDF",
+    "title": "Ir Asco 2022 Event",
     "date": null,
     "doc_type": "poster",
     "sha256": "bd3ccf7aa1130b5f54bb2190ca81c503b2b97f26702e9e81830c1ba3935bff67",
@@ -1409,7 +1409,7 @@
   },
   "220524db_final_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/34ddf85cff/220524db_final_wo.pdf",
-    "title": "PDF",
+    "title": "220524Db Final Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "487edb24116fc3a1ee22fbe468b37e0ee6dcb7820a79ffdb0dda01683ef5ef13",
@@ -1420,7 +1420,7 @@
   },
   "2022_05_16_investor-esg-event_access_final_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/720917cc68/2022_05_16_investor-esg-event_access_final_wo.pdf",
-    "title": "PDF",
+    "title": "2022 05 16 Investor Esg Event Access Final Wo",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "9719f8101722e6f8546f4fdf868b1a7a32a0f19ad9aa24bb4c27a67912ff0f3d",
@@ -1431,7 +1431,7 @@
   },
   "irp220425-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/732a1b73ad/irp220425-a.pdf",
-    "title": "PDF",
+    "title": "Irp220425 A",
     "date": null,
     "doc_type": "other",
     "sha256": "eabc99c8f59e313698ea87e9fc6d481d85a99a91ad9b6d8cc8b4108b4133dda1",
@@ -1442,7 +1442,7 @@
   },
   "irp220425.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/4b163d8fb3/irp220425.pdf",
-    "title": "PDF",
+    "title": "Irp220425",
     "date": null,
     "doc_type": "other",
     "sha256": "8272131c434f0ab2b5b08f92f192a40a79cb0571e4320ab5920d2fce8f80dee0",
@@ -1453,7 +1453,7 @@
   },
   "mda_final_16-03-2022.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/9071cc5054/mda_final_16-03-2022.pdf",
-    "title": "PDF",
+    "title": "Mda Final 16 03 2022",
     "date": null,
     "doc_type": "other",
     "sha256": "986a886eab3fc311365f319bbeddc9e6d0acbb2f44fc797693640cd48222a3ff",
@@ -1464,7 +1464,7 @@
   },
   "angiogenesis-2022-final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/7e8b314e86/angiogenesis-2022-final.pdf",
-    "title": "PDF",
+    "title": "Angiogenesis 2022 Final",
     "date": null,
     "doc_type": "other",
     "sha256": "0b831ad944cdc002c83291f4f4b58ba040697c9cc8dd1f983f79cca7904e5cfb",
@@ -1475,7 +1475,7 @@
   },
   "irp220203-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/88703ea4c1/irp220203-a.pdf",
-    "title": "PDF",
+    "title": "Irp220203 A",
     "date": null,
     "doc_type": "other",
     "sha256": "1a2d711d27ac77a98fdf178835e3313b3b8e66e9e912f6416806d6ed30909955",
@@ -1486,7 +1486,7 @@
   },
   "irp220203.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/fca1d76d92/irp220203.pdf",
-    "title": "PDF",
+    "title": "Irp220203",
     "date": null,
     "doc_type": "other",
     "sha256": "fd42753f445a439dfc147fd29bac1dbe501ff24e6836f98e7cf127b4601f81b9",
@@ -1497,7 +1497,7 @@
   },
   "ar21e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/1eb0ebd1dd/ar21e.pdf",
-    "title": "PDF",
+    "title": "Ar21E",
     "date": null,
     "doc_type": "other",
     "sha256": "0b1d00c04c43762c36cfa2a8949269c7752f37ccb9b9b56a40b2c866a8c798ae",
@@ -1508,7 +1508,7 @@
   },
   "fb21e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/0a222028d9/fb21e.pdf",
-    "title": "PDF",
+    "title": "Fb21E",
     "date": null,
     "doc_type": "other",
     "sha256": "5435eab01dc926d51f529b04e36731f3a3eaf250a1333bd8c238f401f0cccaa7",
@@ -1519,7 +1519,7 @@
   },
   "ar21d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/1b3d3f8c4a/ar21d.pdf",
-    "title": "PDF",
+    "title": "Ar21D",
     "date": null,
     "doc_type": "other",
     "sha256": "9addf737b65fced7a3a2268177cbb0900d099f365e34ab96bb57f0fb1f1d3064",
@@ -1530,7 +1530,7 @@
   },
   "fb21d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/3dc86a7c9c/fb21d.pdf",
-    "title": "PDF",
+    "title": "Fb21D",
     "date": null,
     "doc_type": "other",
     "sha256": "2901ba7f1c91285d884b528c688dfbf04a4fa2513f42df3c773b29d9272a24aa",
@@ -1541,7 +1541,7 @@
   },
   "220113_roche_octavian_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/4bd164915a/220113_roche_octavian_wo.pdf",
-    "title": "PDF",
+    "title": "220113 Roche Octavian Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "1e02eb4860d16cd966c3a3f12e8195f1ac862423cc0d2bfc1c46697085648bb0",
@@ -1552,7 +1552,7 @@
   },
   "220111_roche_jpmorgan_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/7ddaacfdd5/220111_roche_jpmorgan_wo.pdf",
-    "title": "PDF",
+    "title": "220111 Roche Jpmorgan Wo",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "f728aeadc7fe66ef11fd7f2e718522d729b7dcbed7886f03d1151386c708980d",
@@ -1563,7 +1563,7 @@
   },
   "ash_investor_event_2021_12_13_final.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/f3ec82548e/ash_investor_event_2021_12_13_final.pdf",
-    "title": "PDF",
+    "title": "Ash Investor Event 2021 12 13 Final",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "42dfa836e1460767d1b276437e64f9e9caa575d96fcb56d5618c72b96e14af77",
@@ -1574,7 +1574,7 @@
   },
   "esmo_io_2021_ir_event_10_dec_final_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/b271862c57/esmo_io_2021_ir_event_10_dec_final_wo.pdf",
-    "title": "PDF",
+    "title": "Esmo Io 2021 Ir Event 10 Dec Final Wo",
     "date": null,
     "doc_type": "poster",
     "sha256": "110cddd395d21bf8389d65f446b350811f763fbf4b0488de8fb1a05ef8a67fa1",
@@ -1585,7 +1585,7 @@
   },
   "digitalization-along-the-value-chain-presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/76d904f60b/digitalization-along-the-value-chain-presentation.pdf",
-    "title": "PDF",
+    "title": "Digitalization Along The Value Chain Presentation",
     "date": null,
     "doc_type": "other",
     "sha256": "2875679753f5b910050fd65dbf54cfa383c5ebaec8f4c2aa4f0b6394528d96b9",
@@ -1596,7 +1596,7 @@
   },
   "irp211020-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/02e7c308ba/irp211020-a.pdf",
-    "title": "PDF",
+    "title": "Irp211020 A",
     "date": null,
     "doc_type": "other",
     "sha256": "5a6b0f83afd6c8bed5bb1d7e25db8a5750ee0d2639c8aaf40021d667e7a38bed",
@@ -1607,7 +1607,7 @@
   },
   "irp211020.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/6c545ce169/irp211020.pdf",
-    "title": "PDF",
+    "title": "Irp211020",
     "date": null,
     "doc_type": "other",
     "sha256": "60e6b749fefbd9e1d984dc1a3c98ac3ceb9be4c1bcfd5add8a48944cefd3c74b",
@@ -1618,7 +1618,7 @@
   },
   "teresa-bernstein.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/3c18b17e16/teresa-bernstein.pdf",
-    "title": "PDF",
+    "title": "Teresa Bernstein",
     "date": null,
     "doc_type": "other",
     "sha256": "71f69e1275878047702e5635a25da151ce27aab10550af21f104b992c2d1ba99",
@@ -1629,7 +1629,7 @@
   },
   "bank-of-america-conference.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/31d5b4f6df/bank-of-america-conference.pdf",
-    "title": "PDF",
+    "title": "Bank Of America Conference",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "34125776b24a8d5eb1fce87cdcb60f7129c3ec59020ccdfe551b48cff3d7a91a",
@@ -1640,7 +1640,7 @@
   },
   "20210914_pharma-day-2021_final_v06_2_wo.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/a549413c6f/20210914_pharma-day-2021_final_v06_2_wo.pdf",
-    "title": "PDF",
+    "title": "20210914 Pharma Day 2021 Final V06 2 Wo",
     "date": null,
     "doc_type": "other",
     "sha256": "a4ec083dbc9fbe2bd807e5fc9de5a53980212ab20032d5b9d759ee71c76c8c4b",
@@ -1651,7 +1651,7 @@
   },
   "epi-data-pharmaday_2021_updated_2.pdf": {
     "source_url": "https://assets.cwp.roche.com/f/176343/x/2708d241f9/epi-data-pharmaday_2021_updated_2.pdf",
-    "title": "PDF",
+    "title": "Epi Data Pharmaday 2021 Updated 2",
     "date": null,
     "doc_type": "press_release",
     "sha256": "ccebd799e50df2180fa97de00e70d5bfdce6444456957258df7c5f67ab5d5484",
@@ -1662,7 +1662,7 @@
   },
   "irp210722-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/b22c1da373/irp210722-a.pdf",
-    "title": "PDF",
+    "title": "Irp210722 A",
     "date": null,
     "doc_type": "other",
     "sha256": "364c002e83c55858f20f755bf9e0e681058683a1b1a1a19a0117465bd2c96220",
@@ -1673,7 +1673,7 @@
   },
   "irp210722.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/ba699bb8f8/irp210722.pdf",
-    "title": "PDF",
+    "title": "Irp210722",
     "date": null,
     "doc_type": "other",
     "sha256": "a13523b9bf439bbd4d5036d5664be074150d7af6cb5c8fe94d942058ac16dcef",
@@ -1684,7 +1684,7 @@
   },
   "hy21e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/c062a7944f/hy21e.pdf",
-    "title": "PDF",
+    "title": "Hy21E",
     "date": null,
     "doc_type": "other",
     "sha256": "5ff6b958bf45c7e03ab3eec28e1ad2dfd4dd0ee4f9361bbba5aa567da5b517ad",
@@ -1695,7 +1695,7 @@
   },
   "hy21d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/5cc66c09b8/hy21d.pdf",
-    "title": "PDF",
+    "title": "Hy21D",
     "date": null,
     "doc_type": "other",
     "sha256": "4a045435da49898e9919d8a39e128585c21addcf404d417499fb988781ec085f",
@@ -1706,7 +1706,7 @@
   },
   "curesma-annual-meeting-presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/44d662ae67/curesma-annual-meeting-presentation.pdf",
-    "title": "PDF",
+    "title": "Curesma Annual Meeting Presentation",
     "date": null,
     "doc_type": "other",
     "sha256": "f1fab573598c4c9ba6dd8054d56110e8894e9a5e6f424d2489850c381234b4c1",
@@ -1717,7 +1717,7 @@
   },
   "asco-annual-meeting-2021-presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/8c0cad7834/asco-annual-meeting-2021-presentation.pdf",
-    "title": "PDF",
+    "title": "Asco Annual Meeting 2021 Presentation",
     "date": null,
     "doc_type": "poster",
     "sha256": "eeb8c0d70428ffd722700daab7ebfe1e6ba8e35b0f221364dd1f517f30435ec7",
@@ -1728,7 +1728,7 @@
   },
   "presentation-bofa-ir-gred-regev.pdf": {
     "source_url": "https://assets.roche.com/f/176343/7a4cc4dd27/presentation-bofa-ir-gred-regev.pdf",
-    "title": "PDF",
+    "title": "Presentation Bofa Ir Gred Regev",
     "date": null,
     "doc_type": "other",
     "sha256": "42b71f53580160e8a57905c37ea4880294be0750310700ab3d32e8abfc0523ef",
@@ -1739,7 +1739,7 @@
   },
   "irp210421-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/15b04ee490/irp210421-a.pdf",
-    "title": "PDF",
+    "title": "Irp210421 A",
     "date": null,
     "doc_type": "other",
     "sha256": "bc6db65db928fefa861cd7e2bc285fb42d7f3a000561c74e56b124180c900eba",
@@ -1750,7 +1750,7 @@
   },
   "irp210421.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/49a542bd7a/irp210421.pdf",
-    "title": "PDF",
+    "title": "Irp210421",
     "date": null,
     "doc_type": "other",
     "sha256": "38cd8c2eaf281dea11b827350381c86cd53331b127c3f4f513f6eceb4c7201c0",
@@ -1761,7 +1761,7 @@
   },
   "diagnostics-investor-day-presentation.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/0821180289/diagnostics-investor-day-presentation.pdf",
-    "title": "PDF",
+    "title": "Diagnostics Investor Day Presentation",
     "date": null,
     "doc_type": "investor_presentation",
     "sha256": "d305c8ce9a6ba5bfac72eec5382f5e3f9c719238e277f57c2e1dad079802a366",
@@ -1772,7 +1772,7 @@
   },
   "210319_mda-1.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/cdff4cd9b7/210319_mda-1.pdf",
-    "title": "PDF",
+    "title": "210319 Mda 1",
     "date": null,
     "doc_type": "other",
     "sha256": "75cb155dfeff36e350cc2d4dc94f9d701c766369292bea191cd9e2e63cd7a8ef",
@@ -1783,7 +1783,7 @@
   },
   "angiogenesis-2021.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/bb78eb0d5e/angiogenesis-2021.pdf",
-    "title": "PDF",
+    "title": "Angiogenesis 2021",
     "date": null,
     "doc_type": "other",
     "sha256": "144bbabb1ebb93d6b67a1cf699f53f6e47425905bcfefe3a71f3e9af5fe479c0",
@@ -1794,7 +1794,7 @@
   },
   "irp210204.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/1b467b0083/irp210204.pdf",
-    "title": "PDF",
+    "title": "Irp210204",
     "date": null,
     "doc_type": "other",
     "sha256": "1fcbe412c61c4c061f02cf7ae3c92e085946c2ce220b4f467e2fd736a88cac23",
@@ -1805,7 +1805,7 @@
   },
   "irp210204-a.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/d3d60cf609/irp210204-a.pdf",
-    "title": "PDF",
+    "title": "Irp210204 A",
     "date": null,
     "doc_type": "other",
     "sha256": "68fdf9db386ef1c61ef5e23c9e0c49157432f7e064f5244c9bf67d308c9ac86c",
@@ -1816,7 +1816,7 @@
   },
   "ar20e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/305aca9ade/ar20e.pdf",
-    "title": "PDF",
+    "title": "Ar20E",
     "date": null,
     "doc_type": "other",
     "sha256": "17cc765c35b083dedfa8c66cec330b98534f52cba1509f86cfa33be7a5f89381",
@@ -1827,7 +1827,7 @@
   },
   "fb20e.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/42a7f33c0c/fb20e.pdf",
-    "title": "PDF",
+    "title": "Fb20E",
     "date": null,
     "doc_type": "other",
     "sha256": "d88ffd99c45c6da98b2e76a36149b7a04a3c0cc7cdc72911987848a174a524c0",
@@ -1838,7 +1838,7 @@
   },
   "ar20d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/2ad182ebde/ar20d.pdf",
-    "title": "PDF",
+    "title": "Ar20D",
     "date": null,
     "doc_type": "other",
     "sha256": "5bc01ed83aad93dc517f17f1472a47493ec213046efa966f1e04330f9b6ef9be",
@@ -1849,7 +1849,7 @@
   },
   "fb20d.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/4a8a32ef5b/fb20d.pdf",
-    "title": "PDF",
+    "title": "Fb20D",
     "date": null,
     "doc_type": "other",
     "sha256": "0ae65169dda94b4267eb4ebe32de639cbe520e410e87f0733ccd3a5a7e9c6770",
@@ -1860,7 +1860,7 @@
   },
   "irp20210114.pdf": {
     "source_url": "https://assets.roche.com/f/176343/9a15068ad6/irp20210114.pdf",
-    "title": "PDF",
+    "title": "Irp20210114",
     "date": null,
     "doc_type": "other",
     "sha256": "bfd745ac1d44ec252bc41f14a60cf4995358b6bf4f9285630acec3febe2e5151",
@@ -1871,7 +1871,7 @@
   },
   "irp20210111.pdf": {
     "source_url": "https://assets.roche.com/f/176343/x/6d6e50b3ca/irp20210111.pdf",
-    "title": "PDF",
+    "title": "Irp20210111",
     "date": null,
     "doc_type": "other",
     "sha256": "071a60f011cfcfac7ac2353eac594b7b2886ebdb22e15421e4a34f6f45c19267",
