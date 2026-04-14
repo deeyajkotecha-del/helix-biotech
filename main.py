@@ -88,10 +88,17 @@ async def startup_event():
 
     # One-time fix: repair generic document titles in DB
     try:
-        from backend.scripts.fix_generic_titles import fix_database, GENERIC_TITLES
-        fixed = fix_database(dry_run=False)
-        if fixed:
-            print(f"  [startup] Fixed {fixed} generic document titles in DB")
+        import importlib.util, sys as _sys
+        _spec = importlib.util.spec_from_file_location(
+            "fix_generic_titles",
+            os.path.join(os.path.dirname(__file__), "backend", "scripts", "fix_generic_titles.py"),
+        )
+        if _spec and _spec.loader:
+            _mod = importlib.util.module_from_spec(_spec)
+            _spec.loader.exec_module(_mod)
+            fixed = _mod.fix_database(dry_run=False)
+            if fixed:
+                print(f"  [startup] Fixed {fixed} generic document titles in DB")
     except Exception as e:
         print(f"  [startup] Title fix skipped: {e}")
 
