@@ -10,5 +10,6 @@ from app.routers.clinical import router as clinical_router
 from app.routers.evidence import router as extract_router  # Open Evidence page (replaces old extract)
 from app.routers.market import router as market_router
 from app.routers.search import router as search_router
+from app.routers.ownership import router as ownership_router
 
-__all__ = ["auth_router", "documents_router", "admin_router", "sources_router", "citations_router", "company_router", "services_router", "clinical_router", "extract_router", "market_router", "search_router"]
+__all__ = ["auth_router", "documents_router", "admin_router", "sources_router", "citations_router", "company_router", "services_router", "clinical_router", "extract_router", "market_router", "search_router", "ownership_router"]
