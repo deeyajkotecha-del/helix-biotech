@@ -1142,6 +1142,82 @@ SEED_DRUGS = [
      "Phase 2", "Active",
      [],
      [("OX40", "primary", "selective")]),
+
+    # ==========================================================================
+    # NARCOLEPSY / SLEEP DISORDERS — Competitive Landscape
+    # ==========================================================================
+
+    # --- Alkermes (ALKS) ---
+    ("alixorexton", "ALKS", "Alkermes",
+     "Narcolepsy Type 2", ["Narcolepsy Type 1", "Narcolepsy Type 2", "Idiopathic Hypersomnia"],
+     "small_molecule", "Oral orexin-2 receptor agonist — once-daily dosing. First OX2R agonist with Phase 2 efficacy in NT2.",
+     "Orexin / Wakefulness",
+     "Phase 3", "Active",
+     ["ALKS 2680", "ALKS-2680", "alixorexton"],
+     [("OX2R", "primary", "selective")]),
+
+    # --- Takeda (TAK) ---
+    ("oveporexton", "TAK", "Takeda",
+     "Narcolepsy Type 1", ["Narcolepsy Type 1", "Narcolepsy Type 2"],
+     "small_molecule", "Oral orexin-2 receptor agonist — twice-daily dosing. Most advanced OX2R agonist program, Phase 3 in NT1.",
+     "Orexin / Wakefulness",
+     "Phase 3", "Active",
+     ["TAK-861", "TAK861", "oveporexton"],
+     [("OX2R", "primary", "selective")]),
+
+    # --- Centessa (CNTA) ---
+    ("mazindol ER", "CNTA", "Centessa Pharmaceuticals",
+     "Narcolepsy", ["Narcolepsy Type 1", "Narcolepsy Type 2", "Idiopathic Hypersomnia"],
+     "small_molecule", "Extended-release mazindol — triple monoamine reuptake inhibitor with orexin receptor activity. Oral, once-daily.",
+     "Orexin / Wakefulness",
+     "Phase 3", "Active",
+     ["LNP-023-mazindol", "mazindol", "NLS-1 Pharma", "SWS101"],
+     [("OX2R", "secondary", "non-selective")]),
+
+    # --- Harmony Biosciences (HRMY) ---
+    ("pitolisant", "HRMY", "Harmony Biosciences",
+     "Narcolepsy", ["Narcolepsy Type 1", "Narcolepsy Type 2", "Excessive Daytime Sleepiness"],
+     "small_molecule", "Histamine H3 receptor inverse agonist/antagonist — enhances histamine release to promote wakefulness. APPROVED (Wakix).",
+     "Histamine / Wakefulness",
+     "Approved", "Marketed",
+     ["Wakix", "pitolisant", "BF2.649"],
+     [("H3R", "primary", "selective")]),
+
+    # --- Jazz Pharmaceuticals (JAZZ) ---
+    ("sodium oxybate", "JAZZ", "Jazz Pharmaceuticals",
+     "Narcolepsy", ["Narcolepsy Type 1", "Narcolepsy Type 2", "Cataplexy", "Idiopathic Hypersomnia"],
+     "small_molecule", "GHB-based GABA-B agonist — the standard of care for narcolepsy with cataplexy. Twice-nightly dosing (Xyrem) or once-nightly (Xywav).",
+     "GABA / Sleep Regulation",
+     "Approved", "Marketed",
+     ["Xyrem", "Xywav", "sodium oxybate", "calcium/magnesium/potassium/sodium oxybates", "JZP-258", "lower-sodium oxybate"],
+     [("GABA-B", "primary", "non-selective")]),
+
+    # --- Jazz Pharmaceuticals (JAZZ) ---
+    ("solriamfetol", "JAZZ", "Jazz Pharmaceuticals",
+     "Excessive Daytime Sleepiness", ["Narcolepsy", "Obstructive Sleep Apnea", "Excessive Daytime Sleepiness"],
+     "small_molecule", "Dopamine/norepinephrine reuptake inhibitor — promotes wakefulness. APPROVED (Sunosi).",
+     "Dopamine / Wakefulness",
+     "Approved", "Marketed",
+     ["Sunosi", "solriamfetol", "JZP-110", "R228060"],
+     [("DAT", "primary", "non-selective"), ("NET", "primary", "non-selective")]),
+
+    # --- Eisai ---
+    ("lemborexant", "ESALY", "Eisai",
+     "Insomnia", ["Insomnia", "Irregular Sleep-Wake Rhythm Disorder"],
+     "small_molecule", "Dual orexin receptor antagonist (DORA) — blocks OX1R and OX2R to promote sleep. APPROVED (Dayvigo). Opposite mechanism to OX2R agonists.",
+     "Orexin / Sleep Regulation",
+     "Approved", "Marketed",
+     ["Dayvigo", "lemborexant", "E2006"],
+     [("OX1R", "primary", "non-selective"), ("OX2R", "primary", "non-selective")]),
+
+    # --- Avadel Pharmaceuticals (AVDL) ---
+    ("lumryz", "AVDL", "Avadel Pharmaceuticals",
+     "Narcolepsy", ["Narcolepsy Type 1", "Narcolepsy Type 2", "Cataplexy"],
+     "small_molecule", "Once-nightly sodium oxybate formulation using Micropump extended-release technology. APPROVED.",
+     "GABA / Sleep Regulation",
+     "Approved", "Marketed",
+     ["Lumryz", "FT218", "once-nightly sodium oxybate"],
+     [("GABA-B", "primary", "non-selective")]),
 ]
 
 
@@ -1294,7 +1370,7 @@ def _generate_pubmed_terms(cur, drug_id, name, targets, mechanism, pathway, indi
 # Hierarchy Walking Helpers
 # =============================================================================
 
-def _get_target_subtree_ids(cur, target_id: int) -> list[int]:
+def _get_target_subtree_ids(cur, target_id) -> list:
     """
     Walk DOWN the target tree: given a target_id, return it plus ALL descendant IDs.
     E.g., for "KRAS" → returns IDs for KRAS, G12C, G12D, G12V, G12R, G13D, multi-selective.
@@ -1312,7 +1388,7 @@ def _get_target_subtree_ids(cur, target_id: int) -> list[int]:
     return [row["target_id"] if isinstance(row, dict) else row[0] for row in cur.fetchall()]
 
 
-def _get_target_ancestor_ids(cur, target_id: int) -> list[int]:
+def _get_target_ancestor_ids(cur, target_id) -> list:
     """
     Walk UP the target tree: given a target_id, return ALL ancestor IDs.
     E.g., for "KRAS G12C" → returns IDs for KRAS, RAS.
@@ -1330,7 +1406,7 @@ def _get_target_ancestor_ids(cur, target_id: int) -> list[int]:
     return [row["target_id"] if isinstance(row, dict) else row[0] for row in cur.fetchall()]
 
 
-def _resolve_target(cur, name: str) -> Optional[int]:
+def _resolve_target(cur, name: str):
     """Resolve a target name/alias to target_id (case-insensitive)."""
     # Try exact match on targets table
     cur.execute("SELECT target_id FROM targets WHERE LOWER(name) = LOWER(%s)", (name,))
@@ -1509,7 +1585,7 @@ def get_drugs_by_target(target_name: str) -> list[dict]:
         JOIN drug_targets dt ON d.drug_id = dt.drug_id
         JOIN targets t ON dt.target_id = t.target_id
         LEFT JOIN drug_aliases da ON d.drug_id = da.drug_id
-        WHERE dt.target_id = ANY(%s)
+        WHERE dt.target_id = ANY(%s::uuid[])
         GROUP BY d.drug_id
         ORDER BY
             CASE d.phase_highest
@@ -1579,7 +1655,7 @@ def get_disease_target_landscape(disease: str) -> dict:
             FROM drugs d
             JOIN drug_targets dt ON d.drug_id = dt.drug_id
             JOIN targets t ON dt.target_id = t.target_id
-            WHERE dt.target_id = ANY(%s)
+            WHERE dt.target_id = ANY(%s::uuid[])
               AND (LOWER(d.indication_primary) LIKE LOWER(%s)
                    OR EXISTS (SELECT 1 FROM unnest(d.indications) AS ind
                               WHERE LOWER(ind) LIKE LOWER(%s)))
