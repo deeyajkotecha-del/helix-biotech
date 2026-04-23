@@ -143,12 +143,37 @@ async def serve_spa():
     return HTMLResponse("<h1>App not built yet</h1><p>Run <code>cd app && npm run build</code> to build the React frontend.</p>", status_code=503)
 
 @app.get("/", response_class=HTMLResponse)
-async def serve_index():
-    """Serve the React SPA — Evidence page is the homepage."""
+async def serve_index(request: Request):
+    """Serve landing page for visitors, React app for authenticated users."""
+    from auth_gate import COOKIE_NAME, is_valid_cookie
+
+    # Check if user has a valid gate cookie
+    cookie = request.cookies.get(COOKIE_NAME, "")
+    if cookie and is_valid_cookie(cookie):
+        # Authenticated — serve the React SPA
+        react_index = BASE_DIR / "app" / "dist" / "index.html"
+        if react_index.exists():
+            return FileResponse(react_index)
+
+    # Not authenticated — serve the marketing landing page
+    landing = BASE_DIR / "static" / "landing" / "index.html"
+    if landing.exists():
+        return FileResponse(landing)
+
+    # Fallback to React app
     react_index = BASE_DIR / "app" / "dist" / "index.html"
     if react_index.exists():
         return FileResponse(react_index)
-    return HTMLResponse("<h1>App not built yet</h1><p>Run <code>cd app && npm run build</code> to build the React frontend.</p>", status_code=503)
+    return HTMLResponse("<h1>App not built yet</h1>", status_code=503)
+
+
+@app.get("/home", response_class=HTMLResponse)
+async def serve_landing():
+    """Always serve the marketing landing page."""
+    landing = BASE_DIR / "static" / "landing" / "index.html"
+    if landing.exists():
+        return FileResponse(landing)
+    return FileResponse(BASE_DIR / "index.html")
 
 @app.get("/login", response_class=HTMLResponse)
 async def serve_login(request: Request):

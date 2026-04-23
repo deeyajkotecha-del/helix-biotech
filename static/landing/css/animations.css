@@ -1,0 +1,188 @@
+/* ============================================
+   Scroll-Triggered Reveal States
+   ============================================ */
+
+/* Fade up on scroll */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+[data-animate-stagger] > * {
+  opacity: 0;
+  transform: translateY(25px);
+}
+
+[data-animate-stagger].is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Heading line reveal */
+.line-reveal {
+  overflow: hidden;
+}
+
+.line-reveal .line {
+  display: block;
+}
+
+/* Scale in */
+.scale-in {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.scale-in.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Slide from left */
+.slide-left {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
+.slide-left.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Slide from right */
+.slide-right {
+  opacity: 0;
+  transform: translateX(60px);
+}
+
+.slide-right.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ============================================
+   Hero SVG Animation — Coral/warm tones
+   ============================================ */
+
+.sleuth-ray {
+  stroke-width: 1;
+}
+
+.sleuth-ray-teal {
+  stroke-width: 1.5;
+}
+
+#sleuth-hero-diamond {
+  stroke-width: 1.5;
+}
+
+/* ============================================
+   Insight SVG Animations
+   ============================================ */
+
+@keyframes rotateGlobe {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+#blue-e {
+  animation: rotateGlobe 8s linear infinite;
+  transform-origin: 97px 100px;
+}
+
+@keyframes pulseRing {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.03); }
+}
+
+#blue-traveller {
+  animation: pulseRing 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes vennPulse {
+  0%, 100% { stroke-width: 2; opacity: 1; }
+  50% { stroke-width: 3; opacity: 0.8; }
+}
+
+#c-center {
+  animation: vennPulse 4s ease-in-out infinite;
+}
+
+/* ============================================
+   Bar Chart Animations
+   ============================================ */
+
+.bar-fill {
+  width: 0;
+}
+
+/* ============================================
+   Radar Chart Animation
+   ============================================ */
+
+.radar-series {
+  opacity: 0;
+  transform: scale(0.3);
+  transform-origin: center;
+  transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.radar-series.animate {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ============================================
+   Hover Lift Effect
+   ============================================ */
+
+.hover-lift {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Smooth Section Parallax
+   ============================================ */
+
+.parallax-section {
+  will-change: transform;
+}
+
+/* ============================================
+   Decorative glow pulse
+   ============================================ */
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+.cta-glow {
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+/* ============================================
+   Smooth page load
+   ============================================ */
+
+.page-wrapper {
+  opacity: 0;
+  animation: pageLoad 0.6s ease forwards;
+}
+
+@keyframes pageLoad {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

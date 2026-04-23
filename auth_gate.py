@@ -390,6 +390,14 @@ class PasswordGateMiddleware(BaseHTTPMiddleware):
         if path.startswith("/api/oauth/"):
             return await call_next(request)
 
+        # --- Allow landing page and its static assets through ---
+        if path == "/" or path == "/home" or path.startswith("/static/landing/"):
+            return await call_next(request)
+
+        # --- Allow public SEO/sitemap files through ---
+        if path in ("/robots.txt", "/sitemap.xml", "/static/llms.txt"):
+            return await call_next(request)
+
         # --- Check for valid cookie ---
         cookie = request.cookies.get(COOKIE_NAME)
         if cookie and is_valid_cookie(cookie):

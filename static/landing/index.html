@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SatyaBio | Biopharma Intelligence That Moves Markets</title>
+  <meta name="description" content="SatyaBio turns fragmented biopharma data into conviction-grade intelligence. Our knowledge graph surfaces the strategic signals your competitors haven't seen." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/static/landing/css/variables.css" />
+  <link rel="stylesheet" href="/static/landing/css/base.css" />
+  <link rel="stylesheet" href="/static/landing/css/components.css" />
+  <link rel="stylesheet" href="/static/landing/css/sections.css" />
+  <link rel="stylesheet" href="/static/landing/css/animations.css" />
+  <link rel="stylesheet" href="/static/landing/css/responsive.css" />
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar" id="navbar">
+      <div class="padding-global">
+        <div class="container-large">
+          <div class="nav-wrapper">
+            <!-- Logo -->
+            <div class="nav-brand">
+              <a href="/" aria-label="SatyaBio Home" class="nav-logo-link">
+                <div class="nav-logo">
+                  <span class="logo-text"><span class="logo-accent">Satya</span>Bio</span>
+                </div>
+              </a>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="nav-menu" id="nav-menu">
+              <!-- Product Dropdown -->
+              <div class="nav-dropdown">
+                <div class="nav-dropdown-trigger">
+                  <span class="z-text">Product</span>
+                  <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 10L11.6464 13.6464C11.8417 13.8417 12.1583 13.8417 12.3536 13.6464L16 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="nav-dropdown-menu">
+                  <a href="#platform" class="nav-dropdown-link"><span>The Platform</span></a>
+                  <a href="#how-we-deliver" class="nav-dropdown-link"><span>How We Deliver</span></a>
+                </div>
+              </div>
+
+              <!-- Solutions Dropdown -->
+              <div class="nav-dropdown">
+                <div class="nav-dropdown-trigger">
+                  <span class="z-text">Solutions</span>
+                  <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 10L11.6464 13.6464C11.8417 13.8417 12.1583 13.8417 12.3536 13.6464L16 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="nav-dropdown-menu is-wide">
+                  <div>
+                    <div class="dropdown-column-title">Capabilities</div>
+                    <a href="#platform" class="nav-dropdown-link"><span>Landscape Mapping</span></a>
+                    <a href="#platform" class="nav-dropdown-link"><span>Clinical Trial Search</span></a>
+                    <a href="#platform" class="nav-dropdown-link"><span>Financial Modelling</span></a>
+                    <a href="#platform" class="nav-dropdown-link"><span>Company Deep-Dives</span></a>
+                  </div>
+                  <div>
+                    <div class="dropdown-column-title">Outputs</div>
+                    <a href="#how-we-deliver" class="nav-dropdown-link"><span>PowerPoint Decks</span></a>
+                    <a href="#how-we-deliver" class="nav-dropdown-link"><span>Excel Workbooks</span></a>
+                    <a href="#how-we-deliver" class="nav-dropdown-link"><span>Knowledge Graph Search</span></a>
+                  </div>
+                </div>
+              </div>
+
+              <a href="#intelligence" class="nav-link"><span class="z-text">Intelligence</span></a>
+              <a href="#" class="nav-link"><span class="z-text">Resources</span></a>
+            </div>
+
+            <!-- Nav Buttons -->
+            <div class="nav-buttons desktop-only">
+              <a href="/login" class="btn btn-secondary btn-nav"><span>Login</span></a>
+              <a href="/login" class="btn btn-primary btn-nav"><span>Open Platform</span></a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- ========== HERO SECTION ========== -->
+      <section class="section-hero">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="hero-wrapper">
+              <!-- Text Content -->
+              <div class="hero-content">
+                <div class="line-reveal" data-animate>
+                  <h1 class="hero-heading">
+                    <span class="line">The biopharma</span>
+                    <span class="line"><span class="teal">intelligence</span></span>
+                    <span class="line">edge</span>
+                  </h1>
+                </div>
+                <p class="hero-description fade-up" data-animate>
+                  SatyaBio surfaces the strategic signals your competitors haven't seen. Our knowledge graph connects biology, clinical evidence, and deal dynamics to deliver conviction-grade insights in hours.
+                </p>
+                <div class="hero-buttons fade-up" data-animate>
+                  <a href="/login" class="btn btn-primary"><span>Open Platform</span></a>
+                  <div class="hero-line-divider"></div>
+                  <a href="#platform" class="btn btn-secondary btn-secondary-dark"><span>See the Platform</span></a>
+                </div>
+              </div>
+
+              <!-- Hero Canvas — Floating molecule network -->
+              <div class="hero-animation">
+                <canvas id="hero-canvas" style="width:100%;height:100%;min-height:500px;display:block;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom gradient transition -->
+        <div class="section-transition dark-to-cream"></div>
+      </section>
+
+      <!-- ========== INSIGHTS SECTION (3 Value Props) ========== -->
+      <section class="section-insights" id="insights">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="insights-grid" data-animate-stagger>
+              <!-- Insight 1 -->
+              <div class="insight-block">
+                <div class="insight-text" id="insight-1">
+                  <h2 class="heading-h4">Second-order signals, surfaced first</h2>
+                  <div class="expand-icon" onclick="toggleInsight('insight-1')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <p>The highest-value decisions depend on patterns that span biology, clinical evidence, competitive dynamics, and deal history. SatyaBio maps these connections across millions of data points to reveal undervalued assets, mechanism-of-action gaps, and strategic white space before the market prices them in.</p>
+                </div>
+                <div class="insight-image">
+                  <svg width="194" height="200" viewBox="0 0 194 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M97.001 0.5C97.0022 0.500228 97.0059 0.501174 97.0107 0.50293C97.0206 0.506533 97.0398 0.515214 97.0674 0.535156C97.1255 0.577342 97.2061 0.658215 97.3037 0.799805C97.5008 1.08581 97.7153 1.54397 97.9375 2.19336C98.3796 3.48569 98.814 5.41818 99.2314 7.94043C100.065 12.9775 100.818 20.2814 101.451 29.3242C102.717 47.4058 103.5 72.3936 103.5 100C103.5 127.606 102.717 152.594 101.451 170.676C100.818 179.719 100.065 187.022 99.2314 192.06C98.814 194.582 98.3796 196.514 97.9375 197.807C97.7153 198.456 97.5008 198.914 97.3037 199.2C97.2061 199.342 97.1255 199.423 97.0674 199.465C97.0398 199.485 97.0206 199.493 97.0107 199.497C97.0059 199.499 97.0022 199.5 97.001 199.5H96.999C96.9978 199.5 96.9941 199.499 96.9893 199.497C96.9794 199.493 96.9602 199.485 96.9326 199.465C96.8745 199.423 96.7939 199.342 96.6963 199.2C96.4992 198.914 96.2847 198.456 96.0625 197.807C95.6204 196.514 95.186 194.582 94.7686 192.06C93.9349 187.022 93.1818 179.719 92.5488 170.676C91.2831 152.594 90.5 127.606 90.5 100C90.5 72.3936 91.2831 47.4058 92.5488 29.3242C93.1818 20.2814 93.9349 12.9775 94.7686 7.94043C95.186 5.41818 95.6204 3.48569 96.0625 2.19336C96.2847 1.54397 96.4992 1.08581 96.6963 0.799805C96.7939 0.658215 96.8745 0.577342 96.9326 0.535156C96.9602 0.515214 96.9794 0.506533 96.9893 0.50293C96.9941 0.501174 96.9978 0.500228 96.999 0.5H97.001Z" stroke="#C2D2DC"/>
+                    <path d="M97 0.5C98.2768 0.5 99.5735 1.11396 100.883 2.38965C102.194 3.6673 103.484 5.57751 104.727 8.08105C107.212 13.0862 109.464 20.361 111.36 29.3916C115.152 47.4452 117.5 72.4096 117.5 100C117.5 127.59 115.152 152.555 111.36 170.608C109.464 179.639 107.212 186.914 104.727 191.919C103.484 194.422 102.194 196.333 100.883 197.61C99.5735 198.886 98.2768 199.5 97 199.5C95.7232 199.5 94.4265 198.886 93.1172 197.61C91.806 196.333 90.5164 194.422 89.2734 191.919C86.7884 186.914 84.5361 179.639 82.6396 170.608C78.8484 152.555 76.5 127.59 76.5 100C76.5 72.4096 78.8484 47.4452 82.6396 29.3916C84.5361 20.361 86.7884 13.0862 89.2734 8.08105C90.5164 5.57751 91.806 3.6673 93.1172 2.38965C94.4265 1.11396 95.7232 0.5 97 0.5Z" stroke="#C2D2DC"/>
+                    <path d="M97 0.5C101.912 0.5 106.652 3.18858 111.025 8.1875C115.398 13.1856 119.358 20.447 122.694 29.4629C129.365 47.4907 133.5 72.4293 133.5 100C133.5 127.571 129.365 152.509 122.694 170.537C119.358 179.553 115.398 186.814 111.025 191.812C106.652 196.811 101.912 199.5 97 199.5C92.0885 199.5 87.3476 196.811 82.9746 191.812C78.6024 186.814 74.6415 179.553 71.3057 170.537C64.6354 152.509 60.5 127.571 60.5 100C60.5 72.4293 64.6354 47.4907 71.3057 29.4629C74.6415 20.447 78.6024 13.1856 82.9746 8.1875C87.3476 3.18858 92.0885 0.5 97 0.5Z" stroke="#C2D2DC"/>
+                    <path d="M97 0.5C112.202 0.5 126.068 11.5084 136.162 29.5332C146.247 47.542 152.5 72.455 152.5 100C152.5 127.545 146.247 152.458 136.162 170.467C126.068 188.492 112.202 199.5 97 199.5C81.7981 199.5 67.9318 188.492 57.8379 170.467C47.753 152.458 41.5 127.545 41.5 100C41.5 72.455 47.753 47.542 57.8379 29.5332C67.9318 11.5084 81.7981 0.5 97 0.5Z" stroke="#C2D2DC"/>
+                    <path d="M97 1C117.607 1 136.335 11.9881 149.944 29.8945C163.554 47.8017 172 72.5845 172 100C172 127.416 163.554 152.198 149.944 170.105C136.335 188.012 117.607 199 97 199C76.3928 199 57.6646 188.012 44.0557 170.105C30.4463 152.198 22 127.416 22 100C22 72.5845 30.4463 47.8017 44.0557 29.8945C57.6646 11.9881 76.3928 1 97 1Z" stroke="#C2D2DC"/>
+                    <path d="M97 0.5C150.281 0.5 193.5 45.0332 193.5 100C193.5 154.967 150.281 199.5 97 199.5C43.7188 199.5 0.5 154.967 0.5 100C0.5 45.0332 43.7188 0.5 97 0.5Z" stroke="#C2D2DC"/>
+                    <ellipse id="blue-e" cx="97" cy="100" rx="2" ry="99" stroke="#C4603C" stroke-width="2"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Insight 2 -->
+              <div class="insight-block">
+                <div class="insight-text" id="insight-2">
+                  <h2 class="heading-h4">From question to conviction in hours</h2>
+                  <div class="expand-icon" onclick="toggleInsight('insight-2')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <p>When a board question lands or a deal window opens, weeks of traditional analysis isn't viable. SatyaBio delivers executive-grade analysis with the speed the question demands and keeps it current as data evolves. Living intelligence, not static deliverables.</p>
+                </div>
+                <div class="insight-image" style="padding: 0; overflow: hidden;">
+                  <canvas id="deals-table-canvas" style="width:100%;height:100%;display:block;"></canvas>
+                </div>
+              </div>
+
+              <!-- Insight 3 -->
+              <div class="insight-block">
+                <div class="insight-text" id="insight-3">
+                  <h2 class="heading-h4">Intelligence shaped to your thesis</h2>
+                  <div class="expand-icon" onclick="toggleInsight('insight-3')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <p>Generic frameworks waste time. SatyaBio starts from your therapeutic priorities, your competitive set, and your investment thesis. The output maps directly to how your team evaluates opportunities — no translation layer required.</p>
+                </div>
+                <div class="insight-image" style="padding: 0; overflow: hidden;">
+                  <canvas id="thesis-graph" style="width:100%;height:100%;display:block;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transition -->
+      <div class="section-transition cream-to-dark"></div>
+
+      <!-- ========== INTELLIGENCE SECTION ========== -->
+      <section class="section-intelligence" id="intelligence">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="intelligence-wrapper">
+              <!-- Left: Text + CTA -->
+              <div class="intelligence-text" data-animate>
+                <h2>
+                  <span class="label">Latest from</span>
+                  <span class="teal-heading">SatyaBio Intelligence</span>
+                </h2>
+                <div class="spacer-xs"></div>
+                <p>Original biopharma analysis from the SatyaBio team. Competitive landscapes, clinical readouts, deal flow, and the strategic signals the market is underpricing.</p>
+                <a href="#" class="btn btn-primary"><span>Browse our Analyses</span></a>
+              </div>
+
+              <!-- Right: Analysis Cards Grid -->
+              <div class="intelligence-cards" data-animate-stagger>
+                <a href="#" class="intel-card hover-lift">
+                  <div class="tag">AACR 2026</div>
+                  <div class="spacer-sm"></div>
+                  <div class="icon-wrapper">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+                  </div>
+                  <div class="spacer-sm"></div>
+                  <h4>KRAS Inhibitor Landscape Post-AACR: BridgeBio Restructures to Accelerate Beyond G12C</h4>
+                  <p>Mapping next-gen KRAS programs after BridgeBio's oncology spinoff leadership change</p>
+                </a>
+
+                <a href="#" class="intel-card hover-lift">
+                  <div class="tag">Clinical Readout</div>
+                  <div class="spacer-sm"></div>
+                  <div class="icon-wrapper">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+                  </div>
+                  <div class="spacer-sm"></div>
+                  <h4>Roche Oral MS Candidate: Efficacy Signal vs. Hepatotoxicity Risk</h4>
+                  <p>Analyzing the clinical trade-off and competitive implications for multiple sclerosis</p>
+                </a>
+
+                <a href="#" class="intel-card hover-lift">
+                  <div class="tag">Deal Flow</div>
+                  <div class="spacer-sm"></div>
+                  <div class="icon-wrapper">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 3.46776C17.4817 4.20411 18.7529 5.32039 19.6799 6.7044M20.7482 10C20.9139 10.6437 21 11.3131 21 12C21 12.6869 20.9139 13.3563 20.7482 14M19.6799 17.2956C18.7529 18.6796 17.4817 19.7959 16 20.5322M12 21C5.5 21 3 16.9706 3 12C3 7.02944 5.5 3 12 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="spacer-sm"></div>
+                  <h4>Lilly's $3.25B Kelonia Acquisition: The In Vivo CAR-T Thesis Takes Shape</h4>
+                  <p>Why Eli Lilly paid $3.25B upfront for in vivo CAR-T and what it signals for cell therapy</p>
+                </a>
+
+                <a href="#" class="intel-card hover-lift">
+                  <div class="tag">Competitive Landscape</div>
+                  <div class="spacer-sm"></div>
+                  <div class="icon-wrapper">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                  </div>
+                  <div class="spacer-sm"></div>
+                  <h4>Oral GLP-1 Wars: Wegovy Pill vs. Lilly's Foundayo Prescription Trajectories</h4>
+                  <p>Tracking early Rx data as Novo and Lilly battle for the oral obesity market</p>
+                </a>
+
+                <a href="#" class="intel-card hover-lift">
+                  <div class="tag">FDA Action</div>
+                  <div class="spacer-sm"></div>
+                  <div class="icon-wrapper">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="spacer-sm"></div>
+                  <h4>AstraZeneca Eyes 5th Ultomiris Indication After IgA Nephropathy Trial Win</h4>
+                  <p>C5 inhibitor franchise expansion and implications for complement-targeted therapies</p>
+                </a>
+
+                <a href="#" class="intel-card hover-lift">
+                  <div class="tag">Portfolio Strategy</div>
+                  <div class="spacer-sm"></div>
+                  <div class="icon-wrapper">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 3.46776C17.4817 4.20411 18.7529 5.32039 19.6799 6.7044M20.7482 10C20.9139 10.6437 21 11.3131 21 12C21 12.6869 20.9139 13.3563 20.7482 14M19.6799 17.2956C18.7529 18.6796 17.4817 19.7959 16 20.5322M12 21C5.5 21 3 16.9706 3 12C3 7.02944 5.5 3 12 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="spacer-sm"></div>
+                  <h4>Merck-Google AI Partnership: What a $1B Enterprise Deal Means for Drug Discovery</h4>
+                  <p>Evaluating the strategic logic behind Merck's AI infrastructure bet with Google</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transition -->
+      <div class="section-transition dark-to-white"></div>
+
+      <!-- ========== PLATFORM SECTION ========== -->
+      <section class="section-platform" id="platform">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="platform-header" data-animate>
+              <div class="section-label">Platform</div>
+              <h2>Where fragmented data becomes connected knowledge</h2>
+              <div class="spacer-md"></div>
+              <p>SatyaBio is built on a proprietary knowledge graph that continuously acquires, structures, and links information from across the biopharma ecosystem. Connected knowledge, not another data dump without context.</p>
+            </div>
+
+            <div class="platform-features" data-animate-stagger>
+              <div class="platform-feature hover-lift">
+                <div class="feature-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.5 2A2.5 2.5 0 0112 4.5v15a2.5 2.5 0 01-5 0v-15A2.5 2.5 0 019.5 2zM14.5 8A2.5 2.5 0 0117 10.5v9a2.5 2.5 0 01-5 0v-9A2.5 2.5 0 0114.5 8z"/></svg>
+                </div>
+                <h3>A billion relationships, already mapped</h3>
+                <p>Our proprietary knowledge graph captures billions of relationships across drugs, targets, mechanisms, clinical outcomes, deals, and competitive moves — structured and linked so you can query what matters.</p>
+              </div>
+
+              <div class="platform-feature hover-lift">
+                <div class="feature-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16M4 6h16M4 18h16" stroke-linecap="round"/></svg>
+                </div>
+                <h3>Comprehensive coverage, continuously updated</h3>
+                <p>Hundreds of sources refreshed daily — clinical trials, regulatory filings, patent data, deal terms, conference presentations, and more. Coverage that compounds, not snapshots that expire.</p>
+              </div>
+
+              <div class="platform-feature hover-lift">
+                <div class="feature-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h3>Every insight traces to source</h3>
+                <p>No black-box conclusions. Every claim, every data point, every pattern SatyaBio surfaces links back to the underlying source documents so your team can verify and build on what they find.</p>
+              </div>
+
+              <div class="platform-feature hover-lift">
+                <div class="feature-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <h3>Your data stays yours</h3>
+                <p>Your queries, your analyses, your proprietary data — it all stays private. We never use client data to train models or share insights across accounts. Built for the sensitivity pharma demands.</p>
+              </div>
+            </div>
+
+            <!-- Interactive Knowledge Graph Visualization -->
+            <div class="platform-viz scale-in" data-animate>
+              <div class="platform-viz-tabs">
+                <button class="viz-tab active" data-tab="kras">ADC landscape</button>
+                <button class="viz-tab" data-tab="ms">Obesity / GLP-1</button>
+                <button class="viz-tab" data-tab="glp1">China cross-border</button>
+              </div>
+              <canvas id="knowledge-graph" class="platform-canvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transition -->
+      <div class="section-transition white-to-cream"></div>
+
+      <!-- ========== HOW TEAMS WORK SECTION ========== -->
+      <section class="section-how-teams" id="how-we-deliver">
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="how-teams-header" data-animate>
+              <h2>The platform</h2>
+            </div>
+
+            <!-- Knowledge Graph Search -->
+            <div class="studio-wrapper">
+              <div class="studio-content">
+                <div class="studio-text slide-left" data-animate>
+                  <div class="section-label">Knowledge Graph Search</div>
+                  <h3>Ask any question. Get structured, evidence-backed answers.</h3>
+                  <p>Search across clinical trials, SEC filings, conference presentations, and patent data. Every answer traces back to source documents your team can verify.</p>
+                  <a href="/login" class="btn btn-primary"><span>Open Platform</span></a>
+                </div>
+
+                <div class="studio-mockup slide-right" data-animate>
+                  <!-- Search bar -->
+                  <div class="studio-mockup-bar">
+                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+                    <span>ADC partnership landscape: who has unencumbered payload IP?</span>
+                  </div>
+
+                  <!-- Mock content panels -->
+                  <div class="studio-mockup-content">
+                    <!-- ADC deals panel -->
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-title">ADC Deals by Total Value ($B)</div>
+                      <div class="bar-chart">
+                        <div class="bar-row">
+                          <span class="bar-label" style="min-width:80px">Pfizer-Seagen</span>
+                          <div class="bar-fill" style="background: #6B3FA0;" data-width="95%"></div>
+                        </div>
+                        <div class="bar-row">
+                          <span class="bar-label" style="min-width:80px">AZ-Daiichi</span>
+                          <div class="bar-fill" style="background: #C4603C;" data-width="55%"></div>
+                        </div>
+                        <div class="bar-row">
+                          <span class="bar-label" style="min-width:80px">Merck-Kelun</span>
+                          <div class="bar-fill" style="background: #4292C6;" data-width="30%"></div>
+                        </div>
+                        <div class="bar-row">
+                          <span class="bar-label" style="min-width:80px">Gilead-Tubulis</span>
+                          <div class="bar-fill" style="background: #D4785A;" data-width="22%"></div>
+                        </div>
+                        <div class="bar-row">
+                          <span class="bar-label" style="min-width:80px">BMS-SystImmune</span>
+                          <div class="bar-fill" style="background: #2CA25F;" data-width="17%"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- China-West panel -->
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-title">China-Western Deals (2025)</div>
+                      <div style="display:flex; flex-direction:column; gap: 6px;">
+                        <div style="display:flex; justify-content:space-between; font-size:10px; color:rgba(255,255,255,0.35); border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:4px;">
+                          <span>ACQUIRER</span><span>TARGET</span><span>VALUE</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.7);">
+                          <span>Merck</span><span>Kelun-Biotech</span><span>~$1.4B total</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.7);">
+                          <span>AZ</span><span>Gracell Bio</span><span>$1.2B acq.</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.7);">
+                          <span>J&J</span><span>Legend Biotech</span><span>Carvykti JV</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.5);">
+                          <span colspan="3" style="font-style:italic;">+ 57 more deals mapped</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Agent output -->
+                  <div style="margin-top: var(--space-md);">
+                    <div class="mockup-panel">
+                      <div class="mockup-panel-title">Agent Output</div>
+                      <div style="display:flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                        <div style="flex:1; min-width: 120px; padding: 0.75rem; background: rgba(196,96,60,0.08); border-radius: 6px; border: 1px solid rgba(196,96,60,0.2);">
+                          <div style="font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 4px;">LANDSCAPE MAPPED</div>
+                          <div style="font-size: 12px; color: rgba(255,255,255,0.8); line-height: 1.4;">142 ADC programs across 8 payload classes. 23 with unencumbered topoisomerase-I IP.</div>
+                        </div>
+                        <div style="flex:1; min-width: 120px; padding: 0.75rem; background: rgba(255,255,255,0.04); border-radius: 6px; border: 1px solid rgba(255,255,255,0.08);">
+                          <div style="font-size: 10px; color: rgba(255,255,255,0.4); margin-bottom: 4px;">EXPORTED</div>
+                          <div style="font-size: 12px; color: rgba(255,255,255,0.8); line-height: 1.4;">PPTX (32 slides) + XLSX (deal comps, payload matrix, trial tracker)</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Autonomous Agents -->
+            <div class="concierge-wrapper">
+              <div class="concierge-content" style="direction: rtl; gap: var(--space-3xl);">
+                <div class="concierge-text slide-right" data-animate style="direction: ltr;">
+                  <div class="section-label">Autonomous Agents</div>
+                  <h3>Deploy agents that work while you sleep</h3>
+                  <p>Set an agent to map a competitive landscape, search clinical trials, or build a company deep-dive. Wake up to a finished PowerPoint, Excel workbook, or structured brief — ready for your board deck.</p>
+                  <a href="/login" class="btn btn-primary"><span>Open Platform</span></a>
+                </div>
+
+                <div class="concierge-cards slide-left" data-animate style="direction: ltr;">
+                  <!-- Landscape Agent -->
+                  <div class="concierge-card hover-lift">
+                    <div class="concierge-card-title">Landscape Agent</div>
+                    <div style="font-size:11px;color:rgba(250,248,244,0.4);margin-bottom:10px;">ADC competitive landscape mapped</div>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(196,96,60,0.08);border-radius:6px;border-left:3px solid #C4603C;">
+                        <span style="font-size:11px;color:rgba(250,248,244,0.8);">Enhertu (T-DXd)</span>
+                        <span style="font-size:9px;color:#C4603C;font-weight:600;">~$3.5B rev</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:3px solid #6B3FA0;">
+                        <span style="font-size:11px;color:rgba(250,248,244,0.8);">Padcev (EV)</span>
+                        <span style="font-size:9px;color:#6B3FA0;font-weight:600;">~$1.8B rev</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(255,255,255,0.03);border-radius:6px;border-left:3px solid #4292C6;">
+                        <span style="font-size:11px;color:rgba(250,248,244,0.8);">Dato-DXd</span>
+                        <span style="font-size:9px;color:#4292C6;font-weight:600;">Phase III</span>
+                      </div>
+                      <div style="font-size:9px;color:rgba(250,248,244,0.3);text-align:center;margin-top:2px;">+ 139 more programs across 8 payload classes</div>
+                    </div>
+                  </div>
+
+                  <!-- Trial Search Agent -->
+                  <div class="concierge-card hover-lift">
+                    <div class="concierge-card-title">Trial Search Agent</div>
+                    <div style="font-size:11px;color:rgba(250,248,244,0.4);margin-bottom:10px;">ClinicalTrials.gov · WHO ICTRP · EudraCT</div>
+                    <div style="display:flex;flex-direction:column;gap:5px;">
+                      <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px;">
+                        <div style="width:6px;height:6px;border-radius:50%;background:#2CA25F;flex-shrink:0;"></div>
+                        <span style="font-size:10px;color:rgba(250,248,244,0.7);">NCT06412185 · Kailera KAI-9145 · Ph II</span>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px;">
+                        <div style="width:6px;height:6px;border-radius:50%;background:#C4603C;flex-shrink:0;"></div>
+                        <span style="font-size:10px;color:rgba(250,248,244,0.7);">NCT05881538 · Viking VK2735 · Ph III</span>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:6px;padding:5px 8px;background:rgba(255,255,255,0.03);border-radius:6px;">
+                        <div style="width:6px;height:6px;border-radius:50%;background:#4292C6;flex-shrink:0;"></div>
+                        <span style="font-size:10px;color:rgba(250,248,244,0.7);">NCT05951608 · Structure GSBR-1290 · Ph II</span>
+                      </div>
+                      <div style="font-size:9px;color:rgba(250,248,244,0.3);text-align:center;margin-top:2px;">342 trials matched · 28 recruiting</div>
+                    </div>
+                  </div>
+
+                  <!-- PowerPoint Builder -->
+                  <div class="concierge-card hover-lift">
+                    <div class="concierge-card-title">PowerPoint Builder</div>
+                    <div style="font-size:11px;color:rgba(250,248,244,0.4);margin-bottom:10px;">Auto-generated board deck</div>
+                    <div style="display:flex;flex-direction:column;gap:5px;">
+                      <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(196,96,60,0.06);border:1px solid rgba(196,96,60,0.15);border-radius:6px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C4603C" stroke-width="1.5" style="flex-shrink:0;"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 13h4" stroke-linecap="round"/></svg>
+                        <div>
+                          <div style="font-size:10px;color:rgba(250,248,244,0.8);">ADC_Landscape_Apr2026.pptx</div>
+                          <div style="font-size:8px;color:rgba(250,248,244,0.35);">32 slides · 4.2 MB</div>
+                        </div>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(59,109,171,0.06);border:1px solid rgba(59,109,171,0.15);border-radius:6px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6DAB" stroke-width="1.5" style="flex-shrink:0;"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8M8 12h5M8 16h3" stroke-linecap="round"/></svg>
+                        <div>
+                          <div style="font-size:10px;color:rgba(250,248,244,0.8);">Deal_Comps_Matrix.xlsx</div>
+                          <div style="font-size:8px;color:rgba(250,248,244,0.35);">6 tabs · 187 programs</div>
+                        </div>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">
+                        <div style="flex:1;height:3px;background:rgba(196,96,60,0.3);border-radius:2px;"><div style="width:100%;height:100%;background:#C4603C;border-radius:2px;"></div></div>
+                        <span style="font-size:8px;color:#C4603C;">Complete</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Company Analyser -->
+                  <div class="concierge-card hover-lift">
+                    <div class="concierge-card-title">Company Analyser</div>
+                    <div style="font-size:11px;color:rgba(250,248,244,0.4);margin-bottom:10px;">Deep-dive: Viking Therapeutics</div>
+                    <div style="display:flex;flex-direction:column;gap:5px;">
+                      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-size:9px;color:rgba(250,248,244,0.4);">Mkt Cap</span>
+                        <span style="font-size:10px;color:rgba(250,248,244,0.8);font-weight:600;">~$4.1B</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-size:9px;color:rgba(250,248,244,0.4);">Lead asset</span>
+                        <span style="font-size:10px;color:rgba(250,248,244,0.8);">VK2735 (GLP-1/GIP)</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-size:9px;color:rgba(250,248,244,0.4);">Phase</span>
+                        <span style="font-size:10px;color:#2CA25F;font-weight:600;">Phase III (VENTURE)</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="font-size:9px;color:rgba(250,248,244,0.4);">Cash runway</span>
+                        <span style="font-size:10px;color:rgba(250,248,244,0.8);">~$940M (mid-2027)</span>
+                      </div>
+                      <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                        <span style="font-size:9px;color:rgba(250,248,244,0.4);">Key catalyst</span>
+                        <span style="font-size:10px;color:#C4603C;font-weight:600;">Ph III data H2 2026</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Export -->
+            <div class="api-wrapper" data-animate>
+              <div class="api-text">
+                <h3>Export Anywhere</h3>
+                <p>Every analysis exports to PowerPoint, Excel, or PDF. Structured data ready for your board deck, IC memo, or LP report.</p>
+              </div>
+              <a href="/login" class="btn btn-primary"><span>Open Platform</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Transition -->
+      <div class="section-transition" style="background: linear-gradient(to bottom, var(--color-white), var(--color-dark)); height: 120px;"></div>
+
+      <!-- ========== CTA SECTION ========== -->
+      <section class="section-cta">
+        <div class="cta-glow"></div>
+        <div class="padding-global">
+          <div class="container-large">
+            <div class="cta-content" data-animate>
+              <h2>See what your team has been missing</h2>
+              <p>Book a demo to see how SatyaBio can transform your biopharma intelligence workflow.</p>
+              <a href="/login" class="btn btn-primary btn-lg"><span>Open Platform</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+      <div class="padding-global">
+        <div class="container-large">
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <div class="nav-logo">
+                <span class="logo-text" style="color: var(--color-text-inverse);"><span class="logo-accent">Satya</span>Bio</span>
+              </div>
+              <p>Conviction-grade biopharma intelligence. Powered by a proprietary knowledge graph.</p>
+            </div>
+
+            <div class="footer-column">
+              <h4>Product</h4>
+              <a href="#platform">Platform</a>
+              <a href="#how-we-deliver">How We Deliver</a>
+              <a href="#intelligence">Intelligence Hub</a>
+            </div>
+
+            <div class="footer-column">
+              <h4>Capabilities</h4>
+              <a href="#platform">Landscape Mapping</a>
+              <a href="#platform">Clinical Trial Search</a>
+              <a href="#platform">Financial Modelling</a>
+              <a href="#how-we-deliver">Company Deep-Dives</a>
+            </div>
+
+            <div class="footer-column">
+              <h4>Company</h4>
+              <a href="#">Resources</a>
+              <a href="/login">Open Platform</a>
+              <a href="#">Trust Center</a>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <p>&copy; 2026 SatyaBio Insights, Inc. All rights reserved.</p>
+            <div class="footer-bottom-links">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+            </div>
+            <div class="footer-social">
+              <!-- LinkedIn -->
+              <a href="#" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+              <!-- X/Twitter -->
+              <a href="#" aria-label="X">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Email Gate Modal -->
+  <div id="email-modal" class="email-modal" style="display:none;">
+    <div class="email-modal-backdrop"></div>
+    <div class="email-modal-content">
+      <button class="email-modal-close" onclick="closeEmailModal()">&times;</button>
+      <h3>Get the full analysis</h3>
+      <p>Enter your email to download this report and receive future intelligence from SatyaBio.</p>
+      <form id="email-gate-form" onsubmit="handleEmailSubmit(event)">
+        <input type="text" name="name" placeholder="Full name" required class="email-input" />
+        <input type="email" name="email" placeholder="Work email" required class="email-input" />
+        <input type="text" name="company" placeholder="Company" class="email-input" />
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:0.5rem;"><span>Download Report</span></button>
+      </form>
+      <p class="email-modal-fine">No spam. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="/static/landing/js/main.js"></script>
+</body>
+</html>
